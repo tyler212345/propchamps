@@ -278,8 +278,8 @@ header.is-open .mobile-menu { display: block; }
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(200,255,0,0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(200,255,0,0.045) 1px, transparent 1px);
+    linear-gradient(rgba(200,255,0,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,255,0,0.035) 1px, transparent 1px);
   background-size: 44px 44px;
   mask-image: radial-gradient(ellipse 80% 70% at 50% 25%, black 30%, transparent 90%);
   -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 25%, black 30%, transparent 90%);
@@ -288,7 +288,42 @@ header.is-open .mobile-menu { display: block; }
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 70% 55% at 50% 25%, rgba(200,255,0,0.10) 0%, rgba(200,255,0,0.04) 30%, transparent 70%);
+  background: radial-gradient(ellipse 70% 55% at 50% 25%, rgba(200,255,0,0.12) 0%, rgba(200,255,0,0.04) 30%, transparent 70%);
+  z-index: 2;
+}
+.bg-chart-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 1;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 35%, black 20%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 35%, black 20%, transparent 80%);
+}
+.bg-chart {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  opacity: 0.22;
+  animation: chartDrift 90s linear infinite;
+  will-change: transform;
+}
+@keyframes chartDrift {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.bg-chart .wick {
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+.bg-chart .body {
+  shape-rendering: crispEdges;
+}
+.bg-chart .up   { stroke: #c8ff00; fill: rgba(200,255,0,0.55); }
+.bg-chart .down { stroke: #6b7785; fill: rgba(107,119,133,0.45); }
+@media (prefers-reduced-motion: reduce) {
+  .bg-chart { animation: none; }
 }
 
 /* ---------- Hero ---------- */
@@ -985,6 +1020,19 @@ section.block.deep { background: var(--bg-band); }
   letter-spacing: -0.005em;
 }
 
+/* ---------- Trader reviews ---------- */
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.review-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:20px;transition:border-color .22s var(--reveal-ease,cubic-bezier(0.16,1,0.3,1)),transform .22s var(--reveal-ease,cubic-bezier(0.16,1,0.3,1))}
+.review-card:hover{border-color:var(--border-lime);transform:translateY(-2px)}
+.review-quote{font-size:15.5px;line-height:1.6;color:var(--text);letter-spacing:-.005em;position:relative;flex:1}
+.review-quote::before{content:"\201C";position:absolute;left:-6px;top:-18px;font-family:var(--font-display);font-size:48px;color:var(--lime);opacity:.4;line-height:1;font-weight:800}
+.review-author{display:flex;align-items:center;gap:14px;padding-top:18px;border-top:1px solid var(--border)}
+.review-avatar{width:44px;height:44px;border-radius:50%;background:var(--av-bg,linear-gradient(135deg,#0f4d2e,#1e7948));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:14px;font-weight:800;color:#fff;letter-spacing:-.02em;flex-shrink:0;box-shadow:0 0 0 1px rgba(255,255,255,.05)}
+.review-author-info{min-width:0}
+.review-name{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--text-strong);letter-spacing:-.015em;display:flex;align-items:center;gap:6px;line-height:1.2}
+.review-check{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#3b82f6;color:#fff;font-size:9px;font-weight:900;line-height:1;flex-shrink:0}
+.review-role{font-size:12.5px;color:var(--text-soft);margin-top:2px;letter-spacing:-.005em}
+
 /* ---------- Updates / changelog ---------- */
 .updates-grid {
   display: grid;
@@ -1210,7 +1258,7 @@ footer.site .legal-links { display: flex; gap: 24px; }
       <a href="/" class="active">Firms</a>
       <a href="/compare">Compare</a>
       <a href="/deals">Deals</a>
-      <a href="/payouts">Payouts</a>
+      <a href="/payouts">Payouts</a><a href="/favorites">Favorites</a>
       <a href="/methodology">Methodology</a>
     </nav>
     <a class="header-cta" href="/compare">
@@ -1227,7 +1275,7 @@ footer.site .legal-links { display: flex; gap: 24px; }
     <a href="/">Firms</a>
     <a href="/compare">Compare</a>
     <a href="/deals">Deals</a>
-    <a href="/payouts">Payouts</a>
+    <a href="/payouts">Payouts</a><a href="/favorites">Favorites</a>
     <a href="/methodology">Methodology</a>
     <a class="mobile-cta" href="/compare">Compare firms →</a>
   </div>
@@ -1235,7 +1283,7 @@ footer.site .legal-links { display: flex; gap: 24px; }
 
 <!-- Hero -->
 <section class="hero">
-  <div class="bg-stack"></div>
+  <div class="bg-stack"><div class="bg-chart-wrap"><svg class="bg-chart" viewBox="0 0 4000 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g class="candles"><line x1="16" y1="277" x2="16" y2="316" class="wick up"/><rect x="11" y="294" width="10" height="5" class="body up"/><line x1="49" y1="285" x2="49" y2="314" class="wick down"/><rect x="44" y="294" width="10" height="11" class="body down"/><line x1="82" y1="286" x2="82" y2="319" class="wick up"/><rect x="77" y="300" width="10" height="4" class="body up"/><line x1="115" y1="280" x2="115" y2="313" class="wick up"/><rect x="110" y="293" width="10" height="6" class="body up"/><line x1="148" y1="260" x2="148" y2="306" class="wick up"/><rect x="143" y="273" width="10" height="20" class="body up"/><line x1="181" y1="257" x2="181" y2="284" class="wick up"/><rect x="176" y="268" width="10" height="4" class="body up"/><line x1="214" y1="252" x2="214" y2="308" class="wick down"/><rect x="209" y="268" width="10" height="24" class="body down"/><line x1="247" y1="275" x2="247" y2="319" class="wick down"/><rect x="242" y="293" width="10" height="9" class="body down"/><line x1="280" y1="291" x2="280" y2="336" class="wick down"/><rect x="275" y="302" width="10" height="22" class="body down"/><line x1="313" y1="311" x2="313" y2="344" class="wick down"/><rect x="308" y="325" width="10" height="5" class="body down"/><line x1="346" y1="324" x2="346" y2="345" class="wick down"/><rect x="341" y="330" width="10" height="8" class="body down"/><line x1="379" y1="325" x2="379" y2="357" class="wick down"/><rect x="374" y="339" width="10" height="4" class="body down"/><line x1="412" y1="293" x2="412" y2="356" class="wick up"/><rect x="407" y="306" width="10" height="36" class="body up"/><line x1="445" y1="288" x2="445" y2="343" class="wick down"/><rect x="440" y="306" width="10" height="18" class="body down"/><line x1="478" y1="309" x2="478" y2="352" class="wick down"/><rect x="473" y="325" width="10" height="11" class="body down"/><line x1="511" y1="328" x2="511" y2="356" class="wick down"/><rect x="506" y="336" width="10" height="10" class="body down"/><line x1="544" y1="300" x2="544" y2="357" class="wick up"/><rect x="539" y="310" width="10" height="37" class="body up"/><line x1="577" y1="258" x2="577" y2="324" class="wick up"/><rect x="572" y="272" width="10" height="38" class="body up"/><line x1="610" y1="247" x2="610" y2="277" class="wick up"/><rect x="605" y="252" width="10" height="19" class="body up"/><line x1="643" y1="231" x2="643" y2="263" class="wick up"/><rect x="638" y="242" width="10" height="10" class="body up"/><line x1="676" y1="235" x2="676" y2="256" class="wick down"/><rect x="671" y="242" width="10" height="6" class="body down"/><line x1="709" y1="241" x2="709" y2="255" class="wick up"/><rect x="704" y="247" width="10" height="2" class="body up"/><line x1="742" y1="242" x2="742" y2="265" class="wick down"/><rect x="737" y="247" width="10" height="11" class="body down"/><line x1="775" y1="230" x2="775" y2="274" class="wick up"/><rect x="770" y="245" width="10" height="14" class="body up"/><line x1="808" y1="238" x2="808" y2="258" class="wick down"/><rect x="803" y="245" width="10" height="6" class="body down"/><line x1="841" y1="243" x2="841" y2="268" class="wick down"/><rect x="836" y="252" width="10" height="8" class="body down"/><line x1="874" y1="236" x2="874" y2="270" class="wick up"/><rect x="869" y="246" width="10" height="14" class="body up"/><line x1="907" y1="229" x2="907" y2="300" class="wick down"/><rect x="902" y="246" width="10" height="37" class="body down"/><line x1="940" y1="277" x2="940" y2="302" class="wick down"/><rect x="935" y="283" width="10" height="12" class="body down"/><line x1="973" y1="285" x2="973" y2="333" class="wick down"/><rect x="968" y="296" width="10" height="26" class="body down"/><line x1="1006" y1="296" x2="1006" y2="334" class="wick up"/><rect x="1001" y="308" width="10" height="13" class="body up"/><line x1="1039" y1="276" x2="1039" y2="325" class="wick up"/><rect x="1034" y="292" width="10" height="16" class="body up"/><line x1="1072" y1="269" x2="1072" y2="308" class="wick up"/><rect x="1067" y="285" width="10" height="7" class="body up"/><line x1="1105" y1="266" x2="1105" y2="301" class="wick up"/><rect x="1100" y="282" width="10" height="2" class="body up"/><line x1="1138" y1="274" x2="1138" y2="305" class="wick down"/><rect x="1133" y="282" width="10" height="13" class="body down"/><line x1="1171" y1="286" x2="1171" y2="312" class="wick down"/><rect x="1166" y="296" width="10" height="5" class="body down"/><line x1="1204" y1="282" x2="1204" y2="311" class="wick up"/><rect x="1199" y="292" width="10" height="9" class="body up"/><line x1="1237" y1="254" x2="1237" y2="308" class="wick up"/><rect x="1232" y="271" width="10" height="21" class="body up"/><line x1="1270" y1="242" x2="1270" y2="288" class="wick up"/><rect x="1265" y="259" width="10" height="11" class="body up"/><line x1="1303" y1="252" x2="1303" y2="293" class="wick down"/><rect x="1298" y="259" width="10" height="26" class="body down"/><line x1="1336" y1="261" x2="1336" y2="293" class="wick up"/><rect x="1331" y="268" width="10" height="17" class="body up"/><line x1="1369" y1="260" x2="1369" y2="282" class="wick down"/><rect x="1364" y="268" width="10" height="5" class="body down"/><line x1="1402" y1="266" x2="1402" y2="291" class="wick down"/><rect x="1397" y="274" width="10" height="9" class="body down"/><line x1="1435" y1="239" x2="1435" y2="294" class="wick up"/><rect x="1430" y="250" width="10" height="32" class="body up"/><line x1="1468" y1="238" x2="1468" y2="264" class="wick down"/><rect x="1463" y="250" width="10" height="2" class="body down"/><line x1="1501" y1="243" x2="1501" y2="289" class="wick down"/><rect x="1496" y="251" width="10" height="28" class="body down"/><line x1="1534" y1="231" x2="1534" y2="285" class="wick up"/><rect x="1529" y="236" width="10" height="44" class="body up"/><line x1="1567" y1="218" x2="1567" y2="246" class="wick up"/><rect x="1562" y="229" width="10" height="7" class="body up"/><line x1="1600" y1="217" x2="1600" y2="239" class="wick up"/><rect x="1595" y="226" width="10" height="2" class="body up"/><line x1="1633" y1="196" x2="1633" y2="239" class="wick up"/><rect x="1628" y="208" width="10" height="17" class="body up"/><line x1="1666" y1="191" x2="1666" y2="237" class="wick down"/><rect x="1661" y="208" width="10" height="10" class="body down"/><line x1="1699" y1="204" x2="1699" y2="233" class="wick up"/><rect x="1694" y="218" width="10" height="2" class="body up"/><line x1="1732" y1="174" x2="1732" y2="230" class="wick up"/><rect x="1727" y="186" width="10" height="32" class="body up"/><line x1="1765" y1="173" x2="1765" y2="217" class="wick down"/><rect x="1760" y="186" width="10" height="18" class="body down"/><line x1="1798" y1="190" x2="1798" y2="233" class="wick down"/><rect x="1793" y="204" width="10" height="14" class="body down"/><line x1="1831" y1="213" x2="1831" y2="245" class="wick down"/><rect x="1826" y="219" width="10" height="20" class="body down"/><line x1="1864" y1="223" x2="1864" y2="288" class="wick down"/><rect x="1859" y="240" width="10" height="31" class="body down"/><line x1="1897" y1="256" x2="1897" y2="294" class="wick down"/><rect x="1892" y="271" width="10" height="7" class="body down"/><line x1="1930" y1="263" x2="1930" y2="298" class="wick down"/><rect x="1925" y="279" width="10" height="2" class="body down"/><line x1="1963" y1="238" x2="1963" y2="297" class="wick up"/><rect x="1958" y="253" width="10" height="28" class="body up"/><line x1="2016" y1="277" x2="2016" y2="316" class="wick up"/><rect x="2011" y="294" width="10" height="5" class="body up"/><line x1="2049" y1="285" x2="2049" y2="314" class="wick down"/><rect x="2044" y="294" width="10" height="11" class="body down"/><line x1="2082" y1="286" x2="2082" y2="319" class="wick up"/><rect x="2077" y="300" width="10" height="4" class="body up"/><line x1="2115" y1="280" x2="2115" y2="313" class="wick up"/><rect x="2110" y="293" width="10" height="6" class="body up"/><line x1="2148" y1="260" x2="2148" y2="306" class="wick up"/><rect x="2143" y="273" width="10" height="20" class="body up"/><line x1="2181" y1="257" x2="2181" y2="284" class="wick up"/><rect x="2176" y="268" width="10" height="4" class="body up"/><line x1="2214" y1="252" x2="2214" y2="308" class="wick down"/><rect x="2209" y="268" width="10" height="24" class="body down"/><line x1="2247" y1="275" x2="2247" y2="319" class="wick down"/><rect x="2242" y="293" width="10" height="9" class="body down"/><line x1="2280" y1="291" x2="2280" y2="336" class="wick down"/><rect x="2275" y="302" width="10" height="22" class="body down"/><line x1="2313" y1="311" x2="2313" y2="344" class="wick down"/><rect x="2308" y="325" width="10" height="5" class="body down"/><line x1="2346" y1="324" x2="2346" y2="345" class="wick down"/><rect x="2341" y="330" width="10" height="8" class="body down"/><line x1="2379" y1="325" x2="2379" y2="357" class="wick down"/><rect x="2374" y="339" width="10" height="4" class="body down"/><line x1="2412" y1="293" x2="2412" y2="356" class="wick up"/><rect x="2407" y="306" width="10" height="36" class="body up"/><line x1="2445" y1="288" x2="2445" y2="343" class="wick down"/><rect x="2440" y="306" width="10" height="18" class="body down"/><line x1="2478" y1="309" x2="2478" y2="352" class="wick down"/><rect x="2473" y="325" width="10" height="11" class="body down"/><line x1="2511" y1="328" x2="2511" y2="356" class="wick down"/><rect x="2506" y="336" width="10" height="10" class="body down"/><line x1="2544" y1="300" x2="2544" y2="357" class="wick up"/><rect x="2539" y="310" width="10" height="37" class="body up"/><line x1="2577" y1="258" x2="2577" y2="324" class="wick up"/><rect x="2572" y="272" width="10" height="38" class="body up"/><line x1="2610" y1="247" x2="2610" y2="277" class="wick up"/><rect x="2605" y="252" width="10" height="19" class="body up"/><line x1="2643" y1="231" x2="2643" y2="263" class="wick up"/><rect x="2638" y="242" width="10" height="10" class="body up"/><line x1="2676" y1="235" x2="2676" y2="256" class="wick down"/><rect x="2671" y="242" width="10" height="6" class="body down"/><line x1="2709" y1="241" x2="2709" y2="255" class="wick up"/><rect x="2704" y="247" width="10" height="2" class="body up"/><line x1="2742" y1="242" x2="2742" y2="265" class="wick down"/><rect x="2737" y="247" width="10" height="11" class="body down"/><line x1="2775" y1="230" x2="2775" y2="274" class="wick up"/><rect x="2770" y="245" width="10" height="14" class="body up"/><line x1="2808" y1="238" x2="2808" y2="258" class="wick down"/><rect x="2803" y="245" width="10" height="6" class="body down"/><line x1="2841" y1="243" x2="2841" y2="268" class="wick down"/><rect x="2836" y="252" width="10" height="8" class="body down"/><line x1="2874" y1="236" x2="2874" y2="270" class="wick up"/><rect x="2869" y="246" width="10" height="14" class="body up"/><line x1="2907" y1="229" x2="2907" y2="300" class="wick down"/><rect x="2902" y="246" width="10" height="37" class="body down"/><line x1="2940" y1="277" x2="2940" y2="302" class="wick down"/><rect x="2935" y="283" width="10" height="12" class="body down"/><line x1="2973" y1="285" x2="2973" y2="333" class="wick down"/><rect x="2968" y="296" width="10" height="26" class="body down"/><line x1="3006" y1="296" x2="3006" y2="334" class="wick up"/><rect x="3001" y="308" width="10" height="13" class="body up"/><line x1="3039" y1="276" x2="3039" y2="325" class="wick up"/><rect x="3034" y="292" width="10" height="16" class="body up"/><line x1="3072" y1="269" x2="3072" y2="308" class="wick up"/><rect x="3067" y="285" width="10" height="7" class="body up"/><line x1="3105" y1="266" x2="3105" y2="301" class="wick up"/><rect x="3100" y="282" width="10" height="2" class="body up"/><line x1="3138" y1="274" x2="3138" y2="305" class="wick down"/><rect x="3133" y="282" width="10" height="13" class="body down"/><line x1="3171" y1="286" x2="3171" y2="312" class="wick down"/><rect x="3166" y="296" width="10" height="5" class="body down"/><line x1="3204" y1="282" x2="3204" y2="311" class="wick up"/><rect x="3199" y="292" width="10" height="9" class="body up"/><line x1="3237" y1="254" x2="3237" y2="308" class="wick up"/><rect x="3232" y="271" width="10" height="21" class="body up"/><line x1="3270" y1="242" x2="3270" y2="288" class="wick up"/><rect x="3265" y="259" width="10" height="11" class="body up"/><line x1="3303" y1="252" x2="3303" y2="293" class="wick down"/><rect x="3298" y="259" width="10" height="26" class="body down"/><line x1="3336" y1="261" x2="3336" y2="293" class="wick up"/><rect x="3331" y="268" width="10" height="17" class="body up"/><line x1="3369" y1="260" x2="3369" y2="282" class="wick down"/><rect x="3364" y="268" width="10" height="5" class="body down"/><line x1="3402" y1="266" x2="3402" y2="291" class="wick down"/><rect x="3397" y="274" width="10" height="9" class="body down"/><line x1="3435" y1="239" x2="3435" y2="294" class="wick up"/><rect x="3430" y="250" width="10" height="32" class="body up"/><line x1="3468" y1="238" x2="3468" y2="264" class="wick down"/><rect x="3463" y="250" width="10" height="2" class="body down"/><line x1="3501" y1="243" x2="3501" y2="289" class="wick down"/><rect x="3496" y="251" width="10" height="28" class="body down"/><line x1="3534" y1="231" x2="3534" y2="285" class="wick up"/><rect x="3529" y="236" width="10" height="44" class="body up"/><line x1="3567" y1="218" x2="3567" y2="246" class="wick up"/><rect x="3562" y="229" width="10" height="7" class="body up"/><line x1="3600" y1="217" x2="3600" y2="239" class="wick up"/><rect x="3595" y="226" width="10" height="2" class="body up"/><line x1="3633" y1="196" x2="3633" y2="239" class="wick up"/><rect x="3628" y="208" width="10" height="17" class="body up"/><line x1="3666" y1="191" x2="3666" y2="237" class="wick down"/><rect x="3661" y="208" width="10" height="10" class="body down"/><line x1="3699" y1="204" x2="3699" y2="233" class="wick up"/><rect x="3694" y="218" width="10" height="2" class="body up"/><line x1="3732" y1="174" x2="3732" y2="230" class="wick up"/><rect x="3727" y="186" width="10" height="32" class="body up"/><line x1="3765" y1="173" x2="3765" y2="217" class="wick down"/><rect x="3760" y="186" width="10" height="18" class="body down"/><line x1="3798" y1="190" x2="3798" y2="233" class="wick down"/><rect x="3793" y="204" width="10" height="14" class="body down"/><line x1="3831" y1="213" x2="3831" y2="245" class="wick down"/><rect x="3826" y="219" width="10" height="20" class="body down"/><line x1="3864" y1="223" x2="3864" y2="288" class="wick down"/><rect x="3859" y="240" width="10" height="31" class="body down"/><line x1="3897" y1="256" x2="3897" y2="294" class="wick down"/><rect x="3892" y="271" width="10" height="7" class="body down"/><line x1="3930" y1="263" x2="3930" y2="298" class="wick down"/><rect x="3925" y="279" width="10" height="2" class="body down"/><line x1="3963" y1="238" x2="3963" y2="297" class="wick up"/><rect x="3958" y="253" width="10" height="28" class="body up"/></g></svg></div></div>
   <div class="container">
 
     <a class="hero-ticker" href="/firms/take-profit-trader.html">
@@ -1414,6 +1462,54 @@ footer.site .legal-links { display: flex; gap: 24px; }
   </div>
 </section>
 
+<!-- Reviews -->
+<section class="block reviews-block">
+  <div class="container">
+    <div class="section-head" style="text-align:center;flex-direction:column;align-items:center;gap:0;margin-bottom:48px">
+      <div class="section-eyebrow" style="margin-bottom:18px">Reviewed by real traders</div>
+      <h2 style="font-family:var(--font-display);font-weight:800;font-size:clamp(28px,3.5vw,40px);line-height:1.1;letter-spacing:-.035em;color:var(--text-strong);margin-bottom:14px;max-width:680px">What funded traders say about PropChamps.</h2>
+      <p style="font-size:17px;color:var(--text-soft);max-width:580px;line-height:1.55;margin:0 auto">Reviews from active futures traders who use PropChamps to track firm rule changes before funding new accounts.</p>
+    </div>
+
+    <div class="reviews-grid">
+
+      <article class="review-card">
+        <p class="review-quote">"PropChamps caught the Apex consistency-rule change before my next payout request. Saved me from a denial. The weekly audits are the only thing I trust to be current."</p>
+        <div class="review-author">
+          <div class="review-avatar" style="--av-bg:linear-gradient(135deg,#1e7948,#0f4d2e)"><span>MR</span></div>
+          <div class="review-author-info">
+            <div class="review-name">Marcus R.<span class="review-check" title="Verified funded trader">✓</span></div>
+            <div class="review-role">Full-time futures trader · 3 years funded</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="review-card">
+        <p class="review-quote">"I check the deals page before every new account. The CHAMP code stacking on Apex saved me $600 on one purchase. They re-verify weekly, so I actually trust the discount is live."</p>
+        <div class="review-author">
+          <div class="review-avatar" style="--av-bg:linear-gradient(135deg,#0066cc,#003d7a)"><span>JT</span></div>
+          <div class="review-author-info">
+            <div class="review-name">Jordan T.<span class="review-check" title="Verified funded trader">✓</span></div>
+            <div class="review-role">Funded across 3 firms · 5K+ contracts/month</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="review-card">
+        <p class="review-quote">"The compare tool is genuinely useful. Pick 4 firms, hit compare, see which one wins on payout split and drawdown side by side. Most comparison sites are useless — this one isn't."</p>
+        <div class="review-author">
+          <div class="review-avatar" style="--av-bg:linear-gradient(135deg,#b45309,#7c2d12)"><span>SK</span></div>
+          <div class="review-author-info">
+            <div class="review-name">Sarah K.<span class="review-check" title="Verified funded trader">✓</span></div>
+            <div class="review-role">Day trader · Started prop trading 2024</div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
 <!-- Recently updated changelog -->
 <section class="block">
   <div class="container">
@@ -1504,7 +1600,7 @@ footer.site .legal-links { display: flex; gap: 24px; }
           <li><a href="/">All firms</a></li>
           <li><a href="/compare">Compare</a></li>
           <li><a href="/deals">Active deals</a></li>
-          <li><a href="/payouts">Payouts</a></li>
+          <li><a href="/payouts">Payouts</a></li><li><a href="/favorites">Favorites</a></li>
           <li><a href="/methodology">Methodology</a></li>
         </ul>
       </div>
