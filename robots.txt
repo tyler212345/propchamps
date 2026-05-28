@@ -1,0 +1,20 @@
+# PropChamps — robots.txt
+# Allow all reputable crawlers, point them to the sitemap.
+
+User-agent: *
+Allow: /
+
+# Don't crawl any internal data files directly
+Disallow: /data/
+
+# AI training crawlers — comment any of these out if you want them included
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+Sitemap: https://propchamps.net/sitemap.xml

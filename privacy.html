@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — PropChamps</title>
+<!-- SEO META BLOCK -->
+<meta name="description" content="PropChamps privacy policy: what we collect, how we use it, and your rights. We do not sell user data or use cross-site advertising trackers.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://propchamps.net/privacy.html">
+<meta property="og:site_name" content="PropChamps">
+<meta property="og:title" content="Privacy Policy — PropChamps">
+<meta property="og:description" content="PropChamps privacy policy: what we collect, how we use it, and your rights. We do not sell user data or use cross-site advertising trackers.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://propchamps.net/privacy.html">
+<meta property="og:image" content="https://propchamps.net/logos/propchamps.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Privacy Policy — PropChamps">
+<meta name="twitter:description" content="PropChamps privacy policy: what we collect, how we use it, and your rights. We do not sell user data or use cross-site advertising trackers.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","name":"Privacy Policy — PropChamps","url":"https://propchamps.net/privacy.html","description":"PropChamps privacy policy: what we collect, how we use it, and your rights. We do not sell user data or use cross-site advertising trackers.","publisher":{"@type":"Organization","name":"PropChamps","url":"https://propchamps.net"}}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+
+/* ============================================================
+   DESIGN SYSTEM — CSS VARIABLES
+   ============================================================ */
+:root {
+  --lime: #C8FF00;
+  --lime-glow: rgba(200,255,0,0.14);
+  --lime-glow-sm: rgba(200,255,0,0.07);
+  --lime-dim: rgba(200,255,0,0.6);
+  --bg: #0a0a0a;
+  --bg-card: rgba(255,255,255,0.032);
+  --bg-card-hover: rgba(255,255,255,0.05);
+  --border: rgba(255,255,255,0.07);
+  --border-lime: rgba(200,255,0,0.18);
+  --text-primary: #f0f0f0;
+  --text-secondary: #888;
+  --text-muted: #555;
+  --header-h: 64px;
+--max-w: 1200px;
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'IBM Plex Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  line-height: 1.65;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scanline overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.18) 2px,
+    rgba(0,0,0,0.18) 4px
+  );
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+}
+
+/* Grid background */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(200,255,0,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,255,0,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}/* ============================================================
+   STICKY HEADER
+   ============================================================ */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  height: var(--header-h);
+  background: rgba(10,10,10,0.82);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+}
+
+.header-inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 76px;
+}
+
+/* Logo */
+.logo {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--text-primary);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-mark {
+  width: 32px; height: 32px;
+  background: var(--lime);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: #0a0a0a;
+  letter-spacing: -0.03em;
+}
+
+/* Nav */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.nav a {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 7px 14px;
+  border-radius: 6px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.nav a:hover {
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.05);
+}
+
+/* Header right */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.live-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 5px 13px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+}
+
+.live-dot {
+  width: 6px; height: 6px;
+  background: var(--lime);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--lime);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+.btn-compare {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #0a0a0a;
+  background: var(--lime);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.15s, box-shadow 0.15s;
+}
+
+.btn-compare:hover {
+  opacity: 0.9;
+  box-shadow: 0 0 18px rgba(200,255,0,0.35);
+}
+
+/* ============================================================
+   MAIN LAYOUT
+   ============================================================ */
+.page-wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  padding: 80px 0 60px;
+  position: relative;
+}
+
+/* Center hero content for GHL pages */
+.hero { text-align: center; }
+.hero-sub { margin-left: auto; margin-right: auto; }
+.last-updated { text-align: center; }
+.quick-summary { margin-left: auto; margin-right: auto; }
+
+
+.hero-glow {
+  position: absolute;
+  top: -60px; left: -120px;
+  width: 500px; height: 400px;
+  background: radial-gradient(ellipse, rgba(200,255,0,0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lime);
+  background: var(--lime-glow);
+  border: 1px solid var(--border-lime);
+  padding: 5px 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-family: var(--font-head);
+  font-size: clamp(42px, 6vw, 72px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+
+.hero-sub {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--text-secondary);
+  max-width: 560px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.last-updated {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 40px;
+}
+
+/* Quick summary box */
+.quick-summary {
+  background: var(--bg-card);
+  border: 1px solid var(--border-lime);
+  border-radius: 10px;
+  padding: 24px 28px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 800px;
+  position: relative;
+  overflow: hidden;
+}
+
+.quick-summary::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--lime), transparent);
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.summary-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lime);
+}
+
+.summary-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ============================================================
+   CONTENT GRID (TOC + SECTIONS)
+   ============================================================ */
+.content-grid {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 48px;
+  padding-bottom: 120px;
+  align-items: start;
+}
+
+/* ============================================================
+   TABLE OF CONTENTS
+   ============================================================ */
+.toc-wrap {
+  position: sticky;
+  top: calc(var(--header-h) + 32px);
+}
+
+.toc-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.toc-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.toc-icon {
+  width: 14px; height: 14px;
+  opacity: 0.5;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 10px 0;
+}
+
+.toc-list li a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 18px;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.15s, background 0.15s;
+  border-left: 2px solid transparent;
+}
+
+.toc-list li a .toc-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  min-width: 18px;
+}
+
+.toc-list li a:hover {
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.03);
+}
+
+.toc-list li a.active {
+  color: var(--lime);
+  border-left-color: var(--lime);
+  background: var(--lime-glow-sm);
+}
+
+/* Mobile TOC accordion */
+.toc-mobile {
+  display: none;
+  margin-bottom: 32px;
+}
+
+.toc-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  transition: border-color 0.2s;
+}
+
+.toc-toggle:hover { border-color: var(--border-lime); }
+
+.toc-toggle-icon {
+  transition: transform 0.25s;
+  font-size: 10px;
+  color: var(--lime);
+}
+
+.toc-toggle.open .toc-toggle-icon { transform: rotate(180deg); }
+
+.toc-dropdown {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+.toc-dropdown.open { max-height: 600px; }
+
+.toc-dropdown .toc-card {
+  border-radius: 0 0 8px 8px;
+  border-top: none;
+}
+
+/* ============================================================
+   SECTION CARDS
+   ============================================================ */
+.sections { display: flex; flex-direction: column; gap: 20px; }
+
+.section-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 36px 40px;
+  transition: border-color 0.25s, background 0.25s;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.25s, background 0.25s;
+}
+
+.section-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section-card:hover {
+  border-color: var(--border-lime);
+  background: var(--bg-card-hover);
+}
+
+.section-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.section-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-chip {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lime);
+  background: var(--lime-glow);
+  border: 1px solid var(--border-lime);
+  padding: 3px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.section-card h2 {
+  font-family: var(--font-head);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.copy-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 13px;
+  padding: 4px;
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+  flex-shrink: 0;
+  opacity: 1;
+  transition: opacity 0.2s, color 0.2s;
+}
+
+.section-card:hover .copy-link { opacity: 1; }
+.copy-link:hover { color: var(--lime); background: var(--lime-glow-sm); }
+
+.section-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 16px 0 20px;
+}
+
+.section-body p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin-bottom: 14px;
+}
+
+.section-body p:last-child { margin-bottom: 0; }
+
+.section-body ul {
+  list-style: none;
+  margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.section-body ul li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.section-body ul li::before {
+  content: '→';
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--lime);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.section-body ul li strong {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.note-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: rgba(200,255,0,0.04);
+  border: 1px solid var(--border-lime);
+  border-radius: 8px;
+  padding: 16px 18px;
+  margin-top: 16px;
+}
+
+.note-icon {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--lime);
+  background: var(--lime-glow);
+  padding: 3px 7px;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.note-box p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0 !important;
+}
+
+/* Rights two-column */
+.rights-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.rights-panel {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.rights-panel-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.rights-badge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+
+.badge-us {
+  color: #60a5fa;
+  background: rgba(96,165,250,0.1);
+  border: 1px solid rgba(96,165,250,0.2);
+}
+
+.badge-eu {
+  color: #a78bfa;
+  background: rgba(167,139,250,0.1);
+  border: 1px solid rgba(167,139,250,0.2);
+}
+
+.rights-panel h4 {
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.rights-panel ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0 !important;
+}
+
+.rights-panel ul li {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 6px 10px;
+  background: none !important;
+  border: none !important;
+}
+
+.rights-panel ul li::before {
+  content: '·';
+  color: var(--lime);
+  font-size: 14px;
+  line-height: 1.3;
+  flex-shrink: 0;
+}
+
+/* Contact card */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.contact-item {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.contact-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.contact-value {
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.contact-value a {
+  color: var(--lime);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.contact-value a:hover { opacity: 0.75; }
+
+.contact-value .mono-addr {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ============================================================
+   BACK TO TOP
+   ============================================================ */
+.back-to-top {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 999;
+  width: 42px; height: 42px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.2s;
+  opacity: 1;
+  transform: translateY(10px);
+  pointer-events: none;
+  backdrop-filter: blur(8px);
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.back-to-top:hover {
+  border-color: var(--border-lime);
+  color: var(--lime);
+  background: var(--lime-glow-sm);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--border);
+  padding: 24px 32px;
+}
+
+.footer-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.footer-copy {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+
+.footer-links{
+  display:flex;
+  align-items:center;
+  gap:22px;
+  flex-wrap:wrap;
+}
+.footer-links a:hover{ color: var(--lime); }
+
+
+.footer-links a {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: var(--text-secondary); }
+.footer-links a.active { color: var(--lime); }
+
+.footer-sep {
+  color: var(--text-muted);
+  opacity: 0.4;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+  .content-grid {
+    grid-template-columns: 200px 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root { --header-h: 58px; }
+
+  .page-wrapper { padding: 0 20px; }
+  .nav { display: none; }
+  .header { padding: 0 20px; }
+  .live-pill { display: none; }
+
+  .hero { padding: 52px 0 40px; }
+
+  .quick-summary {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .toc-wrap { position: static; display: none; }
+  .toc-mobile { display: block; }
+
+  .section-card { padding: 24px 20px; }
+  .rights-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+
+  footer { padding: 20px; }
+  .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .back-to-top { bottom: 20px; right: 20px; }
+}
+
+@media (max-width: 480px) {
+  .header-right .live-pill { display: none; }
+  .btn-compare { display: inline-flex; }
+}
+
+.logo-img {
+  height: 56px;
+  width: auto;
+  flex-shrink: 0;
+  display: block;
+}
+
+/* === Synced canonical header rules === */
+.announcement-bar {
+  background: var(--lime);
+  color: #000;
+  text-align: center;
+  padding: 8px 16px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  position: relative;
+  z-index: 100;
+}
+.announcement-bar a { color: #000; text-decoration: underline; font-weight: 700; }
+header {
+  background: rgba(8,10,15,0.96);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  background-image:
+    linear-gradient(rgba(200,255,0,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,255,0,0.025) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.logo-icon {
+  width: 28px;
+  height: 28px;
+  background: var(--lime);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 900;
+  color: #000;
+}
+nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+nav a {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+nav a:hover { color: var(--text-primary); background: rgba(255,255,255,0.05); }
+nav a.active {
+  color: var(--lime);
+  background: var(--lime-glow);
+  border: 1px solid var(--border-lime);
+}
+.btn-compare-now {
+  background: var(--lime);
+  color: #000;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn-compare-now:hover {
+  background: #d4ff26;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px var(--lime-glow-strong);
+}
+.menu-toggle{
+  display:none;
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  border:1px solid var(--border-dim);
+  background: rgba(255,255,255,0.04);
+  color: var(--text-primary);
+  cursor:pointer;
+  align-items:center;
+  justify-content:center;
+}
+.menu-toggle svg{ width:18px; height:18px; }
+.mobile-menu{
+  display:none;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 24px 14px;
+}
+.mobile-menu a{
+  display:block;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  text-decoration:none;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.03);
+  margin-top: 10px;
+}
+.mobile-menu a.active{
+  color: var(--lime);
+  border-color: rgba(200,255,0,0.22);
+  background: rgba(200,255,0,0.08);
+}
+header.is-open .mobile-menu{ display:block; }
+.btn-deal-alerts{color:var(--text-secondary);font-family:var(--font-display);letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--border);cursor:pointer;white-space:nowrap;background:0 0;border-radius:8px;align-items:center;gap:7px;padding:7px 14px;font-size:12px;font-weight:700;transition:all .2s;display:inline-flex}
+.btn-deal-alerts:hover{color:var(--lime);background:#c8ff000f;border-color:#c8ff0066}
+
+/* === Mobile header rearrangement (synced from main pages) === */
+@media (max-width:820px){
+  header{ position:sticky; top:0; z-index:9998; }
+  header nav{ display:none; }
+  .menu-toggle{ display:flex; }
+  .logo-img{ height:42px; width:auto; }
+  .header-inner{
+    position: relative;
+    height: auto;
+    padding: 10px 16px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    align-items: center;
+    gap: 10px 12px;
+  }
+  .logo{ grid-column: 1; grid-row: 1; }
+  .menu-toggle{ grid-column: 2; grid-row: 1; justify-self: end; }
+  .header-right{
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: nowrap;
+  }
+  .live-pill{ display:flex; }
+  .btn-compare-now{ width:auto; }
+  .mobile-menu{ right:16px; top:64px; }
+}
+
+</style>
+<script src="/data/firms.js"></script>
+</head>
+
+<body>
+<!-- ===================== HEADER ===================== -->
+<div class="announcement-bar">Exclusive promo codes updated live — use CHAMP at checkout &nbsp;·&nbsp; <a href="deals.html">View All Deals →</a> </div>
+<header>
+<div class="header-inner">
+<a class="logo" href="index.html">
+<img alt="PropChamps logo" class="logo-img" src="/logos/propchamps.png"/>
+</a>
+<nav>
+<a href="index.html">Firms</a>
+<a href="compare.html">Compare</a>
+<a href="deals.html">Deals</a>
+<a class="active" href="privacy.html">Privacy</a>
+</nav>
+<button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+  <svg viewBox="0 0 24 24" fill="none">
+    <path d="M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <path d="M4 12H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <path d="M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</button>
+<div class="header-right">
+<div class="live-pill">
+<span class="live-dot"></span>
+        7 Firms Tracked · Live
+      </div>
+<button class="btn-deal-alerts" onclick="openP4YNewsletter()" aria-label="Get deal alerts">
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1a3.5 3.5 0 013.5 3.5c0 2.1.7 3.2 1.5 4H1c.8-.8 1.5-1.9 1.5-4A3.5 3.5 0 016 1z" stroke="currentColor" stroke-width="1.2"/><path d="M4.5 9a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+  Deal Alerts
+</button>
+<a class="btn-compare-now" href="compare.html">Compare Now</a>
+</div>
+
+</div>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Firms</a>
+  <a href="compare.html">Compare</a>
+  <a href="deals.html">Deals</a>
+  <a class="active" href="privacy.html">Privacy</a>
+  <button class="mobile-deal-alerts" onclick="openP4YNewsletter()">🔔 Get Deal Alerts</button>
+</div>
+</header>
+
+<!-- ===================== MAIN ===================== -->
+<main>
+  <div class="page-wrapper">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-glow"></div>
+      <div class="eyebrow">⬡ Legal</div>
+      <h1>Privacy Policy</h1>
+      <p class="hero-sub">We respect your privacy. Here's what we collect, why, and how you can control it.</p>
+      <p class="last-updated">LAST UPDATED — JUNE 1, 2026</p>
+
+      <div class="quick-summary">
+        <div class="summary-item">
+          <span class="summary-label">We collect</span>
+          <span class="summary-text">Email &amp; name only when you submit a form. Analytics data passively (no fingerprinting).</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">We don't sell</span>
+          <span class="summary-text">Your personal information is never sold or traded to third parties. Period.</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">You're in control</span>
+          <span class="summary-text">Opt out anytime. Access, correct, or delete your data on request.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTENT GRID -->
+    <div class="content-grid">
+
+      <!-- Desktop TOC -->
+      <aside class="toc-wrap">
+        <div class="toc-card">
+          <div class="toc-header">
+            <svg class="toc-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8M4 18h12"/></svg>
+            Contents
+          </div>
+          <ul class="toc-list" id="toc-list">
+            <li><a href="#collect"><span class="toc-num">01</span>What we collect</a></li>
+            <li><a href="#use"><span class="toc-num">02</span>How we use it</a></li>
+            <li><a href="#cookies"><span class="toc-num">03</span>Cookies &amp; tracking</a></li>
+            <li><a href="#affiliate"><span class="toc-num">04</span>Affiliate links</a></li>
+            <li><a href="#sharing"><span class="toc-num">05</span>Sharing &amp; disclosures</a></li>
+            <li><a href="#retention"><span class="toc-num">06</span>Data retention</a></li>
+            <li><a href="#rights"><span class="toc-num">07</span>Your privacy rights</a></li>
+            <li><a href="#security"><span class="toc-num">08</span>Security</a></li>
+            <li><a href="#children"><span class="toc-num">09</span>Children's privacy</a></li>
+            <li><a href="#changes"><span class="toc-num">10</span>Policy changes</a></li>
+            <li><a href="#contact"><span class="toc-num">11</span>Contact us</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Mobile TOC -->
+      <div class="toc-mobile">
+        <button class="toc-toggle" id="toc-toggle" aria-expanded="false">
+          Table of Contents
+          <span class="toc-toggle-icon">▼</span>
+        </button>
+        <div class="toc-dropdown" id="toc-dropdown">
+          <div class="toc-card">
+            <ul class="toc-list">
+              <li><a href="#collect"><span class="toc-num">01</span>What we collect</a></li>
+              <li><a href="#use"><span class="toc-num">02</span>How we use it</a></li>
+              <li><a href="#cookies"><span class="toc-num">03</span>Cookies &amp; tracking</a></li>
+              <li><a href="#affiliate"><span class="toc-num">04</span>Affiliate links</a></li>
+              <li><a href="#sharing"><span class="toc-num">05</span>Sharing &amp; disclosures</a></li>
+              <li><a href="#retention"><span class="toc-num">06</span>Data retention</a></li>
+              <li><a href="#rights"><span class="toc-num">07</span>Your privacy rights</a></li>
+              <li><a href="#security"><span class="toc-num">08</span>Security</a></li>
+              <li><a href="#children"><span class="toc-num">09</span>Children's privacy</a></li>
+              <li><a href="#changes"><span class="toc-num">10</span>Policy changes</a></li>
+              <li><a href="#contact"><span class="toc-num">11</span>Contact us</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTIONS -->
+      <div class="sections">
+
+        <!-- 01 WHAT WE COLLECT -->
+        <div class="section-card" id="collect" data-section>
+          <div class="section-head">
+            <div class="section-title-wrap">
+              <span class="section-chip">Collect</span>
+              <h2>What we collect</h2>
+            </div>
+            <button class="copy-link" title="Copy link to section" onclick="copySection('collect')">⧉</button>
+          </div>
+          <div class="section-divider"></div>
+          <div class="section-body">
+            <p>PropChamps collects only the information necessary to operate this site and improve your experience. We collect information in two ways: directly (when you voluntarily provide it) and automatically (through standard web analytics).</p>
+            <ul>
+              <li><strong>Contact &amp; newsletter forms</strong> — when you submit a form we collect your name and email address. This is the only time we collect personally identifiable information.</li>
+              <li><strong>Analytics data</strong> — we automatically collect IP address (truncated), device type, browser, operating system, referring URL, pages viewed, and time on page. This data is aggregated and not linked to you individually.</li>
+              <li><strong>Cookies &amp; session data</strong> — small files placed in your browser to keep the site functional and measure aggregate traffic. See Section 3 for details.</li>
+              <li><strong>Messages &amp; feedback</strong> — if you use any site tools, chatbots, or feedback widgets, the content of those messages may be stored to respond to your inquiry or improve the service.</li>
+            </ul>
+            <div class="note-box">
+              <span class="note-icon">NOTE</span>
+              <p>We do not collect payment information, government IDs, or sensitive financial data of any kind. PropChamps is an informational comparison site, not a financial services provider.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 02 HOW WE USE IT -->
+        <div class="section-card" id="use" data-section>
+          <div class="section-head">
+            <div class="section-title-wrap">
+              <span class="section-chip">Use</span>
+              <h2>How we use information</h2>
+            </div>
+            <button class="copy-link" title="Copy link to section" onclick="copySection('use')">⧉</button>
+          </div>
+          <div class="section-divider"></div>
+          <div class="section-body">
+            <p>Information we collect is used solely to run PropChamps and make it better. We never use your data for advertising targeting or sell it to brokers.</p>
+            <ul>
+              <li><strong>Operate the site</strong> — authenticate sessions, display relevant content, and keep pages functional.</li>
+              <li><strong>Improve pages</strong> — understand which firm comparisons, deals, and articles are most useful so we can prioritize improvements.</li>
+              <li><strong>Respond to requests</strong> — reply to contact form submissions, answer questions, or provide support.</li>
+              <li><strong>Email communications</strong> — if you opt into our newsletter, we send relevant updates about new firm reviews, deals, and promotions. You may unsubscribe at any time.</li>
+              <li><strong>Prevent fraud &amp; abuse</strong> — detect and block automated scraping, spam submissions, or other misuse that could harm site performance or other users.</li>
+              <li><strong>Measure performance</strong> — track aggregate metrics like page load times, referral sources, and popular content to guide site development.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 03 COOKIES -->
+        <div class="section-card" id="cookies" data-section>
+          <div class="section-head">
+            <div class="section-title-wrap">
+              <span class="section-chip">Cookies</span>
+              <h2>Cookies &amp; tracking</h2>
+            </div>
+            <button class="copy-link" title="Copy link to section" onclick="copySection('cookies')">⧉</button>
+          </div>
+          <div class="section-divider"></div>
+          <div class="section-body">
+            <p>PropChamps uses a minimal set of cookies to keep the site working and to understand aggregate usage patterns. We do not use advertising cookies or cross-site tracking cookies.</p>
+            <ul>
+              <li><strong>Essential session cookies</strong> — required for basic site functionality such as preserving your comparison selections or form state. These are first-party and expire at session end.</li>
+              <li><strong>Analytics cookies</strong> — we use one or more analytics providers (such as Google Analytics or a privacy-first alternative) to collect anonymised data on page views, traffic sources, and device types. IP addresses are truncated before storage. These cookies may persist for up to 24 months but contain no personally identifiable information.</li>
+              <li><strong>Preference cookies</strong> — we may store lightweight preferences (e.g. dismissed banners) in your browser's local storage. These never leave your device.</li>
+            </ul>
+            <div class="note-box">
+              <span class="note-icon">OPT OUT</span>
+              <p>You can block or delete cookies at any time via your browser settings. Disabling analytics cookies will not affect your ability to use PropChamps. For Google Analytics opt-out, visit <strong>tools.google.com/dlpage/gaoptout</strong>.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 04 AFFILIATE -->
+        <div class="section-card" id="affiliate" data-section>
+          <div class="section-head">
+            <div class="section-title-wrap">
+              <span class="section-chip">Affiliate</span>
+              <h2>Affiliate links &amp; referrals</h2>
+            </div>
+            <button class="copy-link" title="Copy link to section" onclick="copySection('affiliate')">⧉</button>
+          </div>
+          <div class="section-divider"></div>
+          <div class="section-body">
+            <p>PropChamps may earn a commission when you click certain links and sign up with a prop trading firm. This is how we keep the site free and the data current.</p>
+            <ul>
+              <li><strong>Commissions don't change your price</strong> — affiliate relationships never inflate the cost of any firm's evaluation or subscription. The pricing you see is the same as going direct.</li>
+              <li><strong>Editorial independence</strong> — our rankings and reviews are based on independently researched criteria. Affiliate partnerships do not guarantee positive coverage.</li>
+              <li><strong>Link tracking</strong> — when you click an affiliate link, the destination firm may place their own tracking cookie in your browser per their privacy policy. We do not control this.</li>
+              <li><strong>Coupon codes</strong> — discount codes are independently verified where possible. Always check the official firm site for current terms, expiry dates, and eligibility. Codes and discounts are subject to change without notice.</li>
+            </ul>
+            <div class="note-box">
+              <span class="note-icon">FTC</span>
+              <p>In accordance with FTC guidelines, affiliate links are material connections and we disclose them. Our goal is accurate, unbiased information — affiliate income is secondary.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 05 SHARING -->
+        <div class="section-card" id="sharing" data-section>
+          <div class="section-head">
+            <div class="section-title-wrap">
+              <span class="section-chip">Sharing</span>
+              <h2>Sharing &amp; disclosures</h2>
+            </div>
+            <button class="copy-link" title="Copy link to section" onclick="copySection('sharing')">⧉</button>
+          </div>
+          <div class="section-divider"></div>
+          <div class="section-body">
+            <p>We do not sell your personal information as defined by applicable law — including the CCPA and similar statutes. We share data only in the limited circumstances below.</p>
+            <ul>
+              <li><strong>Service providers</strong> — we share data with trusted vendors that help us run the site, including email delivery platforms, web hosting providers, and analytics services. These providers are contractually bound to use data only on our behalf and not for independent purposes.</li>
+              <li><strong>Legal compliance</strong> — we may disclose information if required to do so by law, court order, or legitimate governmental process, or where we believe disclosure is necessary to protect rights, property, or safety.</li>
+              <li><strong>Business transfers</strong> — in the event of a merger, acquisition, or sale of all or a portion of our assets, user data may be transferred as part of that transaction. We will notify affected users by email or prominent notice if this occurs.</li>
+              <li><strong>Aggregated or anonymised data</strong> — we may share non-personally-identifiable, aggregated statistics (e.g. "X% of visitors compare two specific firms") publicly or with partners without restriction.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 06 RETENTION -->
+        <div class="section-card" id="retention" data-section>
+          <div class="section-head">
+            <div class="section-title-wrap">
+              <span class="section-chip">Retention</span>
+              <h2>Data retention</h2>
+            </div>
+            <button class="copy-link" title="Copy link to section" onclick="copySection('retention')">⧉</button>
+          </div>
+          <div class="section-divider"></div>
+          <div class="section-body">
+            <p>We keep personal data only as long as necessary to fulfil the purpose for which it was collected or to comply with applicable legal requirements.</p>
+            <ul>
+              <li><strong>Email list</strong> — retained until you unsubscribe. After unsubscribing, your address is suppressed (not purged immediately, to prevent re-subscription errors) and removed from active sends within 10 business days.</li>
+              <li><strong>Contact form submissions</strong> — retained for up to 24 months to maintain a record of correspondence, then deleted or anonymised.</li>
+              <li><strong>Analytics data</strong> — retained in aggregate form for up to 26 months per our analytics provider's standard retention window. No persistent personal identifiers are stored beyond this period.</li>
+              <li><strong>Server logs</strong> — raw server logs containing IP addresses are automatically purged after 90 days.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 07 RIGHTS -->
+        <div class="section-card" id="rights" data-section>
+          <div class="section-head">
+            <div class="section-title-wrap">
+              <span class="section-chip">Rights</span>
+              <h2>Your privacy rights</h2>
+            </div>
+            <button class="copy-link" title="Copy link to section" onclick="copySection('rights')">⧉</button>
+          </div>
+          <div class="section-divider"></div>
+          <div class="section-body">
+            <p>Depending on where you're located, you have specific rights regarding the personal data we hold about you. We honour all valid requests within legally required timeframes (typically 30 days).</p>
+
+            <div class="rights-grid">
+              <div class="rights-panel">
+                <div class="rights-panel-head">
+                  <span class="rights-badge badge-us">US / CCPA</span>
+                  <h4>US Residents</h4>
+                </div>
+                <ul>
+                  <li>Know what personal data we've collected</li>
+                  <li>Access a copy of your data</li>
+                  <li>Correct inaccurate data</li>
+                  <li>Delete your data (with limited exceptions)</li>
+                  <li>Opt out of marketing emails at any time</li>
+                  <li>Non-discrimination for exercising rights</li>
+                </ul>
+              </div>
+              <div class="rights-panel">
+                <div class="rights-panel-head">
+                  <span class="rights-badge badge-eu">EU / UK / GDPR</span>
+                  <h4>EU &amp; UK Residents</h4>
+                </div>
+                <ul>
+                  <li>Access your personal data</li>
+                  <li>Rectification of inaccurate data</li>
+                  <li>Erasure ("right to be forgotten")</li>
+                  <li>Restriction of processing</li>
+                  <li>Data portability</li>
+                  <li>Object to processing</li>
+                  <li>Lodge a complaint with your supervisory authority</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="note-box" style="margin-top:20px">
+              <span class="note-icon">REQUEST</span>
+              <p>To exercise any of these rights, email us at <strong>support@propchamps.net</strong> with the subject line "Privacy Request." We may need to verify your identity before processing the request.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 08 SECURITY -->
+        <div class="section-card" id="security" data-section>
+          <div class="section-head">
+            <div class="section-title-wrap">
+              <span class="section-chip">Security</span>
+              <h2>Security</h2>
+            </div>
+            <button class="copy-link" title="Copy link to section" onclick="copySection('security')">⧉</button>
+          </div>
+          <div class="section-divider"></div>
+          <div class="section-body">
+            <p>We implement commercially reasonable technical and organisational safeguards to protect personal data against accidental loss, unauthorised access, disclosure, alteration, or destruction.</p>
+            <ul>
+              <li><strong>HTTPS everywhere</strong> — all data in transit is encrypted using TLS. We enforce HTTPS across the entire PropChamps domain.</li>
+              <li><strong>Access controls</strong> — data access is restricted to staff and contractors who need it to perform legitimate business functions, and is governed by the principle of least privilege.</li>
+              <li><strong>Third-party security</strong> — we vet service providers for their own security practices and only work with vendors that maintain appropriate safeguards.</li>
+            </ul>
+            <div class="note-box">
+              <span class="note-icon">CAVEAT</span>
+              <p>No method of transmission over the internet or electronic storage is 100% secure. We cannot guarantee absolute security, but we will notify affected users and relevant authorities in the event of a data breach as required by law.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 09 CHILDREN -->
+        <div class="section-card" id="children" data-section>
+          <div class="section-head">
+            <div class="section-title-wrap">
+              <span class="section-chip">COPPA</span>
+              <h2>Children's privacy</h2>
+            </div>
+            <button class="copy-link" title="Copy link to section" onclick="copySection('children')">⧉</button>
+          </div>
+          <div class="section-divider"></div>
+          <div class="section-body">
+            <p>PropChamps is not directed to, and is not intended for use by, children under the age of 13. We do not knowingly collect personal information from children under 13. If we learn that we have inadvertently collected such information, we will delete it promptly.</p>
+            <p>If you believe we have collected information from a minor in error, please contact us immediately at <a href="mailto:support@propchamps.net" style="color:var(--lime)">support@propchamps.net</a>.</p>
+          </div>
+        </div>
+
+        <!-- 10 CHANGES -->
+        <div class="section-card" id="changes" data-section>
+          <div class="section-head">
+            <div class="section-title-wrap">
+              <span class="section-chip">Updates</span>
+              <h2>Changes to this policy</h2>
+            </div>
+            <button class="copy-link" title="Copy link to section" onclick="copySection('changes')">⧉</button>
+          </div>
+          <div class="section-divider"></div>
+          <div class="section-body">
+            <p>We may update this Privacy Policy from time to time to reflect changes in our practices, technology, legal requirements, or other factors. When we make changes, we will:</p>
+            <ul>
+              <li><strong>Update the "Last Updated" date</strong> at the top of this page so you always know when it was last revised.</li>
+              <li><strong>Post the revised policy</strong> at this URL. The most current version always supersedes prior versions.</li>
+              <li><strong>Notify you by email</strong> (if you are subscribed) when changes are material — for example, if we change what data we collect or who we share it with.</li>
+            </ul>
+            <p>Continued use of PropChamps after a policy update constitutes your acknowledgment of the changes. If you disagree with a material change, you may unsubscribe and request deletion of your data.</p>
+          </div>
+        </div>
+
+        <!-- 11 CONTACT -->
+        <div class="section-card" id="contact" data-section>
+          <div class="section-head">
+            <div class="section-title-wrap">
+              <span class="section-chip">Contact</span>
+              <h2>Contact us</h2>
+            </div>
+            <button class="copy-link" title="Copy link to section" onclick="copySection('contact')">⧉</button>
+          </div>
+          <div class="section-divider"></div>
+          <div class="section-body">
+            <p>If you have questions, requests, or concerns about this Privacy Policy or the data we hold, please reach out. We respond to all legitimate privacy inquiries within 30 days.</p>
+            <div class="contact-grid">
+              <div class="contact-item">
+                <div class="contact-label">Email</div>
+                <div class="contact-value"><a href="mailto:support@propchamps.net">support@propchamps.net</a></div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-label">Mailing Address</div>
+                <div class="contact-value">
+                  <span class="mono-addr">PropChamps<br>Attn: Privacy Officer<br>[Address Placeholder]<br>[City, State ZIP]</span>
+                </div>
+              </div>
+            </div>
+            <div class="note-box" style="margin-top:16px">
+              <span class="note-icon">EU REP</span>
+              <p>If you are located in the EU or UK and wish to exercise GDPR rights, you may also contact your local data protection authority. We will cooperate fully with supervisory authorities.</p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /sections -->
+    </div><!-- /content-grid -->
+  </div><!-- /page-wrapper -->
+</main>
+
+<!-- BACK TO TOP -->
+<a href="#top" class="back-to-top" id="back-to-top" aria-label="Back to top">↑</a>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-copy">© 2026 PropChamps &nbsp;•&nbsp; All discount codes independently verified</span>
+    <nav class="footer-links">
+      <a href="/firms">Firms</a>
+      <a href="/compare">Compare</a>
+      <a href="/deals">Deals</a>
+      <a href="/privacy" class="active">Privacy</a>
+    </nav>
+  </div>
+</footer>
+
+<!-- ===================== SCRIPTS ===================== -->
+<script>
+/* ---- MOBILE TOC ACCORDION ---- */
+const tocToggle = document.getElementById('toc-toggle');
+const tocDropdown = document.getElementById('toc-dropdown');
+if (tocToggle && tocDropdown) tocToggle.addEventListener('click', () => {
+  const isOpen = tocDropdown.classList.toggle('open');
+  tocToggle.classList.toggle('open', isOpen);
+  tocToggle.setAttribute('aria-expanded', isOpen);
+});
+
+/* ---- SCROLL-AWARE TOC HIGHLIGHTING ---- */
+const sections = document.querySelectorAll('[data-section]');
+const tocLinks = document.querySelectorAll('#toc-list a');
+
+const observerOptions = {
+  root: null,
+  rootMargin: '-20% 0px -70% 0px',
+  threshold: 0
+};
+  // Fallback: if IntersectionObserver isn't available (or disabled), show everything.
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('.section-card').forEach(card => card.classList.add('visible'));
+    // Default active TOC item (first link)
+    const firstToc = document.querySelector('.toc-list a');
+    if (firstToc) firstToc.classList.add('active');
+  }
+
+
+const tocObserver = ('IntersectionObserver' in window) ? new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      tocLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, observerOptions) : null;
+
+if (tocObserver) sections.forEach(s => tocObserver.observe(s));
+
+/* ---- FADE IN ON SCROLL ---- */
+const fadeObserver = ('IntersectionObserver' in window) ? new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.06 }) : null;
+
+if (fadeObserver) document.querySelectorAll('.section-card').forEach((card, i) => {
+  card.style.transitionDelay = (i * 0.04) + 's';
+  fadeObserver.observe(card);
+});
+
+}
+
+/* ---- BACK TO TOP ---- */
+const btt = document.getElementById('back-to-top');
+if (btt) {
+  window.addEventListener('scroll', () => {
+    btt.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+}
+
+/* ---- COPY SECTION LINK ---- */
+function copySection(id) {
+  const url = window.location.origin + window.location.pathname + '#' + id;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(() => showCopied());
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = url;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showCopied();
+  }
+}
+
+function showCopied() {
+  const note = document.createElement('div');
+  note.textContent = 'Link copied';
+  note.style.cssText = `
+    position:fixed; bottom:80px; right:32px; z-index:9999;
+    font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em;
+    color:#0a0a0a; background:var(--lime);
+    padding:8px 16px; border-radius:6px;
+    animation: slideup 0.2s ease;
+    pointer-events:none;
+  `;
+  document.body.appendChild(note);
+  setTimeout(() => note.remove(), 2000);
+}
+
+/* ---- SMOOTH ANCHOR SCROLL (offset for sticky header) ---- */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (!target) return;
+    e.preventDefault();
+    const offset = 64 + 24; // header + padding
+    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior: 'smooth' });
+  });
+});
+</script>
+
+<script>
+(function(){
+  var toggle = document.getElementById('menuToggle');
+  var header = document.querySelector('header');
+  var menu = document.getElementById('mobileMenu');
+  if(!toggle || !header || !menu) return;
+
+  function closeMenu(){
+    header.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded','false');
+    toggle.setAttribute('aria-label','Open menu');
+  }
+  function openMenu(){
+    header.classList.add('is-open');
+    toggle.setAttribute('aria-expanded','true');
+    toggle.setAttribute('aria-label','Close menu');
+  }
+
+  toggle.addEventListener('click', function(){
+    if(header.classList.contains('is-open')) closeMenu();
+    else openMenu();
+  });
+
+  // Close on link click
+  menu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', closeMenu);
+  });
+
+  // Close when resizing up to desktop
+  window.addEventListener('resize', function(){
+    if(window.innerWidth > 768) closeMenu();
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+# Cloudflare Pages redirects
+# https://developers.cloudflare.com/pages/configuration/redirects/
+
+# Legacy filename from cPanel htaccess
+/privacypolicy.html  /privacy.html  301
+/privacypolicy       /privacy.html  301
+
+# /firms used to serve the homepage firm grid
+/firms               /              301
