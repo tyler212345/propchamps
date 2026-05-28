@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Compare Prop Firm Plans — PropChamps</title>
-<meta name="description" content="Compare prop trading firm plans side-by-side. Match account sizes, drawdowns, payout splits, and rules across plans from up to 6 firms at once.">
+<title>Compare Prop Firms & Plans — PropChamps</title>
+<meta name="description" content="Compare prop trading firms and their evaluation plans side-by-side. Match account sizes, drawdowns, payout splits, and rules across firms.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://propchamps.net/compare.html">
 <meta property="og:site_name" content="PropChamps">
-<meta property="og:title" content="Compare Prop Firm Plans — PropChamps">
-<meta property="og:description" content="Plan-level side-by-side comparison of futures prop firm rules, payouts, and drawdown methods.">
+<meta property="og:title" content="Compare Prop Firms & Plans — PropChamps">
+<meta property="og:description" content="Side-by-side comparison of futures prop firm rules, payouts, and drawdown methods — at the firm or plan level.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://propchamps.net/compare.html">
 <meta property="og:image" content="https://propchamps.net/logos/propchamps.png">
 <meta name="twitter:card" content="summary">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Compare Prop Firm Plans — PropChamps","url":"https://propchamps.net/compare.html","description":"Plan-level side-by-side comparison of futures prop firm rules, payouts, and drawdown methods.","isPartOf":{"@type":"WebSite","name":"PropChamps","url":"https://propchamps.net/"}}
+{"@context":"https://schema.org","@type":"WebPage","name":"Compare Prop Firms & Plans — PropChamps","url":"https://propchamps.net/compare.html","description":"Side-by-side comparison of futures prop firm rules, payouts, and drawdown methods.","isPartOf":{"@type":"WebSite","name":"PropChamps","url":"https://propchamps.net/"}}
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -64,62 +64,87 @@ header.is-open .mobile-menu{display:block}
 .bg-stack::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(200,255,0,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(200,255,0,.045) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse 80% 70% at 50% 25%,black 30%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 25%,black 30%,transparent 90%)}
 .bg-stack::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 50% 25%,rgba(200,255,0,.10) 0%,rgba(200,255,0,.04) 30%,transparent 70%)}
 
-.hero{padding:80px 0 48px;position:relative}
-.hero-kicker{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--lime-text);margin-bottom:24px}
+.hero{padding:72px 0 36px;position:relative}
+.hero-kicker{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--lime-text);margin-bottom:22px}
 .hero-kicker::before{content:"";width:24px;height:1px;background:var(--lime-text)}
-.hero h1{font-family:var(--font-display);font-weight:800;font-size:clamp(36px,5.5vw,60px);line-height:1.0;letter-spacing:-.04em;color:var(--text-strong);margin-bottom:20px;max-width:920px}
+.hero h1{font-family:var(--font-display);font-weight:800;font-size:clamp(36px,5.5vw,56px);line-height:1.0;letter-spacing:-.04em;color:var(--text-strong);margin-bottom:18px;max-width:920px}
 .hero h1 .accent-word{background:linear-gradient(135deg,var(--lime) 0%,#a3d600 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 24px rgba(200,255,0,.25))}
-.hero-sub{font-size:18px;line-height:1.55;color:var(--text-soft);max-width:720px;letter-spacing:-.005em}
+.hero-sub{font-size:17.5px;line-height:1.55;color:var(--text-soft);max-width:720px;letter-spacing:-.005em}
 
-/* compare tool */
-.tool{padding:32px 0 80px}
+/* How-it-works steps */
+.howto{padding:8px 0 36px}
+.howto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.howto-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:18px 20px;display:flex;align-items:flex-start;gap:14px;transition:border-color .18s var(--ease)}
+.howto-card:hover{border-color:var(--border-lime)}
+.howto-num{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--lime);flex-shrink:0;width:24px;height:24px;border-radius:6px;background:var(--lime-soft);border:1px solid var(--border-lime);display:flex;align-items:center;justify-content:center}
+.howto-body{font-size:13.5px;line-height:1.5;color:var(--text-soft)}
+.howto-body strong{color:var(--text-strong);font-weight:600;display:block;margin-bottom:2px;font-size:14px}
 
-.toolbar{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:18px 22px;background:var(--bg-card);border:1px solid var(--border);border-radius:14px;margin-bottom:24px;flex-wrap:wrap}
-.toolbar-lhs{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.toolbar-search{display:flex;align-items:center;gap:10px;background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:9px 14px;min-width:220px;transition:border-color .15s var(--ease)}
+/* Toolbar */
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 18px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;margin-bottom:20px;flex-wrap:wrap}
+.toolbar-lhs{display:flex;align-items:center;gap:14px;flex-wrap:wrap;flex:1;min-width:0}
+.toolbar-search{display:flex;align-items:center;gap:10px;background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;padding:8px 12px;min-width:240px;flex:1;max-width:340px;transition:border-color .15s var(--ease)}
 .toolbar-search:focus-within{border-color:var(--border-lime)}
 .toolbar-search svg{flex-shrink:0;color:var(--text-faint)}
 .toolbar-search input{background:transparent;border:0;outline:0;color:var(--text);font:inherit;font-size:14px;width:100%}
 .toolbar-search input::placeholder{color:var(--text-faint)}
-.toolbar-tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--text-soft)}
+.toolbar-tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--text-soft);white-space:nowrap}
 .toolbar-tag strong{color:var(--lime);font-weight:700;font-variant-numeric:tabular-nums}
 
-.firm-filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
-.firm-chip{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;background:var(--bg-card);border:1px solid var(--border);border-radius:100px;font-size:12.5px;font-weight:500;color:var(--text-soft);transition:all .15s var(--ease);cursor:pointer}
-.firm-chip:hover{color:var(--text);border-color:var(--border-strong)}
-.firm-chip.active{background:var(--lime-soft);border-color:var(--border-lime);color:var(--lime)}
-.firm-chip img{width:18px;height:18px;border-radius:4px;background:var(--bg-elev);object-fit:contain;padding:2px}
+/* Firm group cards */
+.firms-grouped{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:14px}
+.firm-group{position:relative;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:18px;transition:border-color .22s var(--ease);overflow:hidden}
+.firm-group::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 50% 70% at 100% 0%,rgba(200,255,0,.04),transparent 50%);opacity:0;transition:opacity .22s var(--ease);pointer-events:none}
+.firm-group.has-selected{border-color:var(--border-lime)}
+.firm-group.has-selected::before{opacity:1}
+.firm-group>*{position:relative;z-index:1}
 
-.plans-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-.plan-pick{position:relative;background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px;transition:all .2s var(--ease);cursor:pointer;overflow:hidden}
-.plan-pick::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 100% 0%,rgba(200,255,0,.06) 0%,transparent 50%);opacity:0;transition:opacity .2s var(--ease);pointer-events:none}
-.plan-pick:hover{border-color:var(--border-lime);transform:translateY(-2px)}
-.plan-pick:hover::before{opacity:1}
-.plan-pick.selected{border-color:var(--lime);background:linear-gradient(180deg,rgba(200,255,0,.06),rgba(200,255,0,.01));box-shadow:0 0 0 1px var(--lime),0 16px 32px -16px rgba(200,255,0,.22)}
-.plan-pick.selected .pick-check{display:flex}
-.pick-check{display:none;position:absolute;top:14px;right:14px;width:22px;height:22px;border-radius:50%;background:var(--lime);color:var(--bg-base);align-items:center;justify-content:center;font-weight:800;font-size:12px;z-index:2}
-.plan-pick>*{position:relative;z-index:1}
-.pick-firm-row{display:flex;align-items:center;gap:10px}
-.pick-firm-logo{width:28px;height:28px;border-radius:7px;background:var(--bg-elev);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
-.pick-firm-logo img{width:100%;height:100%;object-fit:contain;padding:3px}
-.pick-firm-name{font-family:var(--font-display);font-size:12.5px;font-weight:600;color:var(--text-soft);letter-spacing:-.005em}
-.pick-plan-name{font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--text-strong);letter-spacing:-.025em;line-height:1.15}
-.pick-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-top:12px;border-top:1px solid var(--border);margin-top:auto}
-.pick-stat-label{font-family:var(--font-mono);font-size:9.5px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--text-faint);margin-bottom:2px}
-.pick-stat-value{font-size:13px;font-weight:600;color:var(--text-strong);font-variant-numeric:tabular-nums;letter-spacing:-.005em;line-height:1.25;word-break:break-word}
-.pick-featured{position:absolute;top:14px;right:14px;font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.08em;color:var(--bg-base);background:var(--lime);padding:3px 7px;border-radius:4px}
-.plan-pick.selected .pick-featured{display:none}
+.fg-head{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.fg-firm{display:flex;align-items:center;gap:14px;min-width:0}
+.fg-logo{width:48px;height:48px;border-radius:12px;background:var(--bg-elev);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.fg-logo img{width:100%;height:100%;object-fit:contain;padding:6px}
+.fg-name{font-family:var(--font-display);font-size:20px;font-weight:800;letter-spacing:-.025em;color:var(--text-strong);line-height:1.15}
+.fg-sub{font-size:12.5px;color:var(--text-soft);margin-top:2px;letter-spacing:-.005em}
+.fg-count{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--text-faint);background:var(--bg-elev);border:1px solid var(--border);padding:5px 10px;border-radius:6px;white-space:nowrap}
+.fg-count strong{color:var(--lime);font-weight:700;font-variant-numeric:tabular-nums}
 
-/* sticky tray */
-.tray-bar{position:sticky;bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:28px;padding:18px 22px;background:linear-gradient(180deg,rgba(15,20,25,.92),rgba(8,11,15,.96));border:1px solid var(--border-lime);border-radius:16px;flex-wrap:wrap;z-index:30;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 24px 48px -16px rgba(0,0,0,.5),0 0 0 1px rgba(200,255,0,.05)}
-.tray-info{display:flex;align-items:center;gap:14px}
-.tray-count{font-family:var(--font-display);font-size:26px;font-weight:900;color:var(--lime);letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1}
-.tray-msg{font-size:13.5px;color:var(--text-soft)}
+.fg-promo-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;background:var(--bg-elev);border:1px solid var(--border);border-radius:10px}
+.fg-promo-label{font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint)}
+.fg-promo-value{font-family:var(--font-display);font-size:13.5px;font-weight:700;color:var(--text-strong);letter-spacing:-.01em;margin-top:2px}
+.fg-promo-code{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--lime);background:var(--lime-soft);border:1px solid var(--border-lime);padding:6px 10px;border-radius:6px;white-space:nowrap;cursor:pointer}
+.fg-promo-code:hover{background:rgba(200,255,0,.15)}
+
+.fg-plans-label{font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);margin-top:2px;margin-bottom:-6px}
+
+.fg-plans{display:flex;flex-wrap:wrap;gap:8px}
+.plan-chip{position:relative;display:inline-flex;flex-direction:column;align-items:flex-start;gap:3px;padding:9px 14px;background:var(--bg-elev);border:1px solid var(--border-strong);border-radius:10px;cursor:pointer;transition:all .15s var(--ease);min-width:0}
+.plan-chip:hover{border-color:var(--border-lime);background:rgba(200,255,0,.03)}
+.plan-chip.selected{background:linear-gradient(180deg,rgba(200,255,0,.10),rgba(200,255,0,.02));border-color:var(--lime);box-shadow:0 0 0 1px var(--lime)}
+.plan-chip.selected::after{content:"✓";position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:var(--lime);color:var(--bg-base);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;box-shadow:0 0 0 2px var(--bg-card)}
+.plan-chip-name{font-family:var(--font-display);font-size:13.5px;font-weight:700;color:var(--text-strong);letter-spacing:-.015em;line-height:1.15;white-space:nowrap}
+.plan-chip-meta{font-family:var(--font-mono);font-size:10px;color:var(--text-soft);letter-spacing:.02em}
+.plan-chip.featured .plan-chip-name::before{content:"★ ";color:var(--lime);font-size:11px}
+
+.fg-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:14px;border-top:1px solid var(--border);margin-top:auto}
+.fg-bulk{font-size:13px;font-weight:600;color:var(--text);letter-spacing:-.005em;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:color .15s var(--ease);background:none;border:0}
+.fg-bulk:hover{color:var(--lime)}
+.fg-bulk-x{color:var(--text-faint);font-weight:500}
+.fg-review{font-size:13px;color:var(--text-soft);display:inline-flex;align-items:center;gap:6px;transition:color .15s var(--ease)}
+.fg-review::after{content:"→";color:var(--text-faint);transition:transform .15s var(--ease),color .15s var(--ease)}
+.fg-review:hover{color:var(--lime)}
+.fg-review:hover::after{color:var(--lime);transform:translateX(3px)}
+
+/* Sticky tray */
+.tray-bar{position:sticky;bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:28px;padding:18px 22px;background:linear-gradient(180deg,rgba(15,20,25,.94),rgba(8,11,15,.97));border:1px solid var(--border-lime);border-radius:16px;flex-wrap:wrap;z-index:30;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 24px 48px -16px rgba(0,0,0,.5),0 0 0 1px rgba(200,255,0,.05);transition:transform .15s var(--ease)}
+.tray-info{display:flex;align-items:center;gap:14px;flex:1;min-width:0}
+.tray-count{font-family:var(--font-display);font-size:28px;font-weight:900;color:var(--lime);letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1;flex-shrink:0}
+.tray-msg-wrap{display:flex;flex-direction:column;gap:6px;min-width:0;flex:1}
+.tray-msg{font-size:13.5px;color:var(--text-soft);letter-spacing:-.005em}
 .tray-chips{display:flex;gap:6px;flex-wrap:wrap}
-.tray-chip{display:inline-flex;align-items:center;gap:6px;background:var(--bg-elev);border:1px solid var(--border-strong);border-radius:100px;padding:4px 10px 4px 4px;font-size:12px;font-weight:500;color:var(--text);transition:border-color .15s var(--ease)}
-.tray-chip img{width:18px;height:18px;border-radius:4px;background:var(--bg-card);object-fit:contain;padding:2px}
-.tray-chip .x{cursor:pointer;color:var(--text-faint);font-weight:700;padding:0 4px}
-.tray-chip .x:hover{color:var(--neg)}
+.tray-chip{display:inline-flex;align-items:center;gap:6px;background:var(--bg-elev);border:1px solid var(--border-strong);border-radius:100px;padding:4px 4px 4px 10px;font-size:12px;font-weight:500;color:var(--text);transition:border-color .15s var(--ease)}
+.tray-chip img{width:16px;height:16px;border-radius:4px;background:var(--bg-card);object-fit:contain;padding:1px}
+.tray-chip .x{cursor:pointer;color:var(--text-faint);font-weight:700;padding:2px 6px;border-radius:50%;line-height:1}
+.tray-chip .x:hover{color:var(--neg);background:rgba(248,113,113,.08)}
 .tray-actions{display:flex;gap:10px}
 .btn-primary{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;background:var(--lime);color:var(--bg-base);font-size:14px;font-weight:700;letter-spacing:-.005em;border-radius:10px;transition:all .18s var(--ease);box-shadow:0 0 0 1px rgba(200,255,0,.2),0 12px 32px -8px rgba(200,255,0,.4)}
 .btn-primary:hover:not(:disabled){background:var(--lime-2);transform:translateY(-2px);box-shadow:0 0 0 1px rgba(200,255,0,.35),0 18px 40px -8px rgba(200,255,0,.6)}
@@ -127,22 +152,18 @@ header.is-open .mobile-menu{display:block}
 .btn-ghost{padding:12px 18px;background:transparent;color:var(--text);border:1px solid var(--border-strong);border-radius:10px;font-size:14px;font-weight:500;letter-spacing:-.005em;transition:all .15s var(--ease)}
 .btn-ghost:hover{border-color:var(--border-lime);background:var(--lime-soft);color:var(--text-strong)}
 
-/* matrix */
+/* Matrix */
 .matrix-wrap{margin-top:64px;padding-top:48px;border-top:1px solid var(--border);scroll-margin-top:120px}
 .matrix-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:32px;flex-wrap:wrap}
-.matrix-head h2{font-family:var(--font-display);font-weight:800;font-size:clamp(26px,3.5vw,38px);letter-spacing:-.035em;color:var(--text-strong);line-height:1.1;margin-bottom:8px}
-.matrix-head p{font-size:14.5px;color:var(--text-soft)}
+.matrix-head-lhs h2{font-family:var(--font-display);font-weight:800;font-size:clamp(26px,3.5vw,38px);letter-spacing:-.035em;color:var(--text-strong);line-height:1.1;margin-bottom:8px}
+.matrix-head-lhs p{font-size:14.5px;color:var(--text-soft);letter-spacing:-.005em}
+.matrix-head-lhs p strong{color:var(--lime);font-variant-numeric:tabular-nums}
 .diff-toggle{display:inline-flex;align-items:center;gap:10px;font-size:13px;color:var(--text-soft);cursor:pointer;user-select:none}
 .diff-toggle .switch{position:relative;width:36px;height:20px;background:var(--bg-elev);border:1px solid var(--border-strong);border-radius:100px;transition:all .2s var(--ease)}
 .diff-toggle .switch::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--text-soft);transition:all .2s var(--ease)}
 .diff-toggle.on .switch{background:var(--lime-soft);border-color:var(--border-lime)}
 .diff-toggle.on .switch::after{transform:translateX(16px);background:var(--lime);box-shadow:0 0 6px rgba(200,255,0,.6)}
 .diff-toggle:hover{color:var(--text-strong)}
-
-.matrix-empty{padding:80px 24px;text-align:center;color:var(--text-faint);border:1px dashed var(--border-strong);border-radius:16px}
-.matrix-empty-icon{font-size:32px;color:var(--lime);margin-bottom:14px;opacity:.6}
-.matrix-empty p{font-size:15px;line-height:1.5;max-width:380px;margin:0 auto}
-.matrix-empty p strong{color:var(--lime)}
 
 .matrix-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:16px;border:1px solid var(--border);background:var(--bg-card)}
 .matrix-table{width:100%;min-width:760px;border-collapse:collapse}
@@ -151,16 +172,15 @@ header.is-open .mobile-menu{display:block}
 .matrix-table thead .col-label{font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint)}
 .matrix-table thead .col-firm-row{display:flex;align-items:center;gap:10px;margin-top:6px;margin-bottom:4px}
 .matrix-table thead .col-firm-row img{width:24px;height:24px;border-radius:6px;background:var(--bg-elev);border:1px solid var(--border);object-fit:contain;padding:3px}
-.matrix-table thead .col-firm{font-family:var(--font-display);font-size:12.5px;font-weight:600;color:var(--text-soft);letter-spacing:-.005em}
-.matrix-table thead .col-plan{font-family:var(--font-display);font-size:18px;font-weight:800;color:var(--text-strong);letter-spacing:-.025em;line-height:1.15}
+.matrix-table thead .col-plan{font-family:var(--font-display);font-size:17px;font-weight:800;color:var(--text-strong);letter-spacing:-.025em;line-height:1.15}
 .matrix-table thead .col-promo{font-family:var(--font-mono);font-size:10px;font-weight:600;color:var(--lime);letter-spacing:.04em;text-transform:uppercase;margin-top:6px;padding:3px 7px;background:var(--lime-soft);border:1px solid var(--border-lime);border-radius:4px;display:inline-block}
+.matrix-table thead .col-review{display:inline-block;margin-top:8px;font-size:12px;color:var(--text);border-bottom:1px solid var(--border-strong);padding-bottom:2px}
 .matrix-table tbody td{font-size:14px;color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:-.005em;line-height:1.5}
 .matrix-table tbody td.label{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.04em;font-weight:600;background:var(--bg-band);position:sticky;left:0;z-index:2;min-width:160px}
 .matrix-table tbody tr:hover td:not(.label){background:rgba(200,255,0,.02)}
 .matrix-table tbody tr.diff-row td:not(.label){background:rgba(251,191,36,.04)}
 .matrix-table .empty-val{color:var(--text-faint)}
 
-/* footer */
 footer.site{background:var(--bg-band);border-top:1px solid var(--border);color:var(--text-soft);padding:80px 0 32px;position:relative;overflow:hidden;margin-top:80px}
 footer.site::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border-lime-strong),transparent)}
 footer.site .top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;padding-bottom:56px;border-bottom:1px solid var(--border);margin-bottom:32px}
@@ -172,13 +192,17 @@ footer.site a{font-size:14px;color:var(--text);transition:color .15s var(--ease)
 footer.site a:hover{color:var(--lime)}
 footer.site .legal{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--text-faint);flex-wrap:wrap;gap:16px}
 
-/* toast */
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-card);color:var(--lime);border:1px solid var(--border-lime);font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.04em;padding:12px 18px;border-radius:10px;opacity:0;pointer-events:none;transition:all .22s var(--ease);z-index:100;box-shadow:0 12px 32px -12px rgba(200,255,0,.25)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-@media(max-width:900px){nav.primary,.header-cta{display:none}.menu-toggle{display:inline-flex}}
-@media(max-width:800px){.hero{padding:48px 0 32px}.hero h1{font-size:clamp(28px,7vw,40px)}.tool{padding:24px 0 56px}.toolbar{padding:14px}.toolbar-search{min-width:0;flex:1}footer.site .top{grid-template-columns:1fr 1fr;gap:32px}footer.site .brand{grid-column:1/-1}.editorial-strip .rhs{display:none}.tray-bar{position:static}}
-@media(max-width:480px){footer.site .top{grid-template-columns:1fr};.plans-grid{grid-template-columns:1fr}}
+@media(max-width:900px){nav.primary,.header-cta{display:none}.menu-toggle{display:inline-flex}.howto-grid{grid-template-columns:1fr;gap:8px}}
+@media(max-width:800px){.hero{padding:48px 0 24px}.hero h1{font-size:clamp(28px,7vw,40px)}.toolbar{padding:12px}.toolbar-search{min-width:0;flex:1}footer.site .top{grid-template-columns:1fr 1fr;gap:32px}footer.site .brand{grid-column:1/-1}.editorial-strip .rhs{display:none}.tray-bar{position:static}}
+@media(max-width:480px){footer.site .top{grid-template-columns:1fr};.firms-grouped{grid-template-columns:1fr}}
+
+/* polish layer: scroll reveal + smoother easing */
+[data-reveal]{transform:translateY(18px);opacity:.001;transition:opacity .7s var(--ease),transform .7s var(--ease)}
+[data-reveal].in{transform:none;opacity:1}
+@media (prefers-reduced-motion: reduce){[data-reveal]{transform:none;opacity:1;transition:none}}
 </style>
 </head>
 <body>
@@ -205,40 +229,48 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
 <section class="hero">
   <div class="bg-stack"></div>
   <div class="container">
-    <div class="hero-kicker">Plan-level side-by-side</div>
-    <h1>Compare <span class="accent-word">any plans</span> across any firms.</h1>
-    <p class="hero-sub">Stack individual plans (Lucid Pro vs Apex Intraday Trail vs Tradeify Growth) side by side. All 11 rule fields line up so you can spot real differences in seconds.</p>
+    <div class="hero-kicker">Firm + Plan comparison</div>
+    <h1>Compare prop firms. <span class="accent-word">And the plans inside them.</span></h1>
+    <p class="hero-sub">Pick whole firms to see them head-to-head, or drill into specific plans within one firm. Mix and match — Lucid Pro vs Lucid Black, or Lucid Black vs Apex Intraday Trail. The matrix builds itself.</p>
   </div>
 </section>
 
-<section class="tool">
+<section class="howto">
+  <div class="container">
+    <div class="howto-grid">
+      <div class="howto-card"><div class="howto-num">1</div><div class="howto-body"><strong>Tap plan chips to add them.</strong>Each card below is a firm; the chips inside are its plans.</div></div>
+      <div class="howto-card"><div class="howto-num">2</div><div class="howto-body"><strong>Hit "Compare all" to select a whole firm.</strong>Useful for picking the right account inside one firm.</div></div>
+      <div class="howto-card"><div class="howto-num">3</div><div class="howto-body"><strong>Click <em>Compare</em> in the tray.</strong>Side-by-side matrix of all 11 rule fields, with "Differences only" filter.</div></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:8px 0 80px">
   <div class="container">
 
     <div class="toolbar">
       <div class="toolbar-lhs">
         <div class="toolbar-search">
           <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <input type="text" id="planSearch" placeholder="Search plan or firm name…">
+          <input type="text" id="planSearch" placeholder="Search firms or plans…">
         </div>
-        <div class="toolbar-tag" id="planCountStatus"><strong id="visiblePlans">—</strong> plans available</div>
+        <span class="toolbar-tag"><strong id="visibleFirms">—</strong> firms · <strong id="visiblePlans">—</strong> plans</span>
       </div>
-      <div class="toolbar-tag"><strong id="selCount">0</strong> of 6 selected</div>
+      <span class="toolbar-tag"><strong id="selCount">0</strong> of 6 selected</span>
     </div>
 
-    <div class="firm-filter-row" id="firmFilterRow"></div>
-
-    <div class="plans-grid" id="plansGrid"></div>
+    <div class="firms-grouped" id="firmsGrouped"></div>
 
     <div class="tray-bar" id="trayBar" style="display:none">
       <div class="tray-info">
         <span class="tray-count" id="trayCountBig">0</span>
-        <div>
-          <div class="tray-msg" id="trayMsg">Select at least 2 plans</div>
-          <div class="tray-chips" id="trayChips" style="margin-top:8px"></div>
+        <div class="tray-msg-wrap">
+          <span class="tray-msg" id="trayMsg">Select at least 2 plans</span>
+          <div class="tray-chips" id="trayChips"></div>
         </div>
       </div>
       <div class="tray-actions">
-        <button class="btn-ghost" id="btnClear">Clear</button>
+        <button class="btn-ghost" id="btnClear">Clear all</button>
         <button class="btn-primary" id="btnCompare" disabled>Compare
           <svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L11 8 L5 4"/></svg>
         </button>
@@ -278,137 +310,192 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
   if(toggle){toggle.addEventListener('click',function(){header.classList.toggle('is-open');});
     document.querySelectorAll('.mobile-menu a').forEach(function(a){a.addEventListener('click',function(){header.classList.remove('is-open');});});}
 
-  /* Build a flat plan list: each entry = {firm, plan, key} */
   var firmPageMap={'lucid-trading':'lucid-trading.html','tradeify':'tradeify.html','alpha-futures':'alpha-futures.html','apex-trader':'apex-trader.html','my-funded-futures':'my-funded-futures.html','top-one-futures':'top-one-futures.html','take-profit':'take-profit-trader.html'};
   var firmList=Object.values(window.FIRMS||{}).filter(function(f){return f&&f.live!==false;});
-  var allPlans=[];
-  firmList.forEach(function(f){
-    (f.plansSummary||[]).forEach(function(p,i){
-      allPlans.push({key:f.slug+'__'+i, firm:f, plan:p, idx:i});
-    });
-  });
 
-  var selected=[]; /* array of plan keys, preserves order */
-  var activeFirm='all';
+  var allPlans=[];
+  firmList.forEach(function(f){(f.plansSummary||[]).forEach(function(p,i){allPlans.push({key:f.slug+'__'+i,firm:f,plan:p,idx:i});});});
+
+  var selected=[];
   var search='';
   var diffOnly=false;
 
-  /* render firm filter chips */
-  function renderFirmFilters(){
-    var row=document.getElementById('firmFilterRow');
-    var html='<button class="firm-chip'+(activeFirm==='all'?' active':'')+'" data-firm="all">All firms · '+allPlans.length+' plans</button>';
-    html+=firmList.map(function(f){
-      var n=(f.plansSummary||[]).length;
-      return '<button class="firm-chip'+(activeFirm===f.slug?' active':'')+'" data-firm="'+f.slug+'"><img src="'+f.logo+'" alt="">'+f.name+' · '+n+'</button>';
-    }).join('');
-    row.innerHTML=html;
+  function firmMatches(f){
+    if(!search)return true;
+    var hay=(f.name+' '+(f.type||'')+' '+(f.plansSummary||[]).map(function(p){return p.name;}).join(' ')).toLowerCase();
+    return hay.indexOf(search.toLowerCase())!==-1;
+  }
+  function planMatches(f,p){
+    if(!search)return true;
+    var hay=(f.name+' '+p.name).toLowerCase();
+    return hay.indexOf(search.toLowerCase())!==-1;
   }
 
-  /* render plan picker */
-  function planMatches(p){
-    if(activeFirm!=='all'&&p.firm.slug!==activeFirm)return false;
-    if(search){
-      var hay=(p.firm.name+' '+p.plan.name).toLowerCase();
-      if(hay.indexOf(search.toLowerCase())===-1)return false;
-    }
-    return true;
-  }
-  function renderPlans(){
-    var visible=allPlans.filter(planMatches);
-    document.getElementById('visiblePlans').textContent=visible.length;
-    var html=visible.map(function(p){
-      var sel=selected.indexOf(p.key)!==-1;
-      var rules=p.plan.rules||{};
-      var sizes=rules['Account Sizes']||'—';
-      var split=rules['Payout Split']||rules['Profit Split']||'—';
-      var feat=p.plan.featured&&!sel?'<span class="pick-featured">FEATURED</span>':'';
-      return '<article class="plan-pick'+(sel?' selected':'')+'" data-key="'+p.key+'">'+
-        feat+
-        '<div class="pick-check">✓</div>'+
-        '<div class="pick-firm-row"><div class="pick-firm-logo"><img src="'+p.firm.logo+'" alt=""></div><div class="pick-firm-name">'+p.firm.name+'</div></div>'+
-        '<div class="pick-plan-name">'+p.plan.name+'</div>'+
-        '<div class="pick-stats">'+
-          '<div><div class="pick-stat-label">Account Sizes</div><div class="pick-stat-value">'+sizes+'</div></div>'+
-          '<div><div class="pick-stat-label">Payout Split</div><div class="pick-stat-value">'+split+'</div></div>'+
+  function renderFirms(){
+    var visible=firmList.filter(firmMatches);
+    var totalPlansVisible=0;
+    var html=visible.map(function(f){
+      var plans=(f.plansSummary||[]).filter(function(p){return planMatches(f,p);});
+      totalPlansVisible+=plans.length;
+      var allFirmKeys=(f.plansSummary||[]).map(function(_,i){return f.slug+'__'+i;});
+      var selectedHere=allFirmKeys.filter(function(k){return selected.indexOf(k)!==-1;}).length;
+      var hasSel=selectedHere>0?' has-selected':'';
+      var allSelected=selectedHere===allFirmKeys.length&&allFirmKeys.length>0;
+      var bulkText=allSelected?'Remove all from tray':'Compare all '+allFirmKeys.length+' plans';
+      var firmPage=firmPageMap[f.slug]||'#';
+
+      var promoLine='';
+      if(f.offerLine){
+        promoLine='<div class="fg-promo-row">'+
+          '<div><div class="fg-promo-label">Active deal</div><div class="fg-promo-value">'+f.offerLine+'</div></div>'+
+          '<span class="fg-promo-code js-copy-champ">CHAMP · COPY</span>'+
+        '</div>';
+      }
+
+      var planChips=plans.map(function(p){
+        var key=f.slug+'__'+(f.plansSummary.indexOf(p));
+        var isSel=selected.indexOf(key)!==-1;
+        var sizes=(p.rules&&p.rules['Account Sizes'])||'';
+        var feat=p.featured?' featured':'';
+        return '<button type="button" class="plan-chip'+(isSel?' selected':'')+feat+'" data-key="'+key+'">'+
+          '<span class="plan-chip-name">'+p.name+'</span>'+
+          (sizes?'<span class="plan-chip-meta">'+sizes+'</span>':'')+
+        '</button>';
+      }).join('');
+
+      return '<article class="firm-group'+hasSel+'" data-firm="'+f.slug+'">'+
+        '<div class="fg-head">'+
+          '<div class="fg-firm">'+
+            '<div class="fg-logo"><img src="'+f.logo+'" alt=""></div>'+
+            '<div><div class="fg-name">'+f.name+'</div><div class="fg-sub">'+(f.type||f.tagline||'')+'</div></div>'+
+          '</div>'+
+          '<div class="fg-count"><strong>'+plans.length+'</strong> plans</div>'+
+        '</div>'+
+        promoLine+
+        '<div class="fg-plans-label">Choose plan(s) to compare</div>'+
+        '<div class="fg-plans">'+planChips+'</div>'+
+        '<div class="fg-actions">'+
+          '<button type="button" class="fg-bulk" data-firm="'+f.slug+'"><span'+(allSelected?' class="fg-bulk-x"':'')+'>'+bulkText+'</span></button>'+
+          '<a class="fg-review" href="/firms/'+firmPage+'">Read review</a>'+
         '</div>'+
       '</article>';
-    }).join('');
-    document.getElementById('plansGrid').innerHTML=html||'<div style="grid-column:1/-1;padding:48px;text-align:center;color:var(--text-faint);border:1px dashed var(--border);border-radius:14px">No plans match your filter.</div>';
-    document.querySelectorAll('.plan-pick').forEach(function(el){
-      el.addEventListener('click',function(){toggleSel(el.dataset.key);});
-    });
+    }).join('')||'<div style="grid-column:1/-1;padding:48px;text-align:center;color:var(--text-faint);border:1px dashed var(--border);border-radius:14px">No firms or plans match your search.</div>';
+
+    document.getElementById('firmsGrouped').innerHTML=html;
+    document.getElementById('visibleFirms').textContent=visible.length;
+    document.getElementById('visiblePlans').textContent=totalPlansVisible;
+
+    document.querySelectorAll('.plan-chip').forEach(function(el){el.addEventListener('click',function(){toggleSel(el.dataset.key);});});
+    document.querySelectorAll('.fg-bulk').forEach(function(el){el.addEventListener('click',function(){toggleFirmAll(el.dataset.firm);});});
   }
 
-  /* selection */
   function toggleSel(key){
     var i=selected.indexOf(key);
     if(i!==-1){selected.splice(i,1);}
     else if(selected.length<6){selected.push(key);}
-    else return;
-    updateTray();renderPlans();
-    /* if matrix shown, auto-re-render */
+    else{flashTray();return;}
+    afterChange();
+  }
+
+  function toggleFirmAll(slug){
+    var f=window.FIRMS[slug];if(!f)return;
+    var keys=(f.plansSummary||[]).map(function(_,i){return slug+'__'+i;});
+    var allInside=keys.every(function(k){return selected.indexOf(k)!==-1;});
+    if(allInside){selected=selected.filter(function(k){return keys.indexOf(k)===-1;});}
+    else {keys.forEach(function(k){if(selected.indexOf(k)===-1&&selected.length<6){selected.push(k);}});}
+    afterChange();
+  }
+
+  function afterChange(){
+    updateTray();
+    refreshFirmStates();
     if(document.getElementById('matrixContainer').childElementCount>0&&selected.length>=2){renderMatrix();}
     else if(selected.length<2){document.getElementById('matrixContainer').innerHTML='';}
   }
+
+  function refreshFirmStates(){
+    document.querySelectorAll('.firm-group').forEach(function(group){
+      var slug=group.dataset.firm;
+      var keys=Array.from(group.querySelectorAll('.plan-chip')).map(function(el){return el.dataset.key;});
+      var selHere=keys.filter(function(k){return selected.indexOf(k)!==-1;}).length;
+      group.classList.toggle('has-selected',selHere>0);
+      keys.forEach(function(k){
+        var chip=group.querySelector('[data-key="'+k+'"]');
+        if(chip)chip.classList.toggle('selected',selected.indexOf(k)!==-1);
+      });
+      var allFirmKeys=(window.FIRMS[slug].plansSummary||[]).map(function(_,i){return slug+'__'+i;});
+      var allSelected=selHere===allFirmKeys.length&&allFirmKeys.length>0;
+      var bulkSpan=group.querySelector('.fg-bulk span');
+      if(bulkSpan){bulkSpan.textContent=allSelected?'Remove all from tray':'Compare all '+allFirmKeys.length+' plans';bulkSpan.className=allSelected?'fg-bulk-x':'';}
+    });
+  }
+
+  function flashTray(){
+    var t=document.getElementById('trayBar');
+    t.style.transform='translateX(-3px)';
+    setTimeout(function(){t.style.transform='translateX(3px)';},80);
+    setTimeout(function(){t.style.transform='';},160);
+  }
+
   function updateTray(){
     var n=selected.length;
     document.getElementById('selCount').textContent=n;
     document.getElementById('trayCountBig').textContent=n;
     document.getElementById('trayBar').style.display=n>0?'flex':'none';
-    var msg=n===1?'Add at least one more plan':n+' plans · ready to compare';
+    var msg=n===0?'Select at least 2 plans':n===1?'Add at least one more':n+' plans · ready to compare';
     document.getElementById('trayMsg').textContent=msg;
     document.getElementById('btnCompare').disabled=n<2;
-    /* chips */
     var chips=selected.map(function(k){
       var p=allPlans.find(function(x){return x.key===k;});
       if(!p)return '';
       return '<span class="tray-chip"><img src="'+p.firm.logo+'" alt="">'+p.firm.name+' · '+p.plan.name+'<span class="x" data-key="'+k+'">×</span></span>';
     }).join('');
     document.getElementById('trayChips').innerHTML=chips;
-    document.querySelectorAll('.tray-chip .x').forEach(function(x){
-      x.addEventListener('click',function(e){e.stopPropagation();toggleSel(x.dataset.key);});
-    });
+    document.querySelectorAll('.tray-chip .x').forEach(function(x){x.addEventListener('click',function(e){e.stopPropagation();toggleSel(x.dataset.key);});});
   }
+
   document.getElementById('btnClear').addEventListener('click',function(){
-    selected=[];updateTray();renderPlans();document.getElementById('matrixContainer').innerHTML='';
+    selected=[];afterChange();
   });
+  document.getElementById('planSearch').addEventListener('input',function(e){search=e.target.value;renderFirms();});
 
-  /* search + firm filter */
-  document.getElementById('planSearch').addEventListener('input',function(e){search=e.target.value;renderPlans();});
-  document.getElementById('firmFilterRow').addEventListener('click',function(e){
-    var b=e.target.closest('.firm-chip');if(!b)return;activeFirm=b.dataset.firm;renderFirmFilters();renderPlans();
-  });
-
-  /* matrix render */
+  /* Matrix */
   var FIELDS=['Account Sizes','Profit Target','Daily Loss Limit','Max Drawdown','Min. Trading Days','Consistency Rule','Payout Split','Payout Frequency','Activation Fee','Platforms','Promo Code'];
 
   function renderMatrix(){
     var picks=selected.map(function(k){return allPlans.find(function(x){return x.key===k;});}).filter(Boolean);
     if(picks.length<2){return;}
-    /* build header */
+    var firmsInPicks={};picks.forEach(function(p){firmsInPicks[p.firm.slug]=true;});
+    var firmCount=Object.keys(firmsInPicks).length;
+
     var thead='<tr><th class="label-col"><div class="col-label">Field</div></th>'+picks.map(function(p){
       var promo=(p.plan.rules&&p.plan.rules['Promo Code'])||(p.firm.promo&&p.firm.promo.code)||'';
       var page=firmPageMap[p.firm.slug]||'#';
       return '<th><div class="col-label">'+p.firm.name+'</div>'+
-        '<div class="col-firm-row"><img src="'+p.firm.logo+'" alt=""><div><div class="col-plan">'+p.plan.name+'</div></div></div>'+
-        (promo?'<div class="col-promo">'+promo+'</div>':'')+
-        '<a href="/firms/'+page+'" style="display:inline-block;margin-top:8px;font-size:12px;color:var(--text);border-bottom:1px solid var(--border-strong);padding-bottom:2px">Read review →</a>'+
+        '<div class="col-firm-row"><img src="'+p.firm.logo+'" alt=""><div class="col-plan">'+p.plan.name+'</div></div>'+
+        (promo?'<div class="col-promo">'+promo+'</div>':'')+'<br>'+
+        '<a class="col-review" href="/firms/'+page+'">Read review</a>'+
       '</th>';
     }).join('')+'</tr>';
 
-    /* rows */
     var rows=FIELDS.map(function(field){
       var values=picks.map(function(p){return (p.plan.rules&&p.plan.rules[field])||'';});
       var allSame=values.every(function(v){return v===values[0]&&v!=='';});
       if(diffOnly&&allSame)return '';
-      var diffClass=values.length>1&&!allSame&&values.some(function(v){return v!==values[0];})?' diff-row':'';
+      var diffClass=values.length>1&&!allSame?' diff-row':'';
       var cells=values.map(function(v){return '<td>'+(v||'<span class="empty-val">—</span>')+'</td>';}).join('');
       return '<tr class="'+diffClass.trim()+'"><td class="label">'+field+'</td>'+cells+'</tr>';
     }).join('');
 
-    var html='<div class="matrix-wrap" id="matrix"><div class="matrix-head"><div><h2>Comparison matrix</h2><p>'+picks.length+' plans · '+FIELDS.length+' fields'+(diffOnly?' · showing differences only':'')+'</p></div>'+
+    var summary=firmCount===1
+      ? 'Comparing <strong>'+picks.length+'</strong> plans within <strong>'+picks[0].firm.name+'</strong>'
+      : 'Comparing <strong>'+picks.length+'</strong> plans across <strong>'+firmCount+'</strong> firms';
+
+    var html='<div class="matrix-wrap" id="matrix">'+
+      '<div class="matrix-head"><div class="matrix-head-lhs"><h2>Comparison matrix</h2><p>'+summary+' · '+FIELDS.length+' fields'+(diffOnly?' · differences only':'')+'</p></div>'+
       '<label class="diff-toggle'+(diffOnly?' on':'')+'" id="diffToggle"><span>Differences only</span><span class="switch"></span></label></div>'+
-      '<div class="matrix-table-wrap"><table class="matrix-table"><thead>'+thead+'</thead><tbody>'+rows+'</tbody></table></div></div>';
+      '<div class="matrix-table-wrap"><table class="matrix-table"><thead>'+thead+'</thead><tbody>'+rows+'</tbody></table></div>'+
+    '</div>';
     document.getElementById('matrixContainer').innerHTML=html;
     document.getElementById('diffToggle').addEventListener('click',function(){diffOnly=!diffOnly;renderMatrix();});
   }
@@ -417,69 +504,28 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
     setTimeout(function(){document.getElementById('matrix').scrollIntoView({behavior:'smooth',block:'start'});},80);
   });
 
-  /* init */
-  renderFirmFilters();renderPlans();updateTray();
+  renderFirms();updateTray();
 
-  /* CHAMP copy */
+  /* copy */
   function copyChamp(){
     var done=function(){var t=document.getElementById('toast');t.classList.add('show');setTimeout(function(){t.classList.remove('show');},1800);};
     if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText('CHAMP').then(done).catch(done);}
     else{var ta=document.createElement('textarea');ta.value='CHAMP';ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);done();}
   }
-  document.addEventListener('click',function(e){var el=e.target.closest('.js-copy-champ');if(el){e.preventDefault();copyChamp();}});
+  document.addEventListener('click',function(e){var el=e.target.closest('.js-copy-champ');if(el){e.preventDefault();e.stopPropagation();copyChamp();}});
+
+  /* scroll reveal */
+  var revealSel='.firm-group, .howto-card, .matrix-wrap';
+  var revealEls=document.querySelectorAll(revealSel);
+  revealEls.forEach(function(el,i){el.setAttribute('data-reveal','');if(el.classList.contains('firm-group')||el.classList.contains('howto-card')){el.style.transitionDelay=((i%6)*40)+'ms';}});
+  function markVisible(){var vh=window.innerHeight;revealEls.forEach(function(el){if(el.classList.contains('in'))return;var r=el.getBoundingClientRect();if(r.top<vh*0.95)el.classList.add('in');});}
+  requestAnimationFrame(markVisible);
+  if(typeof IntersectionObserver==='function'){
+    var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.06,rootMargin:'0px 0px -30px 0px'});
+    revealEls.forEach(function(el){if(!el.classList.contains('in'))io.observe(el);});
+  }else{revealEls.forEach(function(el){el.classList.add('in');});}
 })();
 </script>
 
-
-<style>
-/* polish layer: scroll reveal + smoother easing */
-:root{--reveal-ease:cubic-bezier(0.16,1,0.3,1)}
-[data-reveal]{transform:translateY(18px);opacity:.001;transition:opacity .7s var(--reveal-ease),transform .7s var(--reveal-ease)}
-[data-reveal].in{transform:none;opacity:1}
-.no-js [data-reveal],html.no-anim [data-reveal]{transform:none;opacity:1}
-@media (prefers-reduced-motion: reduce){[data-reveal]{transform:none;opacity:1;transition:none}}
-.firm-card,.value-card,.update-card,.plan-pick,.deal-card,.summary-card,.plan-card,.policy-section,.step,.criterion,.related-card,.top-pick-card,.featured-card,.hero-trust-item{transition-timing-function:var(--reveal-ease) !important}
-.btn-primary,.btn-text,.btn-ghost,.header-cta,.firm-chip,.filter-chip{transition-timing-function:var(--reveal-ease) !important}
-</style>
-<script>
-(function(){
-  /* Safety: if JS is enabled but anim setup fails, reveal everything */
-  var TIMEOUT_REVEAL_ALL = setTimeout(function(){
-    document.querySelectorAll('[data-reveal]').forEach(function(el){ el.classList.add('in'); });
-  }, 2500);
-
-  var sel = 'section, .firm-card, .value-card, .update-card, .plan-pick, .deal-card, .summary-card, .plan-card, .policy-section, .step, .criterion, .related-card, .top-pick-card, .featured-card';
-  var els = document.querySelectorAll(sel);
-  els.forEach(function(el, i){
-    el.setAttribute('data-reveal', '');
-    if (el.classList.contains('firm-card') || el.classList.contains('value-card') || el.classList.contains('update-card') || el.classList.contains('plan-pick') || el.classList.contains('deal-card')){
-      el.style.transitionDelay = ((i % 6) * 40) + 'ms';
-    }
-  });
-
-  /* Reveal in-viewport elements right away */
-  function markVisible(){
-    var vh = window.innerHeight;
-    els.forEach(function(el){
-      if (el.classList.contains('in')) return;
-      var r = el.getBoundingClientRect();
-      if (r.top < vh * 0.95) el.classList.add('in');
-    });
-  }
-  /* Use rAF so the browser settles paint before we toggle the class */
-  requestAnimationFrame(function(){ markVisible(); clearTimeout(TIMEOUT_REVEAL_ALL); });
-
-  if (typeof IntersectionObserver === 'function'){
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-      });
-    }, {threshold: 0.06, rootMargin: '0px 0px -30px 0px'});
-    els.forEach(function(el){ if (!el.classList.contains('in')) io.observe(el); });
-  } else {
-    els.forEach(function(el){ el.classList.add('in'); });
-  }
-})();
-</script>
 </body>
 </html>
