@@ -136,6 +136,65 @@ header.is-open .mobile-menu{display:block}
 .deal-claim:hover{color:var(--lime)}
 .deal-claim:hover::after{color:var(--lime);transform:translateX(3px)}
 
+/* Card clickability */
+.deal-card{cursor:pointer}
+.deal-card:focus-within{border-color:var(--border-lime)}
+.deal-view-hint{font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);letter-spacing:.04em;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px;transition:color .15s}
+.deal-view-hint::after{content:"↗";color:var(--text-faint);transition:transform .15s,color .15s}
+.deal-card:hover .deal-view-hint{color:var(--lime)}
+.deal-card:hover .deal-view-hint::after{color:var(--lime);transform:translate(2px,-2px)}
+
+/* Detail modal */
+.modal-backdrop{position:fixed;inset:0;background:rgba(5,7,10,0.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .25s,visibility 0s linear .25s;z-index:100}
+.modal-backdrop.open{opacity:1;visibility:visible;transition:opacity .25s}
+.modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-46%);width:min(820px,calc(100vw - 32px));max-height:88vh;background:var(--bg-card);border:1px solid var(--border-lime);border-radius:18px;box-shadow:0 32px 80px -16px rgba(0,0,0,.65),0 0 0 1px rgba(200,255,0,.06);opacity:0;visibility:hidden;transition:opacity .28s cubic-bezier(0.16,1,0.3,1),transform .28s cubic-bezier(0.16,1,0.3,1),visibility 0s linear .28s;z-index:101;display:flex;flex-direction:column;overflow:hidden}
+.modal.open{opacity:1;visibility:visible;transform:translate(-50%,-50%);transition:opacity .28s cubic-bezier(0.16,1,0.3,1),transform .28s cubic-bezier(0.16,1,0.3,1)}
+.modal-head{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:24px 28px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,var(--bg-card-elev),var(--bg-card));flex-shrink:0}
+.modal-head-firm{display:flex;align-items:center;gap:14px;min-width:0;flex:1}
+.modal-head-logo{width:48px;height:48px;border-radius:12px;background:var(--bg-elev);border:1px solid var(--border-lime);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.modal-head-logo img{width:100%;height:100%;object-fit:contain;padding:5px}
+.modal-head-firm-name{font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--text-strong);letter-spacing:-.025em;line-height:1.15}
+.modal-head-firm-tag{font-size:12.5px;color:var(--text-soft);margin-top:2px;letter-spacing:-.005em}
+.modal-head-deal{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--lime);background:var(--lime-soft);border:1px solid var(--border-lime);padding:7px 12px;border-radius:7px;white-space:nowrap}
+.modal-close{flex-shrink:0;width:36px;height:36px;border-radius:8px;border:1px solid var(--border-strong);background:var(--bg-elev);color:var(--text-soft);display:inline-flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;transition:all .15s}
+.modal-close:hover{color:var(--text-strong);border-color:var(--border-lime);background:var(--lime-soft)}
+.modal-body{padding:24px 28px;overflow-y:auto;overflow-x:hidden;flex:1;-webkit-overflow-scrolling:touch}
+.modal-summary{font-size:14.5px;line-height:1.6;color:var(--text);letter-spacing:-.005em;padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:24px}
+
+.modal-section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px}
+.modal-section-eyebrow{font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--lime-text);display:inline-flex;align-items:center;gap:8px}
+.modal-section-eyebrow::before{content:"";width:18px;height:1px;background:var(--lime-text)}
+.modal-section-h3{font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--text-strong);letter-spacing:-.02em}
+
+.modal-plans{display:flex;flex-direction:column;gap:14px;margin-bottom:24px}
+.modal-plan{border:1px solid var(--border);border-radius:12px;background:var(--bg-elev);overflow:hidden}
+.modal-plan.featured{border-color:var(--border-lime)}
+.modal-plan-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;background:var(--bg-card);border-bottom:1px solid var(--border)}
+.modal-plan.featured .modal-plan-head{background:linear-gradient(180deg,rgba(200,255,0,.05),rgba(200,255,0,.01))}
+.modal-plan-name{font-family:var(--font-display);font-size:15.5px;font-weight:700;color:var(--text-strong);letter-spacing:-.02em}
+.modal-plan-badge{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.08em;color:var(--bg-base);background:var(--lime);padding:3px 8px;border-radius:4px;text-transform:uppercase}
+.modal-plan-rules{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.modal-plan-rule{display:flex;flex-direction:column;gap:3px;padding:12px 18px;border-top:1px solid var(--border);border-right:1px solid var(--border);min-width:0}
+.modal-plan-rule:nth-child(2n){border-right:0}
+.modal-plan-rule-label{font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--text-faint)}
+.modal-plan-rule-value{font-size:13.5px;font-weight:600;color:var(--text);letter-spacing:-.005em;line-height:1.4;word-break:break-word;font-variant-numeric:tabular-nums}
+
+.modal-note{margin-top:18px;padding:16px 18px;background:var(--bg-elev);border:1px solid var(--border);border-radius:10px;font-size:13.5px;line-height:1.55;color:var(--text-soft)}
+.modal-note strong{color:var(--text-strong);display:block;margin-bottom:4px;font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--warning)}
+
+.modal-foot{display:flex;align-items:center;gap:12px;padding:20px 28px;border-top:1px solid var(--border);background:var(--bg-band);flex-shrink:0;flex-wrap:wrap}
+.modal-foot .btn-primary{flex:1;justify-content:center;min-width:180px}
+.modal-foot .btn-text{flex:0 0 auto}
+
+@media(max-width:600px){
+  .modal{width:calc(100vw - 16px);max-height:92vh;border-radius:14px}
+  .modal-head,.modal-foot{padding:18px 20px}
+  .modal-body{padding:20px}
+  .modal-plan-rules{grid-template-columns:1fr}
+  .modal-plan-rule{border-right:0}
+  .modal-head-firm-name{font-size:18px}
+}
+
 footer.site{background:var(--bg-band);border-top:1px solid var(--border);color:var(--text-soft);padding:80px 0 32px;position:relative;overflow:hidden;margin-top:64px}
 footer.site::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border-lime-strong),transparent)}
 footer.site .top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;padding-bottom:56px;border-bottom:1px solid var(--border);margin-bottom:32px}
@@ -274,6 +333,36 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
 
 <div class="toast" id="toast">✓ CHAMP COPIED</div>
 
+<div class="modal-backdrop" id="modalBackdrop"></div>
+<aside class="modal" id="dealModal" role="dialog" aria-modal="true" aria-labelledby="modalFirmName" aria-hidden="true">
+  <header class="modal-head">
+    <div class="modal-head-firm">
+      <div class="modal-head-logo"><img id="modalLogo" src="" alt=""></div>
+      <div>
+        <div class="modal-head-firm-name" id="modalFirmName">Firm</div>
+        <div class="modal-head-firm-tag" id="modalFirmTag"></div>
+      </div>
+    </div>
+    <span class="modal-head-deal" id="modalHeadDeal">CHAMP</span>
+    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+  </header>
+  <div class="modal-body">
+    <p class="modal-summary" id="modalSummary"></p>
+    <div class="modal-section-head">
+      <span class="modal-section-eyebrow">Accounts &amp; plan rules</span>
+    </div>
+    <div class="modal-plans" id="modalPlans"></div>
+    <div class="modal-note" id="modalNote" style="display:none"></div>
+  </div>
+  <footer class="modal-foot">
+    <a class="btn-primary" id="modalCta" href="#" target="_blank" rel="noopener">
+      Get this deal at the firm
+      <svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L11 8 L5 4"/></svg>
+    </a>
+    <a class="btn-text" id="modalReadReview" href="#">Read full review</a>
+  </footer>
+</aside>
+
 <script src="/data/firms.js"></script>
 <script>
 (function(){
@@ -301,17 +390,118 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
     var firmSlug=f.slug;
     var firmPageMap={'lucid-trading':'/firms/lucid-trading.html','tradeify':'/firms/tradeify.html','alpha-futures':'/firms/alpha-futures.html','apex-trader':'/firms/apex-trader.html','my-funded-futures':'/firms/my-funded-futures.html','top-one-futures':'/firms/top-one-futures.html','take-profit':'/firms/take-profit-trader.html'};
     var firmPage=firmPageMap[firmSlug]||'#';
-    return '<article class="deal-card">'+
+    return '<article class="deal-card" data-slug="'+firmSlug+'">'+
       '<div class="deal-card-head"><div class="deal-card-logo"><img src="'+f.logo+'" alt="'+f.name+'"></div>'+
       '<div><div class="deal-card-firm">'+f.name+'</div><div class="deal-card-tagline">'+(f.tagline||f.type||'')+'</div></div></div>'+
       '<div class="deal-card-offer"><span class="accent">'+offer.big+'</span></div>'+
       (offer.rest||f.offerSub?'<div class="deal-card-offersub">'+(offer.rest||f.offerSub||'')+'</div>':'')+
       (tags?'<div class="deal-card-tags">'+tags+'</div>':'')+
       '<div class="deal-card-foot"><span class="deal-code-chip js-copy-champ">'+code+' · COPY</span>'+
-      '<a class="deal-claim" href="'+url+'" target="_blank" rel="noopener">Claim</a></div>'+
+      '<span class="deal-view-hint">View accounts &amp; rules</span></div>'+
       '</article>';
   }).join('');
   document.getElementById('dealsGrid').innerHTML=html;
+
+  /* Click any card -> open the detail modal for that firm (except clicks on the code chip) */
+  document.querySelectorAll('.deal-card[data-slug]').forEach(function(card){
+    card.addEventListener('click', function(e){
+      if (e.target.closest('.js-copy-champ')) return;
+      openDealModal(card.dataset.slug);
+    });
+  });
+
+  /* ---------- Deal detail modal ---------- */
+  var modalEl = document.getElementById('dealModal');
+  var modalBackdrop = document.getElementById('modalBackdrop');
+  var modalCloseBtn = document.getElementById('modalClose');
+
+  function escapeHtml(s){return (s==null?'':String(s)).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+
+  function planRulesHtml(plan){
+    var rules = plan.rules;
+    if (!rules) return '';
+    var entries;
+    if (Array.isArray(rules)){
+      /* plansDetailed format: array of [label, value] pairs */
+      entries = rules.filter(function(r){return r && r.length>=2;});
+    } else if (typeof rules === 'object'){
+      /* plansSummary format: { label: value } object */
+      entries = Object.keys(rules).map(function(k){return [k, rules[k]];});
+    } else {
+      entries = [];
+    }
+    return entries.map(function(r){
+      return '<div class="modal-plan-rule">'+
+        '<span class="modal-plan-rule-label">'+escapeHtml(r[0])+'</span>'+
+        '<span class="modal-plan-rule-value">'+escapeHtml(r[1])+'</span>'+
+      '</div>';
+    }).join('');
+  }
+
+  function openDealModal(slug){
+    var f = window.FIRMS && window.FIRMS[slug];
+    if (!f) return;
+
+    document.getElementById('modalLogo').src = f.logo;
+    document.getElementById('modalLogo').alt = f.name + ' logo';
+    document.getElementById('modalFirmName').textContent = f.name;
+    document.getElementById('modalFirmTag').textContent = f.tagline || f.type || '';
+
+    var off = parseOffer(f);
+    var dealLabel = (slug === 'apex-trader') ? '90% OFF · $0 Activation' : (off.big || 'CHAMP at checkout');
+    document.getElementById('modalHeadDeal').textContent = dealLabel;
+
+    document.getElementById('modalSummary').textContent = f.summary || '';
+
+    /* Render plans — prefer plansDetailed (15+ rule fields), fallback to plansSummary */
+    var plans = f.plansDetailed || f.plansSummary || [];
+    var plansHtml = plans.slice(0, 6).map(function(p){
+      var feat = p.featured ? ' featured' : '';
+      var badge = p.featured ? '<span class="modal-plan-badge">Featured</span>' : '';
+      return '<div class="modal-plan'+feat+'">'+
+        '<div class="modal-plan-head"><div class="modal-plan-name">'+escapeHtml(p.name)+'</div>'+badge+'</div>'+
+        '<div class="modal-plan-rules">'+planRulesHtml(p)+'</div>'+
+      '</div>';
+    }).join('') || '<div style="padding:24px;text-align:center;color:var(--text-faint);font-size:14px">No plan data available yet.</div>';
+    document.getElementById('modalPlans').innerHTML = plansHtml;
+
+    /* Warning / note */
+    var noteEl = document.getElementById('modalNote');
+    if (f.warning) {
+      noteEl.innerHTML = '<strong>Note</strong>'+escapeHtml(f.warning);
+      noteEl.style.display = 'block';
+    } else if (f.note) {
+      noteEl.innerHTML = '<strong>Note</strong>'+escapeHtml(f.note);
+      noteEl.style.display = 'block';
+    } else {
+      noteEl.style.display = 'none';
+    }
+
+    var firmPageMap = {'lucid-trading':'/firms/lucid-trading.html','tradeify':'/firms/tradeify.html','alpha-futures':'/firms/alpha-futures.html','apex-trader':'/firms/apex-trader.html','my-funded-futures':'/firms/my-funded-futures.html','top-one-futures':'/firms/top-one-futures.html','take-profit':'/firms/take-profit-trader.html'};
+    document.getElementById('modalCta').href = f.affiliateUrl || '#';
+    document.getElementById('modalReadReview').href = firmPageMap[slug] || '#';
+
+    modalEl.classList.add('open');
+    modalBackdrop.classList.add('open');
+    modalEl.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    /* Reset scroll inside the modal body */
+    modalEl.querySelector('.modal-body').scrollTop = 0;
+  }
+  window.openDealModal = openDealModal;
+
+  function closeDealModal(){
+    modalEl.classList.remove('open');
+    modalBackdrop.classList.remove('open');
+    modalEl.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  modalCloseBtn.addEventListener('click', closeDealModal);
+  modalBackdrop.addEventListener('click', closeDealModal);
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && modalEl.classList.contains('open')) closeDealModal();
+  });
 
   function copyChamp(){
     var done=function(){var t=document.getElementById('toast');t.classList.add('show');setTimeout(function(){t.classList.remove('show');},1800);};
