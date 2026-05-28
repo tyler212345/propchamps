@@ -3,6 +3,7 @@
 *.swo
 .vscode/
 .idea/
+.claude/
 node_modules/
 .env
 .env.local

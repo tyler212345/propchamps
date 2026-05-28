@@ -2457,7 +2457,6 @@ body.p4y-popup-open{overflow:hidden;}
 <div class="toast" id="toast">✓ CODE COPIED</div>
 
 <!-- ANNOUNCEMENT BAR -->
-<div class="announcement-bar">Exclusive promo codes updated live — use CHAMP at checkout &nbsp;·&nbsp; <a href="deals.html">View All Deals →</a> </div>
 <!-- ==================== HEADER ==================== -->
 <header>
 <div class="header-inner">
@@ -3885,11 +3884,8 @@ document.addEventListener('DOMContentLoaded', function(){
     if (days) localStorage.setItem(DISMISS_KEY, String(now() + days*24*60*60*1000));
   }
 
-  setTimeout(openPopup, 6500);
-  window.addEventListener('scroll', function onScroll(){
-    if (window.scrollY > 420) openPopup();
-    if (shown) window.removeEventListener('scroll', onScroll);
-  });
+  // Auto-popup triggers removed — newsletter opens only when user clicks
+  // the "Deal Alerts" button in the header or mobile menu (opt-in only).
 
   closeBtn.addEventListener('click', function(){ closePopup(3); });
   backdrop.addEventListener('click', function(){ closePopup(3); });
