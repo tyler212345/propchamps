@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PropChamps — Independent prop firm research</title>
+<meta name="description" content="Independent, weekly-reviewed research on futures prop trading firms — rules, drawdown limits, payouts, and active promo codes.">
+<meta name="robots" content="noindex, nofollow"><!-- prototype, do not index -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   PROPCHAMPS v2 — EDITORIAL DESIGN SYSTEM
+   Reference language: NerdWallet · Wirecutter · The Points Guy
+   Confidence through restraint, not through visual loudness.
+   ============================================================ */
+
+:root {
+  /* Surfaces */
+  --paper:           #fbfaf5;
+  --paper-elev:      #ffffff;
+  --paper-tint:      #f4f1e8;
+  --paper-band:      #1b2330;     /* dark editorial band */
+
+  /* Ink */
+  --ink:             #0e1421;
+  --ink-soft:        #455065;
+  --ink-faint:       #828d9d;
+
+  /* Rules / borders */
+  --rule:            #e6e1d2;
+  --rule-strong:     #cfc7b3;
+  --rule-on-dark:    rgba(255,255,255,0.12);
+
+  /* Accents — restrained */
+  --green:           #0f4d2e;
+  --green-hover:     #0a3a22;
+  --green-faint:     #e8f0eb;
+  --lime:            #c8ff00;     /* nostalgic brand callback, used in 1-2 places only */
+
+  /* Status */
+  --positive:        #1e7948;
+  --warning:         #b45309;
+  --negative:        #b91c1c;
+
+  /* Typography */
+  --font-display: 'Fraunces', 'Georgia', serif;
+  --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+  /* Scale */
+  --max-w: 1180px;
+  --gutter: clamp(20px, 4vw, 48px);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: inherit; text-decoration: none; }
+a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+img { display: block; max-width: 100%; height: auto; }
+
+button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+.container {
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* ---------- Editorial top strip ---------- */
+.editorial-strip {
+  background: var(--paper-band);
+  color: rgba(255,255,255,0.85);
+  font-size: 13px;
+  font-weight: 500;
+}
+.editorial-strip .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
+.editorial-strip .lhs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  letter-spacing: 0.01em;
+}
+.editorial-strip .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 0 3px rgba(200,255,0,0.18);
+}
+.editorial-strip .rhs {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Header ---------- */
+header.site {
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: saturate(180%) blur(10px);
+  -webkit-backdrop-filter: saturate(180%) blur(10px);
+  background: rgba(251, 250, 245, 0.88);
+}
+header.site .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 68px;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  font-feature-settings: "ss01";
+}
+.wordmark .dot {
+  color: var(--green);
+}
+
+nav.primary {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+nav.primary a {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  transition: color 0.15s ease;
+}
+nav.primary a:hover {
+  color: var(--ink);
+  text-decoration: none;
+}
+nav.primary a.active {
+  color: var(--ink);
+}
+
+.header-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+}
+.header-cta:hover {
+  background: var(--green);
+  text-decoration: none;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  padding: 88px 0 64px;
+  position: relative;
+}
+.hero .container {
+  max-width: 920px;
+}
+
+.hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 24px;
+}
+.hero-kicker::before {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: var(--green);
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(36px, 6vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 24px;
+  font-variation-settings: "opsz" 96, "SOFT" 30;
+}
+.hero h1 em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--green);
+}
+
+.hero-sub {
+  font-size: 20px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 640px;
+  margin-bottom: 36px;
+}
+
+.hero-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+.btn-primary:hover {
+  background: var(--green);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+.btn-primary svg {
+  transition: transform 0.15s ease;
+}
+.btn-primary:hover svg {
+  transform: translateX(2px);
+}
+
+.btn-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--rule-strong);
+  padding-bottom: 2px;
+  transition: all 0.15s ease;
+}
+.btn-text:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+  text-decoration: none;
+}
+
+.hero-trust {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding-top: 32px;
+  border-top: 1px solid var(--rule);
+  font-size: 13px;
+  color: var(--ink-faint);
+  flex-wrap: wrap;
+}
+.hero-trust-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.hero-trust-item strong {
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Section structure ---------- */
+section.block {
+  padding: 80px 0;
+  border-top: 1px solid var(--rule);
+}
+section.block.tinted {
+  background: var(--paper-tint);
+}
+
+.section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+.section-head .lhs h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(28px, 3.5vw, 40px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.section-head .lhs p {
+  font-size: 17px;
+  color: var(--ink-soft);
+  max-width: 580px;
+}
+.section-head .rhs {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-faint);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ---------- Firms grid ---------- */
+.firms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.firm-card {
+  background: var(--paper-elev);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  padding: 28px;
+  transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.firm-card:hover {
+  border-color: var(--rule-strong);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -16px rgba(14, 20, 33, 0.12);
+}
+
+.firm-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.firm-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: var(--paper-tint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+}
+.firm-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 6px;
+}
+
+.firm-rank {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.firm-rank strong {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.firm-name {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.firm-blurb {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+.firm-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 1px solid var(--rule);
+  padding-top: 18px;
+}
+.firm-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.firm-stat-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.firm-stat-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.firm-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 18px;
+  border-top: 1px solid var(--rule);
+  margin-top: auto;
+}
+.firm-read {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.firm-read::after {
+  content: "→";
+  transition: transform 0.15s ease;
+}
+.firm-read:hover {
+  text-decoration: none;
+}
+.firm-read:hover::after {
+  transform: translateX(3px);
+}
+.firm-promo {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--green);
+  background: var(--green-faint);
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+/* ---------- Editorial value props ---------- */
+.values {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 32px;
+}
+.value {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.value-num {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 32px;
+  color: var(--green);
+  margin-bottom: 4px;
+  letter-spacing: -0.02em;
+}
+.value h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.3;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.value p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+/* ---------- Recently updated feed ---------- */
+.updates {
+  display: flex;
+  flex-direction: column;
+}
+.update {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  gap: 32px;
+  padding: 24px 0;
+  border-top: 1px solid var(--rule);
+  align-items: center;
+}
+.update:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+.update-date {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+.update-body strong {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--ink);
+  display: block;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+.update-body span {
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+.update-link {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.update-link::after {
+  content: " →";
+  color: var(--ink-faint);
+}
+
+/* ---------- Footer ---------- */
+footer.site {
+  background: var(--paper-band);
+  color: rgba(255,255,255,0.7);
+  padding: 64px 0 32px;
+  margin-top: 80px;
+}
+footer.site .top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid var(--rule-on-dark);
+  margin-bottom: 32px;
+}
+footer.site .brand .wordmark {
+  color: #fff;
+  font-size: 22px;
+  margin-bottom: 12px;
+  display: inline-block;
+}
+footer.site .brand p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.6);
+  max-width: 320px;
+}
+footer.site h4 {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 16px;
+}
+footer.site ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+footer.site a {
+  font-size: 14px;
+  color: rgba(255,255,255,0.85);
+}
+footer.site a:hover { color: #fff; text-decoration: none; }
+footer.site .legal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  flex-wrap: wrap;
+  gap: 16px;
+}
+footer.site .legal-links {
+  display: flex;
+  gap: 24px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 800px) {
+  nav.primary { display: none; }
+  .header-cta { padding: 8px 14px; font-size: 13px; }
+  .hero { padding: 56px 0 40px; }
+  .hero-trust { gap: 20px; }
+  .hero-trust-item { width: 100%; }
+  section.block { padding: 56px 0; }
+  .update { grid-template-columns: 1fr; gap: 8px; padding: 20px 0; }
+  .update-link { justify-self: start; }
+  footer.site .top { grid-template-columns: 1fr 1fr; gap: 32px; }
+  footer.site .brand { grid-column: 1 / -1; }
+}
+@media (max-width: 480px) {
+  footer.site .top { grid-template-columns: 1fr; }
+  .legal { flex-direction: column; align-items: flex-start; }
+}
+
+/* ---------- Prototype badge (remove on promote) ---------- */
+.proto-badge {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 99;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px -6px rgba(14,20,33,0.4);
+}
+</style>
+</head>
+<body>
+
+<!-- Editorial top strip -->
+<div class="editorial-strip">
+  <div class="container">
+    <div class="lhs">
+      <span class="dot"></span>
+      <span>Independent prop firm research · Reviewed weekly</span>
+    </div>
+    <div class="rhs">Last reviewed May 28, 2026</div>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="site">
+  <div class="container">
+    <a class="wordmark" href="/">PropChamps<span class="dot">.</span></a>
+    <nav class="primary">
+      <a href="/" class="active">Firms</a>
+      <a href="/compare">Compare</a>
+      <a href="/deals">Deals</a>
+      <a href="/methodology">Methodology</a>
+    </nav>
+    <a class="header-cta" href="/compare">Compare firms</a>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-kicker">Futures prop firm research</div>
+    <h1>The independent reference for choosing a <em>futures prop firm.</em></h1>
+    <p class="hero-sub">PropChamps tracks rules, drawdown limits, payouts, and active promo codes across the futures prop firms traders actually use. No paid placements. Reviewed weekly.</p>
+
+    <div class="hero-cta-row">
+      <a class="btn-primary" href="/compare">
+        Compare all 7 firms
+        <svg width="16" height="16" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12 L11 8 L5 4"/>
+        </svg>
+      </a>
+      <a class="btn-text" href="/methodology">How we evaluate firms</a>
+    </div>
+
+    <div class="hero-trust">
+      <div class="hero-trust-item"><strong>7</strong> firms tracked</div>
+      <div class="hero-trust-item"><strong>60+</strong> data points per firm</div>
+      <div class="hero-trust-item"><strong>Weekly</strong> rule audits</div>
+      <div class="hero-trust-item"><strong>Independent</strong> · no firm pays for placement</div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured firms grid -->
+<section class="block">
+  <div class="container">
+    <div class="section-head">
+      <div class="lhs">
+        <h2>This week's top-rated firms</h2>
+        <p>Ranked by current rule transparency, payout consistency, and active discount value. Updated May 28.</p>
+      </div>
+      <div class="rhs">7 of 7 firms shown</div>
+    </div>
+
+    <div class="firms-grid">
+
+      <article class="firm-card">
+        <div class="firm-head">
+          <div class="firm-logo"><img src="../logos/lucid.png" alt="Lucid Trading"></div>
+          <div class="firm-rank"><strong>#1</strong> Editor's pick</div>
+        </div>
+        <h3 class="firm-name">Lucid Trading</h3>
+        <p class="firm-blurb">Four-path program (Pro · Black · Flex · Direct) with fast payouts and the cleanest rule documentation we've audited.</p>
+        <div class="firm-stats">
+          <div class="firm-stat">
+            <span class="firm-stat-label">Profit split</span>
+            <span class="firm-stat-value">Up to 90%</span>
+          </div>
+          <div class="firm-stat">
+            <span class="firm-stat-label">Payout speed</span>
+            <span class="firm-stat-value">Daily</span>
+          </div>
+        </div>
+        <div class="firm-actions">
+          <a class="firm-read" href="/firms/lucid-trading.html">Read full review</a>
+          <span class="firm-promo">CHAMP — 30% off</span>
+        </div>
+      </article>
+
+      <article class="firm-card">
+        <div class="firm-head">
+          <div class="firm-logo"><img src="../logos/apex.png" alt="Apex Trader Funding"></div>
+          <div class="firm-rank"><strong>#2</strong> Best for scale</div>
+        </div>
+        <h3 class="firm-name">Apex Trader Funding</h3>
+        <p class="firm-blurb">The most widely-used futures prop firm. Generous account sizes with 1-day-pass option; rules well-documented but stricter consistency requirements.</p>
+        <div class="firm-stats">
+          <div class="firm-stat">
+            <span class="firm-stat-label">Max account</span>
+            <span class="firm-stat-value">$300K</span>
+          </div>
+          <div class="firm-stat">
+            <span class="firm-stat-label">Pass speed</span>
+            <span class="firm-stat-value">1 day</span>
+          </div>
+        </div>
+        <div class="firm-actions">
+          <a class="firm-read" href="/firms/apex-trader.html">Read full review</a>
+          <span class="firm-promo">CHAMP — 80% off</span>
+        </div>
+      </article>
+
+      <article class="firm-card">
+        <div class="firm-head">
+          <div class="firm-logo"><img src="../logos/tradify.png" alt="Tradeify"></div>
+          <div class="firm-rank"><strong>#3</strong> Best new entrant</div>
+        </div>
+        <h3 class="firm-name">Tradeify</h3>
+        <p class="firm-blurb">Three distinct paths — Growth, Select (Daily or Flex), and Lightning. Moved to one-time payments in March; Select Flex has no daily loss limit.</p>
+        <div class="firm-stats">
+          <div class="firm-stat">
+            <span class="firm-stat-label">Payout option</span>
+            <span class="firm-stat-value">Daily / Flex</span>
+          </div>
+          <div class="firm-stat">
+            <span class="firm-stat-label">DLL on Flex</span>
+            <span class="firm-stat-value">None</span>
+          </div>
+        </div>
+        <div class="firm-actions">
+          <a class="firm-read" href="/firms/tradeify.html">Read full review</a>
+          <span class="firm-promo">CHAMP at checkout</span>
+        </div>
+      </article>
+
+      <article class="firm-card">
+        <div class="firm-head">
+          <div class="firm-logo"><img src="../logos/alpha.png" alt="Alpha Futures"></div>
+          <div class="firm-rank"><strong>#4</strong> Fastest evaluation</div>
+        </div>
+        <h3 class="firm-name">Alpha Futures</h3>
+        <p class="firm-blurb">One-day pass option with flat 90% split on Zero. Advanced tier removes news restrictions. Activation fees vary by plan.</p>
+        <div class="firm-stats">
+          <div class="firm-stat">
+            <span class="firm-stat-label">Profit split</span>
+            <span class="firm-stat-value">Flat 90%</span>
+          </div>
+          <div class="firm-stat">
+            <span class="firm-stat-label">Activation</span>
+            <span class="firm-stat-value">$0 (Zero)</span>
+          </div>
+        </div>
+        <div class="firm-actions">
+          <a class="firm-read" href="/firms/alpha-futures.html">Read full review</a>
+          <span class="firm-promo">CHAMP — 50% off</span>
+        </div>
+      </article>
+
+      <article class="firm-card">
+        <div class="firm-head">
+          <div class="firm-logo"><img src="../logos/myfunded.png" alt="MyFundedFutures"></div>
+          <div class="firm-rank"><strong>#5</strong> Beginner-friendly</div>
+        </div>
+        <h3 class="firm-name">MyFundedFutures</h3>
+        <p class="firm-blurb">Rapid Live $10K-session model effective April 16. Lower barrier to live capital but smaller initial accounts.</p>
+        <div class="firm-stats">
+          <div class="firm-stat">
+            <span class="firm-stat-label">Min account</span>
+            <span class="firm-stat-value">$10K</span>
+          </div>
+          <div class="firm-stat">
+            <span class="firm-stat-label">Path</span>
+            <span class="firm-stat-value">Rapid Live</span>
+          </div>
+        </div>
+        <div class="firm-actions">
+          <a class="firm-read" href="/firms/my-funded-futures.html">Read full review</a>
+          <span class="firm-promo">CHAMP — 25% off</span>
+        </div>
+      </article>
+
+      <article class="firm-card">
+        <div class="firm-head">
+          <div class="firm-logo"><img src="../logos/topone.png" alt="Top One Futures"></div>
+          <div class="firm-rank"><strong>#6</strong> Most flexible</div>
+        </div>
+        <h3 class="firm-name">Top One Futures</h3>
+        <p class="firm-blurb">Four programs (1-Step Elite, Instant Sim, S2F, Ignite) covering most trader profiles. Multiple paths available simultaneously.</p>
+        <div class="firm-stats">
+          <div class="firm-stat">
+            <span class="firm-stat-label">Programs</span>
+            <span class="firm-stat-value">4 paths</span>
+          </div>
+          <div class="firm-stat">
+            <span class="firm-stat-label">1-day pass</span>
+            <span class="firm-stat-value">Available</span>
+          </div>
+        </div>
+        <div class="firm-actions">
+          <a class="firm-read" href="/firms/top-one-futures.html">Read full review</a>
+          <span class="firm-promo">CHAMP — 60% off</span>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- Editorial value strip -->
+<section class="block tinted">
+  <div class="container">
+    <div class="section-head">
+      <div class="lhs">
+        <h2>Why traders use PropChamps before they fund.</h2>
+        <p>Prop firms change rules quietly. We audit each firm weekly and publish exactly what changed, when, and what it means for live accounts.</p>
+      </div>
+    </div>
+
+    <div class="values">
+      <div class="value">
+        <div class="value-num">01</div>
+        <h3>Rule changes flagged within 72 hours.</h3>
+        <p>Every firm we cover is checked weekly against its own published rules. When something shifts — payout cadence, drawdown method, news restrictions — we publish the diff and date it.</p>
+      </div>
+      <div class="value">
+        <div class="value-num">02</div>
+        <h3>No paid placements, ever.</h3>
+        <p>Our ranking is based on rule transparency, payout history, and trader-reported friction. Affiliate links pay our bills but do not influence the order firms appear in.</p>
+      </div>
+      <div class="value">
+        <div class="value-num">03</div>
+        <h3>Verified, dated promo codes.</h3>
+        <p>The CHAMP discount code is re-tested at checkout every Monday. If it stops working at any firm, we remove it from the deals page within 24 hours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Recently updated feed -->
+<section class="block">
+  <div class="container">
+    <div class="section-head">
+      <div class="lhs">
+        <h2>Recently updated</h2>
+        <p>The last seven days of firm rule changes, payout updates, and program launches.</p>
+      </div>
+      <div class="rhs"><a href="/changelog" style="border-bottom: 1px solid var(--rule-strong); padding-bottom: 2px;">View full changelog</a></div>
+    </div>
+
+    <div class="updates">
+      <article class="update">
+        <div class="update-date">May 28, 2026</div>
+        <div class="update-body">
+          <strong>Alpha Futures · Zero plan activation now $0</strong>
+          <span>Previously $99 — applies to one-day pass option.</span>
+        </div>
+        <a class="update-link" href="/firms/alpha-futures.html">Read</a>
+      </article>
+      <article class="update">
+        <div class="update-date">May 22, 2026</div>
+        <div class="update-body">
+          <strong>Tradeify added Tradesea and Rithmic data feeds</strong>
+          <span>Available on Select and Lightning paths at no extra cost.</span>
+        </div>
+        <a class="update-link" href="/firms/tradeify.html">Read</a>
+      </article>
+      <article class="update">
+        <div class="update-date">May 18, 2026</div>
+        <div class="update-body">
+          <strong>Take Profit Trader removed daily loss limit</strong>
+          <span>DLL eliminated across all account sizes. Trailing drawdown unchanged.</span>
+        </div>
+        <a class="update-link" href="/firms/take-profit-trader.html">Read</a>
+      </article>
+      <article class="update">
+        <div class="update-date">May 04, 2026</div>
+        <div class="update-body">
+          <strong>MyFundedFutures launched Rapid Live $10K session</strong>
+          <span>Lower-barrier path to live capital. See full breakdown.</span>
+        </div>
+        <a class="update-link" href="/firms/my-funded-futures.html">Read</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site">
+  <div class="container">
+    <div class="top">
+      <div class="brand">
+        <span class="wordmark">PropChamps<span class="dot" style="color: var(--lime);">.</span></span>
+        <p>Independent research on futures prop trading firms. We track rules, payouts, drawdown methods, and active promo codes — and publish what changes.</p>
+      </div>
+      <div>
+        <h4>Research</h4>
+        <ul>
+          <li><a href="/">All firms</a></li>
+          <li><a href="/compare">Compare</a></li>
+          <li><a href="/deals">Active deals</a></li>
+          <li><a href="/changelog">Changelog</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Editorial</h4>
+        <ul>
+          <li><a href="/methodology">Methodology</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/disclosure">Affiliate disclosure</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <div>© 2026 PropChamps. Independent prop firm research. Not financial advice.</div>
+      <div class="legal-links">
+        <span>Trading involves risk.</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="proto-badge">Prototype · v2</div>
+
+</body>
+</html>
