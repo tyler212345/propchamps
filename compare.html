@@ -166,20 +166,78 @@ header.is-open .mobile-menu{display:block}
 .diff-toggle:hover{color:var(--text-strong)}
 
 .matrix-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:16px;border:1px solid var(--border);background:var(--bg-card)}
-.matrix-table{width:100%;min-width:760px;border-collapse:collapse}
-.matrix-table th,.matrix-table td{padding:18px 20px;text-align:left;vertical-align:top;border-bottom:1px solid var(--border)}
-.matrix-table thead th{background:linear-gradient(180deg,var(--bg-card-elev),var(--bg-card));position:sticky;top:80px;z-index:5;border-bottom:1px solid var(--border-lime);min-width:170px}
+.matrix-table{width:100%;min-width:780px;border-collapse:separate;border-spacing:0;table-layout:fixed}
+.matrix-table th,.matrix-table td{padding:18px 22px;text-align:left;vertical-align:top;border-bottom:1px solid var(--border)}
+.matrix-table thead th{background:linear-gradient(180deg,var(--bg-card-elev),var(--bg-card));position:sticky;top:80px;z-index:5;border-bottom:1px solid var(--border-lime);min-width:200px;width:200px}
+.matrix-table thead th.label-col,.matrix-table tbody td.label{min-width:180px;width:180px}
 .matrix-table thead .col-label{font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint)}
 .matrix-table thead .col-firm-row{display:flex;align-items:center;gap:10px;margin-top:6px;margin-bottom:4px}
-.matrix-table thead .col-firm-row img{width:24px;height:24px;border-radius:6px;background:var(--bg-elev);border:1px solid var(--border);object-fit:contain;padding:3px}
-.matrix-table thead .col-plan{font-family:var(--font-display);font-size:17px;font-weight:800;color:var(--text-strong);letter-spacing:-.025em;line-height:1.15}
+.matrix-table thead .col-firm-row img{width:24px;height:24px;border-radius:6px;background:var(--bg-elev);border:1px solid var(--border);object-fit:contain;padding:3px;flex-shrink:0}
+.matrix-table thead .col-plan{font-family:var(--font-display);font-size:16px;font-weight:800;color:var(--text-strong);letter-spacing:-.02em;line-height:1.2;word-break:break-word}
 .matrix-table thead .col-promo{font-family:var(--font-mono);font-size:10px;font-weight:600;color:var(--lime);letter-spacing:.04em;text-transform:uppercase;margin-top:6px;padding:3px 7px;background:var(--lime-soft);border:1px solid var(--border-lime);border-radius:4px;display:inline-block}
 .matrix-table thead .col-review{display:inline-block;margin-top:8px;font-size:12px;color:var(--text);border-bottom:1px solid var(--border-strong);padding-bottom:2px}
-.matrix-table tbody td{font-size:14px;color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:-.005em;line-height:1.5}
-.matrix-table tbody td.label{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.04em;font-weight:600;background:var(--bg-band);position:sticky;left:0;z-index:2;min-width:160px}
+.matrix-table tbody td{font-size:14px;color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:-.005em;line-height:1.5;word-break:break-word}
+.matrix-table tbody td.label{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.04em;font-weight:600;background:var(--bg-band);position:sticky;left:0;z-index:2;border-right:1px solid var(--border)}
 .matrix-table tbody tr:hover td:not(.label){background:rgba(200,255,0,.02)}
-.matrix-table tbody tr.diff-row td:not(.label){background:rgba(251,191,36,.04)}
 .matrix-table .empty-val{color:var(--text-faint)}
+/* Winner cell: subtle green tint + left accent + small checkmark */
+.matrix-table tbody td.winner{
+  background:linear-gradient(90deg,rgba(74,222,128,.10),rgba(74,222,128,.04));
+  box-shadow:inset 3px 0 0 var(--positive);
+  position:relative;
+  padding-right:34px;
+}
+.matrix-table tbody td.winner::after{
+  content:"";
+  position:absolute;
+  top:18px;
+  right:14px;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:var(--positive);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.matrix-table tbody td.winner::before{
+  content:"✓";
+  position:absolute;
+  top:18px;
+  right:14px;
+  width:16px;
+  height:16px;
+  color:var(--bg-base);
+  font-weight:900;
+  font-size:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:1;
+}
+/* "Tie" row: when all values are identical, faint muted treatment */
+.matrix-table tbody tr.tie-row td:not(.label){color:var(--text-soft)}
+.matrix-table tbody tr.tie-row td.label::after{content:" · tie";font-size:9px;color:var(--text-faint);letter-spacing:0}
+/* Differences only mode — class on table hides rows where all values match */
+.matrix-table.diff-only tr.tie-row{display:none}
+
+/* Our Pick recommendation card */
+.our-pick{margin-top:32px;display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;padding:28px 32px;background:linear-gradient(135deg,rgba(200,255,0,.08) 0%,rgba(200,255,0,.02) 50%,transparent 100%);border:1px solid var(--border-lime);border-radius:18px;position:relative;overflow:hidden}
+.our-pick::before{content:"";position:absolute;inset:-40px;background:radial-gradient(circle at 15% 50%,rgba(200,255,0,.15) 0%,transparent 40%);pointer-events:none}
+.our-pick>*{position:relative;z-index:1}
+.our-pick-logo{width:72px;height:72px;border-radius:16px;background:var(--bg-card);border:1px solid var(--border-lime);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;box-shadow:0 12px 32px -12px rgba(200,255,0,.4)}
+.our-pick-logo img{width:100%;height:100%;object-fit:contain;padding:10px}
+.our-pick-body{min-width:0}
+.our-pick-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lime);background:rgba(200,255,0,.12);border:1px solid var(--border-lime-strong);padding:5px 10px;border-radius:6px;margin-bottom:10px}
+.our-pick-badge::before{content:"🏆"}
+.our-pick-firm{font-size:12.5px;color:var(--text-soft);letter-spacing:-.005em}
+.our-pick-name{font-family:var(--font-display);font-size:clamp(22px,2.4vw,30px);font-weight:800;letter-spacing:-.03em;color:var(--text-strong);line-height:1.1;margin:4px 0 8px}
+.our-pick-reason{font-size:13.5px;color:var(--text);letter-spacing:-.005em;line-height:1.5}
+.our-pick-reason strong{color:var(--lime);font-weight:600}
+.our-pick-actions{display:flex;flex-direction:column;gap:8px;align-items:flex-end;flex-shrink:0}
+.our-pick-actions a{white-space:nowrap}
+.our-pick-tied{font-family:var(--font-mono);font-size:10px;color:var(--text-faint);text-align:center;margin-top:10px;letter-spacing:.04em;text-transform:uppercase}
+@media(max-width:800px){.our-pick{grid-template-columns:1fr;text-align:center;padding:24px}.our-pick-logo{margin:0 auto}.our-pick-actions{align-items:center}}
 
 footer.site{background:var(--bg-band);border-top:1px solid var(--border);color:var(--text-soft);padding:80px 0 32px;position:relative;overflow:hidden;margin-top:80px}
 footer.site::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border-lime-strong),transparent)}
@@ -462,6 +520,92 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
   /* Matrix */
   var FIELDS=['Account Sizes','Profit Target','Daily Loss Limit','Max Drawdown','Min. Trading Days','Consistency Rule','Payout Split','Payout Frequency','Activation Fee','Platforms','Promo Code'];
 
+  /* Direction per field: which way is "better"
+     'high'  = higher number wins (more buffer / better split / more accounts / more platforms)
+     'low'   = lower number wins (easier target / fewer days / cheaper fee)
+     'none'  = NONE / NO / REMOVED / FREE wins (no restriction at all)
+     'tie'   = informational, no winner highlight                                */
+  var FIELD_RULES={
+    'Account Sizes':       {dir:'high'},
+    'Profit Target':       {dir:'low'},        /* lower = easier to hit */
+    'Daily Loss Limit':    {dir:'none-high'},  /* NONE wins; otherwise higher = more buffer */
+    'Max Drawdown':        {dir:'high'},       /* higher = more buffer */
+    'Min. Trading Days':   {dir:'none-low'},   /* NONE wins; otherwise lower = faster */
+    'Consistency Rule':    {dir:'none-low'},   /* NONE wins; otherwise lower % = more freedom */
+    'Payout Split':        {dir:'high'},
+    'Payout Frequency':    {dir:'fast'},       /* daily > weekly > etc */
+    'Activation Fee':      {dir:'none-low'},   /* FREE/None/$0 wins */
+    'Platforms':           {dir:'count-high'},
+    'Promo Code':          {dir:'tie'}
+  };
+
+  var NONE_RE = /\b(none|no\b|free|removed|n\/a|zero)\b/i;
+
+  function parseNums(s){
+    var matches = (s||'').match(/\d+(?:[,.]\d+)*/g) || [];
+    return matches.map(function(m){return parseFloat(m.replace(/,/g,''));}).filter(function(n){return !isNaN(n);});
+  }
+  function freqDays(s){
+    var l = (s||'').toLowerCase();
+    if (/\bdaily\b/.test(l)) return 1;
+    if (/\bweekly\b/.test(l) || /\b7\s*day/.test(l)) return 7;
+    if (/\bbi-?weekly\b/.test(l) || /\b14\s*day/.test(l)) return 14;
+    var d = parseNums(l)[0];
+    return isFinite(d) ? d : 99;
+  }
+  function platformCount(s){
+    return (s||'').split(/[·,]/).map(function(x){return x.trim();}).filter(Boolean).length;
+  }
+
+  /* Score a single value. Higher score = better. Returns null if uncomparable. */
+  function scoreCell(field, val){
+    if (!val) return null;
+    var rule = FIELD_RULES[field];
+    if (!rule || rule.dir === 'tie') return null;
+    var hasNone = NONE_RE.test(val);
+
+    if (rule.dir === 'none-high'){
+      if (hasNone) return 1e9; /* none/removed wins outright */
+      var nums = parseNums(val); if (!nums.length) return null;
+      return Math.max.apply(null, nums); /* more buffer = better */
+    }
+    if (rule.dir === 'none-low'){
+      if (hasNone) return 1e9;
+      var nums = parseNums(val); if (!nums.length) return null;
+      return -Math.min.apply(null, nums); /* invert so lower = higher score */
+    }
+    if (rule.dir === 'high'){
+      var nums = parseNums(val); if (!nums.length) return null;
+      return Math.max.apply(null, nums);
+    }
+    if (rule.dir === 'low'){
+      var nums = parseNums(val); if (!nums.length) return null;
+      return -Math.min.apply(null, nums);
+    }
+    if (rule.dir === 'fast'){
+      return -freqDays(val);
+    }
+    if (rule.dir === 'count-high'){
+      return platformCount(val);
+    }
+    return null;
+  }
+
+  /* Indices of winning cells in this row. Empty array if tie or uncomparable. */
+  function findWinners(field, values){
+    var scores = values.map(function(v){return scoreCell(field, v);});
+    var anyValid = scores.some(function(s){return s !== null;});
+    if (!anyValid) return [];
+    var maxScore = Math.max.apply(null, scores.map(function(s){return s===null?-Infinity:s;}));
+    var winners = [];
+    scores.forEach(function(s, i){
+      if (s !== null && s === maxScore) winners.push(i);
+    });
+    /* If all are winners or single value comparison, no highlight */
+    if (winners.length === values.length) return [];
+    return winners;
+  }
+
   function renderMatrix(){
     var picks=selected.map(function(k){return allPlans.find(function(x){return x.key===k;});}).filter(Boolean);
     if(picks.length<2){return;}
@@ -478,26 +622,80 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
       '</th>';
     }).join('')+'</tr>';
 
+    /* Tally wins per pick column for the recommendation */
+    var winsPerPick = picks.map(function(){return 0;});
+    var winsBreakdown = picks.map(function(){return [];});
+
     var rows=FIELDS.map(function(field){
       var values=picks.map(function(p){return (p.plan.rules&&p.plan.rules[field])||'';});
       var allSame=values.every(function(v){return v===values[0]&&v!=='';});
-      if(diffOnly&&allSame)return '';
-      var diffClass=values.length>1&&!allSame?' diff-row':'';
-      var cells=values.map(function(v){return '<td>'+(v||'<span class="empty-val">—</span>')+'</td>';}).join('');
-      return '<tr class="'+diffClass.trim()+'"><td class="label">'+field+'</td>'+cells+'</tr>';
+      var rowClass = allSame ? 'tie-row' : 'diff-row';
+      var winners = allSame ? [] : findWinners(field, values);
+      winners.forEach(function(i){ winsPerPick[i]++; winsBreakdown[i].push(field); });
+      var cells=values.map(function(v,i){
+        var cls = winners.indexOf(i) !== -1 ? ' class="winner"' : '';
+        return '<td'+cls+'>'+(v||'<span class="empty-val">—</span>')+'</td>';
+      }).join('');
+      return '<tr class="'+rowClass+'"><td class="label">'+field+'</td>'+cells+'</tr>';
     }).join('');
 
     var summary=firmCount===1
       ? 'Comparing <strong>'+picks.length+'</strong> plans within <strong>'+picks[0].firm.name+'</strong>'
       : 'Comparing <strong>'+picks.length+'</strong> plans across <strong>'+firmCount+'</strong> firms';
 
+    /* Recommendation: highest wins. Tie if multiple match max with non-zero wins. */
+    var maxWins = Math.max.apply(null, winsPerPick);
+    var topIndices = [];
+    winsPerPick.forEach(function(w, i){ if (w === maxWins && w > 0) topIndices.push(i); });
+
+    var ourPickHtml = '';
+    if (topIndices.length > 0){
+      var topIdx = topIndices[0];
+      var winner = picks[topIdx];
+      var page = firmPageMap[winner.firm.slug] || '#';
+      var reasonFields = winsBreakdown[topIdx].slice(0,4);
+      var reason = reasonFields.length
+        ? 'Wins on '+winner.plan.name+' for <strong>'+reasonFields.join('</strong>, <strong>')+'</strong>'
+        : 'Best overall match across the fields you compared';
+      var tieNote = topIndices.length > 1
+        ? '<div class="our-pick-tied">Tied with '+topIndices.slice(1).map(function(i){return picks[i].firm.name+' &mdash; '+picks[i].plan.name;}).join(' · ')+'</div>'
+        : '';
+      ourPickHtml =
+        '<article class="our-pick" id="ourPick">'+
+          '<div class="our-pick-logo"><img src="'+winner.firm.logo+'" alt=""></div>'+
+          '<div class="our-pick-body">'+
+            '<div class="our-pick-badge">Our pick'+(topIndices.length>1?' &middot; tied':'')+'</div>'+
+            '<div class="our-pick-firm">'+winner.firm.name+'</div>'+
+            '<div class="our-pick-name">'+winner.firm.name+' &mdash; '+winner.plan.name+'</div>'+
+            '<div class="our-pick-reason">'+reason+' &mdash; <strong>'+maxWins+' of '+FIELDS.length+'</strong> field'+(maxWins===1?'':'s')+'</div>'+
+            tieNote+
+          '</div>'+
+          '<div class="our-pick-actions">'+
+            '<a class="btn-primary" href="'+(winner.firm.affiliateUrl||'/deals.html')+'" target="_blank" rel="noopener">Get this deal'+
+              '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L11 8 L5 4"/></svg>'+
+            '</a>'+
+            '<a class="btn-ghost" href="/firms/'+page+'">Read review</a>'+
+          '</div>'+
+        '</article>';
+    }
+
     var html='<div class="matrix-wrap" id="matrix">'+
-      '<div class="matrix-head"><div class="matrix-head-lhs"><h2>Comparison matrix</h2><p>'+summary+' · '+FIELDS.length+' fields'+(diffOnly?' · differences only':'')+'</p></div>'+
-      '<label class="diff-toggle'+(diffOnly?' on':'')+'" id="diffToggle"><span>Differences only</span><span class="switch"></span></label></div>'+
-      '<div class="matrix-table-wrap"><table class="matrix-table"><thead>'+thead+'</thead><tbody>'+rows+'</tbody></table></div>'+
+      '<div class="matrix-head"><div class="matrix-head-lhs"><h2>Comparison matrix</h2><p>'+summary+' · '+FIELDS.length+' fields · winners highlighted</p></div>'+
+      '<label class="diff-toggle" id="diffToggle"><span>Differences only</span><span class="switch"></span></label></div>'+
+      '<div class="matrix-table-wrap"><table class="matrix-table" id="matrixTable"><thead>'+thead+'</thead><tbody>'+rows+'</tbody></table></div>'+
+      ourPickHtml+
     '</div>';
     document.getElementById('matrixContainer').innerHTML=html;
-    document.getElementById('diffToggle').addEventListener('click',function(){diffOnly=!diffOnly;renderMatrix();});
+
+    /* Diff toggle: just flip a class on the table, hide tie rows via CSS — no re-render. */
+    var diffEl = document.getElementById('diffToggle');
+    var tableEl = document.getElementById('matrixTable');
+    if (diffOnly){ diffEl.classList.add('on'); tableEl.classList.add('diff-only'); }
+    diffEl.addEventListener('click', function(){
+      diffOnly = !diffOnly;
+      diffEl.classList.toggle('on', diffOnly);
+      tableEl.classList.toggle('diff-only', diffOnly);
+    });
   }
   document.getElementById('btnCompare').addEventListener('click',function(){
     renderMatrix();
