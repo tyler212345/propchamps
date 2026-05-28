@@ -9,50 +9,51 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 /* ============================================================
-   PROPCHAMPS v2 — EDITORIAL DESIGN SYSTEM
-   Reference language: NerdWallet · Wirecutter · The Points Guy
-   Confidence through restraint, not through visual loudness.
+   PROPCHAMPS v2 — MODERN FINTECH DESIGN SYSTEM
+   Reference language: Robinhood · Wealthfront · Plaid · Ramp
+   Dark, clean, confident. Brand lime as accent — not paint.
    ============================================================ */
 
 :root {
-  /* Surfaces */
-  --paper:           #fbfaf5;
-  --paper-elev:      #ffffff;
-  --paper-tint:      #f4f1e8;
-  --paper-band:      #1b2330;     /* dark editorial band */
+  /* Surfaces — dark slate with subtle blue tint */
+  --bg-base:         #0a0d12;
+  --bg-surface:      #11161e;
+  --bg-elev:         #161c26;
+  --bg-card:         #141a23;
+  --bg-band:         #060810;
 
-  /* Ink */
-  --ink:             #0e1421;
-  --ink-soft:        #455065;
-  --ink-faint:       #828d9d;
+  /* Borders */
+  --border:          #1f2733;
+  --border-strong:   #2a3441;
+  --border-active:   #3a4554;
 
-  /* Rules / borders */
-  --rule:            #e6e1d2;
-  --rule-strong:     #cfc7b3;
-  --rule-on-dark:    rgba(255,255,255,0.12);
+  /* Text */
+  --text:            #e8edf2;
+  --text-strong:     #ffffff;
+  --text-soft:       #94a3b8;
+  --text-faint:      #64748b;
 
-  /* Accents — restrained */
-  --green:           #0f4d2e;
-  --green-hover:     #0a3a22;
-  --green-faint:     #e8f0eb;
-  --lime:            #c8ff00;     /* nostalgic brand callback, used in 1-2 places only */
+  /* Accents */
+  --lime:            #c8ff00;   /* brand accent — used sparingly */
+  --lime-soft:       rgba(200,255,0,0.12);
+  --lime-text:       #b4e600;   /* slightly darker for text legibility */
 
   /* Status */
-  --positive:        #1e7948;
-  --warning:         #b45309;
-  --negative:        #b91c1c;
+  --positive:        #34d399;
+  --warning:         #fbbf24;
+  --negative:        #f87171;
 
-  /* Typography */
-  --font-display: 'Fraunces', 'Georgia', serif;
+  /* Type */
+  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
   --font-body:    'Inter', system-ui, -apple-system, sans-serif;
   --font-mono:    'JetBrains Mono', ui-monospace, monospace;
 
-  /* Scale */
-  --max-w: 1180px;
+  /* Layout */
+  --max-w: 1200px;
   --gutter: clamp(20px, 4vw, 48px);
 }
 
@@ -61,21 +62,21 @@
 html { scroll-behavior: smooth; }
 
 body {
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--bg-base);
+  color: var(--text);
   font-family: var(--font-body);
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  font-feature-settings: "cv11", "ss01";  /* Inter stylistic alternates */
 }
 
 a { color: inherit; text-decoration: none; }
-a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--text-strong); }
 
 img { display: block; max-width: 100%; height: auto; }
-
 button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
 
 .container {
@@ -87,8 +88,9 @@ button { font: inherit; cursor: pointer; border: none; background: none; color: 
 
 /* ---------- Editorial top strip ---------- */
 .editorial-strip {
-  background: var(--paper-band);
-  color: rgba(255,255,255,0.85);
+  background: var(--bg-band);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-soft);
   font-size: 13px;
   font-weight: 500;
 }
@@ -97,102 +99,101 @@ button { font: inherit; cursor: pointer; border: none; background: none; color: 
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding-top: 9px;
-  padding-bottom: 9px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 .editorial-strip .lhs {
   display: flex;
   align-items: center;
-  gap: 12px;
-  letter-spacing: 0.01em;
+  gap: 10px;
+  letter-spacing: -0.005em;
 }
 .editorial-strip .dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: var(--lime);
-  box-shadow: 0 0 0 3px rgba(200,255,0,0.18);
+  box-shadow: 0 0 8px rgba(200,255,0,0.4);
 }
 .editorial-strip .rhs {
   font-family: var(--font-mono);
   font-size: 12px;
-  color: rgba(255,255,255,0.6);
-  letter-spacing: 0.02em;
+  color: var(--text-faint);
+  letter-spacing: 0;
 }
 
 /* ---------- Header ---------- */
 header.site {
-  background: var(--paper);
-  border-bottom: 1px solid var(--rule);
+  background: rgba(10, 13, 18, 0.85);
+  border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 50;
-  backdrop-filter: saturate(180%) blur(10px);
-  -webkit-backdrop-filter: saturate(180%) blur(10px);
-  background: rgba(251, 250, 245, 0.88);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
 }
 header.site .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 68px;
+  height: 72px;
 }
 
 .wordmark {
   font-family: var(--font-display);
-  font-size: 26px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-  font-feature-settings: "ss01";
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  color: var(--text-strong);
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
 }
-.wordmark .dot {
-  color: var(--green);
+.wordmark .accent {
+  color: var(--lime);
+  margin-left: 1px;
 }
 
 nav.primary {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 36px;
 }
 nav.primary a {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
-  color: var(--ink-soft);
+  color: var(--text-soft);
+  letter-spacing: -0.005em;
   transition: color 0.15s ease;
 }
-nav.primary a:hover {
-  color: var(--ink);
-  text-decoration: none;
-}
-nav.primary a.active {
-  color: var(--ink);
-}
+nav.primary a:hover { color: var(--text-strong); }
+nav.primary a.active { color: var(--text-strong); }
 
 .header-cta {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 10px 18px;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--text-strong);
+  color: var(--bg-base);
   font-size: 14px;
   font-weight: 600;
+  letter-spacing: -0.005em;
   border-radius: 8px;
-  transition: background 0.15s ease;
+  transition: all 0.15s ease;
 }
 .header-cta:hover {
-  background: var(--green);
-  text-decoration: none;
+  background: var(--lime);
+  color: var(--bg-base);
 }
 
 /* ---------- Hero ---------- */
 .hero {
-  padding: 88px 0 64px;
+  padding: 96px 0 80px;
   position: relative;
 }
 .hero .container {
-  max-width: 920px;
+  max-width: 960px;
 }
 
 .hero-kicker {
@@ -202,99 +203,98 @@ nav.primary a.active {
   font-family: var(--font-mono);
   font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--green);
-  margin-bottom: 24px;
+  color: var(--lime-text);
+  margin-bottom: 28px;
 }
 .hero-kicker::before {
   content: "";
   width: 24px;
   height: 1px;
-  background: var(--green);
+  background: var(--lime-text);
 }
 
 .hero h1 {
   font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(36px, 6vw, 64px);
-  line-height: 1.05;
-  letter-spacing: -0.025em;
-  color: var(--ink);
-  margin-bottom: 24px;
-  font-variation-settings: "opsz" 96, "SOFT" 30;
+  font-weight: 700;
+  font-size: clamp(40px, 6.5vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  color: var(--text-strong);
+  margin-bottom: 28px;
+  font-feature-settings: "cv11", "ss01";
 }
-.hero h1 em {
-  font-style: italic;
-  font-weight: 500;
-  color: var(--green);
+.hero h1 .accent-word {
+  color: var(--lime);
 }
 
 .hero-sub {
   font-size: 20px;
-  line-height: 1.55;
-  color: var(--ink-soft);
+  line-height: 1.5;
+  color: var(--text-soft);
   max-width: 640px;
-  margin-bottom: 36px;
+  margin-bottom: 40px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
 }
 
 .hero-cta-row {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
   flex-wrap: wrap;
-  margin-bottom: 48px;
+  margin-bottom: 56px;
 }
 
 .btn-primary {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 14px 24px;
-  background: var(--ink);
-  color: var(--paper);
+  padding: 14px 26px;
+  background: var(--lime);
+  color: var(--bg-base);
   font-size: 15px;
   font-weight: 600;
-  border-radius: 8px;
+  letter-spacing: -0.005em;
+  border-radius: 10px;
   transition: all 0.15s ease;
 }
 .btn-primary:hover {
-  background: var(--green);
-  text-decoration: none;
+  background: #d4ff33;
+  color: var(--bg-base);
   transform: translateY(-1px);
 }
 .btn-primary svg {
   transition: transform 0.15s ease;
 }
-.btn-primary:hover svg {
-  transform: translateX(2px);
-}
+.btn-primary:hover svg { transform: translateX(2px); }
 
 .btn-text {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-size: 15px;
   font-weight: 500;
-  color: var(--ink-soft);
-  border-bottom: 1px solid var(--rule-strong);
-  padding-bottom: 2px;
+  color: var(--text);
+  border-bottom: 1px solid var(--border-strong);
+  padding: 4px 0;
+  letter-spacing: -0.005em;
   transition: all 0.15s ease;
 }
 .btn-text:hover {
-  color: var(--ink);
-  border-color: var(--ink);
-  text-decoration: none;
+  color: var(--text-strong);
+  border-color: var(--text-soft);
 }
 
 .hero-trust {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 40px;
   padding-top: 32px;
-  border-top: 1px solid var(--rule);
+  border-top: 1px solid var(--border);
   font-size: 13px;
-  color: var(--ink-faint);
+  color: var(--text-faint);
   flex-wrap: wrap;
 }
 .hero-trust-item {
@@ -303,19 +303,20 @@ nav.primary a.active {
   gap: 8px;
 }
 .hero-trust-item strong {
-  color: var(--ink);
+  color: var(--text-strong);
   font-weight: 600;
-  font-size: 15px;
+  font-size: 16px;
   font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
 }
 
 /* ---------- Section structure ---------- */
 section.block {
-  padding: 80px 0;
-  border-top: 1px solid var(--rule);
+  padding: 88px 0;
+  border-top: 1px solid var(--border);
 }
 section.block.tinted {
-  background: var(--paper-tint);
+  background: var(--bg-surface);
 }
 
 .section-head {
@@ -323,52 +324,59 @@ section.block.tinted {
   align-items: end;
   justify-content: space-between;
   gap: 24px;
-  margin-bottom: 48px;
+  margin-bottom: 56px;
   flex-wrap: wrap;
 }
 .section-head .lhs h2 {
   font-family: var(--font-display);
-  font-weight: 500;
+  font-weight: 700;
   font-size: clamp(28px, 3.5vw, 40px);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-  margin-bottom: 12px;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--text-strong);
+  margin-bottom: 14px;
 }
 .section-head .lhs p {
-  font-size: 17px;
-  color: var(--ink-soft);
-  max-width: 580px;
+  font-size: 16px;
+  color: var(--text-soft);
+  max-width: 560px;
+  line-height: 1.55;
 }
 .section-head .rhs {
   font-family: var(--font-mono);
   font-size: 12px;
-  color: var(--ink-faint);
+  color: var(--text-faint);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
+.section-head .rhs a {
+  border-bottom: 1px solid var(--border-strong);
+  padding-bottom: 2px;
+  color: var(--text);
+}
+.section-head .rhs a:hover { color: var(--text-strong); border-color: var(--text-soft); }
 
 /* ---------- Firms grid ---------- */
 .firms-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
 }
 
 .firm-card {
-  background: var(--paper-elev);
-  border: 1px solid var(--rule);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: 14px;
   padding: 28px;
-  transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  transition: border-color 0.18s ease, transform 0.18s ease;
   display: flex;
   flex-direction: column;
   gap: 18px;
+  position: relative;
 }
 .firm-card:hover {
-  border-color: var(--rule-strong);
+  border-color: var(--border-active);
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px -16px rgba(14, 20, 33, 0.12);
 }
 
 .firm-head {
@@ -381,12 +389,12 @@ section.block.tinted {
   width: 48px;
   height: 48px;
   border-radius: 10px;
-  background: var(--paper-tint);
+  background: var(--bg-elev);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border: 1px solid var(--rule);
+  border: 1px solid var(--border);
 }
 .firm-logo img {
   width: 100%;
@@ -399,35 +407,37 @@ section.block.tinted {
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--ink-faint);
+  color: var(--text-faint);
+  text-align: right;
 }
 .firm-rank strong {
-  color: var(--green);
+  color: var(--lime-text);
   font-weight: 600;
 }
 
 .firm-name {
   font-family: var(--font-display);
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 22px;
+  font-weight: 700;
   line-height: 1.2;
-  letter-spacing: -0.015em;
-  color: var(--ink);
+  letter-spacing: -0.025em;
+  color: var(--text-strong);
 }
 
 .firm-blurb {
-  font-size: 15px;
+  font-size: 14.5px;
   line-height: 1.55;
-  color: var(--ink-soft);
+  color: var(--text-soft);
+  letter-spacing: -0.005em;
 }
 
 .firm-stats {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0;
-  border-top: 1px solid var(--rule);
+  border-top: 1px solid var(--border);
   padding-top: 18px;
 }
 .firm-stat {
@@ -437,17 +447,18 @@ section.block.tinted {
 }
 .firm-stat-label {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--ink-faint);
+  color: var(--text-faint);
 }
 .firm-stat-value {
   font-size: 16px;
   font-weight: 600;
-  color: var(--ink);
+  color: var(--text-strong);
   font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
 }
 
 .firm-actions {
@@ -456,70 +467,70 @@ section.block.tinted {
   justify-content: space-between;
   gap: 12px;
   padding-top: 18px;
-  border-top: 1px solid var(--rule);
+  border-top: 1px solid var(--border);
   margin-top: auto;
 }
 .firm-read {
   font-size: 14px;
   font-weight: 600;
-  color: var(--ink);
+  color: var(--text-strong);
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  letter-spacing: -0.005em;
 }
 .firm-read::after {
   content: "→";
   transition: transform 0.15s ease;
+  color: var(--text-soft);
 }
-.firm-read:hover {
-  text-decoration: none;
-}
-.firm-read:hover::after {
-  transform: translateX(3px);
-}
+.firm-read:hover { color: var(--lime); }
+.firm-read:hover::after { transform: translateX(3px); color: var(--lime); }
 .firm-promo {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--green);
-  background: var(--green-faint);
-  padding: 6px 10px;
+  letter-spacing: 0.02em;
+  color: var(--lime-text);
+  background: var(--lime-soft);
+  border: 1px solid rgba(200,255,0,0.18);
+  padding: 5px 10px;
   border-radius: 6px;
 }
 
 /* ---------- Editorial value props ---------- */
 .values {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 32px;
 }
 .value {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 .value-num {
   font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 500;
-  font-size: 32px;
-  color: var(--green);
-  margin-bottom: 4px;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--lime-text);
+  margin-bottom: 6px;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
 }
 .value h3 {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 700;
   font-size: 20px;
-  line-height: 1.3;
-  color: var(--ink);
-  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--text-strong);
+  letter-spacing: -0.02em;
 }
 .value p {
   font-size: 15px;
   line-height: 1.6;
-  color: var(--ink-soft);
+  color: var(--text-soft);
+  letter-spacing: -0.005em;
 }
 
 /* ---------- Recently updated feed ---------- */
@@ -529,52 +540,56 @@ section.block.tinted {
 }
 .update {
   display: grid;
-  grid-template-columns: 120px 1fr auto;
+  grid-template-columns: 130px 1fr auto;
   gap: 32px;
-  padding: 24px 0;
-  border-top: 1px solid var(--rule);
+  padding: 22px 0;
+  border-top: 1px solid var(--border);
   align-items: center;
+  transition: background 0.15s ease;
 }
-.update:last-child {
-  border-bottom: 1px solid var(--rule);
-}
+.update:hover { background: rgba(255,255,255,0.015); }
+.update:last-child { border-bottom: 1px solid var(--border); }
 .update-date {
   font-family: var(--font-mono);
   font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--ink-faint);
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--text-faint);
 }
 .update-body strong {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 18px;
-  color: var(--ink);
+  font-size: 16px;
+  color: var(--text-strong);
   display: block;
   margin-bottom: 4px;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
 }
 .update-body span {
-  font-size: 15px;
-  color: var(--ink-soft);
+  font-size: 14px;
+  color: var(--text-soft);
+  letter-spacing: -0.005em;
 }
 .update-link {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  color: var(--ink);
+  color: var(--text);
   white-space: nowrap;
+  letter-spacing: -0.005em;
 }
+.update-link:hover { color: var(--lime); }
 .update-link::after {
   content: " →";
-  color: var(--ink-faint);
+  color: var(--text-faint);
 }
+.update-link:hover::after { color: var(--lime); }
 
 /* ---------- Footer ---------- */
 footer.site {
-  background: var(--paper-band);
-  color: rgba(255,255,255,0.7);
-  padding: 64px 0 32px;
+  background: var(--bg-band);
+  border-top: 1px solid var(--border);
+  color: var(--text-soft);
+  padding: 72px 0 32px;
   margin-top: 80px;
 }
 footer.site .top {
@@ -582,44 +597,44 @@ footer.site .top {
   grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: 48px;
   padding-bottom: 48px;
-  border-bottom: 1px solid var(--rule-on-dark);
+  border-bottom: 1px solid var(--border);
   margin-bottom: 32px;
 }
 footer.site .brand .wordmark {
-  color: #fff;
-  font-size: 22px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   display: inline-block;
 }
 footer.site .brand p {
   font-size: 14px;
   line-height: 1.6;
-  color: rgba(255,255,255,0.6);
+  color: var(--text-faint);
   max-width: 320px;
 }
 footer.site h4 {
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
-  margin-bottom: 16px;
+  color: var(--text-faint);
+  margin-bottom: 18px;
 }
 footer.site ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
 footer.site a {
   font-size: 14px;
-  color: rgba(255,255,255,0.85);
+  color: var(--text);
+  letter-spacing: -0.005em;
 }
-footer.site a:hover { color: #fff; text-decoration: none; }
+footer.site a:hover { color: var(--lime); }
 footer.site .legal {
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 13px;
-  color: rgba(255,255,255,0.5);
+  color: var(--text-faint);
   flex-wrap: wrap;
   gap: 16px;
+  letter-spacing: -0.005em;
 }
 footer.site .legal-links {
   display: flex;
@@ -630,11 +645,13 @@ footer.site .legal-links {
 @media (max-width: 800px) {
   nav.primary { display: none; }
   .header-cta { padding: 8px 14px; font-size: 13px; }
-  .hero { padding: 56px 0 40px; }
+  .hero { padding: 56px 0 48px; }
+  .hero h1 { font-size: clamp(34px, 8vw, 48px); letter-spacing: -0.035em; }
+  .hero-sub { font-size: 17px; }
   .hero-trust { gap: 20px; }
   .hero-trust-item { width: 100%; }
   section.block { padding: 56px 0; }
-  .update { grid-template-columns: 1fr; gap: 8px; padding: 20px 0; }
+  .update { grid-template-columns: 1fr; gap: 8px; padding: 18px 0; }
   .update-link { justify-self: start; }
   footer.site .top { grid-template-columns: 1fr 1fr; gap: 32px; }
   footer.site .brand { grid-column: 1 / -1; }
@@ -650,16 +667,16 @@ footer.site .legal-links {
   bottom: 16px;
   right: 16px;
   z-index: 99;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--bg-card);
+  border: 1px solid var(--border-strong);
+  color: var(--lime);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: 8px 12px;
   border-radius: 6px;
-  box-shadow: 0 6px 20px -6px rgba(14,20,33,0.4);
 }
 </style>
 </head>
@@ -679,7 +696,7 @@ footer.site .legal-links {
 <!-- Header -->
 <header class="site">
   <div class="container">
-    <a class="wordmark" href="/">PropChamps<span class="dot">.</span></a>
+    <a class="wordmark" href="/">PropChamps<span class="accent">.</span></a>
     <nav class="primary">
       <a href="/" class="active">Firms</a>
       <a href="/compare">Compare</a>
@@ -694,13 +711,13 @@ footer.site .legal-links {
 <section class="hero">
   <div class="container">
     <div class="hero-kicker">Futures prop firm research</div>
-    <h1>The independent reference for choosing a <em>futures prop firm.</em></h1>
+    <h1>The independent reference for choosing a <span class="accent-word">futures prop firm.</span></h1>
     <p class="hero-sub">PropChamps tracks rules, drawdown limits, payouts, and active promo codes across the futures prop firms traders actually use. No paid placements. Reviewed weekly.</p>
 
     <div class="hero-cta-row">
       <a class="btn-primary" href="/compare">
         Compare all 7 firms
-        <svg width="16" height="16" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="16" height="16" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M5 12 L11 8 L5 4"/>
         </svg>
       </a>
@@ -724,7 +741,7 @@ footer.site .legal-links {
         <h2>This week's top-rated firms</h2>
         <p>Ranked by current rule transparency, payout consistency, and active discount value. Updated May 28.</p>
       </div>
-      <div class="rhs">7 of 7 firms shown</div>
+      <div class="rhs">7 of 7 shown</div>
     </div>
 
     <div class="firms-grid">
@@ -732,7 +749,7 @@ footer.site .legal-links {
       <article class="firm-card">
         <div class="firm-head">
           <div class="firm-logo"><img src="../logos/lucid.png" alt="Lucid Trading"></div>
-          <div class="firm-rank"><strong>#1</strong> Editor's pick</div>
+          <div class="firm-rank"><strong>#1</strong><br>Editor's pick</div>
         </div>
         <h3 class="firm-name">Lucid Trading</h3>
         <p class="firm-blurb">Four-path program (Pro · Black · Flex · Direct) with fast payouts and the cleanest rule documentation we've audited.</p>
@@ -747,7 +764,7 @@ footer.site .legal-links {
           </div>
         </div>
         <div class="firm-actions">
-          <a class="firm-read" href="/firms/lucid-trading.html">Read full review</a>
+          <a class="firm-read" href="/firms/lucid-trading.html">Read review</a>
           <span class="firm-promo">CHAMP — 30% off</span>
         </div>
       </article>
@@ -755,7 +772,7 @@ footer.site .legal-links {
       <article class="firm-card">
         <div class="firm-head">
           <div class="firm-logo"><img src="../logos/apex.png" alt="Apex Trader Funding"></div>
-          <div class="firm-rank"><strong>#2</strong> Best for scale</div>
+          <div class="firm-rank"><strong>#2</strong><br>Best for scale</div>
         </div>
         <h3 class="firm-name">Apex Trader Funding</h3>
         <p class="firm-blurb">The most widely-used futures prop firm. Generous account sizes with 1-day-pass option; rules well-documented but stricter consistency requirements.</p>
@@ -770,7 +787,7 @@ footer.site .legal-links {
           </div>
         </div>
         <div class="firm-actions">
-          <a class="firm-read" href="/firms/apex-trader.html">Read full review</a>
+          <a class="firm-read" href="/firms/apex-trader.html">Read review</a>
           <span class="firm-promo">CHAMP — 80% off</span>
         </div>
       </article>
@@ -778,7 +795,7 @@ footer.site .legal-links {
       <article class="firm-card">
         <div class="firm-head">
           <div class="firm-logo"><img src="../logos/tradify.png" alt="Tradeify"></div>
-          <div class="firm-rank"><strong>#3</strong> Best new entrant</div>
+          <div class="firm-rank"><strong>#3</strong><br>Best new entrant</div>
         </div>
         <h3 class="firm-name">Tradeify</h3>
         <p class="firm-blurb">Three distinct paths — Growth, Select (Daily or Flex), and Lightning. Moved to one-time payments in March; Select Flex has no daily loss limit.</p>
@@ -793,7 +810,7 @@ footer.site .legal-links {
           </div>
         </div>
         <div class="firm-actions">
-          <a class="firm-read" href="/firms/tradeify.html">Read full review</a>
+          <a class="firm-read" href="/firms/tradeify.html">Read review</a>
           <span class="firm-promo">CHAMP at checkout</span>
         </div>
       </article>
@@ -801,7 +818,7 @@ footer.site .legal-links {
       <article class="firm-card">
         <div class="firm-head">
           <div class="firm-logo"><img src="../logos/alpha.png" alt="Alpha Futures"></div>
-          <div class="firm-rank"><strong>#4</strong> Fastest evaluation</div>
+          <div class="firm-rank"><strong>#4</strong><br>Fastest eval</div>
         </div>
         <h3 class="firm-name">Alpha Futures</h3>
         <p class="firm-blurb">One-day pass option with flat 90% split on Zero. Advanced tier removes news restrictions. Activation fees vary by plan.</p>
@@ -816,7 +833,7 @@ footer.site .legal-links {
           </div>
         </div>
         <div class="firm-actions">
-          <a class="firm-read" href="/firms/alpha-futures.html">Read full review</a>
+          <a class="firm-read" href="/firms/alpha-futures.html">Read review</a>
           <span class="firm-promo">CHAMP — 50% off</span>
         </div>
       </article>
@@ -824,7 +841,7 @@ footer.site .legal-links {
       <article class="firm-card">
         <div class="firm-head">
           <div class="firm-logo"><img src="../logos/myfunded.png" alt="MyFundedFutures"></div>
-          <div class="firm-rank"><strong>#5</strong> Beginner-friendly</div>
+          <div class="firm-rank"><strong>#5</strong><br>Beginner-friendly</div>
         </div>
         <h3 class="firm-name">MyFundedFutures</h3>
         <p class="firm-blurb">Rapid Live $10K-session model effective April 16. Lower barrier to live capital but smaller initial accounts.</p>
@@ -839,7 +856,7 @@ footer.site .legal-links {
           </div>
         </div>
         <div class="firm-actions">
-          <a class="firm-read" href="/firms/my-funded-futures.html">Read full review</a>
+          <a class="firm-read" href="/firms/my-funded-futures.html">Read review</a>
           <span class="firm-promo">CHAMP — 25% off</span>
         </div>
       </article>
@@ -847,7 +864,7 @@ footer.site .legal-links {
       <article class="firm-card">
         <div class="firm-head">
           <div class="firm-logo"><img src="../logos/topone.png" alt="Top One Futures"></div>
-          <div class="firm-rank"><strong>#6</strong> Most flexible</div>
+          <div class="firm-rank"><strong>#6</strong><br>Most flexible</div>
         </div>
         <h3 class="firm-name">Top One Futures</h3>
         <p class="firm-blurb">Four programs (1-Step Elite, Instant Sim, S2F, Ignite) covering most trader profiles. Multiple paths available simultaneously.</p>
@@ -862,7 +879,7 @@ footer.site .legal-links {
           </div>
         </div>
         <div class="firm-actions">
-          <a class="firm-read" href="/firms/top-one-futures.html">Read full review</a>
+          <a class="firm-read" href="/firms/top-one-futures.html">Read review</a>
           <span class="firm-promo">CHAMP — 60% off</span>
         </div>
       </article>
@@ -883,17 +900,17 @@ footer.site .legal-links {
 
     <div class="values">
       <div class="value">
-        <div class="value-num">01</div>
+        <div class="value-num">/ 01</div>
         <h3>Rule changes flagged within 72 hours.</h3>
         <p>Every firm we cover is checked weekly against its own published rules. When something shifts — payout cadence, drawdown method, news restrictions — we publish the diff and date it.</p>
       </div>
       <div class="value">
-        <div class="value-num">02</div>
+        <div class="value-num">/ 02</div>
         <h3>No paid placements, ever.</h3>
         <p>Our ranking is based on rule transparency, payout history, and trader-reported friction. Affiliate links pay our bills but do not influence the order firms appear in.</p>
       </div>
       <div class="value">
-        <div class="value-num">03</div>
+        <div class="value-num">/ 03</div>
         <h3>Verified, dated promo codes.</h3>
         <p>The CHAMP discount code is re-tested at checkout every Monday. If it stops working at any firm, we remove it from the deals page within 24 hours.</p>
       </div>
@@ -909,7 +926,7 @@ footer.site .legal-links {
         <h2>Recently updated</h2>
         <p>The last seven days of firm rule changes, payout updates, and program launches.</p>
       </div>
-      <div class="rhs"><a href="/changelog" style="border-bottom: 1px solid var(--rule-strong); padding-bottom: 2px;">View full changelog</a></div>
+      <div class="rhs"><a href="/changelog">View full changelog</a></div>
     </div>
 
     <div class="updates">
@@ -954,7 +971,7 @@ footer.site .legal-links {
   <div class="container">
     <div class="top">
       <div class="brand">
-        <span class="wordmark">PropChamps<span class="dot" style="color: var(--lime);">.</span></span>
+        <span class="wordmark">PropChamps<span class="accent">.</span></span>
         <p>Independent research on futures prop trading firms. We track rules, payouts, drawdown methods, and active promo codes — and publish what changes.</p>
       </div>
       <div>
@@ -992,7 +1009,7 @@ footer.site .legal-links {
   </div>
 </footer>
 
-<div class="proto-badge">Prototype · v2</div>
+<div class="proto-badge">Prototype · v2.1</div>
 
 </body>
 </html>
