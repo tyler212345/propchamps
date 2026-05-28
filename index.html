@@ -813,6 +813,71 @@ section.block.deep { background: var(--bg-band); }
   cursor: pointer;
 }
 
+/* ---------- Firms table (homepage) ---------- */
+.firms-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:16px;background:var(--bg-card)}
+.firms-table{width:100%;min-width:1080px;border-collapse:separate;border-spacing:0}
+.firms-table th,.firms-table td{padding:18px 20px;text-align:left;vertical-align:middle;border-bottom:1px solid var(--border)}
+.firms-table thead th{background:linear-gradient(180deg,var(--bg-card-elev),var(--bg-card));font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);position:sticky;top:80px;z-index:5;padding-top:16px;padding-bottom:16px;border-bottom:1px solid var(--border-lime)}
+.firms-table tbody tr{transition:background .15s cubic-bezier(0.16,1,0.3,1);cursor:pointer}
+.firms-table tbody tr:hover{background:rgba(200,255,0,0.025)}
+.firms-table tbody tr:last-child td{border-bottom:0}
+.firms-table .col-rank{width:90px}
+.firms-table .col-firm{min-width:220px}
+.firms-table .col-rating{width:140px}
+.firms-table .col-platforms{min-width:200px}
+.firms-table .col-alloc{width:120px}
+.firms-table .col-payouts{width:170px}
+.firms-table .col-deal{min-width:180px}
+.firms-table .col-action{width:60px;text-align:right}
+
+.t-rank{display:flex;flex-direction:column;gap:2px}
+.t-rank-num{font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--lime);letter-spacing:-.035em;line-height:1;font-variant-numeric:tabular-nums}
+.t-rank-label{font-family:var(--font-mono);font-size:9.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);line-height:1.2}
+
+.t-firm{display:flex;align-items:center;gap:14px;min-width:0}
+.t-firm-logo{width:44px;height:44px;border-radius:10px;background:var(--bg-elev);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.t-firm-logo img{width:100%;height:100%;object-fit:contain;padding:5px}
+.t-firm-info{min-width:0}
+.t-firm-name{font-family:var(--font-display);font-size:16.5px;font-weight:700;color:var(--text-strong);letter-spacing:-.02em;line-height:1.2;display:flex;align-items:center;gap:8px}
+.t-firm-flag{font-size:14px;opacity:.7;line-height:1}
+.t-firm-blurb{font-size:12.5px;color:var(--text-soft);letter-spacing:-.005em;margin-top:2px}
+
+.t-rating{display:flex;flex-direction:column;gap:2px}
+.t-rating-stars{display:inline-flex;align-items:center;gap:6px;font-size:14px}
+.t-rating-stars .num{font-family:var(--font-display);font-weight:700;color:var(--text-strong);letter-spacing:-.015em;font-variant-numeric:tabular-nums}
+.t-rating-stars .stars{color:var(--lime);letter-spacing:1px;font-size:12px;line-height:1}
+.t-rating-reviews{font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);letter-spacing:.02em}
+
+.t-platforms{display:flex;flex-wrap:wrap;gap:5px;max-width:240px}
+.t-platform{font-family:var(--font-mono);font-size:10.5px;font-weight:500;color:var(--text-soft);background:var(--bg-elev);border:1px solid var(--border);padding:4px 8px;border-radius:5px;letter-spacing:.01em;white-space:nowrap}
+.t-platform.more{color:var(--text-faint);background:transparent;border-style:dashed}
+
+.t-value{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text-strong);font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1.2}
+.t-value-sub{font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);letter-spacing:.02em;margin-top:2px}
+
+.t-deal{display:flex;flex-direction:column;gap:4px}
+.t-deal-headline{font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--lime);letter-spacing:-.01em;line-height:1.2}
+.t-deal-code{font-family:var(--font-mono);font-size:10.5px;font-weight:600;color:var(--text-soft);letter-spacing:.04em;text-transform:uppercase}
+.t-deal-code strong{color:var(--lime);font-weight:700;background:var(--lime-soft);border:1px solid var(--border-lime);padding:2px 6px;border-radius:4px;margin-left:4px;cursor:pointer}
+
+.t-action{width:36px;height:36px;border-radius:8px;background:var(--bg-elev);border:1px solid var(--border-strong);display:inline-flex;align-items:center;justify-content:center;color:var(--text);transition:all .15s cubic-bezier(0.16,1,0.3,1);margin-left:auto}
+.firms-table tbody tr:hover .t-action{background:var(--lime);color:var(--bg-base);border-color:var(--lime);transform:translateX(2px)}
+
+@media(max-width:900px){
+  .firms-table thead{display:none}
+  .firms-table tbody tr{display:grid;grid-template-columns:auto 1fr auto;gap:12px;padding:18px;border-bottom:1px solid var(--border)}
+  .firms-table tbody td{padding:0;border:0}
+  .firms-table .col-rank{grid-row:1/3;grid-column:1}
+  .firms-table .col-firm{grid-column:2}
+  .firms-table .col-action{grid-row:1/3;grid-column:3;align-self:center}
+  .firms-table .col-rating,.firms-table .col-platforms,.firms-table .col-alloc,.firms-table .col-payouts,.firms-table .col-deal{grid-column:1/4;font-size:13px;border-top:1px solid var(--border);padding-top:12px;display:flex;justify-content:space-between;align-items:center}
+  .firms-table .col-rating::before{content:"Rating";font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);letter-spacing:.05em;text-transform:uppercase}
+  .firms-table .col-platforms::before{content:"Platforms";font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);letter-spacing:.05em;text-transform:uppercase}
+  .firms-table .col-alloc::before{content:"Max account";font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);letter-spacing:.05em;text-transform:uppercase}
+  .firms-table .col-payouts::before{content:"Payouts";font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);letter-spacing:.05em;text-transform:uppercase}
+  .firms-table .col-deal::before{content:"Deal";font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);letter-spacing:.05em;text-transform:uppercase}
+}
+
 /* ---------- Value props ---------- */
 .values-grid {
   display: grid;
@@ -1235,127 +1300,22 @@ footer.site .legal-links { display: flex; gap: 24px; }
       <div class="rhs">7 of 7 shown</div>
     </div>
 
-    <div class="firms-grid">
-
-      <article class="firm-card">
-        <div class="firm-head">
-          <div class="firm-logo"><img src="/logos/lucid.png" alt="Lucid Trading"></div>
-          <div class="firm-rank"><span class="firm-rank-num">#01</span><span class="firm-rank-label">Editor's pick</span></div>
-        </div>
-        <h3 class="firm-name">Lucid Trading</h3>
-        <p class="firm-blurb">Four-path program (Pro · Black · Flex · Direct) with fast payouts and the cleanest rule documentation we've audited.</p>
-        <div class="firm-stats">
-          <div class="firm-stat"><span class="firm-stat-label">Profit split</span><span class="firm-stat-value">Up to 90%</span></div>
-          <div class="firm-stat"><span class="firm-stat-label">Payout speed</span><span class="firm-stat-value">Daily</span></div>
-        </div>
-        <div class="firm-actions">
-          <a class="firm-read" href="/firms/lucid-trading.html">Read review</a>
-          <span class="firm-promo js-copy-champ">CHAMP — 30% off</span>
-        </div>
-      </article>
-
-      <article class="firm-card">
-        <div class="firm-head">
-          <div class="firm-logo"><img src="/logos/apex.png" alt="Apex Trader Funding"></div>
-          <div class="firm-rank"><span class="firm-rank-num">#02</span><span class="firm-rank-label">Best for scale</span></div>
-        </div>
-        <h3 class="firm-name">Apex Trader Funding</h3>
-        <p class="firm-blurb">CHAMP currently stacks 90% off + $0 activation fee on the No-Activation EOD Trail — biggest deal on the site. 1-day pass, up to 20 accounts.</p>
-        <div class="firm-stats">
-          <div class="firm-stat"><span class="firm-stat-label">CHAMP discount</span><span class="firm-stat-value">90% off</span></div>
-          <div class="firm-stat"><span class="firm-stat-label">Activation</span><span class="firm-stat-value">$0 w/ CHAMP</span></div>
-        </div>
-        <div class="firm-actions">
-          <a class="firm-read" href="/firms/apex-trader.html">Read review</a>
-          <span class="firm-promo js-copy-champ">CHAMP — 90% off + $0 activation</span>
-        </div>
-      </article>
-
-      <article class="firm-card">
-        <div class="firm-head">
-          <div class="firm-logo"><img src="/logos/tradify.png" alt="Tradeify"></div>
-          <div class="firm-rank"><span class="firm-rank-num">#03</span><span class="firm-rank-label">Best new entrant</span></div>
-        </div>
-        <h3 class="firm-name">Tradeify</h3>
-        <p class="firm-blurb">Three distinct paths — Growth, Select (Daily or Flex), and Lightning. One-time payments; Select Flex has no DLL.</p>
-        <div class="firm-stats">
-          <div class="firm-stat"><span class="firm-stat-label">Payout option</span><span class="firm-stat-value">Daily / Flex</span></div>
-          <div class="firm-stat"><span class="firm-stat-label">DLL on Flex</span><span class="firm-stat-value">None</span></div>
-        </div>
-        <div class="firm-actions">
-          <a class="firm-read" href="/firms/tradeify.html">Read review</a>
-          <span class="firm-promo js-copy-champ">CHAMP at checkout</span>
-        </div>
-      </article>
-
-      <article class="firm-card">
-        <div class="firm-head">
-          <div class="firm-logo"><img src="/logos/alpha.png" alt="Alpha Futures"></div>
-          <div class="firm-rank"><span class="firm-rank-num">#04</span><span class="firm-rank-label">Fastest eval</span></div>
-        </div>
-        <h3 class="firm-name">Alpha Futures</h3>
-        <p class="firm-blurb">One-day pass with flat 90% split on Zero. Advanced tier removes news restrictions. Activation varies by plan.</p>
-        <div class="firm-stats">
-          <div class="firm-stat"><span class="firm-stat-label">Profit split</span><span class="firm-stat-value">Flat 90%</span></div>
-          <div class="firm-stat"><span class="firm-stat-label">Activation</span><span class="firm-stat-value">$0 (Zero)</span></div>
-        </div>
-        <div class="firm-actions">
-          <a class="firm-read" href="/firms/alpha-futures.html">Read review</a>
-          <span class="firm-promo js-copy-champ">CHAMP — 50% off</span>
-        </div>
-      </article>
-
-      <article class="firm-card">
-        <div class="firm-head">
-          <div class="firm-logo"><img src="/logos/myfunded.png" alt="MyFundedFutures"></div>
-          <div class="firm-rank"><span class="firm-rank-num">#05</span><span class="firm-rank-label">Beginner-friendly</span></div>
-        </div>
-        <h3 class="firm-name">MyFundedFutures</h3>
-        <p class="firm-blurb">Rapid Live $10K-session model effective April 16. Lower barrier to live capital but smaller initial accounts.</p>
-        <div class="firm-stats">
-          <div class="firm-stat"><span class="firm-stat-label">Min account</span><span class="firm-stat-value">$10K</span></div>
-          <div class="firm-stat"><span class="firm-stat-label">Path</span><span class="firm-stat-value">Rapid Live</span></div>
-        </div>
-        <div class="firm-actions">
-          <a class="firm-read" href="/firms/my-funded-futures.html">Read review</a>
-          <span class="firm-promo js-copy-champ">CHAMP — 25% off</span>
-        </div>
-      </article>
-
-      <article class="firm-card">
-        <div class="firm-head">
-          <div class="firm-logo"><img src="/logos/topone.png" alt="Top One Futures"></div>
-          <div class="firm-rank"><span class="firm-rank-num">#06</span><span class="firm-rank-label">Most flexible</span></div>
-        </div>
-        <h3 class="firm-name">Top One Futures</h3>
-        <p class="firm-blurb">Four programs (1-Step Elite, Instant Sim, S2F, Ignite) covering most trader profiles. Multiple paths run side by side.</p>
-        <div class="firm-stats">
-          <div class="firm-stat"><span class="firm-stat-label">Programs</span><span class="firm-stat-value">4 paths</span></div>
-          <div class="firm-stat"><span class="firm-stat-label">1-day pass</span><span class="firm-stat-value">Available</span></div>
-        </div>
-        <div class="firm-actions">
-          <a class="firm-read" href="/firms/top-one-futures.html">Read review</a>
-          <span class="firm-promo js-copy-champ">CHAMP — 60% off</span>
-        </div>
-      </article>
-
-      <article class="firm-card">
-        <div class="firm-head">
-          <div class="firm-logo"><img src="/logos/takeprofit.png" alt="Take Profit Trader"></div>
-          <div class="firm-rank"><span class="firm-rank-num">#07</span><span class="firm-rank-label">No DLL</span></div>
-        </div>
-        <h3 class="firm-name">Take Profit Trader</h3>
-        <p class="firm-blurb">Daily loss limit removed across all account sizes as of May 18. Trailing drawdown unchanged. Best fit for traders who hate the DLL guardrail.</p>
-        <div class="firm-stats">
-          <div class="firm-stat"><span class="firm-stat-label">Daily loss limit</span><span class="firm-stat-value">Removed</span></div>
-          <div class="firm-stat"><span class="firm-stat-label">Drawdown</span><span class="firm-stat-value">Trailing</span></div>
-        </div>
-        <div class="firm-actions">
-          <a class="firm-read" href="/firms/take-profit-trader.html">Read review</a>
-          <span class="firm-promo js-copy-champ">CHAMP — 25% off</span>
-        </div>
-      </article>
-
+    <div class="firms-table-wrap">
+      <table class="firms-table" id="firmsTable">
+        <thead>
+          <tr>
+            <th class="col-rank">Rank</th>
+            <th class="col-firm">Firm</th>
+            <th class="col-rating">Rating</th>
+            <th class="col-platforms">Platforms</th>
+            <th class="col-alloc">Max account</th>
+            <th class="col-payouts">Payouts tracked</th>
+            <th class="col-deal">Active deal</th>
+            <th class="col-action"></th>
+          </tr>
+        </thead>
+        <tbody id="firmsTableBody"></tbody>
+      </table>
     </div>
   </div>
 </section>
@@ -1587,6 +1547,90 @@ footer.site .legal-links { display: flex; gap: 24px; }
       e.preventDefault();
       e.stopPropagation();
       copyChamp();
+    });
+  });
+})();
+</script>
+
+<script src="/data/firms.js"></script>
+<script>
+/* Render homepage firms table from firms.js */
+(function(){
+  var body = document.getElementById('firmsTableBody');
+  if (!body || !window.FIRMS) return;
+
+  /* Editorial rank order + per-firm rank label */
+  var RANK_ORDER = ['lucid-trading','apex-trader','tradeify','alpha-futures','my-funded-futures','top-one-futures','take-profit'];
+  var RANK_LABELS = {
+    'lucid-trading':"Editor's pick",
+    'apex-trader':'Best for scale',
+    'tradeify':'Best new entrant',
+    'alpha-futures':'Fastest eval',
+    'my-funded-futures':'Beginner-friendly',
+    'top-one-futures':'Most flexible',
+    'take-profit':'No DLL'
+  };
+  var FLAGS = {US:'🇺🇸', GB:'🇬🇧', CA:'🇨🇦'};
+  var PAGES = {'lucid-trading':'lucid-trading.html','tradeify':'tradeify.html','alpha-futures':'alpha-futures.html','apex-trader':'apex-trader.html','my-funded-futures':'my-funded-futures.html','top-one-futures':'top-one-futures.html','take-profit':'take-profit-trader.html'};
+
+  function stars(r){
+    var full = Math.floor(r), half = (r % 1) >= 0.5;
+    var s = '';
+    for (var i=0; i<5; i++){
+      if (i < full) s += '★'; /* solid */
+      else if (i === full && half) s += '½';
+      else s += '☆'; /* outline */
+    }
+    return s;
+  }
+
+  function dealHeadline(f){
+    var line = f.offerLine || '';
+    if (/90%\s*OFF/i.test(line)) return '90% off + $0 activation';
+    var m = line.match(/(\d+%\s*OFF)/i); if (m) return m[1].toUpperCase();
+    if (/code\s*champ/i.test(line)) return 'Use code CHAMP';
+    return line || 'CHAMP at checkout';
+  }
+
+  var html = RANK_ORDER.map(function(slug, idx){
+    var f = window.FIRMS[slug]; if (!f) return '';
+    var rank = (idx+1 < 10 ? '0' : '') + (idx+1);
+    var label = RANK_LABELS[slug] || '';
+    var page = PAGES[slug] || '#';
+    var flag = FLAGS[f.country] || '';
+    var rating = f.rating || 0;
+    var platforms = (f.platformsList || []).slice();
+    var showCount = 3, extra = platforms.length - showCount;
+    var platformPills = platforms.slice(0, showCount).map(function(p){return '<span class="t-platform">'+p+'</span>';}).join('');
+    if (extra > 0) platformPills += '<span class="t-platform more">+'+extra+'</span>';
+
+    return ''+
+      '<tr data-href="/firms/'+page+'">'+
+        '<td class="col-rank"><div class="t-rank"><span class="t-rank-num">#'+rank+'</span><span class="t-rank-label">'+label+'</span></div></td>'+
+        '<td class="col-firm">'+
+          '<div class="t-firm">'+
+            '<div class="t-firm-logo"><img src="'+f.logo+'" alt="'+f.name+'"></div>'+
+            '<div class="t-firm-info">'+
+              '<div class="t-firm-name">'+f.name+(flag?'<span class="t-firm-flag" title="'+f.country+'">'+flag+'</span>':'')+'</div>'+
+            '</div>'+
+          '</div>'+
+        '</td>'+
+        '<td class="col-rating"><div class="t-rating"><div class="t-rating-stars"><span class="num">'+rating.toFixed(1)+'</span><span class="stars">'+stars(rating)+'</span></div><div class="t-rating-reviews">'+(f.reviewCount||0)+' reviews</div></div></td>'+
+        '<td class="col-platforms"><div class="t-platforms">'+platformPills+'</div></td>'+
+        '<td class="col-alloc"><div class="t-value">'+(f.maxAllocation||'—')+'</div><div class="t-value-sub">Per account</div></td>'+
+        '<td class="col-payouts"><div class="t-value">'+(f.payoutTotal||'—')+'</div><div class="t-value-sub">Median '+(f.payoutMedianTime||'—')+'</div></td>'+
+        '<td class="col-deal"><div class="t-deal"><div class="t-deal-headline">'+dealHeadline(f)+'</div><div class="t-deal-code">Code <strong class="js-copy-champ">CHAMP</strong></div></div></td>'+
+        '<td class="col-action"><span class="t-action" aria-label="Open firm review">→</span></td>'+
+      '</tr>';
+  }).join('');
+
+  body.innerHTML = html;
+
+  /* Row click → firm page (but ignore clicks on the CHAMP copy chip) */
+  body.querySelectorAll('tr[data-href]').forEach(function(row){
+    row.addEventListener('click', function(e){
+      if (e.target.closest('.js-copy-champ')) return;
+      window.location.href = row.dataset.href;
     });
   });
 })();
