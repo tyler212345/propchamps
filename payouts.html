@@ -64,12 +64,13 @@ header.is-open .mobile-menu{display:block}
 .bg-stack::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(200,255,0,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(200,255,0,.045) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse 80% 60% at 50% 20%,black 30%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 20%,black 30%,transparent 90%)}
 .bg-stack::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 20%,rgba(200,255,0,.10) 0%,rgba(200,255,0,.04) 30%,transparent 70%)}
 
-.hero{padding:72px 0 48px;position:relative}
+.hero{padding:72px 0 48px;position:relative;text-align:center}
+.hero .container{max-width:1000px}
 .hero-kicker{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--lime-text);margin-bottom:22px}
 .hero-kicker::before{content:"";width:24px;height:1px;background:var(--lime-text)}
-.hero h1{font-family:var(--font-display);font-weight:800;font-size:clamp(36px,5.5vw,60px);line-height:1.0;letter-spacing:-.04em;color:var(--text-strong);margin-bottom:18px;max-width:920px}
+.hero h1{font-family:var(--font-display);font-weight:800;font-size:clamp(36px,5.5vw,60px);line-height:1.0;letter-spacing:-.04em;color:var(--text-strong);margin:0 auto 18px;max-width:920px}
 .hero h1 .accent-word{background:linear-gradient(135deg,var(--lime) 0%,#a3d600 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 24px rgba(200,255,0,.25))}
-.hero-sub{font-size:17.5px;line-height:1.55;color:var(--text-soft);max-width:720px;letter-spacing:-.005em}
+.hero-sub{font-size:17.5px;line-height:1.55;color:var(--text-soft);max-width:720px;letter-spacing:-.005em;margin:0 auto}
 
 .stats-strip{padding:24px 0 56px;position:relative}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
@@ -89,7 +90,7 @@ header.is-open .mobile-menu{display:block}
 .payouts-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:16px;background:var(--bg-card)}
 .payouts-table{width:100%;min-width:1100px;border-collapse:separate;border-spacing:0}
 .payouts-table th,.payouts-table td{padding:18px 22px;text-align:left;vertical-align:middle;border-bottom:1px solid var(--border)}
-.payouts-table thead th{background:linear-gradient(180deg,var(--bg-card-elev),var(--bg-card));font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);border-bottom:1px solid var(--border-lime);padding-top:16px;padding-bottom:16px;position:sticky;top:80px;z-index:5}
+.payouts-table thead th{background:var(--bg-card-elev);font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);border-bottom:1px solid var(--border-lime);padding-top:16px;padding-bottom:16px}
 .payouts-table tbody tr{transition:background .15s var(--ease);cursor:pointer}
 .payouts-table tbody tr:hover{background:rgba(200,255,0,0.025)}
 .payouts-table tbody tr:last-child td{border-bottom:0}

@@ -293,9 +293,11 @@ header.is-open .mobile-menu { display: block; }
 
 /* ---------- Hero ---------- */
 .hero {
-  padding: 104px 0 80px;
+  padding: 88px 0 80px;
   position: relative;
+  text-align: center;
 }
+.hero .container { max-width: 1000px; }
 .hero-ticker {
   display: inline-flex;
   align-items: center;
@@ -351,7 +353,7 @@ header.is-open .mobile-menu { display: block; }
   line-height: 1.0;
   letter-spacing: -0.045em;
   color: var(--text-strong);
-  margin-bottom: 28px;
+  margin: 0 auto 28px;
   max-width: 900px;
 }
 .hero h1 .accent-word {
@@ -365,17 +367,18 @@ header.is-open .mobile-menu { display: block; }
   font-size: 20px;
   line-height: 1.55;
   color: var(--text-soft);
-  max-width: 660px;
-  margin-bottom: 40px;
+  max-width: 720px;
+  margin: 0 auto 40px;
   font-weight: 400;
   letter-spacing: -0.01em;
 }
 .hero-cta-row {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
-  margin-bottom: 64px;
+  margin-bottom: 56px;
 }
 
 .btn-primary {
@@ -420,36 +423,60 @@ header.is-open .mobile-menu { display: block; }
 }
 
 .hero-trust {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   gap: 0;
-  padding: 28px 0 0;
-  border-top: 1px solid var(--border);
+  padding: 18px 32px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.02);
+  flex-wrap: wrap;
 }
 .hero-trust-item {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding-right: 24px;
+  padding: 0 28px;
   position: relative;
+  align-items: center;
+  text-align: center;
 }
-.hero-trust-item + .hero-trust-item {
-  padding-left: 24px;
-  border-left: 1px solid var(--border);
-}
+.hero-trust-item + .hero-trust-item { border-left: 1px solid var(--border); }
 .hero-trust-item strong {
   color: var(--text-strong);
   font-weight: 800;
-  font-size: 28px;
+  font-size: 26px;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.035em;
   line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 .hero-trust-item strong.lime { color: var(--lime); }
+.hero-trust-item strong .check {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--lime);
+  color: var(--bg-base);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 900;
+  box-shadow: 0 0 8px rgba(200,255,0,.4);
+}
 .hero-trust-item span {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-soft);
-  letter-spacing: -0.005em;
+  letter-spacing: 0;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+@media(max-width:700px){
+  .hero-trust{padding:14px 16px;border-radius:12px}
+  .hero-trust-item{padding:0 16px;flex-direction:row;gap:10px}
+  .hero-trust-item + .hero-trust-item{border-left:0;border-top:1px solid var(--border);padding-top:12px;margin-top:12px;width:100%;justify-content:center}
+  .hero-trust-item strong{font-size:20px}
 }
 
 /* ---------- Section structure ---------- */
@@ -817,7 +844,7 @@ section.block.deep { background: var(--bg-band); }
 .firms-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:16px;background:var(--bg-card)}
 .firms-table{width:100%;min-width:1080px;border-collapse:separate;border-spacing:0}
 .firms-table th,.firms-table td{padding:18px 20px;text-align:left;vertical-align:middle;border-bottom:1px solid var(--border)}
-.firms-table thead th{background:linear-gradient(180deg,var(--bg-card-elev),var(--bg-card));font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);position:sticky;top:80px;z-index:5;padding-top:16px;padding-bottom:16px;border-bottom:1px solid var(--border-lime)}
+.firms-table thead th{background:var(--bg-card-elev);font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);padding-top:16px;padding-bottom:16px;border-bottom:1px solid var(--border-lime)}
 .firms-table tbody tr{transition:background .15s cubic-bezier(0.16,1,0.3,1);cursor:pointer}
 .firms-table tbody tr:hover{background:rgba(200,255,0,0.025)}
 .firms-table tbody tr:last-child td{border-bottom:0}
@@ -855,10 +882,11 @@ section.block.deep { background: var(--bg-band); }
 .t-value{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text-strong);font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1.2}
 .t-value-sub{font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);letter-spacing:.02em;margin-top:2px}
 
-.t-deal{display:flex;flex-direction:column;gap:4px}
-.t-deal-headline{font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--lime);letter-spacing:-.01em;line-height:1.2}
-.t-deal-code{font-family:var(--font-mono);font-size:10.5px;font-weight:600;color:var(--text-soft);letter-spacing:.04em;text-transform:uppercase}
-.t-deal-code strong{color:var(--lime);font-weight:700;background:var(--lime-soft);border:1px solid var(--border-lime);padding:2px 6px;border-radius:4px;margin-left:4px;cursor:pointer}
+.t-deal{display:flex;flex-direction:column;gap:8px}
+.t-deal-headline{font-family:var(--font-display);font-size:14.5px;font-weight:700;color:var(--lime);letter-spacing:-.01em;line-height:1.2}
+.t-deal-chip{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--lime);background:var(--lime-soft);border:1px solid var(--border-lime);padding:5px 10px;border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;align-self:flex-start;transition:background .15s cubic-bezier(0.16,1,0.3,1)}
+.t-deal-chip:hover{background:rgba(200,255,0,.18)}
+.t-deal-chip .copy-hint{font-size:9.5px;color:var(--text-faint);font-weight:500;letter-spacing:.04em}
 
 .t-action{width:36px;height:36px;border-radius:8px;background:var(--bg-elev);border:1px solid var(--border-strong);display:inline-flex;align-items:center;justify-content:center;color:var(--text);transition:all .15s cubic-bezier(0.16,1,0.3,1);margin-left:auto}
 .firms-table tbody tr:hover .t-action{background:var(--lime);color:var(--bg-base);border-color:var(--lime);transform:translateX(2px)}
@@ -1230,10 +1258,10 @@ footer.site .legal-links { display: flex; gap: 24px; }
     </div>
 
     <div class="hero-trust">
-      <div class="hero-trust-item"><strong class="lime">7</strong><span>Firms tracked</span></div>
-      <div class="hero-trust-item"><strong>60+</strong><span>Data points per firm</span></div>
+      <div class="hero-trust-item"><strong><span class="check">✓</span>7</strong><span>Verified firms</span></div>
+      <div class="hero-trust-item"><strong>500+</strong><span>Real trader reviews</span></div>
+      <div class="hero-trust-item"><strong>20K+</strong><span>Monthly readers</span></div>
       <div class="hero-trust-item"><strong>Weekly</strong><span>Rule audits</span></div>
-      <div class="hero-trust-item"><strong>0</strong><span>Paid placements</span></div>
     </div>
 
   </div>
@@ -1591,8 +1619,9 @@ footer.site .legal-links { display: flex; gap: 24px; }
     var line = f.offerLine || '';
     if (/90%\s*OFF/i.test(line)) return '90% off + $0 activation';
     var m = line.match(/(\d+%\s*OFF)/i); if (m) return m[1].toUpperCase();
-    if (/code\s*champ/i.test(line)) return 'Use code CHAMP';
-    return line || 'CHAMP at checkout';
+    var dollarOff = line.match(/(\$\d+\s*OFF)/i); if (dollarOff) return dollarOff[1].toUpperCase();
+    /* No specific discount in the line — just say it's an active deal. The chip below already says CHAMP. */
+    return 'Active at checkout';
   }
 
   var html = RANK_ORDER.map(function(slug, idx){
@@ -1622,7 +1651,7 @@ footer.site .legal-links { display: flex; gap: 24px; }
         '<td class="col-platforms"><div class="t-platforms">'+platformPills+'</div></td>'+
         '<td class="col-alloc"><div class="t-value">'+(f.maxAllocation||'—')+'</div><div class="t-value-sub">Per account</div></td>'+
         '<td class="col-payouts"><div class="t-value">'+(f.payoutTotal||'—')+'</div><div class="t-value-sub">Median '+(f.payoutMedianTime||'—')+'</div></td>'+
-        '<td class="col-deal"><div class="t-deal"><div class="t-deal-headline">'+dealHeadline(f)+'</div><div class="t-deal-code">Code <strong class="js-copy-champ">CHAMP</strong></div></div></td>'+
+        '<td class="col-deal"><div class="t-deal"><div class="t-deal-headline">'+dealHeadline(f)+'</div><span class="t-deal-chip js-copy-champ">CHAMP<span class="copy-hint">· COPY</span></span></div></td>'+
         '<td class="col-action"><span class="t-action" aria-label="Open firm review">→</span></td>'+
       '</tr>';
   }).join('');
