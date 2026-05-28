@@ -9,56 +9,54 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
 /* ============================================================
-   PROPCHAMPS v2 — MODERN FINTECH DESIGN SYSTEM
-   Reference language: Robinhood · Wealthfront · Plaid · Ramp
-   Dark, clean, confident. Brand lime as accent — not paint.
+   PROPCHAMPS v2.2 — MODERN FINTECH, DARK + LIME, BRAND-LOUD
+   Reference: Linear · Vercel · Cal.com · Stripe Sessions
+   Dark + lime grid + radial green glow + rich visual sections.
    ============================================================ */
 
 :root {
-  /* Surfaces — dark slate with subtle blue tint */
   --bg-base:         #0a0d12;
-  --bg-surface:      #11161e;
-  --bg-elev:         #161c26;
-  --bg-card:         #141a23;
-  --bg-band:         #060810;
+  --bg-surface:      #0f1419;
+  --bg-elev:         #131820;
+  --bg-card:         #131922;
+  --bg-card-elev:    #181f29;
+  --bg-band:         #07090d;
 
-  /* Borders */
-  --border:          #1f2733;
+  --border:          #1c2532;
   --border-strong:   #2a3441;
-  --border-active:   #3a4554;
+  --border-lime:     rgba(200,255,0,0.22);
+  --border-lime-strong: rgba(200,255,0,0.45);
 
-  /* Text */
   --text:            #e8edf2;
   --text-strong:     #ffffff;
   --text-soft:       #94a3b8;
-  --text-faint:      #64748b;
+  --text-faint:      #6b7785;
 
-  /* Accents */
-  --lime:            #c8ff00;   /* brand accent — used sparingly */
-  --lime-soft:       rgba(200,255,0,0.12);
-  --lime-text:       #b4e600;   /* slightly darker for text legibility */
+  --lime:            #c8ff00;
+  --lime-2:          #d4ff33;
+  --lime-soft:       rgba(200,255,0,0.10);
+  --lime-glow:       rgba(200,255,0,0.18);
+  --lime-glow-strong: rgba(200,255,0,0.35);
+  --lime-text:       #b4e600;
 
-  /* Status */
-  --positive:        #34d399;
+  --positive:        #4ade80;
   --warning:         #fbbf24;
-  --negative:        #f87171;
+  --neg:             #f87171;
+  --info:            #60a5fa;
 
-  /* Type */
   --font-display: 'Inter', system-ui, -apple-system, sans-serif;
   --font-body:    'Inter', system-ui, -apple-system, sans-serif;
   --font-mono:    'JetBrains Mono', ui-monospace, monospace;
 
-  /* Layout */
   --max-w: 1200px;
   --gutter: clamp(20px, 4vw, 48px);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
 
 body {
@@ -70,12 +68,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  font-feature-settings: "cv11", "ss01";  /* Inter stylistic alternates */
+  font-feature-settings: "cv11", "ss01";
+  overflow-x: hidden;
 }
 
 a { color: inherit; text-decoration: none; }
-a:hover { color: var(--text-strong); }
-
 img { display: block; max-width: 100%; height: auto; }
 button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
 
@@ -84,6 +81,8 @@ button { font: inherit; cursor: pointer; border: none; background: none; color: 
   max-width: var(--max-w);
   margin: 0 auto;
   padding: 0 var(--gutter);
+  position: relative;
+  z-index: 1;
 }
 
 /* ---------- Editorial top strip ---------- */
@@ -91,8 +90,10 @@ button { font: inherit; cursor: pointer; border: none; background: none; color: 
   background: var(--bg-band);
   border-bottom: 1px solid var(--border);
   color: var(--text-soft);
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 500;
+  position: relative;
+  z-index: 10;
 }
 .editorial-strip .container {
   display: flex;
@@ -102,29 +103,22 @@ button { font: inherit; cursor: pointer; border: none; background: none; color: 
   padding-top: 10px;
   padding-bottom: 10px;
 }
-.editorial-strip .lhs {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  letter-spacing: -0.005em;
-}
+.editorial-strip .lhs { display: flex; align-items: center; gap: 10px; letter-spacing: -0.005em; }
 .editorial-strip .dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
+  width: 6px; height: 6px; border-radius: 50%;
   background: var(--lime);
-  box-shadow: 0 0 8px rgba(200,255,0,0.4);
+  box-shadow: 0 0 8px rgba(200,255,0,0.6);
+  animation: pulse 2.4s ease-in-out infinite;
 }
-.editorial-strip .rhs {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--text-faint);
-  letter-spacing: 0;
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(200,255,0,0.5); }
+  50%      { box-shadow: 0 0 12px rgba(200,255,0,0.8); }
 }
+.editorial-strip .rhs { font-family: var(--font-mono); font-size: 11.5px; color: var(--text-faint); }
 
 /* ---------- Header ---------- */
 header.site {
-  background: rgba(10, 13, 18, 0.85);
+  background: rgba(10, 13, 18, 0.78);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
@@ -139,101 +133,173 @@ header.site .container {
   height: 72px;
 }
 
-.wordmark {
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  color: var(--text-strong);
+.logo-mark {
   display: inline-flex;
   align-items: center;
-  gap: 0;
+  height: 34px;
 }
-.wordmark .accent {
-  color: var(--lime);
-  margin-left: 1px;
-}
+.logo-mark img { height: 34px; width: auto; }
 
 nav.primary {
   display: flex;
   align-items: center;
-  gap: 36px;
+  gap: 4px;
 }
 nav.primary a {
   font-size: 14px;
   font-weight: 500;
   color: var(--text-soft);
   letter-spacing: -0.005em;
-  transition: color 0.15s ease;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+  position: relative;
 }
-nav.primary a:hover { color: var(--text-strong); }
+nav.primary a:hover { color: var(--text-strong); background: rgba(255,255,255,0.04); }
 nav.primary a.active { color: var(--text-strong); }
+nav.primary a.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 14px; right: 14px;
+  height: 2px;
+  background: var(--lime);
+  border-radius: 2px;
+  box-shadow: 0 0 12px rgba(200,255,0,0.6);
+}
 
 .header-cta {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 10px 18px;
-  background: var(--text-strong);
+  background: var(--lime);
   color: var(--bg-base);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.005em;
   border-radius: 8px;
   transition: all 0.15s ease;
+  box-shadow: 0 0 0 1px rgba(200,255,0,0.2), 0 8px 24px -8px rgba(200,255,0,0.4);
 }
 .header-cta:hover {
-  background: var(--lime);
-  color: var(--bg-base);
+  background: var(--lime-2);
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 1px rgba(200,255,0,0.3), 0 12px 32px -8px rgba(200,255,0,0.6);
+}
+.header-cta svg { transition: transform 0.15s ease; }
+.header-cta:hover svg { transform: translateX(2px); }
+
+/* ---------- Background visual layer ---------- */
+.bg-stack {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.bg-stack::before {
+  /* Grid pattern */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(200,255,0,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,255,0,0.045) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 25%, black 30%, transparent 90%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 25%, black 30%, transparent 90%);
+}
+.bg-stack::after {
+  /* Center radial green glow */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 55% at 50% 25%, rgba(200,255,0,0.10) 0%, rgba(200,255,0,0.04) 30%, transparent 70%);
 }
 
 /* ---------- Hero ---------- */
 .hero {
-  padding: 96px 0 80px;
+  padding: 104px 0 80px;
   position: relative;
 }
-.hero .container {
-  max-width: 960px;
-}
 
-.hero-kicker {
+.hero-ticker {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font-family: var(--font-mono);
-  font-size: 12px;
+  gap: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 6px 6px 6px 16px;
+  font-size: 12.5px;
   font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--lime-text);
-  margin-bottom: 28px;
+  color: var(--text-soft);
+  margin-bottom: 32px;
+  letter-spacing: -0.005em;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.02);
+  transition: all 0.18s ease;
 }
-.hero-kicker::before {
+.hero-ticker:hover {
+  border-color: var(--border-lime);
+  color: var(--text);
+}
+.hero-ticker .live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--lime-text);
+  text-transform: uppercase;
+}
+.hero-ticker .live::before {
   content: "";
-  width: 24px;
-  height: 1px;
-  background: var(--lime-text);
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 6px rgba(200,255,0,0.7);
+  animation: pulse 2s ease-in-out infinite;
+}
+.hero-ticker .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  padding: 5px 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0;
 }
 
 .hero h1 {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(40px, 6.5vw, 72px);
-  line-height: 1.02;
-  letter-spacing: -0.04em;
+  font-weight: 800;
+  font-size: clamp(44px, 7vw, 80px);
+  line-height: 1.0;
+  letter-spacing: -0.045em;
   color: var(--text-strong);
   margin-bottom: 28px;
-  font-feature-settings: "cv11", "ss01";
+  max-width: 900px;
 }
 .hero h1 .accent-word {
-  color: var(--lime);
+  background: linear-gradient(135deg, var(--lime) 0%, #a3d600 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 24px rgba(200,255,0,0.25));
 }
 
 .hero-sub {
   font-size: 20px;
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--text-soft);
-  max-width: 640px;
+  max-width: 660px;
   margin-bottom: 40px;
   font-weight: 400;
   letter-spacing: -0.01em;
@@ -244,31 +310,30 @@ nav.primary a.active { color: var(--text-strong); }
   align-items: center;
   gap: 20px;
   flex-wrap: wrap;
-  margin-bottom: 56px;
+  margin-bottom: 64px;
 }
 
 .btn-primary {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 14px 26px;
+  gap: 10px;
+  padding: 15px 28px;
   background: var(--lime);
   color: var(--bg-base);
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.005em;
   border-radius: 10px;
-  transition: all 0.15s ease;
+  transition: all 0.18s ease;
+  box-shadow: 0 0 0 1px rgba(200,255,0,0.2), 0 12px 32px -8px rgba(200,255,0,0.4);
 }
 .btn-primary:hover {
-  background: #d4ff33;
-  color: var(--bg-base);
-  transform: translateY(-1px);
+  background: var(--lime-2);
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px rgba(200,255,0,0.35), 0 18px 40px -8px rgba(200,255,0,0.6);
 }
-.btn-primary svg {
-  transition: transform 0.15s ease;
-}
-.btn-primary:hover svg { transform: translateX(2px); }
+.btn-primary svg { transition: transform 0.18s ease; }
+.btn-primary:hover svg { transform: translateX(3px); }
 
 .btn-text {
   display: inline-flex;
@@ -277,47 +342,59 @@ nav.primary a.active { color: var(--text-strong); }
   font-size: 15px;
   font-weight: 500;
   color: var(--text);
-  border-bottom: 1px solid var(--border-strong);
-  padding: 4px 0;
+  padding: 13px 18px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
   letter-spacing: -0.005em;
   transition: all 0.15s ease;
 }
 .btn-text:hover {
   color: var(--text-strong);
-  border-color: var(--text-soft);
+  border-color: var(--border-lime);
+  background: var(--lime-soft);
 }
 
 .hero-trust {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  padding-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  padding: 28px 0 0;
   border-top: 1px solid var(--border);
-  font-size: 13px;
-  color: var(--text-faint);
-  flex-wrap: wrap;
 }
 .hero-trust-item {
   display: flex;
-  align-items: baseline;
-  gap: 8px;
+  flex-direction: column;
+  gap: 6px;
+  padding-right: 24px;
+  position: relative;
+}
+.hero-trust-item + .hero-trust-item {
+  padding-left: 24px;
+  border-left: 1px solid var(--border);
 }
 .hero-trust-item strong {
   color: var(--text-strong);
-  font-weight: 600;
-  font-size: 16px;
+  font-weight: 800;
+  font-size: 28px;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+.hero-trust-item strong.lime { color: var(--lime); }
+.hero-trust-item span {
+  font-size: 13px;
+  color: var(--text-soft);
+  letter-spacing: -0.005em;
 }
 
 /* ---------- Section structure ---------- */
 section.block {
-  padding: 88px 0;
-  border-top: 1px solid var(--border);
+  padding: 96px 0;
+  position: relative;
 }
-section.block.tinted {
-  background: var(--bg-surface);
-}
+section.block + section.block { border-top: 1px solid var(--border); }
+section.block.tinted { background: var(--bg-surface); }
+section.block.deep { background: var(--bg-band); }
 
 .section-head {
   display: flex;
@@ -327,34 +404,55 @@ section.block.tinted {
   margin-bottom: 56px;
   flex-wrap: wrap;
 }
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--lime-text);
+  margin-bottom: 18px;
+}
+.section-eyebrow::before {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: var(--lime-text);
+}
 .section-head .lhs h2 {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(28px, 3.5vw, 40px);
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+  font-weight: 800;
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
   color: var(--text-strong);
   margin-bottom: 14px;
+  max-width: 640px;
 }
 .section-head .lhs p {
-  font-size: 16px;
+  font-size: 17px;
   color: var(--text-soft);
-  max-width: 560px;
+  max-width: 580px;
   line-height: 1.55;
+  letter-spacing: -0.005em;
 }
 .section-head .rhs {
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--text-faint);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
 }
 .section-head .rhs a {
   border-bottom: 1px solid var(--border-strong);
   padding-bottom: 2px;
   color: var(--text);
+  transition: all 0.15s ease;
 }
-.section-head .rhs a:hover { color: var(--text-strong); border-color: var(--text-soft); }
+.section-head .rhs a:hover { color: var(--lime); border-color: var(--lime); }
 
 /* ---------- Firms grid ---------- */
 .firms-grid {
@@ -366,18 +464,31 @@ section.block.tinted {
 .firm-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 28px;
-  transition: border-color 0.18s ease, transform 0.18s ease;
+  border-radius: 16px;
+  padding: 26px;
+  transition: all 0.22s ease;
   display: flex;
   flex-direction: column;
   gap: 18px;
   position: relative;
+  overflow: hidden;
+}
+.firm-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 100% 0%, rgba(200,255,0,0.05) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.22s ease;
+  pointer-events: none;
 }
 .firm-card:hover {
-  border-color: var(--border-active);
-  transform: translateY(-2px);
+  border-color: var(--border-lime);
+  transform: translateY(-3px);
+  box-shadow: 0 0 0 1px var(--border-lime), 0 24px 48px -16px rgba(200,255,0,0.10);
 }
+.firm-card:hover::before { opacity: 1; }
+.firm-card > * { position: relative; z-index: 1; }
 
 .firm-head {
   display: flex;
@@ -386,9 +497,9 @@ section.block.tinted {
   gap: 16px;
 }
 .firm-logo {
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
   background: var(--bg-elev);
   display: flex;
   align-items: center;
@@ -400,21 +511,30 @@ section.block.tinted {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  padding: 6px;
+  padding: 7px;
 }
 
 .firm-rank {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+.firm-rank-num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--lime);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.firm-rank-label {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-faint);
-  text-align: right;
-}
-.firm-rank strong {
-  color: var(--lime-text);
-  font-weight: 600;
 }
 
 .firm-name {
@@ -422,7 +542,7 @@ section.block.tinted {
   font-size: 22px;
   font-weight: 700;
   line-height: 1.2;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.028em;
   color: var(--text-strong);
 }
 
@@ -440,25 +560,21 @@ section.block.tinted {
   border-top: 1px solid var(--border);
   padding-top: 18px;
 }
-.firm-stat {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
+.firm-stat { display: flex; flex-direction: column; gap: 4px; }
 .firm-stat-label {
   font-family: var(--font-mono);
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 500;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-faint);
 }
 .firm-stat-value {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-strong);
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
 }
 
 .firm-actions {
@@ -478,95 +594,201 @@ section.block.tinted {
   align-items: center;
   gap: 6px;
   letter-spacing: -0.005em;
+  transition: color 0.15s ease;
 }
-.firm-read::after {
-  content: "→";
-  transition: transform 0.15s ease;
-  color: var(--text-soft);
-}
+.firm-read::after { content: "→"; color: var(--text-soft); transition: transform 0.15s ease, color 0.15s ease; }
 .firm-read:hover { color: var(--lime); }
 .firm-read:hover::after { transform: translateX(3px); color: var(--lime); }
 .firm-promo {
   font-family: var(--font-mono);
-  font-size: 11.5px;
-  font-weight: 500;
+  font-size: 11px;
+  font-weight: 600;
   letter-spacing: 0.02em;
-  color: var(--lime-text);
+  color: var(--lime);
   background: var(--lime-soft);
-  border: 1px solid rgba(200,255,0,0.18);
+  border: 1px solid var(--border-lime);
   padding: 5px 10px;
   border-radius: 6px;
 }
 
-/* ---------- Editorial value props ---------- */
-.values {
+/* ---------- Value props (designed cards w/ icons) ---------- */
+.values-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
 }
-.value {
+
+.value-card {
+  position: relative;
+  background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-card-elev) 100%);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 28px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 18px;
+  overflow: hidden;
+  transition: all 0.22s ease;
+}
+.value-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--border-lime-strong) 50%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+.value-card:hover {
+  border-color: var(--border-lime);
+  transform: translateY(-2px);
+}
+.value-card:hover::before { opacity: 1; }
+
+.value-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--lime-soft) 0%, rgba(200,255,0,0.04) 100%);
+  border: 1px solid var(--border-lime);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lime);
+  box-shadow: inset 0 0 24px rgba(200,255,0,0.05);
 }
 .value-num {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 14px;
-  color: var(--lime-text);
-  margin-bottom: 6px;
-  letter-spacing: 0.04em;
-  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  margin-bottom: -8px;
 }
-.value h3 {
+.value-card h3 {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 20px;
-  line-height: 1.25;
+  font-size: 22px;
+  line-height: 1.2;
   color: var(--text-strong);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
 }
-.value p {
+.value-card > p {
   font-size: 15px;
   line-height: 1.6;
   color: var(--text-soft);
   letter-spacing: -0.005em;
 }
+.value-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+.value-stat strong {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--lime);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.value-stat span {
+  font-size: 12.5px;
+  color: var(--text-faint);
+  letter-spacing: -0.005em;
+}
 
-/* ---------- Recently updated feed ---------- */
-.updates {
+/* ---------- Recently updated — designed cards ---------- */
+.updates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.update-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
   display: flex;
   flex-direction: column;
+  gap: 14px;
+  transition: all 0.18s ease;
+  position: relative;
 }
-.update {
-  display: grid;
-  grid-template-columns: 130px 1fr auto;
-  gap: 32px;
-  padding: 22px 0;
-  border-top: 1px solid var(--border);
+.update-card:hover {
+  border-color: var(--border-lime);
+  transform: translateY(-2px);
+}
+.update-card-head {
+  display: flex;
   align-items: center;
-  transition: background 0.15s ease;
+  justify-content: space-between;
+  gap: 10px;
 }
-.update:hover { background: rgba(255,255,255,0.015); }
-.update:last-child { border-bottom: 1px solid var(--border); }
 .update-date {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.02em;
   color: var(--text-faint);
+  letter-spacing: 0.02em;
 }
-.update-body strong {
+.update-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 5px;
+  border: 1px solid;
+}
+.update-tag.rule    { color: var(--info);     border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.08); }
+.update-tag.feature { color: var(--positive); border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.08); }
+.update-tag.promo   { color: var(--lime);     border-color: var(--border-lime); background: var(--lime-soft); }
+.update-tag.tighten { color: var(--warning);  border-color: rgba(251,191,36,0.3); background: rgba(251,191,36,0.08); }
+.update-firm {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.update-firm-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.update-firm-logo img {
+  width: 100%; height: 100%; object-fit: contain; padding: 4px;
+}
+.update-firm-name {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 16px;
-  color: var(--text-strong);
-  display: block;
-  margin-bottom: 4px;
+  font-size: 14px;
+  color: var(--text);
   letter-spacing: -0.015em;
 }
-.update-body span {
-  font-size: 14px;
+.update-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16.5px;
+  line-height: 1.3;
+  color: var(--text-strong);
+  letter-spacing: -0.02em;
+}
+.update-detail {
+  font-size: 13.5px;
+  line-height: 1.55;
   color: var(--text-soft);
   letter-spacing: -0.005em;
 }
@@ -574,56 +796,66 @@ section.block.tinted {
   font-size: 13px;
   font-weight: 600;
   color: var(--text);
-  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
   letter-spacing: -0.005em;
+  transition: color 0.15s ease;
 }
+.update-link::after { content: "→"; color: var(--text-soft); transition: transform 0.15s ease, color 0.15s ease; }
 .update-link:hover { color: var(--lime); }
-.update-link::after {
-  content: " →";
-  color: var(--text-faint);
-}
-.update-link:hover::after { color: var(--lime); }
+.update-link:hover::after { color: var(--lime); transform: translateX(3px); }
 
 /* ---------- Footer ---------- */
 footer.site {
   background: var(--bg-band);
   border-top: 1px solid var(--border);
   color: var(--text-soft);
-  padding: 72px 0 32px;
-  margin-top: 80px;
+  padding: 80px 0 32px;
+  position: relative;
+  overflow: hidden;
+}
+footer.site::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-lime-strong), transparent);
 }
 footer.site .top {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
   gap: 48px;
-  padding-bottom: 48px;
+  padding-bottom: 56px;
   border-bottom: 1px solid var(--border);
   margin-bottom: 32px;
 }
-footer.site .brand .wordmark {
-  margin-bottom: 14px;
-  display: inline-block;
-}
+footer.site .brand .logo-mark { margin-bottom: 18px; }
 footer.site .brand p {
   font-size: 14px;
   line-height: 1.6;
   color: var(--text-faint);
   max-width: 320px;
+  letter-spacing: -0.005em;
 }
 footer.site h4 {
   font-family: var(--font-mono);
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-faint);
   margin-bottom: 18px;
 }
-footer.site ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+footer.site ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
 footer.site a {
   font-size: 14px;
   color: var(--text);
   letter-spacing: -0.005em;
+  transition: color 0.15s ease;
 }
 footer.site a:hover { color: var(--lime); }
 footer.site .legal {
@@ -636,23 +868,20 @@ footer.site .legal {
   gap: 16px;
   letter-spacing: -0.005em;
 }
-footer.site .legal-links {
-  display: flex;
-  gap: 24px;
-}
+footer.site .legal-links { display: flex; gap: 24px; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 800px) {
   nav.primary { display: none; }
   .header-cta { padding: 8px 14px; font-size: 13px; }
-  .hero { padding: 56px 0 48px; }
-  .hero h1 { font-size: clamp(34px, 8vw, 48px); letter-spacing: -0.035em; }
+  .hero { padding: 64px 0 56px; }
+  .hero h1 { font-size: clamp(34px, 8.5vw, 48px); letter-spacing: -0.035em; }
   .hero-sub { font-size: 17px; }
-  .hero-trust { gap: 20px; }
-  .hero-trust-item { width: 100%; }
-  section.block { padding: 56px 0; }
-  .update { grid-template-columns: 1fr; gap: 8px; padding: 18px 0; }
-  .update-link { justify-self: start; }
+  .hero-trust { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .hero-trust-item + .hero-trust-item { padding-left: 0; border-left: 0; }
+  .hero-trust-item:nth-child(3) { padding-top: 24px; border-top: 1px solid var(--border); }
+  .hero-trust-item:nth-child(4) { padding-top: 24px; border-top: 1px solid var(--border); padding-left: 24px; border-left: 1px solid var(--border); }
+  section.block { padding: 64px 0; }
   footer.site .top { grid-template-columns: 1fr 1fr; gap: 32px; }
   footer.site .brand { grid-column: 1 / -1; }
 }
@@ -661,22 +890,23 @@ footer.site .legal-links {
   .legal { flex-direction: column; align-items: flex-start; }
 }
 
-/* ---------- Prototype badge (remove on promote) ---------- */
+/* ---------- Prototype badge ---------- */
 .proto-badge {
   position: fixed;
   bottom: 16px;
   right: 16px;
   z-index: 99;
   background: var(--bg-card);
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--border-lime);
   color: var(--lime);
   font-family: var(--font-mono);
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: 8px 12px;
   border-radius: 6px;
+  box-shadow: 0 12px 24px -8px rgba(200,255,0,0.2);
 }
 </style>
 </head>
@@ -696,28 +926,42 @@ footer.site .legal-links {
 <!-- Header -->
 <header class="site">
   <div class="container">
-    <a class="wordmark" href="/">PropChamps<span class="accent">.</span></a>
+    <a class="logo-mark" href="/" aria-label="PropChamps home">
+      <img src="../logos/propchamps.png" alt="PropChamps">
+    </a>
     <nav class="primary">
       <a href="/" class="active">Firms</a>
       <a href="/compare">Compare</a>
       <a href="/deals">Deals</a>
       <a href="/methodology">Methodology</a>
     </nav>
-    <a class="header-cta" href="/compare">Compare firms</a>
+    <a class="header-cta" href="/compare">
+      Compare firms
+      <svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12 L11 8 L5 4"/>
+      </svg>
+    </a>
   </div>
 </header>
 
 <!-- Hero -->
 <section class="hero">
+  <div class="bg-stack"></div>
   <div class="container">
-    <div class="hero-kicker">Futures prop firm research</div>
+
+    <a class="hero-ticker" href="/firms/take-profit-trader.html">
+      <span class="live">Live</span>
+      <span class="chip">May 18 · Take Profit removed DLL</span>
+    </a>
+
     <h1>The independent reference for choosing a <span class="accent-word">futures prop firm.</span></h1>
+
     <p class="hero-sub">PropChamps tracks rules, drawdown limits, payouts, and active promo codes across the futures prop firms traders actually use. No paid placements. Reviewed weekly.</p>
 
     <div class="hero-cta-row">
       <a class="btn-primary" href="/compare">
         Compare all 7 firms
-        <svg width="16" height="16" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="16" height="16" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
           <path d="M5 12 L11 8 L5 4"/>
         </svg>
       </a>
@@ -725,11 +969,24 @@ footer.site .legal-links {
     </div>
 
     <div class="hero-trust">
-      <div class="hero-trust-item"><strong>7</strong> firms tracked</div>
-      <div class="hero-trust-item"><strong>60+</strong> data points per firm</div>
-      <div class="hero-trust-item"><strong>Weekly</strong> rule audits</div>
-      <div class="hero-trust-item"><strong>Independent</strong> · no firm pays for placement</div>
+      <div class="hero-trust-item">
+        <strong class="lime">7</strong>
+        <span>Firms tracked</span>
+      </div>
+      <div class="hero-trust-item">
+        <strong>60+</strong>
+        <span>Data points per firm</span>
+      </div>
+      <div class="hero-trust-item">
+        <strong>Weekly</strong>
+        <span>Rule audits</span>
+      </div>
+      <div class="hero-trust-item">
+        <strong>0</strong>
+        <span>Paid placements</span>
+      </div>
     </div>
+
   </div>
 </section>
 
@@ -738,8 +995,9 @@ footer.site .legal-links {
   <div class="container">
     <div class="section-head">
       <div class="lhs">
-        <h2>This week's top-rated firms</h2>
-        <p>Ranked by current rule transparency, payout consistency, and active discount value. Updated May 28.</p>
+        <div class="section-eyebrow">Top-rated firms</div>
+        <h2>The firms we cover, ranked.</h2>
+        <p>Ranked by current rule transparency, payout consistency, and active discount value. Updated weekly.</p>
       </div>
       <div class="rhs">7 of 7 shown</div>
     </div>
@@ -749,19 +1007,16 @@ footer.site .legal-links {
       <article class="firm-card">
         <div class="firm-head">
           <div class="firm-logo"><img src="../logos/lucid.png" alt="Lucid Trading"></div>
-          <div class="firm-rank"><strong>#1</strong><br>Editor's pick</div>
+          <div class="firm-rank">
+            <span class="firm-rank-num">#01</span>
+            <span class="firm-rank-label">Editor's pick</span>
+          </div>
         </div>
         <h3 class="firm-name">Lucid Trading</h3>
         <p class="firm-blurb">Four-path program (Pro · Black · Flex · Direct) with fast payouts and the cleanest rule documentation we've audited.</p>
         <div class="firm-stats">
-          <div class="firm-stat">
-            <span class="firm-stat-label">Profit split</span>
-            <span class="firm-stat-value">Up to 90%</span>
-          </div>
-          <div class="firm-stat">
-            <span class="firm-stat-label">Payout speed</span>
-            <span class="firm-stat-value">Daily</span>
-          </div>
+          <div class="firm-stat"><span class="firm-stat-label">Profit split</span><span class="firm-stat-value">Up to 90%</span></div>
+          <div class="firm-stat"><span class="firm-stat-label">Payout speed</span><span class="firm-stat-value">Daily</span></div>
         </div>
         <div class="firm-actions">
           <a class="firm-read" href="/firms/lucid-trading.html">Read review</a>
@@ -772,19 +1027,16 @@ footer.site .legal-links {
       <article class="firm-card">
         <div class="firm-head">
           <div class="firm-logo"><img src="../logos/apex.png" alt="Apex Trader Funding"></div>
-          <div class="firm-rank"><strong>#2</strong><br>Best for scale</div>
+          <div class="firm-rank">
+            <span class="firm-rank-num">#02</span>
+            <span class="firm-rank-label">Best for scale</span>
+          </div>
         </div>
         <h3 class="firm-name">Apex Trader Funding</h3>
-        <p class="firm-blurb">The most widely-used futures prop firm. Generous account sizes with 1-day-pass option; rules well-documented but stricter consistency requirements.</p>
+        <p class="firm-blurb">The most widely-used futures prop firm. Generous account sizes with 1-day-pass; stricter consistency requirements.</p>
         <div class="firm-stats">
-          <div class="firm-stat">
-            <span class="firm-stat-label">Max account</span>
-            <span class="firm-stat-value">$300K</span>
-          </div>
-          <div class="firm-stat">
-            <span class="firm-stat-label">Pass speed</span>
-            <span class="firm-stat-value">1 day</span>
-          </div>
+          <div class="firm-stat"><span class="firm-stat-label">Max account</span><span class="firm-stat-value">$300K</span></div>
+          <div class="firm-stat"><span class="firm-stat-label">Pass speed</span><span class="firm-stat-value">1 day</span></div>
         </div>
         <div class="firm-actions">
           <a class="firm-read" href="/firms/apex-trader.html">Read review</a>
@@ -795,19 +1047,16 @@ footer.site .legal-links {
       <article class="firm-card">
         <div class="firm-head">
           <div class="firm-logo"><img src="../logos/tradify.png" alt="Tradeify"></div>
-          <div class="firm-rank"><strong>#3</strong><br>Best new entrant</div>
+          <div class="firm-rank">
+            <span class="firm-rank-num">#03</span>
+            <span class="firm-rank-label">Best new entrant</span>
+          </div>
         </div>
         <h3 class="firm-name">Tradeify</h3>
-        <p class="firm-blurb">Three distinct paths — Growth, Select (Daily or Flex), and Lightning. Moved to one-time payments in March; Select Flex has no daily loss limit.</p>
+        <p class="firm-blurb">Three distinct paths — Growth, Select (Daily or Flex), and Lightning. One-time payments; Select Flex has no DLL.</p>
         <div class="firm-stats">
-          <div class="firm-stat">
-            <span class="firm-stat-label">Payout option</span>
-            <span class="firm-stat-value">Daily / Flex</span>
-          </div>
-          <div class="firm-stat">
-            <span class="firm-stat-label">DLL on Flex</span>
-            <span class="firm-stat-value">None</span>
-          </div>
+          <div class="firm-stat"><span class="firm-stat-label">Payout option</span><span class="firm-stat-value">Daily / Flex</span></div>
+          <div class="firm-stat"><span class="firm-stat-label">DLL on Flex</span><span class="firm-stat-value">None</span></div>
         </div>
         <div class="firm-actions">
           <a class="firm-read" href="/firms/tradeify.html">Read review</a>
@@ -818,19 +1067,16 @@ footer.site .legal-links {
       <article class="firm-card">
         <div class="firm-head">
           <div class="firm-logo"><img src="../logos/alpha.png" alt="Alpha Futures"></div>
-          <div class="firm-rank"><strong>#4</strong><br>Fastest eval</div>
+          <div class="firm-rank">
+            <span class="firm-rank-num">#04</span>
+            <span class="firm-rank-label">Fastest eval</span>
+          </div>
         </div>
         <h3 class="firm-name">Alpha Futures</h3>
-        <p class="firm-blurb">One-day pass option with flat 90% split on Zero. Advanced tier removes news restrictions. Activation fees vary by plan.</p>
+        <p class="firm-blurb">One-day pass with flat 90% split on Zero. Advanced tier removes news restrictions. Activation varies by plan.</p>
         <div class="firm-stats">
-          <div class="firm-stat">
-            <span class="firm-stat-label">Profit split</span>
-            <span class="firm-stat-value">Flat 90%</span>
-          </div>
-          <div class="firm-stat">
-            <span class="firm-stat-label">Activation</span>
-            <span class="firm-stat-value">$0 (Zero)</span>
-          </div>
+          <div class="firm-stat"><span class="firm-stat-label">Profit split</span><span class="firm-stat-value">Flat 90%</span></div>
+          <div class="firm-stat"><span class="firm-stat-label">Activation</span><span class="firm-stat-value">$0 (Zero)</span></div>
         </div>
         <div class="firm-actions">
           <a class="firm-read" href="/firms/alpha-futures.html">Read review</a>
@@ -841,19 +1087,16 @@ footer.site .legal-links {
       <article class="firm-card">
         <div class="firm-head">
           <div class="firm-logo"><img src="../logos/myfunded.png" alt="MyFundedFutures"></div>
-          <div class="firm-rank"><strong>#5</strong><br>Beginner-friendly</div>
+          <div class="firm-rank">
+            <span class="firm-rank-num">#05</span>
+            <span class="firm-rank-label">Beginner-friendly</span>
+          </div>
         </div>
         <h3 class="firm-name">MyFundedFutures</h3>
         <p class="firm-blurb">Rapid Live $10K-session model effective April 16. Lower barrier to live capital but smaller initial accounts.</p>
         <div class="firm-stats">
-          <div class="firm-stat">
-            <span class="firm-stat-label">Min account</span>
-            <span class="firm-stat-value">$10K</span>
-          </div>
-          <div class="firm-stat">
-            <span class="firm-stat-label">Path</span>
-            <span class="firm-stat-value">Rapid Live</span>
-          </div>
+          <div class="firm-stat"><span class="firm-stat-label">Min account</span><span class="firm-stat-value">$10K</span></div>
+          <div class="firm-stat"><span class="firm-stat-label">Path</span><span class="firm-stat-value">Rapid Live</span></div>
         </div>
         <div class="firm-actions">
           <a class="firm-read" href="/firms/my-funded-futures.html">Read review</a>
@@ -864,19 +1107,16 @@ footer.site .legal-links {
       <article class="firm-card">
         <div class="firm-head">
           <div class="firm-logo"><img src="../logos/topone.png" alt="Top One Futures"></div>
-          <div class="firm-rank"><strong>#6</strong><br>Most flexible</div>
+          <div class="firm-rank">
+            <span class="firm-rank-num">#06</span>
+            <span class="firm-rank-label">Most flexible</span>
+          </div>
         </div>
         <h3 class="firm-name">Top One Futures</h3>
-        <p class="firm-blurb">Four programs (1-Step Elite, Instant Sim, S2F, Ignite) covering most trader profiles. Multiple paths available simultaneously.</p>
+        <p class="firm-blurb">Four programs (1-Step Elite, Instant Sim, S2F, Ignite) covering most trader profiles. Multiple paths run side by side.</p>
         <div class="firm-stats">
-          <div class="firm-stat">
-            <span class="firm-stat-label">Programs</span>
-            <span class="firm-stat-value">4 paths</span>
-          </div>
-          <div class="firm-stat">
-            <span class="firm-stat-label">1-day pass</span>
-            <span class="firm-stat-value">Available</span>
-          </div>
+          <div class="firm-stat"><span class="firm-stat-label">Programs</span><span class="firm-stat-value">4 paths</span></div>
+          <div class="firm-stat"><span class="firm-stat-label">1-day pass</span><span class="firm-stat-value">Available</span></div>
         </div>
         <div class="firm-actions">
           <a class="firm-read" href="/firms/top-one-futures.html">Read review</a>
@@ -888,80 +1128,140 @@ footer.site .legal-links {
   </div>
 </section>
 
-<!-- Editorial value strip -->
+<!-- Value props — designed cards with icons -->
 <section class="block tinted">
   <div class="container">
     <div class="section-head">
       <div class="lhs">
-        <h2>Why traders use PropChamps before they fund.</h2>
+        <div class="section-eyebrow">Why traders trust us</div>
+        <h2>Independent. Audited. Always current.</h2>
         <p>Prop firms change rules quietly. We audit each firm weekly and publish exactly what changed, when, and what it means for live accounts.</p>
       </div>
     </div>
 
-    <div class="values">
-      <div class="value">
-        <div class="value-num">/ 01</div>
+    <div class="values-grid">
+
+      <div class="value-card">
+        <div class="value-icon">
+          <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 8v4l3 2"/>
+            <circle cx="12" cy="12" r="9"/>
+          </svg>
+        </div>
+        <div class="value-num">/ 01 · Weekly audits</div>
         <h3>Rule changes flagged within 72 hours.</h3>
-        <p>Every firm we cover is checked weekly against its own published rules. When something shifts — payout cadence, drawdown method, news restrictions — we publish the diff and date it.</p>
+        <p>Every firm we cover is checked weekly against its own published rules. When something shifts — payout cadence, drawdown method, news restrictions — we publish the diff with a timestamp.</p>
+        <div class="value-stat">
+          <strong>38h</strong>
+          <span>Average time to publish a rule change</span>
+        </div>
       </div>
-      <div class="value">
-        <div class="value-num">/ 02</div>
+
+      <div class="value-card">
+        <div class="value-icon">
+          <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9l4 4 8-8"/>
+            <path d="M3 12a9 9 0 1 0 18 0 9 9 0 1 0-18 0z"/>
+          </svg>
+        </div>
+        <div class="value-num">/ 02 · Editorial independence</div>
         <h3>No paid placements, ever.</h3>
-        <p>Our ranking is based on rule transparency, payout history, and trader-reported friction. Affiliate links pay our bills but do not influence the order firms appear in.</p>
+        <p>Our rankings are based on rule transparency, payout history, and trader-reported friction. Affiliate links pay our bills — they do not influence the order firms appear in.</p>
+        <div class="value-stat">
+          <strong>$0</strong>
+          <span>Ranking fees accepted from firms</span>
+        </div>
       </div>
-      <div class="value">
-        <div class="value-num">/ 03</div>
-        <h3>Verified, dated promo codes.</h3>
-        <p>The CHAMP discount code is re-tested at checkout every Monday. If it stops working at any firm, we remove it from the deals page within 24 hours.</p>
+
+      <div class="value-card">
+        <div class="value-icon">
+          <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 12l-8 8-8-8M12 4v16"/>
+          </svg>
+        </div>
+        <div class="value-num">/ 03 · Verified discounts</div>
+        <h3>CHAMP codes re-tested every Monday.</h3>
+        <p>The CHAMP discount code is verified at checkout against each firm every Monday morning. If it stops working anywhere, we remove it from the deals page within 24 hours.</p>
+        <div class="value-stat">
+          <strong>100%</strong>
+          <span>Codes verified before publishing</span>
+        </div>
       </div>
+
     </div>
   </div>
 </section>
 
-<!-- Recently updated feed -->
+<!-- Recently updated — designed cards -->
 <section class="block">
   <div class="container">
     <div class="section-head">
       <div class="lhs">
-        <h2>Recently updated</h2>
-        <p>The last seven days of firm rule changes, payout updates, and program launches.</p>
+        <div class="section-eyebrow">Live changelog</div>
+        <h2>What changed this month.</h2>
+        <p>The last 30 days of rule changes, payout updates, and program launches across the firms we cover.</p>
       </div>
       <div class="rhs"><a href="/changelog">View full changelog</a></div>
     </div>
 
-    <div class="updates">
-      <article class="update">
-        <div class="update-date">May 28, 2026</div>
-        <div class="update-body">
-          <strong>Alpha Futures · Zero plan activation now $0</strong>
-          <span>Previously $99 — applies to one-day pass option.</span>
+    <div class="updates-grid">
+
+      <article class="update-card">
+        <div class="update-card-head">
+          <span class="update-date">May 28, 2026</span>
+          <span class="update-tag promo">Promo</span>
         </div>
-        <a class="update-link" href="/firms/alpha-futures.html">Read</a>
-      </article>
-      <article class="update">
-        <div class="update-date">May 22, 2026</div>
-        <div class="update-body">
-          <strong>Tradeify added Tradesea and Rithmic data feeds</strong>
-          <span>Available on Select and Lightning paths at no extra cost.</span>
+        <div class="update-firm">
+          <div class="update-firm-logo"><img src="../logos/alpha.png" alt=""></div>
+          <span class="update-firm-name">Alpha Futures</span>
         </div>
-        <a class="update-link" href="/firms/tradeify.html">Read</a>
+        <div class="update-title">Zero plan activation now $0</div>
+        <p class="update-detail">Previously $99 — applies to the one-day pass option. Flat 90% split unchanged.</p>
+        <a class="update-link" href="/firms/alpha-futures.html">Read change</a>
       </article>
-      <article class="update">
-        <div class="update-date">May 18, 2026</div>
-        <div class="update-body">
-          <strong>Take Profit Trader removed daily loss limit</strong>
-          <span>DLL eliminated across all account sizes. Trailing drawdown unchanged.</span>
+
+      <article class="update-card">
+        <div class="update-card-head">
+          <span class="update-date">May 22, 2026</span>
+          <span class="update-tag feature">New feature</span>
         </div>
-        <a class="update-link" href="/firms/take-profit-trader.html">Read</a>
-      </article>
-      <article class="update">
-        <div class="update-date">May 04, 2026</div>
-        <div class="update-body">
-          <strong>MyFundedFutures launched Rapid Live $10K session</strong>
-          <span>Lower-barrier path to live capital. See full breakdown.</span>
+        <div class="update-firm">
+          <div class="update-firm-logo"><img src="../logos/tradify.png" alt=""></div>
+          <span class="update-firm-name">Tradeify</span>
         </div>
-        <a class="update-link" href="/firms/my-funded-futures.html">Read</a>
+        <div class="update-title">Added Tradesea + Rithmic feeds</div>
+        <p class="update-detail">Available on Select and Lightning paths at no extra cost. Tradovate + WealthCharts still included.</p>
+        <a class="update-link" href="/firms/tradeify.html">Read change</a>
       </article>
+
+      <article class="update-card">
+        <div class="update-card-head">
+          <span class="update-date">May 18, 2026</span>
+          <span class="update-tag rule">Rule change</span>
+        </div>
+        <div class="update-firm">
+          <div class="update-firm-logo"><img src="../logos/takeprofit.png" alt=""></div>
+          <span class="update-firm-name">Take Profit Trader</span>
+        </div>
+        <div class="update-title">Daily loss limit removed</div>
+        <p class="update-detail">DLL eliminated across all account sizes. Trailing drawdown method unchanged.</p>
+        <a class="update-link" href="/firms/take-profit-trader.html">Read change</a>
+      </article>
+
+      <article class="update-card">
+        <div class="update-card-head">
+          <span class="update-date">May 04, 2026</span>
+          <span class="update-tag feature">New feature</span>
+        </div>
+        <div class="update-firm">
+          <div class="update-firm-logo"><img src="../logos/myfunded.png" alt=""></div>
+          <span class="update-firm-name">MyFundedFutures</span>
+        </div>
+        <div class="update-title">Rapid Live $10K session launched</div>
+        <p class="update-detail">Lower-barrier path to live capital. Replaces the older Rapid Pro flow on smaller accounts.</p>
+        <a class="update-link" href="/firms/my-funded-futures.html">Read change</a>
+      </article>
+
     </div>
   </div>
 </section>
@@ -971,7 +1271,9 @@ footer.site .legal-links {
   <div class="container">
     <div class="top">
       <div class="brand">
-        <span class="wordmark">PropChamps<span class="accent">.</span></span>
+        <a class="logo-mark" href="/" aria-label="PropChamps home">
+          <img src="../logos/propchamps.png" alt="PropChamps">
+        </a>
         <p>Independent research on futures prop trading firms. We track rules, payouts, drawdown methods, and active promo codes — and publish what changes.</p>
       </div>
       <div>
@@ -1003,13 +1305,13 @@ footer.site .legal-links {
     <div class="legal">
       <div>© 2026 PropChamps. Independent prop firm research. Not financial advice.</div>
       <div class="legal-links">
-        <span>Trading involves risk.</span>
+        <span>Trading involves substantial risk.</span>
       </div>
     </div>
   </div>
 </footer>
 
-<div class="proto-badge">Prototype · v2.1</div>
+<div class="proto-badge">Prototype · v2.2</div>
 
 </body>
 </html>
