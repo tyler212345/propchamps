@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PropChamps — Futures Prop Firm Comparison</title>
-<!-- SEO META BLOCK -->
 <meta name="description" content="PropChamps tracks futures prop trading firms — rules, drawdown limits, payouts, and live promo codes. Compare 7 firms with code CHAMP for active discounts.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://propchamps.net/">
@@ -18,3726 +17,1568 @@
 <meta name="twitter:title" content="PropChamps — Futures Prop Firm Comparison">
 <meta name="twitter:description" content="PropChamps tracks futures prop trading firms — rules, drawdown limits, payouts, and live promo codes. Compare 7 firms with code CHAMP for active discounts.">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","name":"PropChamps — Futures Prop Firm Comparison","url":"https://propchamps.net/","description":"PropChamps tracks futures prop trading firms — rules, drawdown limits, payouts, and live promo codes. Compare 7 firms with code CHAMP for active discounts.","publisher":{"@type":"Organization","name":"PropChamps","url":"https://propchamps.net"}}
+{"@context":"https://schema.org","@type":"WebSite","name":"PropChamps — Futures Prop Firm Comparison","url":"https://propchamps.net/","description":"PropChamps tracks futures prop trading firms — rules, drawdown limits, payouts, and live promo codes. Compare 7 firms with code CHAMP for active discounts.","publisher":{"@type":"Organization","name":"PropChamps","url":"https://propchamps.net","logo":{"@type":"ImageObject","url":"https://propchamps.net/logos/propchamps.png"}}}
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
 <style>
 /* ============================================================
-   PROPCHAMPS — DESIGN SYSTEM
-   Terminal-grade trading aesthetic. Dark. Precise. Trusted.
+   PROPCHAMPS — MODERN FINTECH DESIGN SYSTEM (production)
+   Dark + lime + subtle grid + radial glow + rich visual sections.
    ============================================================ */
 
 :root {
-  /* Core Palette */
-  --bg-base:       #080a0c;
-  --bg-surface:    #0d1014;
-  --bg-elevated:   #121619;
-  --bg-panel:      #171c21;
-  --border-dim:    #1e262e;
-  --border-mid:    #253040;
-  --border-active: #304050;
+  --bg-base:         #0a0d12;
+  --bg-surface:      #0f1419;
+  --bg-elev:         #131820;
+  --bg-card:         #131922;
+  --bg-card-elev:    #181f29;
+  --bg-band:         #07090d;
 
-  /* Typography */
-  --text-primary:  #e8edf2;
-  --text-secondary:#8a9bb0;
-  --text-tertiary: #4d6070;
-  --text-inverse:  #080a0c;
+  --border:          #1c2532;
+  --border-strong:   #2a3441;
+  --border-lime:     rgba(200,255,0,0.22);
+  --border-lime-strong: rgba(200,255,0,0.45);
 
-  /* Accent — Neon Lime */
-  --accent:        #c8ff00;
-  
-  --lime: var(--accent);
-  --lime-glow: var(--accent-glow);
-  --lime-glow-strong: rgba(200, 255, 0, 0.3);
-  --border-lime: rgba(200,255,0,0.25);
---accent-dim:    #7aad00;
-  --accent-glow:   rgba(179,255,0,0.12);
-  --accent-subtle: rgba(179,255,0,0.06);
+  --text:            #e8edf2;
+  --text-strong:     #ffffff;
+  --text-soft:       #94a3b8;
+  --text-faint:      #6b7785;
 
-  /* Status */
-  --positive:      #00d68f;
-  --warning:       #f5a623;
-  --negative:      #ff4d6a;
+  --lime:            #c8ff00;
+  --lime-2:          #d4ff33;
+  --lime-soft:       rgba(200,255,0,0.10);
+  --lime-glow:       rgba(200,255,0,0.18);
+  --lime-glow-strong: rgba(200,255,0,0.35);
+  --lime-text:       #b4e600;
 
-  /* Spacing Scale */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 20px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-10: 40px;
-  --space-12: 48px;
-  --space-16: 64px;
-  --space-20: 80px;
-  --space-24: 96px;
+  --positive:        #4ade80;
+  --warning:         #fbbf24;
+  --neg:             #f87171;
+  --info:            #60a5fa;
 
-  /* Typography */
-  --font-display: 'Syne', sans-serif;
-  --font-body:    'IBM Plex Sans', sans-serif;
-  --font-mono:    'DM Mono', monospace;
+  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
 
-  /* Layout */
-  --max-w: 1280px;
-  --radius-sm: 3px;
-  --radius-md: 6px;
-  --radius-lg: 10px;
+  --max-w: 1200px;
+  --gutter: clamp(20px, 4vw, 48px);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
 
 body {
   background: var(--bg-base);
-  color: var(--text-primary);
+  color: var(--text);
   font-family: var(--font-body);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "cv11", "ss01";
   overflow-x: hidden;
 }
 
-/* Scanline texture overlay */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0,0,0,0.03) 2px,
-    rgba(0,0,0,0.03) 4px
-  );
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ============================================================ UTILITIES */
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; height: auto; }
+button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
 
 .container {
+  width: 100%;
   max-width: var(--max-w);
   margin: 0 auto;
-  padding: 0 var(--space-6);
+  padding: 0 var(--gutter);
+  position: relative;
+  z-index: 1;
 }
 
-.mono { font-family: var(--font-mono); }
+/* ---------- Editorial top strip ---------- */
+.editorial-strip {
+  background: var(--bg-band);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-soft);
+  font-size: 12.5px;
+  font-weight: 500;
+  position: relative;
+  z-index: 10;
+}
+.editorial-strip .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.editorial-strip .lhs { display: flex; align-items: center; gap: 10px; letter-spacing: -0.005em; }
+.editorial-strip .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 8px rgba(200,255,0,0.6);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(200,255,0,0.5); }
+  50%      { box-shadow: 0 0 12px rgba(200,255,0,0.8); }
+}
+.editorial-strip .rhs { font-family: var(--font-mono); font-size: 11.5px; color: var(--text-faint); }
 
-.accent-text { color: var(--accent); }
-
-.tag {
+/* ---------- Header ---------- */
+header.site {
+  background: rgba(10, 13, 18, 0.78);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+}
+header.site .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+}
+.logo-mark {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
+  height: 44px;
+  transition: opacity 0.15s ease;
+}
+.logo-mark img { height: 44px; width: auto; }
+.logo-mark:hover { opacity: 0.85; }
+
+nav.primary {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+nav.primary a {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-soft);
+  letter-spacing: -0.005em;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+  position: relative;
+}
+nav.primary a:hover { color: var(--text-strong); background: rgba(255,255,255,0.04); }
+nav.primary a.active { color: var(--text-strong); }
+nav.primary a.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 14px; right: 14px;
+  height: 2px;
+  background: var(--lime);
+  border-radius: 2px;
+  box-shadow: 0 0 12px rgba(200,255,0,0.6);
+}
+
+.header-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--lime);
+  color: var(--bg-base);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+  box-shadow: 0 0 0 1px rgba(200,255,0,0.2), 0 8px 24px -8px rgba(200,255,0,0.4);
+}
+.header-cta:hover {
+  background: var(--lime-2);
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 1px rgba(200,255,0,0.3), 0 12px 32px -8px rgba(200,255,0,0.6);
+}
+.header-cta svg { transition: transform 0.15s ease; }
+.header-cta:hover svg { transform: translateX(2px); }
+
+/* Mobile menu */
+.menu-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-card);
+  align-items: center;
+  justify-content: center;
+}
+.menu-toggle .bar {
+  width: 16px;
+  height: 1.5px;
+  background: var(--text);
+  border-radius: 1px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+.menu-toggle .bar::before, .menu-toggle .bar::after {
+  content: ""; position: absolute; left: 0;
+  width: 16px; height: 1.5px;
+  background: var(--text);
+  transition: all 0.2s ease;
+}
+.menu-toggle .bar::before { top: -5px; }
+.menu-toggle .bar::after { bottom: -5px; }
+header.is-open .menu-toggle .bar { background: transparent; }
+header.is-open .menu-toggle .bar::before { transform: translateY(5px) rotate(45deg); }
+header.is-open .menu-toggle .bar::after  { transform: translateY(-5px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  inset: 80px 0 0 0;
+  background: var(--bg-base);
+  border-top: 1px solid var(--border);
+  padding: 32px 24px;
+  z-index: 40;
+}
+.mobile-menu a {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.mobile-menu .mobile-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: var(--lime);
+  color: var(--bg-base);
+  font-weight: 700;
+  border-radius: 10px;
+  margin-top: 24px;
+  border-bottom: 0;
+}
+header.is-open .mobile-menu { display: block; }
+
+/* ---------- Background visual layer ---------- */
+.bg-stack {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.bg-stack::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(200,255,0,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,255,0,0.045) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 25%, black 30%, transparent 90%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 25%, black 30%, transparent 90%);
+}
+.bg-stack::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 55% at 50% 25%, rgba(200,255,0,0.10) 0%, rgba(200,255,0,0.04) 30%, transparent 70%);
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  padding: 104px 0 80px;
+  position: relative;
+}
+.hero-ticker {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 6px 6px 6px 16px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text-soft);
+  margin-bottom: 32px;
+  letter-spacing: -0.005em;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.02);
+  transition: all 0.18s ease;
+}
+.hero-ticker:hover { border-color: var(--border-lime); color: var(--text); }
+.hero-ticker .live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--lime-text);
+  text-transform: uppercase;
+}
+.hero-ticker .live::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 6px rgba(200,255,0,0.7);
+  animation: pulse 2s ease-in-out infinite;
+}
+.hero-ticker .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  padding: 5px 12px;
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: var(--accent-subtle);
-  border: 1px solid rgba(179,255,0,0.2);
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
+  color: var(--text);
 }
 
-.tag::before {
-  content: '';
-  width: 5px;
-  height: 5px;
-  background: var(--accent);
-  border-radius: 50%;
-  box-shadow: 0 0 6px var(--accent);
-  animation: pulse 2s ease-in-out infinite;
+.hero h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(44px, 7vw, 80px);
+  line-height: 1.0;
+  letter-spacing: -0.045em;
+  color: var(--text-strong);
+  margin-bottom: 28px;
+  max-width: 900px;
 }
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
+.hero h1 .accent-word {
+  background: linear-gradient(135deg, var(--lime) 0%, #a3d600 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 24px rgba(200,255,0,0.25));
+}
+.hero-sub {
+  font-size: 20px;
+  line-height: 1.55;
+  color: var(--text-soft);
+  max-width: 660px;
+  margin-bottom: 40px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.hero-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 64px;
 }
 
 .btn-primary {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
-  background: var(--accent);
-  color: var(--text-inverse);
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 13px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  padding: 10px 20px;
-  border-radius: var(--radius-sm);
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.15s ease;
-  position: relative;
+  gap: 10px;
+  padding: 15px 28px;
+  background: var(--lime);
+  color: var(--bg-base);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  border-radius: 10px;
+  transition: all 0.18s ease;
+  box-shadow: 0 0 0 1px rgba(200,255,0,0.2), 0 12px 32px -8px rgba(200,255,0,0.4);
 }
-
 .btn-primary:hover {
-  background: #c8ff1a;
-  box-shadow: 0 0 20px rgba(179,255,0,0.3);
-  transform: translateY(-1px);
+  background: var(--lime-2);
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px rgba(200,255,0,0.35), 0 18px 40px -8px rgba(200,255,0,0.6);
 }
+.btn-primary svg { transition: transform 0.18s ease; }
+.btn-primary:hover svg { transform: translateX(3px); }
 
-.btn-ghost {
+.btn-text {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
-  background: transparent;
-  color: var(--text-secondary);
-  font-family: var(--font-body);
+  gap: 8px;
+  font-size: 15px;
   font-weight: 500;
-  font-size: 13px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  padding: 10px 20px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-mid);
-  cursor: pointer;
-  text-decoration: none;
+  color: var(--text);
+  padding: 13px 18px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  letter-spacing: -0.005em;
   transition: all 0.15s ease;
 }
-
-.btn-ghost:hover {
-  border-color: var(--border-active);
-  color: var(--text-primary);
+.btn-text:hover {
+  color: var(--text-strong);
+  border-color: var(--border-lime);
+  background: var(--lime-soft);
 }
 
-.divider {
-  width: 100%;
-  height: 1px;
-  background: var(--border-dim);
-}
-
-/* ============================================================ NAVIGATION */
-
-.nav {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(8,10,12,0.94);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-dim);
-}
-
-.nav-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 60px;
-  max-width: var(--max-w);
-  margin: 0 auto;
-  padding: 0 var(--space-6);
-}
-
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  text-decoration: none;
-}
-
-.nav-logo-mark {
-  width: 30px;
-  height: 30px;
-  background: var(--accent);
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.nav-logo-mark svg {
-  width: 16px;
-  height: 16px;
-}
-
-.nav-logo-text {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 17px;
-  color: var(--text-primary);
-  letter-spacing: -0.02em;
-}
-
-.nav-logo-text span {
-  color: var(--accent);
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: var(--space-1);
-  list-style: none;
-}
-
-.nav-links a {
-  color: var(--text-secondary);
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  padding: 6px 12px;
-  border-radius: var(--radius-sm);
-  transition: all 0.15s ease;
-}
-
-.nav-links a:hover, .nav-links a.active {
-  color: var(--text-primary);
-  background: var(--bg-elevated);
-}
-
-.nav-links a.active {
-  color: var(--accent);
-}
-
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-}
-
-.nav-stat {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-tertiary);
-  padding: 4px 10px;
-  border: 1px solid var(--border-dim);
-  border-radius: var(--radius-sm);
-}
-
-.nav-stat strong {
-  color: var(--positive);
-  font-weight: 500;
-}
-
-/* ============================================================ HERO */
-
-.hero {
-  position: relative;
-  padding: var(--space-20) 0 var(--space-16);
-  overflow: hidden;
-}
-
-/* Grid background pattern */
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(179,255,0,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(179,255,0,0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, black 30%, transparent 100%);
-}
-
-/* Radial glow */
-.hero::after {
-  content: '';
-  position: absolute;
-  top: -200px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 800px;
-  height: 600px;
-  background: radial-gradient(ellipse at center, rgba(179,255,0,0.06) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.hero-inner {
-  position: relative;
-  z-index: 1;
-  max-width: var(--max-w);
-  margin: 0 auto;
-  padding: 0 var(--space-6);
-}
-
-.hero-eyebrow {
-  margin-bottom: var(--space-6);
-}
-
-.hero-headline {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(36px, 5vw, 68px);
-  line-height: 1.0;
-  letter-spacing: -0.03em;
-  color: var(--text-primary);
-  max-width: 760px;
-  margin-bottom: var(--space-6);
-}
-
-.hero-headline em {
-  font-style: normal;
-  color: var(--accent);
-  position: relative;
-}
-
-.hero-sub {
-  font-size: 17px;
-  color: var(--text-secondary);
-  max-width: 520px;
-  line-height: 1.7;
-  margin-bottom: var(--space-10);
-  font-weight: 300;
-}
-
-.hero-actions {
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-  margin-bottom: var(--space-16);
-  flex-wrap: wrap;
-}
-
-.hero-meta {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-tertiary);
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-/* Stats bar */
-.hero-stats {
+.hero-trust {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: var(--border-dim);
-  border: 1px solid var(--border-dim);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  margin-top: var(--space-12);
+  gap: 0;
+  padding: 28px 0 0;
+  border-top: 1px solid var(--border);
 }
-
-.hero-stat {
-  background: var(--bg-surface);
-  padding: var(--space-5) var(--space-6);
+.hero-trust-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-right: 24px;
   position: relative;
 }
-
-.hero-stat::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: transparent;
-  transition: background 0.2s;
+.hero-trust-item + .hero-trust-item {
+  padding-left: 24px;
+  border-left: 1px solid var(--border);
 }
-
-.hero-stat:hover::before {
-  background: var(--accent);
-}
-
-.hero-stat-label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
-  margin-bottom: var(--space-2);
-}
-
-.hero-stat-value {
-  font-family: var(--font-display);
+.hero-trust-item strong {
+  color: var(--text-strong);
+  font-weight: 800;
   font-size: 28px;
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+.hero-trust-item strong.lime { color: var(--lime); }
+.hero-trust-item span {
+  font-size: 13px;
+  color: var(--text-soft);
+  letter-spacing: -0.005em;
 }
 
-.hero-stat-value span {
-  font-size: 14px;
-  color: var(--text-secondary);
-  font-family: var(--font-body);
-  font-weight: 400;
-}
-
-/* ============================================================ TOP PICK CARD (ABOVE THE FOLD) */
-
-.top-pick-wrap {
-  margin-top: var(--space-10);
-  margin-bottom: var(--space-10);
-}
-
-.top-pick-card {
-  display: grid;
-  grid-template-columns: 1.4fr 0.9fr;
-  gap: var(--space-6);
-  background: linear-gradient(135deg, rgba(179,255,0,0.06) 0%, rgba(255,255,255,0.00) 55%);
-  border: 1px solid rgba(179,255,0,0.25);
-  border-radius: var(--radius-lg);
-  padding: var(--space-8);
+/* ---------- Section structure ---------- */
+section.block {
+  padding: 96px 0;
   position: relative;
-  overflow: hidden;
 }
+section.block + section.block { border-top: 1px solid var(--border); }
+section.block.tinted { background: var(--bg-surface); }
+section.block.deep { background: var(--bg-band); }
 
-.top-pick-card::after {
-  content: '';
-  position: absolute;
-  inset: -60px;
-  background: radial-gradient(circle at 15% 20%, rgba(179,255,0,0.12), transparent 45%);
+.section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 56px;
+  flex-wrap: wrap;
+}
+.section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--lime-text);
+  margin-bottom: 18px;
+}
+.section-eyebrow::before { content: ""; width: 24px; height: 1px; background: var(--lime-text); }
+.section-head .lhs h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  color: var(--text-strong);
+  margin-bottom: 14px;
+  max-width: 640px;
+}
+.section-head .lhs p {
+  font-size: 17px;
+  color: var(--text-soft);
+  max-width: 580px;
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+}
+.section-head .rhs {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-faint);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.section-head .rhs a {
+  border-bottom: 1px solid var(--border-strong);
+  padding-bottom: 2px;
+  color: var(--text);
+  transition: all 0.15s ease;
+}
+.section-head .rhs a:hover { color: var(--lime); border-color: var(--lime); }
+
+/* ---------- Top Pick featured card ---------- */
+.top-pick-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 0;
+  background: linear-gradient(135deg, rgba(200,255,0,0.08) 0%, rgba(200,255,0,0.02) 40%, transparent 100%);
+  border: 1px solid var(--border-lime);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(200,255,0,0.05), 0 32px 64px -24px rgba(200,255,0,0.15);
+}
+.top-pick-card::before {
+  content: ""; position: absolute; inset: -40px;
+  background: radial-gradient(circle at 15% 30%, rgba(200,255,0,0.18) 0%, transparent 40%);
   pointer-events: none;
 }
-
 .top-pick-left, .top-pick-right { position: relative; z-index: 1; }
-
+.top-pick-left {
+  padding: 40px 44px;
+  border-right: 1px solid var(--border-lime);
+}
 .top-pick-badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 10px;
-  letter-spacing: 0.12em;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--accent);
-  background: rgba(179,255,0,0.08);
-  border: 1px solid rgba(179,255,0,0.22);
-  padding: 6px 10px;
-  border-radius: var(--radius-sm);
-  margin-bottom: var(--space-4);
+  color: var(--lime);
+  background: rgba(200,255,0,0.12);
+  border: 1px solid var(--border-lime-strong);
+  padding: 7px 12px;
+  border-radius: 8px;
+  margin-bottom: 24px;
 }
-
-.top-pick-title {
+.top-pick-badge::before { content: "★"; font-size: 12px; }
+.top-pick-head {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
-  margin-bottom: var(--space-4);
+  gap: 18px;
+  margin-bottom: 20px;
 }
-
 .top-pick-logo {
-  width: 46px;
-  height: 46px;
-  border-radius: var(--radius-md);
-  background: var(--bg-panel);
-  border: 1px solid rgba(179,255,0,0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-weight: 800;
-  color: var(--accent);
-  letter-spacing: -0.02em;
+  width: 64px; height: 64px;
+  border-radius: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-lime);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; flex-shrink: 0;
 }
-
+.top-pick-logo img { width: 100%; height: 100%; object-fit: contain; padding: 9px; }
 .top-pick-name {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 22px;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
+  font-size: 30px;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  color: var(--text-strong);
 }
-
 .top-pick-sub {
-  font-size: 11px;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-top: 6px;
+  font-size: 13px;
+  color: var(--text-soft);
+  margin-top: 4px;
+  letter-spacing: -0.005em;
 }
-
-.top-pick-points {
-  display: grid;
-  gap: 10px;
-  margin-top: var(--space-4);
+.top-pick-blurb {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 22px;
+  letter-spacing: -0.005em;
 }
-
+.top-pick-points { display: grid; gap: 10px; list-style: none; }
 .top-pick-point {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  color: var(--text-secondary);
-  font-size: 13px;
-  line-height: 1.4;
-}
-
-.top-pick-point .dot {
-  width: 7px;
-  height: 7px;
-  background: var(--accent);
-  border-radius: 50%;
-  box-shadow: 0 0 10px rgba(179,255,0,0.35);
-  margin-top: 6px;
-  flex-shrink: 0;
-}
-
-.top-pick-right {
-  background: rgba(13,16,20,0.72);
-  border: 1px solid var(--border-dim);
-  border-radius: var(--radius-md);
-  padding: var(--space-6);
-}
-
-.top-pick-savings-big {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 28px;
-  letter-spacing: -0.03em;
-  color: var(--accent);
-  line-height: 1;
-}
-
-.top-pick-savings-sub {
-  margin-top: 8px;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
-}
-
-.top-pick-actions {
-  display: grid;
-  gap: 10px;
-  margin-top: var(--space-5);
-}
-
-.top-pick-micro {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 14px;
-  margin-top: var(--space-5);
-  font-size: 10px;
-  color: var(--text-tertiary);
-  letter-spacing: 0.04em;
-}
-
-.top-pick-micro .micro-item { white-space: nowrap; }
-
-/* Pulse highlight (jump-to-table) */
-.pulse-row {
-  outline: 1px solid rgba(179,255,0,0.55);
-  box-shadow: 0 0 0 4px rgba(179,255,0,0.10), 0 0 24px rgba(179,255,0,0.18);
-  animation: pulseRow 1.4s ease-in-out 1;
-}
-@keyframes pulseRow {
-  0% { transform: translateZ(0); }
-  20% { transform: translateY(-1px); }
-  100% { transform: translateY(0); }
-}
-
-/* ============================================================ MOBILE TABLE ENHANCEMENTS */
-
-.table-wrap {
-  position: relative;
-  max-width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-.table-scroll-hint {
-  display: none;
-  margin-top: 10px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
-  align-items: center;
-  gap: 8px;
-}
-
-.table-scroll-hint .hint-pill {
-  border: 1px solid var(--border-dim);
-  background: var(--bg-surface);
-  padding: 5px 10px;
-  border-radius: var(--radius-sm);
-}
-
-@media (max-width: 900px) {
-  #firmsTable th:first-child,
-  #firmsTable td:first-child {
-    position: sticky;
-    left: 0;
-    z-index: 3;
-    background: var(--bg-surface);
-  }
-  #firmsTable thead th:first-child {
-    z-index: 5;
-    background: var(--bg-panel);
-  }
-  #firmsTable td:first-child::after,
-  #firmsTable th:first-child::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: -10px;
-    width: 10px;
-    height: 100%;
-    background: linear-gradient(to right, rgba(8,10,12,0.7), transparent);
-    pointer-events: none;
-  }
-  .table-scroll-hint { display: inline-flex; }
-}
-
-@media (max-width: 520px) {
-  /* Extra-compact Firms table on phones (prevents huge rows) */
-  .table-wrap { border-radius: var(--radius-md); }
-  #firmsTable { min-width: 720px; } /* scroll INSIDE table-wrap, not the whole page */
-  #firmsTable th, #firmsTable td { padding: 7px 8px; font-size: 11px; }
-  .firm-cell { gap: 8px; }
-  .firm-logo { width: 24px; height: 24px; }
-  .firm-name { font-size: 12px; line-height: 1.1; }
-  .firm-tagline { font-size: 9px; }
-  .rating-score { font-size: 12px; }
-  .rating-stars .star { width: 9px; height: 9px; }
-  .max-account { font-size: 11px; }
-  .platforms { gap: 5px; }
-  .platform-badge { font-size: 9px; padding: 3px 7px; }
-  .discount { font-size: 10px; }
-  .code-badge { font-size: 10px; padding: 5px 8px; }
-  .copy-btn { font-size: 9px; padding: 5px 8px; }
-  .table-actions { gap: 5px; }
-  .btn-table-primary, .btn-table-ghost { padding: 6px 9px; font-size: 10px; }
-}
-@media (max-width: 768px) {
-  .top-pick-card { grid-template-columns: 1fr; }
-  .top-pick-right { background: rgba(13,16,20,0.6); }
-}
-
-/* ============================================================ SECTION STRUCTURE */
-
-.section {
-  padding: var(--space-16) 0;
-}
-
-.section-header {
-  margin-bottom: var(--space-10);
-}
-
-.section-title {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(22px, 3vw, 32px);
-  letter-spacing: -0.02em;
-  color: var(--text-primary);
-  margin-top: var(--space-3);
-  margin-bottom: var(--space-3);
-}
-
-.section-desc {
-  font-size: 15px;
-  color: var(--text-secondary);
-  max-width: 560px;
-  font-weight: 300;
-}
-
-/* ============================================================ FIRMS TABLE */
-
-.table-section {
-  background: var(--bg-base);
-  padding: var(--space-16) 0 var(--space-20);
-}
-
-.table-controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--space-5);
-  gap: var(--space-4);
-  flex-wrap: wrap;
-}
-
-.table-filters {
-  display: flex;
-  gap: var(--space-2);
-}
-
-.filter-btn {
-  background: transparent;
-  border: 1px solid var(--border-dim);
-  color: var(--text-tertiary);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 5px 12px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.filter-btn:hover, .filter-btn.active {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--accent-subtle);
-}
-
-.table-info {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-tertiary);
-}
-
-/* Table Wrapper */
-.table-wrap {
-  border: 1px solid var(--border-dim);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  overflow-x: auto;
-  background: var(--bg-surface);
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 900px;
-}
-
-thead {
-  background: var(--bg-panel);
-  border-bottom: 1px solid var(--border-mid);
-}
-
-thead th {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
-  padding: var(--space-3) var(--space-5);
-  text-align: left;
-  white-space: nowrap;
-  cursor: pointer;
-  user-select: none;
-  transition: color 0.15s;
-}
-
-thead th:hover { color: var(--text-secondary); }
-
-thead th .sort-icon {
-  display: inline-block;
-  margin-left: 4px;
-  opacity: 0.4;
-  font-size: 9px;
-}
-
-tbody tr {
-  border-bottom: 1px solid var(--border-dim);
-  transition: background 0.12s ease;
-  position: relative;
-}
-
-tbody tr:last-child { border-bottom: none; }
-
-tbody tr:hover {
-  background: var(--bg-elevated);
-}
-
-tbody tr:hover td:first-child::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: var(--accent);
-}
-
-td {
-  padding: var(--space-4) var(--space-5);
-  font-size: 14px;
-  vertical-align: middle;
-  color: var(--text-primary);
-}
-
-/* Firm name cell */
-.firm-cell {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-}
-
-.firm-logo {
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-sm);
-  background: var(--bg-panel);
-  border: 1px solid var(--border-dim);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 11px;
-  color: var(--accent);
-  letter-spacing: -0.03em;
-  flex-shrink: 0;
-}
-
-.firm-name {
-  font-weight: 600;
-  font-size: 14px;
-  color: var(--text-primary);
-  font-family: var(--font-body);
-  white-space: nowrap;
-}
-
-.firm-tagline {
-  font-size: 11px;
-  color: var(--text-tertiary);
-  margin-top: 1px;
-  font-family: var(--font-mono);
-}
-
-/* Rating */
-.rating {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.rating-score {
-  font-family: var(--font-mono);
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.rating-stars {
-  display: flex;
-  gap: 2px;
-}
-
-.star {
-  width: 10px;
-  height: 10px;
-  background: var(--accent);
-  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-}
-
-.star.half { opacity: 0.4; }
-.star.empty { opacity: 0.15; }
-
-/* Max account */
-.max-account {
-  font-family: var(--font-mono);
-  font-size: 14px;
-  color: var(--positive);
-  font-weight: 500;
-}
-
-/* Platforms */
-.platforms {
-  display: flex;
-  gap: var(--space-1);
-  flex-wrap: wrap;
-}
-
-.platform-badge {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.05em;
-  padding: 3px 8px;
-  border-radius: var(--radius-sm);
-  background: var(--bg-panel);
-  border: 1px solid var(--border-dim);
-  color: var(--text-secondary);
-  white-space: nowrap;
-}
-
-/* Discount */
-.discount {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  background: rgba(245,166,35,0.1);
-  border: 1px solid rgba(245,166,35,0.25);
-  color: var(--warning);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  padding: 3px 8px;
-  border-radius: var(--radius-sm);
-  letter-spacing: 0.03em;
-}
-
-/* Coupon code */
-.code-cell {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.code-badge {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  color: var(--accent);
-  background: var(--accent-subtle);
-  border: 1px solid rgba(179,255,0,0.2);
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.15s;
-  white-space: nowrap;
-}
-
-.code-badge:hover {
-  background: var(--accent-glow);
-  border-color: rgba(179,255,0,0.4);
-}
-
-.copy-btn {
-  background: transparent;
-  border: 1px solid var(--border-dim);
-  color: var(--text-tertiary);
-  cursor: pointer;
-  padding: 4px 7px;
-  border-radius: var(--radius-sm);
-  font-size: 10px;
-  font-family: var(--font-mono);
-  transition: all 0.15s;
-  white-space: nowrap;
-}
-
-.copy-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.copy-btn.copied {
-  border-color: var(--positive);
-  color: var(--positive);
-}
-
-/* Action buttons in table */
-.table-actions {
-  display: flex;
-  gap: var(--space-2);
-  align-items: center;
-}
-
-.btn-table-primary {
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  padding: 6px 14px;
-  background: var(--accent);
-  color: var(--text-inverse);
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.15s;
-  white-space: nowrap;
-}
-
-.btn-table-primary:hover {
-  background: #c8ff1a;
-  box-shadow: 0 0 12px rgba(179,255,0,0.25);
-}
-
-.btn-table-ghost {
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  padding: 6px 12px;
-  background: transparent;
-  color: var(--text-tertiary);
-  border: 1px solid var(--border-dim);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.15s;
-  white-space: nowrap;
-}
-
-.btn-table-ghost:hover {
-  color: var(--text-secondary);
-  border-color: var(--border-active);
-}
-
-/* Featured row */
-tbody tr.featured {
-  background: rgba(179,255,0,0.025);
-}
-
-tbody tr.featured td:first-child::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: var(--accent);
-}
-
-.featured-badge {
-  display: inline-flex;
-  align-items: center;
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: var(--accent-subtle);
-  border: 1px solid rgba(179,255,0,0.2);
-  padding: 2px 6px;
-  border-radius: var(--radius-sm);
-  margin-left: var(--space-2);
-  vertical-align: middle;
-}
-
-/* ============================================================ DEALS SECTION */
-
-.deals-section {
-  padding: var(--space-16) 0;
-  background: var(--bg-surface);
-  border-top: 1px solid var(--border-dim);
-  border-bottom: 1px solid var(--border-dim);
-}
-
-.deals-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-4);
-  margin-top: var(--space-8);
-}
-
-.deal-card {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-dim);
-  border-radius: var(--radius-md);
-  padding: var(--space-6);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-
-.deal-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(179,255,0,0.04) 0%, transparent 60%);
-  opacity: 0;
-  transition: opacity 0.2s;
-  pointer-events: none;
-}
-
-.deal-card:hover {
-  border-color: var(--border-active);
-  transform: translateY(-2px);
-}
-
-.deal-card:hover::before { opacity: 1; }
-
-.deal-card.featured-deal {
-  border-color: rgba(179,255,0,0.3);
-  background: rgba(179,255,0,0.04);
-}
-
-.deal-card.featured-deal::after {
-  content: 'BEST DEAL';
-  position: absolute;
-  top: 14px;
-  right: -22px;
-  background: var(--accent);
-  color: var(--text-inverse);
-  font-family: var(--font-mono);
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  padding: 3px 28px;
-  transform: rotate(45deg);
-  transform-origin: right top;
-  pointer-events: none;
-}
-
-.deal-firm-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--space-4);
-}
-
-.deal-firm-name {
-  font-family: var(--font-display);
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: -0.02em;
-}
-
-.deal-discount-big {
-  font-family: var(--font-display);
-  font-size: 28px;
-  font-weight: 800;
-  color: var(--accent);
-  letter-spacing: -0.03em;
-  line-height: 1;
-}
-
-.deal-discount-label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--text-tertiary);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-align: right;
-}
-
-.deal-description {
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-bottom: var(--space-5);
-  font-weight: 300;
+  display: flex; align-items: flex-start; gap: 12px;
+  color: var(--text-soft);
+  font-size: 13.5px;
   line-height: 1.5;
+  letter-spacing: -0.005em;
 }
-
-.deal-code-row {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-4);
-  background: var(--bg-panel);
-  border: 1px solid var(--border-dim);
-  border-radius: var(--radius-sm);
-  margin-bottom: var(--space-4);
+.top-pick-point::before {
+  content: ""; flex-shrink: 0;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--lime);
+  margin-top: 8px;
+  box-shadow: 0 0 6px rgba(200,255,0,0.6);
 }
-
-.deal-code-label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--text-tertiary);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  flex: 1;
-  white-space: nowrap;
-}
-
-.deal-code-value {
-  font-family: var(--font-mono);
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  color: var(--accent);
-  text-transform: uppercase;
-  flex: 2;
-  text-align: center;
-}
-
-.deal-expires {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--text-tertiary);
-  letter-spacing: 0.04em;
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin-top: var(--space-4);
-}
-
-.deal-expires-dot {
-  width: 5px;
-  height: 5px;
-  background: var(--warning);
-  border-radius: 50%;
-}
-
-/* ============================================================ TRUST BAR */
-
-.trust-bar {
-  padding: var(--space-10) 0;
-  border-bottom: 1px solid var(--border-dim);
-}
-
-.trust-bar-inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-8);
-  flex-wrap: wrap;
-}
-
-.trust-item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-}
-
-.trust-icon {
-  width: 32px;
-  height: 32px;
-  border: 1px solid var(--border-mid);
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--accent);
-}
-
-.trust-text {
-  font-size: 13px;
-  color: var(--text-secondary);
-  font-weight: 400;
-}
-
-.trust-separator {
-  width: 1px;
-  height: 28px;
-  background: var(--border-dim);
-}
-
-/* ============================================================ ANNOUNCEMENT BAR */
-
-.announcement-bar {
-  background: var(--accent);
-  padding: var(--space-2) var(--space-6);
-  text-align: center;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  color: var(--text-inverse);
-  text-transform: uppercase;
-}
-
-.announcement-bar a {
-  color: var(--text-inverse);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  margin-left: var(--space-4);
-}
-
-/* ============================================================ FOOTER */
-
-.footer {
-  padding: var(--space-12) 0 var(--space-8);
-  border-top: 1px solid var(--border-dim);
-}
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: var(--space-10);
-  margin-bottom: var(--space-10);
-}
-
-.footer-brand p {
-  font-size: 13px;
-  color: var(--text-tertiary);
-  line-height: 1.7;
-  margin-top: var(--space-3);
-  max-width: 300px;
-  font-weight: 300;
-}
-
-.footer-col-title {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
-  margin-bottom: var(--space-4);
-}
-
-.footer-links {
-  list-style: none;
+.top-pick-right {
+  padding: 40px 36px;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: 20px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01) 0%, rgba(0,0,0,0.1) 100%);
 }
-
-.footer-links a {
-  font-size: 13px;
-  color: var(--text-secondary);
-  text-decoration: none;
-  transition: color 0.15s;
-}
-
-.footer-links a:hover { color: var(--text-primary); }
-
-.footer-bottom {
-  border-top: 1px solid var(--border-dim);
-  padding-top: var(--space-6);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
-  flex-wrap: wrap;
-}
-
-.footer-legal {
-  font-size: 11px;
-  color: var(--text-tertiary);
-  line-height: 1.6;
-  max-width: 600px;
-}
-
-.footer-copy {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-tertiary);
-  white-space: nowrap;
-}
-
-/* ============================================================ SCROLL ANIMATION */
-
-.fade-in {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-
-
-/* ============================================================ RULE TABLE CELLS */
-.stack-cell { display:grid; gap:6px; }
-.stack-title { font-size:13px; font-weight:600; color:var(--text-primary); }
-.stack-sub { font-size:11px; color:var(--text-tertiary); font-family:var(--font-mono); line-height:1.45; }
-
-.cell-box,
-.cell-drop {
-  background: rgba(23,28,33,0.88);
-  border: 1px solid var(--border-dim);
-  border-radius: 8px;
-}
-
-.cell-box {
-  padding: 10px 11px;
-  min-width: 150px;
-}
-
-.cell-box-title {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
-  margin-bottom: 8px;
-}
-
-.cell-box-value {
-  font-size: 12px;
-  color: var(--text-primary);
-  line-height: 1.45;
-}
-
-.cell-drop {
-  min-width: 170px;
+.top-pick-deal {
+  background: var(--bg-card);
+  border: 1px solid var(--border-lime);
+  border-radius: 14px;
+  padding: 24px;
+  text-align: center;
+  position: relative;
   overflow: hidden;
 }
-
-.cell-drop summary {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 10px 11px;
-  cursor: pointer;
+.top-pick-deal::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 100% 60% at 50% 0%, rgba(200,255,0,0.08), transparent 70%);
+  pointer-events: none;
 }
-
-.cell-drop summary::-webkit-details-marker { display: none; }
-
-.cell-preview {
-  display: grid;
-  gap: 4px;
-  min-width: 0;
-}
-
-.cell-preview strong {
-  font-size: 12px;
-  color: var(--text-primary);
-  font-weight: 600;
-}
-
-.cell-preview span {
-  font-size: 10px;
-  color: var(--text-tertiary);
+.deal-label {
   font-family: var(--font-mono);
-  line-height: 1.35;
-}
-
-.cell-toggle {
-  flex-shrink: 0;
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent);
-  border: 1px solid rgba(200,255,0,0.22);
-  background: rgba(200,255,0,0.06);
-  padding: 4px 7px;
-  border-radius: 999px;
-}
-
-.cell-drop[open] .cell-toggle { color: var(--text-primary); }
-
-.cell-drop-body {
-  padding: 0 11px 11px;
-  border-top: 1px solid var(--border-dim);
-}
-
-.mini-list,
-.pill-list {
-  display: grid;
-  gap: 6px;
-}
-
-.mini-item {
   font-size: 11px;
-  line-height: 1.45;
-  color: var(--text-secondary);
-}
-
-.mini-item strong {
-  color: var(--text-primary);
   font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 8px;
+  position: relative;
 }
-
-.rule-snapshot {
-  display:grid;
-  gap:6px;
+.deal-big {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 56px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  background: linear-gradient(135deg, var(--lime) 0%, #a3d600 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 20px rgba(200,255,0,0.3));
+  margin-bottom: 8px;
+  position: relative;
 }
-
-.rule-chip {
-  display:flex;
-  align-items:flex-start;
-  gap:6px;
-  width: 100%;
-  padding:6px 8px;
-  border:1px solid var(--border-dim);
-  border-radius: var(--radius-sm);
-  background: rgba(13,16,20,0.72);
-  color: var(--text-secondary);
-  font-size:11px;
-  line-height:1.4;
-}
-.rule-chip strong { color: var(--text-primary); font-weight:600; }
-
-.program-list,
-.platforms {
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-}
-
-.program-pill,
-.platform-badge {
-  display:inline-flex;
-  align-items:center;
-  max-width:100%;
+.deal-code {
   font-family: var(--font-mono);
-  font-size:10px;
-  letter-spacing: 0.03em;
-  padding:5px 8px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-dim);
-  background: rgba(13,16,20,0.8);
-  color: var(--text-secondary);
-  white-space: nowrap;
-}
-
-.program-pill {
-  white-space: normal;
-  line-height: 1.35;
-}
-
-.payout-cell { display:grid; gap:6px; }
-.payout-cell .big { font-size:13px; font-weight:600; color:var(--positive); }
-.payout-cell .small { font-size:11px; color:var(--text-tertiary); font-family:var(--font-mono); line-height:1.45; }
-
-.table-actions {
-  display: grid;
-  gap: 8px;
-}
-
-.code-chip-inline {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--lime);
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
+  position: relative;
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   gap: 6px;
-  width: 100%;
-  padding: 7px 10px;
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(200,255,0,0.22);
-  background: rgba(200,255,0,0.06);
-  color: var(--accent);
-  font-family: var(--font-mono);
+}
+.deal-code .copy-hint {
   font-size: 10px;
-  letter-spacing: 0.12em;
+  color: var(--text-faint);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
-
-.code-chip-inline strong {
-  color: var(--text-primary);
-  letter-spacing: 0.16em;
+.deal-detail {
+  font-size: 13px;
+  color: var(--text-soft);
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+  position: relative;
+}
+.top-pick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.top-pick-actions .btn-primary, .top-pick-actions .btn-text {
+  width: 100%;
+  justify-content: center;
+  padding-top: 13px;
+  padding-bottom: 13px;
 }
 
-@media (max-width: 520px) {
-  .cell-box, .cell-drop { min-width: 145px; }
-  .cell-drop summary, .cell-box { padding: 9px 10px; }
-  .cell-drop-body { padding: 0 10px 10px; }
-  .program-pill, .platform-badge { font-size: 9px; }
+/* ---------- Firms grid ---------- */
+.firms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
 }
-
-
-/* ============================================================ RESPONSIVE */
-
-@media (max-width: 1024px) {
-  .hero-stats { grid-template-columns: repeat(2, 1fr); }
-  .deals-grid { grid-template-columns: repeat(2, 1fr); }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
-}
-
-@media (max-width: 768px) {
-  .nav-links { display: none; }
-  .nav-stat { display: none; }
-  .hero-stats { grid-template-columns: repeat(2, 1fr); }
-  .deals-grid { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr; }
-  .hero-actions { justify-content: center; }
-  .trust-bar-inner { gap: var(--space-4); }
-  .trust-separator { display: none; }
-  .table-controls { flex-direction: column; align-items: flex-start; }
-  .footer-bottom { flex-direction: column; }
-}
-
-@media (max-width: 480px) {
-  .hero-stats { grid-template-columns: 1fr 1fr; }
-  .hero-stat-value { font-size: 22px; }
-}
-
-/* ============================================================ COPY TOAST */
-
-.toast {
-  position: fixed;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  background: var(--bg-panel);
-  border: 1px solid var(--accent);
-  color: var(--accent);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  padding: 10px 20px;
-  border-radius: var(--radius-sm);
-  opacity: 0;
-  transition: all 0.25s ease;
-  pointer-events: none;
-  z-index: 9999;
-  box-shadow: 0 8px 32px rgba(179,255,0,0.15);
-}
-
-.toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-/* ============================================================ TICKER */
-
-.ticker-wrap {
-  border-top: 1px solid var(--border-dim);
-  border-bottom: 1px solid var(--border-dim);
-  background: var(--bg-surface);
+.firm-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 26px;
+  transition: all 0.22s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: relative;
   overflow: hidden;
-  padding: 8px 0;
-  position: relative;
-  opacity: 0.55;
-  transition: opacity 0.2s;
 }
-.ticker-wrap:hover { opacity: 0.9; }
-@media (max-width: 768px) { .ticker-wrap { display: none !important; } }
-
-.ticker-wrap::before,
-.ticker-wrap::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 80px;
-  z-index: 2;
+.firm-card::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 100% 0%, rgba(200,255,0,0.05) 0%, transparent 50%);
+  opacity: 0; transition: opacity 0.22s ease; pointer-events: none;
 }
-
-.ticker-wrap::before { left: 0; background: linear-gradient(to right, var(--bg-surface), transparent); }
-.ticker-wrap::after  { right: 0; background: linear-gradient(to left, var(--bg-surface), transparent); }
-
-.ticker {
-  display: flex;
-  gap: var(--space-6);
-  animation: ticker-scroll 40s linear infinite;
-  width: max-content;
+.firm-card:hover {
+  border-color: var(--border-lime);
+  transform: translateY(-3px);
+  box-shadow: 0 0 0 1px var(--border-lime), 0 24px 48px -16px rgba(200,255,0,0.10);
 }
+.firm-card:hover::before { opacity: 1; }
+.firm-card > * { position: relative; z-index: 1; }
 
-.ticker:hover { animation-play-state: paused; }
-
-@keyframes ticker-scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+.firm-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.firm-logo {
+  width: 52px; height: 52px;
+  border-radius: 12px;
+  background: var(--bg-elev);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  border: 1px solid var(--border);
 }
-
-.ticker-item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-secondary);
-  white-space: nowrap;
-  letter-spacing: 0.04em;
-}
-
-.ticker-item strong {
-  color: var(--text-primary);
-  font-weight: 500;
-}
-
-.ticker-positive { color: var(--positive); }
-.ticker-separator { color: var(--border-mid); font-size: 8px; }
-
-
-/* ============================================
-   ANNOUNCEMENT BAR
-   ============================================ */
-.announcement-bar {
-  background: var(--lime);
-  color: #000;
-  text-align: center;
-  padding: 8px 16px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  position: relative;
-  z-index: 100;
-}
-.announcement-bar a { color: #000; text-decoration: underline; font-weight: 700; }
-
-/* ============================================
-   HEADER
-   ============================================ */
-header {
-  background: rgba(8,10,15,0.96);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 99;
-  background-image:
-    linear-gradient(rgba(200,255,0,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(200,255,0,0.025) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-
-.header-inner {
-  max-width: 1320px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
-  height: 76px;
-}
-
-.logo {
+.firm-logo img { width: 100%; height: 100%; object-fit: contain; padding: 7px; }
+.firm-rank { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.firm-rank-num {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: 20px;
-  color: var(--text-primary);
-  text-decoration: none;
-  letter-spacing: -0.02em;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  color: var(--lime);
+  letter-spacing: -0.04em;
+  line-height: 1;
 }
-.logo-img {
-  height: 56px;
-  width: auto;
-  flex-shrink: 0;
-  display: block;
+.firm-rank-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
 }
-.logo-icon {
-  width: 28px;
-  height: 28px;
-  background: var(--lime);
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.firm-name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.028em;
+  color: var(--text-strong);
+}
+.firm-blurb {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text-soft);
+  letter-spacing: -0.005em;
+}
+.firm-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 1px solid var(--border);
+  padding-top: 18px;
+}
+.firm-stat { display: flex; flex-direction: column; gap: 4px; }
+.firm-stat-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.firm-stat-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-strong);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.015em;
+}
+.firm-actions {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+.firm-read {
   font-size: 14px;
-  font-weight: 900;
-  color: #000;
+  font-weight: 600;
+  color: var(--text-strong);
+  display: inline-flex; align-items: center; gap: 6px;
+  letter-spacing: -0.005em;
+  transition: color 0.15s ease;
+}
+.firm-read::after { content: "→"; color: var(--text-soft); transition: transform 0.15s ease, color 0.15s ease; }
+.firm-read:hover { color: var(--lime); }
+.firm-read:hover::after { transform: translateX(3px); color: var(--lime); }
+.firm-promo {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--lime);
+  background: var(--lime-soft);
+  border: 1px solid var(--border-lime);
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-nav {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+/* ---------- Value props ---------- */
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
 }
-nav a {
+.value-card {
+  position: relative;
+  background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-card-elev) 100%);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  overflow: hidden;
+  transition: all 0.22s ease;
+}
+.value-card::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--border-lime-strong) 50%, transparent 100%);
+  opacity: 0; transition: opacity 0.22s ease;
+}
+.value-card:hover { border-color: var(--border-lime); transform: translateY(-2px); }
+.value-card:hover::before { opacity: 1; }
+.value-icon {
+  width: 52px; height: 52px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--lime-soft) 0%, rgba(200,255,0,0.04) 100%);
+  border: 1px solid var(--border-lime);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--lime);
+  box-shadow: inset 0 0 24px rgba(200,255,0,0.05);
+}
+.value-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  margin-bottom: -8px;
+}
+.value-card h3 {
   font-family: var(--font-display);
-  font-size: 13px;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.2;
+  color: var(--text-strong);
+  letter-spacing: -0.025em;
+}
+.value-card > p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-soft);
+  letter-spacing: -0.005em;
+}
+.value-stat {
+  display: flex; align-items: baseline; gap: 8px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+.value-stat strong {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--lime);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.value-stat span {
+  font-size: 12.5px;
+  color: var(--text-faint);
+  letter-spacing: -0.005em;
+}
+
+/* ---------- Updates / changelog ---------- */
+.updates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.update-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: all 0.18s ease;
+}
+.update-card:hover {
+  border-color: var(--border-lime);
+  transform: translateY(-2px);
+}
+.update-card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.update-date {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-faint);
+  letter-spacing: 0.02em;
+}
+.update-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--text-secondary);
-  text-decoration: none;
-  padding: 6px 14px;
-  border-radius: 8px;
-  transition: all 0.2s;
+  padding: 4px 8px;
+  border-radius: 5px;
+  border: 1px solid;
 }
-nav a:hover { color: var(--text-primary); background: rgba(255,255,255,0.05); }
-nav a.active {
-  color: var(--lime);
-  background: var(--lime-glow);
-  border: 1px solid var(--border-lime);
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.live-pill {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  background: rgba(255,255,255,0.04);
+.update-tag.rule    { color: var(--info);     border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.08); }
+.update-tag.feature { color: var(--positive); border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.08); }
+.update-tag.promo   { color: var(--lime);     border-color: var(--border-lime); background: var(--lime-soft); }
+.update-tag.tighten { color: var(--warning);  border-color: rgba(251,191,36,0.3); background: rgba(251,191,36,0.08); }
+.update-firm { display: flex; align-items: center; gap: 10px; }
+.update-firm-logo {
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  background: var(--bg-elev);
   border: 1px solid var(--border);
-  border-radius: 100px;
-  padding: 5px 13px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-secondary);
-  letter-spacing: 0.04em;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; flex-shrink: 0;
 }
-.live-dot {
-  width: 6px; height: 6px;
-  background: var(--lime);
-  border-radius: 50%;
-  box-shadow: 0 0 6px var(--lime);
-  animation: pulse 2s infinite;
+.update-firm-logo img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+.update-firm-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
+  letter-spacing: -0.015em;
 }
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(0.8); }
-}
-
-.btn-compare-now {
-  background: var(--lime);
-  color: #000;
+.update-title {
   font-family: var(--font-display);
   font-weight: 700;
+  font-size: 16.5px;
+  line-height: 1.3;
+  color: var(--text-strong);
+  letter-spacing: -0.02em;
+}
+.update-detail {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text-soft);
+  letter-spacing: -0.005em;
+}
+.update-link {
   font-size: 13px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 18px;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-decoration: none;
-  display: inline-block;
+  font-weight: 600;
+  color: var(--text);
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  letter-spacing: -0.005em;
+  transition: color 0.15s ease;
 }
-.btn-compare-now:hover {
-  background: #d4ff26;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 20px var(--lime-glow-strong);
-}
+.update-link::after { content: "→"; color: var(--text-soft); transition: transform 0.15s ease, color 0.15s ease; }
+.update-link:hover { color: var(--lime); }
+.update-link:hover::after { color: var(--lime); transform: translateX(3px); }
 
-
-/* ===== Ultra Minimal Footer (PropChamps) ===== */
-.footer-minimal{
-  border-top: 1px solid rgba(255,255,255,0.06);
-  padding: 26px 0;
-  margin-top: 60px;
-  background: transparent;
-}
-.footer-minimal-inner{
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
-  flex-wrap:wrap;
-}
-.footer-left{
-  font-family: 'DM Mono', monospace;
-  font-size:12px;
-  color:#6f7f95;
-  letter-spacing:.06em;
-}
-.footer-right{
-  display:flex;
-  gap:22px;
-  flex-wrap:wrap;
-}
-.footer-right a{
-  font-family: 'DM Mono', monospace;
-  font-size:12px;
-  color:#8a9bb0;
-  text-decoration:none;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  transition:color .15s ease;
-}
-.footer-right a:hover{ color: var(--accent, #c8ff00); }
-@media (max-width:768px){
-  .footer-minimal-inner{ flex-direction:column; align-items:flex-start; gap:12px; }
-}
-
-/* --- logo image support --- */
-.firm-logo.firm-logo-hasimg{
-  background: transparent;
-  border: 1px solid var(--border-mid);
+/* ---------- Footer ---------- */
+footer.site {
+  background: var(--bg-band);
+  border-top: 1px solid var(--border);
+  color: var(--text-soft);
+  padding: 80px 0 32px;
+  position: relative;
   overflow: hidden;
 }
-.firm-logo.firm-logo-hasimg img{
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display:block;
-  filter: drop-shadow(0 0 10px rgba(179,255,0,0.10));
+footer.site::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-lime-strong), transparent);
 }
-.modal-logo img{ width:100%; height:100%; object-fit:contain; display:block; }
-
-
-/* ===== Hero centered ===== */
-.hero{ text-align:center; }
-.hero-sub{ margin-left:auto; margin-right:auto; }
-.hero-actions{ justify-content:center; }
-
-
-/* ===== HARD hero center fix ===== */
-.hero{
-  text-align:center !important;
+footer.site .top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 56px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
 }
-.hero-inner{
-  margin-left:auto;
-  margin-right:auto;
-  text-align:center;
+footer.site .brand .logo-mark { margin-bottom: 18px; }
+footer.site .brand p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-faint);
+  max-width: 320px;
+  letter-spacing: -0.005em;
 }
-.hero-actions{
-  justify-content:center !important;
-}
-
-/* ===== Top pick logo image sizing (keeps logo inside the small box) ===== */
-.top-pick-logo img,
-.top-pick-logo-img{
-  width: 70%;
-  height: 70%;
-  max-width: 70%;
-  max-height: 70%;
-  object-fit: contain;
-  display: block;
-}
-/* ===== Hero headline centering (only the main wording) ===== */
-.hero-headline{
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* ===== Best Overall title alignment fix ===== */
-.top-pick-title{
-  text-align: left !important;
-}
-
-
-/* ===== Remove gray background boxes behind logos ===== */
-.top-pick-logo,
-.firm-logo,
-.table-logo,
-.logo-box{
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-.top-pick-logo img,
-.firm-logo img,
-.table-logo img{
-  background: transparent !important;
-  padding: 0 !important;
-}
-
-/* ============================================
-   MOBILE NAV (HEADER DROPDOWN)
-   ============================================ */
-.menu-toggle{
-  display:none;
-  width:40px;
-  height:40px;
-  border-radius:10px;
-  border:1px solid var(--border-dim);
-  background: rgba(255,255,255,0.04);
-  color: var(--text-primary);
-  cursor:pointer;
-  align-items:center;
-  justify-content:center;
-}
-.menu-toggle svg{ width:18px; height:18px; }
-
-.mobile-menu{
-  display:none;
-  max-width: 1320px;
-  margin: 0 auto;
-  padding: 0 24px 14px;
-}
-.mobile-menu a{
-  display:block;
-  font-family: var(--font-display);
-  font-size: 13px;
-  font-weight: 700;
+footer.site h4 {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--text-secondary);
-  text-decoration:none;
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.06);
-  background: rgba(255,255,255,0.03);
-  margin-top: 10px;
+  color: var(--text-faint);
+  margin-bottom: 18px;
 }
-.mobile-menu a.active{
+footer.site ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+footer.site a {
+  font-size: 14px;
+  color: var(--text);
+  letter-spacing: -0.005em;
+  transition: color 0.15s ease;
+}
+footer.site a:hover { color: var(--lime); }
+footer.site .legal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--text-faint);
+  flex-wrap: wrap;
+  gap: 16px;
+  letter-spacing: -0.005em;
+}
+footer.site .legal-links { display: flex; gap: 24px; }
+
+/* ---------- Toast ---------- */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--bg-card);
   color: var(--lime);
-  border-color: rgba(200,255,0,0.22);
-  background: rgba(200,255,0,0.08);
+  border: 1px solid var(--border-lime);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 12px 18px;
+  border-radius: 10px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.22s ease;
+  z-index: 100;
+  box-shadow: 0 12px 32px -12px rgba(200,255,0,0.25);
 }
-header.is-open .mobile-menu{ display:block; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
 
-
-@media (max-width: 768px){
-  .hero-meta{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-    font-size:10px;
-    line-height:1.5;
-    margin-top:18px;
-  }
-  .hero-meta strong,
-  .hero-meta span{
-    display:inline;
-  }
-  .hero-meta .meta-sep{
-    display:none;
-  }
-
-  /* Hide the trust bar on mobile since it looked crowded */
-  .trust-bar{
-    display:none !important;
-  }
-
-  /* Hero action buttons: centered, inline, compact */
-  .hero-actions{
-    display:flex !important;
-    flex-direction:row !important;
-    justify-content:center !important;
-    align-items:center !important;
-    gap:8px !important;
-    flex-wrap:wrap !important;
-    width:100%;
-    margin-bottom:22px !important;
-  }
-  .hero-actions .btn-primary,
-  .hero-actions .btn-ghost{
-    padding:8px 10px !important;
-    font-size:10px !important;
-    min-height:36px !important;
-    white-space:nowrap !important;
-    justify-content:center !important;
-  }
-
-  /* Tighten the directory controls */
-  .table-controls{
-    gap:10px;
-    margin-bottom:14px;
-  }
-  .table-filters{
-    width:100%;
-    overflow-x:auto;
-    flex-wrap:nowrap;
-    padding-bottom:6px;
-  }
-  .table-filters::-webkit-scrollbar{
-    height:4px;
-  }
-  .filter-btn{
-    flex:0 0 auto;
-    padding:6px 10px;
-    font-size:10px;
-    border-radius:8px;
-    line-height:1.1;
-  }
-  .table-info{
-    font-size:10px;
-    line-height:1.4;
-  }
-
-  /* Shrink comparison cards hard on mobile */
-  .comparison-grid{
-    gap:10px;
-  }
-  .comparison-card{
-    padding:10px !important;
-    border-radius:12px !important;
-  }
-  .comparison-top{
-    gap:10px !important;
-    margin-bottom:10px !important;
-  }
-  .comparison-brand{
-    gap:10px !important;
-  }
-  .comparison-logo{
-    width:36px !important;
-    height:36px !important;
-    border-radius:10px !important;
-  }
-  .comparison-name{
-    font-size:18px !important;
-  }
-  .comparison-sub{
-    font-size:9px !important;
-    margin-top:4px !important;
-  }
-  .featured-badge{
-    font-size:8px !important;
-    padding:2px 5px !important;
-  }
-  .comparison-actions{
-    width:100%;
-    gap:8px !important;
-  }
-  .comparison-actions .btn-primary,
-  .comparison-actions .btn-ghost,
-  .comparison-actions .comparison-code{
-    flex:1 1 calc(50% - 4px);
-    justify-content:center;
-    min-height:36px;
-    padding:8px 8px !important;
-    font-size:9px !important;
-    border-radius:10px !important;
-  }
-
-  /* Make inner panels 2-up to cut height down */
-  .comparison-panels{
-    display:grid !important;
-    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
-    gap:8px !important;
-  }
-  .compare-panel{
-    min-height:auto !important;
-    border-radius:12px !important;
-  }
-  .compare-panel:last-child:nth-child(odd){
-    grid-column:1 / -1;
-  }
-  .compare-panel > summary,
-  .compare-panel-body.preview-card,
-  .compare-panel-body{
-    padding:9px !important;
-  }
-  .compare-panel-label{
-    font-size:9px !important;
-    letter-spacing:.08em !important;
-  }
-  .compare-panel-title{
-    font-size:13px !important;
-    line-height:1.2 !important;
-  }
-  .compare-panel-copy,
-  .compare-list li{
-    font-size:10px !important;
-    line-height:1.35 !important;
-  }
-  .compare-list{
-    gap:6px !important;
-    margin-top:8px !important;
-  }
-  .compare-list li{
-    padding:7px 8px !important;
-    border-radius:8px !important;
-  }
-  .compare-more,
-  .affiliate-pill,
-  .copy-pill,
-  .code-copy-pill{
-    font-size:8px !important;
-    padding:5px 7px !important;
-    border-radius:999px !important;
-  }
-
-  /* Tighten top pick card on mobile too */
-  .top-pick-card{
-    padding:14px !important;
-    gap:14px !important;
-  }
-  .top-pick-name{
-    font-size:18px !important;
-  }
-  .top-pick-sub,
-  .top-pick-point,
-  .top-pick-micro{
-    font-size:11px !important;
-  }
-  .top-pick-savings-big{
-    font-size:22px !important;
-  }
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  nav.primary { display: none; }
+  .header-cta { display: none; }
+  .menu-toggle { display: inline-flex; }
+  .top-pick-card { grid-template-columns: 1fr; }
+  .top-pick-left { border-right: 0; border-bottom: 1px solid var(--border-lime); padding: 28px 24px; }
+  .top-pick-right { padding: 28px 24px; }
+  .deal-big { font-size: 44px; }
+  .top-pick-name { font-size: 24px; }
 }
-@media (max-width: 520px){
-  .hero-actions{
-    gap:6px !important;
-  }
-  .hero-actions .btn-primary,
-  .hero-actions .btn-ghost{
-    font-size:9px !important;
-    padding:7px 8px !important;
-    min-height:34px !important;
-  }
-  .comparison-card{
-    padding:9px !important;
-  }
-  .comparison-name{
-    font-size:17px !important;
-  }
-  .comparison-panels{
-    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
-    gap:7px !important;
-  }
-  .compare-panel > summary,
-  .compare-panel-body.preview-card,
-  .compare-panel-body{
-    padding:8px !important;
-  }
-  .compare-panel-title{
-    font-size:12px !important;
-  }
-  .compare-panel-copy,
-  .compare-list li{
-    font-size:9.5px !important;
-  }
+@media (max-width: 800px) {
+  .hero { padding: 64px 0 56px; }
+  .hero h1 { font-size: clamp(34px, 8.5vw, 48px); letter-spacing: -0.035em; }
+  .hero-sub { font-size: 17px; }
+  .hero-trust { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .hero-trust-item + .hero-trust-item { padding-left: 0; border-left: 0; }
+  .hero-trust-item:nth-child(3) { padding-top: 24px; border-top: 1px solid var(--border); }
+  .hero-trust-item:nth-child(4) { padding-top: 24px; border-top: 1px solid var(--border); padding-left: 24px; border-left: 1px solid var(--border); }
+  section.block { padding: 64px 0; }
+  footer.site .top { grid-template-columns: 1fr 1fr; gap: 32px; }
+  footer.site .brand { grid-column: 1 / -1; }
 }
-
-
-
-.fast-note-card .comparison-code{
-  display:inline-flex;
-  align-self:flex-start;
-  margin-top:2px;
-}
-.fast-note-card .comparison-code strong{
-  color: var(--text-primary);
-}
-.fast-note-card .comparison-code .copy-text{
-  color: var(--accent);
-  font-size:10px;
-}
-@media (max-width: 768px){
-  .fast-note-card .comparison-code{
-    font-size:10px;
-    padding:8px 10px;
-  }
-  .fast-note-card .comparison-code .copy-text{
-    font-size:9px;
-  }
-}
-
-</style>
-
-
-<style>
-/* Restored newsletter popup styling */
-.p4y-popup-backdrop{
-  position:fixed;
-  inset:0;
-  background:rgba(3,6,8,.72);
-  backdrop-filter:blur(8px);
-  z-index:9998;
-  opacity:0;
-  visibility:hidden;
-  transition:opacity .25s ease, visibility .25s ease;
-}
-.p4y-popup-backdrop.active{opacity:1;visibility:visible;}
-.p4y-popup{
-  position:fixed;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  z-index:9999;
-  opacity:0;
-  visibility:hidden;
-  transition:opacity .25s ease, visibility .25s ease;
-}
-.p4y-popup.active{opacity:1;visibility:visible;}
-.p4y-popup-card{
-  width:min(100%, 520px);
-  background:linear-gradient(180deg, rgba(18,22,25,.98), rgba(10,14,18,.98));
-  border:1px solid rgba(200,255,0,.2);
-  border-radius:18px;
-  box-shadow:0 30px 90px rgba(0,0,0,.5), 0 0 40px rgba(200,255,0,.08);
-  overflow:hidden;
-  position:relative;
-}
-.p4y-popup-card::before{
-  content:'';
-  position:absolute;
-  inset:0 0 auto 0;
-  height:2px;
-  background:linear-gradient(90deg, transparent, var(--accent), transparent);
-}
-.p4y-popup-inner{padding:28px;}
-.p4y-popup-close{
-  position:absolute;
-  top:14px;
-  right:14px;
-  width:36px;
-  height:36px;
-  border-radius:10px;
-  border:1px solid var(--border-mid);
-  background:rgba(255,255,255,.02);
-  color:var(--text-secondary);
-  cursor:pointer;
-  font-size:20px;
-  line-height:1;
-}
-.p4y-popup-close:hover{color:var(--text-primary);border-color:var(--border-active);}
-.p4y-popup-kicker{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  font-family:var(--font-mono);
-  font-size:11px;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:var(--accent);
-  background:rgba(200,255,0,.08);
-  border:1px solid rgba(200,255,0,.18);
-  padding:5px 10px;
-  border-radius:999px;
-  margin-bottom:14px;
-}
-.p4y-popup-title{
-  font-family:var(--font-display);
-  font-size:clamp(28px, 4vw, 42px);
-  line-height:1.02;
-  letter-spacing:-.04em;
-  margin:0 0 12px;
-}
-.p4y-popup-text{
-  color:var(--text-secondary);
-  font-size:15px;
-  line-height:1.65;
-  margin-bottom:18px;
-}
-.p4y-popup-benefits{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin:0 0 20px;
-}
-.p4y-popup-benefit{
-  border:1px solid var(--border-dim);
-  background:rgba(255,255,255,.02);
-  border-radius:12px;
-  padding:10px 12px;
-  color:var(--text-secondary);
-  font-size:13px;
-}
-.p4y-popup-benefit strong{color:var(--text-primary);display:block;font-size:13px;margin-bottom:2px;}
-.p4y-popup-form{display:grid;gap:12px;}
-.p4y-popup-field input{
-  width:100%;
-  background:#0d1216;
-  border:1px solid var(--border-mid);
-  color:var(--text-primary);
-  border-radius:12px;
-  padding:14px 14px;
-  outline:none;
-  font:inherit;
-}
-.p4y-popup-field input:focus{
-  border-color:rgba(200,255,0,.5);
-  box-shadow:0 0 0 4px rgba(200,255,0,.08);
-}
-.p4y-popup-submit{
-  width:100%;
-  justify-content:center;
-  min-height:50px;
-  border-radius:12px;
-  font-size:13px;
-}
-.p4y-popup-note{
-  color:var(--text-tertiary);
-  font-size:12px;
-  text-align:center;
-  margin-top:2px;
-}
-.p4y-popup-status{
-  min-height:22px;
-  font-size:13px;
-  text-align:center;
-  color:var(--text-secondary);
-}
-.p4y-popup-status.success{color:var(--accent);}
-.p4y-popup-status.error{color:#ff7b8f;}
-body.p4y-popup-open{overflow:hidden;}
-
-.is-hidden-firm{display:none !important;}
-@media (max-width:640px){
-  .p4y-popup{
-    align-items:flex-start;
-    padding:12px;
-  }
-  .p4y-popup-card{
-    width:min(100%, 460px);
-    max-height:calc(100svh - 24px);
-    overflow-y:auto;
-    border-radius:16px;
-  }
-  .p4y-popup-inner{
-    padding:18px 16px 16px;
-  }
-  .p4y-popup-close{
-    top:10px;
-    right:10px;
-    width:34px;
-    height:34px;
-    z-index:2;
-  }
-  .p4y-popup-title{
-    font-size:26px;
-    line-height:1.04;
-    padding-right:36px;
-  }
-  .p4y-popup-text{
-    font-size:14px;
-    margin-bottom:14px;
-  }
-  .p4y-popup-field input{
-    padding:12px 12px;
-    border-radius:10px;
-  }
-  .p4y-popup-submit{
-    min-height:46px;
-  }
-}
-@media (max-width:640px){
-  .p4y-popup-benefits{grid-template-columns:1fr;}
+@media (max-width: 480px) {
+  footer.site .top { grid-template-columns: 1fr; }
+  .legal { flex-direction: column; align-items: flex-start; }
+  .top-pick-left { padding: 24px 20px; }
+  .top-pick-right { padding: 24px 20px; }
+  .editorial-strip .rhs { display: none; }
 }
 </style>
-
-<script src="/data/firms.js"></script>
 </head>
 <body>
 
-<!-- TOAST NOTIFICATION -->
-<div class="toast" id="toast">✓ CODE COPIED</div>
-
-<!-- ANNOUNCEMENT BAR -->
-<!-- ==================== HEADER ==================== -->
-<header>
-<div class="header-inner">
-<a class="logo" href="index.html">
-<img alt="PropChamps logo" class="logo-img" src="/logos/propchamps.png"/>
-</a>
-<nav>
-<a class="active" href="index.html">Firms</a>
-<a class="" href="compare.html">Compare</a>
-<a class="" href="deals.html">Deals</a>
-<a href="privacy.html">Privacy</a>
-</nav>
-<button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
-  <svg viewBox="0 0 24 24" fill="none">
-    <path d="M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-    <path d="M4 12H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-    <path d="M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-  </svg>
-</button>
-<div class="header-right">
-<div class="live-pill">
-<span class="live-dot"></span>
-        7 Firms Tracked · Live
-      </div>
-<button class="btn-deal-alerts" onclick="openP4YNewsletter()" aria-label="Get deal alerts">
-  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1a3.5 3.5 0 013.5 3.5c0 2.1.7 3.2 1.5 4H1c.8-.8 1.5-1.9 1.5-4A3.5 3.5 0 016 1z" stroke="currentColor" stroke-width="1.2"/><path d="M4.5 9a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-  Deal Alerts
-</button>
-<a class="btn-compare-now" href="compare.html">Compare Now</a>
+<!-- Editorial top strip -->
+<div class="editorial-strip">
+  <div class="container">
+    <div class="lhs">
+      <span class="dot"></span>
+      <span>Independent prop firm research · Reviewed weekly</span>
+    </div>
+    <div class="rhs">Last reviewed May 28, 2026</div>
+  </div>
 </div>
 
-</div>
-<div class="mobile-menu" id="mobileMenu">
-  <a class="active" href="index.html">Firms</a>
-  <a href="compare.html">Compare</a>
-  <a href="deals.html">Deals</a>
-  <a href="privacy.html">Privacy</a>
-  <button class="mobile-deal-alerts" onclick="openP4YNewsletter()">🔔 Get Deal Alerts</button>
-</div>
+<!-- Header -->
+<header class="site">
+  <div class="container">
+    <a class="logo-mark" href="/" aria-label="PropChamps home">
+      <img src="/logos/propchamps.png" alt="PropChamps">
+    </a>
+    <nav class="primary">
+      <a href="/" class="active">Firms</a>
+      <a href="/compare">Compare</a>
+      <a href="/deals">Deals</a>
+      <a href="/methodology">Methodology</a>
+    </nav>
+    <a class="header-cta" href="/compare">
+      Compare firms
+      <svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12 L11 8 L5 4"/>
+      </svg>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+      <span class="bar"></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="/">Firms</a>
+    <a href="/compare">Compare</a>
+    <a href="/deals">Deals</a>
+    <a href="/methodology">Methodology</a>
+    <a class="mobile-cta" href="/compare">Compare firms →</a>
+  </div>
 </header>
 
-
-
-<!-- HERO SECTION -->
+<!-- Hero -->
 <section class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">
-      <span class="tag">Futures Prop Firm Intelligence</span>
-    </div>
+  <div class="bg-stack"></div>
+  <div class="container">
 
-    <h1 class="hero-headline">
-      The Futures Prop Firm Comparison<br>
-      Traders Actually <em>Trust.</em>
-    </h1>
+    <a class="hero-ticker" href="/firms/take-profit-trader.html">
+      <span class="live">Live</span>
+      <span class="chip">May 18 · Take Profit removed DLL</span>
+    </a>
 
-    <p class="hero-sub">
-      Clean rule breakdowns for the firms on PropChamps — account sizes, drawdown limits, consistency rules, payout timing, and platform access.
-      Built so you can compare the actual rules fast without digging through every firm's site.
-    </p>
+    <h1>The independent reference for choosing a <span class="accent-word">futures prop firm.</span></h1>
 
-    <div class="hero-actions">
-      <a href="#firms" class="btn-primary">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1 12L12 1M12 1H4M12 1V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        Compare All Firms
+    <p class="hero-sub">PropChamps tracks rules, drawdown limits, payouts, and active promo codes across the futures prop firms traders actually use. No paid placements. Reviewed weekly.</p>
+
+    <div class="hero-cta-row">
+      <a class="btn-primary" href="/compare">
+        Compare all 7 firms
+        <svg width="16" height="16" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12 L11 8 L5 4"/>
+        </svg>
       </a>
-      <a href="#topPick" class="btn-ghost">Top Pick</a>
-      <a href="#deals" class="btn-ghost">View Active Deals</a>
+      <a class="btn-text" href="/methodology">How we evaluate firms</a>
     </div>
 
-    <div class="hero-meta mono">
-      <span>Last updated: <strong id="lastUpdated" style="color:var(--text-secondary)">—</strong></span>
-      <span class="meta-sep">&nbsp;&nbsp;·&nbsp;&nbsp;</span>
-      <span>Rule summaries on page</span>
-      <span class="meta-sep">&nbsp;&nbsp;·&nbsp;&nbsp;</span>
-      <span id="activePromos" style="color:var(--positive)">● 7 live firms loaded</span>
+    <div class="hero-trust">
+      <div class="hero-trust-item"><strong class="lime">7</strong><span>Firms tracked</span></div>
+      <div class="hero-trust-item"><strong>60+</strong><span>Data points per firm</span></div>
+      <div class="hero-trust-item"><strong>Weekly</strong><span>Rule audits</span></div>
+      <div class="hero-trust-item"><strong>0</strong><span>Paid placements</span></div>
     </div>
-
 
   </div>
 </section>
 
-<!-- TICKER BAR -->
-
-<div class="ticker-wrap">
-  <div class="ticker" id="ticker">
-    <div class="ticker-item"><span class="ticker-separator">▸</span> <strong>Lucid Pro</strong> — Free activation · 5 profit days · 6 payouts to live</div>
-    <div class="ticker-item" data-firm="tradify"><span class="ticker-separator">▸</span> <strong>Tradeify Growth</strong> — 5 day funded payouts · 10 max accounts · 35% funded consistency</div>
-    <div class="ticker-item"><span class="ticker-separator">▸</span> <strong>Alpha Zero</strong> — 1 eval day · 5 qualified days · no eval consistency</div>
-    <div class="ticker-item"><span class="ticker-separator">▸</span> <strong>Apex Performance</strong> — 5 trading day payouts · 20 max accounts · 6 payout requests</div>
-    <div class="ticker-item"><span class="ticker-separator">▸</span> <strong>My Funded Futures Rapid</strong> — Daily payouts · no DLL · no activation fee</div>
-    <div class="ticker-item"><span class="ticker-separator">▸</span> <strong>Top One Elite</strong> — 1 day pass · $149 activation · 25% funded consistency</div>
-    <div class="ticker-item"><span class="ticker-separator">▸</span> <strong>Lucid Pro</strong> — Free activation · 5 profit days · 6 payouts to live</div>
-    <div class="ticker-item" data-firm="tradify"><span class="ticker-separator">▸</span> <strong>Tradeify Growth</strong> — 5 day funded payouts · 10 max accounts · 35% funded consistency</div>
-    <div class="ticker-item"><span class="ticker-separator">▸</span> <strong>Alpha Zero</strong> — 1 eval day · 5 qualified days · no eval consistency</div>
-    <div class="ticker-item"><span class="ticker-separator">▸</span> <strong>Apex Performance</strong> — 5 trading day payouts · 20 max accounts · 6 payout requests</div>
-    <div class="ticker-item"><span class="ticker-separator">▸</span> <strong>My Funded Futures Rapid</strong> — Daily payouts · no DLL · no activation fee</div>
-    <div class="ticker-item"><span class="ticker-separator">▸</span> <strong>Top One Elite</strong> — 1 day pass · $149 activation · 25% funded consistency</div>
-    <div class="ticker-item"><span class="ticker-separator">▸</span> <strong>Take Profit Trader</strong> — DLL removed · 5 sizes · 25K to 150K · code CHAMP</div>
-  </div>
-</div>
-
-
-<!-- TRUST BAR -->
-<div class="trust-bar">
+<!-- Top Pick featured card -->
+<section class="block">
   <div class="container">
-    <div class="trust-bar-inner">
-      <div class="trust-item">
-        <div class="trust-icon">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1L9 5H13L10 8L11 12L7 10L3 12L4 8L1 5H5L7 1Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
-        </div>
-        <span class="trust-text">Independent Ratings — Clean Rule Reviews</span>
+    <div class="section-head">
+      <div class="lhs">
+        <div class="section-eyebrow">Top pick · This week</div>
+        <h2>The biggest active discount.</h2>
+        <p>Updated every Monday. The CHAMP code currently delivers its largest verified discount at Apex Trader Funding.</p>
       </div>
-      <div class="trust-separator"></div>
-      <div class="trust-item">
-        <div class="trust-icon">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="5" width="12" height="8" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M4 5V3.5a3 3 0 016 0V5" stroke="currentColor" stroke-width="1.2"/></svg>
-        </div>
-        <span class="trust-text">Verified Discount Codes — Tested Monthly</span>
-      </div>
-      <div class="trust-separator"></div>
-      <div class="trust-item">
-        <div class="trust-icon">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3.5l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-        </div>
-        <span class="trust-text">Data Updated Live</span>
-      </div>
-      <div class="trust-separator"></div>
-      <div class="trust-item">
-        <div class="trust-icon">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <span class="trust-text">Built for Futures Traders</span>
-      </div>
+      <div class="rhs">Verified May 27 · 14:02</div>
     </div>
+
+    <article class="top-pick-card">
+      <div class="top-pick-left">
+        <div class="top-pick-badge">Best current deal</div>
+        <div class="top-pick-head">
+          <div class="top-pick-logo"><img src="/logos/apex.png" alt="Apex Trader Funding"></div>
+          <div>
+            <div class="top-pick-name">Apex Trader Funding</div>
+            <div class="top-pick-sub">Industry-standard · 200K+ active traders</div>
+          </div>
+        </div>
+        <p class="top-pick-blurb">The most widely-used futures prop firm. CHAMP currently delivers 80% off across every evaluation tier — the largest active discount we've verified this month. Generous account sizes, one-day-pass option, well-documented rules.</p>
+        <ul class="top-pick-points">
+          <li class="top-pick-point">Max account size up to $300K</li>
+          <li class="top-pick-point">One-day-pass option on all account tiers</li>
+          <li class="top-pick-point">Trailing drawdown with 30% buffer (industry-standard)</li>
+          <li class="top-pick-point">Stricter-than-average consistency requirements — read review</li>
+        </ul>
+      </div>
+      <div class="top-pick-right">
+        <div class="top-pick-deal">
+          <div class="deal-label">Active until rule check</div>
+          <div class="deal-big">80% OFF</div>
+          <div class="deal-code js-copy-champ" title="Click to copy">Code: CHAMP <span class="copy-hint">Click to copy</span></div>
+          <div class="deal-detail">Across all evaluation account sizes. Re-verified weekly.</div>
+        </div>
+        <div class="top-pick-actions">
+          <a class="btn-primary" href="/deals.html">
+            Get this deal
+            <svg width="16" height="16" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12 L11 8 L5 4"/>
+            </svg>
+          </a>
+          <a class="btn-text" href="/firms/apex-trader.html">Read full review</a>
+        </div>
+      </div>
+    </article>
   </div>
-</div>
+</section>
 
-<!-- FIRMS TABLE SECTION -->
-<section class="firms-section" id="firms">
+<!-- Featured firms grid -->
+<section class="block">
   <div class="container">
-    <div class="section-header fade-in">
-      <span class="tag">Directory</span>
-      <h2 class="section-title">Prop Firm Comparison</h2>
-      <p class="section-desc">Clean rule breakdowns for the 7 live firms, with CHAMP codes, working claim buttons, and full rule sheets in one place.</p>
+    <div class="section-head">
+      <div class="lhs">
+        <div class="section-eyebrow">All firms · Ranked</div>
+        <h2>The firms we cover, ranked.</h2>
+        <p>Ranked by current rule transparency, payout consistency, and active discount value. Updated weekly.</p>
+      </div>
+      <div class="rhs">7 of 7 shown</div>
     </div>
 
-    <!-- EDITOR'S PICK -->
-    <div class="top-pick-wrap fade-in" id="topPick" style="margin-bottom: var(--space-10);">
-      <div style="display:flex; align-items:center; gap:10px; margin-bottom:var(--space-4);">
-        <span style="font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-tertiary);">Top Pick</span>
-        <div style="flex:1; height:1px; background:var(--border-dim);"></div>
-      </div>
-      <div class="top-pick-card">
-        <div class="top-pick-left">
-          <div class="top-pick-badge mono">RULE SPOTLIGHT</div>
-          <div class="top-pick-title">
-            <span class="top-pick-logo"><img src="/logos/lucid.png" alt="Lucid logo" class="top-pick-logo-img"></span>
-            <div>
-              <div class="top-pick-name">Lucid Pro</div>
-              <div class="top-pick-sub mono">CGQ / Rithmic feeds · 25K / 50K / 100K / 150K</div>
-            </div>
-          </div>
-          <div class="top-pick-points">
-            <div class="top-pick-point"><span class="dot"></span> Activation fee is free across the plan.</div>
-            <div class="top-pick-point"><span class="dot"></span> Can pass to funded in 1 day with 5 minimum profit days for payout qualification.</div>
-            <div class="top-pick-point"><span class="dot"></span> Consistency is 40% and payouts move to live after 6 payouts.</div>
-          </div>
-        </div>
-        <div class="top-pick-right">
-          <div class="top-pick-savings">
-            <div class="top-pick-savings-big">25K → 150K</div>
-            <div class="top-pick-savings-sub mono">Profit target: $1,250 → $9,000</div>
-          </div>
-          <div class="top-pick-actions">
-            <a class="btn-table-primary" style="width:100%; justify-content:center;" href="#firms" onclick="highlightFirmRow('lucid-trading')">See Lucid In Table</a>
-            <a class="btn-table-ghost" style="width:100%; justify-content:center; text-align:center;" href="firms/lucid-trading.html">Open Full Rule Sheet</a>
-          </div>
-          <div class="top-pick-micro mono">
-            <span class="micro-item">✓ No activation fee</span>
-            <span class="micro-item">✓ 5 profit days</span>
-            <span class="micro-item">✓ $500 min payout request</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div class="firms-grid">
 
-    <div class="table-controls fade-in">
-      <div class="table-filters">
-        <button class="filter-btn active">All Firms</button>
-        <button class="filter-btn">Fast Payout</button>
-        <button class="filter-btn">No DLL</button>
-        <button class="filter-btn">150K+</button>
-        <button class="filter-btn">1 Day Pass</button>
-      </div>
-      <div class="table-info">Showing 7 of 7 firms · Filter: All Firms</div>
-    </div>
-
-    <div class="comparison-grid fade-in">
-
-      <article class="comparison-card" id="firm-lucid-trading">
-        <div class="comparison-top">
-          <div class="comparison-brand">
-            <div class="comparison-logo"><img src="/logos/lucid.png" alt="Lucid logo" loading="lazy" decoding="async"></div>
-            <div class="comparison-name-wrap">
-              <div class="comparison-name-line">
-                <h3 class="comparison-name">Lucid</h3>
-                <span class="featured-badge">Most Detailed</span>
-              </div>
-              <div class="comparison-sub">Pro · Black · Flex · Direct</div>
-            </div>
-          </div>
-          <div class="comparison-actions">
-            <div class="comparison-code js-copy-champ"><strong>CHAMP</strong> <span class="copy-text">COPY</span></div>
-            <a href="#" class="btn-primary affiliate-link" data-affiliate-key="lucid-trading">Claim Deal →</a>
-            <a class="btn-ghost" href="firms/lucid-trading.html">Full Rules</a>
-          </div>
+      <article class="firm-card">
+        <div class="firm-head">
+          <div class="firm-logo"><img src="/logos/lucid.png" alt="Lucid Trading"></div>
+          <div class="firm-rank"><span class="firm-rank-num">#01</span><span class="firm-rank-label">Editor's pick</span></div>
         </div>
-        <div class="comparison-panels">
-          <details class="compare-panel"><summary><div class="compare-panel-label">Programs</div><div class="compare-panel-title">4 paths</div><div class="compare-panel-copy">Pro, Black, Flex, and Direct.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Pro:</strong> activation fee free, 40% consistency, pass funded in 1 day.</li><li><strong>Black:</strong> legacy program, 60% funded consistency, bonus payout option.</li><li><strong>Flex:</strong> no DLL, 50% eval consistency.</li><li><strong>Direct:</strong> straight to funded with 20% consistency.</li></ul></div></details>
-          <details class="compare-panel"><summary><div class="compare-panel-label">Account Sizes</div><div class="compare-panel-title">25K → 150K</div><div class="compare-panel-copy">25K, 50K, 100K, and 150K coverage.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Max size:</strong> 2 minis on 25K through 10 minis on 150K.</li><li><strong>Buffer balance:</strong> $26,100 up to $154,600 on Pro.</li></ul></div></details>
-          <details class="compare-panel"><summary><div class="compare-panel-label">Rule Snapshot</div><div class="compare-panel-title">Targets $1,250 → $9,000</div><div class="compare-panel-copy">Max loss $1,000 → $4,500 with path-specific DLL rules.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Pro:</strong> DLL none on 25K, then $1,200 / $1,800 / $2,700.</li><li><strong>Flex:</strong> no DLL across the path.</li><li><strong>Direct:</strong> max accounts 5 with 5-day payout minimum.</li></ul></div></details>
-          <details class="compare-panel"><summary><div class="compare-panel-label">Payout / Min Days</div><div class="compare-panel-title">5-day payout path</div><div class="compare-panel-copy">Minimum payout request is $500.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Profit days:</strong> 5 minimum across listed sizes.</li><li><strong>Payout 1 caps:</strong> $1,000 / $2,000 / $2,500 / $3,000.</li><li><strong>Payout 2 caps:</strong> $1,500 / $2,500 / $3,000 / $3,500.</li></ul></div></details>
-          <details class="compare-panel"><summary><div class="compare-panel-label">Platforms</div><div class="compare-panel-title">7 platforms</div><div class="compare-panel-copy">CGQ and Rithmic stack included.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li>CGQ data feed, Tradovate, NinjaTrader, TradingView.</li><li>Rithmic data feed, MotiveWave, Quantower.</li></ul></div></details>
+        <h3 class="firm-name">Lucid Trading</h3>
+        <p class="firm-blurb">Four-path program (Pro · Black · Flex · Direct) with fast payouts and the cleanest rule documentation we've audited.</p>
+        <div class="firm-stats">
+          <div class="firm-stat"><span class="firm-stat-label">Profit split</span><span class="firm-stat-value">Up to 90%</span></div>
+          <div class="firm-stat"><span class="firm-stat-label">Payout speed</span><span class="firm-stat-value">Daily</span></div>
+        </div>
+        <div class="firm-actions">
+          <a class="firm-read" href="/firms/lucid-trading.html">Read review</a>
+          <span class="firm-promo js-copy-champ">CHAMP — 30% off</span>
         </div>
       </article>
 
-      
-
-      <article class="comparison-card" id="firm-alpha-futures">
-        <div class="comparison-top"><div class="comparison-brand"><div class="comparison-logo"><img src="/logos/alpha.png" alt="Alpha Futures logo" loading="lazy" decoding="async"></div><div class="comparison-name-wrap"><div class="comparison-name">Alpha Futures</div><div class="comparison-sub">Zero · Standard · Advanced</div></div></div><div class="comparison-actions"><div class="comparison-code js-copy-champ"><strong>CHAMP</strong> <span class="copy-text">COPY</span></div><a href="#" class="btn-primary affiliate-link" data-affiliate-key="alpha-futures">Claim Deal →</a><a class="btn-ghost" href="firms/alpha-futures.html">Full Rules</a></div></div>
-        <div class="comparison-panels">
-          <details class="compare-panel"><summary><div class="compare-panel-label">Programs</div><div class="compare-panel-title">3 plans</div><div class="compare-panel-copy">Zero, Standard, and Advanced.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Zero:</strong> 25K / 50K / 100K with 1 eval day and 5 qualified days.</li><li><strong>Standard:</strong> 50K / 100K / 150K with 2 eval days and 3 qualified days.</li><li><strong>Advanced:</strong> 50K / 100K / 150K with 2 eval days and 5 qualified days.</li></ul></div></details>
-          <details class="compare-panel"><summary><div class="compare-panel-label">Account Sizes</div><div class="compare-panel-title">25K → 150K</div><div class="compare-panel-copy">Zero starts at 25K. Standard and Advanced run 50K to 150K.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Zero max position:</strong> 1 / 3 / 6 minis.</li><li><strong>Standard max position:</strong> 5 / 10 / 15 minis.</li><li><strong>Advanced max position:</strong> 5 / 10 / 15 minis.</li></ul></div></details>
-          <details class="compare-panel"><summary><div class="compare-panel-label">Rule Snapshot</div><div class="compare-panel-title">DLL varies by plan</div><div class="compare-panel-copy">Zero uses DLL, Standard DLL only funded, Advanced no DLL.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Zero:</strong> DLL $500 / $1,000 / $2,000 with 40% qualified consistency.</li><li><strong>Standard:</strong> no eval DLL, then $1,000 / $2,000 / $3,000 funded DLL with 40% qualified consistency.</li><li><strong>Advanced:</strong> no eval DLL, no qualified DLL, and no qualified consistency.</li></ul></div></details>
-          <details class="compare-panel"><summary><div class="compare-panel-label">Payout / Split</div><div class="compare-panel-title">70% → 90% or flat 90%</div><div class="compare-panel-copy">Standard tiers payouts. Advanced stays at 90%.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Zero:</strong> 90% qualified split.</li><li><strong>Standard:</strong> payouts 1–2 = 70%, 3–4 = 80%, 5+ = 90%.</li><li><strong>Advanced:</strong> 90% at all times with payout requests every 5 winning days of $200+.</li></ul></div></details>
-          <details class="compare-panel"><summary><div class="compare-panel-label">News / Accounts</div><div class="compare-panel-title">News allowed</div><div class="compare-panel-copy">All three allow holding through news in eval.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Zero:</strong> 5 max qualified accounts.</li><li><strong>Standard:</strong> 3 qualified accounts.</li><li><strong>Advanced:</strong> 3 qualified accounts.</li></ul></div></details>
+      <article class="firm-card">
+        <div class="firm-head">
+          <div class="firm-logo"><img src="/logos/apex.png" alt="Apex Trader Funding"></div>
+          <div class="firm-rank"><span class="firm-rank-num">#02</span><span class="firm-rank-label">Best for scale</span></div>
+        </div>
+        <h3 class="firm-name">Apex Trader Funding</h3>
+        <p class="firm-blurb">The most widely-used futures prop firm. Generous account sizes with 1-day-pass; stricter consistency requirements.</p>
+        <div class="firm-stats">
+          <div class="firm-stat"><span class="firm-stat-label">Max account</span><span class="firm-stat-value">$300K</span></div>
+          <div class="firm-stat"><span class="firm-stat-label">Pass speed</span><span class="firm-stat-value">1 day</span></div>
+        </div>
+        <div class="firm-actions">
+          <a class="firm-read" href="/firms/apex-trader.html">Read review</a>
+          <span class="firm-promo js-copy-champ">CHAMP — 80% off</span>
         </div>
       </article>
 
-      <article class="comparison-card" id="firm-apex-trader">
-        <div class="comparison-top"><div class="comparison-brand"><div class="comparison-logo"><img src="/logos/apex.png" alt="Apex Futures logo" loading="lazy" decoding="async"></div><div class="comparison-name-wrap"><div class="comparison-name">Apex Futures</div><div class="comparison-sub">Intraday Trail · EOD Trail · Rithmic · Tradovate · WealthCharts</div></div></div><div class="comparison-actions"><div class="comparison-code js-copy-champ"><strong>CHAMP</strong> <span class="copy-text">COPY</span></div><a href="#" class="btn-primary affiliate-link" data-affiliate-key="apex-trader">Claim Deal →</a><a class="btn-ghost" href="firms/apex-trader.html">Full Rules</a></div></div>
-        <div class="comparison-panels">
-          <details class="compare-panel"><summary><div class="compare-panel-label">Programs</div><div class="compare-panel-title">2 trail types</div><div class="compare-panel-copy">Intraday Trail and EOD Trail across 3 platforms.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Platforms:</strong> Rithmic, Tradovate, WealthCharts.</li><li><strong>All evals:</strong> 1 day to pass with built-in scaling for PA.</li></ul></div></details>
-          <details class="compare-panel"><summary><div class="compare-panel-label">Account Sizes</div><div class="compare-panel-title">25K → 150K</div><div class="compare-panel-copy">Same size ladder across Intraday and EOD.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Eval max contracts:</strong> 4 / 6 / 8 / 12 minis.</li><li><strong>PA max contracts:</strong> 2 / 4 / 6 / 10 minis.</li></ul></div></details>
-          <details class="compare-panel"><summary><div class="compare-panel-label">Rule Snapshot</div><div class="compare-panel-title">1-day pass / 50% consistency</div><div class="compare-panel-copy">Targets run $1,500 to $9,000 with $1,000 to $4,000 drawdown.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Eval:</strong> reset fee N/A with built-in PA scaling.</li><li><strong>PA:</strong> DLL yes, consistency 50%, payout split none–100%.</li></ul></div></details>
-          <details class="compare-panel"><summary><div class="compare-panel-label">Payout / Activation</div><div class="compare-panel-title">$79 activation</div><div class="compare-panel-copy">Performance accounts have the same payout cadence across versions.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Activation:</strong> $79 within 7 days of passing eval.</li><li><strong>Payouts:</strong> every 5 trading days with max 6 payout requests.</li><li><strong>Max accounts:</strong> 20.</li></ul></div></details>
-          <details class="compare-panel"><summary><div class="compare-panel-label">Platform Features</div><div class="compare-panel-title">Feature stack varies</div><div class="compare-panel-copy">Tradovate versions include the broadest compatibility stack.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Rithmic:</strong> NinjaTrader value + real-time data fee value.</li><li><strong>Tradovate:</strong> TradingView, browser, mobile, Mac, Tradovate license, NinjaTrader value, data fee value.</li><li><strong>WealthCharts:</strong> real-time data fee value.</li></ul></div></details>
+      <article class="firm-card">
+        <div class="firm-head">
+          <div class="firm-logo"><img src="/logos/tradify.png" alt="Tradeify"></div>
+          <div class="firm-rank"><span class="firm-rank-num">#03</span><span class="firm-rank-label">Best new entrant</span></div>
+        </div>
+        <h3 class="firm-name">Tradeify</h3>
+        <p class="firm-blurb">Three distinct paths — Growth, Select (Daily or Flex), and Lightning. One-time payments; Select Flex has no DLL.</p>
+        <div class="firm-stats">
+          <div class="firm-stat"><span class="firm-stat-label">Payout option</span><span class="firm-stat-value">Daily / Flex</span></div>
+          <div class="firm-stat"><span class="firm-stat-label">DLL on Flex</span><span class="firm-stat-value">None</span></div>
+        </div>
+        <div class="firm-actions">
+          <a class="firm-read" href="/firms/tradeify.html">Read review</a>
+          <span class="firm-promo js-copy-champ">CHAMP at checkout</span>
         </div>
       </article>
 
-      <article class="comparison-card" id="firm-my-funded-futures">
-        <div class="comparison-top"><div class="comparison-brand"><div class="comparison-logo"><img src="/logos/myfunded.png" alt="My Funded Futures logo" loading="lazy" decoding="async"></div><div class="comparison-name-wrap"><div class="comparison-name">My Funded Futures</div><div class="comparison-sub">Rapid · Pro · Flex</div></div></div><div class="comparison-actions"><div class="comparison-code js-copy-champ"><strong>CHAMP</strong> <span class="copy-text">COPY</span></div><a href="#" class="btn-primary affiliate-link" data-affiliate-key="my-funded-futures">Claim Deal →</a><a class="btn-ghost" href="firms/my-funded-futures.html">Full Rules</a></div></div>
-        <div class="comparison-panels"><details class="compare-panel"><summary><div class="compare-panel-label">Programs</div><div class="compare-panel-title">3 payout styles</div><div class="compare-panel-copy">Rapid, Pro, and Flex.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Rapid:</strong> daily payouts.</li><li><strong>Pro:</strong> bi-weekly payouts.</li><li><strong>Flex:</strong> weekly payouts.</li></ul></div></details><div class="compare-panel-body preview-card"><div class="compare-panel-label">Account Sizes</div><div class="compare-panel-title">See full rules</div><div class="compare-panel-copy">See site for full details.</div><div class="compare-panel-footer"><span class="affiliate-pill">No DLL</span></div></div><div class="compare-panel-body preview-card"><div class="compare-panel-label">Rule Snapshot</div><div class="compare-panel-title">No DLL / no activation fee</div><div class="compare-panel-copy">All three paths keep those two rules simple.</div><div class="compare-panel-footer"><span class="copy-pill js-copy-champ"><strong>CHAMP</strong><span class="copy-text">COPY</span></span></div></div><div class="compare-panel-body preview-card"><div class="compare-panel-label">Payout / Min Days</div><div class="compare-panel-title">Daily / bi-weekly / weekly</div><div class="compare-panel-copy">Depends on path, with 50% eval consistency and none funded.</div><div class="compare-panel-footer"><span class="affiliate-pill">Easy compare</span></div></div><div class="compare-panel-body preview-card"><div class="compare-panel-label">Platforms</div><div class="compare-panel-title">See full rules</div><div class="compare-panel-copy">See site for full details.</div><div class="compare-panel-footer"><a class="btn-ghost" href="firms/my-funded-futures.html" style="padding:7px 10px; font-size:11px;">View</a></div></div></div>
-      </article>
-
-      <article class="comparison-card" id="firm-top-one-futures">
-        <div class="comparison-top"><div class="comparison-brand"><div class="comparison-logo"><img src="/logos/topone.png" alt="Top One Futures logo" loading="lazy" decoding="async"></div><div class="comparison-name-wrap"><div class="comparison-name">Top One Futures</div><div class="comparison-sub">Elite · Instant Sim · S2F Pro · Ignite</div></div></div><div class="comparison-actions"><div class="comparison-code js-copy-champ"><strong>CHAMP</strong> <span class="copy-text">COPY</span></div><a href="#" class="btn-primary affiliate-link" data-affiliate-key="top-one-futures">Claim Deal →</a><a class="btn-ghost" href="firms/top-one-futures.html">Full Rules</a></div></div>
-        <div class="comparison-panels"><details class="compare-panel"><summary><div class="compare-panel-label">Programs</div><div class="compare-panel-title">4 funding paths</div><div class="compare-panel-copy">Elite, Instant Sim Funded, S2F Sim PRO, and Ignite.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Elite Challenge:</strong> 1-step challenge with activation fee.</li><li><strong>Instant Sim:</strong> one-time fee instant funded path.</li><li><strong>S2F Sim PRO:</strong> ESS 20% with 10 payout days.</li><li><strong>Ignite:</strong> instant funding for 25K to 100K.</li></ul></div></details><details class="compare-panel"><summary><div class="compare-panel-label">Account Sizes</div><div class="compare-panel-title">25K → 150K</div><div class="compare-panel-copy">Ignite goes to 100K. Other paths reach 150K.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Max contracts:</strong> 1 mini on 25K through 12 minis on 150K.</li><li><strong>Max accounts:</strong> varies by path, with current website exceptions noted.</li></ul></div></details><details class="compare-panel"><summary><div class="compare-panel-label">Rule Snapshot</div><div class="compare-panel-title">DLL path by path</div><div class="compare-panel-copy">Consistency ranges 15% to 25% depending on route.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Elite:</strong> DLL $625 → $3,750, funded consistency 25%.</li><li><strong>Instant Sim:</strong> consistency 20% with website note exceptions.</li><li><strong>Ignite:</strong> consistency 15% and current 100K drawdown exception noted.</li></ul></div></details><details class="compare-panel"><summary><div class="compare-panel-label">Payout / Min Days</div><div class="compare-panel-title">1-day pass to 10-day payout</div><div class="compare-panel-copy">Elite can pass in 1 day. S2F needs 10 payout days.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Elite:</strong> min days to pass 1.</li><li><strong>S2F:</strong> min trading days to payout 10.</li><li><strong>Instant / Ignite:</strong> immediate funded-style purchase paths.</li></ul></div></details><div class="compare-panel-body preview-card"><div class="compare-panel-label">Platforms</div><div class="compare-panel-title">See full rules</div><div class="compare-panel-copy">See site for full details.</div></div></div>
-      </article>
-
-      <article class="comparison-card" id="firm-tradeify">
-        <div class="comparison-top">
-          <div class="comparison-brand">
-            <div class="comparison-logo"><img src="/logos/tradify.png" alt="Tradeify logo" loading="lazy" decoding="async"></div>
-            <div class="comparison-name-wrap">
-              <div class="comparison-name-line">
-                <h3 class="comparison-name">Tradeify</h3>
-              </div>
-              <div class="comparison-sub">Growth · Select · Lightning</div>
-            </div>
-          </div>
-          <div class="comparison-actions">
-            <div class="comparison-code js-copy-champ"><strong>CHAMP</strong> <span class="copy-text">COPY</span></div>
-            <a href="#" class="btn-primary affiliate-link" data-affiliate-key="tradeify">Claim Deal →</a>
-            <a class="btn-ghost" href="firms/tradeify.html">Full Rules</a>
-          </div>
+      <article class="firm-card">
+        <div class="firm-head">
+          <div class="firm-logo"><img src="/logos/alpha.png" alt="Alpha Futures"></div>
+          <div class="firm-rank"><span class="firm-rank-num">#04</span><span class="firm-rank-label">Fastest eval</span></div>
         </div>
-        <div class="comparison-panels">
-          <details class="compare-panel"><summary><div class="compare-panel-label">Programs</div><div class="compare-panel-title">3 paths</div><div class="compare-panel-copy">Growth, Select, and Lightning.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Growth:</strong> evaluation then funded with 35% funded consistency and 5-day payouts.</li><li><strong>Select:</strong> evaluation then choose Daily or Flex funding path. No eval DLL, 40% eval consistency.</li><li><strong>Lightning:</strong> direct-style plan with 20% consistency and 5-day payouts.</li></ul></div></details>
-          <details class="compare-panel"><summary><div class="compare-panel-label">Account Sizes</div><div class="compare-panel-title">25K → 150K</div><div class="compare-panel-copy">Growth and Select run 25K to 150K. Lightning also covers all four sizes.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Growth / Select:</strong> 25K / 50K / 100K / 150K · 1 / 4 / 8 / 12 minis max.</li><li><strong>Lightning:</strong> 25K / 50K / 100K / 150K · 1 / 4 / 8 / 12 minis.</li></ul></div></details>
-          <details class="compare-panel"><summary><div class="compare-panel-label">Rule Snapshot</div><div class="compare-panel-title">DLL varies by path</div><div class="compare-panel-copy">Growth has DLL · Select Flex path removes DLL · Lightning none on 25K.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Growth eval:</strong> DLL $600 / $1,250 / $2,500 / $3,750 · no eval consistency.</li><li><strong>Select eval:</strong> no DLL · 40% consistency.</li><li><strong>Lightning:</strong> DLL none on 25K, then $1,250 / $2,500 / $3,750.</li></ul></div></details>
-          <details class="compare-panel"><summary><div class="compare-panel-label">Payout Options</div><div class="compare-panel-title">Daily or 5-day</div><div class="compare-panel-copy">Select Daily path offers daily payouts. All others are 5-day.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Growth funded:</strong> 5-day · 35% consistency · max accounts 5.</li><li><strong>Select Daily:</strong> daily · max payout $600 / $1,000 / $1,500 / $2,500.</li><li><strong>Select Flex:</strong> 5-day · max payout $3,000 / $4,000 / $5,000 · no DLL.</li><li><strong>Lightning:</strong> 5-day · 20% consistency · max accounts 5.</li></ul></div></details>
-          <details class="compare-panel"><summary><div class="compare-panel-label">Platforms</div><div class="compare-panel-title">2 platforms</div><div class="compare-panel-copy">Tradovate and WealthCharts.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li>Tradovate</li><li>WealthCharts</li></ul></div></details>
+        <h3 class="firm-name">Alpha Futures</h3>
+        <p class="firm-blurb">One-day pass with flat 90% split on Zero. Advanced tier removes news restrictions. Activation varies by plan.</p>
+        <div class="firm-stats">
+          <div class="firm-stat"><span class="firm-stat-label">Profit split</span><span class="firm-stat-value">Flat 90%</span></div>
+          <div class="firm-stat"><span class="firm-stat-label">Activation</span><span class="firm-stat-value">$0 (Zero)</span></div>
+        </div>
+        <div class="firm-actions">
+          <a class="firm-read" href="/firms/alpha-futures.html">Read review</a>
+          <span class="firm-promo js-copy-champ">CHAMP — 50% off</span>
         </div>
       </article>
 
-      <article class="comparison-card" id="firm-take-profit">
-        <div class="comparison-top"><div class="comparison-brand"><div class="comparison-logo"><img src="/logos/takeprofit.png" alt="Take Profit Trader logo" loading="lazy" decoding="async"></div><div class="comparison-name-wrap"><div class="comparison-name">Take Profit Trader</div><div class="comparison-sub">Straight size ladder</div></div></div><div class="comparison-actions"><div class="comparison-code js-copy-champ"><strong>CHAMP</strong> <span class="copy-text">COPY</span></div><a href="#" class="btn-primary affiliate-link" data-affiliate-key="take-profit">Claim Deal →</a><a class="btn-ghost" href="firms/take-profit-trader.html">Full Rules</a></div></div>
-        <div class="comparison-panels"><div class="compare-panel-body preview-card"><div class="compare-panel-label">Programs</div><div class="compare-panel-title">Single ladder</div><div class="compare-panel-copy">Take Profit Trader uses a straightforward size ladder — 25K through 150K with DLL removed on all accounts.</div><div class="compare-panel-footer"><span class="affiliate-pill">Simple setup</span></div></div><details class="compare-panel"><summary><div class="compare-panel-label">Account Sizes</div><div class="compare-panel-title">25K · 50K · 75K · 100K · 150K</div><div class="compare-panel-copy">25K · 50K · 75K · 100K · 150K.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Max size:</strong> 3 minis on 25K through 15 minis on 150K.</li></ul></div></details><details class="compare-panel"><summary><div class="compare-panel-label">Rule Snapshot</div><div class="compare-panel-title">DLL removed</div><div class="compare-panel-copy">Straightforward target and drawdown ladder.</div><div class="compare-panel-footer"><span></span><span class="compare-more">Open</span></div></summary><div class="compare-panel-body"><ul class="compare-list"><li><strong>Targets:</strong> $1,500 / $3,000 / $4,500 / $6,000 / $9,000.</li><li><strong>Drawdown:</strong> $1,500 / $2,000 / $2,500 / $3,000 / $4,500.</li></ul></div></details><div class="compare-panel-body preview-card"><div class="compare-panel-label">Payout / Min Days</div><div class="compare-panel-title">See full rules</div><div class="compare-panel-copy">See site for full details.</div><div class="compare-panel-footer"><a class="btn-ghost" href="firms/take-profit-trader.html" style="padding:7px 10px; font-size:11px;">View</a></div></div><div class="compare-panel-body preview-card"><div class="compare-panel-label">Platforms</div><div class="compare-panel-title">See full rules</div><div class="compare-panel-copy">See site for full details.</div></div></div>
+      <article class="firm-card">
+        <div class="firm-head">
+          <div class="firm-logo"><img src="/logos/myfunded.png" alt="MyFundedFutures"></div>
+          <div class="firm-rank"><span class="firm-rank-num">#05</span><span class="firm-rank-label">Beginner-friendly</span></div>
+        </div>
+        <h3 class="firm-name">MyFundedFutures</h3>
+        <p class="firm-blurb">Rapid Live $10K-session model effective April 16. Lower barrier to live capital but smaller initial accounts.</p>
+        <div class="firm-stats">
+          <div class="firm-stat"><span class="firm-stat-label">Min account</span><span class="firm-stat-value">$10K</span></div>
+          <div class="firm-stat"><span class="firm-stat-label">Path</span><span class="firm-stat-value">Rapid Live</span></div>
+        </div>
+        <div class="firm-actions">
+          <a class="firm-read" href="/firms/my-funded-futures.html">Read review</a>
+          <span class="firm-promo js-copy-champ">CHAMP — 25% off</span>
+        </div>
+      </article>
+
+      <article class="firm-card">
+        <div class="firm-head">
+          <div class="firm-logo"><img src="/logos/topone.png" alt="Top One Futures"></div>
+          <div class="firm-rank"><span class="firm-rank-num">#06</span><span class="firm-rank-label">Most flexible</span></div>
+        </div>
+        <h3 class="firm-name">Top One Futures</h3>
+        <p class="firm-blurb">Four programs (1-Step Elite, Instant Sim, S2F, Ignite) covering most trader profiles. Multiple paths run side by side.</p>
+        <div class="firm-stats">
+          <div class="firm-stat"><span class="firm-stat-label">Programs</span><span class="firm-stat-value">4 paths</span></div>
+          <div class="firm-stat"><span class="firm-stat-label">1-day pass</span><span class="firm-stat-value">Available</span></div>
+        </div>
+        <div class="firm-actions">
+          <a class="firm-read" href="/firms/top-one-futures.html">Read review</a>
+          <span class="firm-promo js-copy-champ">CHAMP — 60% off</span>
+        </div>
+      </article>
+
+      <article class="firm-card">
+        <div class="firm-head">
+          <div class="firm-logo"><img src="/logos/takeprofit.png" alt="Take Profit Trader"></div>
+          <div class="firm-rank"><span class="firm-rank-num">#07</span><span class="firm-rank-label">No DLL</span></div>
+        </div>
+        <h3 class="firm-name">Take Profit Trader</h3>
+        <p class="firm-blurb">Daily loss limit removed across all account sizes as of May 18. Trailing drawdown unchanged. Best fit for traders who hate the DLL guardrail.</p>
+        <div class="firm-stats">
+          <div class="firm-stat"><span class="firm-stat-label">Daily loss limit</span><span class="firm-stat-value">Removed</span></div>
+          <div class="firm-stat"><span class="firm-stat-label">Drawdown</span><span class="firm-stat-value">Trailing</span></div>
+        </div>
+        <div class="firm-actions">
+          <a class="firm-read" href="/firms/take-profit-trader.html">Read review</a>
+          <span class="firm-promo js-copy-champ">CHAMP — 25% off</span>
+        </div>
       </article>
 
     </div>
   </div>
 </section>
 
-
-
-<!-- DEAL ALERTS STRIP -->
-<section style="padding: 32px 0;">
+<!-- Value props -->
+<section class="block tinted">
   <div class="container">
-    <div class="fade-in" style="border:1px solid rgba(200,255,0,.16); background:linear-gradient(135deg, rgba(17,22,28,.95) 0%, rgba(10,14,18,.98) 100%); border-radius:14px; padding:28px 32px; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;">
-      <div style="display:flex; align-items:center; gap:20px; flex:1; min-width:0;">
-        <div style="width:44px; height:44px; flex-shrink:0; background:rgba(200,255,0,0.1); border:1px solid rgba(200,255,0,0.25); border-radius:10px; display:flex; align-items:center; justify-content:center; color:var(--accent);">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2a5 5 0 015 5c0 3 1 4.5 2 6H3c1-1.5 2-3 2-6a5 5 0 015-5z" stroke="currentColor" stroke-width="1.4"/><path d="M7.5 13a2.5 2.5 0 005 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    <div class="section-head">
+      <div class="lhs">
+        <div class="section-eyebrow">Why traders trust us</div>
+        <h2>Independent. Audited. Always current.</h2>
+        <p>Prop firms change rules quietly. We audit each firm weekly and publish exactly what changed, when, and what it means for live accounts.</p>
+      </div>
+    </div>
+
+    <div class="values-grid">
+
+      <div class="value-card">
+        <div class="value-icon">
+          <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 8v4l3 2"/>
+            <circle cx="12" cy="12" r="9"/>
+          </svg>
         </div>
-        <div>
-          <div style="font-family:var(--font-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:4px;">Deal Alerts · Live Codes</div>
-          <div style="font-family:var(--font-display); font-size:clamp(17px,2vw,22px); font-weight:800; letter-spacing:-.02em; line-height:1.1; color:var(--text-primary);">Rule changes happen without warning. We catch them.</div>
-          <div style="color:var(--text-secondary); font-size:13px; margin-top:4px; font-weight:300;">Get CHAMP codes and firm rule updates before you miss a deal.</div>
+        <div class="value-num">/ 01 · Weekly audits</div>
+        <h3>Rule changes flagged within 72 hours.</h3>
+        <p>Every firm we cover is checked weekly against its own published rules. When something shifts — payout cadence, drawdown method, news restrictions — we publish the diff with a timestamp.</p>
+        <div class="value-stat">
+          <strong>38h</strong>
+          <span>Average time to publish a rule change</span>
         </div>
       </div>
-      <button class="btn-primary" onclick="openP4YNewsletter()" style="flex-shrink:0; white-space:nowrap; padding:12px 24px; font-size:13px;">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1a3.5 3.5 0 013.5 3.5c0 2.1.7 3.2 1.5 4H1.5C2.3 7.7 3 6.6 3 4.5A3.5 3.5 0 016.5 1z" stroke="currentColor" stroke-width="1.3"/><path d="M5 8.5a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-        Get Free Alerts
-      </button>
+
+      <div class="value-card">
+        <div class="value-icon">
+          <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9l4 4 8-8"/>
+            <path d="M3 12a9 9 0 1 0 18 0 9 9 0 1 0-18 0z"/>
+          </svg>
+        </div>
+        <div class="value-num">/ 02 · Editorial independence</div>
+        <h3>No paid placements, ever.</h3>
+        <p>Our rankings are based on rule transparency, payout history, and trader-reported friction. Affiliate links pay our bills — they do not influence the order firms appear in.</p>
+        <div class="value-stat">
+          <strong>$0</strong>
+          <span>Ranking fees accepted from firms</span>
+        </div>
+      </div>
+
+      <div class="value-card">
+        <div class="value-icon">
+          <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 12l-8 8-8-8M12 4v16"/>
+          </svg>
+        </div>
+        <div class="value-num">/ 03 · Verified discounts</div>
+        <h3>CHAMP codes re-tested every Monday.</h3>
+        <p>The CHAMP discount code is verified at checkout against each firm every Monday morning. If it stops working anywhere, we remove it from the deals page within 24 hours.</p>
+        <div class="value-stat">
+          <strong>100%</strong>
+          <span>Codes verified before publishing</span>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
+<!-- Recently updated changelog -->
+<section class="block">
+  <div class="container">
+    <div class="section-head">
+      <div class="lhs">
+        <div class="section-eyebrow">Live changelog</div>
+        <h2>What changed this month.</h2>
+        <p>The last 30 days of rule changes, payout updates, and program launches across the firms we cover.</p>
+      </div>
+      <div class="rhs"><a href="/methodology">How audits work</a></div>
+    </div>
 
+    <div class="updates-grid">
 
-<!-- FOOTER -->
+      <article class="update-card">
+        <div class="update-card-head">
+          <span class="update-date">May 28, 2026</span>
+          <span class="update-tag promo">Promo</span>
+        </div>
+        <div class="update-firm">
+          <div class="update-firm-logo"><img src="/logos/alpha.png" alt=""></div>
+          <span class="update-firm-name">Alpha Futures</span>
+        </div>
+        <div class="update-title">Zero plan activation now $0</div>
+        <p class="update-detail">Previously $99 — applies to the one-day pass option. Flat 90% split unchanged.</p>
+        <a class="update-link" href="/firms/alpha-futures.html">Read change</a>
+      </article>
 
-<footer class="footer-minimal">
-  <div class="container footer-minimal-inner">
-    <div class="footer-left">© 2026 PropChamps • All discount codes independently verified</div>
-    <div class="footer-right">
-      <a href="index.html">Firms</a>
-      <a href="compare.html">Compare</a>
-      <a href="deals.html">Deals</a>
-      <a href="privacy.html">Privacy</a>
+      <article class="update-card">
+        <div class="update-card-head">
+          <span class="update-date">May 22, 2026</span>
+          <span class="update-tag feature">New feature</span>
+        </div>
+        <div class="update-firm">
+          <div class="update-firm-logo"><img src="/logos/tradify.png" alt=""></div>
+          <span class="update-firm-name">Tradeify</span>
+        </div>
+        <div class="update-title">Added Tradesea + Rithmic feeds</div>
+        <p class="update-detail">Available on Select and Lightning paths at no extra cost. Tradovate + WealthCharts still included.</p>
+        <a class="update-link" href="/firms/tradeify.html">Read change</a>
+      </article>
+
+      <article class="update-card">
+        <div class="update-card-head">
+          <span class="update-date">May 18, 2026</span>
+          <span class="update-tag rule">Rule change</span>
+        </div>
+        <div class="update-firm">
+          <div class="update-firm-logo"><img src="/logos/takeprofit.png" alt=""></div>
+          <span class="update-firm-name">Take Profit Trader</span>
+        </div>
+        <div class="update-title">Daily loss limit removed</div>
+        <p class="update-detail">DLL eliminated across all account sizes. Trailing drawdown method unchanged.</p>
+        <a class="update-link" href="/firms/take-profit-trader.html">Read change</a>
+      </article>
+
+      <article class="update-card">
+        <div class="update-card-head">
+          <span class="update-date">May 04, 2026</span>
+          <span class="update-tag feature">New feature</span>
+        </div>
+        <div class="update-firm">
+          <div class="update-firm-logo"><img src="/logos/myfunded.png" alt=""></div>
+          <span class="update-firm-name">MyFundedFutures</span>
+        </div>
+        <div class="update-title">Rapid Live $10K session launched</div>
+        <p class="update-detail">Lower-barrier path to live capital. Replaces the older Rapid Pro flow on smaller accounts.</p>
+        <a class="update-link" href="/firms/my-funded-futures.html">Read change</a>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site">
+  <div class="container">
+    <div class="top">
+      <div class="brand">
+        <a class="logo-mark" href="/" aria-label="PropChamps home">
+          <img src="/logos/propchamps.png" alt="PropChamps">
+        </a>
+        <p>Independent research on futures prop trading firms. We track rules, payouts, drawdown methods, and active promo codes — and publish what changes.</p>
+      </div>
+      <div>
+        <h4>Research</h4>
+        <ul>
+          <li><a href="/">All firms</a></li>
+          <li><a href="/compare">Compare</a></li>
+          <li><a href="/deals">Active deals</a></li>
+          <li><a href="/methodology">Methodology</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Editorial</h4>
+        <ul>
+          <li><a href="/methodology">How we audit</a></li>
+          <li><a href="/methodology#about">About</a></li>
+          <li><a href="mailto:hello@propchamps.net">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/methodology#disclosure">Affiliate disclosure</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <div>© 2026 PropChamps. Independent prop firm research. Not financial advice.</div>
+      <div class="legal-links">
+        <span>Trading involves substantial risk.</span>
+      </div>
     </div>
   </div>
 </footer>
 
-<!-- JAVASCRIPT -->
-<script>
-// ============================================================
-// ABOVE-THE-FOLD DYNAMIC META + LINK WIRING
-// ============================================================
-(function initMetaAndLinks() {
-  // Last updated: show today's date (local) unless you hardcode it elsewhere
-  const lastUpdatedEl = document.getElementById('lastUpdated');
-  if (lastUpdatedEl) {
-    const now = new Date();
-    const opts = { year: 'numeric', month: 'short', day: '2-digit' };
-    lastUpdatedEl.textContent = now.toLocaleDateString(undefined, opts);
-  }
-
-  const promoEl = document.getElementById('activePromos');
-  if (promoEl) {
-    var liveCount = 0;
-    if (window.FIRMS) {
-      Object.keys(window.FIRMS).forEach(function(slug){
-        if (window.FIRMS[slug] && window.FIRMS[slug].live !== false) liveCount++;
-      });
-    }
-    promoEl.textContent = '● ' + liveCount + ' rule sheets live · code CHAMP on every firm';
-  }
-
-  // Wire "Visit" + "Claim Deal" buttons — sourced from firms.js (window.FIRMS).
-  // To change an affiliate URL, edit firms.js, NOT this file.
-  const firmLinks = (function(){
-    var map = {};
-    if (window.FIRMS) {
-      Object.keys(window.FIRMS).forEach(function(slug){
-        var f = window.FIRMS[slug];
-        if (f && f.affiliateUrl) map[slug] = f.affiliateUrl;
-      });
-    }
-    return map;
-  })();
-
-  document.querySelectorAll('.affiliate-link').forEach(link => {
-    const key = link.dataset.affiliateKey;
-    const url = firmLinks[key] || '#';
-    link.setAttribute('href', url);
-    if (url !== '#') {
-      link.setAttribute('target', '_blank');
-      link.setAttribute('rel', 'noopener');
-    }
-  });
-
-  // Fast note and comparison CTA buttons are wired above with .affiliate-link
-  document.querySelectorAll('#deals .deal-card').forEach(card => {
-    const cta = card.querySelector('a.btn-primary, a.btn-ghost');
-    if (!cta) return;
-    cta.setAttribute('href', '/deals');
-    cta.removeAttribute('target');
-    cta.removeAttribute('rel');
-  });
-})();
-
-function highlightFirmRow(firmId) {
-  // Try to find row by matching the modal id used in the Details button onclick
-  const rows = document.querySelectorAll('#firmsTable tbody tr');
-  let target = null;
-
-  rows.forEach(row => {
-    const detailsBtn = row.querySelector('.btn-table-ghost[onclick*="openFirmModal"]');
-    const m = detailsBtn?.getAttribute('onclick')?.match(/openFirmModal\('([^']+)'\)/);
-    if (m && m[1] === firmId) target = row;
-  });
-
-  if (!target) return;
-  target.classList.add('pulse-row');
-  setTimeout(() => target.classList.remove('pulse-row'), 1400);
-}
-
-// ============================================================
-// COPY CODE FUNCTIONALITY
-// ============================================================
-function copyCode(code, el) {
-  navigator.clipboard.writeText(code).then(() => {
-    showToast();
-
-    // Update all buttons for this code
-    document.querySelectorAll('[data-code="' + code + '"]').forEach(btn => {
-      btn.textContent = 'DONE';
-      btn.classList.add('copied');
-      setTimeout(() => {
-        btn.textContent = 'COPY';
-        btn.classList.remove('copied');
-      }, 2000);
-    });
-  }).catch(() => {
-    // Fallback
-    const ta = document.createElement('textarea');
-    ta.value = code;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    showToast();
-  });
-}
-
-function showToast() {
-  const t = document.getElementById('toast');
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2200);
-}
-
-// ============================================================
-// TABLE SORTING
-// ============================================================
-(function() {
-  const table = document.getElementById('firmsTable');
-  if (!table) return;
-
-  const headers = table.querySelectorAll('thead th');
-  let sortDir = {};
-
-  headers.forEach((th, i) => {
-    if (i === 1 || i === 3 || i === 4 || i === 5 || i === 6) return; // Skip stacked text-heavy cols
-
-    th.style.cursor = 'pointer';
-    th.addEventListener('click', () => {
-      const tbody = table.querySelector('tbody');
-      const rows = Array.from(tbody.querySelectorAll('tr'));
-      const asc = !sortDir[i];
-      sortDir = {};
-      sortDir[i] = asc;
-
-      rows.sort((a, b) => {
-        const aCell = a.cells[i].textContent.trim();
-        const bCell = b.cells[i].textContent.trim();
-        const aVal = parseFloat(aCell.replace(/[^0-9.]/g, '')) || aCell;
-        const bVal = parseFloat(bCell.replace(/[^0-9.]/g, '')) || bCell;
-
-        if (typeof aVal === 'number' && typeof bVal === 'number') {
-          return asc ? aVal - bVal : bVal - aVal;
-        }
-        return asc ? aCell.localeCompare(bCell) : bCell.localeCompare(aCell);
-      });
-
-      rows.forEach(row => tbody.appendChild(row));
-
-      // Update sort icons
-      headers.forEach(h => {
-        const icon = h.querySelector('.sort-icon');
-        if (icon) icon.textContent = '↕';
-      });
-      const icon = th.querySelector('.sort-icon');
-      if (icon) icon.textContent = asc ? '↑' : '↓';
-    });
-  });
-})();
-
-// ============================================================
-// FILTER BUTTONS — operates on .comparison-card grid, driven by firms.js
-// Filter mapping uses each firm's `tags`/`filters` arrays from window.FIRMS
-// plus rule heuristics for 150K+ and 1 Day Pass. Card IDs are "firm-{slug}".
-// ============================================================
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    this.classList.add('active');
-
-    const filter = this.textContent.trim();
-    const cards = document.querySelectorAll('.comparison-grid .comparison-card');
-    const infoEl = document.querySelector('.table-info');
-    const FIRMS = window.FIRMS || {};
-
-    function firmFromCard(card) {
-      const id = card.id || '';
-      const slug = id.replace(/^firm-/, '');
-      return FIRMS[slug] || null;
-    }
-    function hasLargeAccount(f) {
-      // Accept 150K presence in any plansSummary or plansDetailed rule string
-      const blob = JSON.stringify(f.plansSummary || []) + JSON.stringify(f.plansDetailed || []);
-      return /150K|300K/i.test(blob);
-    }
-    function hasOneDayPass(f) {
-      const blob = JSON.stringify(f.plansSummary || []) + JSON.stringify(f.plansDetailed || []) +
-                   ' ' + (f.summary || '') + ' ' + (f.tagline || '');
-      return /1[\s-]?day pass|pass in 1 day|min days to pass[^a-z]*1\b/i.test(blob);
-    }
-
-    let visible = 0;
-    cards.forEach(card => {
-      const firm = firmFromCard(card);
-      let show = true;
-
-      if (filter !== 'All Firms') {
-        if (!firm) {
-          show = false;
-        } else if (filter === 'Fast Payout') {
-          show = (firm.tags || []).includes('fast-payout') || (firm.filters || []).includes('fast-payout');
-        } else if (filter === 'No DLL') {
-          show = (firm.tags || []).includes('no-dll') || (firm.filters || []).includes('nodll');
-        } else if (filter === '150K+') {
-          show = hasLargeAccount(firm);
-        } else if (filter === '1 Day Pass') {
-          show = hasOneDayPass(firm);
-        }
-      }
-
-      card.style.display = show ? '' : 'none';
-      if (show) visible++;
-    });
-
-    if (infoEl) {
-      const total = cards.length;
-      infoEl.textContent = 'Showing ' + visible + ' of ' + total + ' firms' +
-        (filter !== 'All Firms' ? ' · Filter: ' + filter : ' · Filter: All Firms');
-    }
-  });
-});
-
-// ============================================================
-// SCROLL FADE-IN ANIMATIONS
-// ============================================================
-(function() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        const delay = el.dataset.delay || 0;
-        setTimeout(() => el.classList.add('visible'), delay);
-        observer.unobserve(el);
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-  document.querySelectorAll('.fade-in').forEach((el, i) => {
-    el.dataset.delay = Math.min(i * 60, 300);
-    observer.observe(el);
-  });
-})();
-</script>
-
-<!-- ============================================================
-     FIRM DETAILS MODAL SYSTEM
-     ============================================================ -->
-<div id="firmModal" class="modal-overlay" onclick="if(event.target===this)closeFirmModal()">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeFirmModal()">✕</button>
-    <div id="modalContent"></div>
-  </div>
-</div>
-
-<style>
-.modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(8,10,12,0.88);
-  backdrop-filter: blur(6px);
-  z-index: 9999;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-.modal-overlay.active { display: flex; }
-.modal-box {
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-mid);
-  border-radius: 12px;
-  max-width: 780px;
-  width: 100%;
-  max-height: 88vh;
-  overflow-y: auto;
-  position: relative;
-  padding: 40px 36px 36px;
-}
-.modal-close {
-  position: absolute;
-  top: 16px; right: 20px;
-  background: none;
-  border: 1px solid var(--border-mid);
-  color: var(--text-secondary);
-  font-size: 16px;
-  width: 32px; height: 32px;
-  border-radius: 6px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s;
-}
-.modal-close:hover { border-color: var(--accent); color: var(--accent); }
-.modal-firm-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 28px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--border-dim);
-}
-.modal-logo {
-  width: 52px; height: 52px;
-  background: var(--bg-panel);
-  border: 1px solid var(--border-mid);
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: 13px;
-  color: var(--accent);
-  flex-shrink: 0;
-}
-.modal-firm-name { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--text-primary); }
-.modal-firm-type { font-family: var(--font-mono); font-size: 11px; color: var(--text-tertiary); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.08em; }
-.modal-plans {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-  margin-bottom: 24px;
-}
-.plan-card {
-  background: var(--bg-panel);
-  border: 1px solid var(--border-dim);
-  border-radius: 10px;
-  padding: 20px;
-}
-.plan-card.featured-plan { border-color: var(--accent); }
-.plan-name {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 14px;
-}
-.plan-rules { list-style: none; padding: 0; margin: 0; }
-.plan-rules li {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 8px;
-  padding: 7px 0;
-  border-bottom: 1px solid var(--border-dim);
-  font-size: 12px;
-  line-height: 1.4;
-}
-.plan-rules li:last-child { border-bottom: none; }
-.rule-label { color: var(--text-tertiary); font-family: var(--font-mono); white-space: nowrap; }
-.rule-val { color: var(--text-primary); text-align: right; font-weight: 500; }
-.rule-val.good { color: var(--positive); }
-.rule-val.warn { color: var(--warning); }
-.modal-note {
-  font-size: 11px;
-  font-family: var(--font-mono);
-  color: var(--text-tertiary);
-  border-top: 1px solid var(--border-dim);
-  padding-top: 14px;
-  line-height: 1.6;
-}
-
-/* ===== HARD hero center fix ===== */
-.hero{
-  text-align:center !important;
-}
-.hero-inner{
-  margin-left:auto;
-  margin-right:auto;
-  text-align:center;
-}
-.hero-actions{
-  justify-content:center !important;
-}
-
-
-/* ===== Best Overall title alignment fix ===== */
-.top-pick-title{
-  text-align: left !important;
-}
-
-
-/* ===== Remove gray background boxes behind logos ===== */
-.top-pick-logo,
-.firm-logo,
-.table-logo,
-.logo-box{
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-.top-pick-logo img,
-.firm-logo img,
-.table-logo img{
-  background: transparent !important;
-  padding: 0 !important;
-}
-
-/* Ticker: desktop-only */
-@media (max-width: 768px) { .ticker-wrap { display: none !important; } }
-.ticker-wrap { opacity: 0.55; transition: opacity 0.2s; }
-.ticker-wrap:hover { opacity: 0.9; }
-
-/* Deal Alerts header button */
-.btn-deal-alerts {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: transparent;
-  color: var(--text-secondary);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  border: 1px solid var(--border-mid);
-  border-radius: 8px;
-  padding: 7px 14px;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-.btn-deal-alerts:hover {
-  border-color: rgba(200,255,0,0.4);
-  color: var(--accent);
-  background: rgba(200,255,0,0.06);
-}
-.mobile-deal-alerts {
-  display: block;
-  width: 100%;
-  margin-top: 10px;
-  background: rgba(200,255,0,0.08);
-  border: 1px solid rgba(200,255,0,0.22);
-  color: var(--accent);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  padding: 12px 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  text-align: left;
-}
-@media (max-width: 768px) { .btn-deal-alerts { display: none; } }
-
-/* ============================================
-   MOBILE NAV (HEADER DROPDOWN)
-   ============================================ */
-.menu-toggle{
-  display:none;
-  width:40px;
-  height:40px;
-  border-radius:10px;
-  border:1px solid var(--border-dim);
-  background: rgba(255,255,255,0.04);
-  color: var(--text-primary);
-  cursor:pointer;
-  align-items:center;
-  justify-content:center;
-}
-.menu-toggle svg{ width:18px; height:18px; }
-
-.mobile-menu{
-  display:none;
-  max-width: 1320px;
-  margin: 0 auto;
-  padding: 0 24px 14px;
-}
-.mobile-menu a{
-  display:block;
-  font-family: var(--font-display);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-  text-decoration:none;
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.06);
-  background: rgba(255,255,255,0.03);
-  margin-top: 10px;
-}
-.mobile-menu a.active{
-  color: var(--lime);
-  border-color: rgba(200,255,0,0.22);
-  background: rgba(200,255,0,0.08);
-}
-header.is-open .mobile-menu{ display:block; }
-
-@media (max-width: 768px){
-  header .header-inner{
-    display:grid;
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto auto;
-    height:auto;
-    padding: 10px 16px;
-    gap: 10px;
-  }
-  header nav{ display:none; }
-  .menu-toggle{ display:inline-flex; }
-  .logo-img{ height:42px; width:auto; }
-  .header-right{
-    grid-column: 1 / -1;
-    width:100%;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  .live-pill{ flex:1; min-width:0; justify-content:center; }
-  .btn-compare-now{ flex-shrink:0; padding: 8px 14px; }
-  .mobile-menu{ padding: 0 16px 14px; }
-}
-@media (max-width: 420px){
-  .header-right{
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .live-pill{ width:100%; }
-  .btn-compare-now{ width:100%; text-align:center; }
-}
-
-
-/* ======================== CLEAN BUSINESS COMPARISON REBUILD ======================== */
-.comparison-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 18px;
-}
-.comparison-card {
-  position: relative;
-  background: linear-gradient(180deg, rgba(14,18,24,0.96), rgba(10,13,17,0.96));
-  border: 1px solid var(--border-dim);
-  border-radius: 18px;
-  padding: 18px;
-  overflow: hidden;
-  box-shadow: 0 18px 40px rgba(0,0,0,0.22);
-}
-.comparison-card::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(200,255,0,0.35), transparent);
-}
-.comparison-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-}
-.comparison-brand {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  min-width: 0;
-}
-.comparison-logo {
-  width: 52px;
-  height: 52px;
-  border-radius: 12px;
-  border: 1px solid var(--border-mid);
-  background: rgba(255,255,255,0.02);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  overflow: hidden;
-}
-.comparison-logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
-.comparison-name-wrap { min-width: 0; }
-.comparison-name-line {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.comparison-name {
-  font-family: var(--font-display);
-  font-size: 28px;
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
-.comparison-sub {
-  margin-top: 6px;
-  color: var(--text-secondary);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-.comparison-code {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(200,255,0,0.22);
-  background: rgba(200,255,0,0.06);
-  color: var(--accent);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.09em;
-}
-.comparison-code strong { color: var(--text-primary); font-size: 13px; }
-.comparison-actions {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-.comparison-panels {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 12px;
-}
-.compare-panel {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid var(--border-dim);
-  border-radius: 14px;
-  min-height: 132px;
-  display: flex;
-  flex-direction: column;
-}
-.compare-panel > summary,
-.compare-panel-body.preview-card {
-  list-style: none;
-  padding: 14px;
-  height: 100%;
-}
-.compare-panel > summary::-webkit-details-marker { display:none; }
-.compare-panel > summary {
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.compare-panel-label {
-  color: var(--text-tertiary);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-.compare-panel-title {
-  font-size: 20px;
-  line-height: 1.15;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-.compare-panel-copy {
-  color: var(--text-secondary);
-  font-size: 13px;
-  line-height: 1.45;
-}
-.compare-panel-footer {
-  margin-top: auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding-top: 10px;
-}
-.compare-more {
-  color: var(--accent);
-  border: 1px solid rgba(200,255,0,0.18);
-  background: rgba(200,255,0,0.04);
-  border-radius: 999px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 6px 9px;
-}
-.compare-panel-body {
-  padding: 0 14px 14px;
-  border-top: 1px solid var(--border-dim);
-}
-.compare-list {
-  display: grid;
-  gap: 8px;
-  margin-top: 12px;
-}
-.compare-list li {
-  list-style: none;
-  color: var(--text-secondary);
-  font-size: 13px;
-  line-height: 1.45;
-  padding: 8px 10px;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.025);
-}
-.compare-list strong { color: var(--text-primary); }
-.compare-note-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px solid var(--border-dim);
-}
-.compare-note-row p {
-  color: var(--text-tertiary);
-  font-family: var(--font-mono);
-  font-size: 11px;
-}
-.fast-notes-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-.fast-note-card {
-  background: linear-gradient(180deg, rgba(17,22,28,0.96), rgba(11,14,19,0.96));
-  border: 1px solid var(--border-dim);
-  border-radius: 16px;
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.fast-note-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-.fast-note-top .firm-cell { gap: 10px; }
-.fast-note-metric {
-  text-align: right;
-}
-.fast-note-metric strong {
-  display: block;
-  font-size: 28px;
-  line-height: 1;
-}
-.fast-note-metric span {
-  color: var(--text-tertiary);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-.fast-note-copy {
-  color: var(--text-secondary);
-  font-size: 14px;
-}
-.fast-note-bottom {
-  margin-top: auto;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.affiliate-pill {
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  border:1px solid rgba(200,255,0,0.18);
-  background: rgba(200,255,0,0.05);
-  color: var(--text-primary);
-  padding: 8px 10px;
-  border-radius: 999px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-}
-.affiliate-pill strong { color: var(--accent); }
-@media (max-width: 1180px){
-  .comparison-panels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .fast-notes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 760px){
-  .comparison-card { padding: 14px; border-radius: 14px; }
-  .comparison-name { font-size: 22px; }
-  .comparison-top { align-items: flex-start; }
-  .comparison-actions { width: 100%; justify-content: stretch; }
-  .comparison-actions .btn-primary, .comparison-actions .btn-ghost { flex: 1 1 170px; justify-content: center; }
-  .comparison-panels, .fast-notes-grid { grid-template-columns: 1fr; }
-}
-
-</style>
-
-<script>
-
-const firmData = (function(){
-  // Adapter: builds the legacy firmData object from window.FIRMS.
-  // index.html consumes: { [slug]: { logoSrc, logoText, name, type, plans, note } }
-  // where plans[i].rules is an array of [label, value] tuples.
-  if (!window.FIRMS) {
-    console.error('firms.js not loaded — firmData unavailable');
-    return {};
-  }
-  var out = {};
-  Object.keys(window.FIRMS).forEach(function(slug){
-    var f = window.FIRMS[slug];
-    if (!f || f.live === false) return;
-    out[slug] = {
-      logoSrc:  f.logo,
-      logoText: f.logoText || f.initials,
-      name:     f.name,
-      type:     f.type,
-      plans:    f.plansDetailed || [],
-      note:     f.note
-    };
-  });
-  return out;
-})();
-
-function openFirmModal(firmId) {
-  const data = firmData[firmId];
-  if (!data) return;
-  const plansHTML = data.plans.map(plan => `
-    <div class="plan-card ${plan.featured ? 'featured-plan' : ''}">
-      <div class="plan-name">${plan.name}</div>
-      <ul class="plan-rules">
-        ${plan.rules.map(([label, val]) => `
-          <li>
-            <span class="rule-label">${label}</span>
-            <span class="rule-val">${val}</span>
-          </li>
-        `).join('')}
-      </ul>
-    </div>
-  `).join('');
-  document.getElementById('modalContent').innerHTML = `
-    <div class="modal-firm-header">
-      <div class="modal-logo">${data.logoSrc ? `<img src="${data.logoSrc}" alt="${data.name} logo" loading="lazy" decoding="async">` : (data.logoText || "")}</div>
-      <div>
-        <div class="modal-firm-name">${data.name}</div>
-        <div class="modal-firm-type">${data.type}</div>
-      </div>
-    </div>
-    <div class="modal-plans">${plansHTML}</div>
-    ${data.note ? `<div class="modal-note">ⓘ ${data.note}</div>` : ''}
-  `;
-  document.getElementById('firmModal').classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeFirmModal() {
-  document.getElementById('firmModal').classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeFirmModal(); });
-</script>
-
-
+<div class="toast" id="toast">✓ CHAMP COPIED</div>
 
 <script>
 (function(){
+  // Mobile menu toggle
   var toggle = document.getElementById('menuToggle');
-  var header = document.querySelector('header');
-  var menu = document.getElementById('mobileMenu');
-  if(!toggle || !header || !menu) return;
-
-  function closeMenu(){
-    header.classList.remove('is-open');
-    toggle.setAttribute('aria-expanded','false');
-    toggle.setAttribute('aria-label','Open menu');
-  }
-  function openMenu(){
-    header.classList.add('is-open');
-    toggle.setAttribute('aria-expanded','true');
-    toggle.setAttribute('aria-label','Close menu');
+  var header = document.querySelector('header.site');
+  if (toggle && header) {
+    toggle.addEventListener('click', function(){
+      var open = header.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+    document.querySelectorAll('.mobile-menu a').forEach(function(a){
+      a.addEventListener('click', function(){ header.classList.remove('is-open'); });
+    });
   }
 
-  toggle.addEventListener('click', function(){
-    if(header.classList.contains('is-open')) closeMenu();
-    else openMenu();
-  });
-
-  // Close on link click
-  menu.querySelectorAll('a').forEach(function(a){
-    a.addEventListener('click', closeMenu);
-  });
-
-  // Close when resizing up to desktop
-  window.addEventListener('resize', function(){
-    if(window.innerWidth > 768) closeMenu();
-  });
-})();
-</script>
-
-
-<script>
-/* Prevent accidental horizontal page panning on mobile (but allow horizontal scroll inside the comparison table). */
-(function () {
-  let sx = 0, sy = 0;
-  window.addEventListener('touchstart', function (e) {
-    if (!e.touches || e.touches.length !== 1) return;
-    sx = e.touches[0].clientX;
-    sy = e.touches[0].clientY;
-  }, { passive: true });
-
-  window.addEventListener('touchmove', function (e) {
-    if (!e.touches || e.touches.length !== 1) return;
-
-    // Allow horizontal scrolling inside the firms table wrapper
-    const t = e.target;
-    if (t && t.closest && t.closest('.table-wrap')) return;
-
-    const dx = e.touches[0].clientX - sx;
-    const dy = e.touches[0].clientY - sy;
-
-    // If user is moving more horizontally than vertically, block it so the page doesn't drift
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 6) {
-      e.preventDefault();
-    }
-  }, { passive: false });
-})();
-</script>
-
-
-<script>
-function openP4YNewsletter() {
-  const popup = document.getElementById('p4yPopup');
-  const backdrop = document.getElementById('p4yPopupBackdrop');
-  if (popup && backdrop) {
-    popup.classList.add('active');
-    backdrop.classList.add('active');
-    popup.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('p4y-popup-open');
-  }
-}
-document.addEventListener('DOMContentLoaded', function(){
+  // CHAMP code copy with toast
   function copyChamp(){
-    const code = 'CHAMP';
+    var code = 'CHAMP';
+    var done = function(){
+      var toast = document.getElementById('toast');
+      if (!toast) return;
+      toast.classList.add('show');
+      setTimeout(function(){ toast.classList.remove('show'); }, 1800);
+    };
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(code).catch(function(){});
+      navigator.clipboard.writeText(code).then(done).catch(done);
     } else {
-      const ta = document.createElement('textarea');
+      var ta = document.createElement('textarea');
       ta.value = code;
-      ta.style.position = 'fixed';
-      ta.style.opacity = '0';
+      ta.style.cssText = 'position:fixed;opacity:0';
       document.body.appendChild(ta);
       ta.select();
       try { document.execCommand('copy'); } catch(e){}
       document.body.removeChild(ta);
-    }
-    const toast = document.getElementById('toast');
-    if (toast) {
-      toast.textContent = '✓ CHAMP COPIED';
-      toast.classList.add('show');
-      setTimeout(function(){ toast.classList.remove('show'); }, 1800);
+      done();
     }
   }
   document.querySelectorAll('.js-copy-champ').forEach(function(el){
@@ -3748,237 +1589,8 @@ document.addEventListener('DOMContentLoaded', function(){
       copyChamp();
     });
   });
-});
-</script>
-
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
-  const infoEl = document.querySelector('.table-info');
-  const cards = Array.from(document.querySelectorAll('.comparison-grid .comparison-card'));
-  const publicCards = cards.filter(card => card.id !== '' && !card.classList.contains('is-hidden-firm'));
-
-  if (!filterButtons.length || !cards.length || !infoEl) return;
-
-  const filterMap = {
-    'firm-lucid-trading': ['all', 'fast-payout', 'no-dll', '150k-plus', '1-day-pass'],
-    'firm-alpha-futures': ['all'],
-    'firm-apex-trader': ['all', 'fast-payout', '150k-plus', '1-day-pass'],
-    'firm-my-funded-futures': ['all', 'fast-payout', 'no-dll'],
-    'firm-top-one-futures': ['all', '150k-plus', '1-day-pass'],
-    'firm-tradeify': ['all', 'fast-payout', 'no-dll', '150k-plus'],
-    'firm-take-profit': ['all', 'no-dll', '150k-plus'],
-    '': ['all', 'fast-payout', '150k-plus']
-  };
-
-  const normalize = (label) => {
-    const t = label.trim().toLowerCase();
-    if (t === 'all firms') return 'all';
-    if (t === 'fast payout') return 'fast-payout';
-    if (t === 'no dll') return 'no-dll';
-    if (t === '150k+') return '150k-plus';
-    if (t === '1 day pass') return '1-day-pass';
-    return t;
-  };
-
-  function applyFilter(key) {
-    let visible = 0;
-    publicCards.forEach(card => {
-      const tags = filterMap[card.id] || ['all'];
-      const show = key === 'all' ? true : tags.includes(key);
-      card.style.display = show ? '' : 'none';
-      if (show) visible++;
-    });
-
-    const total = publicCards.length;
-    let suffix = '';
-    if (key === 'fast-payout') suffix = ' · Filter: Fast Payout';
-    else if (key === 'no-dll') suffix = ' · Filter: No DLL';
-    else if (key === '150k-plus') suffix = ' · Filter: 150K+';
-    else if (key === '1-day-pass') suffix = ' · Filter: 1 Day Pass';
-    else suffix = ' · Filter: All Firms';
-
-    infoEl.textContent = `Showing ${visible} of ${total} firms${suffix}`;
-  }
-
-  filterButtons.forEach(btn => {
-    btn.addEventListener('click', function () {
-      filterButtons.forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
-      applyFilter(normalize(this.textContent));
-    });
-  });
-
-  applyFilter('all');
-});
-</script>
-
-
-<div class="p4y-popup-backdrop" id="p4yPopupBackdrop"></div>
-<div class="p4y-popup" id="p4yPopup" aria-hidden="true">
-  <div class="p4y-popup-card" role="dialog" aria-modal="true" aria-labelledby="p4yPopupTitle">
-    <button class="p4y-popup-close" id="p4yPopupClose" aria-label="Close popup">×</button>
-    <div class="p4y-popup-inner">
-      <div class="p4y-popup-kicker">Newsletter Access · Live Codes</div>
-      <h2 class="p4y-popup-title" id="p4yPopupTitle">Get the best prop firm deals sent to you.</h2>
-      <p class="p4y-popup-text">Join the PropChamps list for live promo code updates, top firm discounts, and new offers as they drop.</p>
-      <div class="p4y-popup-benefits">
-        <div class="p4y-popup-benefit"><strong>Live CHAMP codes</strong>Updated deals and active promo alerts.</div>
-        <div class="p4y-popup-benefit"><strong>Best firm offers</strong>Quick drops when discounts change.</div>
-      </div>
-      <form class="p4y-popup-form" id="p4yPopupForm">
-        <div class="p4y-popup-field">
-          
-          <input id="p4yFullName" name="full_name" type="text" placeholder="Your full name" autocomplete="name" required>
-        </div>
-        <div class="p4y-popup-field">
-          
-          <input id="p4yPhone" name="phone" type="tel" placeholder="(555) 555-5555" autocomplete="tel" inputmode="tel" required>
-        </div>
-        <div class="p4y-popup-field">
-          
-          <input id="p4yEmail" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
-        </div>
-        <button class="btn-primary p4y-popup-submit" type="submit" id="p4yPopupSubmit">Unlock Updates</button>
-        <div class="p4y-popup-status" id="p4yPopupStatus"></div>
-        <div class="p4y-popup-note">No spam. Just live deals, promo codes, and prop firm updates.</div>
-      </form>
-    </div>
-  </div>
-</div>
-
-
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-  const popup = document.getElementById('p4yPopup');
-  const backdrop = document.getElementById('p4yPopupBackdrop');
-  const closeBtn = document.getElementById('p4yPopupClose');
-  const form = document.getElementById('p4yPopupForm');
-  const submitBtn = document.getElementById('p4yPopupSubmit');
-  const status = document.getElementById('p4yPopupStatus');
-  const phoneInput = document.getElementById('p4yPhone');
-  if (!popup || !backdrop || !closeBtn || !form || !submitBtn || !status) return;
-
-  const DISMISS_KEY = 'p4y_popup_dismiss_until';
-  const SUCCESS_KEY = 'p4y_popup_success_until';
-  const WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/mEfuVxLc0WO6HVWeZ6gK/webhook-trigger/b68aafc7-c899-47d0-b9f5-88d960d0775e';
-  let shown = false;
-
-  function now(){ return Date.now(); }
-  function getTs(key){ return parseInt(localStorage.getItem(key) || '0', 10) || 0; }
-  function eligible(){ return now() > getTs(DISMISS_KEY) && now() > getTs(SUCCESS_KEY); }
-  function openPopup(){
-    if (shown || !eligible()) return;
-    shown = true;
-    popup.classList.add('active');
-    backdrop.classList.add('active');
-    popup.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('p4y-popup-open');
-  }
-  function closePopup(days){
-    popup.classList.remove('active');
-    backdrop.classList.remove('active');
-    popup.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('p4y-popup-open');
-    if (days) localStorage.setItem(DISMISS_KEY, String(now() + days*24*60*60*1000));
-  }
-
-  // Auto-popup triggers removed — newsletter opens only when user clicks
-  // the "Deal Alerts" button in the header or mobile menu (opt-in only).
-
-  closeBtn.addEventListener('click', function(){ closePopup(3); });
-  backdrop.addEventListener('click', function(){ closePopup(3); });
-  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && popup.classList.contains('active')) closePopup(3); });
-
-  phoneInput.addEventListener('input', function(e){
-    const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
-    const parts = [];
-    if (digits.length > 0) parts.push('(' + digits.slice(0,3));
-    if (digits.length >= 4) parts[0] += ')';
-    if (digits.length >= 4) parts.push(' ' + digits.slice(3,6));
-    if (digits.length >= 7) parts.push('-' + digits.slice(6,10));
-    e.target.value = parts.join('');
-  });
-
-  form.addEventListener('submit', async function(e){
-    e.preventDefault();
-    status.className = 'p4y-popup-status';
-    status.textContent = '';
-
-    const payload = {
-      full_name: document.getElementById('p4yFullName').value.trim(),
-      phone: document.getElementById('p4yPhone').value.trim(),
-      email: document.getElementById('p4yEmail').value.trim(),
-      source: 'PropChamps Newsletter',
-      tag: 'Newsletter Signup'
-    };
-
-    if (!payload.full_name || !payload.phone || !payload.email) {
-      status.classList.add('error');
-      status.textContent = 'Please fill out all fields.';
-      return;
-    }
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Submitting...';
-
-    try {
-      const res = await fetch(WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      if (!res.ok) throw new Error('Webhook request failed');
-      status.classList.add('success');
-      status.textContent = 'You’re in — watch for fresh deals and promo code updates.';
-      localStorage.setItem(SUCCESS_KEY, String(now() + 30*24*60*60*1000));
-      form.reset();
-      setTimeout(function(){ closePopup(); }, 1200);
-    } catch (err) {
-      status.classList.add('error');
-      status.textContent = 'Something went wrong. Please try again.';
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Unlock Updates';
-    }
-  });
-});
-</script>
-
-<script>
-(function(){
-  var toggle = document.getElementById('menuToggle');
-  var header = document.querySelector('header');
-  var menu = document.getElementById('mobileMenu');
-  if(!toggle || !header || !menu) return;
-
-  function closeMenu(){
-    header.classList.remove('is-open');
-    toggle.setAttribute('aria-expanded','false');
-    toggle.setAttribute('aria-label','Open menu');
-  }
-  function openMenu(){
-    header.classList.add('is-open');
-    toggle.setAttribute('aria-expanded','true');
-    toggle.setAttribute('aria-label','Close menu');
-  }
-
-  toggle.addEventListener('click', function(){
-    if(header.classList.contains('is-open')) closeMenu();
-    else openMenu();
-  });
-
-  // Close on link click
-  menu.querySelectorAll('a').forEach(function(a){
-    a.addEventListener('click', closeMenu);
-  });
-
-  // Close when resizing up to desktop
-  window.addEventListener('resize', function(){
-    if(window.innerWidth > 768) closeMenu();
-  });
 })();
 </script>
+
 </body>
 </html>
