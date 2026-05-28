@@ -136,9 +136,10 @@ header.site .container {
 .logo-mark {
   display: inline-flex;
   align-items: center;
-  height: 34px;
+  height: 44px;
 }
-.logo-mark img { height: 34px; width: auto; }
+.logo-mark img { height: 44px; width: auto; }
+header.site .container { height: 80px; }
 
 nav.primary {
   display: flex;
@@ -453,6 +454,200 @@ section.block.deep { background: var(--bg-band); }
   transition: all 0.15s ease;
 }
 .section-head .rhs a:hover { color: var(--lime); border-color: var(--lime); }
+
+/* ---------- Top Pick featured card ---------- */
+.top-pick-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 0;
+  background: linear-gradient(135deg, rgba(200,255,0,0.08) 0%, rgba(200,255,0,0.02) 40%, transparent 100%);
+  border: 1px solid var(--border-lime);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(200,255,0,0.05), 0 32px 64px -24px rgba(200,255,0,0.15);
+}
+.top-pick-card::before {
+  content: "";
+  position: absolute;
+  inset: -40px;
+  background: radial-gradient(circle at 15% 30%, rgba(200,255,0,0.18) 0%, transparent 40%);
+  pointer-events: none;
+}
+.top-pick-left, .top-pick-right { position: relative; z-index: 1; }
+.top-pick-left {
+  padding: 40px 44px;
+  border-right: 1px solid var(--border-lime);
+}
+.top-pick-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--lime);
+  background: rgba(200,255,0,0.12);
+  border: 1px solid var(--border-lime-strong);
+  padding: 7px 12px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+.top-pick-badge::before {
+  content: "★";
+  font-size: 12px;
+}
+.top-pick-head {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+.top-pick-logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-lime);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.top-pick-logo img {
+  width: 100%; height: 100%; object-fit: contain; padding: 9px;
+}
+.top-pick-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 30px;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  color: var(--text-strong);
+}
+.top-pick-sub {
+  font-size: 13px;
+  color: var(--text-soft);
+  margin-top: 4px;
+  letter-spacing: -0.005em;
+}
+.top-pick-blurb {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 22px;
+  letter-spacing: -0.005em;
+}
+.top-pick-points {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+}
+.top-pick-point {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: var(--text-soft);
+  font-size: 13.5px;
+  line-height: 1.5;
+  letter-spacing: -0.005em;
+}
+.top-pick-point::before {
+  content: "";
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lime);
+  margin-top: 8px;
+  box-shadow: 0 0 6px rgba(200,255,0,0.6);
+}
+.top-pick-right {
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01) 0%, rgba(0,0,0,0.1) 100%);
+}
+.top-pick-deal {
+  background: var(--bg-card);
+  border: 1px solid var(--border-lime);
+  border-radius: 14px;
+  padding: 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.top-pick-deal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 100% 60% at 50% 0%, rgba(200,255,0,0.08), transparent 70%);
+  pointer-events: none;
+}
+.deal-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 8px;
+  position: relative;
+}
+.deal-code {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--lime);
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
+  position: relative;
+}
+.deal-big {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 56px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  background: linear-gradient(135deg, var(--lime) 0%, #a3d600 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 20px rgba(200,255,0,0.3));
+  margin-bottom: 8px;
+  position: relative;
+}
+.deal-detail {
+  font-size: 13px;
+  color: var(--text-soft);
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+  position: relative;
+}
+.top-pick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.top-pick-actions .btn-primary,
+.top-pick-actions .btn-text {
+  width: 100%;
+  justify-content: center;
+  padding-top: 13px;
+  padding-bottom: 13px;
+}
+
+@media (max-width: 800px) {
+  .top-pick-card { grid-template-columns: 1fr; }
+  .top-pick-left { border-right: 0; border-bottom: 1px solid var(--border-lime); padding: 28px 24px; }
+  .top-pick-right { padding: 28px 24px; }
+  .deal-big { font-size: 44px; }
+  .top-pick-name { font-size: 24px; }
+}
 
 /* ---------- Firms grid ---------- */
 .firms-grid {
@@ -990,12 +1185,63 @@ footer.site .legal-links { display: flex; gap: 24px; }
   </div>
 </section>
 
+<!-- Top Pick featured card -->
+<section class="block">
+  <div class="container">
+    <div class="section-head">
+      <div class="lhs">
+        <div class="section-eyebrow">Top pick · This week</div>
+        <h2>The biggest active discount.</h2>
+        <p>Updated every Monday. The CHAMP code currently delivers its largest verified discount at Apex Trader Funding.</p>
+      </div>
+      <div class="rhs">Verified May 27 · 14:02</div>
+    </div>
+
+    <article class="top-pick-card">
+      <div class="top-pick-left">
+        <div class="top-pick-badge">Best current deal</div>
+        <div class="top-pick-head">
+          <div class="top-pick-logo"><img src="../logos/apex.png" alt="Apex Trader Funding"></div>
+          <div>
+            <div class="top-pick-name">Apex Trader Funding</div>
+            <div class="top-pick-sub">Industry-standard · 200K+ active traders</div>
+          </div>
+        </div>
+        <p class="top-pick-blurb">The most widely-used futures prop firm. CHAMP currently delivers 80% off across every evaluation tier — the largest active discount we've verified this month. Generous account sizes, one-day-pass option, well-documented rules.</p>
+        <ul class="top-pick-points">
+          <li class="top-pick-point">Max account size up to $300K</li>
+          <li class="top-pick-point">One-day-pass option on all account tiers</li>
+          <li class="top-pick-point">Trailing drawdown with 30% buffer (industry-standard)</li>
+          <li class="top-pick-point">Stricter-than-average consistency requirements — read review</li>
+        </ul>
+      </div>
+      <div class="top-pick-right">
+        <div class="top-pick-deal">
+          <div class="deal-label">Active until rule check</div>
+          <div class="deal-big">80% OFF</div>
+          <div class="deal-code">Code: CHAMP</div>
+          <div class="deal-detail">Across all evaluation account sizes. Re-verified weekly.</div>
+        </div>
+        <div class="top-pick-actions">
+          <a class="btn-primary" href="https://apex.com?ref=CHAMP">
+            Get this deal
+            <svg width="16" height="16" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12 L11 8 L5 4"/>
+            </svg>
+          </a>
+          <a class="btn-text" href="/firms/apex-trader.html">Read full review</a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
 <!-- Featured firms grid -->
 <section class="block">
   <div class="container">
     <div class="section-head">
       <div class="lhs">
-        <div class="section-eyebrow">Top-rated firms</div>
+        <div class="section-eyebrow">All firms · Ranked</div>
         <h2>The firms we cover, ranked.</h2>
         <p>Ranked by current rule transparency, payout consistency, and active discount value. Updated weekly.</p>
       </div>
@@ -1121,6 +1367,26 @@ footer.site .legal-links { display: flex; gap: 24px; }
         <div class="firm-actions">
           <a class="firm-read" href="/firms/top-one-futures.html">Read review</a>
           <span class="firm-promo">CHAMP — 60% off</span>
+        </div>
+      </article>
+
+      <article class="firm-card">
+        <div class="firm-head">
+          <div class="firm-logo"><img src="../logos/takeprofit.png" alt="Take Profit Trader"></div>
+          <div class="firm-rank">
+            <span class="firm-rank-num">#07</span>
+            <span class="firm-rank-label">No DLL</span>
+          </div>
+        </div>
+        <h3 class="firm-name">Take Profit Trader</h3>
+        <p class="firm-blurb">Daily loss limit removed across all account sizes as of May 18. Trailing drawdown unchanged. Best fit for traders who hate the DLL guardrail.</p>
+        <div class="firm-stats">
+          <div class="firm-stat"><span class="firm-stat-label">Daily loss limit</span><span class="firm-stat-value">Removed</span></div>
+          <div class="firm-stat"><span class="firm-stat-label">Drawdown</span><span class="firm-stat-value">Trailing</span></div>
+        </div>
+        <div class="firm-actions">
+          <a class="firm-read" href="/firms/take-profit-trader.html">Read review</a>
+          <span class="firm-promo">CHAMP — 25% off</span>
         </div>
       </article>
 
