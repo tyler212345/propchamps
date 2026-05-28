@@ -430,5 +430,56 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
 })();
 </script>
 
+
+<style>
+/* polish layer: scroll reveal + smoother easing */
+:root{--reveal-ease:cubic-bezier(0.16,1,0.3,1)}
+[data-reveal]{transform:translateY(18px);opacity:.001;transition:opacity .7s var(--reveal-ease),transform .7s var(--reveal-ease)}
+[data-reveal].in{transform:none;opacity:1}
+.no-js [data-reveal],html.no-anim [data-reveal]{transform:none;opacity:1}
+@media (prefers-reduced-motion: reduce){[data-reveal]{transform:none;opacity:1;transition:none}}
+.firm-card,.value-card,.update-card,.plan-pick,.deal-card,.summary-card,.plan-card,.policy-section,.step,.criterion,.related-card,.top-pick-card,.featured-card,.hero-trust-item{transition-timing-function:var(--reveal-ease) !important}
+.btn-primary,.btn-text,.btn-ghost,.header-cta,.firm-chip,.filter-chip{transition-timing-function:var(--reveal-ease) !important}
+</style>
+<script>
+(function(){
+  /* Safety: if JS is enabled but anim setup fails, reveal everything */
+  var TIMEOUT_REVEAL_ALL = setTimeout(function(){
+    document.querySelectorAll('[data-reveal]').forEach(function(el){ el.classList.add('in'); });
+  }, 2500);
+
+  var sel = 'section, .firm-card, .value-card, .update-card, .plan-pick, .deal-card, .summary-card, .plan-card, .policy-section, .step, .criterion, .related-card, .top-pick-card, .featured-card';
+  var els = document.querySelectorAll(sel);
+  els.forEach(function(el, i){
+    el.setAttribute('data-reveal', '');
+    if (el.classList.contains('firm-card') || el.classList.contains('value-card') || el.classList.contains('update-card') || el.classList.contains('plan-pick') || el.classList.contains('deal-card')){
+      el.style.transitionDelay = ((i % 6) * 40) + 'ms';
+    }
+  });
+
+  /* Reveal in-viewport elements right away */
+  function markVisible(){
+    var vh = window.innerHeight;
+    els.forEach(function(el){
+      if (el.classList.contains('in')) return;
+      var r = el.getBoundingClientRect();
+      if (r.top < vh * 0.95) el.classList.add('in');
+    });
+  }
+  /* Use rAF so the browser settles paint before we toggle the class */
+  requestAnimationFrame(function(){ markVisible(); clearTimeout(TIMEOUT_REVEAL_ALL); });
+
+  if (typeof IntersectionObserver === 'function'){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold: 0.06, rootMargin: '0px 0px -30px 0px'});
+    els.forEach(function(el){ if (!el.classList.contains('in')) io.observe(el); });
+  } else {
+    els.forEach(function(el){ el.classList.add('in'); });
+  }
+})();
+</script>
 </body>
 </html>
