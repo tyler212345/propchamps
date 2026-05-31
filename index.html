@@ -1273,9 +1273,238 @@ footer.site .legal-links { display: flex; gap: 24px; }
   .top-pick-right { padding: 24px 20px; }
   .editorial-strip .rhs { display: none; }
 }
+
+/* ============================================================
+   INTRO LOADER — crown drops, P rises, they meet, fade out
+   ============================================================ */
+.pc-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: radial-gradient(ellipse at center, #11161d 0%, #06080b 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: all;
+  opacity: 1;
+  animation: pcLoaderFade 0.55s cubic-bezier(0.65,0,0.35,1) 1.55s forwards;
+}
+.pc-loader::before {
+  /* faint grid backdrop */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(200,255,0,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,255,0,0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at center, #000 0%, transparent 70%);
+  -webkit-mask-image: radial-gradient(circle at center, #000 0%, transparent 70%);
+  opacity: 0;
+  animation: pcGridIn 1.0s cubic-bezier(0.2,0.8,0.2,1) 0.1s forwards;
+}
+.pc-loader-stage {
+  position: relative;
+  width: 220px;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+/* Soft glow disc behind logo — pulses on impact */
+.pc-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 360px;
+  height: 360px;
+  margin: -180px 0 0 -180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,255,0,0.55) 0%, rgba(200,255,0,0.18) 30%, transparent 65%);
+  filter: blur(8px);
+  opacity: 0;
+  transform: scale(0.3);
+  animation: pcGlowPulse 0.9s cubic-bezier(0.2,0.8,0.2,1) 0.75s forwards;
+}
+/* Crown — drops from above (image is 470x240, aspect 1.96) */
+.pc-crown {
+  width: 235px;
+  height: auto;
+  display: block;
+  margin-bottom: -16px;
+  transform: translateY(-260%) rotate(-22deg) scale(0.78);
+  opacity: 0;
+  filter: drop-shadow(0 4px 22px rgba(200,255,0,0.0));
+  animation: pcCrownDrop 0.7s cubic-bezier(0.34, 1.45, 0.36, 1) 0.12s forwards,
+             pcCrownLand 0.45s cubic-bezier(0.2,0.8,0.2,1) 0.78s;
+}
+/* P — rises from below (image is 470x340, aspect 1.38) */
+.pc-p {
+  width: 185px;
+  height: auto;
+  display: block;
+  transform: translateY(220%) scale(0.78);
+  opacity: 0;
+  filter: drop-shadow(0 4px 22px rgba(200,255,0,0.0));
+  animation: pcPRise 0.7s cubic-bezier(0.34, 1.45, 0.36, 1) 0.0s forwards,
+             pcPLand 0.45s cubic-bezier(0.2,0.8,0.2,1) 0.78s;
+}
+/* Impact shockwave ring */
+.pc-shock {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  margin: -40px 0 0 -40px;
+  border-radius: 50%;
+  border: 2px solid rgba(200,255,0,0.85);
+  opacity: 0;
+  transform: scale(0.3);
+  animation: pcShock 0.8s cubic-bezier(0.2,0.8,0.2,1) 0.78s forwards;
+}
+.pc-shock.two {
+  animation-delay: 0.86s;
+}
+/* Wordmark hint that types/reveals just before exit — positioned vs full loader, not stage */
+.pc-mark {
+  position: absolute;
+  bottom: 8vh;
+  left: 50%;
+  transform: translateX(-50%);
+  letter-spacing: 0.42em;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.55);
+  text-transform: uppercase;
+  opacity: 0;
+  animation: pcMarkIn 0.5s cubic-bezier(0.2,0.8,0.2,1) 1.0s forwards;
+  white-space: nowrap;
+}
+.pc-mark .lime { color: var(--lime); }
+
+@keyframes pcCrownDrop {
+  0%   { transform: translateY(-260%) rotate(-22deg) scale(0.78); opacity: 0; }
+  60%  { opacity: 1; }
+  100% { transform: translateY(0) rotate(0) scale(1); opacity: 1; }
+}
+@keyframes pcCrownLand {
+  0%   { transform: translateY(0) rotate(0) scale(1); filter: drop-shadow(0 4px 22px rgba(200,255,0,0.0)); }
+  40%  { transform: translateY(-4px) rotate(2deg) scale(1.06); filter: drop-shadow(0 6px 30px rgba(200,255,0,0.55)); }
+  100% { transform: translateY(0) rotate(0) scale(1); filter: drop-shadow(0 4px 22px rgba(200,255,0,0.35)); }
+}
+@keyframes pcPRise {
+  0%   { transform: translateY(220%) scale(0.78); opacity: 0; }
+  60%  { opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes pcPLand {
+  0%   { transform: translateY(0) scale(1); filter: drop-shadow(0 4px 22px rgba(200,255,0,0.0)); }
+  40%  { transform: translateY(3px) scale(1.04); filter: drop-shadow(0 6px 30px rgba(200,255,0,0.55)); }
+  100% { transform: translateY(0) scale(1); filter: drop-shadow(0 4px 22px rgba(200,255,0,0.35)); }
+}
+@keyframes pcGlowPulse {
+  0%   { opacity: 0; transform: scale(0.3); }
+  35%  { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 0.35; transform: scale(1); }
+}
+@keyframes pcShock {
+  0%   { opacity: 0.9; transform: scale(0.3); border-width: 3px; }
+  100% { opacity: 0; transform: scale(4.5); border-width: 1px; }
+}
+@keyframes pcGridIn {
+  0%   { opacity: 0; }
+  100% { opacity: 0.7; }
+}
+@keyframes pcMarkIn {
+  0%   { opacity: 0; transform: translate(-50%, 8px); }
+  100% { opacity: 1; transform: translate(-50%, 0); }
+}
+@keyframes pcLoaderFade {
+  0%   { opacity: 1; transform: scale(1); filter: blur(0px); }
+  100% { opacity: 0; transform: scale(1.08); filter: blur(6px); visibility: hidden; }
+}
+/* Body lock while loader is up */
+body.pc-loading { overflow: hidden; }
+body.pc-loading .editorial-strip,
+body.pc-loading header.site,
+body.pc-loading main,
+body.pc-loading footer.site { opacity: 0; }
+body.pc-loaded .editorial-strip,
+body.pc-loaded header.site,
+body.pc-loaded main,
+body.pc-loaded footer.site {
+  opacity: 1;
+  transition: opacity 0.6s cubic-bezier(0.2,0.8,0.2,1);
+}
+
+@media (max-width: 600px) {
+  .pc-crown { width: 195px; margin-bottom: -14px; }
+  .pc-p { width: 152px; }
+  .pc-loader-stage { width: 210px; height: 280px; }
+  .pc-glow { width: 320px; height: 320px; margin: -160px 0 0 -160px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pc-loader { animation: pcLoaderFade 0.3s ease 0.2s forwards; }
+  .pc-crown, .pc-p { animation: none; transform: none; opacity: 1; }
+  .pc-glow, .pc-shock, .pc-mark { animation: none; opacity: 0; }
+}
 </style>
 </head>
 <body>
+
+<!-- Intro loader: crown drops, P rises, they meet -->
+<div class="pc-loader" id="pcLoader" aria-hidden="true">
+  <div class="pc-glow"></div>
+  <div class="pc-loader-stage">
+    <!-- Crown — from the actual PropChamps logo artwork -->
+    <img class="pc-crown" src="/logos/propchamps-crown.png" alt="" aria-hidden="true">
+    <!-- P — from the actual PropChamps logo artwork -->
+    <img class="pc-p" src="/logos/propchamps-p.png" alt="" aria-hidden="true">
+
+    <div class="pc-shock"></div>
+    <div class="pc-shock two"></div>
+  </div>
+  <div class="pc-mark"><span class="lime">PROP</span>CHAMPS</div>
+</div>
+<script>
+(function(){
+  var loader = document.getElementById('pcLoader');
+  if (!loader) return;
+
+  // Debug: ?loader=hold keeps it visible for inspection
+  var holdLoader = /[?&]loader=hold/.test(location.search);
+
+  // Skip on subsequent in-session nav so the page is snappy after first load
+  try {
+    if (!holdLoader && sessionStorage.getItem('pc_intro_seen') === '1') {
+      loader.parentNode && loader.parentNode.removeChild(loader);
+      document.body.classList.add('pc-loaded');
+      return;
+    }
+    sessionStorage.setItem('pc_intro_seen', '1');
+  } catch(e) {}
+  if (holdLoader) { document.body.classList.add('pc-loading'); return; }
+
+  // Honor reduced motion: short fade, no choreography
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.body.classList.add('pc-loading');
+
+  var totalMs = reduce ? 600 : 2150;
+  setTimeout(function(){
+    document.body.classList.remove('pc-loading');
+    document.body.classList.add('pc-loaded');
+  }, reduce ? 300 : 1450);
+
+  setTimeout(function(){
+    if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
+  }, totalMs);
+})();
+</script>
 
 <!-- Editorial top strip -->
 <div class="editorial-strip">
