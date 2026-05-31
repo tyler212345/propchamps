@@ -61,7 +61,7 @@ header.is-open .menu-toggle .bar::after{transform:translateY(-5px) rotate(-45deg
 .mobile-menu{display:none;position:fixed;inset:80px 0 0 0;background:var(--bg-base);border-top:1px solid var(--border);padding:32px 24px;z-index:40}
 .mobile-menu a{display:block;font-size:18px;font-weight:600;color:var(--text);padding:14px 0;border-bottom:1px solid var(--border)}
 .mobile-menu .mobile-cta{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;background:var(--lime);color:var(--bg-base);font-weight:700;border-radius:10px;margin-top:24px;border-bottom:0}
-header.is-open .mobile-menu{display:block}
+body.is-menu-open .mobile-menu { display: block; }
 
 .bg-stack{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
 .bg-stack::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(200,255,0,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(200,255,0,.045) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse 80% 70% at 50% 25%,black 30%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 25%,black 30%,transparent 90%)}
@@ -202,12 +202,11 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
       <svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L11 8 L5 4"/></svg>
     </a>
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><span class="bar"></span></button>
-  </div>
-  <div class="mobile-menu" id="mobileMenu">
+  </div></header>
+<div class="mobile-menu" id="mobileMenu">
     <a href="/">Firms</a><a href="/compare.html">Compare</a><a href="/deals.html">Deals</a><a href="/payouts.html">Payouts</a><a href="/favorites.html">Favorites</a><a href="/methodology.html">Methodology</a>
     <a class="mobile-cta" href="/compare.html">Compare firms →</a>
   </div>
-</header>
 
 <main>
   <div class="container breadcrumbs">
@@ -336,8 +335,8 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
 
   /* menu */
   var toggle=document.getElementById('menuToggle'),header=document.querySelector('header.site');
-  if(toggle){toggle.addEventListener('click',function(){header.classList.toggle('is-open');});
-    document.querySelectorAll('.mobile-menu a').forEach(function(a){a.addEventListener('click',function(){header.classList.remove('is-open');});});}
+  if(toggle){toggle.addEventListener('click',function(){var __o=header.classList.toggle('is-open');document.body.classList.toggle('is-menu-open',__o);});
+    document.querySelectorAll('.mobile-menu a').forEach(function(a){a.addEventListener('click',function(){header.classList.remove('is-open');document.body.classList.remove('is-menu-open');});});}
 
   /* populate */
   document.getElementById('bcCurrent').textContent=f.name;
