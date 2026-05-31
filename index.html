@@ -927,18 +927,57 @@ section.block.deep { background: var(--bg-band); }
 .firms-table tbody tr:hover .t-action{background:var(--lime);color:var(--bg-base);border-color:var(--lime);transform:translateX(2px)}
 
 @media(max-width:900px){
+  /* Each firm row becomes a clean stacked card */
+  .firms-table-wrap{overflow-x:visible;border-radius:14px}
+  .firms-table{display:block;min-width:0;width:100%}
   .firms-table thead{display:none}
-  .firms-table tbody tr{display:grid;grid-template-columns:auto 1fr auto;gap:12px;padding:18px;border-bottom:1px solid var(--border)}
-  .firms-table tbody td{padding:0;border:0}
-  .firms-table .col-rank{grid-row:1/3;grid-column:1}
-  .firms-table .col-firm{grid-column:2}
-  .firms-table .col-action{grid-row:1/3;grid-column:3;align-self:center}
-  .firms-table .col-rating,.firms-table .col-platforms,.firms-table .col-alloc,.firms-table .col-payouts,.firms-table .col-deal{grid-column:1/4;font-size:13px;border-top:1px solid var(--border);padding-top:12px;display:flex;justify-content:space-between;align-items:center}
-  .firms-table .col-rating::before{content:"Rating";font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);letter-spacing:.05em;text-transform:uppercase}
-  .firms-table .col-platforms::before{content:"Platforms";font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);letter-spacing:.05em;text-transform:uppercase}
-  .firms-table .col-alloc::before{content:"Max account";font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);letter-spacing:.05em;text-transform:uppercase}
-  .firms-table .col-payouts::before{content:"Payouts";font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);letter-spacing:.05em;text-transform:uppercase}
-  .firms-table .col-deal::before{content:"Deal";font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);letter-spacing:.05em;text-transform:uppercase}
+  .firms-table tbody{display:block}
+  .firms-table tbody tr{display:block;padding:18px 18px 20px;border-bottom:1px solid var(--border);position:relative}
+  .firms-table tbody tr:last-child{border-bottom:0}
+  .firms-table tbody td{display:block;padding:0;border:0;width:auto;min-width:0}
+
+  /* Header bar: rank absolute-left, action absolute-right, firm flows in middle */
+  .firms-table .col-rank{position:absolute;top:18px;left:18px;width:auto}
+  .firms-table .col-action{position:absolute;top:24px;right:18px;width:auto}
+  .firms-table .col-firm{padding-left:68px;padding-right:48px;min-height:48px;display:flex;align-items:center}
+
+  /* Stat sections */
+  .firms-table .col-rating,
+  .firms-table .col-platforms,
+  .firms-table .col-deal{margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+
+  /* Alloc + Payouts: 2-col side-by-side */
+  .firms-table .col-alloc,
+  .firms-table .col-payouts{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);display:inline-block;vertical-align:top;width:calc(50% - 6px);box-sizing:border-box}
+  .firms-table .col-payouts{margin-left:8px;padding-left:14px;border-left:1px solid var(--border)}
+
+  /* Inline section labels above the value */
+  .firms-table .col-rating::before,
+  .firms-table .col-platforms::before,
+  .firms-table .col-alloc::before,
+  .firms-table .col-payouts::before,
+  .firms-table .col-deal::before{
+    display:block;
+    font-family:var(--font-mono);
+    font-size:10px;
+    color:var(--text-faint);
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    margin-bottom:8px;
+    font-weight:500;
+  }
+  .firms-table .col-rating::before{content:"Rating"}
+  .firms-table .col-platforms::before{content:"Platforms"}
+  .firms-table .col-alloc::before{content:"Max account"}
+  .firms-table .col-payouts::before{content:"Payouts"}
+  .firms-table .col-deal::before{content:"Active deal"}
+
+  /* Action arrow stays visible and decently sized for thumb tap */
+  .t-action{width:34px;height:34px}
+
+  /* Tighten rank visually */
+  .t-rank-num{font-size:18px}
+  .t-rank-label{display:none}
 }
 
 /* ---------- Value props ---------- */

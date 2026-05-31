@@ -136,12 +136,25 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
 @media(max-width:800px){
   .hero{padding:48px 0 32px}
   .hero h1{font-size:clamp(28px,7vw,40px)}
-  .fav-card{grid-template-columns:auto 1fr auto;grid-template-areas:"rank firm btn" "rank vote vote" "rank deal deal";gap:14px;padding:18px}
-  .fav-rank-cell{grid-area:rank}
-  .fav-firm{grid-area:firm}
-  .fav-vote-section{grid-area:vote}
-  .fav-deal{grid-area:deal;justify-self:start}
-  .fav-btn{grid-area:btn;padding:10px 16px;font-size:12px}
+  /* Stacked card layout: row 1 rank+firm; row 2 vote; row 3 deal; row 4 full-width button */
+  .fav-card{
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "rank firm"
+      "vote vote"
+      "deal deal"
+      "btn btn";
+    gap: 14px;
+    padding: 18px;
+    align-items: start;
+  }
+  .fav-rank-cell{grid-area:rank;align-self:center}
+  .fav-firm{grid-area:firm;align-self:center;min-width:0}
+  .fav-vote-section{grid-area:vote;padding-top:14px;border-top:1px solid var(--border)}
+  .fav-deal{grid-area:deal;justify-self:start;align-self:center}
+  .fav-btn{grid-area:btn;padding:13px 18px;font-size:13.5px;justify-content:center;width:100%;margin-top:4px}
+  .fav-rank{font-size:22px}
+  .fav-name{font-size:15.5px}
   footer.site .top{grid-template-columns:1fr 1fr;gap:32px}
   footer.site .brand{grid-column:1/-1}
   .editorial-strip .rhs{display:none}

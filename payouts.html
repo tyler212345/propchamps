@@ -151,6 +151,55 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
   nav.primary,.header-cta{display:none}
   .menu-toggle{display:inline-flex}
   .stats-grid{grid-template-columns:repeat(2,1fr)}
+
+  /* Payouts table -> stacked card per firm on mobile */
+  .payouts-wrap{overflow-x:visible;border-radius:14px}
+  .payouts-table{display:block;min-width:0;width:100%}
+  .payouts-table thead{display:none}
+  .payouts-table tbody{display:block}
+  .payouts-table tbody tr{display:block;padding:18px 18px 20px;border-bottom:1px solid var(--border);position:relative}
+  .payouts-table tbody tr:last-child{border-bottom:0}
+  .payouts-table tbody td{display:block;padding:0;border:0;width:auto;min-width:0}
+
+  /* Header: firm + action arrow */
+  .payouts-table .col-action{position:absolute;top:24px;right:18px;width:auto}
+  .payouts-table .col-firm{padding-right:48px;min-height:48px;display:flex;align-items:center}
+
+  /* Numeric stats: 2x2 grid */
+  .payouts-table .col-total,
+  .payouts-table .col-count,
+  .payouts-table .col-largest,
+  .payouts-table .col-avg{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);display:inline-block;vertical-align:top;width:calc(50% - 6px);box-sizing:border-box}
+  .payouts-table .col-count,
+  .payouts-table .col-avg{margin-left:8px;padding-left:14px;border-left:1px solid var(--border)}
+
+  /* Median time bar: full width */
+  .payouts-table .col-time{margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+  .payouts-table .col-time .time-bar{width:100%}
+
+  /* Label above stat */
+  .payouts-table .col-total::before,
+  .payouts-table .col-count::before,
+  .payouts-table .col-largest::before,
+  .payouts-table .col-avg::before,
+  .payouts-table .col-time::before{
+    display:block;
+    font-family:var(--font-mono);
+    font-size:10px;
+    color:var(--text-faint);
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    margin-bottom:8px;
+    font-weight:500;
+  }
+  .payouts-table .col-total::before{content:"Total tracked"}
+  .payouts-table .col-count::before{content:"Payouts"}
+  .payouts-table .col-largest::before{content:"Largest single"}
+  .payouts-table .col-avg::before{content:"Avg per payout"}
+  .payouts-table .col-time::before{content:"Median time to payout"}
+
+  /* Hide redundant sub-labels we just put in ::before */
+  .payouts-table .p-value-sub{display:none}
 }
 @media(max-width:800px){
   .hero{padding:48px 0 32px}

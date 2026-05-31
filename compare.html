@@ -255,6 +255,20 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
 
 @media(max-width:900px){nav.primary,.header-cta{display:none}.menu-toggle{display:inline-flex}.howto-grid{grid-template-columns:1fr;gap:8px}}
 @media(max-width:800px){.hero{padding:48px 0 24px}.hero h1{font-size:clamp(28px,7vw,40px)}.toolbar{padding:12px}.toolbar-search{min-width:0;flex:1}footer.site .top{grid-template-columns:1fr 1fr;gap:32px}footer.site .brand{grid-column:1/-1}.editorial-strip .rhs{display:none}.tray-bar{position:static}}
+@media(max-width:600px){
+  /* Tighter matrix columns on mobile so 1.5-2 columns are visible at a time */
+  .matrix-table{min-width:520px}
+  .matrix-table th,.matrix-table td{padding:14px 14px}
+  .matrix-table thead th{min-width:160px;width:160px}
+  .matrix-table thead th.label-col,.matrix-table tbody td.label{min-width:128px;width:128px}
+  .matrix-table thead .col-plan{font-size:14px}
+  .matrix-table tbody td{font-size:13px}
+  /* Visual scroll hint on the matrix wrap */
+  .matrix-table-wrap{position:relative}
+  .matrix-table-wrap::after{content:"";position:absolute;top:0;right:0;bottom:0;width:24px;background:linear-gradient(90deg,transparent,rgba(10,13,18,0.85));pointer-events:none;border-radius:0 16px 16px 0}
+  /* Matrix head: stack the diff toggle below the title on small screens */
+  .matrix-head{flex-direction:column;align-items:flex-start;gap:16px}
+}
 @media(max-width:480px){footer.site .top{grid-template-columns:1fr};.firms-grouped{grid-template-columns:1fr}}
 
 /* polish layer: scroll reveal + smoother easing */

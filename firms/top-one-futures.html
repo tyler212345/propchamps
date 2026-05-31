@@ -171,7 +171,21 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
   footer.site .brand{grid-column:1/-1}
   .editorial-strip .rhs{display:none}
 }
-@media(max-width:480px){footer.site .top{grid-template-columns:1fr};.hero-deal{grid-template-columns:1fr}}
+@media(max-width:600px){
+  .hero-deal{grid-template-columns:1fr;gap:14px;padding:18px}
+  .hero-stat-value{font-size:18px}
+  .hero-cta-group{flex-direction:column;align-items:stretch;gap:8px}
+  .hero-cta-group .btn-primary,.hero-cta-group .btn-text{justify-content:center}
+  .summary-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .summary-card{padding:18px 16px}
+  .summary-card-value{font-size:18px}
+  .plans-grid{grid-template-columns:1fr}
+  .related-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  footer.site .top{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
