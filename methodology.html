@@ -64,48 +64,94 @@ body.is-menu-open .mobile-menu { display: block; }
 .bg-stack::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(200,255,0,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(200,255,0,.045) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse 80% 60% at 50% 15%,black 30%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 15%,black 30%,transparent 90%)}
 .bg-stack::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 15%,rgba(200,255,0,.08) 0%,transparent 70%)}
 
-.hero{padding:72px 0 56px;position:relative}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--lime-text);margin-bottom:20px}
+.hero{padding:80px 0 40px;position:relative}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--lime-text);margin-bottom:22px}
 .hero-eyebrow::before{content:"";width:24px;height:1px;background:var(--lime-text)}
 .hero h1{font-family:var(--font-display);font-weight:800;font-size:clamp(40px,5.5vw,64px);line-height:1.0;letter-spacing:-.045em;color:var(--text-strong);margin-bottom:24px;max-width:900px}
 .hero h1 .accent{background:linear-gradient(135deg,var(--lime) 0%,#a3d600 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 24px rgba(200,255,0,.25))}
 .hero-sub{font-size:19px;line-height:1.55;color:var(--text-soft);max-width:720px;letter-spacing:-.005em}
 
-/* process steps */
-.process{padding:64px 0;border-top:1px solid var(--border)}
+/* Stats strip — 4 stats matching the homepage hero-trust */
+.method-stats{display:grid;grid-template-columns:repeat(4,1fr);background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden;max-width:780px;margin:36px 0 0}
+.method-stat{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:22px 18px;text-align:center;border-right:1px solid var(--border);min-height:96px}
+.method-stat:last-child{border-right:0}
+.method-stat strong{font-family:var(--font-display);font-weight:800;font-size:28px;color:var(--text-strong);letter-spacing:-.035em;line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap}
+.method-stat strong.lime{color:var(--lime)}
+.method-stat span{font-family:var(--font-mono);font-size:11px;font-weight:500;color:var(--text-soft);letter-spacing:.08em;text-transform:uppercase;line-height:1.2;white-space:nowrap}
+
+/* Anchor nav chips — quick jumps to each section */
+.section-nav{padding:24px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg-band);position:sticky;top:80px;z-index:20;backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px)}
+.section-nav .container{display:flex;align-items:center;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.section-nav .container::-webkit-scrollbar{display:none}
+.section-nav-label{font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);margin-right:8px;white-space:nowrap;flex-shrink:0}
+.section-nav-link{font-size:13px;font-weight:600;color:var(--text-soft);padding:7px 14px;border:1px solid var(--border-strong);border-radius:100px;transition:all .15s;white-space:nowrap;flex-shrink:0;background:var(--bg-elev)}
+.section-nav-link:hover{color:var(--text-strong);border-color:var(--border-lime);background:rgba(200,255,0,.04)}
+.section-nav-link.active{color:var(--lime);border-color:var(--lime);background:rgba(200,255,0,.08);box-shadow:0 0 0 1px var(--lime),0 0 14px rgba(200,255,0,.18)}
+
+/* section structure */
+section.block{padding:72px 0;border-top:1px solid var(--border);position:relative}
 .section-eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--lime-text);margin-bottom:18px}
 .section-eyebrow::before{content:"";width:24px;height:1px;background:var(--lime-text)}
 .section-h2{font-family:var(--font-display);font-weight:800;font-size:clamp(28px,3.5vw,40px);line-height:1.1;letter-spacing:-.035em;color:var(--text-strong);margin-bottom:14px}
 .section-intro{font-size:17px;color:var(--text-soft);max-width:680px;line-height:1.55;margin-bottom:48px}
 
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
-.step{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px;position:relative;transition:all .22s}
+/* Process — bold lime numerals matching homepage value-cards */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.step{position:relative;background:linear-gradient(180deg,var(--bg-card) 0%,var(--bg-elev) 100%);border:1px solid var(--border);border-radius:16px;padding:26px 24px;display:flex;flex-direction:column;gap:12px;overflow:hidden;transition:all .22s}
+.step::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,var(--border-lime-strong) 50%,transparent 100%);opacity:0;transition:opacity .22s}
 .step:hover{border-color:var(--border-lime);transform:translateY(-2px)}
-.step-num{font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--lime);letter-spacing:.06em;margin-bottom:14px;font-variant-numeric:tabular-nums}
-.step h3{font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text-strong);letter-spacing:-.02em;margin-bottom:10px;line-height:1.25}
-.step p{font-size:14.5px;color:var(--text-soft);line-height:1.55}
+.step:hover::before{opacity:1}
+.step-head{display:flex;align-items:center;gap:14px;margin-bottom:4px}
+.step-numeral{font-family:var(--font-display);font-weight:800;font-size:34px;line-height:1;color:var(--lime);letter-spacing:-.04em;font-variant-numeric:tabular-nums;text-shadow:0 0 24px rgba(200,255,0,.25);flex-shrink:0}
+.step-eyebrow{font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--text-soft);text-transform:uppercase;line-height:1.3}
+.step h3{font-family:var(--font-display);font-weight:700;font-size:18px;line-height:1.25;color:var(--text-strong);letter-spacing:-.02em;margin-top:2px}
+.step p{font-size:14.5px;color:var(--text-soft);line-height:1.6;letter-spacing:-.005em}
+.step-foot{margin-top:auto;padding-top:18px;border-top:1px solid var(--border);display:flex;align-items:baseline;gap:8px}
+.step-foot strong{font-family:var(--font-display);font-weight:800;font-size:20px;color:var(--lime);font-variant-numeric:tabular-nums;letter-spacing:-.025em;line-height:1}
+.step-foot span{font-size:12px;color:var(--text-faint);letter-spacing:-.005em}
 
-/* criteria */
-.criteria{padding:64px 0;border-top:1px solid var(--border);background:var(--bg-surface)}
+/* Process summary callout (under the steps grid) */
+.process-summary{margin-top:24px;padding:20px 24px;background:linear-gradient(135deg,rgba(200,255,0,.06) 0%,rgba(200,255,0,.02) 60%,transparent 100%);border:1px solid var(--border-lime);border-radius:14px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.process-summary-icon{width:44px;height:44px;border-radius:12px;background:var(--lime-soft);border:1px solid var(--border-lime-strong);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;font-size:18px;color:var(--lime);flex-shrink:0}
+.process-summary-text{font-size:15px;color:var(--text);line-height:1.5;flex:1;min-width:240px}
+.process-summary-text strong{color:var(--lime);font-weight:700}
+
+/* Criteria — visual weight bars */
+.criteria{background:var(--bg-surface)}
 .criteria-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
-.criteria-list{display:flex;flex-direction:column;gap:24px}
-.criterion{padding:24px;background:var(--bg-card);border:1px solid var(--border);border-radius:14px}
-.criterion-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:10px}
-.criterion-name{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text-strong);letter-spacing:-.02em}
-.criterion-weight{font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--lime);background:var(--lime-soft);border:1px solid var(--border-lime);padding:4px 10px;border-radius:6px;letter-spacing:.02em}
-.criterion-desc{font-size:14px;color:var(--text-soft);line-height:1.55}
+.criteria-aside .section-intro{margin-bottom:24px}
+.criteria-aside-callout{padding:18px 20px;background:var(--bg-card);border:1px solid var(--border-lime);border-radius:12px}
+.criteria-aside-callout-label{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lime);margin-bottom:8px}
+.criteria-aside-callout p{font-size:14px;color:var(--text);line-height:1.5}
+.criteria-list{display:flex;flex-direction:column;gap:14px}
+.criterion{padding:20px 22px;background:var(--bg-card);border:1px solid var(--border);border-radius:14px;transition:border-color .18s}
+.criterion:hover{border-color:var(--border-lime)}
+.criterion-head{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-bottom:8px}
+.criterion-name{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text-strong);letter-spacing:-.02em;line-height:1.25}
+.criterion-weight{font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--lime);letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums;text-shadow:0 0 16px rgba(200,255,0,.25);flex-shrink:0}
+.criterion-bar{height:6px;background:var(--bg-elev);border:1px solid var(--border);border-radius:100px;overflow:hidden;margin:8px 0 12px}
+.criterion-bar-fill{height:100%;background:linear-gradient(90deg,var(--lime) 0%,#a3d600 100%);border-radius:100px;box-shadow:0 0 12px rgba(200,255,0,.45);transition:width .6s cubic-bezier(0.16,1,0.3,1)}
+.criterion-desc{font-size:14px;color:var(--text-soft);line-height:1.6;letter-spacing:-.005em}
 
-/* generic prose section */
-.prose{padding:64px 0;border-top:1px solid var(--border)}
+/* Prose sections (About + Disclosure) */
 .prose-wrap{max-width:780px}
-.prose p{font-size:16px;line-height:1.7;color:var(--text);margin-bottom:14px}
+.prose p{font-size:16px;line-height:1.7;color:var(--text);margin-bottom:14px;letter-spacing:-.005em}
 .prose strong{color:var(--text-strong);font-weight:700}
-.prose ul{margin:14px 0;display:flex;flex-direction:column;gap:10px;list-style:none}
-.prose ul li{position:relative;padding-left:20px;font-size:15.5px;line-height:1.6;color:var(--text)}
-.prose ul li::before{content:"";position:absolute;left:0;top:10px;width:6px;height:6px;border-radius:50%;background:var(--lime);box-shadow:0 0 6px rgba(200,255,0,.5)}
-.prose .callout{margin:24px 0;padding:24px;background:var(--bg-card);border:1px solid var(--border-lime);border-radius:14px;position:relative}
-.prose .callout-label{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lime);margin-bottom:10px}
-.prose .callout p{margin:0;font-size:15px;color:var(--text)}
+.prose ul{margin:18px 0;display:flex;flex-direction:column;gap:10px;list-style:none}
+.prose ul li{position:relative;padding-left:24px;font-size:15.5px;line-height:1.6;color:var(--text);letter-spacing:-.005em}
+.prose ul li::before{content:"";position:absolute;left:0;top:10px;width:8px;height:8px;border-radius:50%;background:var(--lime);box-shadow:0 0 8px rgba(200,255,0,.6)}
+.prose ul li strong{color:var(--text-strong)}
+.callout{margin:28px 0 0;padding:26px;background:linear-gradient(135deg,rgba(200,255,0,.06) 0%,rgba(200,255,0,.02) 60%,transparent 100%);border:1px solid var(--border-lime);border-radius:16px;position:relative;overflow:hidden}
+.callout::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border-lime-strong),transparent)}
+.callout-label{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lime);margin-bottom:10px}
+.callout-label::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--lime);box-shadow:0 0 8px rgba(200,255,0,.6)}
+.callout p{margin:0;font-size:15.5px;color:var(--text);line-height:1.55;letter-spacing:-.005em}
+
+/* About-section "by the numbers" mini-row */
+.about-numbers{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0 0;max-width:680px}
+.about-num{padding:16px 18px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px}
+.about-num strong{display:block;font-family:var(--font-display);font-weight:800;font-size:22px;color:var(--lime);letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums;margin-bottom:4px}
+.about-num span{font-family:var(--font-mono);font-size:10.5px;font-weight:500;color:var(--text-soft);letter-spacing:.06em;text-transform:uppercase;line-height:1.2}
 
 footer.site{background:var(--bg-band);border-top:1px solid var(--border);color:var(--text-soft);padding:80px 0 32px;position:relative;overflow:hidden;margin-top:64px}
 footer.site::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border-lime-strong),transparent)}
@@ -118,14 +164,53 @@ footer.site a{font-size:14px;color:var(--text);transition:color .15s}
 footer.site a:hover{color:var(--lime)}
 footer.site .legal{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--text-faint);flex-wrap:wrap;gap:16px}
 
-@media(max-width:900px){nav.primary,.header-cta{display:none}.menu-toggle{display:inline-flex}.criteria-grid{grid-template-columns:1fr;gap:32px}}
-@media(max-width:800px){.hero{padding:48px 0 32px}.process,.criteria,.prose{padding:48px 0}footer.site .top{grid-template-columns:1fr 1fr;gap:32px}footer.site .brand{grid-column:1/-1}.editorial-strip .rhs{display:none}}
-@media(max-width:480px){footer.site .top{grid-template-columns:1fr}}
+@media(max-width:900px){nav.primary,.header-cta{display:none}.menu-toggle{display:inline-flex}.criteria-grid{grid-template-columns:1fr;gap:32px}.steps{grid-template-columns:repeat(2,1fr);gap:14px}}
+@media(max-width:800px){.hero{padding:56px 0 32px}section.block{padding:56px 0}footer.site .top{grid-template-columns:1fr 1fr;gap:32px}footer.site .brand{grid-column:1/-1}.editorial-strip .rhs{display:none}.section-nav{top:0}}
+@media(max-width:700px){
+  /* Stats strip: 2x2 grid */
+  .method-stats{grid-template-columns:repeat(2,1fr);max-width:100%;border-radius:14px}
+  .method-stat{padding:18px 12px;gap:6px;min-height:88px;border-right:0;border-bottom:0}
+  .method-stat:nth-child(odd){border-right:1px solid var(--border)}
+  .method-stat:nth-child(-n+2){border-bottom:1px solid var(--border)}
+  .method-stat strong{font-size:24px}
+  .method-stat span{font-size:10.5px}
+}
+@media(max-width:600px){
+  .hero{padding:40px 0 24px}
+  .hero h1{font-size:clamp(34px,8vw,46px)}
+  .hero-sub{font-size:16px}
+  section.block{padding:48px 0}
+  .steps{grid-template-columns:1fr;gap:12px}
+  .step{padding:22px 20px}
+  .step-numeral{font-size:30px}
+  .step h3{font-size:17px}
+  .step p{font-size:14px}
+  .step-foot{padding-top:14px}
+  .step-foot strong{font-size:18px}
+  .process-summary{padding:18px;gap:14px}
+  .process-summary-icon{width:38px;height:38px;font-size:16px}
+  .process-summary-text{font-size:14px}
+  .criterion{padding:18px 20px}
+  .criterion-name{font-size:15px}
+  .criterion-weight{font-size:20px}
+  .criterion-desc{font-size:13.5px}
+  .about-numbers{grid-template-columns:1fr 1fr;gap:10px}
+  .about-num{padding:14px 16px}
+  .about-num strong{font-size:20px}
+  .section-nav{padding:14px 0}
+  .section-nav-label{display:none}
+  .section-nav-link{font-size:12.5px;padding:6px 12px}
+  .callout{padding:20px;margin-top:24px}
+  .callout p{font-size:14.5px}
+  .prose p{font-size:15px}
+  .prose ul li{font-size:14.5px}
+}
+@media(max-width:480px){footer.site .top{grid-template-columns:1fr}.about-numbers{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<div class="editorial-strip"><div class="container"><div class="lhs"><span class="dot"></span><span>Independent prop firm research · Reviewed weekly</span></div><div class="rhs">Last reviewed May 28, 2026</div></div></div>
+<div class="editorial-strip"><div class="container"><div class="lhs"><span class="dot"></span><span>Independent prop firm research · Reviewed weekly</span></div><div class="rhs">Last reviewed June 1, 2026</div></div></div>
 
 <header class="site">
   <div class="container">
@@ -146,14 +231,32 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
 <section class="hero">
   <div class="bg-stack"></div>
   <div class="container">
-    <div class="hero-eyebrow">Methodology · Updated weekly</div>
-    <h1>How we <span class="accent">cover prop firms.</span></h1>
-    <p class="hero-sub">PropChamps is independent research on futures prop trading firms. Every firm we cover is audited weekly. Here's exactly what we check, how we rank, and how affiliate revenue works.</p>
+    <div class="hero-eyebrow">Methodology · Audit log open</div>
+    <h1>How we audit <span class="accent">prop firms.</span></h1>
+    <p class="hero-sub">PropChamps is independent research on futures prop trading firms. Every firm we cover is audited every Monday. Here's exactly what we check, how we rank, and how affiliate revenue works.</p>
+
+    <div class="method-stats">
+      <div class="method-stat"><strong class="lime">7</strong><span>Firms tracked</span></div>
+      <div class="method-stat"><strong>Weekly</strong><span>Audit cadence</span></div>
+      <div class="method-stat"><strong>38h</strong><span>Avg publish time</span></div>
+      <div class="method-stat"><strong>$0</strong><span>Ranking fees</span></div>
+    </div>
   </div>
 </section>
 
+<!-- Anchor nav chips -->
+<nav class="section-nav" id="sectionNav">
+  <div class="container">
+    <span class="section-nav-label">Jump to</span>
+    <a class="section-nav-link" href="#process">Audit process</a>
+    <a class="section-nav-link" href="#criteria">Ranking criteria</a>
+    <a class="section-nav-link" href="#about">About</a>
+    <a class="section-nav-link" href="#disclosure">Affiliate disclosure</a>
+  </div>
+</nav>
+
 <!-- Weekly audit process -->
-<section class="process">
+<section class="block process" id="process">
   <div class="container">
     <div class="section-eyebrow">Weekly audit process</div>
     <h2 class="section-h2">What we check, every Monday.</h2>
@@ -161,79 +264,109 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
 
     <div class="steps">
       <div class="step">
-        <div class="step-num">/ 01</div>
-        <h3>Rule documentation pulled</h3>
-        <p>We pull the firm's published rules page and compare it against last week's snapshot. Anything that changed — payouts, drawdowns, news restrictions, consistency requirements — is flagged.</p>
+        <div class="step-head"><div class="step-numeral">01</div><div class="step-eyebrow">Rule docs</div></div>
+        <h3>Published rules pulled and diffed.</h3>
+        <p>The firm's rules page is captured and compared against last week's snapshot. Anything that changed — payouts, drawdowns, news restrictions, consistency requirements — is flagged.</p>
+        <div class="step-foot"><strong>72h</strong><span>To flag a rule change</span></div>
       </div>
+
       <div class="step">
-        <div class="step-num">/ 02</div>
-        <h3>Checkout price verification</h3>
-        <p>The CHAMP discount code is tested at checkout on every account size offered. If a code fails for any tier, it comes off the deals page within 24 hours.</p>
+        <div class="step-head"><div class="step-numeral">02</div><div class="step-eyebrow">Checkout</div></div>
+        <h3>CHAMP code re-tested at checkout.</h3>
+        <p>The CHAMP discount code is tested at checkout on every account size the firm offers. If a code fails for any tier, it's removed from the deals page within 24 hours.</p>
+        <div class="step-foot"><strong>100%</strong><span>Codes verified before publishing</span></div>
       </div>
+
       <div class="step">
-        <div class="step-num">/ 03</div>
-        <h3>Trader-reported friction</h3>
-        <p>We monitor a curated set of Discord and Reddit threads where active traders report payout delays, support issues, or surprise rule enforcement. Patterns get logged.</p>
+        <div class="step-head"><div class="step-numeral">03</div><div class="step-eyebrow">Friction</div></div>
+        <h3>Trader-reported issues logged.</h3>
+        <p>A curated set of Discord and Reddit threads is monitored for active-trader reports — payout delays, support issues, surprise rule enforcement. Patterns get logged with sources.</p>
+        <div class="step-foot"><strong>14</strong><span>Communities monitored</span></div>
       </div>
+
       <div class="step">
-        <div class="step-num">/ 04</div>
-        <h3>Plan data refreshed</h3>
+        <div class="step-head"><div class="step-numeral">04</div><div class="step-eyebrow">Plan data</div></div>
+        <h3>Pricing &amp; drawdowns refreshed.</h3>
         <p>Account-size pricing, profit splits, drawdown amounts, and platform fees are pulled fresh. Any updates propagate to the firm card, comparison matrix, and full review automatically.</p>
+        <div class="step-foot"><strong>11</strong><span>Rule fields tracked per plan</span></div>
       </div>
+
       <div class="step">
-        <div class="step-num">/ 05</div>
-        <h3>Changes published</h3>
-        <p>Rule diffs get dated entries on the changelog and a one-line summary on the firm card. Material changes (new program, payout method change) get a full revision note.</p>
+        <div class="step-head"><div class="step-numeral">05</div><div class="step-eyebrow">Publish</div></div>
+        <h3>Changes pushed to the changelog.</h3>
+        <p>Rule diffs get dated entries on the firm's changelog and a one-line summary on its firm card. Material changes (new program, payout method change) get a full revision note.</p>
+        <div class="step-foot"><strong>Every Mon</strong><span>Published by 9am ET</span></div>
       </div>
+    </div>
+
+    <div class="process-summary">
+      <div class="process-summary-icon">↻</div>
+      <div class="process-summary-text"><strong>Same five steps, every week.</strong> The audit takes ~6 hours per firm. Material changes are published within 72 hours of detection — no exceptions for affiliate partners.</div>
     </div>
   </div>
 </section>
 
 <!-- Ranking criteria -->
-<section class="criteria">
+<section class="block criteria" id="criteria">
   <div class="container">
     <div class="criteria-grid">
-      <div>
+      <div class="criteria-aside">
         <div class="section-eyebrow">Ranking criteria</div>
         <h2 class="section-h2">How we rank.</h2>
-        <p class="section-intro">Our weekly rank is a composite score across four criteria. Affiliate revenue is not one of them. Firms cannot pay to move up.</p>
+        <p class="section-intro">Our weekly rank is a composite score across four weighted criteria. Affiliate revenue is not one of them. Firms cannot pay to move up.</p>
+        <div class="criteria-aside-callout">
+          <div class="criteria-aside-callout-label">Composite weighting</div>
+          <p>30 + 30 + 20 + 20 = <strong style="color:var(--lime)">100</strong>. Each firm gets a score 0–100. The rank you see is sorted on that score.</p>
+        </div>
       </div>
       <div class="criteria-list">
         <div class="criterion">
           <div class="criterion-head"><div class="criterion-name">Rule transparency</div><div class="criterion-weight">30%</div></div>
+          <div class="criterion-bar"><div class="criterion-bar-fill" style="width:30%"></div></div>
           <p class="criterion-desc">How clearly the firm publishes its drawdown method, payout cadence, consistency rules, and news restrictions. Hidden rules drop the score.</p>
         </div>
         <div class="criterion">
           <div class="criterion-head"><div class="criterion-name">Payout reliability</div><div class="criterion-weight">30%</div></div>
+          <div class="criterion-bar"><div class="criterion-bar-fill" style="width:30%"></div></div>
           <p class="criterion-desc">Trader-reported payout speed against the firm's published cadence. Delays without communication drop the score.</p>
         </div>
         <div class="criterion">
           <div class="criterion-head"><div class="criterion-name">Active discount value</div><div class="criterion-weight">20%</div></div>
+          <div class="criterion-bar"><div class="criterion-bar-fill" style="width:20%"></div></div>
           <p class="criterion-desc">How much the active CHAMP discount actually saves a trader on the most-purchased account sizes. Verified weekly at checkout.</p>
         </div>
         <div class="criterion">
           <div class="criterion-head"><div class="criterion-name">Program flexibility</div><div class="criterion-weight">20%</div></div>
-          <p class="criterion-desc">Number of paths a trader has to live capital (one-day pass, evaluation, instant funding) and how clearly each is differentiated.</p>
+          <div class="criterion-bar"><div class="criterion-bar-fill" style="width:20%"></div></div>
+          <p class="criterion-desc">Number of paths to live capital (one-day pass, evaluation, instant funding) and how clearly each path is differentiated.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- About + Affiliate disclosure -->
-<section class="prose" id="about">
+<!-- About -->
+<section class="block prose" id="about">
   <div class="container">
     <div class="prose-wrap">
       <div class="section-eyebrow">About PropChamps</div>
       <h2 class="section-h2">Why this site exists.</h2>
-      <p>PropChamps started because picking a futures prop firm involves comparing dozens of rules across firms whose terms change without warning. The existing comparison sites we tried were either out of date by the time we used them, or read like affiliate funnels rather than research.</p>
+      <p>PropChamps started because picking a futures prop firm means comparing dozens of rules across firms whose terms change without warning. The existing comparison sites we tried were either out of date by the time we used them, or read like affiliate funnels rather than research.</p>
       <p>Our goal: build the reference traders open when they want to know what's actually true about a firm <em>this week</em>. We track rules, drawdowns, payouts, and promo codes — and we publish what changes.</p>
-      <p>If you find an error or a firm we should be covering, email <a href="mailto:hello@propchamps.net" style="color:var(--lime);border-bottom:1px solid var(--border-lime)">hello@propchamps.net</a>.</p>
+
+      <div class="about-numbers">
+        <div class="about-num"><strong>20K+</strong><span>Monthly readers</span></div>
+        <div class="about-num"><strong>500+</strong><span>Trader reviews</span></div>
+        <div class="about-num"><strong>2025</strong><span>Founded</span></div>
+      </div>
+
+      <p style="margin-top:24px">Find an error, or a firm we should be covering? Email <a href="mailto:hello@propchamps.net" style="color:var(--lime);border-bottom:1px solid var(--border-lime)">hello@propchamps.net</a>.</p>
     </div>
   </div>
 </section>
 
-<section class="prose" id="disclosure">
+<!-- Affiliate disclosure -->
+<section class="block prose" id="disclosure">
   <div class="container">
     <div class="prose-wrap">
       <div class="section-eyebrow">Affiliate disclosure</div>
@@ -241,13 +374,13 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
       <p>PropChamps earns commission when readers click an affiliate link on this site and sign up with a firm. The CHAMP discount code is itself an affiliate code — using it gets you a discount, and the firm credits us a percentage of your purchase. Standard arrangement for comparison sites.</p>
       <p>What affiliate revenue <strong>does not</strong> do:</p>
       <ul>
-        <li>Affect rankings. Firms pay zero to be ranked higher. Our weekly composite score is calculated from the criteria above, not commission rates.</li>
-        <li>Hide negative information. If a firm tightens rules or delays payouts, that goes on the page next to the affiliate link.</li>
-        <li>Block coverage. We list firms whose affiliate programs we are not part of when they're relevant.</li>
+        <li><strong>Affect rankings.</strong> Firms pay zero to be ranked higher. Our composite score is calculated from the four criteria above — never from commission rates.</li>
+        <li><strong>Hide negative information.</strong> If a firm tightens rules or delays payouts, it goes on the page next to the affiliate link.</li>
+        <li><strong>Block coverage.</strong> We list firms whose affiliate programs we are not part of when they're relevant.</li>
       </ul>
       <div class="callout">
         <div class="callout-label">In one sentence</div>
-        <p>If a firm pays us more, it doesn't move up. If a firm pays us nothing, it doesn't move down. The CHAMP code is a real discount and we earn from it — that's the whole financial relationship.</p>
+        <p>If a firm pays us more, it doesn't move up. If a firm pays us nothing, it doesn't move down. The CHAMP code is a real discount and we earn from it — that's the entire financial relationship.</p>
       </div>
     </div>
   </div>
@@ -276,6 +409,33 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
   var toggle=document.getElementById('menuToggle'),header=document.querySelector('header.site');
   if(toggle){toggle.addEventListener('click',function(){var __o=header.classList.toggle('is-open');document.body.classList.toggle('is-menu-open',__o);});
     document.querySelectorAll('.mobile-menu a').forEach(function(a){a.addEventListener('click',function(){header.classList.remove('is-open');document.body.classList.remove('is-menu-open');});});}
+
+  /* Section-nav: highlight the active chip while scrolling, smooth-scroll with offset for sticky header */
+  var navLinks = document.querySelectorAll('.section-nav-link');
+  var sections = ['process','criteria','about','disclosure'].map(function(id){return document.getElementById(id);}).filter(Boolean);
+  function offsetTop(el){var r=el.getBoundingClientRect();return r.top + window.pageYOffset;}
+  function updateActive(){
+    var y = window.pageYOffset + 180;
+    var current = sections[0] ? sections[0].id : null;
+    sections.forEach(function(s){ if (offsetTop(s) <= y) current = s.id; });
+    navLinks.forEach(function(a){
+      a.classList.toggle('active', a.getAttribute('href') === '#'+current);
+    });
+  }
+  navLinks.forEach(function(a){
+    a.addEventListener('click', function(e){
+      var id = a.getAttribute('href').slice(1);
+      var el = document.getElementById(id);
+      if (!el) return;
+      e.preventDefault();
+      var headerH = 80;
+      var navH = document.getElementById('sectionNav') ? document.getElementById('sectionNav').offsetHeight : 0;
+      var y = offsetTop(el) - headerH - navH - 8;
+      window.scrollTo({top: y, behavior: 'smooth'});
+    });
+  });
+  window.addEventListener('scroll', updateActive, {passive:true});
+  updateActive();
 })();
 </script>
 
