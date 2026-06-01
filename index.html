@@ -457,61 +457,83 @@ body.is-menu-open .mobile-menu { display: block; }
   background: var(--lime-soft);
 }
 
+/* ---------- Hero trust strip — 4-up on desktop, 2x2 on mobile ---------- */
 .hero-trust {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  padding: 18px 32px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 16px;
   box-shadow: 0 0 0 1px rgba(255,255,255,0.02);
-  flex-wrap: wrap;
+  overflow: hidden;
+  max-width: 760px;
+  margin: 0 auto;
 }
 .hero-trust-item {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 0 28px;
-  position: relative;
   align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 22px 18px;
   text-align: center;
+  border-right: 1px solid var(--border);
+  min-height: 92px;
 }
-.hero-trust-item + .hero-trust-item { border-left: 1px solid var(--border); }
+.hero-trust-item:last-child { border-right: 0; }
 .hero-trust-item strong {
   color: var(--text-strong);
   font-weight: 800;
-  font-size: 26px;
+  font-size: 28px;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.035em;
   line-height: 1;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  white-space: nowrap;
 }
-.hero-trust-item strong.lime { color: var(--lime); }
 .hero-trust-item strong .check {
-  width: 18px; height: 18px; border-radius: 50%;
+  width: 20px; height: 20px; border-radius: 50%;
   background: var(--lime);
   color: var(--bg-base);
   display: inline-flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 900;
-  box-shadow: 0 0 8px rgba(200,255,0,.4);
+  font-size: 12px; font-weight: 900;
+  box-shadow: 0 0 10px rgba(200,255,0,.4);
 }
 .hero-trust-item span {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-soft);
-  letter-spacing: 0;
+  letter-spacing: 0.08em;
   font-family: var(--font-mono);
   text-transform: uppercase;
   font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
 }
-@media(max-width:700px){
-  .hero-trust{padding:14px 16px;border-radius:12px}
-  .hero-trust-item{padding:0 16px;flex-direction:row;gap:10px}
-  .hero-trust-item + .hero-trust-item{border-left:0;border-top:1px solid var(--border);padding-top:12px;margin-top:12px;width:100%;justify-content:center}
-  .hero-trust-item strong{font-size:20px}
+@media (max-width: 700px) {
+  .hero-trust {
+    grid-template-columns: repeat(2, 1fr);
+    border-radius: 14px;
+    max-width: 100%;
+  }
+  .hero-trust-item {
+    padding: 18px 12px;
+    gap: 6px;
+    min-height: 88px;
+    border-right: 0;
+    border-bottom: 0;
+  }
+  .hero-trust-item:nth-child(odd) { border-right: 1px solid var(--border); }
+  .hero-trust-item:nth-child(-n+2) { border-bottom: 1px solid var(--border); }
+  .hero-trust-item strong { font-size: 24px; }
+  .hero-trust-item strong .check { width: 18px; height: 18px; font-size: 11px; }
+  .hero-trust-item span { font-size: 10.5px; letter-spacing: 0.06em; }
+}
+@media (max-width: 380px) {
+  .hero-trust-item { padding: 16px 8px; }
+  .hero-trust-item strong { font-size: 22px; }
+  .hero-trust-item span { font-size: 10px; }
 }
 
 /* ---------- Section structure ---------- */
@@ -983,15 +1005,15 @@ section.block.deep { background: var(--bg-band); }
 /* ---------- Value props ---------- */
 .values-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 .value-card {
   position: relative;
   background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-card-elev) 100%);
   border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 24px 22px;
+  border-radius: 16px;
+  padding: 28px 26px;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -1006,32 +1028,41 @@ section.block.deep { background: var(--bg-band); }
 }
 .value-card:hover { border-color: var(--border-lime); transform: translateY(-2px); }
 .value-card:hover::before { opacity: 1; }
-.value-icon {
-  width: 40px; height: 40px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, var(--lime-soft) 0%, rgba(200,255,0,0.04) 100%);
-  border: 1px solid var(--border-lime);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--lime);
-  box-shadow: inset 0 0 24px rgba(200,255,0,0.05);
+/* Header row: big lime numeral + eyebrow category label */
+.value-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 4px;
 }
-.value-icon svg{width:20px;height:20px}
-.value-num {
+.value-numeral {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 34px;
+  line-height: 1;
+  color: var(--lime);
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 24px rgba(200,255,0,0.25);
+  flex-shrink: 0;
+}
+.value-eyebrow {
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.06em;
-  color: var(--text-faint);
+  letter-spacing: 0.14em;
+  color: var(--text-soft);
   text-transform: uppercase;
-  margin-bottom: -8px;
+  line-height: 1.3;
 }
 .value-card h3 {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 18px;
+  font-size: 19px;
   line-height: 1.25;
   color: var(--text-strong);
   letter-spacing: -0.02em;
+  margin-top: 2px;
 }
 .value-card > p {
   font-size: 15px;
@@ -1040,15 +1071,15 @@ section.block.deep { background: var(--bg-band); }
   letter-spacing: -0.005em;
 }
 .value-stat {
-  display: flex; align-items: baseline; gap: 8px;
-  padding-top: 18px;
+  display: flex; align-items: baseline; gap: 10px;
+  padding-top: 20px;
   border-top: 1px solid var(--border);
   margin-top: auto;
 }
 .value-stat strong {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 24px;
+  font-weight: 800;
+  font-size: 26px;
   color: var(--lime);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.03em;
@@ -1058,6 +1089,16 @@ section.block.deep { background: var(--bg-band); }
   font-size: 12.5px;
   color: var(--text-faint);
   letter-spacing: -0.005em;
+  line-height: 1.4;
+}
+@media (max-width: 900px) {
+  .values-grid { grid-template-columns: 1fr; gap: 14px; }
+  .value-card { padding: 22px 20px; gap: 12px; }
+  .value-numeral { font-size: 30px; }
+  .value-card h3 { font-size: 18px; }
+  .value-card > p { font-size: 14.5px; }
+  .value-stat { padding-top: 16px; }
+  .value-stat strong { font-size: 23px; }
 }
 
 /* ---------- Trader reviews ---------- */
@@ -1258,10 +1299,6 @@ footer.site .legal-links { display: flex; gap: 24px; }
   .hero { padding: 64px 0 56px; }
   .hero h1 { font-size: clamp(34px, 8.5vw, 48px); letter-spacing: -0.035em; }
   .hero-sub { font-size: 17px; }
-  .hero-trust { grid-template-columns: repeat(2, 1fr); gap: 24px; }
-  .hero-trust-item + .hero-trust-item { padding-left: 0; border-left: 0; }
-  .hero-trust-item:nth-child(3) { padding-top: 24px; border-top: 1px solid var(--border); }
-  .hero-trust-item:nth-child(4) { padding-top: 24px; border-top: 1px solid var(--border); padding-left: 24px; border-left: 1px solid var(--border); }
   section.block { padding: 64px 0; }
   footer.site .top { grid-template-columns: 1fr 1fr; gap: 32px; }
   footer.site .brand { grid-column: 1 / -1; }
@@ -1575,7 +1612,7 @@ body.pc-loaded footer.site {
 
     <div class="hero-trust">
       <div class="hero-trust-item"><strong><span class="check">✓</span>7</strong><span>Verified firms</span></div>
-      <div class="hero-trust-item"><strong>500+</strong><span>Real trader reviews</span></div>
+      <div class="hero-trust-item"><strong>500+</strong><span>Trader reviews</span></div>
       <div class="hero-trust-item"><strong>20K+</strong><span>Monthly readers</span></div>
       <div class="hero-trust-item"><strong>Weekly</strong><span>Rule audits</span></div>
     </div>
@@ -1680,13 +1717,10 @@ body.pc-loaded footer.site {
     <div class="values-grid">
 
       <div class="value-card">
-        <div class="value-icon">
-          <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 8v4l3 2"/>
-            <circle cx="12" cy="12" r="9"/>
-          </svg>
+        <div class="value-head">
+          <div class="value-numeral">01</div>
+          <div class="value-eyebrow">Weekly audits</div>
         </div>
-        <div class="value-num">/ 01 · Weekly audits</div>
         <h3>Rule changes flagged within 72 hours.</h3>
         <p>Every firm we cover is checked weekly against its own published rules. When something shifts — payout cadence, drawdown method, news restrictions — we publish the diff with a timestamp.</p>
         <div class="value-stat">
@@ -1696,13 +1730,10 @@ body.pc-loaded footer.site {
       </div>
 
       <div class="value-card">
-        <div class="value-icon">
-          <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 9l4 4 8-8"/>
-            <path d="M3 12a9 9 0 1 0 18 0 9 9 0 1 0-18 0z"/>
-          </svg>
+        <div class="value-head">
+          <div class="value-numeral">02</div>
+          <div class="value-eyebrow">Editorial independence</div>
         </div>
-        <div class="value-num">/ 02 · Editorial independence</div>
         <h3>No paid placements, ever.</h3>
         <p>Our rankings are based on rule transparency, payout history, and trader-reported friction. Affiliate links pay our bills — they do not influence the order firms appear in.</p>
         <div class="value-stat">
@@ -1712,12 +1743,10 @@ body.pc-loaded footer.site {
       </div>
 
       <div class="value-card">
-        <div class="value-icon">
-          <svg width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 12l-8 8-8-8M12 4v16"/>
-          </svg>
+        <div class="value-head">
+          <div class="value-numeral">03</div>
+          <div class="value-eyebrow">Verified discounts</div>
         </div>
-        <div class="value-num">/ 03 · Verified discounts</div>
         <h3>CHAMP codes re-tested every Monday.</h3>
         <p>The CHAMP discount code is verified at checkout against each firm every Monday morning. If it stops working anywhere, we remove it from the deals page within 24 hours.</p>
         <div class="value-stat">
