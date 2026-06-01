@@ -172,6 +172,27 @@ body.is-menu-open .mobile-menu { display: block; }
 
 .matrix-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:16px;border:1px solid var(--border);background:var(--bg-card)}
 .matrix-scroll-hint{display:none}
+
+/* Stacked field cards — mobile-only layout (replaces the table at <=600px) */
+.matrix-stack{display:none}
+.ms-field{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:12px}
+.ms-field-head{padding:12px 16px;background:var(--bg-card-elev);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ms-field-label{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-strong)}
+.ms-field-tag{font-family:var(--font-mono);font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);padding:3px 7px;background:var(--bg-elev);border:1px solid var(--border);border-radius:4px}
+.ms-rows{display:flex;flex-direction:column}
+.ms-row{display:grid;grid-template-columns:1fr auto;gap:6px 14px;padding:14px 16px;border-top:1px solid var(--border);position:relative}
+.ms-row:first-child{border-top:0}
+.ms-row.winner{background:linear-gradient(90deg,rgba(74,222,128,.10),rgba(74,222,128,.02));box-shadow:inset 3px 0 0 var(--positive)}
+.ms-plan-head{display:flex;align-items:center;gap:10px;min-width:0;grid-column:1/-1}
+.ms-plan-head img{width:22px;height:22px;border-radius:5px;background:var(--bg-elev);border:1px solid var(--border);object-fit:contain;padding:2px;flex-shrink:0}
+.ms-plan-firm{font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);line-height:1.1}
+.ms-plan-name{font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--text-strong);letter-spacing:-.015em;line-height:1.2;margin-top:1px}
+.ms-plan-info{min-width:0;flex:1}
+.ms-value{font-size:14px;color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:-.005em;line-height:1.45;grid-column:1/-1;padding-left:32px}
+.ms-value .empty-val{color:var(--text-faint)}
+.ms-winner-badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--positive);grid-column:2;grid-row:1;align-self:start;justify-self:end;background:rgba(74,222,128,.10);border:1px solid rgba(74,222,128,.35);padding:3px 7px;border-radius:4px;white-space:nowrap}
+.ms-winner-badge::before{content:"✓";font-size:11px;font-weight:900}
+.ms-field.tie .ms-field-tag::after{content:" · tie"}
 .matrix-table{width:100%;min-width:780px;border-collapse:separate;border-spacing:0;table-layout:fixed}
 .matrix-table th,.matrix-table td{padding:18px 22px;text-align:left;vertical-align:top;border-bottom:1px solid var(--border)}
 .matrix-table thead th{background:var(--bg-card-elev);border-bottom:1px solid var(--border-lime);min-width:200px;width:200px}
@@ -281,27 +302,12 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
   .tray-actions .btn-primary{padding:11px 18px;font-size:13.5px;width:100%;justify-content:center}
 }
 @media(max-width:600px){
-  /* Matrix: wider columns so values don't get clipped; one full + peek next */
+  /* Switch from horizontal-scroll table to stacked field cards */
   .matrix-wrap{margin-top:48px;padding-top:36px}
-  .matrix-table{min-width:560px}
-  .matrix-table th,.matrix-table td{padding:13px 14px}
-  .matrix-table thead th{min-width:200px;width:200px;padding:14px}
-  .matrix-table thead th.label-col,.matrix-table tbody td.label{min-width:112px;width:112px;padding:13px 10px}
-  .matrix-table thead .col-plan{font-size:14.5px;line-height:1.2}
-  .matrix-table thead .col-label{font-size:10px;letter-spacing:.04em}
-  .matrix-table thead .col-firm-row img{width:22px;height:22px}
-  .matrix-table tbody td{font-size:13px;line-height:1.45;word-break:normal;overflow-wrap:break-word}
-  .matrix-table tbody td.label{font-size:10.5px;line-height:1.3}
-  /* Winner cell adjustment for tighter columns */
-  .matrix-table tbody td.winner{padding-right:28px}
-  .matrix-table tbody td.winner::before,.matrix-table tbody td.winner::after{top:14px;right:10px}
-  /* Visual scroll affordance on the matrix wrap — both edges */
-  .matrix-table-wrap{position:relative}
-  .matrix-table-wrap::after{content:"";position:absolute;top:0;right:0;bottom:0;width:32px;background:linear-gradient(90deg,transparent,rgba(10,13,18,0.92));pointer-events:none;border-radius:0 16px 16px 0}
-  /* Scroll hint chip — visible only on mobile */
-  .matrix-scroll-hint{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);margin-bottom:10px;padding:5px 10px;background:var(--bg-elev);border:1px solid var(--border);border-radius:100px}
-  .matrix-scroll-hint .arrow{color:var(--lime);font-weight:700;animation:scrollHintNudge 1.8s ease-in-out infinite}
-  @keyframes scrollHintNudge{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
+  .matrix-table-wrap{display:none}
+  .matrix-scroll-hint{display:none !important}
+  .matrix-stack{display:block}
+  .matrix-stack.diff-only .ms-field.tie{display:none}
   /* Matrix head: stack the diff toggle below the title on small screens */
   .matrix-head{flex-direction:column;align-items:flex-start;gap:14px}
   .diff-toggle{font-size:13px;padding:9px 14px 9px 12px}
@@ -701,6 +707,7 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
     var winsBreakdown = picks.map(function(){return [];});
 
     var tieCount = 0;
+    var stackHtml = '';
     var rows=FIELDS.map(function(field){
       var values=picks.map(function(p){return (p.plan.rules&&p.plan.rules[field])||'';});
       var allSame=values.every(function(v){return v===values[0]&&v!=='';});
@@ -712,6 +719,29 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
         var cls = winners.indexOf(i) !== -1 ? ' class="winner"' : '';
         return '<td'+cls+'>'+(v||'<span class="empty-val">—</span>')+'</td>';
       }).join('');
+
+      /* Build matching stacked-card markup for mobile */
+      var stackRows = picks.map(function(p, i){
+        var v = values[i];
+        var isWinner = winners.indexOf(i) !== -1;
+        var winnerCls = isWinner ? ' winner' : '';
+        var badge = isWinner ? '<div class="ms-winner-badge">Best</div>' : '';
+        return '<div class="ms-row'+winnerCls+'">'+
+          '<div class="ms-plan-head">'+
+            '<img src="'+p.firm.logo+'" alt="">'+
+            '<div class="ms-plan-info"><div class="ms-plan-firm">'+p.firm.name+'</div><div class="ms-plan-name">'+p.plan.name+'</div></div>'+
+          '</div>'+
+          badge+
+          '<div class="ms-value">'+(v||'<span class="empty-val">—</span>')+'</div>'+
+        '</div>';
+      }).join('');
+      var fieldCls = allSame ? ' tie' : '';
+      var tag = allSame ? '<span class="ms-field-tag">Same across all</span>' : '';
+      stackHtml += '<div class="ms-field'+fieldCls+'">'+
+        '<div class="ms-field-head"><div class="ms-field-label">'+field+'</div>'+tag+'</div>'+
+        '<div class="ms-rows">'+stackRows+'</div>'+
+      '</div>';
+
       return '<tr class="'+rowClass+'"><td class="label">'+field+'</td>'+cells+'</tr>';
     }).join('');
 
@@ -755,9 +785,6 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
         '</article>';
     }
 
-    var hintHtml = picks.length >= 2
-      ? '<div class="matrix-scroll-hint"><span>Swipe to compare</span><span class="arrow">→</span></div>'
-      : '';
     var diffCountTxt = tieCount > 0
       ? '<span class="diff-count">('+tieCount+' tied)</span>'
       : '<span class="diff-count">(no ties)</span>';
@@ -765,20 +792,22 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
     var html='<div class="matrix-wrap" id="matrix">'+
       '<div class="matrix-head"><div class="matrix-head-lhs"><h2>Comparison matrix</h2><p>'+summary+' · '+FIELDS.length+' fields · winners highlighted</p></div>'+
       '<label class="diff-toggle" id="diffToggle"><span class="switch"></span><span>Differences only</span>'+diffCountTxt+'</label></div>'+
-      hintHtml+
       '<div class="matrix-table-wrap"><table class="matrix-table" id="matrixTable"><thead>'+thead+'</thead><tbody>'+rows+'</tbody></table></div>'+
+      '<div class="matrix-stack" id="matrixStack">'+stackHtml+'</div>'+
       ourPickHtml+
     '</div>';
     document.getElementById('matrixContainer').innerHTML=html;
 
-    /* Diff toggle: just flip a class on the table, hide tie rows via CSS — no re-render. */
+    /* Diff toggle: flip a class on both the table AND the stacked layout */
     var diffEl = document.getElementById('diffToggle');
     var tableEl = document.getElementById('matrixTable');
-    if (diffOnly){ diffEl.classList.add('on'); tableEl.classList.add('diff-only'); }
+    var stackEl = document.getElementById('matrixStack');
+    if (diffOnly){ diffEl.classList.add('on'); tableEl.classList.add('diff-only'); stackEl.classList.add('diff-only'); }
     diffEl.addEventListener('click', function(){
       diffOnly = !diffOnly;
       diffEl.classList.toggle('on', diffOnly);
       tableEl.classList.toggle('diff-only', diffOnly);
+      stackEl.classList.toggle('diff-only', diffOnly);
     });
   }
   document.getElementById('btnCompare').addEventListener('click',function(){
