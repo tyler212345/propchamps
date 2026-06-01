@@ -134,18 +134,19 @@ body.is-menu-open .mobile-menu { display: block; }
 .fg-review:hover{color:var(--lime)}
 .fg-review:hover::after{color:var(--lime);transform:translateX(3px)}
 
-/* Sticky tray */
-.tray-bar{position:sticky;bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:28px;padding:18px 22px;background:linear-gradient(180deg,rgba(15,20,25,.94),rgba(8,11,15,.97));border:1px solid var(--border-lime);border-radius:16px;flex-wrap:wrap;z-index:30;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 24px 48px -16px rgba(0,0,0,.5),0 0 0 1px rgba(200,255,0,.05);transition:transform .15s var(--ease)}
-.tray-info{display:flex;align-items:center;gap:14px;flex:1;min-width:0}
-.tray-count{font-family:var(--font-display);font-size:28px;font-weight:900;color:var(--lime);letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1;flex-shrink:0}
-.tray-msg-wrap{display:flex;flex-direction:column;gap:6px;min-width:0;flex:1}
-.tray-msg{font-size:13.5px;color:var(--text-soft);letter-spacing:-.005em}
+/* Sticky tray — restructured: header row + chips row + actions row */
+.tray-bar{position:sticky;bottom:16px;display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"count info actions";align-items:center;gap:14px 18px;margin-top:28px;padding:18px 22px;background:linear-gradient(180deg,rgba(15,20,25,.94),rgba(8,11,15,.97));border:1px solid var(--border-lime);border-radius:16px;z-index:30;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 24px 48px -16px rgba(0,0,0,.5),0 0 0 1px rgba(200,255,0,.05);transition:transform .15s var(--ease)}
+.tray-count{grid-area:count;font-family:var(--font-display);font-size:32px;font-weight:900;color:var(--lime);letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1;text-shadow:0 0 20px rgba(200,255,0,.35)}
+.tray-info{grid-area:info;display:flex;flex-direction:column;gap:8px;min-width:0}
+.tray-msg{font-size:13.5px;color:var(--text-soft);letter-spacing:-.005em;line-height:1.3}
+.tray-msg strong{color:var(--text-strong);font-weight:600}
 .tray-chips{display:flex;gap:6px;flex-wrap:wrap}
-.tray-chip{display:inline-flex;align-items:center;gap:6px;background:var(--bg-elev);border:1px solid var(--border-strong);border-radius:100px;padding:4px 4px 4px 10px;font-size:12px;font-weight:500;color:var(--text);transition:border-color .15s var(--ease)}
-.tray-chip img{width:16px;height:16px;border-radius:4px;background:var(--bg-card);object-fit:contain;padding:1px}
-.tray-chip .x{cursor:pointer;color:var(--text-faint);font-weight:700;padding:2px 6px;border-radius:50%;line-height:1}
+.tray-chip{display:inline-flex;align-items:center;gap:6px;background:var(--bg-elev);border:1px solid var(--border-strong);border-radius:100px;padding:4px 4px 4px 8px;font-size:12px;font-weight:500;color:var(--text);transition:border-color .15s var(--ease);max-width:100%}
+.tray-chip img{width:16px;height:16px;border-radius:4px;background:var(--bg-card);object-fit:contain;padding:1px;flex-shrink:0}
+.tray-chip-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.tray-chip .x{cursor:pointer;color:var(--text-faint);font-weight:700;padding:2px 6px;border-radius:50%;line-height:1;flex-shrink:0}
 .tray-chip .x:hover{color:var(--neg);background:rgba(248,113,113,.08)}
-.tray-actions{display:flex;gap:10px}
+.tray-actions{grid-area:actions;display:flex;gap:10px}
 .btn-primary{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;background:var(--lime);color:var(--bg-base);font-size:14px;font-weight:700;letter-spacing:-.005em;border-radius:10px;transition:all .18s var(--ease);box-shadow:0 0 0 1px rgba(200,255,0,.2),0 12px 32px -8px rgba(200,255,0,.4)}
 .btn-primary:hover:not(:disabled){background:var(--lime-2);transform:translateY(-2px);box-shadow:0 0 0 1px rgba(200,255,0,.35),0 18px 40px -8px rgba(200,255,0,.6)}
 .btn-primary:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
@@ -158,14 +159,19 @@ body.is-menu-open .mobile-menu { display: block; }
 .matrix-head-lhs h2{font-family:var(--font-display);font-weight:800;font-size:clamp(26px,3.5vw,38px);letter-spacing:-.035em;color:var(--text-strong);line-height:1.1;margin-bottom:8px}
 .matrix-head-lhs p{font-size:14.5px;color:var(--text-soft);letter-spacing:-.005em}
 .matrix-head-lhs p strong{color:var(--lime);font-variant-numeric:tabular-nums}
-.diff-toggle{display:inline-flex;align-items:center;gap:10px;font-size:13px;color:var(--text-soft);cursor:pointer;user-select:none}
-.diff-toggle .switch{position:relative;width:36px;height:20px;background:var(--bg-elev);border:1px solid var(--border-strong);border-radius:100px;transition:all .2s var(--ease)}
-.diff-toggle .switch::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--text-soft);transition:all .2s var(--ease)}
-.diff-toggle.on .switch{background:var(--lime-soft);border-color:var(--border-lime)}
-.diff-toggle.on .switch::after{transform:translateX(16px);background:var(--lime);box-shadow:0 0 6px rgba(200,255,0,.6)}
-.diff-toggle:hover{color:var(--text-strong)}
+/* Diff toggle — pill button style, clear on/off feedback */
+.diff-toggle{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--text-soft);cursor:pointer;user-select:none;padding:8px 14px 8px 12px;border:1px solid var(--border-strong);border-radius:100px;background:var(--bg-elev);transition:all .18s var(--ease)}
+.diff-toggle:hover{color:var(--text-strong);border-color:var(--border-lime)}
+.diff-toggle .switch{position:relative;width:32px;height:18px;background:var(--bg-base);border:1px solid var(--border-strong);border-radius:100px;transition:all .2s var(--ease);flex-shrink:0}
+.diff-toggle .switch::after{content:"";position:absolute;top:1px;left:1px;width:14px;height:14px;border-radius:50%;background:var(--text-soft);transition:all .2s var(--ease)}
+.diff-toggle.on{color:var(--text-strong);border-color:var(--lime);background:rgba(200,255,0,.07);box-shadow:0 0 0 1px var(--lime),0 0 16px rgba(200,255,0,.2)}
+.diff-toggle.on .switch{background:var(--lime);border-color:var(--lime)}
+.diff-toggle.on .switch::after{transform:translateX(13px);background:var(--bg-base);box-shadow:none}
+.diff-toggle .diff-count{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);letter-spacing:.04em}
+.diff-toggle.on .diff-count{color:var(--lime)}
 
 .matrix-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:16px;border:1px solid var(--border);background:var(--bg-card)}
+.matrix-scroll-hint{display:none}
 .matrix-table{width:100%;min-width:780px;border-collapse:separate;border-spacing:0;table-layout:fixed}
 .matrix-table th,.matrix-table td{padding:18px 22px;text-align:left;vertical-align:top;border-bottom:1px solid var(--border)}
 .matrix-table thead th{background:var(--bg-card-elev);border-bottom:1px solid var(--border-lime);min-width:200px;width:200px}
@@ -254,22 +260,77 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 @media(max-width:900px){nav.primary,.header-cta{display:none}.menu-toggle{display:inline-flex}.howto-grid{grid-template-columns:1fr;gap:8px}}
-@media(max-width:800px){.hero{padding:48px 0 24px}.hero h1{font-size:clamp(28px,7vw,40px)}.toolbar{padding:12px}.toolbar-search{min-width:0;flex:1}footer.site .top{grid-template-columns:1fr 1fr;gap:32px}footer.site .brand{grid-column:1/-1}.editorial-strip .rhs{display:none}.tray-bar{position:static}}
-@media(max-width:600px){
-  /* Tighter matrix columns on mobile so 1.5-2 columns are visible at a time */
-  .matrix-table{min-width:520px}
-  .matrix-table th,.matrix-table td{padding:14px 14px}
-  .matrix-table thead th{min-width:160px;width:160px}
-  .matrix-table thead th.label-col,.matrix-table tbody td.label{min-width:128px;width:128px}
-  .matrix-table thead .col-plan{font-size:14px}
-  .matrix-table tbody td{font-size:13px}
-  /* Visual scroll hint on the matrix wrap */
-  .matrix-table-wrap{position:relative}
-  .matrix-table-wrap::after{content:"";position:absolute;top:0;right:0;bottom:0;width:24px;background:linear-gradient(90deg,transparent,rgba(10,13,18,0.85));pointer-events:none;border-radius:0 16px 16px 0}
-  /* Matrix head: stack the diff toggle below the title on small screens */
-  .matrix-head{flex-direction:column;align-items:flex-start;gap:16px}
+@media(max-width:800px){.hero{padding:48px 0 24px}.hero h1{font-size:clamp(28px,7vw,40px)}.toolbar{padding:12px}.toolbar-search{min-width:0;flex:1}footer.site .top{grid-template-columns:1fr 1fr;gap:32px}footer.site .brand{grid-column:1/-1}.editorial-strip .rhs{display:none}}
+@media(max-width:700px){
+  /* Tray: vertically stacked layout */
+  .tray-bar{
+    grid-template-columns:auto 1fr;
+    grid-template-areas:"count info" "actions actions";
+    padding:14px 14px 14px 18px;
+    gap:10px 14px;
+    border-radius:14px;
+    bottom:12px;
+  }
+  .tray-count{font-size:28px}
+  .tray-msg{font-size:13px}
+  .tray-chips{gap:5px;max-height:108px;overflow-y:auto}
+  .tray-chip{font-size:11.5px;padding:3px 4px 3px 7px;max-width:180px}
+  .tray-chip-text{font-size:11.5px}
+  .tray-actions{display:grid;grid-template-columns:auto 1fr;gap:8px;width:100%}
+  .tray-actions .btn-ghost{padding:11px 14px;font-size:13px}
+  .tray-actions .btn-primary{padding:11px 18px;font-size:13.5px;width:100%;justify-content:center}
 }
-@media(max-width:480px){footer.site .top{grid-template-columns:1fr};.firms-grouped{grid-template-columns:1fr}}
+@media(max-width:600px){
+  /* Matrix: wider columns so values don't get clipped; one full + peek next */
+  .matrix-wrap{margin-top:48px;padding-top:36px}
+  .matrix-table{min-width:560px}
+  .matrix-table th,.matrix-table td{padding:13px 14px}
+  .matrix-table thead th{min-width:200px;width:200px;padding:14px}
+  .matrix-table thead th.label-col,.matrix-table tbody td.label{min-width:112px;width:112px;padding:13px 10px}
+  .matrix-table thead .col-plan{font-size:14.5px;line-height:1.2}
+  .matrix-table thead .col-label{font-size:10px;letter-spacing:.04em}
+  .matrix-table thead .col-firm-row img{width:22px;height:22px}
+  .matrix-table tbody td{font-size:13px;line-height:1.45;word-break:normal;overflow-wrap:break-word}
+  .matrix-table tbody td.label{font-size:10.5px;line-height:1.3}
+  /* Winner cell adjustment for tighter columns */
+  .matrix-table tbody td.winner{padding-right:28px}
+  .matrix-table tbody td.winner::before,.matrix-table tbody td.winner::after{top:14px;right:10px}
+  /* Visual scroll affordance on the matrix wrap — both edges */
+  .matrix-table-wrap{position:relative}
+  .matrix-table-wrap::after{content:"";position:absolute;top:0;right:0;bottom:0;width:32px;background:linear-gradient(90deg,transparent,rgba(10,13,18,0.92));pointer-events:none;border-radius:0 16px 16px 0}
+  /* Scroll hint chip — visible only on mobile */
+  .matrix-scroll-hint{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);margin-bottom:10px;padding:5px 10px;background:var(--bg-elev);border:1px solid var(--border);border-radius:100px}
+  .matrix-scroll-hint .arrow{color:var(--lime);font-weight:700;animation:scrollHintNudge 1.8s ease-in-out infinite}
+  @keyframes scrollHintNudge{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
+  /* Matrix head: stack the diff toggle below the title on small screens */
+  .matrix-head{flex-direction:column;align-items:flex-start;gap:14px}
+  .diff-toggle{font-size:13px;padding:9px 14px 9px 12px}
+  .matrix-head-lhs h2{font-size:24px}
+  .matrix-head-lhs p{font-size:13.5px}
+
+  /* Firm group cards — more obviously tappable */
+  .firm-group{padding:18px;border-radius:14px}
+  .fg-head{gap:10px}
+  .fg-logo{width:42px;height:42px;border-radius:10px}
+  .fg-name{font-size:17px}
+  .fg-sub{font-size:12px}
+  .fg-count{font-size:10px;padding:4px 8px}
+  .fg-plans-label{font-size:10px}
+  .plan-chip{padding:10px 13px;min-height:44px}
+  .plan-chip-name{font-size:13px}
+  .plan-chip-meta{font-size:9.5px}
+  .fg-bulk{font-size:12.5px;padding:8px 10px;background:var(--bg-elev);border:1px solid var(--border-strong);border-radius:8px}
+  .fg-actions{gap:8px;padding-top:12px}
+  .fg-review{font-size:12.5px}
+}
+@media(max-width:480px){
+  footer.site .top{grid-template-columns:1fr}
+  .firms-grouped{grid-template-columns:1fr}
+  .toolbar{flex-direction:column;align-items:stretch;gap:10px}
+  .toolbar-lhs{gap:10px;flex-direction:column;align-items:stretch}
+  .toolbar-search{max-width:100%}
+  .tray-chip{max-width:140px;font-size:11px}
+}
 
 /* polish layer: scroll reveal + smoother easing */
 [data-reveal]{transform:translateY(18px);opacity:.001;transition:opacity .7s var(--ease),transform .7s var(--ease)}
@@ -333,12 +394,10 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
     <div class="firms-grouped" id="firmsGrouped"></div>
 
     <div class="tray-bar" id="trayBar" style="display:none">
+      <span class="tray-count" id="trayCountBig">0</span>
       <div class="tray-info">
-        <span class="tray-count" id="trayCountBig">0</span>
-        <div class="tray-msg-wrap">
-          <span class="tray-msg" id="trayMsg">Select at least 2 plans</span>
-          <div class="tray-chips" id="trayChips"></div>
-        </div>
+        <span class="tray-msg" id="trayMsg">Select at least 2 plans</span>
+        <div class="tray-chips" id="trayChips"></div>
       </div>
       <div class="tray-actions">
         <button class="btn-ghost" id="btnClear">Clear all</button>
@@ -512,14 +571,16 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
     var n=selected.length;
     document.getElementById('selCount').textContent=n;
     document.getElementById('trayCountBig').textContent=n;
-    document.getElementById('trayBar').style.display=n>0?'flex':'none';
-    var msg=n===0?'Select at least 2 plans':n===1?'Add at least one more':n+' plans · ready to compare';
-    document.getElementById('trayMsg').textContent=msg;
+    document.getElementById('trayBar').style.display=n>0?'grid':'none';
+    var msg=n===0?'Select at least 2 plans':n===1?'Add 1 more to compare':'<strong>Ready to compare</strong> · '+n+' plans selected';
+    document.getElementById('trayMsg').innerHTML=msg;
     document.getElementById('btnCompare').disabled=n<2;
     var chips=selected.map(function(k){
       var p=allPlans.find(function(x){return x.key===k;});
       if(!p)return '';
-      return '<span class="tray-chip"><img src="'+p.firm.logo+'" alt="">'+p.firm.name+' · '+p.plan.name+'<span class="x" data-key="'+k+'">×</span></span>';
+      /* Logo identifies the firm; chip text is just plan name */
+      var planShort = p.plan.name.length > 26 ? p.plan.name.slice(0,24)+'…' : p.plan.name;
+      return '<span class="tray-chip" title="'+p.firm.name+' · '+p.plan.name+'"><img src="'+p.firm.logo+'" alt="'+p.firm.name+'"><span class="tray-chip-text">'+planShort+'</span><span class="x" data-key="'+k+'">×</span></span>';
     }).join('');
     document.getElementById('trayChips').innerHTML=chips;
     document.querySelectorAll('.tray-chip .x').forEach(function(x){x.addEventListener('click',function(e){e.stopPropagation();toggleSel(x.dataset.key);});});
@@ -639,10 +700,12 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
     var winsPerPick = picks.map(function(){return 0;});
     var winsBreakdown = picks.map(function(){return [];});
 
+    var tieCount = 0;
     var rows=FIELDS.map(function(field){
       var values=picks.map(function(p){return (p.plan.rules&&p.plan.rules[field])||'';});
       var allSame=values.every(function(v){return v===values[0]&&v!=='';});
       var rowClass = allSame ? 'tie-row' : 'diff-row';
+      if (allSame) tieCount++;
       var winners = allSame ? [] : findWinners(field, values);
       winners.forEach(function(i){ winsPerPick[i]++; winsBreakdown[i].push(field); });
       var cells=values.map(function(v,i){
@@ -692,9 +755,17 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
         '</article>';
     }
 
+    var hintHtml = picks.length >= 2
+      ? '<div class="matrix-scroll-hint"><span>Swipe to compare</span><span class="arrow">→</span></div>'
+      : '';
+    var diffCountTxt = tieCount > 0
+      ? '<span class="diff-count">('+tieCount+' tied)</span>'
+      : '<span class="diff-count">(no ties)</span>';
+
     var html='<div class="matrix-wrap" id="matrix">'+
       '<div class="matrix-head"><div class="matrix-head-lhs"><h2>Comparison matrix</h2><p>'+summary+' · '+FIELDS.length+' fields · winners highlighted</p></div>'+
-      '<label class="diff-toggle" id="diffToggle"><span>Differences only</span><span class="switch"></span></label></div>'+
+      '<label class="diff-toggle" id="diffToggle"><span class="switch"></span><span>Differences only</span>'+diffCountTxt+'</label></div>'+
+      hintHtml+
       '<div class="matrix-table-wrap"><table class="matrix-table" id="matrixTable"><thead>'+thead+'</thead><tbody>'+rows+'</tbody></table></div>'+
       ourPickHtml+
     '</div>';
