@@ -25,7 +25,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://propchamps.net/og-image.jpg">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","name":"Methodology — How PropChamps Audits Prop Firms","url":"https://propchamps.net/methodology.html","description":"How PropChamps evaluates and ranks futures prop trading firms.","isPartOf":{"@type":"WebSite","name":"PropChamps","url":"https://propchamps.net/"}}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://propchamps.net/methodology.html#webpage","name":"Methodology — How PropChamps Audits Prop Firms","url":"https://propchamps.net/methodology.html","description":"How PropChamps evaluates and ranks futures prop trading firms.","isPartOf":{"@type":"WebSite","name":"PropChamps","url":"https://propchamps.net/"}},{"@type":"FAQPage","@id":"https://propchamps.net/methodology.html#faq","mainEntity":[{"@type":"Question","name":"How does PropChamps rank prop firms?","acceptedAnswer":{"@type":"Answer","text":"Our weekly composite score is calculated from four weighted criteria: Rule transparency (30%), Payout reliability (30%), Active discount value (20%), and Program flexibility (20%). Affiliate revenue is not a factor in rankings."}},{"@type":"Question","name":"How often is PropChamps updated?","acceptedAnswer":{"@type":"Answer","text":"Every firm we cover is audited every Monday. Rule changes — payouts, drawdowns, news restrictions, consistency requirements — are flagged and published within 72 hours of detection."}},{"@type":"Question","name":"Does PropChamps accept payment from prop firms?","acceptedAnswer":{"@type":"Answer","text":"No. Firms cannot pay to be ranked higher. We earn commission from affiliate links when readers sign up, but commission rates have zero effect on the composite score used to rank firms."}},{"@type":"Question","name":"Where does the CHAMP discount code come from?","acceptedAnswer":{"@type":"Answer","text":"CHAMP is an affiliate code we have negotiated with each firm we cover. It is verified at checkout every Monday — if it stops working at any account tier, it is removed from the deals page within 24 hours."}},{"@type":"Question","name":"Are the trader reviews on PropChamps verified?","acceptedAnswer":{"@type":"Answer","text":"Reviews submitted through the site are cross-checked against trader history before publication. Verification typically completes within 48 hours of submission."}},{"@type":"Question","name":"What kind of prop firms does PropChamps cover?","acceptedAnswer":{"@type":"Answer","text":"PropChamps focuses on futures prop trading firms based in the US, UK, and Canada — firms that publish their drawdown methods, offer transparent rules, and have a verifiable payout history."}}]}]}
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -163,6 +163,22 @@ section.block{padding:72px 0;border-top:1px solid var(--border);position:relativ
 .about-num strong{display:block;font-family:var(--font-display);font-weight:800;font-size:22px;color:var(--lime);letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums;margin-bottom:4px}
 .about-num span{font-family:var(--font-mono);font-size:10.5px;font-weight:500;color:var(--text-soft);letter-spacing:.06em;text-transform:uppercase;line-height:1.2}
 
+/* FAQ section */
+.faq-list{display:flex;flex-direction:column;gap:10px;max-width:820px}
+.faq-item{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;transition:border-color .18s;overflow:hidden}
+.faq-item:hover{border-color:var(--border-lime)}
+.faq-item[open]{border-color:var(--border-lime);background:linear-gradient(180deg,var(--bg-card) 0%,var(--bg-card-elev) 100%)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px 22px;cursor:pointer;font-family:var(--font-display);font-size:16.5px;font-weight:700;color:var(--text-strong);letter-spacing:-.015em;line-height:1.35;list-style:none;user-select:none}
+.faq-q::-webkit-details-marker{display:none}
+.faq-toggle-icon{flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--bg-elev);border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;color:var(--text-soft);font-weight:700;font-size:14px;line-height:1;transition:all .2s}
+.faq-item[open] .faq-toggle-icon{background:var(--lime);color:var(--bg-base);border-color:var(--lime);transform:rotate(45deg);box-shadow:0 0 10px rgba(200,255,0,.4)}
+.faq-a{padding:0 22px 20px;font-size:15px;color:var(--text-soft);line-height:1.6;letter-spacing:-.005em}
+.faq-a strong{color:var(--text)}
+@media(max-width:600px){
+  .faq-q{font-size:15px;padding:18px 18px}
+  .faq-a{font-size:14px;padding:0 18px 18px}
+}
+
 footer.site{background:var(--bg-band);border-top:1px solid var(--border);color:var(--text-soft);padding:80px 0 32px;position:relative;overflow:hidden;margin-top:64px}
 footer.site::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border-lime-strong),transparent)}
 footer.site .top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;padding-bottom:56px;border-bottom:1px solid var(--border);margin-bottom:32px}
@@ -261,6 +277,7 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
     <a class="section-nav-link" href="#process">Audit process</a>
     <a class="section-nav-link" href="#criteria">Ranking criteria</a>
     <a class="section-nav-link" href="#about">About</a>
+    <a class="section-nav-link" href="#faq">FAQ</a>
     <a class="section-nav-link" href="#disclosure">Affiliate disclosure</a>
   </div>
 </nav>
@@ -375,6 +392,42 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
   </div>
 </section>
 
+<!-- FAQ -->
+<section class="block" id="faq">
+  <div class="container">
+    <div class="section-eyebrow">Frequently asked</div>
+    <h2 class="section-h2">Quick answers.</h2>
+    <p class="section-intro">The questions traders ask most about how we run the audit, rank firms, and handle affiliate revenue.</p>
+
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary class="faq-q">How does PropChamps rank prop firms? <span class="faq-toggle-icon">+</span></summary>
+        <div class="faq-a">Our weekly composite score is calculated from <strong>four weighted criteria</strong>: Rule transparency (30%), Payout reliability (30%), Active discount value (20%), and Program flexibility (20%). Affiliate revenue is not a factor — firms cannot pay to be ranked higher.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">How often is PropChamps updated? <span class="faq-toggle-icon">+</span></summary>
+        <div class="faq-a">Every firm we cover is audited <strong>every Monday</strong>. Rule changes — payouts, drawdowns, news restrictions, consistency requirements — are flagged and published within 72 hours of detection.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">Does PropChamps accept payment from prop firms? <span class="faq-toggle-icon">+</span></summary>
+        <div class="faq-a"><strong>No.</strong> Firms cannot pay to be ranked higher. We earn commission from affiliate links when readers sign up, but commission rates have zero effect on the composite score used to rank firms.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">Where does the CHAMP discount code come from? <span class="faq-toggle-icon">+</span></summary>
+        <div class="faq-a">CHAMP is an <strong>affiliate code</strong> we have negotiated with each firm we cover. It is verified at checkout every Monday — if it stops working at any account tier, it's removed from the deals page within 24 hours.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">Are the trader reviews on PropChamps verified? <span class="faq-toggle-icon">+</span></summary>
+        <div class="faq-a">Reviews submitted through the site are <strong>cross-checked against trader history</strong> before publication. Verification typically completes within 48 hours of submission.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">What kind of prop firms does PropChamps cover? <span class="faq-toggle-icon">+</span></summary>
+        <div class="faq-a">PropChamps focuses on <strong>futures prop trading firms</strong> based in the US, UK, and Canada — firms that publish their drawdown methods, offer transparent rules, and have a verifiable payout history.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
 <!-- Affiliate disclosure -->
 <section class="block prose" id="disclosure">
   <div class="container">
@@ -422,7 +475,7 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
 
   /* Section-nav: highlight the active chip while scrolling, smooth-scroll with offset for sticky header */
   var navLinks = document.querySelectorAll('.section-nav-link');
-  var sections = ['process','criteria','about','disclosure'].map(function(id){return document.getElementById(id);}).filter(Boolean);
+  var sections = ['process','criteria','about','faq','disclosure'].map(function(id){return document.getElementById(id);}).filter(Boolean);
   function offsetTop(el){var r=el.getBoundingClientRect();return r.top + window.pageYOffset;}
   function updateActive(){
     var y = window.pageYOffset + 180;

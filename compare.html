@@ -463,7 +463,8 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
   firmList.forEach(function(f){(f.plansSummary||[]).forEach(function(p,i){allPlans.push({key:f.slug+'__'+i,firm:f,plan:p,idx:i});});});
 
   var selected=[];
-  var search='';
+  /* Read ?search= from URL so the WebSite SearchAction schema works */
+  var search = (new URLSearchParams(location.search).get('search') || '').trim();
   var diffOnly=false;
 
   function firmMatches(f){
@@ -605,6 +606,8 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
   document.getElementById('btnClear').addEventListener('click',function(){
     selected=[];afterChange();
   });
+  /* Sync the search input to the URL query if one was passed */
+  if (search) { document.getElementById('planSearch').value = search; }
   document.getElementById('planSearch').addEventListener('input',function(e){search=e.target.value;renderFirms();});
 
   /* Matrix */
