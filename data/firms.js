@@ -55,7 +55,7 @@
  *   • To hide a firm without removing it: set live: false.
  *   • To remove a firm entirely: delete its entry AND remove from FIRM_ORDER.
  *
- * LAST DATA UPDATE — May 04, 2026
+ * LAST DATA UPDATE — May 28, 2026
  *   Alpha:      Zero (one-day pass · flat 90% · $0 activation) · Advanced (90% day-1 · $149 activation · no news restrictions) · Standard (LEGACY — removed from website 05/01/26, active for prior accounts only)
  *   Tradeify:   one-time payments + Tradesea/Rithmic (effective 03/31/26)
  *   Lucid:      Pro · Black (legacy) · Flex · Direct
@@ -299,7 +299,7 @@ window.FIRMS = {
     "payoutAvg": "$2,500",
     "payoutLargest": "$18K",
     "payoutMedianTime": "1 day",
-    "name": "Lucid",
+    "name": "Lucid Trading",
     "initials": "LU",
     "logo": "/logos/lucid.png",
     "logoText": "LU",
@@ -696,7 +696,7 @@ window.FIRMS = {
     "payoutAvg": "$2,000",
     "payoutLargest": "$58K",
     "payoutMedianTime": "4 hours",
-    "name": "Apex Futures",
+    "name": "Apex Trader Funding",
     "initials": "AP",
     "logo": "/logos/apex.png",
     "logoText": "AP",
@@ -731,7 +731,7 @@ window.FIRMS = {
     "boxMore": {
       "deal": "Current CHAMP pricing — biggest active discount on the site:\\n\\n50K NO ACTIVATION FEE EOD TRAIL:\\nOne Pack: $109 (was $1,098) — one-time fee, no rebill, 30-day eval\\nFive Pack: $445 (was $4,450) — one-time fee, no rebill, no resets\\n\\nAll plan sizes (25K / 50K / 100K / 150K) get the 90% off + $0 activation. Always verify current checkout pricing before purchase.",
       "programs": "APEX 1 — Intraday Trail / Rithmic\\nAPEX 2 — Intraday Trail / Tradovate\\nAPEX 3 — Intraday Trail / WealthCharts\\nAPEX 4 — EOD Trail / Rithmic, Tradovate, WealthCharts",
-      "rules": "Min days to pass = 1\\nEval max contracts: 4 / 6 / 8 / 12 minis\\nProfit target: $1,500 / $3,000 / $6,000 / $9,000\\nMax drawdown: $1,000 / $2,000 / $3,000 / $4,000\\nPerformance account max accounts: 20\\nDLL: yes\\nConsistency: 50%\\nActivation fee: $79",
+      "rules": "Min days to pass = 1\\nEval max contracts: 4 / 6 / 8 / 12 minis\\nProfit target: $1,500 / $3,000 / $6,000 / $9,000\\nMax drawdown: $1,000 / $2,000 / $3,000 / $4,000\\nPerformance account max accounts: 20\\nDLL: yes\\nConsistency: 50%\\nActivation fee: $0 with CHAMP (was $79)",
       "payouts": "Activation deadline: 7 days from eval pass\\nPayout frequency: 5 trading days\\nPayout split: none-100%\\nMax payout requests: 6"
     },
     "programs": [

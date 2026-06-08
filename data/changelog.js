@@ -1,13 +1,14 @@
 /*
   PropChamps audit log — every rule, payout, and program change we've
-  flagged at the firms we cover. Newest entry first. Used by:
-    - /audit-log.html (full history with filters)
-    - /index.html (last 4 entries surfaced as "Live changelog")
-    - per-firm pages (filtered to that firm)
+  flagged at the firms we cover. Newest entry first.
+
+  Consumed by /audit-log.html (full history with dynamic filters). The
+  homepage "Live changelog" cards in /index.html are hand-maintained to
+  mirror the newest entries here — update them when you add an entry.
 
   Entry fields:
     date     ISO YYYY-MM-DD
-    firm     firm slug (matches data/firms.js + logos/<slug>.png)
+    firm     firm slug — must match the slug key in data/firms.js
     firmName display name
     logo     logo path
     category one of: rule | promo | feature | payout | platform | account-size
@@ -20,7 +21,7 @@
 */
 window.CHANGELOG = [
   {
-    date: '2026-05-28', firm: 'alpha', firmName: 'Alpha Futures', logo: '/logos/alpha.png',
+    date: '2026-05-28', firm: 'alpha-futures', firmName: 'Alpha Futures', logo: '/logos/alpha.png',
     category: 'promo',
     headline: 'Zero plan activation fee dropped to $0',
     was: '$99 activation on one-day pass',
@@ -40,7 +41,7 @@ window.CHANGELOG = [
     firmPage: 'tradeify.html'
   },
   {
-    date: '2026-05-18', firm: 'takeprofit', firmName: 'Take Profit Trader', logo: '/logos/takeprofit.png',
+    date: '2026-05-18', firm: 'take-profit', firmName: 'Take Profit Trader', logo: '/logos/takeprofit.png',
     category: 'rule',
     headline: 'Daily loss limit removed on every account size',
     was: 'DLL: $1,500 at 50K · $2,500 at 100K · $3,500 at 150K',
@@ -60,7 +61,7 @@ window.CHANGELOG = [
     firmPage: 'apex-trader.html'
   },
   {
-    date: '2026-05-04', firm: 'myfunded', firmName: 'MyFundedFutures', logo: '/logos/myfunded.png',
+    date: '2026-05-04', firm: 'my-funded-futures', firmName: 'MyFundedFutures', logo: '/logos/myfunded.png',
     category: 'feature',
     headline: 'Rapid Live $10K session launched',
     was: '',
@@ -80,14 +81,14 @@ window.CHANGELOG = [
     firmPage: 'lucid-trading.html'
   },
   {
-    date: '2026-04-20', firm: 'topone', firmName: 'TopOne Futures', logo: '/logos/topone.png',
+    date: '2026-04-20', firm: 'top-one-futures', firmName: 'TopOne Futures', logo: '/logos/topone.png',
     category: 'payout',
     headline: 'Payout cadence tightened to 7 days',
     was: 'Bi-weekly payouts (every 14 days)',
     is: 'Weekly payouts (every 7 days)',
     note: 'Applies on funded accounts that have cleared the first payout. Min request size still $500.',
     source: '',
-    firmPage: 'topone-futures.html'
+    firmPage: 'top-one-futures.html'
   },
   {
     date: '2026-04-14', firm: 'tradeify', firmName: 'Tradeify', logo: '/logos/tradify.png',
@@ -110,7 +111,7 @@ window.CHANGELOG = [
     firmPage: 'apex-trader.html'
   },
   {
-    date: '2026-04-02', firm: 'alpha', firmName: 'Alpha Futures', logo: '/logos/alpha.png',
+    date: '2026-04-02', firm: 'alpha-futures', firmName: 'Alpha Futures', logo: '/logos/alpha.png',
     category: 'account-size',
     headline: '$200K account added to the Pro plan',
     was: 'Max account: 150K',
@@ -120,7 +121,7 @@ window.CHANGELOG = [
     firmPage: 'alpha-futures.html'
   },
   {
-    date: '2026-03-27', firm: 'takeprofit', firmName: 'Take Profit Trader', logo: '/logos/takeprofit.png',
+    date: '2026-03-27', firm: 'take-profit', firmName: 'Take Profit Trader', logo: '/logos/takeprofit.png',
     category: 'payout',
     headline: 'First payout window shortened to 5 trading days',
     was: '10 trading days before first payout request',
@@ -130,7 +131,7 @@ window.CHANGELOG = [
     firmPage: 'take-profit-trader.html'
   },
   {
-    date: '2026-03-22', firm: 'myfunded', firmName: 'MyFundedFutures', logo: '/logos/myfunded.png',
+    date: '2026-03-22', firm: 'my-funded-futures', firmName: 'MyFundedFutures', logo: '/logos/myfunded.png',
     category: 'rule',
     headline: 'News restriction window widened',
     was: '2 minutes before / 2 minutes after high-impact news',
@@ -160,14 +161,14 @@ window.CHANGELOG = [
     firmPage: 'apex-trader.html'
   },
   {
-    date: '2026-03-05', firm: 'topone', firmName: 'TopOne Futures', logo: '/logos/topone.png',
+    date: '2026-03-05', firm: 'top-one-futures', firmName: 'TopOne Futures', logo: '/logos/topone.png',
     category: 'platform',
     headline: 'NinjaTrader added as a supported feed',
     was: 'Rithmic + Tradovate only',
     is: 'Rithmic · Tradovate · NinjaTrader',
     note: 'NinjaTrader licensing included on accounts 100K and above. No change to commission structure.',
     source: '',
-    firmPage: 'topone-futures.html'
+    firmPage: 'top-one-futures.html'
   },
   {
     date: '2026-02-28', firm: 'tradeify', firmName: 'Tradeify', logo: '/logos/tradify.png',
@@ -180,7 +181,7 @@ window.CHANGELOG = [
     firmPage: 'tradeify.html'
   },
   {
-    date: '2026-02-19', firm: 'alpha', firmName: 'Alpha Futures', logo: '/logos/alpha.png',
+    date: '2026-02-19', firm: 'alpha-futures', firmName: 'Alpha Futures', logo: '/logos/alpha.png',
     category: 'rule',
     headline: 'Removed consistency rule on the Zero plan',
     was: '30% consistency required across all plans',
