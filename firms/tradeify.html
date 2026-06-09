@@ -372,14 +372,14 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
   }).join('');
 
   /* plans */
-  var plans=f.plansDetailed||f.plansSummary||[];
+  var plans=f.plansSummary||f.plansDetailed||[];
   document.getElementById('plansGrid').innerHTML = plans.slice(0,4).map(function(p){
     var feat=p.featured?' featured':'';
     var rules='';
     if(Array.isArray(p.rules)){
-      rules=p.rules.slice(0,8).map(function(r){return '<div class="plan-rule"><span class="plan-rule-label">'+r[0]+'</span><span class="plan-rule-value">'+r[1]+'</span></div>';}).join('');
+      rules=p.rules.slice(0,20).map(function(r){return '<div class="plan-rule"><span class="plan-rule-label">'+r[0]+'</span><span class="plan-rule-value">'+r[1]+'</span></div>';}).join('');
     }else if(p.rules&&typeof p.rules==='object'){
-      rules=Object.keys(p.rules).slice(0,8).map(function(k){return '<div class="plan-rule"><span class="plan-rule-label">'+k+'</span><span class="plan-rule-value">'+p.rules[k]+'</span></div>';}).join('');
+      rules=Object.keys(p.rules).slice(0,20).map(function(k){return '<div class="plan-rule"><span class="plan-rule-label">'+k+'</span><span class="plan-rule-value">'+p.rules[k]+'</span></div>';}).join('');
     }
     return '<div class="plan-card'+feat+'"><h3 class="plan-name">'+p.name+'</h3><div class="plan-rules">'+rules+'</div></div>';
   }).join('');

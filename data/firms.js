@@ -225,15 +225,17 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000",
-          "Daily Loss Limit": "$600 · $1,250 · $2,500 · $3,750",
           "Max Drawdown": "$1,000 · $2,000 · $3,500 · $5,000",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "$600 · $1,250 · $2,500 · $3,750",
           "Min. Trading Days": "1",
           "Consistency Rule": "None eval · 35% funded",
           "Payout Split": "90% Trader 10% Tradeify",
           "Payout Frequency": "5 days (funded)",
+          "Activation Fee": "None (one-time payment)",
+          "Reset Fee": "$60 · $95 · $169 · $229",
           "Platforms": "Tradovate · WealthCharts · Tradesea / Rithmic",
-          "Promo Code": "CHAMP",
-          "Activation Fee": "None (one-time payment)"
+          "Promo Code": "CHAMP"
         }
       },
       {
@@ -242,15 +244,17 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "$1,500 · $2,500 · $6,000 · $9,000",
-          "Daily Loss Limit": "None eval · $500 · $1,000 · $1,250 · $1,750 funded",
           "Max Drawdown": "$1,000 · $2,000 · $2,500 · $3,500",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "None eval · $500 · $1,000 · $1,250 · $1,750 funded",
           "Min. Trading Days": "3",
           "Consistency Rule": "40% eval · none funded",
           "Payout Split": "90% Trader 10% Tradeify",
           "Payout Frequency": "Daily · max $600 / $1,000 / $1,500 / $2,500",
+          "Activation Fee": "None (one-time payment)",
+          "Reset Fee": "$65 · $99 · $155 · $215",
           "Platforms": "Tradovate · WealthCharts · Tradesea / Rithmic",
-          "Promo Code": "CHAMP",
-          "Activation Fee": "None (one-time payment)"
+          "Promo Code": "CHAMP"
         }
       },
       {
@@ -259,15 +263,17 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "$1,500 · $2,500 · $6,000 · $9,000",
-          "Daily Loss Limit": "None",
           "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,500",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "None",
           "Min. Trading Days": "3",
           "Consistency Rule": "40% eval · none funded",
           "Payout Split": "90% Trader 10% Tradeify",
           "Payout Frequency": "5 days · max $1,250 / $3,000 / $4,000 / $5,000",
+          "Activation Fee": "None (one-time payment)",
+          "Reset Fee": "$65 · $99 · $155 · $215",
           "Platforms": "Tradovate · WealthCharts",
-          "Promo Code": "CHAMP",
-          "Activation Fee": "None (one-time payment)"
+          "Promo Code": "CHAMP"
         }
       },
       {
@@ -276,15 +282,17 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "Straight To Funded",
-          "Daily Loss Limit": "None (25K) · $1,250 · $2,500 · $3,750",
           "Max Drawdown": "$1,000 · $2,000 · $4,000 · $6,000",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "None (25K) · $1,250 · $2,500 · $3,750",
           "Min. Trading Days": "Instant Funded",
           "Consistency Rule": "20%",
           "Payout Split": "Straight to Funded",
           "Payout Frequency": "5 days",
+          "Activation Fee": "None (one-time payment)",
+          "Reset Fee": "Straight To Funded",
           "Platforms": "Tradovate · WealthCharts",
-          "Promo Code": "CHAMP",
-          "Activation Fee": "None (one-time payment)"
+          "Promo Code": "CHAMP"
         }
       }
     ],
@@ -446,15 +454,17 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "$1,250 · $3,000 · $6,000 · $9,000",
-          "Daily Loss Limit": "None · $1,200 · $1,800 · $2,700",
           "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,500",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "None · $1,200 · $1,800 · $2,700",
           "Min. Trading Days": "1-day pass to funded",
           "Consistency Rule": "40%",
           "Payout Split": "90% trader / 10% Lucid",
           "Payout Frequency": "5 profit days · min request $500",
+          "Activation Fee": "FREE",
+          "Reset Fee": "$90 · $120 · $180 · $245",
           "Platforms": "Tradovate · NinjaTrader · TradingView · TradeSea · MotiveWave · Quantower",
-          "Promo Code": "CHAMP",
-          "Activation Fee": "FREE"
+          "Promo Code": "CHAMP"
         }
       },
       {
@@ -463,15 +473,17 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "$1,250 · $3,000 · $6,000 · $9,000",
-          "Daily Loss Limit": "No DLL",
           "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,500",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "No DLL",
           "Min. Trading Days": "5 days to payout",
           "Consistency Rule": "50% eval · none funded",
           "Payout Split": "90% Trader / 10% Lucid",
           "Payout Frequency": "5-day cycle · 50% of profit up to size caps",
+          "Activation Fee": "FREE",
+          "Reset Fee": "$60 · $95 · $140 · $280",
           "Platforms": "CGQ + Rithmic feeds",
-          "Promo Code": "CHAMP",
-          "Activation Fee": "FREE"
+          "Promo Code": "CHAMP"
         }
       },
       {
@@ -480,15 +492,17 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "Straight to funded",
-          "Daily Loss Limit": "N/A (25K) · $1,200 · $2,100 · $3,000",
           "Max Drawdown": "$1,000 · $2,000 · $3,500 · $5,000",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "N/A (25K) · $1,200 · $2,100 · $3,000",
           "Min. Trading Days": "5 days to payout",
           "Consistency Rule": "20%",
           "Payout Split": "90% Trader / 10% Lucid",
           "Payout Frequency": "5-day cycle",
+          "Activation Fee": "One-time payment $238 / $364 / $490 / $588",
+          "Reset Fee": "Straight To Funded",
           "Platforms": "CGQ + Rithmic feeds",
-          "Promo Code": "CHAMP",
-          "Activation Fee": "One-time payment $238 / $364 / $490 / $588"
+          "Promo Code": "CHAMP"
         }
       }
     ],
@@ -643,15 +657,17 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "25K · 50K · 100K",
           "Profit Target": "$1,500 · $3,000 · $6,000",
-          "Daily Loss Limit": "$500 · $1,000 · $2,000",
           "Max Drawdown": "$1,000 · $2,000 · $3,000",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "$500 · $1,000 · $2,000",
           "Min. Trading Days": "None eval (one-day pass) · 5 qualified",
           "Consistency Rule": "None eval · 40% qualified",
           "Payout Split": "90% flat",
           "Payout Frequency": "Up to 4x/month · 50% of profits · range $200–$2,500 by size",
+          "Activation Fee": "$0 · monthly $79 / $119 / $239",
+          "Reset Fee": "$69 · $109 · $219",
           "Platforms": "WealthCharts · DeepChart · Quantower · Tradovate · NinjaTrader · TradingView",
-          "Promo Code": "CHAMP",
-          "Activation Fee": "$0 · monthly $79 / $119 / $239"
+          "Promo Code": "CHAMP"
         }
       },
       {
@@ -660,15 +676,17 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "50K · 100K · 150K",
           "Profit Target": "$4,000 · $8,000 · $12,000",
-          "Daily Loss Limit": "None (Eval & Qualified)",
           "Max Drawdown": "$1,750 · $3,500 · $5,250",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "None (Eval & Qualified)",
           "Min. Trading Days": "2 eval · 5 qualified",
           "Consistency Rule": "50% eval · none qualified",
           "Payout Split": "90% from day 1 (not tiered)",
           "Payout Frequency": "Every 5 winning days of $200+ · $1,000–$15,000 per request",
+          "Activation Fee": "$149 · monthly $139 / $279 / $419",
+          "Reset Fee": "$139 · $279 · $419",
           "Platforms": "WealthCharts · DeepChart · Quantower · Tradovate · NinjaTrader · TradingView",
-          "Promo Code": "CHAMP",
-          "Activation Fee": "$149 · monthly $139 / $279 / $419"
+          "Promo Code": "CHAMP"
         }
       }
     ],
@@ -814,15 +832,17 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000",
-          "Daily Loss Limit": "$500 · $1,000 · $2,000 · $3,000",
           "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,000",
+          "Drawdown Type": "INTRADAY / EOD",
+          "Daily Loss Limit": "$500 · $1,000 · $2,000 · $3,000",
           "Min. Trading Days": "1 day to pass",
           "Consistency Rule": "50% in PA",
           "Payout Split": "None–100%",
           "Payout Frequency": "Every 5 trading days",
+          "Activation Fee": "$0 with CHAMP (was $79)",
+          "Reset Fee": "N/A",
           "Platforms": "Rithmic · Tradovate · WealthCharts",
-          "Promo Code": "CHAMP — 90% off",
-          "Activation Fee": "$0 with CHAMP (was $79)"
+          "Promo Code": "CHAMP — 90% off"
         }
       },
       {
@@ -831,15 +851,17 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000",
-          "Daily Loss Limit": "DLL in PA only",
           "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,000",
+          "Drawdown Type": "INTRADAY / EOD",
+          "Daily Loss Limit": "DLL in PA only",
           "Min. Trading Days": "1 day to pass",
           "Consistency Rule": "50% in PA",
           "Payout Split": "None–100%",
           "Payout Frequency": "Every 5 trading days",
+          "Activation Fee": "$0 with CHAMP (was $79)",
+          "Reset Fee": "N/A",
           "Platforms": "Rithmic · Tradovate · WealthCharts",
-          "Promo Code": "CHAMP — 90% off",
-          "Activation Fee": "$0 with CHAMP (was $79)"
+          "Promo Code": "CHAMP — 90% off"
         }
       },
       {
@@ -848,15 +870,17 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000",
-          "Daily Loss Limit": "DLL in PA only",
           "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,000",
+          "Drawdown Type": "INTRADAY / EOD",
+          "Daily Loss Limit": "DLL in PA only",
           "Min. Trading Days": "1 day to pass",
           "Consistency Rule": "50% in PA",
           "Payout Split": "None–100%",
           "Payout Frequency": "Every 5 trading days",
+          "Activation Fee": "$79",
+          "Reset Fee": "NA",
           "Platforms": "Rithmic · Tradovate · WealthCharts",
-          "Promo Code": "CHAMP — 90% off",
-          "Activation Fee": "$79"
+          "Promo Code": "CHAMP — 90% off"
         }
       }
     ],
@@ -982,15 +1006,17 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "25K · 50K · 75K · 100K · 150K",
           "Profit Target": "$1,500 · $3,000 · $4,500 · $6,000 · $9,000",
-          "Daily Loss Limit": "REMOVED across all sizes",
           "Max Drawdown": "$1,500 · $2,000 · $2,500 · $3,000 · $4,500",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "REMOVED across all sizes",
           "Min. Trading Days": "5 Trading Days",
           "Consistency Rule": "50%",
           "Payout Split": "PRO 80%/20% PRO+ 90%/20%",
           "Payout Frequency": "Daily",
+          "Activation Fee": "MONTHLY FEE $150 · $170 · $245 · $330 · $360",
+          "Reset Fee": "$79 · $99 · $139 · $169 · $199",
           "Platforms": "TradingView · NinjaTrader · Tradovate · Bookmap · MultiCharts · Trade Navigator · R|Trader · VolFix · ATAS · Investor R/T · Quantower · Finamark · Jigsaw Trader",
-          "Promo Code": "CHAMP",
-          "Activation Fee": "MONTHLY FEE $150 · $170 · $245 · $330 · $360"
+          "Promo Code": "CHAMP"
         }
       }
     ],
@@ -1125,15 +1151,17 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000",
-          "Daily Loss Limit": "$625 · $1,250 · $2,500 · $3,750",
           "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,500",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "$625 · $1,250 · $2,500 · $3,750",
           "Min. Trading Days": "5 Green Days for Payout 0 Min days for Eval",
           "Consistency Rule": "None challenge · 40% Funded",
           "Payout Split": "90% / 10%",
           "Payout Frequency": "Daily",
+          "Activation Fee": "$139 · $189 · $259 · $359",
+          "Reset Fee": "$35 FOR ALL (Eval) $299 · $499 · $849 · $1,349 (Funded)",
           "Platforms": "Tradovate · NinjaTrader · Tradingview",
-          "Promo Code": "CHAMP",
-          "Activation Fee": "$139 · $189 · $259 · $359"
+          "Promo Code": "CHAMP"
         }
       },
       {
@@ -1142,15 +1170,17 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "Instant funded path",
-          "Daily Loss Limit": "$625 · $1,250 · $2,500 · $3,750",
           "Max Drawdown": "$1,000 · $2,000 · $4,000 · $6,000",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "$625 · $1,250 · $2,500 · $3,750",
           "Min. Trading Days": "Instant funded (10 days 7 Green Days to Payout)",
           "Consistency Rule": "20%",
           "Payout Split": "90% / 10%",
           "Payout Frequency": "Daily",
+          "Activation Fee": "One-time $272 · $441 · $534 · $610",
+          "Reset Fee": "Straight To Funded",
           "Platforms": "Tradovate · NinjaTrader · Tradingview",
-          "Promo Code": "CHAMP",
-          "Activation Fee": "One-time $272 · $441 · $534 · $610"
+          "Promo Code": "CHAMP"
         }
       },
       {
@@ -1159,15 +1189,17 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "25K · 50K · 100K",
           "Profit Target": "$1,500 · $3,000 · $6,000",
-          "Daily Loss Limit": "$500 · $1,000 · $3,000",
           "Max Drawdown": "$1,000 · $1,625 · $3,250",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "$500 · $1,000 · $3,000",
           "Min. Trading Days": "Pass Eval in 1 Day 5 Green Days",
           "Consistency Rule": "40% (Challenge) NONE (Funded)",
           "Payout Split": "90% / 10%",
           "Payout Frequency": "Daily",
+          "Activation Fee": "NONE",
+          "Reset Fee": "$89 · $119 · $219",
           "Platforms": "Tradovate · NinjaTrader · Tradingview",
-          "Promo Code": "CHAMP",
-          "Activation Fee": "NONE"
+          "Promo Code": "CHAMP"
         }
       },
       {
@@ -1176,15 +1208,17 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "Instant funded path",
-          "Daily Loss Limit": "$500 · $1,000 · $2,000 · $3,000",
           "Max Drawdown": "$1,000 · $2,000 · $4,000 · $6,000",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "$500 · $1,000 · $2,000 · $3,000",
           "Min. Trading Days": "Instant funded (10 days 7 Green Days to payout)",
           "Consistency Rule": "15%",
           "Payout Split": "90% / 10%",
           "Payout Frequency": "Daily",
+          "Activation Fee": "One-time $120 · $219 · $310",
+          "Reset Fee": "Straight To Funded",
           "Platforms": "Tradovate · NinjaTrader · Tradingview",
-          "Promo Code": "CHAMP",
-          "Activation Fee": "One-time $120 · $219 · $310"
+          "Promo Code": "CHAMP"
         }
       }
     ],
@@ -1341,15 +1375,17 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000",
-          "Daily Loss Limit": "No DLL",
           "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,500",
+          "Drawdown Type": "EOD TRAILING (EVAL) INTRADAY (FUNDED)",
+          "Daily Loss Limit": "No DLL",
           "Min. Trading Days": "2 Days to pass",
           "Consistency Rule": "50% eval · none funded",
           "Payout Split": "25k 80% / 20% 50k-150k 90% / 10%",
           "Payout Frequency": "Daily",
+          "Activation Fee": "FREE",
+          "Reset Fee": "$87 · $157 · $267 · $347",
           "Platforms": "NinjaTrader · Tradovate · TradingView · Quantower · Volumetrica · DeepChart/DeepDom · ATAS",
-          "Promo Code": "CHAMP",
-          "Activation Fee": "FREE"
+          "Promo Code": "CHAMP"
         }
       },
       {
@@ -1358,15 +1394,17 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "50K · 100K · 150K",
           "Profit Target": "$3,000 · $6,000 · $9,000",
-          "Daily Loss Limit": "No DLL",
           "Max Drawdown": "$2,000 · $3,000 · $4,500",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "No DLL",
           "Min. Trading Days": "2 Days to pass",
           "Consistency Rule": "50% eval · none funded",
           "Payout Split": "80% / 20%",
           "Payout Frequency": "Bi-weekly",
+          "Activation Fee": "FREE",
+          "Reset Fee": "$227 · $344 · $477",
           "Platforms": "NinjaTrader · Tradovate · TradingView · Quantower · Volumetrica · DeepChart/DeepDom · ATAS",
-          "Promo Code": "CHAMP",
-          "Activation Fee": "FREE"
+          "Promo Code": "CHAMP"
         }
       },
       {
@@ -1375,15 +1413,17 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "50K",
           "Profit Target": "$3,000",
-          "Daily Loss Limit": "$1,000 (Eval & Funded)",
           "Max Drawdown": "$2,000",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "$1,000 (Eval & Funded)",
           "Min. Trading Days": "1 Day to Pass 2 Days for Payout",
           "Consistency Rule": "50% eval · 50% Funded",
           "Payout Split": "80% trader / 20% company",
           "Payout Frequency": "Must have traded 2 days in the current cycle",
+          "Activation Fee": "$92/mo / Free",
+          "Reset Fee": "92",
           "Platforms": "NinjaTrader · Tradovate · TradingView · Quantower · Volumetrica · DeepChart/DeepDom · ATAS",
-          "Promo Code": "CHAMP",
-          "Activation Fee": "$92/mo / Free"
+          "Promo Code": "CHAMP"
         }
       }
     ],

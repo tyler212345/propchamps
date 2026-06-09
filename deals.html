@@ -463,8 +463,8 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
 
     document.getElementById('modalSummary').textContent = f.summary || '';
 
-    /* Render plans — prefer plansDetailed (15+ rule fields), fallback to plansSummary */
-    var plans = f.plansDetailed || f.plansSummary || [];
+    /* Render plans from the maintained plansSummary (single source of truth from the ops sheet) */
+    var plans = f.plansSummary || f.plansDetailed || [];
     var plansHtml = plans.slice(0, 6).map(function(p){
       var feat = p.featured ? ' featured' : '';
       var badge = p.featured ? '<span class="modal-plan-badge">Featured</span>' : '';

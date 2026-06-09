@@ -641,7 +641,7 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
   document.getElementById('planSearch').addEventListener('input',function(e){search=e.target.value;renderFirms();});
 
   /* Matrix */
-  var FIELDS=['Account Sizes','Profit Target','Daily Loss Limit','Max Drawdown','Min. Trading Days','Consistency Rule','Payout Split','Payout Frequency','Activation Fee','Platforms','Promo Code'];
+  var FIELDS=['Account Sizes','Profit Target','Daily Loss Limit','Max Drawdown','Drawdown Type','Min. Trading Days','Consistency Rule','Payout Split','Payout Frequency','Activation Fee','Reset Fee','Platforms','Promo Code'];
 
   /* Direction per field: which way is "better"
      'high'  = higher number wins (more buffer / better split / more accounts / more platforms)
@@ -653,11 +653,13 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
     'Profit Target':       {dir:'low'},        /* lower = easier to hit */
     'Daily Loss Limit':    {dir:'none-high'},  /* NONE wins; otherwise higher = more buffer */
     'Max Drawdown':        {dir:'high'},       /* higher = more buffer */
+    'Drawdown Type':       {dir:'tie'},        /* informational (Trailing/EOD/Static) */
     'Min. Trading Days':   {dir:'none-low'},   /* NONE wins; otherwise lower = faster */
     'Consistency Rule':    {dir:'none-low'},   /* NONE wins; otherwise lower % = more freedom */
     'Payout Split':        {dir:'high'},
     'Payout Frequency':    {dir:'fast'},       /* daily > weekly > etc */
     'Activation Fee':      {dir:'none-low'},   /* FREE/None/$0 wins */
+    'Reset Fee':           {dir:'tie'},        /* informational */
     'Platforms':           {dir:'count-high'},
     'Promo Code':          {dir:'tie'}
   };
