@@ -55,7 +55,7 @@
  *   • To hide a firm without removing it: set live: false.
  *   • To remove a firm entirely: delete its entry AND remove from FIRM_ORDER.
  *
- * LAST DATA UPDATE — May 28, 2026
+ * LAST DATA UPDATE — June 08, 2026 (full plan-rules refresh from ops sheet)
  *   Alpha:      Zero (one-day pass · flat 90% · $0 activation) · Advanced (90% day-1 · $149 activation · no news restrictions) · Standard (LEGACY — removed from website 05/01/26, active for prior accounts only)
  *   Tradeify:   one-time payments + Tradesea/Rithmic (effective 03/31/26)
  *   Lucid:      Pro · Black (legacy) · Flex · Direct
@@ -227,9 +227,9 @@ window.FIRMS = {
           "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000",
           "Daily Loss Limit": "$600 · $1,250 · $2,500 · $3,750",
           "Max Drawdown": "$1,000 · $2,000 · $3,500 · $5,000",
-          "Min. Trading Days": "None",
+          "Min. Trading Days": "1",
           "Consistency Rule": "None eval · 35% funded",
-          "Payout Split": "See site for full details",
+          "Payout Split": "90% Trader 10% Tradeify",
           "Payout Frequency": "5 days (funded)",
           "Platforms": "Tradovate · WealthCharts · Tradesea / Rithmic",
           "Promo Code": "CHAMP",
@@ -238,14 +238,15 @@ window.FIRMS = {
       },
       {
         "name": "SELECT — DAILY PATH",
+        "featured": false,
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "$1,500 · $2,500 · $6,000 · $9,000",
           "Daily Loss Limit": "None eval · $500 · $1,000 · $1,250 · $1,750 funded",
           "Max Drawdown": "$1,000 · $2,000 · $2,500 · $3,500",
-          "Min. Trading Days": "None",
+          "Min. Trading Days": "3",
           "Consistency Rule": "40% eval · none funded",
-          "Payout Split": "See site for full details",
+          "Payout Split": "90% Trader 10% Tradeify",
           "Payout Frequency": "Daily · max $600 / $1,000 / $1,500 / $2,500",
           "Platforms": "Tradovate · WealthCharts · Tradesea / Rithmic",
           "Promo Code": "CHAMP",
@@ -254,14 +255,15 @@ window.FIRMS = {
       },
       {
         "name": "SELECT — FLEX PATH",
+        "featured": false,
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "$1,500 · $2,500 · $6,000 · $9,000",
           "Daily Loss Limit": "None",
           "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,500",
-          "Min. Trading Days": "None",
+          "Min. Trading Days": "3",
           "Consistency Rule": "40% eval · none funded",
-          "Payout Split": "See site for full details",
+          "Payout Split": "90% Trader 10% Tradeify",
           "Payout Frequency": "5 days · max $1,250 / $3,000 / $4,000 / $5,000",
           "Platforms": "Tradovate · WealthCharts",
           "Promo Code": "CHAMP",
@@ -270,14 +272,15 @@ window.FIRMS = {
       },
       {
         "name": "LIGHTNING",
+        "featured": false,
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
-          "Profit Target": "See site for full details",
+          "Profit Target": "Straight To Funded",
           "Daily Loss Limit": "None (25K) · $1,250 · $2,500 · $3,750",
           "Max Drawdown": "$1,000 · $2,000 · $4,000 · $6,000",
-          "Min. Trading Days": "None",
+          "Min. Trading Days": "Instant Funded",
           "Consistency Rule": "20%",
-          "Payout Split": "See site for full details",
+          "Payout Split": "Straight to Funded",
           "Payout Frequency": "5 days",
           "Platforms": "Tradovate · WealthCharts",
           "Promo Code": "CHAMP",
@@ -447,7 +450,7 @@ window.FIRMS = {
           "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,500",
           "Min. Trading Days": "1-day pass to funded",
           "Consistency Rule": "40%",
-          "Payout Split": "Trader-friendly · see size caps",
+          "Payout Split": "90% trader / 10% Lucid",
           "Payout Frequency": "5 profit days · min request $500",
           "Platforms": "Tradovate · NinjaTrader · TradingView · TradeSea · MotiveWave · Quantower",
           "Promo Code": "CHAMP",
@@ -456,6 +459,7 @@ window.FIRMS = {
       },
       {
         "name": "LUCID FLEX",
+        "featured": false,
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "$1,250 · $3,000 · $6,000 · $9,000",
@@ -463,7 +467,7 @@ window.FIRMS = {
           "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,500",
           "Min. Trading Days": "5 days to payout",
           "Consistency Rule": "50% eval · none funded",
-          "Payout Split": "90/10 (90% trader)",
+          "Payout Split": "90% Trader / 10% Lucid",
           "Payout Frequency": "5-day cycle · 50% of profit up to size caps",
           "Platforms": "CGQ + Rithmic feeds",
           "Promo Code": "CHAMP",
@@ -472,14 +476,15 @@ window.FIRMS = {
       },
       {
         "name": "LUCID DIRECT",
+        "featured": false,
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "Straight to funded",
           "Daily Loss Limit": "N/A (25K) · $1,200 · $2,100 · $3,000",
-          "Max Drawdown": "$1,000 · $2,000 · $3,500 · See site",
+          "Max Drawdown": "$1,000 · $2,000 · $3,500 · $5,000",
           "Min. Trading Days": "5 days to payout",
           "Consistency Rule": "20%",
-          "Payout Split": "See site for full details",
+          "Payout Split": "90% Trader / 10% Lucid",
           "Payout Frequency": "5-day cycle",
           "Platforms": "CGQ + Rithmic feeds",
           "Promo Code": "CHAMP",
@@ -644,13 +649,14 @@ window.FIRMS = {
           "Consistency Rule": "None eval · 40% qualified",
           "Payout Split": "90% flat",
           "Payout Frequency": "Up to 4x/month · 50% of profits · range $200–$2,500 by size",
-          "Platforms": "See site for full details",
+          "Platforms": "WealthCharts · DeepChart · Quantower · Tradovate · NinjaTrader · TradingView",
           "Promo Code": "CHAMP",
           "Activation Fee": "$0 · monthly $79 / $119 / $239"
         }
       },
       {
         "name": "ALPHA ADVANCED",
+        "featured": false,
         "rules": {
           "Account Sizes": "50K · 100K · 150K",
           "Profit Target": "$4,000 · $8,000 · $12,000",
@@ -660,25 +666,9 @@ window.FIRMS = {
           "Consistency Rule": "50% eval · none qualified",
           "Payout Split": "90% from day 1 (not tiered)",
           "Payout Frequency": "Every 5 winning days of $200+ · $1,000–$15,000 per request",
-          "Platforms": "See site for full details",
+          "Platforms": "WealthCharts · DeepChart · Quantower · Tradovate · NinjaTrader · TradingView",
           "Promo Code": "CHAMP",
           "Activation Fee": "$149 · monthly $139 / $279 / $419"
-        }
-      },
-      {
-        "name": "ALPHA STANDARD (LEGACY)",
-        "rules": {
-          "Account Sizes": "50K · 100K · 150K",
-          "Profit Target": "$3,000 · $6,000 · $9,000",
-          "Daily Loss Limit": "None eval · $1,000 · $2,000 · $3,000 qualified",
-          "Max Drawdown": "$2,000 · $4,000 · $6,000",
-          "Min. Trading Days": "2 eval · 3 qualified",
-          "Consistency Rule": "50% eval · 40% qualified",
-          "Payout Split": "70% (1-2) · 80% (3-4) · 90% (5+)",
-          "Payout Frequency": "Up to $15,000 per request",
-          "Platforms": "See site for full details",
-          "Promo Code": "CHAMP",
-          "Activation Fee": "Legacy — removed from website 05/01/26"
         }
       }
     ],
@@ -837,6 +827,7 @@ window.FIRMS = {
       },
       {
         "name": "INTRADAY TRAIL",
+        "featured": false,
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000",
@@ -853,6 +844,7 @@ window.FIRMS = {
       },
       {
         "name": "EOD TRAIL — STANDARD",
+        "featured": false,
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000",
@@ -992,13 +984,13 @@ window.FIRMS = {
           "Profit Target": "$1,500 · $3,000 · $4,500 · $6,000 · $9,000",
           "Daily Loss Limit": "REMOVED across all sizes",
           "Max Drawdown": "$1,500 · $2,000 · $2,500 · $3,000 · $4,500",
-          "Min. Trading Days": "See site for full details",
-          "Consistency Rule": "See site for full details",
-          "Payout Split": "See site for full details",
-          "Payout Frequency": "See site for full details",
-          "Platforms": "See site for full details",
+          "Min. Trading Days": "5 Trading Days",
+          "Consistency Rule": "50%",
+          "Payout Split": "PRO 80%/20% PRO+ 90%/20%",
+          "Payout Frequency": "Daily",
+          "Platforms": "TradingView · NinjaTrader · Tradovate · Bookmap · MultiCharts · Trade Navigator · R|Trader · VolFix · ATAS · Investor R/T · Quantower · Finamark · Jigsaw Trader",
           "Promo Code": "CHAMP",
-          "Activation Fee": "See site for full details"
+          "Activation Fee": "MONTHLY FEE $150 · $170 · $245 · $330 · $360"
         }
       }
     ],
@@ -1128,66 +1120,69 @@ window.FIRMS = {
     ],
     "plansSummary": [
       {
-        "name": "1-STEP ELITE",
+        "name": "ELITE ACCESS",
         "featured": true,
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000",
           "Daily Loss Limit": "$625 · $1,250 · $2,500 · $3,750",
           "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,500",
-          "Min. Trading Days": "1 day to pass",
-          "Consistency Rule": "None challenge · 25% funded",
-          "Payout Split": "See site for full details",
-          "Payout Frequency": "See site for full details",
-          "Platforms": "See site for full details",
+          "Min. Trading Days": "5 Green Days for Payout 0 Min days for Eval",
+          "Consistency Rule": "None challenge · 40% Funded",
+          "Payout Split": "90% / 10%",
+          "Payout Frequency": "Daily",
+          "Platforms": "Tradovate · NinjaTrader · Tradingview",
           "Promo Code": "CHAMP",
-          "Activation Fee": "$149"
+          "Activation Fee": "$139 · $189 · $259 · $359"
         }
       },
       {
         "name": "INSTANT SIM FUNDED",
+        "featured": false,
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "Instant funded path",
           "Daily Loss Limit": "$625 · $1,250 · $2,500 · $3,750",
           "Max Drawdown": "$1,000 · $2,000 · $4,000 · $6,000",
-          "Min. Trading Days": "See site for full details",
+          "Min. Trading Days": "Instant funded (10 days 7 Green Days to Payout)",
           "Consistency Rule": "20%",
-          "Payout Split": "See site for full details",
-          "Payout Frequency": "See site for full details",
-          "Platforms": "See site for full details",
+          "Payout Split": "90% / 10%",
+          "Payout Frequency": "Daily",
+          "Platforms": "Tradovate · NinjaTrader · Tradingview",
           "Promo Code": "CHAMP",
           "Activation Fee": "One-time $272 · $441 · $534 · $610"
         }
       },
       {
-        "name": "S2F SIM PRO",
+        "name": "ELITE DAILY",
+        "featured": false,
         "rules": {
-          "Account Sizes": "25K · 50K · 100K · 150K",
-          "Profit Target": "See site for full details",
-          "Daily Loss Limit": "$500 · $1,000 · $2,000 · $3,000",
-          "Max Drawdown": "$1,000 · $1,625 · $3,250 · $5,000",
-          "Min. Trading Days": "10 days to payout",
-          "Consistency Rule": "ESS 20%",
-          "Payout Split": "See site for full details",
-          "Payout Frequency": "See site for full details",
-          "Platforms": "See site for full details",
+          "Account Sizes": "25K · 50K · 100K",
+          "Profit Target": "$1,500 · $3,000 · $6,000",
+          "Daily Loss Limit": "$500 · $1,000 · $3,000",
+          "Max Drawdown": "$1,000 · $1,625 · $3,250",
+          "Min. Trading Days": "Pass Eval in 1 Day 5 Green Days",
+          "Consistency Rule": "40% (Challenge) NONE (Funded)",
+          "Payout Split": "90% / 10%",
+          "Payout Frequency": "Daily",
+          "Platforms": "Tradovate · NinjaTrader · Tradingview",
           "Promo Code": "CHAMP",
-          "Activation Fee": "One-time $141 · $232 · $348 · $400"
+          "Activation Fee": "NONE"
         }
       },
       {
         "name": "IGNITE",
+        "featured": false,
         "rules": {
-          "Account Sizes": "25K · 50K · 100K",
+          "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "Instant funded path",
-          "Daily Loss Limit": "$500 · $1,000 · $2,000",
-          "Max Drawdown": "$1,000 · $2,000 · $4,000",
-          "Min. Trading Days": "Instant funded",
+          "Daily Loss Limit": "$500 · $1,000 · $2,000 · $3,000",
+          "Max Drawdown": "$1,000 · $2,000 · $4,000 · $6,000",
+          "Min. Trading Days": "Instant funded (10 days 7 Green Days to payout)",
           "Consistency Rule": "15%",
-          "Payout Split": "See site for full details",
-          "Payout Frequency": "See site for full details",
-          "Platforms": "See site for full details",
+          "Payout Split": "90% / 10%",
+          "Payout Frequency": "Daily",
+          "Platforms": "Tradovate · NinjaTrader · Tradingview",
           "Promo Code": "CHAMP",
           "Activation Fee": "One-time $120 · $219 · $310"
         }
@@ -1345,64 +1340,50 @@ window.FIRMS = {
         "featured": true,
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
-          "Profit Target": "See site for full details",
+          "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000",
           "Daily Loss Limit": "No DLL",
-          "Max Drawdown": "EOD · $1,000 · $2,000 · $3,000 · $4,500 (Rapid Live)",
-          "Min. Trading Days": "See site for full details",
+          "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,500",
+          "Min. Trading Days": "2 Days to pass",
           "Consistency Rule": "50% eval · none funded",
-          "Payout Split": "See site for full details",
+          "Payout Split": "25k 80% / 20% 50k-150k 90% / 10%",
           "Payout Frequency": "Daily",
-          "Platforms": "See site for full details",
+          "Platforms": "NinjaTrader · Tradovate · TradingView · Quantower · Volumetrica · DeepChart/DeepDom · ATAS",
           "Promo Code": "CHAMP",
           "Activation Fee": "FREE"
         }
       },
       {
         "name": "FUNDED FUTURES PRO",
+        "featured": false,
         "rules": {
-          "Account Sizes": "See site for full details",
-          "Profit Target": "See site for full details",
+          "Account Sizes": "50K · 100K · 150K",
+          "Profit Target": "$3,000 · $6,000 · $9,000",
           "Daily Loss Limit": "No DLL",
-          "Max Drawdown": "See site for full details",
-          "Min. Trading Days": "See site for full details",
+          "Max Drawdown": "$2,000 · $3,000 · $4,500",
+          "Min. Trading Days": "2 Days to pass",
           "Consistency Rule": "50% eval · none funded",
-          "Payout Split": "See site for full details",
+          "Payout Split": "80% / 20%",
           "Payout Frequency": "Bi-weekly",
-          "Platforms": "See site for full details",
-          "Promo Code": "CHAMP",
-          "Activation Fee": "FREE"
-        }
-      },
-      {
-        "name": "FUNDED FUTURES FLEX",
-        "rules": {
-          "Account Sizes": "See site for full details",
-          "Profit Target": "See site for full details",
-          "Daily Loss Limit": "No DLL",
-          "Max Drawdown": "See site for full details",
-          "Min. Trading Days": "See site for full details",
-          "Consistency Rule": "50% eval · none funded",
-          "Payout Split": "See site for full details",
-          "Payout Frequency": "Weekly",
-          "Platforms": "See site for full details",
+          "Platforms": "NinjaTrader · Tradovate · TradingView · Quantower · Volumetrica · DeepChart/DeepDom · ATAS",
           "Promo Code": "CHAMP",
           "Activation Fee": "FREE"
         }
       },
       {
         "name": "BUILDER PLAN",
+        "featured": false,
         "rules": {
-          "Account Sizes": "50K · 100K · 150K",
-          "Profit Target": "~5-10% of size (~$3,000 on 50K)",
-          "Daily Loss Limit": "None",
-          "Max Drawdown": "EOD · $2,000 · $3,000 · $4,500",
-          "Min. Trading Days": "Consistent performance required",
-          "Consistency Rule": "50% eval · none funded",
+          "Account Sizes": "50K",
+          "Profit Target": "$3,000",
+          "Daily Loss Limit": "$1,000 (Eval & Funded)",
+          "Max Drawdown": "$2,000",
+          "Min. Trading Days": "1 Day to Pass 2 Days for Payout",
+          "Consistency Rule": "50% eval · 50% Funded",
           "Payout Split": "80% trader / 20% company",
-          "Payout Frequency": "Every 5 winning days · min $250",
-          "Platforms": "See site for full details",
+          "Payout Frequency": "Must have traded 2 days in the current cycle",
+          "Platforms": "NinjaTrader · Tradovate · TradingView · Quantower · Volumetrica · DeepChart/DeepDom · ATAS",
           "Promo Code": "CHAMP",
-          "Activation Fee": "$0 · monthly $127 / $267 / $377"
+          "Activation Fee": "$92/mo / Free"
         }
       }
     ],
