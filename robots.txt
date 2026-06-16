@@ -6,7 +6,8 @@
 User-agent: *
 Allow: /
 
-# Don't crawl internal data files directly
-Disallow: /data/
+# NOTE: Do NOT disallow /data/ — every firm page loads /data/firms.js at render
+# time to populate its content. Blocking it makes Googlebot render an empty
+# "Firm not found" page and flags every firm page as a Soft 404. Leave it open.
 
 Sitemap: https://propchamps.net/sitemap.xml
