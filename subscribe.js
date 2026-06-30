@@ -12,7 +12,7 @@
  * Until a URL is set, signups are still saved to the browser's
  * localStorage queue ("pc_newsletter_queue") so none are lost.
  * ============================================================ */
-window.SUBSCRIBE_WEBHOOK = "";
+window.SUBSCRIBE_WEBHOOK = "https://services.leadconnectorhq.com/hooks/mEfuVxLc0WO6HVWeZ6gK/webhook-trigger/0eeb480c-10b4-48d4-a0dc-2596bcf2a26b";
 
 window.PROPCHAMPS_subscribe = function (email, source) {
   // Always keep a local backup so nothing is lost before/if the webhook hiccups.
@@ -25,17 +25,16 @@ window.PROPCHAMPS_subscribe = function (email, source) {
   var url = window.SUBSCRIBE_WEBHOOK;
   if (!url) { return Promise.resolve({ queued: true, sent: false }); }
 
-  // no-cors + form-encoded = a "simple request": no CORS preflight, works
-  // against any webhook. Response is opaque, so we treat completion as success.
+  // LeadConnector / GoHighLevel inbound webhook — it sends permissive CORS
+  // headers, so we POST clean JSON cross-origin and can read the response.
   return fetch(url, {
     method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-    body: new URLSearchParams({
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
       email: email,
       source: source || 'site',
       page: location.pathname,
-      ts: String(Date.now())
-    }).toString()
-  }).then(function () { return { queued: true, sent: true }; });
+      ts: Date.now()
+    })
+  }).then(function (r) { return { queued: true, sent: true, ok: !!(r && r.ok) }; });
 };
