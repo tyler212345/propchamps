@@ -1902,11 +1902,11 @@ body.pc-loaded footer.site {
   <div class="container">
     <div class="newsletter-wrap">
       <div class="newsletter-eyebrow">The weekly drop</div>
-      <h2>Get the audit results <span class="accent">every Monday.</span></h2>
-      <p>One email a week. The rule changes, new deals, and payout shifts from the past 7 days — straight from the audit. No fluff, unsubscribe anytime.</p>
+      <h2>Get the best deals <span class="accent">every Monday.</span></h2>
+      <p>Exclusive codes and early access to new discounts — plus every rule change and payout shift we catch — in one email a week, straight from the audit. No spam, unsubscribe anytime.</p>
       <form class="newsletter-form" id="newsletterForm">
         <input type="email" id="newsletterEmail" placeholder="you@email.com" required aria-label="Email address">
-        <button type="submit" id="newsletterBtn">Subscribe
+        <button type="submit" id="newsletterBtn">Get the deals
           <svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L11 8 L5 4"/></svg>
         </button>
       </form>
@@ -2168,16 +2168,9 @@ body.pc-loaded footer.site {
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
       nBtn.disabled = true;
       nBtn.textContent = 'Subscribing…';
-      /* TODO: replace with real ConvertKit / Beehiiv / Formspree endpoint */
-      try {
-        var stash = JSON.parse(localStorage.getItem('pc_newsletter_queue')||'[]');
-        stash.push({email: email, at: new Date().toISOString(), page: location.pathname});
-        localStorage.setItem('pc_newsletter_queue', JSON.stringify(stash));
-      } catch(err) {}
-      setTimeout(function(){
-        nForm.style.display = 'none';
-        nSuccess.classList.add('show');
-      }, 500);
+      var done = function(){ nForm.style.display = 'none'; nSuccess.classList.add('show'); };
+      var p = window.PROPCHAMPS_subscribe ? window.PROPCHAMPS_subscribe(email, 'homepage') : Promise.resolve();
+      p.then(done).catch(done);
     });
   }
 
@@ -2250,6 +2243,7 @@ body.pc-loaded footer.site {
 </script>
 
 <script src="/data/firms.js"></script>
+<script src="/subscribe.js"></script>
 <script>
 /* Render homepage firms table from firms.js */
 (function(){
