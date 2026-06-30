@@ -353,6 +353,7 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
 </footer>
 
 <script src="/data/changelog.js"></script>
+<script src="/subscribe.js"></script>
 <script>
 (function(){
   /* Mobile menu */
@@ -507,17 +508,11 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
     btn.disabled = true;
     btn.textContent = 'Subscribing…';
-    /* TODO: replace with real ConvertKit / Beehiiv / Formspree endpoint
-       For now we store locally so collected emails aren't lost when you wire up backend */
-    try {
-      var stash = JSON.parse(localStorage.getItem('pc_newsletter_queue')||'[]');
-      stash.push({email: email, at: new Date().toISOString(), page: location.pathname});
-      localStorage.setItem('pc_newsletter_queue', JSON.stringify(stash));
-    } catch(err) {}
-    setTimeout(function(){
-      form.style.display = 'none';
-      success.classList.add('show');
-    }, 500);
+    /* POSTs to the shared webhook (set window.SUBSCRIBE_WEBHOOK in /subscribe.js);
+       the helper also keeps a localStorage backup so no signup is lost. */
+    var done = function(){ form.style.display = 'none'; success.classList.add('show'); };
+    var p = window.PROPCHAMPS_subscribe ? window.PROPCHAMPS_subscribe(email, 'audit-log') : Promise.resolve();
+    p.then(done).catch(done);
   });
 })();
 </script>

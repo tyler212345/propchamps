@@ -43,6 +43,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://propchamps.net/join</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://propchamps.net/vs/apex-trader-funding-vs-tradeify</loc>
     <lastmod>2026-06-08</lastmod>
     <changefreq>monthly</changefreq>
