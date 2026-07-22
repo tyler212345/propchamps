@@ -99,36 +99,64 @@ body.is-menu-open .mobile-menu{display:block}
 /* modal + reel */
 .modal-bg{position:fixed;inset:0;background:rgba(4,6,9,.86);backdrop-filter:blur(6px);z-index:90;opacity:0;pointer-events:none;transition:opacity .25s}
 .modal-bg.on{opacity:1;pointer-events:all}
-.modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-48%) scale(.97);width:min(940px,94vw);background:linear-gradient(180deg,var(--bg-card-elev),var(--bg-base));border:1px solid var(--border-strong);border-radius:22px;z-index:91;padding:30px;opacity:0;pointer-events:none;transition:all .28s cubic-bezier(.2,.9,.3,1)}
+.modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-48%) scale(.97);width:min(1180px,96vw);background:linear-gradient(180deg,var(--bg-card-elev),var(--bg-base));border:1px solid var(--border-strong);border-radius:24px;z-index:91;padding:26px 30px 32px;opacity:0;pointer-events:none;transition:all .28s cubic-bezier(.2,.9,.3,1);overflow:hidden}
 .modal.on{opacity:1;pointer-events:all;transform:translate(-50%,-50%) scale(1)}
-.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+/* rarity wash behind the whole arena once you've landed */
+.modal::after{content:"";position:absolute;left:50%;top:38%;width:900px;height:900px;margin:-450px 0 0 -450px;border-radius:50%;background:radial-gradient(circle,var(--wc,transparent) 0%,transparent 62%);opacity:0;pointer-events:none;transition:opacity .5s;z-index:0}
+.modal.landed::after{opacity:.2}
+.modal>*{position:relative;z-index:1}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
 .modal-title{font-family:var(--font-display);font-weight:800;font-size:20px;letter-spacing:-.02em;color:var(--text-strong)}
-.modal-close{width:34px;height:34px;border-radius:9px;border:1px solid var(--border-strong);color:var(--text-soft);font-size:17px;display:flex;align-items:center;justify-content:center}
+.modal-close{width:34px;height:34px;border-radius:9px;border:1px solid var(--border-strong);color:var(--text-soft);font-size:17px;display:flex;align-items:center;justify-content:center;transition:opacity .2s}
 .modal-close:hover{border-color:var(--neg);color:var(--neg)}
+/* locked while the reel is running */
+.modal.spinning .modal-close{opacity:.2;pointer-events:none}
 
-.reel-wrap{position:relative;height:168px;border:1px solid var(--border-strong);border-radius:16px;background:var(--bg-band);overflow:hidden}
-.reel-wrap::before,.reel-wrap::after{content:"";position:absolute;top:0;bottom:0;width:110px;z-index:3;pointer-events:none}
-.reel-wrap::before{left:0;background:linear-gradient(90deg,var(--bg-band),transparent)}
-.reel-wrap::after{right:0;background:linear-gradient(-90deg,var(--bg-band),transparent)}
-.marker{position:absolute;left:50%;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--lime);box-shadow:0 0 16px 2px rgba(200,255,0,.7);z-index:4}
-.marker::before,.marker::after{content:"";position:absolute;left:50%;transform:translateX(-50%);border-left:7px solid transparent;border-right:7px solid transparent}
-.marker::before{top:0;border-top:9px solid var(--lime)}
-.marker::after{bottom:0;border-bottom:9px solid var(--lime)}
-.reel{display:flex;gap:12px;padding:16px 0;height:100%;align-items:center;will-change:transform}
-.slot{position:relative;flex:0 0 140px;height:136px;border-radius:13px;background:var(--bg-card);border:1px solid var(--border-strong);border-bottom:3px solid var(--rc);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:10px;text-align:center;overflow:hidden}
-.slot::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 90% 60% at 50% 110%,var(--rc),transparent 70%);opacity:var(--glow,0);pointer-events:none}
-.slot img{width:30px;height:30px;object-fit:contain;padding:3px;margin-bottom:2px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid var(--border);position:relative}
-.slot .s-firm{font-family:var(--font-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);position:relative}
-.slot .s-name{font-size:11.5px;font-weight:700;color:var(--text-strong);line-height:1.25;position:relative}
-.slot .s-val{font-family:var(--font-mono);font-size:12px;color:var(--rc);font-weight:700;position:relative}
-.slot.won{animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
-@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.09)}100%{transform:scale(1.05)}}
+.reel-wrap{position:relative;height:268px;border:1px solid var(--border-strong);border-radius:18px;background:radial-gradient(ellipse 60% 100% at 50% 50%,#0b0f15,var(--bg-band));overflow:hidden}
+.reel-wrap::before,.reel-wrap::after{content:"";position:absolute;top:0;bottom:0;width:190px;z-index:6;pointer-events:none}
+.reel-wrap::before{left:0;background:linear-gradient(90deg,var(--bg-band) 12%,transparent)}
+.reel-wrap::after{right:0;background:linear-gradient(-90deg,var(--bg-band) 12%,transparent)}
+/* centre spotlight the winner lands in */
+.spotlight{position:absolute;left:50%;top:0;bottom:0;width:230px;margin-left:-115px;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(200,255,0,.10),rgba(200,255,0,.02) 45%,rgba(200,255,0,.10));border-left:1px solid rgba(200,255,0,.16);border-right:1px solid rgba(200,255,0,.16)}
+/* speed streaks while spinning */
+.streaks{position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0;transition:opacity .35s;background:repeating-linear-gradient(90deg,rgba(255,255,255,.055) 0 2px,transparent 2px 26px)}
+.modal.spinning .streaks{opacity:1;animation:streak .35s linear infinite}
+@keyframes streak{to{transform:translateX(-26px)}}
+.marker{position:absolute;left:50%;top:-2px;bottom:-2px;width:3px;margin-left:-1.5px;background:linear-gradient(180deg,var(--lime),#fff 50%,var(--lime));box-shadow:0 0 22px 4px rgba(200,255,0,.75);z-index:7;border-radius:3px}
+.marker::before,.marker::after{content:"";position:absolute;left:50%;transform:translateX(-50%);border-left:9px solid transparent;border-right:9px solid transparent;filter:drop-shadow(0 0 6px rgba(200,255,0,.9))}
+.marker::before{top:0;border-top:13px solid var(--lime)}
+.marker::after{bottom:0;border-bottom:13px solid var(--lime)}
+.reel{display:flex;gap:14px;padding:19px 0;height:100%;align-items:center;will-change:transform;position:relative;z-index:3}
+
+.slot{position:relative;flex:0 0 196px;height:230px;border-radius:16px;background:linear-gradient(175deg,color-mix(in srgb,var(--rc) 16%,var(--bg-card)),var(--bg-card) 58%);border:1px solid var(--border-strong);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:16px 12px;text-align:center;overflow:hidden;box-shadow:inset 0 -3px 0 var(--rc)}
+/* rarity floor-glow, scaled by tier */
+.slot::before{content:"";position:absolute;left:-20%;right:-20%;bottom:-58%;height:120%;background:radial-gradient(ellipse 50% 50% at 50% 50%,var(--rc),transparent 68%);opacity:var(--glow,0);pointer-events:none}
+/* glass shine */
+.slot::after{content:"";position:absolute;top:0;left:-60%;width:45%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.10),transparent);transform:skewX(-18deg)}
+.slot>*{position:relative;z-index:1}
+.slot img{width:46px;height:46px;object-fit:contain;padding:6px;border-radius:11px;background:rgba(255,255,255,.08);border:1px solid var(--border-strong)}
+.slot .s-firm{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)}
+.slot .s-name{font-size:15px;font-weight:800;letter-spacing:-.01em;color:var(--text-strong);line-height:1.25}
+.slot .s-val{font-family:var(--font-mono);font-size:15px;color:var(--rc);font-weight:700;text-shadow:0 0 14px color-mix(in srgb,var(--rc) 55%,transparent)}
+.slot .s-rar{font-family:var(--font-mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--rc);opacity:.8}
+.slot.won{animation:pop .55s cubic-bezier(.2,1.5,.4,1) both;border-color:var(--rc);box-shadow:inset 0 -3px 0 var(--rc),0 0 0 2px var(--rc),0 0 60px -4px var(--rc)}
+@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.11)}100%{transform:scale(1.07)}}
+
+/* flash + confetti on reveal */
+.flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:9}
+.flash.go{animation:flashout .5s ease-out both}
+@keyframes flashout{0%{opacity:.5}100%{opacity:0}}
+.confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:8}
+.confetti i{position:absolute;top:44%;left:50%;width:8px;height:14px;border-radius:2px;opacity:0;animation:conf 1.5s ease-out forwards}
+@keyframes conf{0%{opacity:1;transform:translate(0,0) rotate(0)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--rot))}}
 
 /* result */
-.result{margin-top:20px;text-align:center;min-height:128px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.result{margin-top:22px;text-align:center;min-height:142px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px}
 .result.hide{visibility:hidden}
 .modal.odds-mode .reel-wrap,.modal.odds-mode .result{display:none}
 .res-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
+.res-list{display:block;margin-top:4px;font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint);text-decoration:line-through}
+.pool-row .p-val s{color:var(--text-faint);opacity:.65;margin-right:5px;font-size:11px}
 .res-name{font-family:var(--font-display);font-weight:900;font-size:clamp(22px,3.4vw,32px);letter-spacing:-.03em;color:var(--rc)}
 .res-meta{font-size:14px;color:var(--text-soft)}
 .res-meta b{color:var(--text-strong)}
@@ -202,7 +230,7 @@ footer.site a:hover{color:var(--lime)}
 
 @media(max-width:900px){.case-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto}.how-grid,.pool-grid{grid-template-columns:1fr}.waitlist{grid-template-columns:1fr;gap:28px;padding:48px 0}}
 @media(max-width:760px){.editorial-strip .rhs{display:none}.editorial-strip .container{justify-content:center}}
-@media(max-width:700px){.modal{padding:20px}.reel-wrap{height:150px}.slot{flex:0 0 116px;height:118px}.reel-wrap::before,.reel-wrap::after{width:60px}}
+@media(max-width:700px){.modal{padding:18px 16px 24px}.reel-wrap{height:212px}.slot{flex:0 0 150px;height:178px;padding:12px 8px;gap:5px}.slot img{width:36px;height:36px}.slot .s-name{font-size:13px}.slot .s-val{font-size:13px}.reel-wrap::before,.reel-wrap::after{width:60px}.spotlight{width:168px;margin-left:-84px}}
 </style>
 </head>
 <body>
@@ -300,8 +328,12 @@ footer.site a:hover{color:var(--lime)}
     <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
   </div>
   <div class="reel-wrap">
-    <div class="marker"></div>
+    <div class="spotlight"></div>
     <div class="reel" id="reel"></div>
+    <div class="streaks"></div>
+    <div class="marker"></div>
+    <div class="confetti" id="confetti"></div>
+    <div class="flash" id="flash"></div>
   </div>
   <div class="result hide" id="result"></div>
   <div class="odds-panel" id="oddsPanel"></div>
@@ -314,37 +346,69 @@ footer.site a:hover{color:var(--lime)}
   function rc(r){ return getComputedStyle(document.documentElement).getPropertyValue(RARITY[r]||'--r-common').trim(); }
   function usd(n){ return '$'+n.toLocaleString('en-US'); }
 
-  /* prize pools use real firm products + street prices */
+  /* ===================== ECONOMICS =====================
+     v  = what a PropChamps visitor actually pays today for this account
+          (firm list price minus the public CHAMP code — same number as /deals).
+          This is the honest "value", NOT the no-code list price.
+     L  = firm list price, shown struck through for context.
+     REBATE = share of v that comes back to us as affiliate commission.
+          Our cost per prize = v * (1 - REBATE). This is the ONLY margin source:
+          a case can never profit off the prize pool itself, because the floor
+          prize must be worth >= the case price. Tune REBATE to your real rate.
+     Add ?margin=1 to the URL for the internal P&L readout.
+     ===================================================== */
+  var REBATE=0.25;                       /* affiliate commission — ASSUMPTION, tune me */
+  var DISC={tradeify:0.40,lucid:0.50,topone:0.60};  /* tradeify 0.40 = ASSUMPTION */
+  var LOGO={tradeify:'/logos/tradify.png',lucid:'/logos/lucid.png',topone:'/logos/topone.png'};
+  var FNAME={tradeify:'Tradeify',lucid:'Lucid Trading',topone:'Top One Futures'};
+
+  /* [firmKey, account name, LIST price, rarity, odds %] */
+  function mk(rows){
+    return rows.map(function(x){
+      var firm=x[0], list=x[2], v=Math.round(list*(1-DISC[firm]));
+      return {f:FNAME[firm],logo:LOGO[firm],n:x[1],L:list,v:v,cost:+(v*(1-REBATE)).toFixed(2),r:x[3],w:x[4]};
+    });
+  }
+
   var CASES={
-    starter:{ name:'Starter Case', price:59, edge:'#8b98a8', tint:'rgba(139,152,168,.16)',
-      pool:[
-        {f:'Tradeify',logo:'/logos/tradify.png',n:'Growth 25K',v:59,r:'common',w:70},
-        {f:'Tradeify',logo:'/logos/tradify.png',n:'Select 25K',v:65,r:'common',w:15},
-        {f:'Lucid Trading',logo:'/logos/lucid.png',n:'Flex 25K',v:70,r:'uncommon',w:8},
-        {f:'Lucid Trading',logo:'/logos/lucid.png',n:'Pro 25K',v:84,r:'uncommon',w:4},
-        {f:'Tradeify',logo:'/logos/tradify.png',n:'Growth 50K',v:87,r:'rare',w:2},
-        {f:'Lucid Trading',logo:'/logos/lucid.png',n:'Flex 100K',v:158,r:'epic',w:0.8},
-        {f:'Tradeify',logo:'/logos/tradify.png',n:'Growth 150K',v:221,r:'legendary',w:0.2}
-      ]},
-    pro:{ name:'Pro Case', price:120, edge:'#7c5cff', tint:'rgba(124,92,255,.18)',
-      pool:[
-        {f:'Top One Futures',logo:'/logos/topone.png',n:'Ignite 25K · Instant',v:120,r:'common',w:78},
-        {f:'Lucid Trading',logo:'/logos/lucid.png',n:'Flex 100K',v:158,r:'common',w:12},
-        {f:'Tradeify',logo:'/logos/tradify.png',n:'Lightning 25K',v:207,r:'uncommon',w:6},
-        {f:'Lucid Trading',logo:'/logos/lucid.png',n:'Direct 25K',v:238,r:'rare',w:2.5},
-        {f:'Top One Futures',logo:'/logos/topone.png',n:'Instant Sim 25K',v:272,r:'epic',w:1.2},
-        {f:'Top One Futures',logo:'/logos/topone.png',n:'Instant Sim 50K',v:441,r:'legendary',w:0.3}
-      ]},
-    elite:{ name:'Elite Case', price:235, edge:'#ffb020', tint:'rgba(255,176,32,.18)',
-      pool:[
-        {f:'Lucid Trading',logo:'/logos/lucid.png',n:'Direct 25K',v:238,r:'common',w:72},
-        {f:'Top One Futures',logo:'/logos/topone.png',n:'Instant Sim 25K',v:272,r:'common',w:16},
-        {f:'Lucid Trading',logo:'/logos/lucid.png',n:'Direct 50K',v:364,r:'uncommon',w:7},
-        {f:'Top One Futures',logo:'/logos/topone.png',n:'S2F 150K',v:400,r:'rare',w:3},
-        {f:'Top One Futures',logo:'/logos/topone.png',n:'Instant Sim 100K',v:534,r:'epic',w:1.5},
-        {f:'Top One Futures',logo:'/logos/topone.png',n:'Instant Sim 150K',v:610,r:'legendary',w:0.4},
-        {f:'PropChamps',logo:'/logos/propchamps.png',n:'TRIPLE 150K BUNDLE',v:1830,r:'mythic',w:0.1}
-      ]}
+    starter:{ name:'Starter Case', price:35, edge:'#8b98a8', tint:'rgba(139,152,168,.16)',
+      pool:mk([
+        ['lucid','Flex 25K',70,'common',56],
+        ['tradeify','Growth 25K',59,'common',26],
+        ['tradeify','Select 25K',65,'common',9],
+        ['lucid','Pro 25K',84,'uncommon',5],
+        ['lucid','Black 25K',91,'uncommon',2.2],
+        ['topone','Ignite 25K · Instant',120,'rare',1],
+        ['tradeify','Growth 50K',87,'rare',0.5],
+        ['topone','S2F 25K',141,'epic',0.2],
+        ['lucid','Pro 100K',192.5,'legendary',0.08],
+        ['lucid','Direct 25K',238,'mythic',0.02]
+      ])},
+    pro:{ name:'Pro Case', price:78, edge:'#7c5cff', tint:'rgba(124,92,255,.18)',
+      pool:mk([
+        ['lucid','Flex 100K',157.5,'common',60],
+        ['topone','S2F 50K',232,'common',18],
+        ['tradeify','Growth 100K',153,'common',10],
+        ['tradeify','Select 100K',159,'uncommon',5],
+        ['lucid','Pro 100K',192.5,'uncommon',3],
+        ['lucid','Direct 25K',238,'rare',2],
+        ['topone','Ignite 100K · Instant',310,'rare',1.2],
+        ['tradeify','Lightning 25K',207,'epic',0.5],
+        ['topone','Instant Sim 50K',441,'legendary',0.25],
+        ['lucid','Direct 100K',490,'mythic',0.05]
+      ])},
+    elite:{ name:'Elite Case', price:139, edge:'#ffb020', tint:'rgba(255,176,32,.18)',
+      pool:mk([
+        ['topone','S2F 100K',348,'common',62],
+        ['topone','Instant Sim 50K',441,'common',16],
+        ['lucid','Direct 50K',364,'common',8],
+        ['tradeify','Lightning 50K',295,'uncommon',6],
+        ['topone','Instant Sim 100K',534,'rare',4],
+        ['lucid','Direct 100K',490,'rare',2.4],
+        ['tradeify','Lightning 100K',396,'epic',1],
+        ['topone','Instant Sim 150K',610,'legendary',0.5],
+        ['lucid','Direct 150K',588,'mythic',0.1]
+      ])}
   };
 
   /* ---------- render case cards ---------- */
@@ -360,7 +424,7 @@ footer.site a:hover{color:var(--lime)}
     el.innerHTML='<div class="case-tier">'+c.name+'</div>'+
       '<div class="case-art"><img src="/logos/propchamps-crown.png" alt=""></div>'+
       '<div class="case-price">'+usd(c.price)+'</div>'+
-      '<div class="case-floor">Guaranteed floor: <b>'+floor.n+'</b> ('+usd(floor.v)+')</div>'+
+      '<div class="case-floor">Never below <b>'+floor.n+'</b> — worth '+usd(floor.v)+'</div>'+
       '<div class="case-top">TOP PRIZE <b>'+top.n+'</b> · '+usd(top.v)+'</div>'+
       '<button class="btn-open" data-case="'+k+'">Open case <span class="demo-tag">demo</span></button>'+
       '<a class="case-odds-link" data-odds="'+k+'">View odds · avg return '+Math.round(ev/c.price*100)+'%</a>';
@@ -374,24 +438,49 @@ footer.site a:hover{color:var(--lime)}
     for(var i=0;i<pool.length;i++){ r-=pool[i].w; if(r<=0) return pool[i]; }
     return pool[0];
   }
-  var GLOW={common:0,uncommon:.14,rare:.24,epic:.34,legendary:.46,mythic:.6};
+  var GLOW={common:.05,uncommon:.20,rare:.32,epic:.46,legendary:.60,mythic:.78};
   function slotHtml(p,won){
     return '<div class="slot'+(won?' won':'')+'" style="--rc:'+rc(p.r)+';--glow:'+(GLOW[p.r]||0)+'">'+
       '<img src="'+p.logo+'" alt=""><div class="s-firm">'+p.f+'</div>'+
-      '<div class="s-name">'+p.n+'</div><div class="s-val">'+usd(p.v)+'</div></div>';
+      '<div class="s-name">'+p.n+'</div><div class="s-val">'+usd(p.v)+'</div>'+
+      '<div class="s-rar">'+p.r+'</div></div>';
+  }
+
+  /* celebratory burst — scales with rarity */
+  var BURST={common:0,uncommon:0,rare:14,epic:26,legendary:44,mythic:70};
+  function burst(p){
+    var n=BURST[p.r]||0, box=$('confetti'); box.innerHTML='';
+    if(!n) return;
+    var col=rc(p.r);
+    for(var i=0;i<n;i++){
+      var b=document.createElement('i');
+      var ang=Math.random()*Math.PI*2, dist=90+Math.random()*260;
+      b.style.setProperty('--dx',(Math.cos(ang)*dist).toFixed(0)+'px');
+      b.style.setProperty('--dy',(Math.sin(ang)*dist-60).toFixed(0)+'px');
+      b.style.setProperty('--rot',(Math.random()*720-360).toFixed(0)+'deg');
+      b.style.background = i%3===0 ? '#fff' : col;
+      b.style.animationDelay=(Math.random()*0.12).toFixed(2)+'s';
+      box.appendChild(b);
+    }
+    setTimeout(function(){ box.innerHTML=''; },1800);
   }
 
   /* ---------- open ---------- */
   var SPINNING=false;
+  var SPIN_MS=6200;
   function openCase(key){
     if(SPINNING) return;
+    SPINNING=true;                                   /* lock immediately, not in rAF */
     var c=CASES[key];
     var won=pick(c.pool);
     $('modalTitle').textContent=c.name+' · '+usd(c.price);
     $('oddsPanel').classList.remove('on');
     $('result').classList.add('hide');
-    $('modal').classList.remove('odds-mode');
-    $('modal').classList.add('on','spinning'); $('modalBg').classList.add('on');
+    $('confetti').innerHTML='';
+    var modal=$('modal');
+    modal.classList.remove('odds-mode','landed');
+    modal.style.setProperty('--wc',rc(won.r));
+    modal.classList.add('on','spinning'); $('modalBg').classList.add('on');
 
     /* build reel: 60 slots, winner at index 52 */
     var WIN=52, html='';
@@ -403,19 +492,23 @@ footer.site a:hover{color:var(--lime)}
     /* measure + animate */
     requestAnimationFrame(function(){
       var slot=reel.querySelector('.slot');
-      var sw=slot.getBoundingClientRect().width+12;
+      var sw=slot.getBoundingClientRect().width+14;
       var wrapW=reel.parentElement.getBoundingClientRect().width;
-      var jitter=(Math.random()*0.6-0.3)*sw;
+      /* land off-centre sometimes so it reads as a real stop, never past the edge */
+      var jitter=(Math.random()*0.5-0.25)*sw;
       var target=-(WIN*sw + sw/2 - wrapW/2 + jitter);
-      SPINNING=true;
       requestAnimationFrame(function(){
-        reel.style.transition='transform 5.4s cubic-bezier(.12,.72,.12,1)';
+        reel.style.transition='transform '+(SPIN_MS-300)+'ms cubic-bezier(.09,.62,.06,1)';
         reel.style.transform='translateX('+target+'px)';
       });
       setTimeout(function(){
         var el=reel.children[WIN]; if(el) el.classList.add('won');
-        reveal(won,c); SPINNING=false;
-      }, 5500);
+        modal.classList.add('landed');
+        var fl=$('flash'); fl.classList.remove('go'); void fl.offsetWidth; fl.classList.add('go');
+        burst(won);
+        reveal(won,c);
+        SPINNING=false;
+      }, SPIN_MS);
     });
   }
   function reveal(p,c){
@@ -425,17 +518,21 @@ footer.site a:hover{color:var(--lime)}
     res.style.setProperty('--rc',color);
     res.innerHTML='<div class="res-label">'+p.r.toUpperCase()+' · '+p.f+'</div>'+
       '<div class="res-name" style="color:'+color+'">'+p.n+'</div>'+
-      '<div class="res-meta">Value <b>'+usd(p.v)+'</b> · you paid '+usd(c.price)+
-        (diff>0?' · <b style="color:var(--positive)">+'+usd(diff)+' up</b>':' · <b>full value</b>')+'</div>'+
+      '<div class="res-meta">Worth <b>'+usd(p.v)+'</b> · you paid '+usd(c.price)+
+        (diff>0?' · <b style="color:var(--positive)">+'+usd(diff)+' up</b>':' · <b>full value</b>')+
+        '<span class="res-list">list price '+usd(p.L)+'</span></div>'+
       '<div class="res-actions"><button class="btn-again" id="againBtn">Open another</button><button class="btn-ghost" id="doneBtn">Done</button></div>';
     res.classList.remove('hide');
     $('modal').classList.remove('spinning');
     $('againBtn').onclick=function(){ openCase(Object.keys(CASES).find(function(k){return CASES[k]===c;})); };
     $('doneBtn').onclick=closeModal;
-    addFeed(p);
   }
-  function closeModal(){ if(SPINNING) return; $('modal').classList.remove('on'); $('modalBg').classList.remove('on'); }
+  function closeModal(){
+    if(SPINNING) return;                       /* no exit mid-spin */
+    $('modal').classList.remove('on','landed'); $('modalBg').classList.remove('on');
+  }
   $('modalClose').onclick=closeModal; $('modalBg').onclick=closeModal;
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeModal(); });
 
   /* ---------- odds panel ---------- */
   function showOdds(key){
@@ -466,7 +563,7 @@ footer.site a:hover{color:var(--lime)}
     var rows=c.pool.slice().sort(function(a,b){return b.w-a.w;}).map(function(p){
       return '<div class="pool-row"><span class="rar" style="background:'+rc(p.r)+'"></span>'+
         '<span class="p-item"><span class="p-acct">'+p.n+'</span><span class="p-firm">'+p.f+'</span></span>'+
-        '<span class="p-val">'+usd(p.v)+'</span>'+
+        '<span class="p-val"><s>'+usd(p.L)+'</s> '+usd(p.v)+'</span>'+
         '<span class="p-odds" style="color:'+rc(p.r)+'">'+p.w+'%</span></div>';
     }).join('');
     var el=document.createElement('div');
@@ -475,6 +572,32 @@ footer.site a:hover{color:var(--lime)}
       rows+'<div class="pool-foot">Average return <b>'+usd(Math.round(ev))+'</b> · '+Math.round(ev/c.price*100)+'% of price</div>';
     pg.appendChild(el);
   });
+
+  /* ---------- internal P&L readout: /cases?margin=1 ---------- */
+  if(/[?&]margin=1/.test(location.search)){
+    var rows='';
+    Object.keys(CASES).forEach(function(k){
+      var c=CASES[k];
+      var tw=c.pool.reduce(function(s,p){return s+p.w;},0);
+      var ev=0, wc=0;
+      c.pool.forEach(function(p){ var q=p.w/tw; ev+=p.v*q; wc+=p.cost*q; });
+      var floor=c.pool.reduce(function(a,b){return b.v<a.v?b:a;});
+      var worst=c.pool.reduce(function(a,b){return b.cost>a.cost?b:a;});
+      var m=c.price-wc;
+      rows+='<tr><td><b>'+c.name+'</b></td><td>'+usd(c.price)+'</td><td>'+usd(floor.v)+
+        (floor.v>=c.price?' <span style="color:var(--positive)">ok</span>':' <span style="color:var(--neg)">BREAKS GUARANTEE</span>')+
+        '</td><td>$'+ev.toFixed(2)+'</td><td>$'+wc.toFixed(2)+'</td>'+
+        '<td style="color:'+(m>0?'var(--positive)':'var(--neg)')+'"><b>$'+m.toFixed(2)+'</b> ('+(m/c.price*100).toFixed(1)+'%)</td>'+
+        '<td>'+worst.n+' −$'+(worst.cost-c.price).toFixed(2)+'</td></tr>';
+    });
+    var box=document.createElement('div');
+    box.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:200;background:#07090d;border-top:2px solid var(--lime);padding:14px 18px;font-family:var(--font-mono);font-size:11.5px;overflow-x:auto';
+    box.innerHTML='<div style="color:var(--lime);margin-bottom:8px">INTERNAL — rebate '+(REBATE*100)+'% · tradeify disc '+(DISC.tradeify*100)+'% (assumed) · lucid '+(DISC.lucid*100)+'% · topone '+(DISC.topone*100)+'%</div>'+
+      '<table style="width:100%;border-collapse:collapse;white-space:nowrap"><thead><tr style="color:var(--text-faint);text-align:left">'+
+      '<th>Case</th><th>Price</th><th>Floor</th><th>Avg value out</th><th>Avg cost</th><th>Margin/case</th><th>Worst open</th></tr></thead><tbody>'+rows+'</tbody></table>';
+    document.body.appendChild(box);
+    box.querySelectorAll('td,th').forEach(function(td){ td.style.padding='4px 14px 4px 0'; });
+  }
 
   /* ---------- waitlist ---------- */
   var wf=$('wlForm');
