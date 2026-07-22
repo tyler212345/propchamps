@@ -116,11 +116,9 @@ body.is-menu-open .mobile-menu{display:block}
 .reel-wrap::before,.reel-wrap::after{content:"";position:absolute;top:0;bottom:0;width:190px;z-index:6;pointer-events:none}
 .reel-wrap::before{left:0;background:linear-gradient(90deg,var(--bg-band) 12%,transparent)}
 .reel-wrap::after{right:0;background:linear-gradient(-90deg,var(--bg-band) 12%,transparent)}
-/* centre spotlight the winner lands in */
-.spotlight{position:absolute;left:50%;top:0;bottom:0;width:230px;margin-left:-115px;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(200,255,0,.10),rgba(200,255,0,.02) 45%,rgba(200,255,0,.10));border-left:1px solid rgba(200,255,0,.16);border-right:1px solid rgba(200,255,0,.16)}
 /* speed streaks while spinning */
 .streaks{position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0;transition:opacity .35s;background:repeating-linear-gradient(90deg,rgba(255,255,255,.055) 0 2px,transparent 2px 26px)}
-.modal.spinning .streaks{opacity:1;animation:streak .35s linear infinite}
+.modal.reeling .streaks{opacity:1;animation:streak .35s linear infinite}
 @keyframes streak{to{transform:translateX(-26px)}}
 .marker{position:absolute;left:50%;top:-2px;bottom:-2px;width:3px;margin-left:-1.5px;background:linear-gradient(180deg,var(--lime),#fff 50%,var(--lime));box-shadow:0 0 22px 4px rgba(200,255,0,.75);z-index:7;border-radius:3px}
 .marker::before,.marker::after{content:"";position:absolute;left:50%;transform:translateX(-50%);border-left:9px solid transparent;border-right:9px solid transparent;filter:drop-shadow(0 0 6px rgba(200,255,0,.9))}
@@ -128,19 +126,46 @@ body.is-menu-open .mobile-menu{display:block}
 .marker::after{bottom:0;border-bottom:13px solid var(--lime)}
 .reel{display:flex;gap:14px;padding:19px 0;height:100%;align-items:center;will-change:transform;position:relative;z-index:3}
 
-.slot{position:relative;flex:0 0 196px;height:230px;border-radius:16px;background:linear-gradient(175deg,color-mix(in srgb,var(--rc) 16%,var(--bg-card)),var(--bg-card) 58%);border:1px solid var(--border-strong);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:16px 12px;text-align:center;overflow:hidden;box-shadow:inset 0 -3px 0 var(--rc)}
-/* rarity floor-glow, scaled by tier */
-.slot::before{content:"";position:absolute;left:-20%;right:-20%;bottom:-58%;height:120%;background:radial-gradient(ellipse 50% 50% at 50% 50%,var(--rc),transparent 68%);opacity:var(--glow,0);pointer-events:none}
-/* glass shine */
-.slot::after{content:"";position:absolute;top:0;left:-60%;width:45%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.10),transparent);transform:skewX(-18deg)}
+.slot{position:relative;flex:0 0 196px;height:230px;border-radius:16px;background:linear-gradient(168deg,color-mix(in srgb,var(--rc) 26%,#10151d) 0%,#0d1219 62%);border:1px solid color-mix(in srgb,var(--rc) 32%,var(--border-strong));display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:0;padding:26px 12px 16px;text-align:center;overflow:hidden;transition:opacity .35s,filter .35s}
+/* rarity beam from the top, like a drop of light on the item */
+.slot::before{content:"";position:absolute;left:50%;top:-38%;width:150%;height:105%;margin-left:-75%;background:radial-gradient(ellipse 42% 50% at 50% 50%,var(--rc),transparent 70%);opacity:calc(var(--glow,0) + .18);pointer-events:none}
+/* rarity bar across the top */
+.slot::after{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--rc);box-shadow:0 0 16px 1px var(--rc)}
 .slot>*{position:relative;z-index:1}
-.slot img{width:46px;height:46px;object-fit:contain;padding:6px;border-radius:11px;background:rgba(255,255,255,.08);border:1px solid var(--border-strong)}
-.slot .s-firm{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)}
-.slot .s-name{font-size:15px;font-weight:800;letter-spacing:-.01em;color:var(--text-strong);line-height:1.25}
-.slot .s-val{font-family:var(--font-mono);font-size:15px;color:var(--rc);font-weight:700;text-shadow:0 0 14px color-mix(in srgb,var(--rc) 55%,transparent)}
-.slot .s-rar{font-family:var(--font-mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--rc);opacity:.8}
-.slot.won{animation:pop .55s cubic-bezier(.2,1.5,.4,1) both;border-color:var(--rc);box-shadow:inset 0 -3px 0 var(--rc),0 0 0 2px var(--rc),0 0 60px -4px var(--rc)}
-@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.11)}100%{transform:scale(1.07)}}
+.slot .s-logo{width:88px;height:88px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:radial-gradient(circle at 50% 35%,color-mix(in srgb,var(--rc) 30%,#1a222e),#0d1219 72%);border:1px solid color-mix(in srgb,var(--rc) 45%,transparent);box-shadow:0 0 30px -6px var(--rc),inset 0 1px 0 rgba(255,255,255,.14);margin-bottom:14px}
+.slot .s-logo img{width:56px;height:56px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,.6))}
+.slot .s-firm{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);margin-bottom:5px}
+.slot .s-name{font-family:var(--font-display);font-size:19px;font-weight:900;letter-spacing:-.025em;color:#fff;line-height:1.1}
+.slot .s-val{margin-top:auto;font-family:var(--font-mono);font-size:16px;color:var(--rc);font-weight:700;text-shadow:0 0 16px color-mix(in srgb,var(--rc) 60%,transparent)}
+.slot .s-rar{position:absolute;top:11px;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--rc);opacity:.9}
+/* on landing, everything that did not win recedes so the winner is unmistakable */
+.reel.decided .slot:not(.won){opacity:.28;filter:saturate(.35) blur(1px)}
+.slot.won{animation:pop .6s cubic-bezier(.2,1.5,.4,1) both;border-color:var(--rc);box-shadow:0 0 0 3px var(--rc),0 0 90px -2px var(--rc),inset 0 0 40px -10px var(--rc);z-index:4}
+@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.14)}100%{transform:scale(1.09)}}
+
+/* ---- case + key unlock sequence ---- */
+.opener{position:absolute;inset:0;z-index:10;display:none;align-items:center;justify-content:center;background:radial-gradient(ellipse 60% 90% at 50% 50%,#0d1219,var(--bg-band))}
+.opener.on{display:flex}
+.crate{position:relative;width:280px;height:186px;transform-origin:50% 100%}
+.crate.shake{animation:shake .5s cubic-bezier(.36,.07,.19,.97) both}
+@keyframes shake{10%,90%{transform:translateX(-2px) rotate(-.6deg)}20%,80%{transform:translateX(4px) rotate(.8deg)}30%,50%,70%{transform:translateX(-7px) rotate(-1.2deg)}40%,60%{transform:translateX(7px) rotate(1.2deg)}}
+.crate-body{position:absolute;z-index:1;left:0;right:0;bottom:0;height:132px;border-radius:14px;background:linear-gradient(170deg,color-mix(in srgb,var(--ce,#2c3746) 30%,#232c39),#141b24 72%);border:1px solid color-mix(in srgb,var(--ce,#2c3746) 45%,var(--border-strong));box-shadow:inset 0 2px 0 rgba(255,255,255,.10),0 30px 70px -24px #000,0 0 50px -18px var(--ce,transparent)}
+.crate-body::before{content:"";position:absolute;left:14px;right:14px;top:18px;bottom:14px;border:1px dashed rgba(255,255,255,.11);border-radius:8px}
+.crate-body::after{content:"";position:absolute;left:50%;bottom:20px;width:52px;height:52px;margin-left:-26px;background:url('/logos/propchamps-crown.png') center/contain no-repeat;opacity:.5}
+.crate-lid{position:absolute;left:-8px;right:-8px;top:16px;height:54px;border-radius:13px;background:linear-gradient(170deg,color-mix(in srgb,var(--ce,#2c3746) 38%,#2c3746),#1b232e);border:1px solid color-mix(in srgb,var(--ce,#2c3746) 50%,var(--border-strong));box-shadow:inset 0 2px 0 rgba(255,255,255,.13);transform-origin:50% 100%;transition:transform .55s cubic-bezier(.3,1.4,.5,1),opacity .55s}
+.crate.open .crate-lid{transform:translateY(-78px) rotateX(96deg);opacity:0}
+.crate-seal{position:absolute;left:50%;top:56px;width:52px;height:52px;margin-left:-26px;border-radius:50%;background:radial-gradient(circle at 50% 35%,#2b3542,#161d26);border:1px solid var(--lime);box-shadow:0 0 26px -4px var(--lime);display:flex;align-items:center;justify-content:center;z-index:2;transition:opacity .3s}
+.crate-seal::after{content:"";width:10px;height:16px;border-radius:2px 2px 5px 5px;background:var(--lime);box-shadow:0 0 12px var(--lime)}
+.crate.open .crate-seal{opacity:0}
+.crate-glow{position:absolute;left:50%;top:20px;width:340px;height:250px;margin-left:-170px;background:radial-gradient(ellipse 46% 44% at 50% 42%,var(--lime),transparent 70%);opacity:0;transition:opacity .5s;pointer-events:none;z-index:0}
+.crate.open .crate-glow{opacity:.55}
+.key{position:absolute;left:50%;top:50%;width:74px;height:26px;margin:-13px 0 0 130px;opacity:0;z-index:3}
+.key svg{width:100%;height:100%;filter:drop-shadow(0 0 10px rgba(200,255,0,.85))}
+.key.fly{animation:keyfly .85s cubic-bezier(.3,.9,.3,1) forwards}
+@keyframes keyfly{0%{opacity:0;transform:translateX(90px) scale(.8)}25%{opacity:1}100%{opacity:1;transform:translateX(-104px) scale(1)}}
+.key.turn{animation:keyturn .45s ease-in-out forwards}
+@keyframes keyturn{0%{transform:translateX(-104px) rotate(0)}100%{transform:translateX(-104px) rotate(92deg);opacity:0}}
+.opener-cap{position:absolute;bottom:26px;left:0;right:0;text-align:center;font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint)}
 
 /* flash + confetti on reveal */
 .flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:9}
@@ -230,7 +255,24 @@ footer.site a:hover{color:var(--lime)}
 
 @media(max-width:900px){.case-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto}.how-grid,.pool-grid{grid-template-columns:1fr}.waitlist{grid-template-columns:1fr;gap:28px;padding:48px 0}}
 @media(max-width:760px){.editorial-strip .rhs{display:none}.editorial-strip .container{justify-content:center}}
-@media(max-width:700px){.modal{padding:18px 16px 24px}.reel-wrap{height:212px}.slot{flex:0 0 150px;height:178px;padding:12px 8px;gap:5px}.slot img{width:36px;height:36px}.slot .s-name{font-size:13px}.slot .s-val{font-size:13px}.reel-wrap::before,.reel-wrap::after{width:60px}.spotlight{width:168px;margin-left:-84px}}
+@media(max-width:700px){
+  .modal{padding:18px 16px 24px}
+  .reel-wrap{height:214px}
+  .reel{padding:14px 0;gap:10px}
+  .slot{flex:0 0 138px;height:186px;padding:20px 8px 12px}
+  .slot .s-logo{width:62px;height:62px;margin-bottom:9px}
+  .slot .s-logo img{width:38px;height:38px}
+  .slot .s-firm{font-size:8px;letter-spacing:.06em;margin-bottom:3px}
+  .slot .s-name{font-size:14px}
+  .slot .s-val{font-size:13.5px}
+  .slot .s-rar{top:7px;font-size:7px}
+  .reel-wrap::before,.reel-wrap::after{width:52px}
+  .crate{width:210px;height:150px}
+  .crate-body{height:106px}
+  .crate-body::after{width:40px;height:40px;bottom:14px}
+  .crate-lid{height:44px}
+  .crate-seal{top:44px;width:42px;height:42px;margin-left:-21px}
+}
 </style>
 </head>
 <body>
@@ -328,8 +370,24 @@ footer.site a:hover{color:var(--lime)}
     <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
   </div>
   <div class="reel-wrap">
-    <div class="spotlight"></div>
     <div class="reel" id="reel"></div>
+    <div class="opener" id="opener">
+      <div class="crate" id="crate">
+        <div class="crate-glow"></div>
+        <div class="crate-body"></div>
+        <div class="crate-lid"></div>
+        <div class="crate-seal"></div>
+      </div>
+      <div class="key" id="key">
+        <svg viewBox="0 0 74 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="13" cy="13" r="10.5" stroke="#c8ff00" stroke-width="3.5"/>
+          <circle cx="13" cy="13" r="3.4" fill="#c8ff00"/>
+          <path d="M23 13h47" stroke="#c8ff00" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M60 13v8M68 13v6" stroke="#c8ff00" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="opener-cap" id="openerCap">Inserting key…</div>
+    </div>
     <div class="streaks"></div>
     <div class="marker"></div>
     <div class="confetti" id="confetti"></div>
@@ -441,9 +499,10 @@ footer.site a:hover{color:var(--lime)}
   var GLOW={common:.05,uncommon:.20,rare:.32,epic:.46,legendary:.60,mythic:.78};
   function slotHtml(p,won){
     return '<div class="slot'+(won?' won':'')+'" style="--rc:'+rc(p.r)+';--glow:'+(GLOW[p.r]||0)+'">'+
-      '<img src="'+p.logo+'" alt=""><div class="s-firm">'+p.f+'</div>'+
-      '<div class="s-name">'+p.n+'</div><div class="s-val">'+usd(p.v)+'</div>'+
-      '<div class="s-rar">'+p.r+'</div></div>';
+      '<div class="s-rar">'+p.r+'</div>'+
+      '<div class="s-logo"><img src="'+p.logo+'" alt=""></div>'+
+      '<div class="s-firm">'+p.f+'</div>'+
+      '<div class="s-name">'+p.n+'</div><div class="s-val">'+usd(p.v)+'</div></div>';
   }
 
   /* celebratory burst — scales with rarity */
@@ -467,7 +526,7 @@ footer.site a:hover{color:var(--lime)}
 
   /* ---------- open ---------- */
   var SPINNING=false;
-  var SPIN_MS=6200;
+  var SPIN_MS=5400;   /* reel only; the crate/key intro runs 2.28s before it */
   function openCase(key){
     if(SPINNING) return;
     SPINNING=true;                                   /* lock immediately, not in rAF */
@@ -478,7 +537,7 @@ footer.site a:hover{color:var(--lime)}
     $('result').classList.add('hide');
     $('confetti').innerHTML='';
     var modal=$('modal');
-    modal.classList.remove('odds-mode','landed');
+    modal.classList.remove('odds-mode','landed','reeling');
     modal.style.setProperty('--wc',rc(won.r));
     modal.classList.add('on','spinning'); $('modalBg').classList.add('on');
 
@@ -486,30 +545,62 @@ footer.site a:hover{color:var(--lime)}
     var WIN=52, html='';
     for(var i=0;i<60;i++){ html += slotHtml(i===WIN?won:pick(c.pool)); }
     var reel=$('reel');
+    reel.classList.remove('decided');
     reel.style.transition='none'; reel.style.transform='translateX(0)';
     reel.innerHTML=html;
 
-    /* measure + animate */
-    requestAnimationFrame(function(){
-      var slot=reel.querySelector('.slot');
-      var sw=slot.getBoundingClientRect().width+14;
-      var wrapW=reel.parentElement.getBoundingClientRect().width;
-      /* land off-centre sometimes so it reads as a real stop, never past the edge */
-      var jitter=(Math.random()*0.5-0.25)*sw;
-      var target=-(WIN*sw + sw/2 - wrapW/2 + jitter);
-      requestAnimationFrame(function(){
-        reel.style.transition='transform '+(SPIN_MS-300)+'ms cubic-bezier(.09,.62,.06,1)';
-        reel.style.transform='translateX('+target+'px)';
-      });
-      setTimeout(function(){
-        var el=reel.children[WIN]; if(el) el.classList.add('won');
+    /* --- stage 1: crate + key --- */
+    var opener=$('opener'), crate=$('crate'), key=$('key'), cap=$('openerCap');
+    opener.classList.add('on');
+    crate.style.setProperty('--ce',c.edge);          /* crate takes the tier colour */
+    crate.className='crate'; key.className='key'; cap.textContent='Inserting key…';
+    void crate.offsetWidth;
+    key.classList.add('fly');
+    setTimeout(function(){ key.classList.remove('fly'); key.classList.add('turn'); cap.textContent='Unlocking…'; },900);
+    setTimeout(function(){ crate.classList.add('shake'); },1320);
+    setTimeout(function(){ crate.classList.add('open'); cap.textContent='Opening…'; },1780);
+
+    /* --- stage 2: reel --- */
+    setTimeout(function(){
+      opener.classList.remove('on');
+      modal.classList.add('reeling');
+      /* Use LAYOUT coords (offsetLeft/offsetWidth/clientWidth), never
+         getBoundingClientRect: the modal animates in at scale(.97), and a rect
+         read through that scale produces a target that is wrong by ~300px once
+         the modal settles at scale(1). translateX lives in untransformed space,
+         so measure in untransformed space. Land dead centre, no jitter, so the
+         marker is always on exactly one card. */
+      var winEl=reel.children[WIN];
+      var target=-(winEl.offsetLeft + winEl.offsetWidth/2 - reel.parentElement.clientWidth/2);
+
+      /* Fire the reveal off transitionend, NOT a setTimeout. requestAnimationFrame
+         is throttled whenever the page isn't painting (background tab, slow frame),
+         which delays the transform while a wall-clock timer fires on schedule — the
+         reveal then lands while the reel is still visibly moving, showing the wrong
+         card under the marker. transitionend is tied to the animation itself. */
+      var settled=false;
+      function finish(){
+        if(settled) return; settled=true;
+        reel.removeEventListener('transitionend',onEnd);
+        clearTimeout(guard);
+        reel.style.transform='translateX('+target+'px)';   /* snap to exact */
+        winEl.classList.add('won');
+        reel.classList.add('decided');
         modal.classList.add('landed');
         var fl=$('flash'); fl.classList.remove('go'); void fl.offsetWidth; fl.classList.add('go');
         burst(won);
         reveal(won,c);
         SPINNING=false;
-      }, SPIN_MS);
-    });
+      }
+      function onEnd(e){ if(e.target===reel && e.propertyName==='transform') finish(); }
+      reel.addEventListener('transitionend',onEnd);
+      var guard=setTimeout(finish,SPIN_MS+6000);           /* safety net only */
+
+      requestAnimationFrame(function(){
+        reel.style.transition='transform '+SPIN_MS+'ms cubic-bezier(.08,.62,.05,1)';
+        reel.style.transform='translateX('+target+'px)';
+      });
+    },2280);
   }
   function reveal(p,c){
     var color=rc(p.r);
@@ -523,7 +614,7 @@ footer.site a:hover{color:var(--lime)}
         '<span class="res-list">list price '+usd(p.L)+'</span></div>'+
       '<div class="res-actions"><button class="btn-again" id="againBtn">Open another</button><button class="btn-ghost" id="doneBtn">Done</button></div>';
     res.classList.remove('hide');
-    $('modal').classList.remove('spinning');
+    $('modal').classList.remove('spinning','reeling');
     $('againBtn').onclick=function(){ openCase(Object.keys(CASES).find(function(k){return CASES[k]===c;})); };
     $('doneBtn').onclick=closeModal;
   }
