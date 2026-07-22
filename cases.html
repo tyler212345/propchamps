@@ -101,19 +101,45 @@ body::after{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;o
 .case-card:hover{transform:translateY(-6px);border-color:color-mix(in srgb,var(--edge) 60%,var(--border));box-shadow:0 34px 70px -34px var(--edge),0 0 0 1px color-mix(in srgb,var(--edge) 22%,transparent)}
 .case-tier{display:inline-block;margin:22px auto 0;padding:6px 14px;border-radius:100px;border:1px solid color-mix(in srgb,var(--edge) 42%,transparent);background:color-mix(in srgb,var(--edge) 12%,transparent);font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--edge);position:relative}
 /* ---- the stage the crate stands on ---- */
-.case-art{width:100%;height:250px;margin:16px auto 4px;position:relative;perspective:1000px}
+/* A black display well. The renders arrive on pure black, so matching the
+   backdrop exactly is what makes their square frame disappear — far more robust
+   than trying to key or feather a near-black subject out of a black field. */
+.case-art{width:100%;height:250px;margin:16px auto 4px;position:relative;perspective:1000px;
+  background:#000;border-radius:15px;overflow:hidden;
+  box-shadow:inset 0 0 0 1px var(--border),inset 0 0 70px -14px color-mix(in srgb,var(--edge) 70%,transparent)}
 /* key light pooling behind the object */
 .case-art::before{content:"";position:absolute;left:50%;top:26%;width:320px;height:320px;margin:-160px 0 0 -160px;border-radius:50%;
-  background:radial-gradient(circle,var(--edge),transparent 64%);opacity:.20;transition:opacity .35s,transform .35s;pointer-events:none}
-.case-card:hover .case-art::before{opacity:.38;transform:scale(1.1)}
+  background:radial-gradient(circle,var(--edge),transparent 64%);opacity:.16;transition:opacity .35s,transform .35s;pointer-events:none}
+.case-card:hover .case-art::before{opacity:.30;transform:scale(1.1)}
 /* the floor line the object and its reflection meet on */
-.case-art::after{content:"";position:absolute;left:6%;right:6%;top:160px;height:1px;
-  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--edge) 60%,transparent),transparent);opacity:.55;pointer-events:none;z-index:2}
+.case-art::after{content:"";position:absolute;left:10%;right:10%;top:162px;height:1px;
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--edge) 70%,transparent),transparent);opacity:.5;pointer-events:none;z-index:2}
 .art-obj{position:absolute;left:0;right:0;top:0;height:160px;display:flex;align-items:flex-end;justify-content:center;
   transform-style:preserve-3d;transition:transform .35s cubic-bezier(.2,.9,.3,1);will-change:transform;z-index:1}
 .art-obj img,.art-obj .crate-svg{width:auto;height:100%;max-width:96%;object-fit:contain;
   filter:drop-shadow(0 24px 34px rgba(0,0,0,.72)) drop-shadow(0 0 34px color-mix(in srgb,var(--edge) 42%,transparent));
   animation:bob 5s ease-in-out infinite}
+/* Photographic renders arrive on pure black. Rather than key the background out
+   — the case itself is near-black, so any luminance key eats it — feather the
+   frame so its square edge dissolves into the card, and rotate the hue so the
+   seam glow takes the tier colour. */
+/* ---- photographic render mode ----
+   The render fills the whole well edge to edge, so its black frame has no visible
+   boundary at all. Its own lighting replaces the CSS floor line and reflection;
+   the tier colour arrives as a hue rotation on the seam plus a screen-blended rim
+   glow layered on top. */
+.case-art.photo .art-ref,.case-art.photo::after{display:none}
+.case-art.photo .art-obj{position:absolute;inset:0;height:auto;bottom:0}
+.case-art.photo .art-obj img{width:100%;height:100%;max-width:none;object-fit:cover;
+  transform:scale(1.14);transform-origin:50% 54%;
+  filter:hue-rotate(var(--art-hue,0deg)) saturate(1.3) contrast(1.06) brightness(1.06)}
+.case-card:hover .case-art.photo .art-obj img{transform:scale(1.19)}
+/* coloured rim light, clear through the middle so the crate stays readable */
+.art-glow{position:absolute;inset:0;z-index:3;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(ellipse 62% 58% at 50% 50%,transparent 42%,
+    color-mix(in srgb,var(--edge) 65%,transparent) 100%);
+  opacity:.42;transition:opacity .35s}
+.case-card:hover .art-glow{opacity:.66}
 /* mirrored reflection: bottom-aligned then flipped, so the crate's base meets
    the floor line, and faded out as it recedes toward the viewer */
 .art-ref{position:absolute;left:0;right:0;top:160px;height:88px;overflow:hidden;
@@ -205,6 +231,16 @@ body::after{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;o
 .opener{position:absolute;inset:0;z-index:10;display:none;align-items:center;justify-content:center;background:radial-gradient(ellipse 65% 95% at 50% 50%,#0e131b,var(--bg-band))}
 .opener.on{display:flex}
 .case-obj{position:relative;width:250px;height:250px;display:flex;align-items:center;justify-content:center;animation:bob 3s ease-in-out infinite}
+/* photographic render in the opener — no separable lid, so the whole object
+   charges and blows out rather than the lid lifting off */
+.case-photo{width:340px;height:340px;max-width:none;object-fit:contain;
+  filter:hue-rotate(var(--art-hue,0deg)) saturate(1.3) contrast(1.05);
+  transition:transform .4s,filter .4s}
+.opener.charging .case-photo{transform:scale(1.06);
+  filter:hue-rotate(var(--art-hue,0deg)) saturate(1.5) contrast(1.1) brightness(1.5)
+         drop-shadow(0 0 60px var(--ce,#c8ff00))}
+.opener.burst .case-photo{transform:scale(1.85);opacity:0;
+  transition:transform .45s cubic-bezier(.3,0,.7,1),opacity .45s}
 @keyframes bob{0%,100%{transform:translateY(-5px)}50%{transform:translateY(5px)}}
 .case-obj::before{content:"";position:absolute;left:50%;top:54%;width:340px;height:340px;margin:-170px 0 0 -170px;border-radius:50%;background:radial-gradient(circle,var(--ce,#c8ff00) 0%,transparent 62%);opacity:.14;transition:opacity .5s,transform .5s;z-index:-1}
 .case-ring{position:absolute;left:50%;top:50%;width:210px;height:210px;margin:-105px 0 0 -105px;border-radius:50%;border:2px solid var(--ce,#c8ff00);opacity:0}
@@ -481,7 +517,7 @@ footer.site a:hover{color:var(--lime)}
   /* art: drop a transparent PNG at these paths and the page picks it up —
      used for the case tile on the page AND the opening animation. */
   var CASES={
-    starter:{ name:'Starter Case', price:35, edge:'#8b98a8', tint:'rgba(139,152,168,.16)', art:'/cases/starter.png',
+    starter:{ name:'Starter Case', price:35, edge:'#8b98a8', tint:'rgba(139,152,168,.16)', art:'/cases/master.jpg', hue:'170deg',
       pool:mk([
         ['lucid','Flex 25K',70,'common',56],
         ['tradeify','Growth 25K',59,'common',26],
@@ -494,7 +530,7 @@ footer.site a:hover{color:var(--lime)}
         ['lucid','Pro 100K',192.5,'legendary',0.08],
         ['lucid','Direct 25K',238,'mythic',0.02]
       ])},
-    pro:{ name:'Pro Case', price:78, edge:'#7c5cff', tint:'rgba(124,92,255,.18)', art:'/cases/pro.png',
+    pro:{ name:'Pro Case', price:78, edge:'#7c5cff', tint:'rgba(124,92,255,.18)', art:'/cases/master.jpg', hue:'235deg',
       pool:mk([
         ['lucid','Flex 100K',157.5,'common',60],
         ['topone','S2F 50K',232,'common',18],
@@ -507,7 +543,7 @@ footer.site a:hover{color:var(--lime)}
         ['topone','Instant Sim 50K',441,'legendary',0.25],
         ['lucid','Direct 100K',490,'mythic',0.05]
       ])},
-    elite:{ name:'Elite Case', price:139, edge:'#ffb020', tint:'rgba(255,176,32,.18)', art:'/cases/elite.png',
+    elite:{ name:'Elite Case', price:139, edge:'#ffb020', tint:'rgba(255,176,32,.18)', art:'/cases/master.jpg', hue:'0deg',
       pool:mk([
         ['topone','S2F 100K',348,'common',62],
         ['topone','Instant Sim 50K',441,'common',16],
@@ -531,6 +567,7 @@ footer.site a:hover{color:var(--lime)}
     var el=document.createElement('div');
     el.className='case-card';
     el.style.setProperty('--edge',c.edge); el.style.setProperty('--tint',c.tint);
+    if(c.hue) el.style.setProperty('--art-hue',c.hue);
     /* odds bar: one segment per rarity, width = its share of the pool */
     var ORDER=['common','uncommon','rare','epic','legendary','mythic'], seg='';
     ORDER.forEach(function(r){
@@ -561,8 +598,10 @@ footer.site a:hover{color:var(--lime)}
     if(c.art){
       var probe=new Image();
       probe.onload=function(){
-        var img='<img src="'+c.art+'" alt="">';
-        box.innerHTML='<div class="art-obj">'+img+'</div><div class="art-ref" aria-hidden="true">'+img+'</div>';
+        c._photo=true;
+        box.classList.add('photo');
+        box.innerHTML='<div class="art-obj"><img src="'+c.art+'" alt=""></div>'+
+                      '<div class="art-glow" aria-hidden="true"></div>';
       };
       probe.src=c.art;
     }
@@ -851,7 +890,10 @@ footer.site a:hover{color:var(--lime)}
     var opener=$('opener'), cap=$('openerCap');
     opener.className='opener on';
     opener.style.setProperty('--ce',c.edge);
-    $('caseObj').innerHTML=crateSVG(key,c.edge);
+    $('caseObj').innerHTML = c._photo
+      ? '<img class="case-photo" src="'+c.art+'" alt="">'
+      : crateSVG(key,c.edge);
+    opener.style.setProperty('--art-hue',c.hue||'0deg');
     cap.textContent='Charging…';
     void opener.offsetWidth;
     setTimeout(function(){ opener.classList.add('charging'); SFX.charge(1.05); },60);
