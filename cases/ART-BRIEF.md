@@ -44,15 +44,13 @@ so the tier colours don't fight it later.
 
 ### Settings
 
-- Model: pick an **explicit model**, not `Auto`. **Leonardo Kino XL** or
-  **Leonardo Diffusion XL** — both accept an image reference in Stage 2, and a fixed
-  model keeps all three tiers consistent. `Auto` can route to a model that rejects
-  image guidance, which fails the whole request.
-- Style: **None**. The prompt already specifies the render look in words, so it does
-  not need a preset. `Dynamic` is fine too.
-  **Never `Cinematic`** — that is the PhotoReal pipeline and it cannot take an image
-  reference, so it works in Stage 1 and hard-fails in Stage 2.
-  (The Style list changes depending on the model you pick — check it after choosing.)
+- Model: **Auto**. This is not optional — image reference is only available on Auto,
+  so Stage 2 cannot run on any other model.
+- Style: **None** (or **Dynamic**). The prompt already specifies the render look in
+  words, so it does not need a preset.
+  **Never `Cinematic`** — it runs on the PhotoReal pipeline, which cannot take an
+  image reference. It works fine in Stage 1 and returns "Validation failed. Please
+  check your request parameters." the moment you attach the master in Stage 2.
 - Alchemy **on** · Guidance **7** · Aspect **1:1** · at least **1024×1024**
 - Generate 4 at a time
 
@@ -85,11 +83,13 @@ image every time, so the shape and camera stay locked and only the finish change
   ignore the colour, drop to **0.4**.
 - Everything else identical to Stage 1. Same negative prompt **except remove
   `gold`, `colourful`, `glowing`** — you want those now.
-- **Same model and style as Stage 1.** If you get "Validation failed. Please check
-  your request parameters.", it is almost always the model or the style rejecting the
-  image reference. Work down this list: set Model off `Auto` to an explicit one →
-  set Style to `None` → turn **Alchemy off** → switch model to **Kino XL** or
-  **Diffusion XL**.
+- **Model stays on Auto** (required for the reference) and **Style stays off
+  Cinematic**. If you still hit "Validation failed", drop Style to `None` and turn
+  **Alchemy off**.
+- Because Auto picks the model per request, it can drift between generations.
+  **Run all three tiers back-to-back in one session.** If they come back looking like
+  different materials rather than the same case in different finishes, raise Content
+  Reference to **0.7**.
 
 ### Starter — steel
 
