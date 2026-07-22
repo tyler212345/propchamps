@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0a0d12">
+<title>Prop Firm Drawdown Calculator — Trailing vs EOD vs Intraday Simulator | PropChamps</title>
+<meta name="description" content="Free prop firm drawdown calculator. Pick your futures firm and account size, enter a few trading days, and watch your trailing, end-of-day, and intraday drawdown floors move — and see which one would blow your account.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://propchamps.net/tools/prop-firm-drawdown-calculator">
+<meta property="og:site_name" content="PropChamps">
+<meta property="og:title" content="Prop Firm Drawdown Calculator — Trailing vs EOD vs Intraday">
+<meta property="og:description" content="Enter a few trading days and watch your drawdown floor move under all three models. Free, and wired to real futures prop firm rules.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://propchamps.net/tools/prop-firm-drawdown-calculator">
+<meta property="og:image" content="https://propchamps.net/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="PropChamps — Prop firm drawdown calculator">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://propchamps.net/og-image.jpg">
+<meta name="twitter:title" content="Prop Firm Drawdown Calculator — Trailing vs EOD vs Intraday">
+<meta name="twitter:description" content="Watch your drawdown floor move under all three models. Free, wired to real futures prop firm rules.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"WebApplication","@id":"https://propchamps.net/tools/prop-firm-drawdown-calculator#app","name":"Prop Firm Drawdown Calculator","url":"https://propchamps.net/tools/prop-firm-drawdown-calculator","description":"A free calculator that simulates how a futures prop firm drawdown floor moves under static, end-of-day trailing, and intraday trailing rules, using real firm data.","applicationCategory":"FinanceApplication","operatingSystem":"Web browser","inLanguage":"en","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"PropChamps","url":"https://propchamps.net","logo":{"@type":"ImageObject","url":"https://propchamps.net/logos/propchamps.png"}}},
+{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://propchamps.net/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://propchamps.net/tools/prop-firm-drawdown-calculator"},{"@type":"ListItem","position":3,"name":"Drawdown calculator"}]},
+{"@type":"FAQPage","@id":"https://propchamps.net/tools/prop-firm-drawdown-calculator#faq","mainEntity":[
+{"@type":"Question","name":"How does a prop firm drawdown calculator work?","acceptedAnswer":{"@type":"Answer","text":"You enter your starting balance and maximum drawdown, then add trading days with the highest point your balance reached that day and where it closed. The calculator recomputes your minimum allowed balance after each day under three rules — static, end-of-day trailing, and intraday trailing — and flags the moment any of them would have breached your account."}},
+{"@type":"Question","name":"What is the difference between intraday and end-of-day drawdown?","acceptedAnswer":{"@type":"Answer","text":"An intraday trailing drawdown updates in real time and counts unrealized open-trade profit, so a spike you never banked still raises your floor. An end-of-day trailing drawdown recalculates once at the session close using your realized closing balance, so intraday spikes are ignored. EOD is meaningfully more forgiving."}},
+{"@type":"Question","name":"Does the trailing drawdown stop moving?","acceptedAnswer":{"@type":"Answer","text":"On most futures prop firms, yes. The floor trails your peak until it reaches your starting balance plus the drawdown amount, then it locks — usually at or near your original starting balance. The calculator models this with the lock option enabled by default."}},
+{"@type":"Question","name":"Is this drawdown calculator free?","acceptedAnswer":{"@type":"Answer","text":"Yes, it is completely free and requires no signup. It runs entirely in your browser and uses the drawdown amounts and methods PropChamps tracks for each futures prop firm, re-verified weekly."}},
+{"@type":"Question","name":"Which futures prop firms use intraday trailing drawdown?","acceptedAnswer":{"@type":"Answer","text":"Apex Trader Funding offers both intraday trailing and an end-of-day trail account, and My Funded Futures uses end-of-day during evaluation and intraday once funded on its Rapid product. Most other firms we track — Tradeify, Take Profit Trader, Alpha Futures, Lucid Trading, and Top One Futures — use end-of-day trailing. Always confirm current rules on the firm's review page."}}
+]}]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tools/tools.css">
+</head>
+<body>
+
+<div class="editorial-strip"><div class="container"><div class="lhs"><span class="dot"></span><span>Independent prop firm research · Reviewed weekly</span></div><div class="rhs">Free tool</div></div></div>
+
+<header class="site">
+  <div class="container">
+    <a class="logo-mark" href="/" aria-label="PropChamps home"><img src="/logos/propchamps.png" alt="PropChamps"></a>
+    <nav class="primary">
+      <a href="/">Firms</a><a href="/compare">Compare</a><a href="/deals">Deals</a><a href="/payouts">Payouts</a><a href="/audit-log">Audit log</a><a href="/guide">Guide</a><a href="/blog/">Blog</a>
+    </nav>
+    <a class="header-cta" href="/compare">Compare firms
+      <svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L11 8 L5 4"/></svg>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><span class="bar"></span></button>
+  </div></header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/">Firms</a><a href="/compare">Compare</a><a href="/deals">Deals</a><a href="/payouts">Payouts</a><a href="/audit-log">Audit log</a><a href="/guide">Guide</a><a href="/blog/">Blog</a><a href="/methodology">Methodology</a>
+  <a class="mobile-cta" href="/compare">Compare firms →</a>
+</div>
+
+<section class="tool-hero">
+  <div class="bg-stack"></div>
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a><span>/</span>Tools<span>/</span>Drawdown calculator</div>
+    <div class="tool-eyebrow">Free tool · No signup</div>
+    <h1>Prop firm drawdown <span class="accent">calculator</span></h1>
+    <p class="tool-dek">Pick your firm and account size, add a few trading days, and watch your minimum allowed balance move under all three drawdown rules — static, end-of-day, and intraday. It's the fastest way to see which one would actually end your account.</p>
+  </div>
+</section>
+
+<section class="calc">
+  <div class="container">
+    <div class="calc-grid">
+
+      <div class="panel" data-reveal>
+        <div class="panel-title">1 · Your account</div>
+        <div class="field">
+          <label for="firmSel">Firm &amp; plan</label>
+          <select id="firmSel"><option value="custom">Custom / manual</option></select>
+        </div>
+        <div class="field">
+          <label for="sizeSel">Account size</label>
+          <select id="sizeSel"></select>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="startInp">Starting balance ($)</label>
+            <input type="number" id="startInp" value="50000" step="1000" min="1000">
+          </div>
+          <div class="field">
+            <label for="ddInp">Max drawdown ($)</label>
+            <input type="number" id="ddInp" value="2500" step="100" min="100">
+          </div>
+        </div>
+        <label class="chk"><input type="checkbox" id="lockChk" checked> Trailing floor <strong>locks</strong> once you're up by the drawdown amount (how most futures firms work)</label>
+        <div class="readout">
+          <div class="readout-row"><span>Starting balance</span><strong id="roStart">$50,000</strong></div>
+          <div class="readout-row"><span>Max drawdown</span><strong id="roDd">$2,500</strong></div>
+          <div class="readout-row floor"><span>Floor starts at</span><strong id="roFloor">$47,500</strong></div>
+          <div class="readout-row"><span>Your firm's method</span><strong id="roType">—</strong></div>
+        </div>
+        <p class="hint">Selecting a firm fills in the real drawdown amount and method we track for that plan, re-verified weekly. Choose <em>Custom</em> to enter your own numbers.</p>
+      </div>
+
+      <div class="panel hi" data-reveal>
+        <div class="panel-title">2 · Your trading days <span id="dayCount"></span></div>
+        <div class="day-head"><span>Day</span><span>Intraday peak (+$)</span><span>Close (+/−$)</span><span></span></div>
+        <div class="days" id="daysWrap"></div>
+        <button class="btn-add" id="addDay" type="button">+ Add a day</button>
+
+        <div style="margin-top:24px">
+          <div class="panel-title">3 · What each rule does to you</div>
+          <div id="verdict"></div>
+          <div class="res-wrap">
+            <table class="res">
+              <thead><tr><th>Day</th><th>Closing balance</th><th>Static floor</th><th>EOD floor</th><th>Intraday floor</th></tr></thead>
+              <tbody id="resBody"></tbody>
+            </table>
+          </div>
+          <div class="legend">
+            <span><b>Intraday peak</b> = the highest your balance got that day, including open profit.</span>
+            <span><b>Close</b> = the day's realized P/L.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="container">
+    <div class="section-eyebrow">How to use it</div>
+    <h2 class="section-h2">Three steps</h2>
+    <div class="prose">
+      <p>The drawdown rule ends more funded accounts than bad trades do, and most traders never see it coming because the line keeps moving behind them. This calculator makes that line visible.</p>
+      <h3>1. Load your account</h3>
+      <p>Pick your firm and plan from the dropdown and the calculator fills in the real maximum drawdown and method we track for that account — the same data behind our <a href="/compare">comparison tool</a>. If your firm isn't listed or you want to test a scenario, choose <strong>Custom</strong> and type your own starting balance and drawdown.</p>
+      <h3>2. Add your trading days</h3>
+      <p>For each day, enter the <strong>highest point your balance reached</strong> (including profit on open trades) and <strong>where the day actually closed</strong>. That's the whole trick: intraday trailing rules care about the peak, end-of-day rules only care about the close.</p>
+      <h3>3. Read the three floors</h3>
+      <p>The table shows your minimum allowed balance after each day under all three models at once. A red cell means that rule would have breached your account on that day. Run the same days under each and the difference is usually much bigger than traders expect — which is exactly why the drawdown method matters more than the profit split.</p>
+      <p>For the full explanation of how each type works, read <a href="/blog/prop-firm-drawdown-explained">prop firm drawdown explained: trailing vs EOD vs intraday</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="container">
+    <div class="section-eyebrow">Reference</div>
+    <h2 class="section-h2">Which method does your firm use?</h2>
+    <div class="prose"><p>So you know which setting reflects your account. Verified against each firm's own rules and re-checked weekly — always confirm on the firm's page before funding, since these do change.</p></div>
+    <div class="table-wrap" data-reveal>
+      <table class="data">
+        <thead><tr><th>Firm</th><th>Drawdown method</th></tr></thead>
+        <tbody>
+          <tr><td class="firm-c"><a href="/firms/apex-trader">Apex Trader Funding</a></td><td>Intraday trailing <em>or</em> EOD Trail — you choose the account type</td></tr>
+          <tr><td class="firm-c"><a href="/firms/my-funded-futures">My Funded Futures</a></td><td>EOD in evaluation → intraday once funded (Rapid)</td></tr>
+          <tr><td class="firm-c"><a href="/firms/tradeify">Tradeify</a></td><td>End-of-day trailing</td></tr>
+          <tr><td class="firm-c"><a href="/firms/take-profit-trader">Take Profit Trader</a></td><td>End-of-day trailing</td></tr>
+          <tr><td class="firm-c"><a href="/firms/alpha-futures">Alpha Futures</a></td><td>End-of-day trailing</td></tr>
+          <tr><td class="firm-c"><a href="/firms/lucid-trading">Lucid Trading</a></td><td>End-of-day trailing</td></tr>
+          <tr><td class="firm-c"><a href="/firms/top-one-futures">Top One Futures</a></td><td>End-of-day trailing</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">Source: PropChamps firm audit. Compare every plan side by side on the <a href="/compare">comparison tool</a>.</p>
+  </div>
+</section>
+
+<section class="block">
+  <div class="container">
+    <div class="section-eyebrow">Common questions</div>
+    <h2 class="section-h2">Drawdown calculator FAQ</h2>
+    <div class="faq-list">
+      <details class="faq-item"><summary class="faq-q">How does this drawdown calculator work?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>You enter your starting balance and maximum drawdown, then add trading days with the highest point your balance reached and where it closed. It recomputes your minimum allowed balance after each day under all three rules — static, end-of-day trailing, and intraday trailing — and flags the moment any of them would have breached the account.</p></div></details>
+      <details class="faq-item"><summary class="faq-q">What's the difference between intraday and end-of-day drawdown?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>An <strong>intraday</strong> trail updates in real time and counts unrealized open-trade profit, so a spike you never banked still raises your floor. An <strong>end-of-day</strong> trail recalculates once at the close on your realized balance, ignoring intraday spikes — meaningfully more forgiving. Full breakdown in <a href="/blog/prop-firm-drawdown-explained">drawdown explained</a>.</p></div></details>
+      <details class="faq-item"><summary class="faq-q">Does the trailing drawdown ever stop moving?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>On most futures firms, yes. It trails your peak until it reaches your starting balance plus the drawdown amount, then <strong>locks</strong> — usually at or near your original starting balance. That's the "lock" checkbox, on by default.</p></div></details>
+      <details class="faq-item"><summary class="faq-q">Is it free?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>Completely free, no signup. It runs entirely in your browser and uses the drawdown amounts and methods we track per firm, re-verified weekly.</p></div></details>
+      <details class="faq-item"><summary class="faq-q">Which firms use intraday trailing?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p><a href="/firms/apex-trader">Apex</a> offers both intraday and an EOD Trail account, and <a href="/firms/my-funded-futures">My Funded Futures</a> uses EOD in evaluation then intraday once funded on Rapid. Most others we track use end-of-day trailing — see the table above.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <div class="cta-card" data-reveal>
+      <h2>Find a firm with the drawdown you want</h2>
+      <p>Filter every futures prop firm by drawdown method, payout split, and price — side by side, re-verified weekly.</p>
+      <div class="cta-row">
+        <a class="btn-primary" href="/compare">Compare firms
+          <svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L11 8 L5 4"/></svg>
+        </a>
+        <a class="btn-ghost" href="/blog/prop-firm-drawdown-explained">Read the full guide</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="container">
+    <div class="top">
+      <div class="brand">
+        <a class="logo-mark" href="/"><img src="/logos/propchamps.png" alt="PropChamps"></a>
+        <p>Independent research on futures prop trading firms. We track rules, payouts, drawdown methods, and active promo codes — and publish what changes.</p>
+      </div>
+      <div><h4>Research</h4><ul><li><a href="/">All firms</a></li><li><a href="/compare">Compare</a></li><li><a href="/deals">Active deals</a></li><li><a href="/payouts">Payouts</a></li><li><a href="/audit-log">Audit log</a></li></ul></div>
+      <div><h4>Editorial</h4><ul><li><a href="/blog/">Blog</a></li><li><a href="/guide">Beginner's guide</a></li><li><a href="/join">Join the list</a></li><li><a href="/methodology">How we audit</a></li></ul></div>
+      <div><h4>Legal</h4><ul><li><a href="/privacy">Privacy</a></li><li><a href="/methodology#disclosure">Affiliate disclosure</a></li></ul></div>
+    </div>
+    <div class="legal">
+      <div>© 2026 PropChamps. Independent prop firm research. Not financial advice.</div>
+      <div>Trading involves substantial risk.</div>
+    </div>
+  </div>
+</footer>
+
+<script src="/data/firms.js"></script>
+<script>
+(function(){
+  /* ---------- mobile menu ---------- */
+  var toggle=document.getElementById('menuToggle'),header=document.querySelector('header.site');
+  if(toggle){toggle.addEventListener('click',function(){var o=header.classList.toggle('is-open');document.body.classList.toggle('is-menu-open',o);});
+    document.querySelectorAll('.mobile-menu a').forEach(function(a){a.addEventListener('click',function(){header.classList.remove('is-open');document.body.classList.remove('is-menu-open');});});}
+
+  /* ---------- helpers ---------- */
+  var $=function(id){return document.getElementById(id);};
+  function money(n){ return '$'+Math.round(n).toLocaleString('en-US'); }
+  function parseSizes(s){
+    return String(s||'').split('·').map(function(x){return x.trim();}).map(function(x){
+      var k=x.match(/([\d.,]+)\s*K/i);
+      if(k) return Math.round(parseFloat(k[1].replace(/,/g,''))*1000);
+      var n=parseFloat(x.replace(/[^0-9.]/g,''));
+      return isNaN(n)?null:n;
+    }).filter(function(v){return v!=null&&v>0;});
+  }
+  function parseMoneyList(s){
+    return String(s||'').split('·').map(function(x){return x.trim();}).map(function(x){
+      var m=x.match(/\$?\s*([\d,]+(?:\.\d+)?)/);
+      if(!m) return null;
+      var n=parseFloat(m[1].replace(/,/g,''));
+      return isNaN(n)?null:n;
+    }).filter(function(v){return v!=null&&v>0;});
+  }
+
+  /* ---------- build plan list from live firm data ---------- */
+  var PLANS=[];
+  try{
+    Object.keys(window.FIRMS||{}).forEach(function(slug){
+      var f=window.FIRMS[slug];
+      if(!f||f.live===false) return;
+      (f.plansSummary||[]).forEach(function(p){
+        var r=p.rules||{};
+        var sizes=parseSizes(r['Account Sizes']);
+        var dds=parseMoneyList(r['Max Drawdown']);
+        if(sizes.length && dds.length && sizes.length===dds.length){
+          PLANS.push({label:f.name+' — '+p.name, sizes:sizes, dds:dds, type:(r['Drawdown Type']||'EOD')});
+        }
+      });
+    });
+  }catch(e){}
+
+  var firmSel=$('firmSel'), sizeSel=$('sizeSel');
+  PLANS.forEach(function(p,i){
+    var o=document.createElement('option'); o.value=String(i); o.textContent=p.label; firmSel.appendChild(o);
+  });
+
+  function fillSizes(){
+    sizeSel.innerHTML='';
+    var idx=firmSel.value;
+    if(idx==='custom'){
+      var o=document.createElement('option'); o.value='custom'; o.textContent='Custom'; sizeSel.appendChild(o);
+      sizeSel.disabled=true; $('roType').textContent='—';
+      return;
+    }
+    sizeSel.disabled=false;
+    var p=PLANS[+idx];
+    p.sizes.forEach(function(s,i){
+      var o=document.createElement('option'); o.value=String(i);
+      o.textContent='$'+s.toLocaleString('en-US')+'  ·  drawdown '+money(p.dds[i]);
+      sizeSel.appendChild(o);
+    });
+    applyPlan();
+  }
+  function applyPlan(){
+    var idx=firmSel.value; if(idx==='custom') return;
+    var p=PLANS[+idx], i=+(sizeSel.value||0);
+    $('startInp').value=p.sizes[i];
+    $('ddInp').value=p.dds[i];
+    var t=String(p.type||'').toUpperCase();
+    $('roType').textContent = /INTRADAY/.test(t) ? (/EOD/.test(t)?'Intraday / EOD':'Intraday trailing') : 'End-of-day trailing';
+    run();
+  }
+  firmSel.addEventListener('change',fillSizes);
+  sizeSel.addEventListener('change',applyPlan);
+
+  /* ---------- day rows ---------- */
+  var DEFAULTS=[{peak:1500,close:300},{peak:200,close:-1200},{peak:0,close:-300}];
+  function addDay(peak,close){
+    var wrap=$('daysWrap');
+    var row=document.createElement('div'); row.className='day';
+    var n=wrap.children.length+1;
+    row.innerHTML='<span class="n">'+n+'</span>'+
+      '<input type="number" class="pk" step="50" value="'+(peak==null?0:peak)+'">'+
+      '<input type="number" class="cl" step="50" value="'+(close==null?0:close)+'">'+
+      '<button class="rm" type="button" aria-label="Remove day">×</button>';
+    wrap.appendChild(row);
+    row.querySelector('.rm').addEventListener('click',function(){ row.remove(); renumber(); run(); });
+    row.querySelectorAll('input').forEach(function(inp){ inp.addEventListener('input',run); });
+  }
+  function renumber(){ [].forEach.call($('daysWrap').children,function(r,i){ r.querySelector('.n').textContent=i+1; }); }
+  $('addDay').addEventListener('click',function(){ addDay(0,0); renumber(); run(); });
+
+  /* ---------- simulation ---------- */
+  function run(){
+    var start=parseFloat($('startInp').value)||0;
+    var dd=parseFloat($('ddInp').value)||0;
+    var lock=$('lockChk').checked;
+    $('roStart').textContent=money(start);
+    $('roDd').textContent=money(dd);
+    $('roFloor').textContent=money(start-dd);
+
+    var days=[].map.call($('daysWrap').children,function(r){
+      return { peak:parseFloat(r.querySelector('.pk').value)||0, close:parseFloat(r.querySelector('.cl').value)||0 };
+    });
+    $('dayCount').textContent = days.length? '('+days.length+')' : '';
+
+    var bal=start, peakClose=start, peakIntra=start;
+    var breach={s:null,e:null,i:null};
+    var rows=[];
+    days.forEach(function(d,idx){
+      var high=bal+d.peak, close=bal+d.close;
+      peakIntra=Math.max(peakIntra,high,close);
+      peakClose=Math.max(peakClose,close);
+      var fS=start-dd;
+      var fE=peakClose-dd; if(lock) fE=Math.min(fE,start);
+      var fI=peakIntra-dd;  if(lock) fI=Math.min(fI,start);
+      if(breach.s===null && close<=fS) breach.s=idx+1;
+      if(breach.e===null && close<=fE) breach.e=idx+1;
+      if(breach.i===null && close<=fI) breach.i=idx+1;
+      rows.push({d:idx+1,close:close,fS:fS,fE:fE,fI:fI});
+      bal=close;
+    });
+
+    var tb=$('resBody'); tb.innerHTML='';
+    rows.forEach(function(r){
+      var tr=document.createElement('tr');
+      function cell(v,dead){ return '<td class="'+(dead?'dead':'safe')+'">'+money(v)+(dead?' ✕':'')+'</td>'; }
+      tr.innerHTML='<td>Day '+r.d+'</td><td class="bal">'+money(r.close)+'</td>'+
+        cell(r.fS, r.close<=r.fS)+cell(r.fE, r.close<=r.fE)+cell(r.fI, r.close<=r.fI);
+      tb.appendChild(tr);
+    });
+    if(!rows.length){ tb.innerHTML='<tr><td colspan="5" class="safe">Add a trading day to see your floors move.</td></tr>'; }
+
+    /* verdict */
+    var v=$('verdict'), last=rows[rows.length-1];
+    if(!last){ v.innerHTML=''; return; }
+    var survived=[], died=[];
+    (breach.i? died:survived).push('intraday');
+    (breach.e? died:survived).push('end-of-day');
+    (breach.s? died:survived).push('static');
+    var cls = breach.i&&breach.e ? 'bad' : (breach.i||breach.e ? '' : 'good');
+    var msg;
+    if(breach.i && !breach.e){
+      msg='Same trades, opposite outcome. On an <strong>intraday trailing</strong> account you would have been breached on <strong>day '+breach.i+'</strong> — but on an <strong>end-of-day</strong> account you\'re still alive with <strong>'+money(last.close-last.fE)+'</strong> of cushion. That gap is the whole reason drawdown method matters more than the profit split.';
+    } else if(breach.i && breach.e){
+      msg='This sequence breaches on both models — intraday on <strong>day '+breach.i+'</strong>, end-of-day on <strong>day '+breach.e+'</strong>. Try smaller daily losses or a larger account to see where the line moves.';
+    } else if(!breach.i && !breach.e){
+      msg='You survive all three models. Closest call: <strong>'+money(Math.min(last.close-last.fI,last.close-last.fE))+'</strong> of cushion at the end. Push a losing day bigger to find your breaking point.';
+    } else {
+      msg='End-of-day breached on <strong>day '+breach.e+'</strong> while intraday held — an unusual sequence, usually from a large closing loss after a flat session.';
+    }
+    v.className='verdict '+cls;
+    v.innerHTML='<span class="v-label">'+(breach.i||breach.e?'Result':'Still alive')+'</span>'+msg;
+  }
+
+  ['startInp','ddInp'].forEach(function(id){ $(id).addEventListener('input',run); });
+  $('lockChk').addEventListener('change',run);
+
+  /* ---------- init ---------- */
+  DEFAULTS.forEach(function(d){ addDay(d.peak,d.close); });
+  fillSizes();
+  run();
+
+  /* reveal */
+  var els=document.querySelectorAll('[data-reveal]');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.06,rootMargin:'0px 0px -40px 0px'});
+    els.forEach(function(el){io.observe(el);});
+    setTimeout(function(){els.forEach(function(el){el.classList.add('in');});},2500);
+  } else { els.forEach(function(el){el.classList.add('in');}); }
+})();
+</script>
+</body>
+</html>
