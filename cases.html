@@ -105,12 +105,12 @@ body::after{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;o
 .case-card:hover .case-art::before{opacity:.34;transform:scale(1.08)}
 /* elliptical shadow so it reads as an object sitting in space */
 .case-art::after{content:"";position:absolute;left:50%;bottom:8px;width:130px;height:16px;margin-left:-65px;border-radius:50%;background:radial-gradient(ellipse,rgba(0,0,0,.75),transparent 70%);filter:blur(3px)}
-.case-art img{width:auto;height:150px;max-width:82%;object-fit:contain;position:relative;z-index:1;
+.case-art img,.case-art .crate-svg{width:auto;height:100%;max-width:88%;object-fit:contain;position:relative;z-index:1;
   filter:drop-shadow(0 18px 30px rgba(0,0,0,.7)) drop-shadow(0 0 26px color-mix(in srgb,var(--edge) 40%,transparent));
   animation:bob 4.2s ease-in-out infinite;transition:transform .3s}
-/* the crown placeholder is a flat mark, so give it a plinth until real art lands */
-.case-art img.fallback{height:76px;padding:20px 26px;border-radius:18px;background:linear-gradient(160deg,color-mix(in srgb,var(--edge) 34%,#1a222e),#0f151d 62%);border:1px solid color-mix(in srgb,var(--edge) 45%,transparent);box-sizing:content-box}
-.case-card:hover .case-art img{transform:translateY(-6px) scale(1.04)}
+.case-card:hover .case-art img,.case-card:hover .case-art .crate-svg{transform:translateY(-6px) scale(1.04)}
+/* the tile shadow is baked into the SVG, so drop the CSS one there */
+.case-art:has(.crate-svg)::after{display:none}
 .case-price{font-family:var(--font-display);font-weight:900;font-size:46px;letter-spacing:-.04em;color:#fff;line-height:1;margin-bottom:8px;position:relative}
 .case-floor{font-size:13px;color:var(--text-soft);margin-bottom:16px;position:relative}
 .case-floor b{color:var(--lime-text)}
@@ -169,23 +169,42 @@ body::after{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;o
 .slot.won{animation:pop .6s cubic-bezier(.2,1.5,.4,1) both;border-color:var(--rc);box-shadow:0 0 0 3px var(--rc),0 0 90px -2px var(--rc),inset 0 0 40px -10px var(--rc);z-index:4}
 @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.14)}100%{transform:scale(1.09)}}
 
-/* ---- case charge + burst (artwork-driven: drop a PNG in CASES[k].art) ---- */
+/* ---- the SVG crate ---- */
+.crate-svg{width:100%;height:100%;overflow:visible}
+.crate-svg .cr-lid,.crate-svg .cr-inner,.crate-svg .cr-rays,.crate-svg .cr-innerglow,.crate-svg .cr-seam{
+  transform-box:fill-box;transform-origin:50% 50%}
+.crate-svg .cr-lid{transform-origin:50% 100%;transition:transform .5s cubic-bezier(.25,1.3,.4,1)}
+.crate-svg .cr-inner{opacity:0;transition:opacity .3s}
+.crate-svg .cr-rays{opacity:0;transform-origin:50% 100%;transform:scaleY(.25);transition:opacity .45s,transform .55s cubic-bezier(.2,.9,.3,1)}
+.crate-svg .cr-seam{opacity:.55;transition:opacity .4s}
+/* sheen drifts across the lid so the metal reads as metal */
+.crate-svg .cr-sheen{transform-box:fill-box;transform-origin:50% 50%;animation:sheen 5.5s ease-in-out infinite}
+@keyframes sheen{0%,100%{transform:translateX(-72%)}50%{transform:translateX(72%)}}
+
+/* ---- opener stage ---- */
 .opener{position:absolute;inset:0;z-index:10;display:none;align-items:center;justify-content:center;background:radial-gradient(ellipse 65% 95% at 50% 50%,#0e131b,var(--bg-band))}
 .opener.on{display:flex}
-.case-obj{position:relative;width:210px;height:210px;display:flex;align-items:center;justify-content:center;animation:bob 2.6s ease-in-out infinite}
+.case-obj{position:relative;width:250px;height:250px;display:flex;align-items:center;justify-content:center;animation:bob 3s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(-5px)}50%{transform:translateY(5px)}}
-.case-obj img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 24px 46px rgba(0,0,0,.75)) drop-shadow(0 0 30px color-mix(in srgb,var(--ce,#c8ff00) 45%,transparent));transition:transform .35s,filter .35s}
-/* halo pool under the case */
-.case-obj::before{content:"";position:absolute;left:50%;top:50%;width:330px;height:330px;margin:-165px 0 0 -165px;border-radius:50%;background:radial-gradient(circle,var(--ce,#c8ff00) 0%,transparent 62%);opacity:.16;transition:opacity .5s,transform .5s;z-index:-1}
-/* ring that pulses outward while charging */
-.case-ring{position:absolute;left:50%;top:50%;width:200px;height:200px;margin:-100px 0 0 -100px;border-radius:50%;border:2px solid var(--ce,#c8ff00);opacity:0}
+.case-obj::before{content:"";position:absolute;left:50%;top:54%;width:340px;height:340px;margin:-170px 0 0 -170px;border-radius:50%;background:radial-gradient(circle,var(--ce,#c8ff00) 0%,transparent 62%);opacity:.14;transition:opacity .5s,transform .5s;z-index:-1}
+.case-ring{position:absolute;left:50%;top:50%;width:210px;height:210px;margin:-105px 0 0 -105px;border-radius:50%;border:2px solid var(--ce,#c8ff00);opacity:0}
+
+/* charging: crate rattles, seam heats up, rings pulse out */
 .opener.charging .case-ring{animation:ringout 1s ease-out infinite}
-@keyframes ringout{0%{opacity:.7;transform:scale(.72)}100%{opacity:0;transform:scale(1.5)}}
-.opener.charging .case-obj img{transform:scale(1.06);filter:drop-shadow(0 24px 46px rgba(0,0,0,.75)) drop-shadow(0 0 60px var(--ce,#c8ff00)) brightness(1.25)}
-.opener.charging .case-obj::before{opacity:.42;transform:scale(1.12)}
-/* burst: case blows out into light */
-.opener.burst .case-obj{animation:none;transform:scale(1.9);opacity:0;transition:transform .42s cubic-bezier(.3,0,.7,1),opacity .42s}
-.opener.burst .case-obj::before{opacity:.9;transform:scale(2.1)}
+@keyframes ringout{0%{opacity:.65;transform:scale(.74)}100%{opacity:0;transform:scale(1.5)}}
+.opener.charging .case-obj{animation:bob 3s ease-in-out infinite,rattle .18s linear infinite}
+@keyframes rattle{0%,100%{margin-left:0}25%{margin-left:-2.5px}75%{margin-left:2.5px}}
+.opener.charging .case-obj::before{opacity:.4;transform:scale(1.12)}
+.opener.charging .crate-svg .cr-seam{opacity:1;animation:seampulse .45s ease-in-out infinite alternate}
+@keyframes seampulse{from{opacity:.55}to{opacity:1}}
+.opener.charging .crate-svg .cr-lid{transform:translateY(-5px)}
+
+/* burst: lid flies, light floods out, rays fan */
+.opener.burst .case-obj{animation:none}
+.opener.burst .crate-svg .cr-lid{transform:translateY(-104px) rotate(-7deg);opacity:0;transition:transform .5s cubic-bezier(.3,.9,.4,1),opacity .5s .12s}
+.opener.burst .crate-svg .cr-inner{opacity:1}
+.opener.burst .crate-svg .cr-rays{opacity:.9;transform:scaleY(1)}
+.opener.burst .case-obj::before{opacity:.85;transform:scale(1.9)}
 .opener-cap{position:absolute;bottom:24px;left:0;right:0;text-align:center;font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-faint);transition:opacity .3s}
 .opener.burst .opener-cap{opacity:0}
 
@@ -399,7 +418,7 @@ footer.site a:hover{color:var(--lime)}
     <div class="reel" id="reel"></div>
     <div class="opener" id="opener">
       <div class="case-ring"></div>
-      <div class="case-obj" id="caseObj"><img id="caseArt" src="/logos/propchamps-crown.png" alt="" onerror="this.onerror=null;this.src='/logos/propchamps-crown.png';this.classList.add('fallback')"></div>
+      <div class="case-obj" id="caseObj"></div>
       <div class="opener-cap" id="openerCap">Opening…</div>
     </div>
     <div class="marker"></div>
@@ -495,7 +514,7 @@ footer.site a:hover{color:var(--lime)}
     el.className='case-card';
     el.style.setProperty('--edge',c.edge); el.style.setProperty('--tint',c.tint);
     el.innerHTML='<div class="case-tier">'+c.name+'</div>'+
-      '<div class="case-art"><img src="'+(c.art||'')+'" alt="" onerror="this.onerror=null;this.src=\'/logos/propchamps-crown.png\';this.classList.add(\'fallback\')"></div>'+
+      '<div class="case-art" data-art="'+k+'"></div>'+
       '<div class="case-price">'+usd(c.price)+'</div>'+
       '<div class="case-floor">Never below <b>'+floor.n+'</b> — worth '+usd(floor.v)+'</div>'+
       '<div class="case-top">TOP PRIZE <b>'+top.n+'</b> · '+usd(top.v)+'</div>'+
@@ -503,6 +522,104 @@ footer.site a:hover{color:var(--lime)}
       '<a class="case-odds-link" data-odds="'+k+'">View odds · avg return '+Math.round(ev/c.price*100)+'%</a>';
     grid.appendChild(el);
   });
+
+  /* Draw the SVG crate into every tile. If a real render exists at
+     CASES[k].art it quietly replaces the SVG once it loads — so dropping
+     PNGs into /cases/ upgrades the page with no code change. */
+  Array.prototype.forEach.call(document.querySelectorAll('.case-art'),function(box){
+    var k=box.getAttribute('data-art'), c=CASES[k];
+    box.innerHTML=crateSVG(k,c.edge);
+    if(c.art){
+      var probe=new Image();
+      probe.onload=function(){ box.innerHTML='<img src="'+c.art+'" alt="">'; };
+      probe.src=c.art;
+    }
+  });
+
+  /* ---------- the crate, drawn as SVG so it has real form ----------
+     Separate <g> for lid / body / interior so the lid can actually lift.
+     Tier colour drives the seam, the lock ring and the edge accents. */
+  function crateSVG(k,edge){
+    var u='c'+k;
+    return '<svg class="crate-svg" viewBox="0 0 400 384" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'+
+    '<defs>'+
+      '<linearGradient id="top'+u+'" x1="0" y1="0" x2="0" y2="1">'+
+        '<stop offset="0" stop-color="#46566b"/><stop offset="1" stop-color="#2b3646"/></linearGradient>'+
+      '<linearGradient id="fr'+u+'" x1="0" y1="0" x2="0" y2="1">'+
+        '<stop offset="0" stop-color="#39465a"/><stop offset=".45" stop-color="#222c3a"/><stop offset="1" stop-color="#141b25"/></linearGradient>'+
+      '<linearGradient id="lidf'+u+'" x1="0" y1="0" x2="0" y2="1">'+
+        '<stop offset="0" stop-color="#3d4c60"/><stop offset="1" stop-color="#26303f"/></linearGradient>'+
+      '<linearGradient id="sheen'+u+'" x1="0" y1="0" x2="1" y2="1">'+
+        '<stop offset="0" stop-color="#fff" stop-opacity=".00"/><stop offset=".45" stop-color="#fff" stop-opacity=".13"/>'+
+        '<stop offset=".55" stop-color="#fff" stop-opacity=".13"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>'+
+      '<radialGradient id="inner'+u+'" cx=".5" cy=".5" r=".5">'+
+        '<stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="'+edge+'"/><stop offset="1" stop-color="'+edge+'" stop-opacity="0"/></radialGradient>'+
+      '<filter id="soft'+u+'" x="-60%" y="-60%" width="220%" height="220%">'+
+        '<feGaussianBlur stdDeviation="9"/></filter>'+
+      '<filter id="tight'+u+'" x="-50%" y="-50%" width="200%" height="200%">'+
+        '<feGaussianBlur stdDeviation="3.2"/></filter>'+
+      /* keeps the travelling sheen inside the lid instead of sliding off it */
+      '<clipPath id="lidclip'+u+'">'+
+        '<path d="M108 150 Q100 150 97 155 L70 194 L70 228 Q70 234 78 234 L322 234 Q330 234 330 228 L330 194 L303 155 Q300 150 292 150 Z"/></clipPath>'+
+    '</defs>'+
+
+    /* contact shadow */
+    '<ellipse cx="200" cy="336" rx="118" ry="15" fill="#000" opacity=".55" filter="url(#soft'+u+')"/>'+
+
+    /* ---- body ---- */
+    '<g class="cr-body">'+
+      '<path d="M70 232 L330 232 L337 314 Q337 324 327 324 L73 324 Q63 324 63 314 Z" fill="url(#fr'+u+')" stroke="#4b5b70" stroke-width="1.4"/>'+
+      /* recessed inner panel */
+      '<path d="M96 250 L304 250 L309 304 L91 304 Z" fill="#0e141d" opacity=".72"/>'+
+      '<path d="M96 250 L304 250 L309 304 L91 304 Z" fill="none" stroke="'+edge+'" stroke-width="1.2" opacity=".38"/>'+
+      /* crown emblem */
+      '<g opacity=".92" transform="translate(200 277) scale(1.5)">'+
+        '<path d="M-18 6 L-14 -9 L-7 -1 L0 -12 L7 -1 L14 -9 L18 6 Z" fill="'+edge+'" opacity=".95"/>'+
+        '<rect x="-18" y="8" width="36" height="3.4" rx="1.7" fill="'+edge+'" opacity=".95"/>'+
+      '</g>'+
+      /* corner rivets */
+      '<circle cx="80" cy="245" r="3" fill="#5d6e85"/><circle cx="320" cy="245" r="3" fill="#5d6e85"/>'+
+      '<circle cx="78" cy="312" r="3" fill="#5d6e85"/><circle cx="322" cy="312" r="3" fill="#5d6e85"/>'+
+      /* base trim */
+      '<path d="M63 314 L337 314 L337 316 Q337 324 327 324 L73 324 Q63 324 63 316 Z" fill="#0c1119"/>'+
+    '</g>'+
+
+    /* ---- interior: light that lives under the lid ---- */
+    '<g class="cr-inner">'+
+      '<rect x="70" y="216" width="260" height="26" fill="#05080c"/>'+
+      '<ellipse class="cr-innerglow" cx="200" cy="228" rx="132" ry="30" fill="url(#inner'+u+')"/>'+
+    '</g>'+
+
+    /* ---- light shafts, only on burst ---- */
+    '<g class="cr-rays" fill="'+edge+'">'+
+      '<path d="M200 222 L150 40 L186 34 Z" opacity=".55"/>'+
+      '<path d="M200 222 L214 30 L250 44 Z" opacity=".45"/>'+
+      '<path d="M200 222 L92 92 L120 66 Z" opacity=".33"/>'+
+      '<path d="M200 222 L308 92 L280 66 Z" opacity=".33"/>'+
+    '</g>'+
+
+    /* ---- lid ---- */
+    '<g class="cr-lid">'+
+      /* top face */
+      '<path d="M108 150 Q100 150 97 155 L70 194 L330 194 L303 155 Q300 150 292 150 Z" fill="url(#top'+u+')" stroke="#55677e" stroke-width="1.4"/>'+
+      /* lid front band */
+      '<path d="M70 194 L330 194 L330 228 Q330 234 322 234 L78 234 Q70 234 70 228 Z" fill="url(#lidf'+u+')" stroke="#4b5b70" stroke-width="1.4"/>'+
+      /* moving sheen across the lid */
+      '<g clip-path="url(#lidclip'+u+')"><rect class="cr-sheen" x="70" y="146" width="260" height="90" fill="url(#sheen'+u+')"/></g>'+
+      /* seam glow along the lid lip */
+      '<rect class="cr-seam" x="70" y="230" width="260" height="4" rx="2" fill="'+edge+'" filter="url(#tight'+u+')"/>'+
+      '<rect x="70" y="231" width="260" height="1.6" fill="#fff" opacity=".85"/>'+
+      /* lock plate */
+      '<g class="cr-lock">'+
+        '<rect x="176" y="196" width="48" height="42" rx="9" fill="#1a222e" stroke="'+edge+'" stroke-width="1.8"/>'+
+        '<circle cx="200" cy="213" r="7.5" fill="none" stroke="'+edge+'" stroke-width="2.6"/>'+
+        '<rect x="197.5" y="216" width="5" height="11" rx="2.5" fill="'+edge+'"/>'+
+      '</g>'+
+      /* top highlight */
+      '<path d="M108 152 L292 152" stroke="#8ea3bd" stroke-width="1.6" opacity=".55" stroke-linecap="round"/>'+
+    '</g>'+
+    '</svg>';
+  }
 
   /* ---------- sound (synthesised — no audio files needed) ---------- */
   var SFX=(function(){
@@ -643,7 +760,7 @@ footer.site a:hover{color:var(--lime)}
     var opener=$('opener'), cap=$('openerCap');
     opener.className='opener on';
     opener.style.setProperty('--ce',c.edge);
-    $('caseArt').src=c.art||'/logos/propchamps-crown.png';
+    $('caseObj').innerHTML=crateSVG(key,c.edge);
     cap.textContent='Charging…';
     void opener.offsetWidth;
     setTimeout(function(){ opener.classList.add('charging'); SFX.charge(1.05); },60);
