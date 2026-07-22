@@ -62,6 +62,15 @@ body.is-menu-open .mobile-menu{display:block}
 .bg-stack{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
 .bg-stack::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(200,255,0,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(200,255,0,.045) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse 80% 60% at 50% 10%,black 30%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 10%,black 30%,transparent 90%)}
 .bg-stack::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 45% at 50% 8%,rgba(200,255,0,.10) 0%,transparent 70%)}
+/* colour pools behind the three tiers so the page has depth, not flat panels */
+.bg-pools{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bg-pools i{position:absolute;display:block;width:640px;height:640px;border-radius:50%;filter:blur(90px);opacity:.13}
+.bg-pools .p1{left:-9%;top:340px;background:#8b98a8}
+.bg-pools .p2{left:50%;margin-left:-320px;top:400px;background:#7c5cff;opacity:.16}
+.bg-pools .p3{right:-9%;top:340px;background:#ffb020}
+/* film grain — kills the flat "CSS gradient" look */
+body::after{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.032;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
 
 /* hero */
 .hero{padding:56px 0 32px;position:relative;text-align:center}
@@ -75,23 +84,40 @@ body.is-menu-open .mobile-menu{display:block}
 .hero-note a{color:var(--lime-text);text-decoration:underline;text-underline-offset:3px}
 
 /* case grid */
-.cases{padding:34px 0 64px;position:relative}
-.case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.case-card{position:relative;background:linear-gradient(180deg,var(--bg-card) 0%,var(--bg-elev) 100%);border:1px solid var(--border);border-radius:20px;padding:28px 24px;text-align:center;transition:all .24s;overflow:hidden}
-.case-card::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,var(--tint),transparent 70%);opacity:.5;pointer-events:none}
-.case-card:hover{transform:translateY(-4px);border-color:var(--edge)}
-.case-tier{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--edge);margin-bottom:18px;position:relative}
-.case-art{width:140px;height:110px;margin:0 auto 20px;position:relative;border-radius:16px;background:linear-gradient(160deg,var(--edge) -30%,var(--bg-elev) 55%);border:1px solid var(--edge);display:flex;align-items:center;justify-content:center;box-shadow:0 20px 50px -22px var(--edge);transition:transform .3s}
-.case-card:hover .case-art{transform:translateY(-3px) scale(1.03)}
-.case-art::after{content:"";position:absolute;inset:0;border-radius:16px;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.16) 50%,transparent 60%)}
-.case-art img{width:52px;opacity:.95;filter:drop-shadow(0 4px 14px rgba(0,0,0,.5))}
-.case-price{font-family:var(--font-display);font-weight:900;font-size:38px;letter-spacing:-.035em;color:var(--text-strong);line-height:1;margin-bottom:6px;position:relative}
-.case-floor{font-size:13px;color:var(--text-soft);margin-bottom:18px;position:relative}
+.cases{padding:20px 0 72px;position:relative}
+.case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.case-card{position:relative;background:
+   radial-gradient(ellipse 80% 42% at 50% 0%,color-mix(in srgb,var(--edge) 22%,transparent),transparent 72%),
+   linear-gradient(180deg,#151b25 0%,#0d1219 100%);
+  border:1px solid var(--border);border-top:1px solid color-mix(in srgb,var(--edge) 55%,var(--border));
+  border-radius:22px;padding:0 24px 26px;text-align:center;transition:transform .28s cubic-bezier(.2,.9,.3,1),border-color .28s,box-shadow .28s;overflow:hidden}
+/* faint grid texture inside each card */
+.case-card::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);
+  background-size:26px 26px;
+  mask-image:radial-gradient(ellipse 90% 55% at 50% 0%,#000 20%,transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse 90% 55% at 50% 0%,#000 20%,transparent 80%)}
+.case-card:hover{transform:translateY(-6px);border-color:color-mix(in srgb,var(--edge) 60%,var(--border));box-shadow:0 34px 70px -34px var(--edge),0 0 0 1px color-mix(in srgb,var(--edge) 22%,transparent)}
+.case-tier{display:inline-block;margin:22px auto 0;padding:6px 14px;border-radius:100px;border:1px solid color-mix(in srgb,var(--edge) 42%,transparent);background:color-mix(in srgb,var(--edge) 12%,transparent);font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--edge);position:relative}
+/* the case object — big, floating, lit from its tier colour */
+.case-art{width:100%;height:190px;margin:10px auto 6px;position:relative;display:flex;align-items:center;justify-content:center}
+.case-art::before{content:"";position:absolute;left:50%;top:52%;width:230px;height:230px;margin:-115px 0 0 -115px;border-radius:50%;background:radial-gradient(circle,var(--edge),transparent 62%);opacity:.20;transition:opacity .3s,transform .3s}
+.case-card:hover .case-art::before{opacity:.34;transform:scale(1.08)}
+/* elliptical shadow so it reads as an object sitting in space */
+.case-art::after{content:"";position:absolute;left:50%;bottom:8px;width:130px;height:16px;margin-left:-65px;border-radius:50%;background:radial-gradient(ellipse,rgba(0,0,0,.75),transparent 70%);filter:blur(3px)}
+.case-art img{width:auto;height:150px;max-width:82%;object-fit:contain;position:relative;z-index:1;
+  filter:drop-shadow(0 18px 30px rgba(0,0,0,.7)) drop-shadow(0 0 26px color-mix(in srgb,var(--edge) 40%,transparent));
+  animation:bob 4.2s ease-in-out infinite;transition:transform .3s}
+/* the crown placeholder is a flat mark, so give it a plinth until real art lands */
+.case-art img.fallback{height:76px;padding:20px 26px;border-radius:18px;background:linear-gradient(160deg,color-mix(in srgb,var(--edge) 34%,#1a222e),#0f151d 62%);border:1px solid color-mix(in srgb,var(--edge) 45%,transparent);box-sizing:content-box}
+.case-card:hover .case-art img{transform:translateY(-6px) scale(1.04)}
+.case-price{font-family:var(--font-display);font-weight:900;font-size:46px;letter-spacing:-.04em;color:#fff;line-height:1;margin-bottom:8px;position:relative}
+.case-floor{font-size:13px;color:var(--text-soft);margin-bottom:16px;position:relative}
 .case-floor b{color:var(--lime-text)}
-.case-top{display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-mono);font-size:11px;color:var(--text-faint);margin-bottom:20px;position:relative}
+.case-top{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:10px 12px;margin-bottom:20px;border-radius:11px;background:rgba(0,0,0,.30);border:1px solid var(--border);font-family:var(--font-mono);font-size:10.5px;letter-spacing:.04em;color:var(--text-faint);position:relative}
 .case-top b{color:var(--r-legendary)}
-.btn-open{width:100%;padding:15px;background:var(--lime);color:var(--bg-base);font-size:15.5px;font-weight:800;border-radius:12px;transition:all .16s;box-shadow:0 0 0 1px rgba(200,255,0,.25),0 12px 30px -10px rgba(200,255,0,.5);position:relative}
-.btn-open:hover{background:var(--lime-2);transform:translateY(-2px)}
+.btn-open{width:100%;padding:16px;background:var(--lime);color:var(--bg-base);font-size:15.5px;font-weight:800;border-radius:13px;transition:all .16s;box-shadow:0 0 0 1px rgba(200,255,0,.25),0 12px 30px -10px rgba(200,255,0,.5);position:relative}
+.btn-open:hover{background:var(--lime-2);transform:translateY(-2px);box-shadow:0 0 0 1px rgba(200,255,0,.35),0 18px 40px -12px rgba(200,255,0,.7)}
 .demo-tag{display:inline-block;margin-left:7px;padding:2px 7px;border-radius:5px;background:rgba(10,13,18,.22);font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;vertical-align:1px}
 .case-odds-link{display:block;margin-top:12px;font-size:12.5px;color:var(--text-faint);text-decoration:underline;text-underline-offset:3px;position:relative}
 .case-odds-link:hover{color:var(--lime)}
@@ -109,6 +135,10 @@ body.is-menu-open .mobile-menu{display:block}
 .modal-title{font-family:var(--font-display);font-weight:800;font-size:20px;letter-spacing:-.02em;color:var(--text-strong)}
 .modal-close{width:34px;height:34px;border-radius:9px;border:1px solid var(--border-strong);color:var(--text-soft);font-size:17px;display:flex;align-items:center;justify-content:center;transition:opacity .2s}
 .modal-close:hover{border-color:var(--neg);color:var(--neg)}
+.modal-actions{display:flex;align-items:center;gap:9px}
+#soundBtn{font-size:14px}
+#soundBtn:hover{border-color:var(--lime);color:var(--lime)}
+#soundBtn.off{opacity:.45}
 /* locked while the reel is running */
 .modal.spinning .modal-close{opacity:.2;pointer-events:none}
 
@@ -116,10 +146,6 @@ body.is-menu-open .mobile-menu{display:block}
 .reel-wrap::before,.reel-wrap::after{content:"";position:absolute;top:0;bottom:0;width:190px;z-index:6;pointer-events:none}
 .reel-wrap::before{left:0;background:linear-gradient(90deg,var(--bg-band) 12%,transparent)}
 .reel-wrap::after{right:0;background:linear-gradient(-90deg,var(--bg-band) 12%,transparent)}
-/* speed streaks while spinning */
-.streaks{position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0;transition:opacity .35s;background:repeating-linear-gradient(90deg,rgba(255,255,255,.055) 0 2px,transparent 2px 26px)}
-.modal.reeling .streaks{opacity:1;animation:streak .35s linear infinite}
-@keyframes streak{to{transform:translateX(-26px)}}
 .marker{position:absolute;left:50%;top:-2px;bottom:-2px;width:3px;margin-left:-1.5px;background:linear-gradient(180deg,var(--lime),#fff 50%,var(--lime));box-shadow:0 0 22px 4px rgba(200,255,0,.75);z-index:7;border-radius:3px}
 .marker::before,.marker::after{content:"";position:absolute;left:50%;transform:translateX(-50%);border-left:9px solid transparent;border-right:9px solid transparent;filter:drop-shadow(0 0 6px rgba(200,255,0,.9))}
 .marker::before{top:0;border-top:13px solid var(--lime)}
@@ -143,29 +169,25 @@ body.is-menu-open .mobile-menu{display:block}
 .slot.won{animation:pop .6s cubic-bezier(.2,1.5,.4,1) both;border-color:var(--rc);box-shadow:0 0 0 3px var(--rc),0 0 90px -2px var(--rc),inset 0 0 40px -10px var(--rc);z-index:4}
 @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.14)}100%{transform:scale(1.09)}}
 
-/* ---- case + key unlock sequence ---- */
-.opener{position:absolute;inset:0;z-index:10;display:none;align-items:center;justify-content:center;background:radial-gradient(ellipse 60% 90% at 50% 50%,#0d1219,var(--bg-band))}
+/* ---- case charge + burst (artwork-driven: drop a PNG in CASES[k].art) ---- */
+.opener{position:absolute;inset:0;z-index:10;display:none;align-items:center;justify-content:center;background:radial-gradient(ellipse 65% 95% at 50% 50%,#0e131b,var(--bg-band))}
 .opener.on{display:flex}
-.crate{position:relative;width:280px;height:186px;transform-origin:50% 100%}
-.crate.shake{animation:shake .5s cubic-bezier(.36,.07,.19,.97) both}
-@keyframes shake{10%,90%{transform:translateX(-2px) rotate(-.6deg)}20%,80%{transform:translateX(4px) rotate(.8deg)}30%,50%,70%{transform:translateX(-7px) rotate(-1.2deg)}40%,60%{transform:translateX(7px) rotate(1.2deg)}}
-.crate-body{position:absolute;z-index:1;left:0;right:0;bottom:0;height:132px;border-radius:14px;background:linear-gradient(170deg,color-mix(in srgb,var(--ce,#2c3746) 30%,#232c39),#141b24 72%);border:1px solid color-mix(in srgb,var(--ce,#2c3746) 45%,var(--border-strong));box-shadow:inset 0 2px 0 rgba(255,255,255,.10),0 30px 70px -24px #000,0 0 50px -18px var(--ce,transparent)}
-.crate-body::before{content:"";position:absolute;left:14px;right:14px;top:18px;bottom:14px;border:1px dashed rgba(255,255,255,.11);border-radius:8px}
-.crate-body::after{content:"";position:absolute;left:50%;bottom:20px;width:52px;height:52px;margin-left:-26px;background:url('/logos/propchamps-crown.png') center/contain no-repeat;opacity:.5}
-.crate-lid{position:absolute;left:-8px;right:-8px;top:16px;height:54px;border-radius:13px;background:linear-gradient(170deg,color-mix(in srgb,var(--ce,#2c3746) 38%,#2c3746),#1b232e);border:1px solid color-mix(in srgb,var(--ce,#2c3746) 50%,var(--border-strong));box-shadow:inset 0 2px 0 rgba(255,255,255,.13);transform-origin:50% 100%;transition:transform .55s cubic-bezier(.3,1.4,.5,1),opacity .55s}
-.crate.open .crate-lid{transform:translateY(-78px) rotateX(96deg);opacity:0}
-.crate-seal{position:absolute;left:50%;top:56px;width:52px;height:52px;margin-left:-26px;border-radius:50%;background:radial-gradient(circle at 50% 35%,#2b3542,#161d26);border:1px solid var(--lime);box-shadow:0 0 26px -4px var(--lime);display:flex;align-items:center;justify-content:center;z-index:2;transition:opacity .3s}
-.crate-seal::after{content:"";width:10px;height:16px;border-radius:2px 2px 5px 5px;background:var(--lime);box-shadow:0 0 12px var(--lime)}
-.crate.open .crate-seal{opacity:0}
-.crate-glow{position:absolute;left:50%;top:20px;width:340px;height:250px;margin-left:-170px;background:radial-gradient(ellipse 46% 44% at 50% 42%,var(--lime),transparent 70%);opacity:0;transition:opacity .5s;pointer-events:none;z-index:0}
-.crate.open .crate-glow{opacity:.55}
-.key{position:absolute;left:50%;top:50%;width:74px;height:26px;margin:-13px 0 0 130px;opacity:0;z-index:3}
-.key svg{width:100%;height:100%;filter:drop-shadow(0 0 10px rgba(200,255,0,.85))}
-.key.fly{animation:keyfly .85s cubic-bezier(.3,.9,.3,1) forwards}
-@keyframes keyfly{0%{opacity:0;transform:translateX(90px) scale(.8)}25%{opacity:1}100%{opacity:1;transform:translateX(-104px) scale(1)}}
-.key.turn{animation:keyturn .45s ease-in-out forwards}
-@keyframes keyturn{0%{transform:translateX(-104px) rotate(0)}100%{transform:translateX(-104px) rotate(92deg);opacity:0}}
-.opener-cap{position:absolute;bottom:26px;left:0;right:0;text-align:center;font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint)}
+.case-obj{position:relative;width:210px;height:210px;display:flex;align-items:center;justify-content:center;animation:bob 2.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(-5px)}50%{transform:translateY(5px)}}
+.case-obj img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 24px 46px rgba(0,0,0,.75)) drop-shadow(0 0 30px color-mix(in srgb,var(--ce,#c8ff00) 45%,transparent));transition:transform .35s,filter .35s}
+/* halo pool under the case */
+.case-obj::before{content:"";position:absolute;left:50%;top:50%;width:330px;height:330px;margin:-165px 0 0 -165px;border-radius:50%;background:radial-gradient(circle,var(--ce,#c8ff00) 0%,transparent 62%);opacity:.16;transition:opacity .5s,transform .5s;z-index:-1}
+/* ring that pulses outward while charging */
+.case-ring{position:absolute;left:50%;top:50%;width:200px;height:200px;margin:-100px 0 0 -100px;border-radius:50%;border:2px solid var(--ce,#c8ff00);opacity:0}
+.opener.charging .case-ring{animation:ringout 1s ease-out infinite}
+@keyframes ringout{0%{opacity:.7;transform:scale(.72)}100%{opacity:0;transform:scale(1.5)}}
+.opener.charging .case-obj img{transform:scale(1.06);filter:drop-shadow(0 24px 46px rgba(0,0,0,.75)) drop-shadow(0 0 60px var(--ce,#c8ff00)) brightness(1.25)}
+.opener.charging .case-obj::before{opacity:.42;transform:scale(1.12)}
+/* burst: case blows out into light */
+.opener.burst .case-obj{animation:none;transform:scale(1.9);opacity:0;transition:transform .42s cubic-bezier(.3,0,.7,1),opacity .42s}
+.opener.burst .case-obj::before{opacity:.9;transform:scale(2.1)}
+.opener-cap{position:absolute;bottom:24px;left:0;right:0;text-align:center;font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-faint);transition:opacity .3s}
+.opener.burst .opener-cap{opacity:0}
 
 /* flash + confetti on reveal */
 .flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:9}
@@ -296,6 +318,7 @@ footer.site a:hover{color:var(--lime)}
 
 <section class="hero">
   <div class="bg-stack"></div>
+  <div class="bg-pools"><i class="p1"></i><i class="p2"></i><i class="p3"></i></div>
   <div class="container">
     <div class="hero-eyebrow">PropChamps Cases</div>
     <h1>Every case <span class="accent">pays for itself.</span></h1>
@@ -367,28 +390,18 @@ footer.site a:hover{color:var(--lime)}
 <div class="modal" id="modal">
   <div class="modal-head">
     <div class="modal-title" id="modalTitle">Opening case…</div>
-    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    <div class="modal-actions">
+      <button class="modal-close" id="soundBtn" aria-label="Toggle sound" title="Sound">🔊</button>
+      <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    </div>
   </div>
   <div class="reel-wrap">
     <div class="reel" id="reel"></div>
     <div class="opener" id="opener">
-      <div class="crate" id="crate">
-        <div class="crate-glow"></div>
-        <div class="crate-body"></div>
-        <div class="crate-lid"></div>
-        <div class="crate-seal"></div>
-      </div>
-      <div class="key" id="key">
-        <svg viewBox="0 0 74 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="13" cy="13" r="10.5" stroke="#c8ff00" stroke-width="3.5"/>
-          <circle cx="13" cy="13" r="3.4" fill="#c8ff00"/>
-          <path d="M23 13h47" stroke="#c8ff00" stroke-width="3.5" stroke-linecap="round"/>
-          <path d="M60 13v8M68 13v6" stroke="#c8ff00" stroke-width="3.5" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="opener-cap" id="openerCap">Inserting key…</div>
+      <div class="case-ring"></div>
+      <div class="case-obj" id="caseObj"><img id="caseArt" src="/logos/propchamps-crown.png" alt="" onerror="this.onerror=null;this.src='/logos/propchamps-crown.png';this.classList.add('fallback')"></div>
+      <div class="opener-cap" id="openerCap">Opening…</div>
     </div>
-    <div class="streaks"></div>
     <div class="marker"></div>
     <div class="confetti" id="confetti"></div>
     <div class="flash" id="flash"></div>
@@ -428,8 +441,10 @@ footer.site a:hover{color:var(--lime)}
     });
   }
 
+  /* art: drop a transparent PNG at these paths and the page picks it up —
+     used for the case tile on the page AND the opening animation. */
   var CASES={
-    starter:{ name:'Starter Case', price:35, edge:'#8b98a8', tint:'rgba(139,152,168,.16)',
+    starter:{ name:'Starter Case', price:35, edge:'#8b98a8', tint:'rgba(139,152,168,.16)', art:'/cases/starter.png',
       pool:mk([
         ['lucid','Flex 25K',70,'common',56],
         ['tradeify','Growth 25K',59,'common',26],
@@ -442,7 +457,7 @@ footer.site a:hover{color:var(--lime)}
         ['lucid','Pro 100K',192.5,'legendary',0.08],
         ['lucid','Direct 25K',238,'mythic',0.02]
       ])},
-    pro:{ name:'Pro Case', price:78, edge:'#7c5cff', tint:'rgba(124,92,255,.18)',
+    pro:{ name:'Pro Case', price:78, edge:'#7c5cff', tint:'rgba(124,92,255,.18)', art:'/cases/pro.png',
       pool:mk([
         ['lucid','Flex 100K',157.5,'common',60],
         ['topone','S2F 50K',232,'common',18],
@@ -455,7 +470,7 @@ footer.site a:hover{color:var(--lime)}
         ['topone','Instant Sim 50K',441,'legendary',0.25],
         ['lucid','Direct 100K',490,'mythic',0.05]
       ])},
-    elite:{ name:'Elite Case', price:139, edge:'#ffb020', tint:'rgba(255,176,32,.18)',
+    elite:{ name:'Elite Case', price:139, edge:'#ffb020', tint:'rgba(255,176,32,.18)', art:'/cases/elite.png',
       pool:mk([
         ['topone','S2F 100K',348,'common',62],
         ['topone','Instant Sim 50K',441,'common',16],
@@ -480,7 +495,7 @@ footer.site a:hover{color:var(--lime)}
     el.className='case-card';
     el.style.setProperty('--edge',c.edge); el.style.setProperty('--tint',c.tint);
     el.innerHTML='<div class="case-tier">'+c.name+'</div>'+
-      '<div class="case-art"><img src="/logos/propchamps-crown.png" alt=""></div>'+
+      '<div class="case-art"><img src="'+(c.art||'')+'" alt="" onerror="this.onerror=null;this.src=\'/logos/propchamps-crown.png\';this.classList.add(\'fallback\')"></div>'+
       '<div class="case-price">'+usd(c.price)+'</div>'+
       '<div class="case-floor">Never below <b>'+floor.n+'</b> — worth '+usd(floor.v)+'</div>'+
       '<div class="case-top">TOP PRIZE <b>'+top.n+'</b> · '+usd(top.v)+'</div>'+
@@ -488,6 +503,81 @@ footer.site a:hover{color:var(--lime)}
       '<a class="case-odds-link" data-odds="'+k+'">View odds · avg return '+Math.round(ev/c.price*100)+'%</a>';
     grid.appendChild(el);
   });
+
+  /* ---------- sound (synthesised — no audio files needed) ---------- */
+  var SFX=(function(){
+    var ctx=null, muted=false;
+    try{ muted=localStorage.getItem('pc_cases_muted')==='1'; }catch(e){}
+    function ac(){
+      if(muted) return null;
+      if(!ctx){ var C=window.AudioContext||window.webkitAudioContext; if(!C) return null; ctx=new C(); }
+      if(ctx.state==='suspended') ctx.resume();
+      return ctx;
+    }
+    /* short blip — the reel tick */
+    function tick(){
+      var a=ac(); if(!a) return;
+      var o=a.createOscillator(), g=a.createGain(), t=a.currentTime;
+      o.type='square'; o.frequency.setValueAtTime(1750,t);
+      g.gain.setValueAtTime(0.05,t); g.gain.exponentialRampToValueAtTime(0.0001,t+0.028);
+      o.connect(g).connect(a.destination); o.start(t); o.stop(t+0.03);
+    }
+    /* rising charge while the case powers up */
+    function charge(dur){
+      var a=ac(); if(!a) return;
+      var o=a.createOscillator(), g=a.createGain(), t=a.currentTime;
+      o.type='sawtooth'; o.frequency.setValueAtTime(70,t);
+      o.frequency.exponentialRampToValueAtTime(520,t+dur);
+      g.gain.setValueAtTime(0.0001,t);
+      g.gain.exponentialRampToValueAtTime(0.075,t+dur*0.8);
+      g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+      var f=a.createBiquadFilter(); f.type='lowpass'; f.frequency.value=1400;
+      o.connect(f).connect(g).connect(a.destination); o.start(t); o.stop(t+dur+0.05);
+    }
+    /* noise burst + sub thump when the case blows open */
+    function burst(){
+      var a=ac(); if(!a) return;
+      var t=a.currentTime, len=Math.floor(a.sampleRate*0.5);
+      var buf=a.createBuffer(1,len,a.sampleRate), d=buf.getChannelData(0);
+      for(var i=0;i<len;i++){ d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.6); }
+      var s=a.createBufferSource(); s.buffer=buf;
+      var f=a.createBiquadFilter(); f.type='bandpass'; f.frequency.setValueAtTime(1100,t);
+      f.frequency.exponentialRampToValueAtTime(240,t+0.45);
+      var g=a.createGain(); g.gain.setValueAtTime(0.34,t);
+      s.connect(f).connect(g).connect(a.destination); s.start(t);
+      var o=a.createOscillator(), og=a.createGain();
+      o.type='sine'; o.frequency.setValueAtTime(150,t); o.frequency.exponentialRampToValueAtTime(42,t+0.34);
+      og.gain.setValueAtTime(0.32,t); og.gain.exponentialRampToValueAtTime(0.0001,t+0.42);
+      o.connect(og).connect(a.destination); o.start(t); o.stop(t+0.45);
+    }
+    /* landing thud, then a chime whose length scales with rarity */
+    var NOTES={common:[],uncommon:[784],rare:[784,988],epic:[784,988,1175],legendary:[784,988,1175,1568],mythic:[784,988,1175,1568,2093]};
+    function land(rarity){
+      var a=ac(); if(!a) return;
+      var t=a.currentTime;
+      var o=a.createOscillator(), g=a.createGain();
+      o.type='triangle'; o.frequency.setValueAtTime(320,t); o.frequency.exponentialRampToValueAtTime(90,t+0.16);
+      g.gain.setValueAtTime(0.26,t); g.gain.exponentialRampToValueAtTime(0.0001,t+0.22);
+      o.connect(g).connect(a.destination); o.start(t); o.stop(t+0.24);
+      (NOTES[rarity]||[]).forEach(function(hz,i){
+        var oo=a.createOscillator(), gg=a.createGain(), st=t+0.12+i*0.085;
+        oo.type='sine'; oo.frequency.setValueAtTime(hz,st);
+        gg.gain.setValueAtTime(0.0001,st);
+        gg.gain.exponentialRampToValueAtTime(0.16,st+0.02);
+        gg.gain.exponentialRampToValueAtTime(0.0001,st+0.5);
+        oo.connect(gg).connect(a.destination); oo.start(st); oo.stop(st+0.55);
+      });
+    }
+    return {
+      tick:tick, charge:charge, burst:burst, land:land,
+      isMuted:function(){ return muted; },
+      toggle:function(){
+        muted=!muted;
+        try{ localStorage.setItem('pc_cases_muted',muted?'1':'0'); }catch(e){}
+        return muted;
+      }
+    };
+  })();
 
   /* ---------- weighted pick ---------- */
   function pick(pool){
@@ -549,20 +639,20 @@ footer.site a:hover{color:var(--lime)}
     reel.style.transition='none'; reel.style.transform='translateX(0)';
     reel.innerHTML=html;
 
-    /* --- stage 1: crate + key --- */
-    var opener=$('opener'), crate=$('crate'), key=$('key'), cap=$('openerCap');
-    opener.classList.add('on');
-    crate.style.setProperty('--ce',c.edge);          /* crate takes the tier colour */
-    crate.className='crate'; key.className='key'; cap.textContent='Inserting key…';
-    void crate.offsetWidth;
-    key.classList.add('fly');
-    setTimeout(function(){ key.classList.remove('fly'); key.classList.add('turn'); cap.textContent='Unlocking…'; },900);
-    setTimeout(function(){ crate.classList.add('shake'); },1320);
-    setTimeout(function(){ crate.classList.add('open'); cap.textContent='Opening…'; },1780);
+    /* --- stage 1: case charges, then bursts --- */
+    var opener=$('opener'), cap=$('openerCap');
+    opener.className='opener on';
+    opener.style.setProperty('--ce',c.edge);
+    $('caseArt').src=c.art||'/logos/propchamps-crown.png';
+    cap.textContent='Charging…';
+    void opener.offsetWidth;
+    setTimeout(function(){ opener.classList.add('charging'); SFX.charge(1.05); },60);
+    setTimeout(function(){ cap.textContent='Opening…'; },820);
+    setTimeout(function(){ opener.classList.add('burst'); SFX.burst(); },1180);
 
     /* --- stage 2: reel --- */
     setTimeout(function(){
-      opener.classList.remove('on');
+      opener.className='opener';
       modal.classList.add('reeling');
       /* Use LAYOUT coords (offsetLeft/offsetWidth/clientWidth), never
          getBoundingClientRect: the modal animates in at scale(.97), and a rect
@@ -578,17 +668,37 @@ footer.site a:hover{color:var(--lime)}
          which delays the transform while a wall-clock timer fires on schedule — the
          reveal then lands while the reel is still visibly moving, showing the wrong
          card under the marker. transitionend is tied to the animation itself. */
+      /* Tick on every slot that crosses the marker. Driven off the reel's real
+         position each frame, so the audio stays locked to the animation even if
+         frames drop — never scheduled ahead on a timer. */
+      var lastIdx=-1, ticking=true;
+      (function tickLoop(){
+        if(!ticking) return;
+        var tf=getComputedStyle(reel).transform;
+        var x=0;
+        if(tf && tf!=='none'){ var p=tf.match(/matrix\(([^)]+)\)/); if(p) x=parseFloat(p[1].split(',')[4]); }
+        var idx=Math.round((-x + reel.parentElement.clientWidth/2 - winEl.offsetWidth/2)/(winEl.offsetWidth+parseFloat(getComputedStyle(reel).gap||14)));
+        if(idx!==lastIdx){ if(lastIdx!==-1) SFX.tick(); lastIdx=idx; }
+        requestAnimationFrame(tickLoop);
+      })();
+
       var settled=false;
       function finish(){
         if(settled) return; settled=true;
+        ticking=false;
         reel.removeEventListener('transitionend',onEnd);
         clearTimeout(guard);
-        reel.style.transform='translateX('+target+'px)';   /* snap to exact */
+        /* drop the transition BEFORE snapping, otherwise re-assigning the
+           transform starts a fresh 5.4s animation toward the same value */
+        reel.style.transition='none';
+        reel.style.transform='translateX('+target+'px)';
+        void reel.offsetWidth;
         winEl.classList.add('won');
         reel.classList.add('decided');
         modal.classList.add('landed');
         var fl=$('flash'); fl.classList.remove('go'); void fl.offsetWidth; fl.classList.add('go');
         burst(won);
+        SFX.land(won.r);
         reveal(won,c);
         SPINNING=false;
       }
@@ -623,6 +733,12 @@ footer.site a:hover{color:var(--lime)}
     $('modal').classList.remove('on','landed'); $('modalBg').classList.remove('on');
   }
   $('modalClose').onclick=closeModal; $('modalBg').onclick=closeModal;
+  (function(){
+    var b=$('soundBtn');
+    function paint(){ var m=SFX.isMuted(); b.textContent=m?'🔇':'🔊'; b.classList.toggle('off',m); }
+    paint();
+    b.onclick=function(e){ e.stopPropagation(); SFX.toggle(); paint(); };
+  })();
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeModal(); });
 
   /* ---------- odds panel ---------- */
