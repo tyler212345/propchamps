@@ -44,10 +44,15 @@ so the tier colours don't fight it later.
 
 ### Settings
 
-- Model **Leonardo Phoenix** · Preset **3D Render**
-  (avoid **Cinematic** — it runs on the PhotoReal pipeline, which cannot take an
-  image reference. It works in Stage 1 but will hard-fail in Stage 2, and you want
-  the same preset in both stages so the look carries over.)
+- Model: pick an **explicit model**, not `Auto`. **Leonardo Kino XL** or
+  **Leonardo Diffusion XL** — both accept an image reference in Stage 2, and a fixed
+  model keeps all three tiers consistent. `Auto` can route to a model that rejects
+  image guidance, which fails the whole request.
+- Style: **None**. The prompt already specifies the render look in words, so it does
+  not need a preset. `Dynamic` is fine too.
+  **Never `Cinematic`** — that is the PhotoReal pipeline and it cannot take an image
+  reference, so it works in Stage 1 and hard-fails in Stage 2.
+  (The Style list changes depending on the model you pick — check it after choosing.)
 - Alchemy **on** · Guidance **7** · Aspect **1:1** · at least **1024×1024**
 - Generate 4 at a time
 
@@ -80,10 +85,11 @@ image every time, so the shape and camera stay locked and only the finish change
   ignore the colour, drop to **0.4**.
 - Everything else identical to Stage 1. Same negative prompt **except remove
   `gold`, `colourful`, `glowing`** — you want those now.
-- **Preset must be 3D Render, not Cinematic.** Cinematic + image guidance returns
-  "Validation failed. Please check your request parameters." If you still get that
-  error, turn **Alchemy off** and retry, then fall back to model **Leonardo Kino XL**
-  or **Diffusion XL**, which take Content Reference reliably.
+- **Same model and style as Stage 1.** If you get "Validation failed. Please check
+  your request parameters.", it is almost always the model or the style rejecting the
+  image reference. Work down this list: set Model off `Auto` to an explicit one →
+  set Style to `None` → turn **Alchemy off** → switch model to **Kino XL** or
+  **Diffusion XL**.
 
 ### Starter — steel
 
