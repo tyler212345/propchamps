@@ -44,7 +44,10 @@ so the tier colours don't fight it later.
 
 ### Settings
 
-- Model **Leonardo Phoenix** · Preset **Cinematic** or **3D Render**
+- Model **Leonardo Phoenix** · Preset **3D Render**
+  (avoid **Cinematic** — it runs on the PhotoReal pipeline, which cannot take an
+  image reference. It works in Stage 1 but will hard-fail in Stage 2, and you want
+  the same preset in both stages so the look carries over.)
 - Alchemy **on** · Guidance **7** · Aspect **1:1** · at least **1024×1024**
 - Generate 4 at a time
 
@@ -77,6 +80,10 @@ image every time, so the shape and camera stay locked and only the finish change
   ignore the colour, drop to **0.4**.
 - Everything else identical to Stage 1. Same negative prompt **except remove
   `gold`, `colourful`, `glowing`** — you want those now.
+- **Preset must be 3D Render, not Cinematic.** Cinematic + image guidance returns
+  "Validation failed. Please check your request parameters." If you still get that
+  error, turn **Alchemy off** and retry, then fall back to model **Leonardo Kino XL**
+  or **Diffusion XL**, which take Content Reference reliably.
 
 ### Starter — steel
 
