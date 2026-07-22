@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0a0d12">
+<title>PropChamps Cases — Every Case Pays For Itself</title>
+<meta name="description" content="Open a PropChamps case and win a funded futures account. Every case is guaranteed to return at least what you paid — the only question is how much more.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-base:#0a0d12;--bg-surface:#0f1419;--bg-elev:#131820;--bg-card:#131922;--bg-card-elev:#181f29;--bg-band:#07090d;
+  --border:#1c2532;--border-strong:#2a3441;--border-lime:rgba(200,255,0,0.22);--border-lime-strong:rgba(200,255,0,0.45);
+  --text:#e8edf2;--text-strong:#fff;--text-soft:#94a3b8;--text-faint:#6b7785;
+  --lime:#c8ff00;--lime-2:#d4ff33;--lime-soft:rgba(200,255,0,0.10);--lime-text:#b4e600;
+  --positive:#4ade80;--warning:#fbbf24;--neg:#f87171;
+  --r-common:#8b98a8;--r-uncommon:#c8ff00;--r-rare:#7c5cff;--r-epic:#ff4dd8;--r-legendary:#ffb020;--r-mythic:#ff5a3c;
+  --font-display:'Inter',system-ui,-apple-system,sans-serif;--font-body:'Inter',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono',ui-monospace,monospace;
+  --max-w:1200px;--gutter:clamp(20px,4vw,48px)
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg-base);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}img{display:block;max-width:100%;height:auto}button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.container{width:100%;max-width:var(--max-w);margin:0 auto;padding:0 var(--gutter);position:relative;z-index:1}
+
+/* preview ribbon */
+.preview-bar{background:linear-gradient(90deg,rgba(255,176,32,.16),rgba(255,176,32,.06));border-bottom:1px solid rgba(255,176,32,.35);color:#ffd68a;font-family:var(--font-mono);font-size:12px;letter-spacing:.03em;text-align:center;padding:9px 16px}
+.preview-bar b{color:#ffb020}
+
+.editorial-strip{background:var(--bg-band);border-bottom:1px solid var(--border);color:var(--text-soft);font-size:12.5px;font-weight:500}
+.editorial-strip .container{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-top:10px;padding-bottom:10px}
+.editorial-strip .lhs{display:flex;align-items:center;gap:10px}
+.editorial-strip .dot{width:6px;height:6px;border-radius:50%;background:var(--lime);box-shadow:0 0 8px rgba(200,255,0,.6);animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 6px rgba(200,255,0,.5)}50%{box-shadow:0 0 12px rgba(200,255,0,.8)}}
+.editorial-strip .rhs{font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint)}
+
+header.site{background:rgba(10,13,18,.78);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px)}
+header.site .container{display:flex;align-items:center;justify-content:space-between;height:80px}
+.logo-mark{display:inline-flex;align-items:center;height:44px}.logo-mark img{height:44px;width:auto}
+nav.primary{display:flex;align-items:center;gap:2px}
+nav.primary a{font-size:14px;font-weight:500;color:var(--text-soft);padding:8px 12px;border-radius:8px;transition:all .15s;white-space:nowrap}
+nav.primary a:hover{color:var(--text-strong);background:rgba(255,255,255,.04)}
+nav.primary a.active{color:var(--text-strong);position:relative}
+nav.primary a.active::after{content:"";position:absolute;bottom:-1px;left:12px;right:12px;height:2px;background:var(--lime);border-radius:2px;box-shadow:0 0 12px rgba(200,255,0,.6)}
+.header-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--lime);color:var(--bg-base);font-size:14px;font-weight:700;border-radius:8px;white-space:nowrap;box-shadow:0 0 0 1px rgba(200,255,0,.2),0 8px 24px -8px rgba(200,255,0,.4)}
+.menu-toggle{display:none;width:40px;height:40px;border-radius:8px;border:1px solid var(--border-strong);background:var(--bg-card);align-items:center;justify-content:center}
+.menu-toggle .bar{width:16px;height:1.5px;background:var(--text);position:relative}
+.menu-toggle .bar::before,.menu-toggle .bar::after{content:"";position:absolute;left:0;width:16px;height:1.5px;background:var(--text)}
+.menu-toggle .bar::before{top:-5px}.menu-toggle .bar::after{bottom:-5px}
+.mobile-menu{display:none;position:fixed;inset:80px 0 0 0;background:var(--bg-base);border-top:1px solid var(--border);padding:32px 24px;z-index:40}
+.mobile-menu a{display:block;font-size:18px;font-weight:600;padding:14px 0;border-bottom:1px solid var(--border)}
+body.is-menu-open .mobile-menu{display:block}
+@media(max-width:1100px){nav.primary,.header-cta{display:none}.menu-toggle{display:inline-flex}}
+
+.bg-stack{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.bg-stack::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(200,255,0,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(200,255,0,.045) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse 80% 60% at 50% 10%,black 30%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 10%,black 30%,transparent 90%)}
+.bg-stack::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 45% at 50% 8%,rgba(200,255,0,.10) 0%,transparent 70%)}
+
+/* hero */
+.hero{padding:56px 0 32px;position:relative;text-align:center}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:var(--font-mono);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lime-text);margin-bottom:18px;padding:7px 14px;border:1px solid var(--border-lime);border-radius:100px;background:var(--lime-soft)}
+.hero h1{font-family:var(--font-display);font-weight:900;font-size:clamp(34px,5.6vw,62px);line-height:1.03;letter-spacing:-.045em;color:var(--text-strong);margin:0 auto 18px;max-width:16ch}
+.hero h1 .accent{background:linear-gradient(135deg,var(--lime),#a3d600);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{font-size:clamp(16px,2vw,19px);color:var(--text-soft);max-width:640px;margin:0 auto 26px;line-height:1.55}
+.guarantee{display:inline-flex;align-items:center;gap:12px;padding:13px 22px;border:1px solid var(--border-lime-strong);background:linear-gradient(135deg,rgba(200,255,0,.10),rgba(200,255,0,.02));border-radius:100px;font-size:14.5px;font-weight:600;color:var(--text-strong)}
+.guarantee .g-ico{width:26px;height:26px;border-radius:50%;background:var(--lime);color:var(--bg-base);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;flex-shrink:0}
+.hero-note{margin-top:20px;font-size:14px;color:var(--text-faint)}
+.hero-note a{color:var(--lime-text);text-decoration:underline;text-underline-offset:3px}
+
+/* case grid */
+.cases{padding:34px 0 64px;position:relative}
+.case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.case-card{position:relative;background:linear-gradient(180deg,var(--bg-card) 0%,var(--bg-elev) 100%);border:1px solid var(--border);border-radius:20px;padding:28px 24px;text-align:center;transition:all .24s;overflow:hidden}
+.case-card::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,var(--tint),transparent 70%);opacity:.5;pointer-events:none}
+.case-card:hover{transform:translateY(-4px);border-color:var(--edge)}
+.case-tier{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--edge);margin-bottom:18px;position:relative}
+.case-art{width:140px;height:110px;margin:0 auto 20px;position:relative;border-radius:16px;background:linear-gradient(160deg,var(--edge) -30%,var(--bg-elev) 55%);border:1px solid var(--edge);display:flex;align-items:center;justify-content:center;box-shadow:0 20px 50px -22px var(--edge);transition:transform .3s}
+.case-card:hover .case-art{transform:translateY(-3px) scale(1.03)}
+.case-art::after{content:"";position:absolute;inset:0;border-radius:16px;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.16) 50%,transparent 60%)}
+.case-art img{width:52px;opacity:.95;filter:drop-shadow(0 4px 14px rgba(0,0,0,.5))}
+.case-price{font-family:var(--font-display);font-weight:900;font-size:38px;letter-spacing:-.035em;color:var(--text-strong);line-height:1;margin-bottom:6px;position:relative}
+.case-floor{font-size:13px;color:var(--text-soft);margin-bottom:18px;position:relative}
+.case-floor b{color:var(--lime-text)}
+.case-top{display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-mono);font-size:11px;color:var(--text-faint);margin-bottom:20px;position:relative}
+.case-top b{color:var(--r-legendary)}
+.btn-open{width:100%;padding:15px;background:var(--lime);color:var(--bg-base);font-size:15.5px;font-weight:800;border-radius:12px;transition:all .16s;box-shadow:0 0 0 1px rgba(200,255,0,.25),0 12px 30px -10px rgba(200,255,0,.5);position:relative}
+.btn-open:hover{background:var(--lime-2);transform:translateY(-2px)}
+.demo-tag{display:inline-block;margin-left:7px;padding:2px 7px;border-radius:5px;background:rgba(10,13,18,.22);font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;vertical-align:1px}
+.case-odds-link{display:block;margin-top:12px;font-size:12.5px;color:var(--text-faint);text-decoration:underline;text-underline-offset:3px;position:relative}
+.case-odds-link:hover{color:var(--lime)}
+
+/* modal + reel */
+.modal-bg{position:fixed;inset:0;background:rgba(4,6,9,.86);backdrop-filter:blur(6px);z-index:90;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-bg.on{opacity:1;pointer-events:all}
+.modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-48%) scale(.97);width:min(940px,94vw);background:linear-gradient(180deg,var(--bg-card-elev),var(--bg-base));border:1px solid var(--border-strong);border-radius:22px;z-index:91;padding:30px;opacity:0;pointer-events:none;transition:all .28s cubic-bezier(.2,.9,.3,1)}
+.modal.on{opacity:1;pointer-events:all;transform:translate(-50%,-50%) scale(1)}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.modal-title{font-family:var(--font-display);font-weight:800;font-size:20px;letter-spacing:-.02em;color:var(--text-strong)}
+.modal-close{width:34px;height:34px;border-radius:9px;border:1px solid var(--border-strong);color:var(--text-soft);font-size:17px;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{border-color:var(--neg);color:var(--neg)}
+
+.reel-wrap{position:relative;height:168px;border:1px solid var(--border-strong);border-radius:16px;background:var(--bg-band);overflow:hidden}
+.reel-wrap::before,.reel-wrap::after{content:"";position:absolute;top:0;bottom:0;width:110px;z-index:3;pointer-events:none}
+.reel-wrap::before{left:0;background:linear-gradient(90deg,var(--bg-band),transparent)}
+.reel-wrap::after{right:0;background:linear-gradient(-90deg,var(--bg-band),transparent)}
+.marker{position:absolute;left:50%;top:0;bottom:0;width:2px;margin-left:-1px;background:var(--lime);box-shadow:0 0 16px 2px rgba(200,255,0,.7);z-index:4}
+.marker::before,.marker::after{content:"";position:absolute;left:50%;transform:translateX(-50%);border-left:7px solid transparent;border-right:7px solid transparent}
+.marker::before{top:0;border-top:9px solid var(--lime)}
+.marker::after{bottom:0;border-bottom:9px solid var(--lime)}
+.reel{display:flex;gap:12px;padding:16px 0;height:100%;align-items:center;will-change:transform}
+.slot{position:relative;flex:0 0 140px;height:136px;border-radius:13px;background:var(--bg-card);border:1px solid var(--border-strong);border-bottom:3px solid var(--rc);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:10px;text-align:center;overflow:hidden}
+.slot::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 90% 60% at 50% 110%,var(--rc),transparent 70%);opacity:var(--glow,0);pointer-events:none}
+.slot img{width:30px;height:30px;object-fit:contain;padding:3px;margin-bottom:2px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid var(--border);position:relative}
+.slot .s-firm{font-family:var(--font-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);position:relative}
+.slot .s-name{font-size:11.5px;font-weight:700;color:var(--text-strong);line-height:1.25;position:relative}
+.slot .s-val{font-family:var(--font-mono);font-size:12px;color:var(--rc);font-weight:700;position:relative}
+.slot.won{animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.09)}100%{transform:scale(1.05)}}
+
+/* result */
+.result{margin-top:20px;text-align:center;min-height:128px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.result.hide{visibility:hidden}
+.modal.odds-mode .reel-wrap,.modal.odds-mode .result{display:none}
+.res-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
+.res-name{font-family:var(--font-display);font-weight:900;font-size:clamp(22px,3.4vw,32px);letter-spacing:-.03em;color:var(--rc)}
+.res-meta{font-size:14px;color:var(--text-soft)}
+.res-meta b{color:var(--text-strong)}
+.res-actions{display:flex;gap:12px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.btn-again{padding:13px 26px;background:var(--lime);color:var(--bg-base);font-weight:800;border-radius:11px;font-size:14.5px}
+.btn-ghost{padding:13px 26px;background:var(--bg-card);border:1px solid var(--border-strong);color:var(--text);font-weight:600;border-radius:11px;font-size:14.5px}
+.spinning .res-actions{visibility:hidden}
+
+/* odds table */
+.odds-panel{margin-top:22px;border:1px solid var(--border);border-radius:14px;overflow:hidden;display:none}
+.odds-panel.on{display:block}
+table.odds{width:100%;border-collapse:collapse;font-size:13.5px}
+table.odds th,table.odds td{padding:11px 15px;text-align:left;border-bottom:1px solid var(--border)}
+table.odds thead th{background:var(--bg-band);font-family:var(--font-mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--text-faint)}
+table.odds tbody tr:last-child td{border-bottom:0}
+table.odds td.pct{text-align:right;font-family:var(--font-mono);font-weight:700}
+.rar{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:8px;vertical-align:middle}
+
+/* full prize pools */
+.feed{padding:0 0 64px}
+.feed-head{font-family:var(--font-display);font-weight:800;font-size:clamp(20px,2.6vw,27px);letter-spacing:-.03em;color:var(--text-strong);margin-bottom:10px}
+.feed-note{font-size:14.5px;color:var(--text-soft);max-width:680px;margin-bottom:26px;line-height:1.6}
+.feed-note a{color:var(--lime-text);text-decoration:underline;text-underline-offset:3px}
+.pool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pool{display:flex;flex-direction:column;background:var(--bg-card);border:1px solid var(--border);border-top:3px solid var(--edge);border-radius:16px;overflow:hidden}
+.pool-head{padding:15px 18px;border-bottom:1px solid var(--border);display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.pool-head .p-name{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--edge);font-weight:700}
+.pool-head .p-price{font-family:var(--font-display);font-weight:800;font-size:17px;color:var(--text-strong)}
+.pool-row{display:flex;align-items:center;gap:10px;padding:10px 18px;border-bottom:1px solid var(--border);font-size:13.5px}
+.pool-row:last-child{border-bottom:0}
+.pool-row .rar{flex-shrink:0;margin:0}
+.pool-row .p-item{flex:1;min-width:0}
+.pool-row .p-acct{color:var(--text-strong);font-weight:600;display:block;line-height:1.3}
+.pool-row .p-firm{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--text-faint)}
+.pool-row .p-val{font-family:var(--font-mono);font-size:12.5px;color:var(--text-soft);flex-shrink:0}
+.pool-row .p-odds{font-family:var(--font-mono);font-size:12px;font-weight:700;width:48px;text-align:right;flex-shrink:0}
+.pool-foot{margin-top:auto;padding:12px 18px;background:var(--bg-band);border-top:1px solid var(--border);font-size:12.5px;color:var(--text-soft)}
+.pool-foot b{color:var(--lime-text)}
+
+/* waitlist */
+.waitlist-band{border-top:1px solid var(--border);background:linear-gradient(180deg,rgba(200,255,0,.035),transparent 60%)}
+.waitlist{display:grid;grid-template-columns:1.15fr 1fr;gap:44px;align-items:center;padding:60px 0}
+.wl-copy p{font-size:16px;color:var(--text-soft);line-height:1.65;max-width:46ch}
+.wl-form{display:flex;flex-wrap:wrap;gap:10px}
+.wl-form input{flex:1;min-width:200px;padding:15px 17px;background:var(--bg-card);border:1px solid var(--border-strong);border-radius:11px;color:var(--text);font-size:15px;font-family:inherit}
+.wl-form input:focus{outline:none;border-color:var(--lime);box-shadow:0 0 0 3px rgba(200,255,0,.12)}
+.wl-form button{padding:15px 26px;background:var(--lime);color:var(--bg-base);font-weight:800;font-size:15px;border-radius:11px;white-space:nowrap;transition:all .15s}
+.wl-form button:hover{background:var(--lime-2)}
+.wl-form button:disabled{opacity:.6;cursor:default}
+.wl-msg{flex-basis:100%;font-size:13.5px;color:var(--positive);min-height:19px}
+.wl-msg.err{color:var(--neg)}
+
+/* how */
+section.block{padding:60px 0;border-top:1px solid var(--border)}
+.section-eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--lime-text);margin-bottom:16px}
+.section-eyebrow::before{content:"";width:24px;height:1px;background:var(--lime-text)}
+.section-h2{font-family:var(--font-display);font-weight:800;font-size:clamp(24px,3.2vw,36px);line-height:1.12;letter-spacing:-.035em;color:var(--text-strong);margin-bottom:14px}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px}
+.how-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:26px}
+.how-num{font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--lime);margin-bottom:12px}
+.how-card h3{font-family:var(--font-display);font-weight:800;font-size:18px;letter-spacing:-.02em;color:var(--text-strong);margin-bottom:8px}
+.how-card p{font-size:14.5px;color:var(--text-soft);line-height:1.6}
+.prose{max-width:760px}
+.prose p{font-size:16.5px;line-height:1.72;color:var(--text);margin-bottom:14px}
+.prose p strong{color:var(--text-strong)}
+
+footer.site{background:var(--bg-band);border-top:1px solid var(--border);color:var(--text-soft);padding:60px 0 28px;margin-top:40px}
+footer.site .legal{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--text-faint);flex-wrap:wrap;gap:16px}
+footer.site .fnav{display:flex;gap:22px;flex-wrap:wrap;margin-bottom:26px;font-size:14px}
+footer.site a:hover{color:var(--lime)}
+
+@media(max-width:900px){.case-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto}.how-grid,.pool-grid{grid-template-columns:1fr}.waitlist{grid-template-columns:1fr;gap:28px;padding:48px 0}}
+@media(max-width:760px){.editorial-strip .rhs{display:none}.editorial-strip .container{justify-content:center}}
+@media(max-width:700px){.modal{padding:20px}.reel-wrap{height:150px}.slot{flex:0 0 116px;height:118px}.reel-wrap::before,.reel-wrap::after{width:60px}}
+</style>
+</head>
+<body>
+
+<div class="preview-bar"><b>PREVIEW</b> — Cases aren't open yet. Everything here is a free demo, nothing is for sale, and no payment is collected.</div>
+
+<div class="editorial-strip"><div class="container"><div class="lhs"><span class="dot"></span><span>Independent prop firm research · Reviewed weekly</span></div><div class="rhs">Cases</div></div></div>
+
+<header class="site">
+  <div class="container">
+    <a class="logo-mark" href="/" aria-label="PropChamps home"><img src="/logos/propchamps.png" alt="PropChamps"></a>
+    <nav class="primary">
+      <a href="/">Firms</a><a href="/compare">Compare</a><a href="/deals">Deals</a><a href="/payouts">Payouts</a><a href="/blog/">Blog</a><a href="/cases" class="active">Cases</a>
+    </nav>
+    <a class="header-cta" href="/compare">Compare firms</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><span class="bar"></span></button>
+  </div></header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/">Firms</a><a href="/compare">Compare</a><a href="/deals">Deals</a><a href="/payouts">Payouts</a><a href="/blog/">Blog</a><a href="/cases">Cases</a>
+</div>
+
+<section class="hero">
+  <div class="bg-stack"></div>
+  <div class="container">
+    <div class="hero-eyebrow">PropChamps Cases</div>
+    <h1>Every case <span class="accent">pays for itself.</span></h1>
+    <p class="hero-sub">Open a case, get a funded futures account — guaranteed. The floor prize in every case is worth at least what you paid. The only question is how far above it you land.</p>
+    <div class="guarantee"><span class="g-ico">✓</span> No blanks. No duds. Worst case, you get full value.</div>
+    <p class="hero-note">Cases aren't open yet — this is a working preview. Spin one for free below to see how it plays, then <a href="#waitlist">get on the list</a>.</p>
+  </div>
+</section>
+
+<section class="cases">
+  <div class="container">
+    <div class="case-grid" id="caseGrid"></div>
+  </div>
+</section>
+
+<section class="feed">
+  <div class="container">
+    <div class="feed-head">Every prize in every case</div>
+    <p class="feed-note">No hidden pool. These are the complete contents and the exact odds. Values are real street prices for each account — the same prices on our <a href="/deals">deals page</a>, not inflated list prices.</p>
+    <div class="pool-grid" id="poolGrid"></div>
+  </div>
+</section>
+
+<section class="waitlist-band" id="waitlist">
+  <div class="container">
+    <div class="waitlist">
+      <div class="wl-copy">
+        <div class="section-eyebrow">Not open yet</div>
+        <h2 class="section-h2">Want first crack at it?</h2>
+        <p>Cases go live once we've locked account supply with the firms. Join the list and you'll know before anyone else — same email that gets our weekly deals.</p>
+      </div>
+      <form class="wl-form" id="wlForm">
+        <input type="email" id="wlEmail" placeholder="you@email.com" required autocomplete="email" aria-label="Email address">
+        <button type="submit" id="wlBtn">Notify me</button>
+        <div class="wl-msg" id="wlMsg"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="container">
+    <div class="section-eyebrow">How it works</div>
+    <h2 class="section-h2">Why there's no such thing as a bad open.</h2>
+    <div class="prose">
+      <p>Most case sites are built so the house wins — you pay, and most of the time you get something worth less than you spent. <strong>We built ours backwards.</strong></p>
+      <p>Every PropChamps case has a <strong>floor prize worth at least the price of the case</strong>. Land on the worst outcome and you've still bought an account at fair value. Everything above the floor is upside. We publish the exact odds for every prize, and we value every account at its real street price — the same prices you'll find on our <a href="/deals" style="color:var(--lime-text)">deals page</a>.</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-card"><div class="how-num">01</div><h3>Pick your case</h3><p>Three tiers. Each one lists its floor prize, its jackpot, and the full odds table before you ever open it.</p></div>
+      <div class="how-card"><div class="how-num">02</div><h3>Open it</h3><p>The reel spins and lands on your account. Everything from the guaranteed floor up to an instant-funded six-figure account.</p></div>
+      <div class="how-card"><div class="how-num">03</div><h3>Claim it</h3><p>Your account code arrives instantly and is redeemed straight with the firm — no waiting, no middleman. That's the plan once supply is locked in.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="container">
+    <div class="fnav"><a href="/">Firms</a><a href="/compare">Compare</a><a href="/deals">Deals</a><a href="/payouts">Payouts</a><a href="/blog/">Blog</a><a href="/methodology">Methodology</a></div>
+    <div class="legal">
+      <div>© 2026 PropChamps. Independent prop firm research. Not financial advice.</div>
+      <div>Trading involves substantial risk.</div>
+    </div>
+  </div>
+</footer>
+
+<script src="/subscribe.js"></script>
+<div class="modal-bg" id="modalBg"></div>
+<div class="modal" id="modal">
+  <div class="modal-head">
+    <div class="modal-title" id="modalTitle">Opening case…</div>
+    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+  </div>
+  <div class="reel-wrap">
+    <div class="marker"></div>
+    <div class="reel" id="reel"></div>
+  </div>
+  <div class="result hide" id="result"></div>
+  <div class="odds-panel" id="oddsPanel"></div>
+</div>
+
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i);};
+  var RARITY={common:'--r-common',uncommon:'--r-uncommon',rare:'--r-rare',epic:'--r-epic',legendary:'--r-legendary',mythic:'--r-mythic'};
+  function rc(r){ return getComputedStyle(document.documentElement).getPropertyValue(RARITY[r]||'--r-common').trim(); }
+  function usd(n){ return '$'+n.toLocaleString('en-US'); }
+
+  /* prize pools use real firm products + street prices */
+  var CASES={
+    starter:{ name:'Starter Case', price:59, edge:'#8b98a8', tint:'rgba(139,152,168,.16)',
+      pool:[
+        {f:'Tradeify',logo:'/logos/tradify.png',n:'Growth 25K',v:59,r:'common',w:70},
+        {f:'Tradeify',logo:'/logos/tradify.png',n:'Select 25K',v:65,r:'common',w:15},
+        {f:'Lucid Trading',logo:'/logos/lucid.png',n:'Flex 25K',v:70,r:'uncommon',w:8},
+        {f:'Lucid Trading',logo:'/logos/lucid.png',n:'Pro 25K',v:84,r:'uncommon',w:4},
+        {f:'Tradeify',logo:'/logos/tradify.png',n:'Growth 50K',v:87,r:'rare',w:2},
+        {f:'Lucid Trading',logo:'/logos/lucid.png',n:'Flex 100K',v:158,r:'epic',w:0.8},
+        {f:'Tradeify',logo:'/logos/tradify.png',n:'Growth 150K',v:221,r:'legendary',w:0.2}
+      ]},
+    pro:{ name:'Pro Case', price:120, edge:'#7c5cff', tint:'rgba(124,92,255,.18)',
+      pool:[
+        {f:'Top One Futures',logo:'/logos/topone.png',n:'Ignite 25K · Instant',v:120,r:'common',w:78},
+        {f:'Lucid Trading',logo:'/logos/lucid.png',n:'Flex 100K',v:158,r:'common',w:12},
+        {f:'Tradeify',logo:'/logos/tradify.png',n:'Lightning 25K',v:207,r:'uncommon',w:6},
+        {f:'Lucid Trading',logo:'/logos/lucid.png',n:'Direct 25K',v:238,r:'rare',w:2.5},
+        {f:'Top One Futures',logo:'/logos/topone.png',n:'Instant Sim 25K',v:272,r:'epic',w:1.2},
+        {f:'Top One Futures',logo:'/logos/topone.png',n:'Instant Sim 50K',v:441,r:'legendary',w:0.3}
+      ]},
+    elite:{ name:'Elite Case', price:235, edge:'#ffb020', tint:'rgba(255,176,32,.18)',
+      pool:[
+        {f:'Lucid Trading',logo:'/logos/lucid.png',n:'Direct 25K',v:238,r:'common',w:72},
+        {f:'Top One Futures',logo:'/logos/topone.png',n:'Instant Sim 25K',v:272,r:'common',w:16},
+        {f:'Lucid Trading',logo:'/logos/lucid.png',n:'Direct 50K',v:364,r:'uncommon',w:7},
+        {f:'Top One Futures',logo:'/logos/topone.png',n:'S2F 150K',v:400,r:'rare',w:3},
+        {f:'Top One Futures',logo:'/logos/topone.png',n:'Instant Sim 100K',v:534,r:'epic',w:1.5},
+        {f:'Top One Futures',logo:'/logos/topone.png',n:'Instant Sim 150K',v:610,r:'legendary',w:0.4},
+        {f:'PropChamps',logo:'/logos/propchamps.png',n:'TRIPLE 150K BUNDLE',v:1830,r:'mythic',w:0.1}
+      ]}
+  };
+
+  /* ---------- render case cards ---------- */
+  var grid=$('caseGrid');
+  Object.keys(CASES).forEach(function(k){
+    var c=CASES[k];
+    var floor=c.pool.reduce(function(a,b){return b.v<a.v?b:a;});
+    var top=c.pool.reduce(function(a,b){return b.v>a.v?b:a;});
+    var ev=c.pool.reduce(function(s,p){return s+p.v*(p.w/100);},0);
+    var el=document.createElement('div');
+    el.className='case-card';
+    el.style.setProperty('--edge',c.edge); el.style.setProperty('--tint',c.tint);
+    el.innerHTML='<div class="case-tier">'+c.name+'</div>'+
+      '<div class="case-art"><img src="/logos/propchamps-crown.png" alt=""></div>'+
+      '<div class="case-price">'+usd(c.price)+'</div>'+
+      '<div class="case-floor">Guaranteed floor: <b>'+floor.n+'</b> ('+usd(floor.v)+')</div>'+
+      '<div class="case-top">TOP PRIZE <b>'+top.n+'</b> · '+usd(top.v)+'</div>'+
+      '<button class="btn-open" data-case="'+k+'">Open case <span class="demo-tag">demo</span></button>'+
+      '<a class="case-odds-link" data-odds="'+k+'">View odds · avg return '+Math.round(ev/c.price*100)+'%</a>';
+    grid.appendChild(el);
+  });
+
+  /* ---------- weighted pick ---------- */
+  function pick(pool){
+    var total=pool.reduce(function(s,p){return s+p.w;},0);
+    var r=Math.random()*total;
+    for(var i=0;i<pool.length;i++){ r-=pool[i].w; if(r<=0) return pool[i]; }
+    return pool[0];
+  }
+  var GLOW={common:0,uncommon:.14,rare:.24,epic:.34,legendary:.46,mythic:.6};
+  function slotHtml(p,won){
+    return '<div class="slot'+(won?' won':'')+'" style="--rc:'+rc(p.r)+';--glow:'+(GLOW[p.r]||0)+'">'+
+      '<img src="'+p.logo+'" alt=""><div class="s-firm">'+p.f+'</div>'+
+      '<div class="s-name">'+p.n+'</div><div class="s-val">'+usd(p.v)+'</div></div>';
+  }
+
+  /* ---------- open ---------- */
+  var SPINNING=false;
+  function openCase(key){
+    if(SPINNING) return;
+    var c=CASES[key];
+    var won=pick(c.pool);
+    $('modalTitle').textContent=c.name+' · '+usd(c.price);
+    $('oddsPanel').classList.remove('on');
+    $('result').classList.add('hide');
+    $('modal').classList.remove('odds-mode');
+    $('modal').classList.add('on','spinning'); $('modalBg').classList.add('on');
+
+    /* build reel: 60 slots, winner at index 52 */
+    var WIN=52, html='';
+    for(var i=0;i<60;i++){ html += slotHtml(i===WIN?won:pick(c.pool)); }
+    var reel=$('reel');
+    reel.style.transition='none'; reel.style.transform='translateX(0)';
+    reel.innerHTML=html;
+
+    /* measure + animate */
+    requestAnimationFrame(function(){
+      var slot=reel.querySelector('.slot');
+      var sw=slot.getBoundingClientRect().width+12;
+      var wrapW=reel.parentElement.getBoundingClientRect().width;
+      var jitter=(Math.random()*0.6-0.3)*sw;
+      var target=-(WIN*sw + sw/2 - wrapW/2 + jitter);
+      SPINNING=true;
+      requestAnimationFrame(function(){
+        reel.style.transition='transform 5.4s cubic-bezier(.12,.72,.12,1)';
+        reel.style.transform='translateX('+target+'px)';
+      });
+      setTimeout(function(){
+        var el=reel.children[WIN]; if(el) el.classList.add('won');
+        reveal(won,c); SPINNING=false;
+      }, 5500);
+    });
+  }
+  function reveal(p,c){
+    var color=rc(p.r);
+    var diff=p.v-c.price;
+    var res=$('result');
+    res.style.setProperty('--rc',color);
+    res.innerHTML='<div class="res-label">'+p.r.toUpperCase()+' · '+p.f+'</div>'+
+      '<div class="res-name" style="color:'+color+'">'+p.n+'</div>'+
+      '<div class="res-meta">Value <b>'+usd(p.v)+'</b> · you paid '+usd(c.price)+
+        (diff>0?' · <b style="color:var(--positive)">+'+usd(diff)+' up</b>':' · <b>full value</b>')+'</div>'+
+      '<div class="res-actions"><button class="btn-again" id="againBtn">Open another</button><button class="btn-ghost" id="doneBtn">Done</button></div>';
+    res.classList.remove('hide');
+    $('modal').classList.remove('spinning');
+    $('againBtn').onclick=function(){ openCase(Object.keys(CASES).find(function(k){return CASES[k]===c;})); };
+    $('doneBtn').onclick=closeModal;
+    addFeed(p);
+  }
+  function closeModal(){ if(SPINNING) return; $('modal').classList.remove('on'); $('modalBg').classList.remove('on'); }
+  $('modalClose').onclick=closeModal; $('modalBg').onclick=closeModal;
+
+  /* ---------- odds panel ---------- */
+  function showOdds(key){
+    var c=CASES[key];
+    var rows=c.pool.slice().sort(function(a,b){return b.w-a.w;}).map(function(p){
+      return '<tr><td><span class="rar" style="background:'+rc(p.r)+'"></span>'+p.f+' — '+p.n+'</td><td>'+usd(p.v)+'</td><td class="pct" style="color:'+rc(p.r)+'">'+p.w+'%</td></tr>';
+    }).join('');
+    var ev=c.pool.reduce(function(s,p){return s+p.v*(p.w/100);},0);
+    $('modalTitle').textContent=c.name+' · published odds';
+    $('oddsPanel').innerHTML='<table class="odds"><thead><tr><th>Prize</th><th>Value</th><th class="pct">Chance</th></tr></thead><tbody>'+rows+
+      '</tbody><tfoot><tr><td colspan="3" style="background:var(--bg-band);color:var(--text-soft);font-size:12.5px">'+
+      'Average return <b style="color:var(--lime-text)">'+usd(Math.round(ev))+'</b> on a '+usd(c.price)+' case ('+Math.round(ev/c.price*100)+'%). '+
+      'Values are street prices, not list prices.</td></tr></tfoot></table>';
+    $('oddsPanel').classList.add('on');
+    $('modal').classList.add('on','odds-mode'); $('modalBg').classList.add('on');
+  }
+
+  document.addEventListener('click',function(e){
+    var o=e.target.closest('[data-case]'); if(o){ openCase(o.dataset.case); return; }
+    var d=e.target.closest('[data-odds]'); if(d){ showOdds(d.dataset.odds); }
+  });
+
+  /* ---------- full prize pools ---------- */
+  var pg=$('poolGrid');
+  Object.keys(CASES).forEach(function(k){
+    var c=CASES[k];
+    var ev=c.pool.reduce(function(s,p){return s+p.v*(p.w/100);},0);
+    var rows=c.pool.slice().sort(function(a,b){return b.w-a.w;}).map(function(p){
+      return '<div class="pool-row"><span class="rar" style="background:'+rc(p.r)+'"></span>'+
+        '<span class="p-item"><span class="p-acct">'+p.n+'</span><span class="p-firm">'+p.f+'</span></span>'+
+        '<span class="p-val">'+usd(p.v)+'</span>'+
+        '<span class="p-odds" style="color:'+rc(p.r)+'">'+p.w+'%</span></div>';
+    }).join('');
+    var el=document.createElement('div');
+    el.className='pool'; el.style.setProperty('--edge',c.edge);
+    el.innerHTML='<div class="pool-head"><span class="p-name">'+c.name+'</span><span class="p-price">'+usd(c.price)+'</span></div>'+
+      rows+'<div class="pool-foot">Average return <b>'+usd(Math.round(ev))+'</b> · '+Math.round(ev/c.price*100)+'% of price</div>';
+    pg.appendChild(el);
+  });
+
+  /* ---------- waitlist ---------- */
+  var wf=$('wlForm');
+  if(wf) wf.addEventListener('submit',function(e){
+    e.preventDefault();
+    var email=$('wlEmail').value.trim(), msg=$('wlMsg'), btn=$('wlBtn');
+    if(!email) return;
+    btn.disabled=true; btn.textContent='Adding…'; msg.className='wl-msg'; msg.textContent='';
+    var go=window.PROPCHAMPS_subscribe ? window.PROPCHAMPS_subscribe(email,'cases') : Promise.resolve({});
+    go.then(function(){
+      msg.textContent="You're on the list. We'll email you when cases open.";
+      btn.textContent='Added'; $('wlEmail').value='';
+    }).catch(function(){
+      msg.className='wl-msg err'; msg.textContent='Something went wrong — try again in a moment.';
+      btn.disabled=false; btn.textContent='Notify me';
+    });
+  });
+
+  /* menu */
+  var mt=$('menuToggle');
+  if(mt) mt.addEventListener('click',function(){ document.body.classList.toggle('is-menu-open'); });
+})();
+</script>
+</body>
+</html>
