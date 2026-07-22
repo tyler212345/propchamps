@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="190 346 820 820" width="1200" height="1200">
+<defs>
+  <linearGradient id="gTop" x1=".15" y1="0" x2=".85" y2="1">
+    <stop offset="0" stop-color="#b9c3cf"/><stop offset=".55" stop-color="#98a4b2"/><stop offset="1" stop-color="#85919f"/>
+  </linearGradient>
+  <linearGradient id="gFront" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#8d99a6"/><stop offset=".5" stop-color="#6f7b89"/><stop offset="1" stop-color="#5d6874"/>
+  </linearGradient>
+  <linearGradient id="gSide" x1="0" y1="0" x2="1" y2=".6">
+    <stop offset="0" stop-color="#59636f"/><stop offset="1" stop-color="#414a55"/>
+  </linearGradient>
+  <linearGradient id="gLidF" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#99a5b3"/><stop offset="1" stop-color="#7b8795"/>
+  </linearGradient>
+  <linearGradient id="gLidS" x1="0" y1="0" x2="1" y2=".6">
+    <stop offset="0" stop-color="#616b78"/><stop offset="1" stop-color="#48515c"/>
+  </linearGradient>
+  <radialGradient id="floor" cx=".5" cy=".5" r=".5">
+    <stop offset="0" stop-color="#000" stop-opacity=".5"/><stop offset="1" stop-color="#000" stop-opacity="0"/>
+  </radialGradient>
+  <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="18"/></filter>
+</defs>
+
+<!-- flat neutral studio backdrop: keeps Leonardo focused on form, not scenery -->
+<rect x="190" y="346" width="820" height="820" fill="#808080"/>
+
+<!-- contact shadow -->
+<ellipse cx="600" cy="912" rx="330" ry="42" fill="url(#floor)" filter="url(#soft)"/>
+
+<!-- ================= BODY ================= -->
+<!-- right side face -->
+<path d="M760 700 L900 620 L900 820 L760 900 Z" fill="url(#gSide)"/>
+<!-- side ribs -->
+<g stroke="#39424c" stroke-width="3" opacity=".55">
+  <path d="M792 726 L868 682"/><path d="M792 784 L868 740"/><path d="M792 842 L868 798"/>
+</g>
+<!-- recessed side handle -->
+<path d="M800 690 L860 655 L860 683 L800 718 Z" fill="#3a434d"/>
+<path d="M806 694 L854 666 L854 678 L806 706 Z" fill="#2c343c"/>
+
+<!-- front face -->
+<path d="M300 700 L760 700 L760 900 L300 900 Z" fill="url(#gFront)"/>
+
+<!-- recessed centre badge plate -->
+<rect x="452" y="742" width="156" height="104" rx="8" fill="#4e5864"/>
+<rect x="462" y="752" width="136" height="84" rx="5" fill="#39424c"/>
+<!-- neutral emblem placeholder: a simple shield, no lettering -->
+<g transform="translate(530 794) scale(1.55)" fill="#7d8996"><path d="M-15 5 L-11.6 -7.5 L-5.8 -0.8 L0 -10 L5.8 -0.8 L11.6 -7.5 L15 5 Z"/><rect x="-15" y="7" width="30" height="3" rx="1.5"/></g>
+
+<!-- vent slots either side of the plate -->
+<g fill="#414a55">
+  <rect x="340" y="756" width="88" height="12" rx="6"/><rect x="340" y="784" width="88" height="12" rx="6"/>
+  <rect x="340" y="812" width="88" height="12" rx="6"/>
+  <rect x="632" y="756" width="88" height="12" rx="6"/><rect x="632" y="784" width="88" height="12" rx="6"/>
+  <rect x="632" y="812" width="88" height="12" rx="6"/>
+</g>
+
+<!-- corner armour brackets, front -->
+<g fill="#7f8b98">
+  <path d="M300 700 L352 700 L352 716 L316 716 L316 752 L300 752 Z"/>
+  <path d="M760 700 L708 700 L708 716 L744 716 L744 752 L760 752 Z"/>
+  <path d="M300 900 L352 900 L352 884 L316 884 L316 848 L300 848 Z"/>
+  <path d="M760 900 L708 900 L708 884 L744 884 L744 848 L760 848 Z"/>
+</g>
+<!-- bolts -->
+<g fill="#98a4b1">
+  <circle cx="326" cy="726" r="7"/><circle cx="734" cy="726" r="7"/>
+  <circle cx="326" cy="874" r="7"/><circle cx="734" cy="874" r="7"/>
+</g>
+
+<!-- feet -->
+<path d="M300 900 L360 900 L360 918 L300 918 Z" fill="#3f4852"/>
+<path d="M700 900 L760 900 L760 918 L700 918 Z" fill="#3f4852"/>
+<path d="M760 900 L900 820 L900 838 L760 918 Z" fill="#333b44" opacity=".9"/>
+
+<!-- ================= LID ================= -->
+<!-- side band -->
+<path d="M760 620 L900 540 L900 620 L760 700 Z" fill="url(#gLidS)"/>
+<!-- front band -->
+<path d="M300 620 L760 620 L760 700 L300 700 Z" fill="url(#gLidF)"/>
+<!-- top face -->
+<path d="M300 620 L760 620 L900 540 L440 540 Z" fill="url(#gTop)"/>
+<!-- panel seams on the top face -->
+<g stroke="#7b8795" stroke-width="3" opacity=".6">
+  <path d="M420 620 L560 540"/><path d="M540 620 L680 540"/><path d="M660 620 L800 540"/>
+</g>
+
+<!-- the seam where lid meets body -->
+<path d="M300 700 L760 700 L900 620" fill="none" stroke="#2f373f" stroke-width="5"/>
+<path d="M300 697 L760 697 L900 617" fill="none" stroke="#c2ccd7" stroke-width="2" opacity=".8"/>
+
+<!-- two latches straddling the seam -->
+<g>
+  <rect x="392" y="664" width="72" height="72" rx="9" fill="#8e9aa8"/>
+  <rect x="404" y="676" width="48" height="48" rx="6" fill="#4c5661"/>
+  <rect x="420" y="690" width="16" height="26" rx="8" fill="#9fabb8"/>
+  <rect x="596" y="664" width="72" height="72" rx="9" fill="#8e9aa8"/>
+  <rect x="608" y="676" width="48" height="48" rx="6" fill="#4c5661"/>
+  <rect x="624" y="690" width="16" height="26" rx="8" fill="#9fabb8"/>
+</g>
+
+<!-- bright edge highlights so the form reads clearly -->
+<g stroke="#d3dce6" stroke-width="3" opacity=".75" stroke-linecap="round">
+  <path d="M440 540 L900 540"/>
+  <path d="M300 620 L760 620"/>
+</g>
+<g stroke="#39424c" stroke-width="2.5" opacity=".6">
+  <path d="M300 620 L440 540"/>
+  <path d="M760 620 L900 540"/>
+  <path d="M300 620 L300 900"/>
+</g>
+</svg>

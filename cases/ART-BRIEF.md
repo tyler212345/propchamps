@@ -1,130 +1,167 @@
-# PropChamps Cases — Leonardo.ai prompt pack
+# PropChamps Cases — Leonardo.ai workflow
 
-Generate these, drop them in this folder with the **exact filenames**, and the page
-picks them up automatically. No code changes. Anything missing falls back to the
-built-in SVG, so you can add them one at a time.
-
-| Filename | What it replaces | Size |
-|---|---|---|
-| `starter.png` | Starter crate — card + opening animation | 1024×1024 |
-| `pro.png` | Pro crate | 1024×1024 |
-| `elite.png` | Elite crate | 1024×1024 |
-| `starter-open.png` | Starter crate, lid off (optional, big win) | 1024×1024 |
-| `pro-open.png` | Pro crate, lid off | 1024×1024 |
-| `elite-open.png` | Elite crate, lid off | 1024×1024 |
+Two stages. **Generate one master crate first**, get it perfect, then use that image
+as the reference for all three tiers. Don't try to make the three tiers directly from
+text — they will not match, and mismatched camera angles across the row is the one
+thing that will make the page look broken.
 
 ---
 
-## Read this before you generate anything
+# STAGE 1 — the master crate
 
-These five rules matter more than the prompt wording. Ignore them and the renders
-will look worse than what's on the page now.
+Text-to-image, no reference. You are making **one** neutral crate that everything
+else is cloned from. Spend your generations here; this is the asset that matters.
 
-1. **Transparent background.** Leonardo's *Transparency* toggle, or generate on
-   pure black and background-remove. The page supplies its own glow, floor and
-   reflection — a baked-in background will fight all three and look pasted on.
-2. **No baked shadow.** Same reason. The crate should float on nothing.
-3. **Identical camera on all three.** Generate them in one session, same seed
-   family, same angle. If Starter is shot from 20° above and Elite from 40°, the
-   row looks broken. **Three-quarter view from slightly above** — you should see
-   the top face, the front face and one side face.
-4. **No lettering.** AI text always comes out mangled and it will be the first
-   thing anyone notices. Leave words off; I overlay real type in code.
-5. **Object fills ~85% of the frame, centred**, a little air around it.
+### Prompt
+
+```
+Studio product photograph of a sealed matte graphite hard-shell equipment case,
+three-quarter view from slightly above so the top face, the front face and the
+right side face are all clearly visible. Injection-moulded composite shell with
+fine surface texture, machined aluminium trim, two heavy spring latches on the
+front straddling the seam where the lid meets the body, reinforced metal corner
+brackets, a recessed rectangular badge plate centred on the front, narrow vent
+slots either side of it, a recessed carry handle on the right side, low rubber
+feet. Neutral desaturated gunmetal and graphite. Lit like high-end audio
+equipment: large softbox key light from the upper left, cool rim light raking the
+right edge, deep controlled falloff. Photorealistic 3D product render, Keyshot,
+octane, 85mm lens, razor sharp micro-detail, centred, isolated object on pure
+black, no background, no floor.
+```
+
+### Negative prompt
+
+```
+text, letters, words, numbers, logo, branding, watermark, signature, background,
+scenery, room, floor, table, ground shadow, multiple objects, treasure chest,
+wooden crate, pirate chest, toolbox, rolling suitcase, cartoon, illustration,
+flat vector, low poly, blurry, soft focus, oversaturated, colourful, gold, neon,
+glowing
+```
+
+Note it excludes **gold, colourful, glowing** on purpose. The master stays neutral
+so the tier colours don't fight it later.
+
+### Settings
+
+- Model **Leonardo Phoenix** · Preset **Cinematic** or **3D Render**
+- Alchemy **on** · Guidance **7** · Aspect **1:1** · at least **1024×1024**
+- Generate 4 at a time
+
+### How to pick the winner
+
+Reject anything where the camera is wrong even if it looks nice — angle is the whole
+job. Keep the one where:
+
+- You can clearly see **three faces** (top, front, right side). If you only see the
+  front, throw it out.
+- The **lid seam is one clean straight line** across the front and continues onto the
+  side face.
+- The **two latches are level with each other** and sit on the seam.
+- **Corners look machined**, not melted or smeared.
+- It reads **grey**, not brown, beige or blue.
+
+Save the winner. Everything below uses it.
 
 ---
 
-## The look we're going for
+# STAGE 2 — the three tiers
 
-Not a treasure chest. Not a game loot box with cartoon gold. **A sealed hard-shell
-equipment case** — think a Pelican flight case or a military ammo crate crossed with
-high-end audio gear. Expensive, industrial, understated. The tier colour should read
-as *lighting and trim*, not as the body colour.
+Now upload the master into **Image Guidance** and run these three. Same reference
+image every time, so the shape and camera stay locked and only the finish changes.
 
-- Site background is near-black `#0a0d12`
-- Starter = steel grey `#8b98a8` · Pro = violet `#7c5cff` · Elite = gold `#ffb020`
+**Leonardo settings for this stage**
 
----
+- Image Guidance → upload master → type **Content Reference**, strength **0.55**
+- If a tier drifts off-shape, raise to **0.7**. If they all look identical grey and
+  ignore the colour, drop to **0.4**.
+- Everything else identical to Stage 1. Same negative prompt **except remove
+  `gold`, `colourful`, `glowing`** — you want those now.
 
-## Prompt 1 — Starter
-
-```
-A sealed hard-shell equipment case floating in empty black space, three-quarter
-view from slightly above showing the top face, front face and right side. Brushed
-gunmetal and dark anodised steel panels, recessed latches, reinforced corner
-brackets, fine panel seams and hex bolts. A thin cold steel-blue light line glows
-along the seam where the lid meets the body. Industrial hard-surface product
-design, understated and expensive, like a Pelican flight case. Cinematic studio
-lighting, cool key light from the upper left, soft rim light on the right edge,
-deep controlled shadows. Photorealistic 3D product render, octane, ultra sharp,
-high micro-detail, centred, isolated object, transparent background.
-```
-
-## Prompt 2 — Pro
+### Starter — steel
 
 ```
-A sealed hard-shell equipment case floating in empty black space, three-quarter
-view from slightly above showing the top face, front face and right side. Dark
-charcoal composite panels with machined violet metal trim, recessed latches and
-reinforced corner brackets. Violet #7c5cff light glows out of the seam where the
-lid meets the body and traces thin channels along the panel edges. Industrial
-hard-surface product design, premium and aggressive. Cinematic studio lighting,
-violet key light from the upper left, soft rim light, volumetric glow, deep
-controlled shadows. Photorealistic 3D product render, octane, ultra sharp, high
-micro-detail, centred, isolated object, transparent background.
+The same hard-shell equipment case, identical shape, identical camera angle.
+Finish is brushed gunmetal and cold anodised steel, machined aluminium latches and
+corner brackets. A thin cold steel-blue light line glows along the seam where the
+lid meets the body. Understated, industrial, expensive. Photorealistic 3D product
+render, isolated on pure black, no background.
 ```
 
-## Prompt 3 — Elite
+### Pro — violet
 
 ```
-A sealed hard-shell equipment case floating in empty black space, three-quarter
-view from slightly above showing the top face, front face and right side. Black
-obsidian composite panels with polished gold machined trim, gold latches and
-reinforced gold corner brackets, fine engraved detailing. Warm amber #ffb020 light
-pours out of the seam where the lid meets the body. Luxury vault aesthetic, heavy
-and expensive, restrained not gaudy. Cinematic studio lighting, warm gold key light
-from the upper left, soft rim light, volumetric glow, deep controlled shadows.
-Photorealistic 3D product render, octane, ultra sharp, high micro-detail, centred,
-isolated object, transparent background.
+The same hard-shell equipment case, identical shape, identical camera angle.
+Finish is dark charcoal composite with machined violet-anodised metal trim, violet
+latches and corner brackets. Violet light glows out of the seam where the lid
+meets the body and traces thin channels along the panel edges. Premium and
+aggressive. Photorealistic 3D product render, isolated on pure black, no
+background.
 ```
 
-## Negative prompt — use on all three
+### Elite — gold
 
 ```
-text, letters, words, numbers, logo, typography, watermark, signature, background,
-floor, ground, table, shadow on ground, scene, environment, clutter, multiple
-objects, treasure chest, wooden crate, cartoon, illustration, flat vector, low
-detail, blurry, oversaturated, gaudy, cheap plastic
+The same hard-shell equipment case, identical shape, identical camera angle.
+Finish is black obsidian composite with polished gold machined trim, gold latches
+and gold reinforced corner brackets, fine engraved detailing. Warm amber light
+pours out of the seam where the lid meets the body. Luxury vault, heavy and
+expensive, restrained not gaudy. Photorealistic 3D product render, isolated on
+pure black, no background.
 ```
 
 ---
 
-## Prompts 4–6 — the open versions
+# STAGE 3 — open versions (optional, big payoff)
 
-Worth doing. Right now the closed crate scales and fades at the burst moment; with
-these I cut to the open crate instead, which is a far better moment.
+Right now the closed crate scales and fades at the moment it opens. With these I cut
+to a real open crate instead, which is a much better beat.
 
-Take **the exact same prompt** as the matching closed crate and append:
+Use **the same master as reference**, same settings, and take each tier prompt above
+and append:
 
 ```
-The case is open. The lid is lifted and tilted back, brilliant white-hot light
-pouring upward out of the interior, the inside lost in the glare, fine embers and
-light particles rising. Identical camera angle, identical materials, identical
+The case is open. The lid is lifted and tilted back on its hinges, brilliant
+white-hot light pouring upward out of the interior, the inside lost in the glare,
+fine embers rising. Identical camera angle, identical materials, identical
 lighting direction to the closed version.
 ```
 
-Keep the same negative prompt.
+---
+
+# Delivering the files
+
+Drop them in this folder with these **exact names** and the page picks them up
+automatically — no code change, and anything missing falls back to the built-in SVG.
+
+| Filename | What it is |
+|---|---|
+| `starter.png` | Starter crate, closed |
+| `pro.png` | Pro crate, closed |
+| `elite.png` | Elite crate, closed |
+| `starter-open.png` | Starter crate, lid open (optional) |
+| `pro-open.png` | Pro crate, lid open (optional) |
+| `elite-open.png` | Elite crate, lid open (optional) |
+
+**Three rules on the files themselves**, which matter more than the render quality:
+
+1. **Transparent background, or pure black I can knock out.** The page draws its own
+   glow, floor line and reflection behind the crate — a baked-in background will sit
+   on top of all three and look pasted on.
+2. **No baked ground shadow.** Same reason. The crate should float on nothing.
+3. **Don't crop them differently.** Whatever framing you use, use it on all three, or
+   one crate will sit higher than the others in the row.
+
+Send them at whatever size Leonardo gives you. I'll crop, compress and wire them in.
 
 ---
 
-## Leonardo settings
+## Also in this folder
 
-- Model: **Leonardo Phoenix** (or Lightning XL if Phoenix fights you)
-- Preset: **3D Render** or **Cinematic**
-- Alchemy **on**, Guidance **7**, aspect **1:1**
-- Generate 4 per prompt and pick the one where the **seam light reads clearly** and
-  the corners look machined rather than melted
-
-Send them over at whatever size Leonardo gives you — I'll crop, compress and wire
-them in. If a crate comes out great but the angle is off from the others, send it
-anyway and say so; matching angle matters more than any single render.
+`reference-crate.svg` / `reference-crate.png` — the flat diagram I drew. **Not** for
+use as a style reference (it's vector, and Leonardo would copy that flatness into
+your renders). It's only useful as a *composition guide* — look at it to see the
+camera angle and feature placement I built the page layout around. If Stage 1 refuses
+to give you the right angle from text alone, you can load it as an **Edge or Depth
+ControlNet at low strength (~0.3)** purely to force the geometry, with a photoreal
+prompt doing all the styling.
