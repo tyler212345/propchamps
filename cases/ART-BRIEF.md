@@ -1,130 +1,130 @@
-# PropChamps Cases — art brief (Leonardo.ai)
+# PropChamps Cases — Leonardo.ai prompt pack
 
-Drop finished files in this folder with these **exact names** and the page picks them
-up automatically. No code change needed.
+Generate these, drop them in this folder with the **exact filenames**, and the page
+picks them up automatically. No code changes. Anything missing falls back to the
+built-in SVG, so you can add them one at a time.
 
-| File | Used for |
-|---|---|
-| `/cases/starter.png` | Starter tier — page tile + opening animation |
-| `/cases/pro.png` | Pro tier — page tile + opening animation |
-| `/cases/elite.png` | Elite tier — page tile + opening animation |
-
-If a file is missing the page silently falls back to the crown logo, so you can add
-them one at a time.
-
----
-
-## Hard requirements (these matter more than the prompt)
-
-- **Transparent background (PNG with alpha).** In Leonardo, either use the
-  *Transparency* toggle, or generate on pure black `#000000` and background-remove
-  after. The page puts its own glow and shadow behind the object — a baked-in
-  background or shadow will look wrong.
-- **Square, 1:1**, min **1024×1024**. Bigger is fine, I'll compress.
-- **Object centred**, roughly 80% of the frame, with a little breathing room. It gets
-  a drop shadow and a coloured halo added in CSS.
-- **Three-quarter view, slightly above** — the object should read as sitting in space,
-  not a flat front-on icon.
-- **Keep all three consistent.** Same camera angle, same lighting direction, same
-  material language. Only the colour and the ornamentation should change between
-  tiers. Generate all three in one session so the style holds.
-- **Under ~400KB each** after export. Tell me if they're bigger and I'll optimise.
+| Filename | What it replaces | Size |
+|---|---|---|
+| `starter.png` | Starter crate — card + opening animation | 1024×1024 |
+| `pro.png` | Pro crate | 1024×1024 |
+| `elite.png` | Elite crate | 1024×1024 |
+| `starter-open.png` | Starter crate, lid off (optional, big win) | 1024×1024 |
+| `pro-open.png` | Pro crate, lid off | 1024×1024 |
+| `elite-open.png` | Elite crate, lid off | 1024×1024 |
 
 ---
 
-## The brand
+## Read this before you generate anything
 
-- Background of the site is near-black `#0a0d12`
-- Signature colour is acid lime `#c8ff00`
-- Tier colours: Starter **steel grey `#8b98a8`**, Pro **violet `#7c5cff`**, Elite **gold `#ffb020`**
-- The mark is a crown (see `/logos/propchamps-crown.png`) — worth working in, but
-  don't let Leonardo try to render the wordmark. AI text always comes out mangled.
-  **Leave lettering off entirely**; I can overlay real type in code if we want it.
+These five rules matter more than the prompt wording. Ignore them and the renders
+will look worse than what's on the page now.
 
----
-
-## Prompt 1 — Starter Case
-
-```
-A sealed futuristic loot crate floating against pure black, three-quarter view from
-slightly above. Brushed gunmetal and dark steel panels with visible seams and
-recessed rivets, industrial hard-surface design. A thin steel-grey light seam runs
-around the middle of the crate where the lid meets the body, emitting a soft cold
-glow. Small embossed crown emblem centred on the front panel, subtle and metallic,
-no text. Cinematic rim lighting from the upper left, cool grey key light, deep
-shadows. Photorealistic 3D product render, octane render, ultra sharp, high detail,
-centred composition, isolated object, transparent background.
-```
-
-**Negative prompt**
-```
-text, letters, words, logo type, watermark, signature, background, floor, table,
-scene, clutter, multiple objects, blurry, low detail, cartoon, flat illustration,
-drop shadow, reflection on ground
-```
+1. **Transparent background.** Leonardo's *Transparency* toggle, or generate on
+   pure black and background-remove. The page supplies its own glow, floor and
+   reflection — a baked-in background will fight all three and look pasted on.
+2. **No baked shadow.** Same reason. The crate should float on nothing.
+3. **Identical camera on all three.** Generate them in one session, same seed
+   family, same angle. If Starter is shot from 20° above and Elite from 40°, the
+   row looks broken. **Three-quarter view from slightly above** — you should see
+   the top face, the front face and one side face.
+4. **No lettering.** AI text always comes out mangled and it will be the first
+   thing anyone notices. Leave words off; I overlay real type in code.
+5. **Object fills ~85% of the frame, centred**, a little air around it.
 
 ---
 
-## Prompt 2 — Pro Case
+## The look we're going for
 
-```
-A sealed futuristic loot crate floating against pure black, three-quarter view from
-slightly above. Dark charcoal armoured panels with glowing violet energy channels
-running through the seams and along the edges, purple #7c5cff internal light bleeding
-from the gaps. Faceted angular hard-surface design, premium and aggressive. Small
-embossed crown emblem centred on the front panel catching violet light, no text.
-Cinematic rim lighting, violet key light from the upper left, volumetric glow.
-Photorealistic 3D product render, octane render, ultra sharp, high detail, centred
-composition, isolated object, transparent background.
-```
+Not a treasure chest. Not a game loot box with cartoon gold. **A sealed hard-shell
+equipment case** — think a Pelican flight case or a military ammo crate crossed with
+high-end audio gear. Expensive, industrial, understated. The tier colour should read
+as *lighting and trim*, not as the body colour.
 
-**Negative prompt** — same as above.
+- Site background is near-black `#0a0d12`
+- Starter = steel grey `#8b98a8` · Pro = violet `#7c5cff` · Elite = gold `#ffb020`
 
 ---
 
-## Prompt 3 — Elite Case
+## Prompt 1 — Starter
 
 ```
-A sealed futuristic loot crate floating against pure black, three-quarter view from
-slightly above. Black obsidian panels trimmed in polished gold, glowing amber #ffb020
-light escaping from the seam where the lid meets the body, ornate but restrained
-metalwork on the corners. Luxury vault aesthetic, heavy and expensive looking. Small
-raised gold crown emblem centred on the front panel, no text. Cinematic rim lighting,
-warm gold key light from the upper left, volumetric god rays from the seam.
-Photorealistic 3D product render, octane render, ultra sharp, high detail, centred
-composition, isolated object, transparent background.
+A sealed hard-shell equipment case floating in empty black space, three-quarter
+view from slightly above showing the top face, front face and right side. Brushed
+gunmetal and dark anodised steel panels, recessed latches, reinforced corner
+brackets, fine panel seams and hex bolts. A thin cold steel-blue light line glows
+along the seam where the lid meets the body. Industrial hard-surface product
+design, understated and expensive, like a Pelican flight case. Cinematic studio
+lighting, cool key light from the upper left, soft rim light on the right edge,
+deep controlled shadows. Photorealistic 3D product render, octane, ultra sharp,
+high micro-detail, centred, isolated object, transparent background.
 ```
 
-**Negative prompt** — same as above.
-
----
-
-## Optional extras
-
-**Open/burst variant** (nice-to-have, not required). If you generate an *open* version
-of each crate — same object, lid off, light pouring out — name them
-`starter-open.png` / `pro-open.png` / `elite-open.png` and I'll cut to it at the
-moment the case bursts, which will look far better than scaling the closed one.
+## Prompt 2 — Pro
 
 ```
-Same crate, now open. Lid lifted and tilted, brilliant white-hot light pouring
-upward out of the interior, interior geometry lost in the glare, energy particles
-rising. Same camera angle, same materials, same lighting direction. Photorealistic
-3D render, isolated object, transparent background.
+A sealed hard-shell equipment case floating in empty black space, three-quarter
+view from slightly above showing the top face, front face and right side. Dark
+charcoal composite panels with machined violet metal trim, recessed latches and
+reinforced corner brackets. Violet #7c5cff light glows out of the seam where the
+lid meets the body and traces thin channels along the panel edges. Industrial
+hard-surface product design, premium and aggressive. Cinematic studio lighting,
+violet key light from the upper left, soft rim light, volumetric glow, deep
+controlled shadows. Photorealistic 3D product render, octane, ultra sharp, high
+micro-detail, centred, isolated object, transparent background.
+```
+
+## Prompt 3 — Elite
+
+```
+A sealed hard-shell equipment case floating in empty black space, three-quarter
+view from slightly above showing the top face, front face and right side. Black
+obsidian composite panels with polished gold machined trim, gold latches and
+reinforced gold corner brackets, fine engraved detailing. Warm amber #ffb020 light
+pours out of the seam where the lid meets the body. Luxury vault aesthetic, heavy
+and expensive, restrained not gaudy. Cinematic studio lighting, warm gold key light
+from the upper left, soft rim light, volumetric glow, deep controlled shadows.
+Photorealistic 3D product render, octane, ultra sharp, high micro-detail, centred,
+isolated object, transparent background.
+```
+
+## Negative prompt — use on all three
+
+```
+text, letters, words, numbers, logo, typography, watermark, signature, background,
+floor, ground, table, shadow on ground, scene, environment, clutter, multiple
+objects, treasure chest, wooden crate, cartoon, illustration, flat vector, low
+detail, blurry, oversaturated, gaudy, cheap plastic
 ```
 
 ---
 
-## Settings that work well in Leonardo
+## Prompts 4–6 — the open versions
 
-- Model: **Leonardo Phoenix** or **Leonardo Lightning XL**
-- Preset style: **3D Render** or **Cinematic**
-- Alchemy: **on**
-- Guidance scale: **7**
-- Aspect ratio: **1:1**
-- Generate 4 at a time, pick the one where the seam glow reads clearly and the
-  crown isn't distorted
+Worth doing. Right now the closed crate scales and fades at the burst moment; with
+these I cut to the open crate instead, which is a far better moment.
 
-If the crown keeps coming out wrong, drop the crown line from the prompt entirely.
-A clean unbranded crate is better than a mangled emblem — I can composite the real
-crown on top in code.
+Take **the exact same prompt** as the matching closed crate and append:
+
+```
+The case is open. The lid is lifted and tilted back, brilliant white-hot light
+pouring upward out of the interior, the inside lost in the glare, fine embers and
+light particles rising. Identical camera angle, identical materials, identical
+lighting direction to the closed version.
+```
+
+Keep the same negative prompt.
+
+---
+
+## Leonardo settings
+
+- Model: **Leonardo Phoenix** (or Lightning XL if Phoenix fights you)
+- Preset: **3D Render** or **Cinematic**
+- Alchemy **on**, Guidance **7**, aspect **1:1**
+- Generate 4 per prompt and pick the one where the **seam light reads clearly** and
+  the corners look machined rather than melted
+
+Send them over at whatever size Leonardo gives you — I'll crop, compress and wire
+them in. If a crate comes out great but the angle is off from the others, send it
+anyway and say so; matching angle matters more than any single render.

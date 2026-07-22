@@ -7,8 +7,8 @@
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#0a0d12">
-<title>PropChamps Cases — Every Case Pays For Itself</title>
-<meta name="description" content="Open a PropChamps case and win a funded futures account. Every case is guaranteed to return at least what you paid — the only question is how much more.">
+<title>PropChamps Cases — Open a Case, Get a Funded Account</title>
+<meta name="description" content="Open a PropChamps case and land a real funded futures account. Every prize and every odd published up front. Accounts from 25K starters to instant-funded six figures.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -122,11 +122,20 @@ body::after{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;o
   mask-image:linear-gradient(to top,#000 4%,transparent 76%);
   -webkit-mask-image:linear-gradient(to top,#000 4%,transparent 76%)}
 .art-ref img,.art-ref .crate-svg{width:auto;height:160px;max-width:96%;object-fit:contain}
-.case-price{font-family:var(--font-display);font-weight:900;font-size:46px;letter-spacing:-.04em;color:#fff;line-height:1;margin-bottom:8px;position:relative}
-.case-floor{font-size:13px;color:var(--text-soft);margin-bottom:16px;position:relative}
-.case-floor b{color:var(--lime-text)}
-.case-top{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:10px 12px;margin-bottom:20px;border-radius:11px;background:rgba(0,0,0,.30);border:1px solid var(--border);font-family:var(--font-mono);font-size:10.5px;letter-spacing:.04em;color:var(--text-faint);position:relative}
-.case-top b{color:var(--r-legendary)}
+/* value range this case can produce */
+.case-range{position:relative;display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:9px;
+  font-family:var(--font-mono);font-size:15px;font-weight:700;color:#fff}
+.case-range em{font-style:normal;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint);font-weight:500}
+/* odds distribution, one segment per rarity */
+.odds-bar{position:relative;display:flex;gap:2px;height:5px;margin-bottom:22px;border-radius:3px;overflow:hidden}
+.odds-bar i{display:block;height:100%;opacity:.85}
+/* price + top prize row */
+.case-buy{position:relative;display:flex;align-items:center;justify-content:space-between;gap:14px;text-align:left;
+  padding:14px 16px;margin-bottom:16px;border-radius:13px;background:rgba(0,0,0,.34);border:1px solid var(--border)}
+.cb-price{font-family:var(--font-display);font-weight:900;font-size:34px;letter-spacing:-.04em;color:#fff;line-height:1;display:flex;align-items:baseline;gap:7px}
+.cb-price em{font-style:normal;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);font-weight:500}
+.cb-top{text-align:right;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);line-height:1.5}
+.cb-top b{display:block;font-family:var(--font-display);font-size:13.5px;letter-spacing:-.01em;text-transform:none;color:var(--edge);font-weight:800}
 .btn-open{width:100%;padding:16px;background:var(--lime);color:var(--bg-base);font-size:15.5px;font-weight:800;border-radius:13px;transition:all .16s;box-shadow:0 0 0 1px rgba(200,255,0,.25),0 12px 30px -10px rgba(200,255,0,.5);position:relative}
 .btn-open:hover{background:var(--lime-2);transform:translateY(-2px);box-shadow:0 0 0 1px rgba(200,255,0,.35),0 18px 40px -12px rgba(200,255,0,.7)}
 .demo-tag{display:inline-block;margin-left:7px;padding:2px 7px;border-radius:5px;background:rgba(10,13,18,.22);font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;vertical-align:1px}
@@ -232,8 +241,6 @@ body::after{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;o
 .result.hide{visibility:hidden}
 .modal.odds-mode .reel-wrap,.modal.odds-mode .result{display:none}
 .res-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
-.res-list{display:block;margin-top:4px;font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint);text-decoration:line-through}
-.pool-row .p-val s{color:var(--text-faint);opacity:.65;margin-right:5px;font-size:11px}
 .res-name{font-family:var(--font-display);font-weight:900;font-size:clamp(22px,3.4vw,32px);letter-spacing:-.03em;color:var(--rc)}
 .res-meta{font-size:14px;color:var(--text-soft)}
 .res-meta b{color:var(--text-strong)}
@@ -351,10 +358,10 @@ footer.site a:hover{color:var(--lime)}
   <div class="bg-pools"><i class="p1"></i><i class="p2"></i><i class="p3"></i></div>
   <div class="container">
     <div class="hero-eyebrow">PropChamps Cases</div>
-    <h1>Every case <span class="accent">pays for itself.</span></h1>
-    <p class="hero-sub">Open a case, get a funded futures account — guaranteed. The floor prize in every case is worth at least what you paid. The only question is how far above it you land.</p>
-    <div class="guarantee"><span class="g-ico">✓</span> No blanks. No duds. Worst case, you get full value.</div>
-    <p class="hero-note">Cases aren't open yet — this is a working preview. Spin one for free below to see how it plays, then <a href="#waitlist">get on the list</a>.</p>
+    <h1>Open a case.<br><span class="accent">Find out how big.</span></h1>
+    <p class="hero-sub">Every case holds a real funded futures account. Most of the time you land a solid one. Once in a while you land one worth several times what you paid.</p>
+    <div class="guarantee"><span class="g-ico">✓</span> No blanks — every case is a real account. Every odd published.</div>
+    <p class="hero-note">Cases aren't open yet — this is a working preview. Open one free below, then <a href="#waitlist">get on the list</a>.</p>
   </div>
 </section>
 
@@ -367,7 +374,7 @@ footer.site a:hover{color:var(--lime)}
 <section class="feed">
   <div class="container">
     <div class="feed-head">Every prize in every case</div>
-    <p class="feed-note">No hidden pool. These are the complete contents and the exact odds. Values are real street prices for each account — the same prices on our <a href="/deals">deals page</a>, not inflated list prices.</p>
+    <p class="feed-note">No hidden pool. This is the complete contents of every case and the exact chance of each one. Prices shown are the firm's standard price for that account.</p>
     <div class="pool-grid" id="poolGrid"></div>
   </div>
 </section>
@@ -392,14 +399,14 @@ footer.site a:hover{color:var(--lime)}
 <section class="block">
   <div class="container">
     <div class="section-eyebrow">How it works</div>
-    <h2 class="section-h2">Why there's no such thing as a bad open.</h2>
+    <h2 class="section-h2">A real account, every single time.</h2>
     <div class="prose">
-      <p>Most case sites are built so the house wins — you pay, and most of the time you get something worth less than you spent. <strong>We built ours backwards.</strong></p>
-      <p>Every PropChamps case has a <strong>floor prize worth at least the price of the case</strong>. Land on the worst outcome and you've still bought an account at fair value. Everything above the floor is upside. We publish the exact odds for every prize, and we value every account at its real street price — the same prices you'll find on our <a href="/deals" style="color:var(--lime-text)">deals page</a>.</p>
+      <p>A case is a gamble on <strong>size</strong>, not on whether you get anything. There are no blanks and no junk filler — every outcome in every case is a live funded futures account from a firm we already cover.</p>
+      <p>Land the smallest account in the case and you've still got a funded account for less than the firm charges. Land the top one and you're holding several times what you put in. <strong>We publish every prize and every percentage</strong> before you open anything — scroll up and read the whole table.</p>
     </div>
     <div class="how-grid">
-      <div class="how-card"><div class="how-num">01</div><h3>Pick your case</h3><p>Three tiers. Each one lists its floor prize, its jackpot, and the full odds table before you ever open it.</p></div>
-      <div class="how-card"><div class="how-num">02</div><h3>Open it</h3><p>The reel spins and lands on your account. Everything from the guaranteed floor up to an instant-funded six-figure account.</p></div>
+      <div class="how-card"><div class="how-num">01</div><h3>Pick your case</h3><p>Three tiers. Each one shows its smallest account, its top prize and the full odds table before you ever open it.</p></div>
+      <div class="how-card"><div class="how-num">02</div><h3>Open it</h3><p>The reel spins and lands on your account — anything from a 25K starter up to an instant-funded six-figure account.</p></div>
       <div class="how-card"><div class="how-num">03</div><h3>Claim it</h3><p>Your account code arrives instantly and is redeemed straight with the firm — no waiting, no middleman. That's the plan once supply is locked in.</p></div>
     </div>
   </div>
@@ -518,19 +525,28 @@ footer.site a:hover{color:var(--lime)}
   var grid=$('caseGrid');
   Object.keys(CASES).forEach(function(k){
     var c=CASES[k];
-    var floor=c.pool.reduce(function(a,b){return b.v<a.v?b:a;});
-    var top=c.pool.reduce(function(a,b){return b.v>a.v?b:a;});
-    var ev=c.pool.reduce(function(s,p){return s+p.v*(p.w/100);},0);
+    var floor=c.pool.reduce(function(a,b){return b.L<a.L?b:a;});
+    var top=c.pool.reduce(function(a,b){return b.L>a.L?b:a;});
+    var ev=c.pool.reduce(function(s,p){return s+p.L*(p.w/100);},0);
     var el=document.createElement('div');
     el.className='case-card';
     el.style.setProperty('--edge',c.edge); el.style.setProperty('--tint',c.tint);
+    /* odds bar: one segment per rarity, width = its share of the pool */
+    var ORDER=['common','uncommon','rare','epic','legendary','mythic'], seg='';
+    ORDER.forEach(function(r){
+      var w=c.pool.filter(function(p){return p.r===r;}).reduce(function(s,p){return s+p.w;},0);
+      if(w>0) seg+='<i style="flex:'+w+';background:'+rc(r)+'" title="'+r+' '+w+'%"></i>';
+    });
     el.innerHTML='<div class="case-tier">'+c.name+'</div>'+
       '<div class="case-art" data-art="'+k+'"></div>'+
-      '<div class="case-price">'+usd(c.price)+'</div>'+
-      '<div class="case-floor">Never below <b>'+floor.n+'</b> — worth '+usd(floor.v)+'</div>'+
-      '<div class="case-top">TOP PRIZE <b>'+top.n+'</b> · '+usd(top.v)+'</div>'+
+      '<div class="case-range"><span>'+usd(floor.L)+'</span><em>account value</em><span>'+usd(top.L)+'</span></div>'+
+      '<div class="odds-bar">'+seg+'</div>'+
+      '<div class="case-buy">'+
+        '<div class="cb-price">'+usd(c.price)+'<em>per case</em></div>'+
+        '<div class="cb-top">Top prize<b>'+top.n+'</b></div>'+
+      '</div>'+
       '<button class="btn-open" data-case="'+k+'">Open case <span class="demo-tag">demo</span></button>'+
-      '<a class="case-odds-link" data-odds="'+k+'">View odds · avg return '+Math.round(ev/c.price*100)+'%</a>';
+      '<a class="case-odds-link" data-odds="'+k+'">All '+c.pool.length+' prizes &amp; exact odds</a>';
     grid.appendChild(el);
   });
 
@@ -784,7 +800,7 @@ footer.site a:hover{color:var(--lime)}
       '<div class="s-rar">'+p.r+'</div>'+
       '<div class="s-logo"><img src="'+p.logo+'" alt=""></div>'+
       '<div class="s-firm">'+p.f+'</div>'+
-      '<div class="s-name">'+p.n+'</div><div class="s-val">'+usd(p.v)+'</div></div>';
+      '<div class="s-name">'+p.n+'</div><div class="s-val">'+usd(p.L)+'</div></div>';
   }
 
   /* celebratory burst — scales with rarity */
@@ -906,14 +922,13 @@ footer.site a:hover{color:var(--lime)}
   }
   function reveal(p,c){
     var color=rc(p.r);
-    var diff=p.v-c.price;
+    var diff=p.L-c.price;
     var res=$('result');
     res.style.setProperty('--rc',color);
     res.innerHTML='<div class="res-label">'+p.r.toUpperCase()+' · '+p.f+'</div>'+
       '<div class="res-name" style="color:'+color+'">'+p.n+'</div>'+
-      '<div class="res-meta">Worth <b>'+usd(p.v)+'</b> · you paid '+usd(c.price)+
-        (diff>0?' · <b style="color:var(--positive)">+'+usd(diff)+' up</b>':' · <b>full value</b>')+
-        '<span class="res-list">list price '+usd(p.L)+'</span></div>'+
+      '<div class="res-meta"><b>'+usd(p.L)+'</b> account for '+usd(c.price)+
+        (diff>0?' · <b style="color:var(--positive)">'+(p.L/c.price).toFixed(1)+'&times; your money</b>':'')+'</div>'+
       '<div class="res-actions"><button class="btn-again" id="againBtn">Open another</button><button class="btn-ghost" id="doneBtn">Done</button></div>';
     res.classList.remove('hide');
     $('modal').classList.remove('spinning','reeling');
@@ -937,14 +952,14 @@ footer.site a:hover{color:var(--lime)}
   function showOdds(key){
     var c=CASES[key];
     var rows=c.pool.slice().sort(function(a,b){return b.w-a.w;}).map(function(p){
-      return '<tr><td><span class="rar" style="background:'+rc(p.r)+'"></span>'+p.f+' — '+p.n+'</td><td>'+usd(p.v)+'</td><td class="pct" style="color:'+rc(p.r)+'">'+p.w+'%</td></tr>';
+      return '<tr><td><span class="rar" style="background:'+rc(p.r)+'"></span>'+p.f+' — '+p.n+'</td><td>'+usd(p.L)+'</td><td class="pct" style="color:'+rc(p.r)+'">'+p.w+'%</td></tr>';
     }).join('');
-    var ev=c.pool.reduce(function(s,p){return s+p.v*(p.w/100);},0);
+    var ev=c.pool.reduce(function(s,p){return s+p.L*(p.w/100);},0);
     $('modalTitle').textContent=c.name+' · published odds';
     $('oddsPanel').innerHTML='<table class="odds"><thead><tr><th>Prize</th><th>Value</th><th class="pct">Chance</th></tr></thead><tbody>'+rows+
       '</tbody><tfoot><tr><td colspan="3" style="background:var(--bg-band);color:var(--text-soft);font-size:12.5px">'+
-      'Average return <b style="color:var(--lime-text)">'+usd(Math.round(ev))+'</b> on a '+usd(c.price)+' case ('+Math.round(ev/c.price*100)+'%). '+
-      'Values are street prices, not list prices.</td></tr></tfoot></table>';
+      'Every prize is a real funded account. Prices shown are each firm&rsquo;s standard price for that account. '+
+      'Average account value in this case: <b style="color:var(--lime-text)">'+usd(Math.round(ev))+'</b>.</td></tr></tfoot></table>';
     $('oddsPanel').classList.add('on');
     $('modal').classList.add('on','odds-mode'); $('modalBg').classList.add('on');
   }
@@ -962,13 +977,13 @@ footer.site a:hover{color:var(--lime)}
     var rows=c.pool.slice().sort(function(a,b){return b.w-a.w;}).map(function(p){
       return '<div class="pool-row"><span class="rar" style="background:'+rc(p.r)+'"></span>'+
         '<span class="p-item"><span class="p-acct">'+p.n+'</span><span class="p-firm">'+p.f+'</span></span>'+
-        '<span class="p-val"><s>'+usd(p.L)+'</s> '+usd(p.v)+'</span>'+
+        '<span class="p-val">'+usd(p.L)+'</span>'+
         '<span class="p-odds" style="color:'+rc(p.r)+'">'+p.w+'%</span></div>';
     }).join('');
     var el=document.createElement('div');
     el.className='pool'; el.style.setProperty('--edge',c.edge);
     el.innerHTML='<div class="pool-head"><span class="p-name">'+c.name+'</span><span class="p-price">'+usd(c.price)+'</span></div>'+
-      rows+'<div class="pool-foot">Average return <b>'+usd(Math.round(ev))+'</b> · '+Math.round(ev/c.price*100)+'% of price</div>';
+      rows+'<div class="pool-foot">'+c.pool.length+' possible accounts · average value <b>'+usd(Math.round(ev))+'</b></div>';
     pg.appendChild(el);
   });
 
