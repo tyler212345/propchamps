@@ -142,13 +142,14 @@ body::after{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;o
   filter:blur(4px);opacity:.6;height:26px;border-radius:50%}
 .case-art.photo .art-ref{display:none}
 .case-art.photo .art-obj{position:absolute;inset:0;height:auto;bottom:0;align-items:center}
-.case-art.photo .art-obj img{width:auto;height:112%;max-width:none;object-fit:contain;
-  transform:scale(1.02);transform-origin:50% 52%;
-  filter:hue-rotate(var(--art-hue,0deg)) saturate(1.08) contrast(1.02)
-         drop-shadow(0 18px 26px rgba(0,0,0,.7));
-  -webkit-mask-image:radial-gradient(ellipse 58% 60% at 50% 47%,#000 52%,transparent 78%);
-  mask-image:radial-gradient(ellipse 58% 60% at 50% 47%,#000 52%,transparent 78%)}
-.case-card:hover .case-art.photo .art-obj img{transform:scale(1.07)}
+/* The render is shown NATIVE — no hue-rotate. Recolouring the metal is what
+   read as cheap. Tier colour comes only from the glow behind and the chrome. */
+.case-art.photo .art-obj img{width:auto;height:122%;max-width:none;object-fit:contain;
+  transform:scale(1.04);transform-origin:50% 52%;
+  filter:contrast(1.04) brightness(1.03) drop-shadow(0 20px 30px rgba(0,0,0,.75));
+  -webkit-mask-image:radial-gradient(ellipse 60% 62% at 50% 46%,#000 56%,transparent 80%);
+  mask-image:radial-gradient(ellipse 60% 62% at 50% 46%,#000 56%,transparent 80%)}
+.case-card:hover .case-art.photo .art-obj img{transform:scale(1.09)}
 /* mirrored reflection: bottom-aligned then flipped, so the crate's base meets
    the floor line, and faded out as it recedes toward the viewer */
 .art-ref{position:absolute;left:0;right:0;top:160px;height:88px;overflow:hidden;
