@@ -7,6 +7,46 @@ thing that will make the page look broken.
 
 ---
 
+# ⭐ HERO PROMPT — the premium look (use this)
+
+The earlier master is a flat studio render — evenly lit, so it goes murky small on
+the page. Premium reads as **dramatic**: one light source, deep shadows, the case
+emerging from black with the seam as the glowing focal point. This prompt is tuned
+for that. Generate the master with it, then run Stage 2 as normal off the winner.
+
+### Prompt
+
+```
+Dramatic hero product render of a sealed matte black hard-shell equipment case,
+emerging from deep darkness. Three-quarter view from slightly above, the front
+face and right side both visible. Injection-moulded composite shell with fine
+micro-texture, machined aluminium corner blocks, two heavy latches, a large empty
+recessed panel on the front. A single brilliant light line glows along the seam
+where the lid meets the body — the brightest thing in the frame — casting a soft
+glow onto the panels around it. Lit by one dramatic rim light from the upper left
+carving the top edge out of the black, everything else falling into deep shadow.
+Cinematic, high contrast, moody, expensive, like a luxury watch advertisement.
+Photorealistic 3D render, Keyshot, octane, 85mm lens, shallow depth of field,
+razor-sharp detail on the lit edges, centred, isolated on pure black, no
+background, no floor, no text.
+```
+
+### Negative prompt
+
+```
+flat lighting, evenly lit, studio softbox, bright, low contrast, washed out, text,
+letters, logo, watermark, background, floor, ground shadow, scene, multiple
+objects, treasure chest, wooden crate, toolbox, wheels, handle, cartoon,
+illustration, flat vector, blurry
+```
+
+Judge it the same way as before (three faces, one clean seam line, machined
+corners) **plus**: it should look like it's lit by one light in a dark room, with
+the seam clearly the brightest point. If it looks flat and evenly bright, reject it
+— that flatness is exactly what read cheap on the page.
+
+---
+
 # STAGE 1 — the master crate
 
 Text-to-image, no reference. You are making **one** neutral crate that everything
