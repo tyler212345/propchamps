@@ -204,10 +204,17 @@ body::after{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;o
 /* rarity bar across the top */
 .slot::after{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--rc);box-shadow:0 0 16px 1px var(--rc)}
 .slot>*{position:relative;z-index:1}
-.slot .s-logo{width:88px;height:88px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:radial-gradient(circle at 50% 35%,color-mix(in srgb,var(--rc) 30%,#1a222e),#0d1219 72%);border:1px solid color-mix(in srgb,var(--rc) 45%,transparent);box-shadow:0 0 30px -6px var(--rc),inset 0 1px 0 rgba(255,255,255,.14);margin-bottom:14px}
-.slot .s-logo img{width:56px;height:56px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,.6))}
-.slot .s-firm{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);margin-bottom:5px}
-.slot .s-name{font-family:var(--font-display);font-size:19px;font-weight:900;letter-spacing:-.025em;color:#fff;line-height:1.1}
+/* faceted rarity emblem — the account SIZE is the hero, coloured by rarity, so
+   the reel reads as a river of distinct coloured items (firm logos render
+   inconsistently, so they are not used here) */
+.emblem{position:relative;display:flex;align-items:center;justify-content:center}
+.emblem::before{content:"";position:absolute;inset:0;clip-path:polygon(50% 0,100% 26%,100% 74%,50% 100%,0 74%,0 26%);background:linear-gradient(155deg,var(--rc),color-mix(in srgb,var(--rc) 20%,#0b0f16));box-shadow:0 0 30px -4px var(--rc)}
+.emblem::after{content:"";position:absolute;inset:2.5px;clip-path:polygon(50% 0,100% 26%,100% 74%,50% 100%,0 74%,0 26%);background:radial-gradient(circle at 50% 30%,color-mix(in srgb,var(--rc) 16%,#151d29),#0a0e15 78%)}
+.emblem span{position:relative;z-index:1;font-family:var(--font-display);font-weight:900;letter-spacing:-.03em;color:#fff;text-shadow:0 0 18px color-mix(in srgb,var(--rc) 70%,transparent)}
+.slot .emblem{width:92px;height:100px;margin-bottom:13px}
+.slot .emblem span{font-size:27px}
+.slot .s-firm{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);margin-bottom:4px}
+.slot .s-type{font-family:var(--font-display);font-size:16px;font-weight:800;letter-spacing:-.01em;color:#fff;line-height:1.1}
 .slot .s-val{margin-top:auto;font-family:var(--font-mono);font-size:16px;color:var(--rc);font-weight:700;text-shadow:0 0 16px color-mix(in srgb,var(--rc) 60%,transparent)}
 .slot .s-rar{position:absolute;top:11px;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--rc);opacity:.9}
 /* on landing, everything that did not win recedes so the winner is unmistakable */
@@ -276,6 +283,10 @@ body::after{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;o
 .result{margin-top:22px;text-align:center;min-height:142px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px}
 .result.hide{visibility:hidden}
 .modal.odds-mode .reel-wrap,.modal.odds-mode .result{display:none}
+.res-emblem{width:112px;height:122px;margin:0 auto 4px}
+.res-emblem span{font-size:34px}
+.res-emblem::before{animation:embpulse 2.2s ease-in-out infinite}
+@keyframes embpulse{0%,100%{box-shadow:0 0 30px -4px var(--rc)}50%{box-shadow:0 0 52px 0 var(--rc)}}
 .res-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
 .res-name{font-family:var(--font-display);font-weight:900;font-size:clamp(22px,3.4vw,32px);letter-spacing:-.03em;color:var(--rc)}
 .res-meta{font-size:14px;color:var(--text-soft)}
@@ -355,10 +366,10 @@ footer.site a:hover{color:var(--lime)}
   .reel-wrap{height:214px}
   .reel{padding:14px 0;gap:10px}
   .slot{flex:0 0 138px;height:186px;padding:20px 8px 12px}
-  .slot .s-logo{width:62px;height:62px;margin-bottom:9px}
-  .slot .s-logo img{width:38px;height:38px}
+  .slot .emblem{width:66px;height:72px;margin-bottom:9px}
+  .slot .emblem span{font-size:20px}
   .slot .s-firm{font-size:8px;letter-spacing:.06em;margin-bottom:3px}
-  .slot .s-name{font-size:14px}
+  .slot .s-type{font-size:13px}
   .slot .s-val{font-size:13.5px}
   .slot .s-rar{top:7px;font-size:7px}
   .reel-wrap::before,.reel-wrap::after{width:52px}
@@ -834,12 +845,20 @@ footer.site a:hover{color:var(--lime)}
     return pool[0];
   }
   var GLOW={common:.05,uncommon:.20,rare:.32,epic:.46,legendary:.60,mythic:.78};
+  /* split "Instant Sim 100K" -> {size:"100K", type:"Instant Sim"} */
+  function acctParts(n){
+    var m=String(n).match(/(\d+)\s*K/i);
+    var size=m?m[1]+'K':n;
+    var type=String(n).replace(/\d+\s*K/i,'').replace(/[·•]/g,' ').replace(/\s+/g,' ').trim();
+    return {size:size,type:type||'Account'};
+  }
   function slotHtml(p,won){
+    var a=acctParts(p.n);
     return '<div class="slot'+(won?' won':'')+'" style="--rc:'+rc(p.r)+';--glow:'+(GLOW[p.r]||0)+'">'+
       '<div class="s-rar">'+p.r+'</div>'+
-      '<div class="s-logo"><img src="'+p.logo+'" alt=""></div>'+
+      '<div class="emblem"><span>'+a.size+'</span></div>'+
       '<div class="s-firm">'+p.f+'</div>'+
-      '<div class="s-name">'+p.n+'</div><div class="s-val">'+usd(p.L)+'</div></div>';
+      '<div class="s-type">'+a.type+'</div><div class="s-val">'+usd(p.L)+'</div></div>';
   }
 
   /* celebratory burst — scales with rarity */
@@ -967,7 +986,8 @@ footer.site a:hover{color:var(--lime)}
     var diff=p.L-c.price;
     var res=$('result');
     res.style.setProperty('--rc',color);
-    res.innerHTML='<div class="res-label">'+p.r.toUpperCase()+' · '+p.f+'</div>'+
+    res.innerHTML='<div class="emblem res-emblem"><span>'+acctParts(p.n).size+'</span></div>'+
+      '<div class="res-label">'+p.r.toUpperCase()+' · '+p.f+'</div>'+
       '<div class="res-name" style="color:'+color+'">'+p.n+'</div>'+
       '<div class="res-meta"><b>'+usd(p.L)+'</b> account for '+usd(c.price)+
         (diff>0?' · <b style="color:var(--positive)">'+(p.L/c.price).toFixed(1)+'&times; your money</b>':'')+'</div>'+
