@@ -26,7 +26,15 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg-base);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{background:
+    radial-gradient(ellipse 120% 55% at 50% -8%,rgba(200,255,0,.055),transparent 55%),
+    radial-gradient(ellipse 90% 50% at 12% 42%,rgba(139,152,168,.045),transparent 50%),
+    radial-gradient(ellipse 90% 50% at 88% 66%,rgba(255,176,32,.04),transparent 50%),
+    #080b10;
+  color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+/* vignette: pulls the eye to the centre, the single biggest 'premium' tell */
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 80% 80% at 50% 40%,transparent 55%,rgba(0,0,0,.55) 100%)}
 a{color:inherit;text-decoration:none}img{display:block;max-width:100%;height:auto}button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 .container{width:100%;max-width:var(--max-w);margin:0 auto;padding:0 var(--gutter);position:relative;z-index:1}
 
@@ -163,11 +171,13 @@ body::after{content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;o
   font-family:var(--font-mono);font-size:15px;font-weight:700;color:#fff}
 .case-range em{font-style:normal;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint);font-weight:500}
 /* odds distribution, one segment per rarity */
-.odds-bar{position:relative;display:flex;gap:2px;height:5px;margin-bottom:22px;border-radius:3px;overflow:hidden}
-.odds-bar i{display:block;height:100%;opacity:.85}
+.odds-bar{position:relative;display:flex;gap:2px;height:6px;margin-bottom:22px;border-radius:4px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+.odds-bar i{display:block;height:100%;opacity:.9;box-shadow:0 0 8px -1px currentColor}
 /* price + top prize row */
 .case-buy{position:relative;display:flex;align-items:center;justify-content:space-between;gap:14px;text-align:left;
-  padding:14px 16px;margin-bottom:16px;border-radius:13px;background:rgba(0,0,0,.34);border:1px solid var(--border)}
+  padding:15px 17px;margin-bottom:16px;border-radius:14px;border:1px solid var(--border);
+  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(0,0,0,.28));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
 .cb-price{font-family:var(--font-display);font-weight:900;font-size:34px;letter-spacing:-.04em;color:#fff;line-height:1;display:flex;align-items:baseline;gap:7px}
 .cb-price em{font-style:normal;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);font-weight:500}
 .cb-top{text-align:right;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);line-height:1.5}
@@ -321,32 +331,52 @@ table.odds td.pct{text-align:right;font-family:var(--font-mono);font-weight:700}
 .feed-head{font-family:var(--font-display);font-weight:800;font-size:clamp(20px,2.6vw,27px);letter-spacing:-.03em;color:var(--text-strong);margin-bottom:10px}
 .feed-note{font-size:14.5px;color:var(--text-soft);max-width:680px;margin-bottom:26px;line-height:1.6}
 .feed-note a{color:var(--lime-text);text-decoration:underline;text-underline-offset:3px}
-.pool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.pool{display:flex;flex-direction:column;background:var(--bg-card);border:1px solid var(--border);border-top:3px solid var(--edge);border-radius:16px;overflow:hidden}
-.pool-head{padding:15px 18px;border-bottom:1px solid var(--border);display:flex;align-items:baseline;justify-content:space-between;gap:10px}
-.pool-head .p-name{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--edge);font-weight:700}
-.pool-head .p-price{font-family:var(--font-display);font-weight:800;font-size:17px;color:var(--text-strong)}
-.pool-row{display:flex;align-items:center;gap:10px;padding:10px 18px;border-bottom:1px solid var(--border);font-size:13.5px}
-.pool-row:last-child{border-bottom:0}
-.pool-row .rar{flex-shrink:0;margin:0}
+.pool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pool{position:relative;display:flex;flex-direction:column;border:1px solid var(--border);border-radius:18px;overflow:hidden;
+  background:
+    radial-gradient(ellipse 100% 30% at 50% 0%,color-mix(in srgb,var(--edge) 12%,transparent),transparent 70%),
+    linear-gradient(180deg,#141b25,#0c1119);
+  box-shadow:0 24px 50px -30px #000,inset 0 1px 0 rgba(255,255,255,.05)}
+.pool::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--edge),transparent);opacity:.9}
+.pool-head{padding:17px 20px 15px;display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.pool-head .p-name{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--edge);font-weight:700}
+.pool-head .p-price{font-family:var(--font-display);font-weight:900;font-size:19px;letter-spacing:-.02em;color:#fff}
+.pool-row{display:flex;align-items:center;gap:12px;padding:11px 20px;font-size:13.5px;position:relative;transition:background .15s}
+.pool-row+.pool-row{border-top:1px solid rgba(255,255,255,.045)}
+.pool-row:hover{background:rgba(255,255,255,.025)}
+.pool-row .rar{flex-shrink:0;width:9px;height:9px;border-radius:2px;margin:0;box-shadow:0 0 10px -1px currentColor}
 .pool-row .p-item{flex:1;min-width:0}
-.pool-row .p-acct{color:var(--text-strong);font-weight:600;display:block;line-height:1.3}
-.pool-row .p-firm{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--text-faint)}
+.pool-row .p-acct{color:var(--text-strong);font-weight:600;display:block;line-height:1.3;letter-spacing:-.01em}
+.pool-row .p-firm{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)}
 .pool-row .p-val{font-family:var(--font-mono);font-size:12.5px;color:var(--text-soft);flex-shrink:0}
-.pool-row .p-odds{font-family:var(--font-mono);font-size:12px;font-weight:700;width:48px;text-align:right;flex-shrink:0}
-.pool-foot{margin-top:auto;padding:12px 18px;background:var(--bg-band);border-top:1px solid var(--border);font-size:12.5px;color:var(--text-soft)}
+.pool-row .p-odds{font-family:var(--font-mono);font-size:12.5px;font-weight:700;width:52px;text-align:right;flex-shrink:0}
+.pool-foot{margin-top:auto;padding:14px 20px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.35));border-top:1px solid rgba(255,255,255,.05);font-size:12.5px;color:var(--text-soft)}
 .pool-foot b{color:var(--lime-text)}
 
 /* waitlist */
-.waitlist-band{border-top:1px solid var(--border);background:linear-gradient(180deg,rgba(200,255,0,.035),transparent 60%)}
-.waitlist{display:grid;grid-template-columns:1.15fr 1fr;gap:44px;align-items:center;padding:60px 0}
+.waitlist-band{padding:64px 0}
+.waitlist{position:relative;display:grid;grid-template-columns:1.15fr 1fr;gap:44px;align-items:center;
+  padding:44px 48px;border-radius:24px;overflow:hidden;
+  border:1px solid var(--border-lime);
+  background:
+    radial-gradient(ellipse 60% 120% at 100% 50%,rgba(200,255,0,.10),transparent 60%),
+    linear-gradient(135deg,#151b25,#0c1119);
+  box-shadow:0 40px 80px -40px #000,inset 0 1px 0 rgba(255,255,255,.06)}
+/* faint grid texture inside the panel */
+.waitlist::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(rgba(200,255,0,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(200,255,0,.03) 1px,transparent 1px);
+  background-size:34px 34px;
+  mask-image:radial-gradient(ellipse 70% 100% at 100% 50%,#000,transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse 70% 100% at 100% 50%,#000,transparent 75%)}
+.wl-copy,.wl-form{position:relative;z-index:1}
 .wl-copy p{font-size:16px;color:var(--text-soft);line-height:1.65;max-width:46ch}
 .wl-form{display:flex;flex-wrap:wrap;gap:10px}
-.wl-form input{flex:1;min-width:200px;padding:15px 17px;background:var(--bg-card);border:1px solid var(--border-strong);border-radius:11px;color:var(--text);font-size:15px;font-family:inherit}
-.wl-form input:focus{outline:none;border-color:var(--lime);box-shadow:0 0 0 3px rgba(200,255,0,.12)}
-.wl-form button{padding:15px 26px;background:var(--lime);color:var(--bg-base);font-weight:800;font-size:15px;border-radius:11px;white-space:nowrap;transition:all .15s}
-.wl-form button:hover{background:var(--lime-2)}
-.wl-form button:disabled{opacity:.6;cursor:default}
+.wl-form input{flex:1;min-width:200px;padding:16px 18px;background:rgba(0,0,0,.4);border:1px solid var(--border-strong);border-radius:12px;color:var(--text);font-size:15px;font-family:inherit;transition:border-color .15s,box-shadow .15s}
+.wl-form input::placeholder{color:var(--text-faint)}
+.wl-form input:focus{outline:none;border-color:var(--lime);box-shadow:0 0 0 3px rgba(200,255,0,.14)}
+.wl-form button{padding:16px 28px;background:var(--lime);color:var(--bg-base);font-weight:800;font-size:15px;border-radius:12px;white-space:nowrap;transition:all .15s;box-shadow:0 0 0 1px rgba(200,255,0,.25),0 12px 28px -10px rgba(200,255,0,.5)}
+.wl-form button:hover{background:var(--lime-2);transform:translateY(-1px);box-shadow:0 0 0 1px rgba(200,255,0,.35),0 16px 34px -12px rgba(200,255,0,.7)}
+.wl-form button:disabled{opacity:.6;cursor:default;transform:none}
 .wl-msg{flex-basis:100%;font-size:13.5px;color:var(--positive);min-height:19px}
 .wl-msg.err{color:var(--neg)}
 
@@ -355,11 +385,13 @@ section.block{padding:60px 0;border-top:1px solid var(--border)}
 .section-eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--lime-text);margin-bottom:16px}
 .section-eyebrow::before{content:"";width:24px;height:1px;background:var(--lime-text)}
 .section-h2{font-family:var(--font-display);font-weight:800;font-size:clamp(24px,3.2vw,36px);line-height:1.12;letter-spacing:-.035em;color:var(--text-strong);margin-bottom:14px}
-.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px}
-.how-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:26px}
-.how-num{font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--lime);margin-bottom:12px}
-.how-card h3{font-family:var(--font-display);font-weight:800;font-size:18px;letter-spacing:-.02em;color:var(--text-strong);margin-bottom:8px}
-.how-card p{font-size:14.5px;color:var(--text-soft);line-height:1.6}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
+.how-card{position:relative;background:linear-gradient(180deg,#141b25,#0c1119);border:1px solid var(--border);border-radius:18px;padding:28px 26px;overflow:hidden;transition:transform .25s,border-color .25s}
+.how-card::before{content:"";position:absolute;top:0;left:26px;width:34px;height:2px;background:var(--lime);box-shadow:0 0 14px 1px var(--lime)}
+.how-card:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--lime) 30%,var(--border))}
+.how-num{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:11px;border:1px solid var(--border-lime);background:var(--lime-soft);font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--lime-text);margin-bottom:16px}
+.how-card h3{font-family:var(--font-display);font-weight:800;font-size:18.5px;letter-spacing:-.02em;color:var(--text-strong);margin-bottom:9px}
+.how-card p{font-size:14.5px;color:var(--text-soft);line-height:1.62}
 .prose{max-width:760px}
 .prose p{font-size:16.5px;line-height:1.72;color:var(--text);margin-bottom:14px}
 .prose p strong{color:var(--text-strong)}
@@ -430,7 +462,8 @@ footer.site a:hover{color:var(--lime)}
 
 <section class="feed">
   <div class="container">
-    <div class="feed-head">Every prize in every case</div>
+    <div class="section-eyebrow">Full transparency</div>
+    <h2 class="section-h2">Every prize in every case</h2>
     <p class="feed-note">No hidden pool. This is the complete contents of every case and the exact chance of each one. Prices shown are the firm's standard price for that account.</p>
     <div class="pool-grid" id="poolGrid"></div>
   </div>
@@ -593,7 +626,7 @@ footer.site a:hover{color:var(--lime)}
     var ORDER=['common','uncommon','rare','epic','legendary','mythic'], seg='';
     ORDER.forEach(function(r){
       var w=c.pool.filter(function(p){return p.r===r;}).reduce(function(s,p){return s+p.w;},0);
-      if(w>0) seg+='<i style="flex:'+w+';background:'+rc(r)+'" title="'+r+' '+w+'%"></i>';
+      if(w>0) seg+='<i style="flex:'+w+';background:'+rc(r)+';color:'+rc(r)+'" title="'+r+' '+w+'%"></i>';
     });
     el.innerHTML='<div class="case-tier">'+c.name+'</div>'+
       '<div class="case-art" data-art="'+k+'"></div>'+
@@ -1047,7 +1080,7 @@ footer.site a:hover{color:var(--lime)}
     var c=CASES[k];
     var ev=c.pool.reduce(function(s,p){return s+p.v*(p.w/100);},0);
     var rows=c.pool.slice().sort(function(a,b){return b.w-a.w;}).map(function(p){
-      return '<div class="pool-row"><span class="rar" style="background:'+rc(p.r)+'"></span>'+
+      return '<div class="pool-row"><span class="rar" style="background:'+rc(p.r)+';color:'+rc(p.r)+'"></span>'+
         '<span class="p-item"><span class="p-acct">'+p.n+'</span><span class="p-firm">'+p.f+'</span></span>'+
         '<span class="p-val">'+usd(p.L)+'</span>'+
         '<span class="p-odds" style="color:'+rc(p.r)+'">'+p.w+'%</span></div>';
