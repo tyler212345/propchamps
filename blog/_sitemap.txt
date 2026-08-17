@@ -1,17 +1,5 @@
   <url>
-    <loc>https://propchamps.net/blog/what-is-a-daily-loss-limit</loc>
-    <lastmod>2026-08-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://propchamps.net/blog/how-much-do-prop-firm-challenges-cost</loc>
-    <lastmod>2026-08-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://propchamps.net/blog/how-prop-firm-payouts-work</loc>
+    <loc>https://propchamps.net/blog/prop-firm-consistency-rules</loc>
     <lastmod>2026-08-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

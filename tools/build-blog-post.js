@@ -29,6 +29,8 @@ const CONFIG = {
     related: [['/best/cheapest-prop-firm-challenges','Cheapest challenges'],['/deals','Active deals & codes'],['/compare','Compare every firm']] },
   'how-prop-firm-payouts-work': { eyebrow: 'Prop firm rules · Explained', tag: 'Explainer',
     related: [['/blog/fastest-payout-prop-firms','Fastest-paying firms'],['/payouts','Live payout data'],['/compare','Compare every firm']] },
+  'prop-firm-consistency-rules': { eyebrow: 'Prop firm rules · Explained', tag: 'Explainer',
+    related: [['/blog/how-prop-firm-payouts-work','How payouts work'],['/compare','Compare every firm'],['/blog/prop-firm-drawdown-explained','Drawdown explained']] },
   'how-to-pass-a-prop-firm-evaluation': { eyebrow: 'Prop firm guide · How-to', tag: 'Guide',
     related: [['/compare','Compare every firm'],['/best/best-prop-firm-for-beginners','Best firms for beginners'],['/blog/prop-firm-drawdown-explained','Drawdown explained']] },
   'are-futures-prop-firms-worth-it': { eyebrow: 'Prop firm guide · Honest take', tag: 'Guide',
