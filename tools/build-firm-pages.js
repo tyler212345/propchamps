@@ -47,7 +47,8 @@ const FILE_FOR = {
   'apex-trader': 'apex-trader.html',
   'take-profit': 'take-profit-trader.html',
   'top-one-futures': 'top-one-futures.html',
-  'my-funded-futures': 'my-funded-futures.html'
+  'my-funded-futures': 'my-funded-futures.html',
+  'fundednext': 'fundednext.html'
 };
 // slug -> clean URL path (no .html), used for related-firm links
 const PATH_FOR = {};

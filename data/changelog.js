@@ -21,6 +21,16 @@
 */
 window.CHANGELOG = [
   {
+    date: '2026-08-17', firm: 'fundednext', firmName: 'FundedNext', logo: '/logos/fundednext.png',
+    category: 'listing',
+    headline: 'FundedNext Futures added to PropChamps',
+    was: 'Not listed',
+    is: 'Full listing — Flex, Legacy and Rapid (Pro / Daily)',
+    note: 'Flex pays a 95% reward share with no daily loss limit; Rapid passes in one day. All use EOD drawdown and allow news trading. Platforms: NinjaTrader, Tradovate, TradingView. Code CHAMP.',
+    source: '',
+    firmPage: 'fundednext.html'
+  },
+  {
     date: '2026-05-28', firm: 'alpha-futures', firmName: 'Alpha Futures', logo: '/logos/alpha.png',
     category: 'promo',
     headline: 'Zero plan activation fee dropped to $0',

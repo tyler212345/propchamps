@@ -1451,6 +1451,251 @@ window.FIRMS = {
       }
     ],
     "note": "My Funded Futures runs four products: Rapid (daily payouts), Pro (bi-weekly), Flex (weekly), and Builder Plan (monthly subscription, EOD drawdown, 80/20 split, path to real Live account after 5 consecutive payouts). All have NO DLL and NO activation fee. Rapid Live transition (updated 04/16/26): $10K net profit in one session triggers auto-Live status; profit beyond $10K for that session is forfeited."
+  },
+  "fundednext": {
+    "slug": "fundednext",
+    "rating": 4.6,
+    "reviewCount": 0,
+    "country": "AE",
+    "maxAllocation": "$150K",
+    "platformsList": ["NinjaTrader","Tradovate","TradingView"],
+    "payoutTotal": "$306.9M+",
+    "payoutCount": "—",
+    "payoutAvg": "—",
+    "payoutLargest": "—",
+    "payoutMedianTime": "24 hours",
+    "name": "FundedNext",
+    "initials": "FN",
+    "logo": "/logos/fundednext.png",
+    "logoText": "FN",
+    "affiliateUrl": "https://fundednext.com/?fpr=CHAMP",
+    "type": "Flex · Legacy · Rapid",
+    "tagline": "Flex · Legacy · Rapid",
+    "badge": "new",
+    "featured": true,
+    "live": true,
+    "tags": ["fast-payout","no-dll","high-split"],
+    "filters": ["evaluation","fast-payout","nodll"],
+    "promo": { "code": "CHAMP", "discount": "See pricing" },
+    "offerLine": "Use Code CHAMP",
+    "offerSub": "Flex · Legacy · Rapid (Pro / Daily)",
+    "summary": "FundedNext brings its track record ($306.9M+ paid across its programs) to futures with three account types. Flex pays a 95% reward share with no daily loss limit; Legacy is the low-cost path; Rapid passes in a single day with a Pro option (no DLL, rewards every 3 days) or a Daily option (daily payouts). All use end-of-day drawdown, allow news trading, and run on NinjaTrader, Tradovate and TradingView. Code CHAMP applies at checkout.",
+    "highlights": ["Up to 95% Split", "1-Day Pass (Rapid)", "No DLL on Flex/Legacy"],
+    "bestFor": ["High Profit Split", "Fast Funding", "News Trading"],
+    "stats": [
+      ["Account Types", "3 · Flex / Legacy / Rapid"],
+      ["Top Split", "95% (Flex)"],
+      ["Code", "CHAMP"]
+    ],
+    "boxPreviews": {
+      "deal": "Code CHAMP at checkout · one-time challenge fee",
+      "programs": "Flex, Legacy, Rapid (Pro or Daily)",
+      "rules": "EOD max loss limit · no DLL on Flex/Legacy/Rapid-Pro · 40% consistency in challenge",
+      "payouts": "Flex 95% split · Rapid 90% · Legacy 80% · payouts within 24h"
+    },
+    "boxMore": {
+      "deal": "Use code CHAMP at checkout. FundedNext Futures charges a one-time challenge fee. Promotional pricing was live at last check — confirm the current price at checkout. Reward share up to 95% on Flex.",
+      "programs": "FLEX — 50K-150K · one-time fee · challenge then 5-day benchmark to funded · 95% split\nLEGACY — 25K-100K · lowest targets · 80% split\nRAPID — 25K-100K · 1-day pass · choose Pro (no DLL, rewards every 3 days) or Daily (daily rewards)",
+      "rules": "Flex challenge (50K-150K): Profit target $2,500 / $5,000 / $8,000 · EOD max loss $1,500 / $2,500 / $4,000 · no DLL · 40% consistency\nLegacy challenge (25K-100K): Profit target $1,250 / $3,000 / $6,000 · EOD max loss $1,000 / $2,000 / $3,000 · no DLL · 40% consistency\nRapid challenge (25K-100K): 1 day to pass · Profit target $1,500 / $3,000 / $5,000 · EOD max loss $1,000 / $2,000 / $2,500 · Pro no DLL / Daily has DLL",
+      "payouts": "Flex funded: 5 benchmark days · $500 min cycle profit · 95% split · withdraw 50% of profit up to $1,500 / $2,500 / $4,000\nLegacy funded: 80% split · withdraw up to $3,000 / $6,000 / $6,000\nRapid funded: 90% split · Pro rewards every 3 days / Daily rewards daily · withdraw up to $800 / $1,200 / $2,500"
+    },
+    "programs": [
+      "Flex — challenge then 5-day benchmark to funded, 95% reward share (50K-150K)",
+      "Legacy — lowest-cost path, 80% reward share (25K-100K)",
+      "Rapid — 1-day pass, choose Pro (no DLL) or Daily (daily payouts), 90% share (25K-100K)"
+    ],
+    "rules": [
+      "Pricing: one-time challenge fees — Flex $69.99 / $129.99 / $249.99 (50K-150K), Legacy $79.99 / $199.99 / $239.99 (25K-100K), Rapid $79.99 / $169.99 / $279.99 (25K-100K). Promotional pricing was active at last check — confirm at checkout.",
+      "Drawdown: end-of-day (EOD) max loss limit on all account types",
+      "Daily loss limit: none on Flex, Legacy and Rapid Pro; Rapid Daily has a DLL ($500 / $1,000 / $1,250)",
+      "Consistency: 40% during the challenge on Flex, Legacy and Rapid Pro; none on Rapid Daily",
+      "News trading: allowed on all account types"
+    ],
+    "payouts": [
+      "Flex: 95% reward share, 5 benchmark days, $500 minimum cycle profit",
+      "Legacy: 80% reward share",
+      "Rapid Pro: 90% share, rewards every 3 days",
+      "Rapid Daily: 90% share, daily rewards",
+      "Processing: ~99.99% of payouts within 24 hours"
+    ],
+    "platforms": ["NinjaTrader · Tradovate · TradingView"],
+    "warning": "FundedNext Futures had promotional (sale) pricing live at last check — always confirm the current one-time fee at checkout. The $306.9M+ payout figure reflects FundedNext's published total across all of its programs, not futures alone.",
+    "plansDetailed": [
+      {
+        "name": "FLEX",
+        "featured": true,
+        "rules": [
+          ["Account Sizes", "50K / 100K / 150K"],
+          ["One-Time Fee", "$69.99 / $129.99 / $249.99"],
+          ["Profit Target", "$2,500 / $5,000 / $8,000"],
+          ["Max Loss Limit (EOD)", "$1,500 / $2,500 / $4,000"],
+          ["Daily Loss Limit", "None"],
+          ["Buffer Required", "None"],
+          ["Consistency (Challenge)", "40%"],
+          ["News Trading", "Allowed"],
+          ["Max Contracts", "3 mini (30 micro) / 5 mini (50 micro) / 8 mini (80 micro)"],
+          ["Benchmark Days (Funded)", "5"],
+          ["Daily Benchmark (Funded)", "$200 / $200 / $250"],
+          ["Min Cycle Profit", "$500"],
+          ["Consistency (Funded)", "None"],
+          ["Max Withdrawal", "50% of profit up to $1,500 / $2,500 / $4,000"],
+          ["Reward Share", "95%"],
+          ["Platforms", "NinjaTrader · Tradovate · TradingView"],
+          ["Promo Code", "CHAMP"]
+        ]
+      },
+      {
+        "name": "LEGACY",
+        "rules": [
+          ["Account Sizes", "25K / 50K / 100K"],
+          ["One-Time Fee", "$79.99 / $199.99 / $239.99"],
+          ["Profit Target", "$1,250 / $3,000 / $6,000"],
+          ["Max Loss Limit (EOD)", "$1,000 / $2,000 / $3,000"],
+          ["Daily Loss Limit", "None"],
+          ["Consistency (Challenge)", "40%"],
+          ["News Trading", "Allowed"],
+          ["Max Contracts (Challenge)", "2 mini (20 micro) / 3 mini (30 micro) / 5 mini (50 micro)"],
+          ["Benchmark Days (Funded)", "5"],
+          ["Daily Benchmark (Funded)", "$100 / $200 / $200"],
+          ["Min Cycle Profit", "$500"],
+          ["Consistency (Funded)", "None"],
+          ["Max Withdrawal", "50% of profit up to $3,000 / $6,000 / $6,000"],
+          ["Reward Share", "80%"],
+          ["Max Contracts (Funded)", "3 mini (30 micro) / 5 mini (50 micro) / 7 mini (70 micro)"],
+          ["Platforms", "NinjaTrader · Tradovate · TradingView"],
+          ["Promo Code", "CHAMP"]
+        ]
+      },
+      {
+        "name": "RAPID — Pro Plan",
+        "rules": [
+          ["Account Sizes", "25K / 50K / 100K"],
+          ["One-Time Fee", "$79.99 / $169.99 / $279.99"],
+          ["Days to Pass", "1"],
+          ["Profit Target", "$1,500 / $3,000 / $5,000"],
+          ["Max Loss Limit (EOD)", "$1,000 / $2,000 / $2,500"],
+          ["Daily Loss Limit", "None"],
+          ["Consistency (Challenge)", "None"],
+          ["News Trading", "Allowed"],
+          ["Max Contracts", "2 mini (20 micro) / 4 mini (40 micro) / 6 mini (60 micro)"],
+          ["Rewards (Funded)", "Every 3 days"],
+          ["Min Cycle Profit", "$500"],
+          ["Max Withdrawal", "$800 / $1,200 / $2,500"],
+          ["Reward Share", "90%"],
+          ["Consistency (Funded)", "40%"],
+          ["Platforms", "NinjaTrader · Tradovate · TradingView"],
+          ["Promo Code", "CHAMP"]
+        ]
+      },
+      {
+        "name": "RAPID — Daily Plan",
+        "rules": [
+          ["Account Sizes", "25K / 50K / 100K"],
+          ["One-Time Fee", "$79.99 / $169.99 / $279.99"],
+          ["Days to Pass", "1"],
+          ["Profit Target", "$1,500 / $3,000 / $5,000"],
+          ["Max Loss Limit (EOD)", "$1,000 / $2,000 / $2,500"],
+          ["Daily Loss Limit", "$500 / $1,000 / $1,250"],
+          ["Consistency (Challenge)", "None"],
+          ["News Trading", "Allowed"],
+          ["Max Contracts", "2 mini (20 micro) / 4 mini (40 micro) / 6 mini (60 micro)"],
+          ["Rewards (Funded)", "Daily"],
+          ["Min Cycle Profit", "$500"],
+          ["Max Withdrawal", "$800 / $1,200 / $2,500"],
+          ["Reward Share", "90%"],
+          ["Consistency (Funded)", "None"],
+          ["Platforms", "NinjaTrader · Tradovate · TradingView"],
+          ["Promo Code", "CHAMP"]
+        ]
+      }
+    ],
+    "plansSummary": [
+      {
+        "name": "FLEX",
+        "featured": true,
+        "rules": {
+          "Account Sizes": "50K · 100K · 150K",
+          "Profit Target": "$2,500 · $5,000 · $8,000",
+          "Max Drawdown": "$1,500 · $2,500 · $4,000",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "None",
+          "Min. Trading Days": "None eval · 5 benchmark funded",
+          "Consistency Rule": "40% eval · none funded",
+          "Payout Split": "95% Trader",
+          "Payout Frequency": "After 5-day benchmark cycle",
+          "Max Payout": "50% of profit · $1,500 · $2,500 · $4,000",
+          "Activation Fee": "None (one-time fee)",
+          "Reset Fee": "See checkout",
+          "Platforms": "NinjaTrader · Tradovate · TradingView",
+          "Promo Code": "CHAMP",
+          "Notes": "No daily loss limit · news trading allowed"
+        }
+      },
+      {
+        "name": "LEGACY",
+        "featured": false,
+        "rules": {
+          "Account Sizes": "25K · 50K · 100K",
+          "Profit Target": "$1,250 · $3,000 · $6,000",
+          "Max Drawdown": "$1,000 · $2,000 · $3,000",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "None",
+          "Min. Trading Days": "None eval · 5 benchmark funded",
+          "Consistency Rule": "40% eval · none funded",
+          "Payout Split": "80% Trader",
+          "Payout Frequency": "After 5-day benchmark cycle",
+          "Max Payout": "50% of profit · $3,000 · $6,000 · $6,000",
+          "Activation Fee": "None (one-time fee)",
+          "Reset Fee": "See checkout",
+          "Platforms": "NinjaTrader · Tradovate · TradingView",
+          "Promo Code": "CHAMP",
+          "Notes": "Lowest targets · funded contract limits rise to 3/5/7 mini"
+        }
+      },
+      {
+        "name": "RAPID — PRO",
+        "featured": false,
+        "rules": {
+          "Account Sizes": "25K · 50K · 100K",
+          "Profit Target": "$1,500 · $3,000 · $5,000",
+          "Max Drawdown": "$1,000 · $2,000 · $2,500",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "None",
+          "Min. Trading Days": "1 (pass in a day)",
+          "Consistency Rule": "None eval · 40% funded",
+          "Payout Split": "90% Trader",
+          "Payout Frequency": "Every 3 days",
+          "Max Payout": "$800 · $1,200 · $2,500",
+          "Activation Fee": "None (one-time fee)",
+          "Reset Fee": "See checkout",
+          "Platforms": "NinjaTrader · Tradovate · TradingView",
+          "Promo Code": "CHAMP",
+          "Notes": "1-day pass · no daily loss limit"
+        }
+      },
+      {
+        "name": "RAPID — DAILY",
+        "featured": false,
+        "rules": {
+          "Account Sizes": "25K · 50K · 100K",
+          "Profit Target": "$1,500 · $3,000 · $5,000",
+          "Max Drawdown": "$1,000 · $2,000 · $2,500",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "$500 · $1,000 · $1,250",
+          "Min. Trading Days": "1 (pass in a day)",
+          "Consistency Rule": "None",
+          "Payout Split": "90% Trader",
+          "Payout Frequency": "Daily",
+          "Max Payout": "$800 · $1,200 · $2,500",
+          "Activation Fee": "None (one-time fee)",
+          "Reset Fee": "See checkout",
+          "Platforms": "NinjaTrader · Tradovate · TradingView",
+          "Promo Code": "CHAMP",
+          "Notes": "Daily payouts · has a daily loss limit"
+        }
+      }
+    ],
+    "note": "FundedNext Futures offers Flex (50K-150K, 95% split), Legacy (25K-100K, 80% split) and Rapid (25K-100K, 1-day pass, Pro or Daily). All use end-of-day drawdown and allow news trading. Platforms: NinjaTrader, Tradovate, TradingView. Prices reflect promotional pricing at last check — confirm the current one-time fee at checkout. Code CHAMP."
   }
 };
 
@@ -1460,6 +1705,7 @@ window.FIRMS = {
 window.FIRM_ORDER = [
   "tradeify",
   "lucid-trading",
+  "fundednext",
   "alpha-futures",
   "apex-trader",
   "take-profit",

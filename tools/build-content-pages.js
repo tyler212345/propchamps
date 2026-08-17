@@ -104,8 +104,8 @@ function buildPayouts() {
   var maxTime = Math.max.apply(null, firms.map(function (f) { return f._t; }));
   function timeBarPct(t) { if (maxTime === minTime) return 50; return Math.max(8, Math.round(100 * (1 - (t - minTime) / (maxTime - minTime)))); }
   function timeBarClass(t) { var oneDay = 60 * 24; if (t <= 6 * 60) return 'time-fill-fast'; if (t <= oneDay) return 'time-fill-medium'; if (t <= 3 * oneDay) return 'time-fill-slow'; return 'time-fill-slowest'; }
-  var FLAGS = { US: '🇺🇸', GB: '🇬🇧', CA: '🇨🇦' };
-  var PAGES = { 'lucid-trading': 'lucid-trading.html', 'tradeify': 'tradeify.html', 'alpha-futures': 'alpha-futures.html', 'apex-trader': 'apex-trader.html', 'my-funded-futures': 'my-funded-futures.html', 'top-one-futures': 'top-one-futures.html', 'take-profit': 'take-profit-trader.html' };
+  var FLAGS = { US: '🇺🇸', GB: '🇬🇧', CA: '🇨🇦', AE: '🇦🇪' };
+  var PAGES = { 'lucid-trading': 'lucid-trading.html', 'tradeify': 'tradeify.html', 'alpha-futures': 'alpha-futures.html', 'apex-trader': 'apex-trader.html', 'my-funded-futures': 'my-funded-futures.html', 'top-one-futures': 'top-one-futures.html', 'take-profit': 'take-profit-trader.html', 'fundednext': 'fundednext.html' };
   var rows = firms.map(function (f) {
     var page = PAGES[f.slug] || '#'; var flag = FLAGS[f.country] || ''; var rating = f.rating || 0;
     var pct = timeBarPct(f._t); var barCls = timeBarClass(f._t);
@@ -168,7 +168,7 @@ function buildAuditLog() {
 // ============================ /compare ============================
 function buildCompare() {
   var file = path.join(ROOT, 'compare.html'); var before = read('compare.html'); var html = before;
-  var firmPageMap = { 'lucid-trading': 'lucid-trading.html', 'tradeify': 'tradeify.html', 'alpha-futures': 'alpha-futures.html', 'apex-trader': 'apex-trader.html', 'my-funded-futures': 'my-funded-futures.html', 'top-one-futures': 'top-one-futures.html', 'take-profit': 'take-profit-trader.html' };
+  var firmPageMap = { 'lucid-trading': 'lucid-trading.html', 'tradeify': 'tradeify.html', 'alpha-futures': 'alpha-futures.html', 'apex-trader': 'apex-trader.html', 'my-funded-futures': 'my-funded-futures.html', 'top-one-futures': 'top-one-futures.html', 'take-profit': 'take-profit-trader.html', 'fundednext': 'fundednext.html' };
   var totalPlans = 0;
   var groups = LIVE.map(function (f) {
     var plans = (f.plansSummary || []);

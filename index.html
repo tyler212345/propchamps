@@ -2251,9 +2251,10 @@ body.pc-loaded footer.site {
   if (!body || !window.FIRMS) return;
 
   /* Editorial rank order + per-firm rank label */
-  var RANK_ORDER = ['lucid-trading','apex-trader','tradeify','alpha-futures','my-funded-futures','top-one-futures','take-profit'];
+  var RANK_ORDER = ['lucid-trading','fundednext','apex-trader','tradeify','alpha-futures','my-funded-futures','top-one-futures','take-profit'];
   var RANK_LABELS = {
     'lucid-trading':"Editor's pick",
+    'fundednext':'Best payouts',
     'apex-trader':'Best for scale',
     'tradeify':'Best new entrant',
     'alpha-futures':'Fastest eval',
@@ -2261,8 +2262,8 @@ body.pc-loaded footer.site {
     'top-one-futures':'Most flexible',
     'take-profit':'No DLL'
   };
-  var FLAGS = {US:'🇺🇸', GB:'🇬🇧', CA:'🇨🇦'};
-  var PAGES = {'lucid-trading':'lucid-trading.html','tradeify':'tradeify.html','alpha-futures':'alpha-futures.html','apex-trader':'apex-trader.html','my-funded-futures':'my-funded-futures.html','top-one-futures':'top-one-futures.html','take-profit':'take-profit-trader.html'};
+  var FLAGS = {US:'🇺🇸', GB:'🇬🇧', CA:'🇨🇦', AE:'🇦🇪'};
+  var PAGES = {'lucid-trading':'lucid-trading.html','fundednext':'fundednext.html','tradeify':'tradeify.html','alpha-futures':'alpha-futures.html','apex-trader':'apex-trader.html','my-funded-futures':'my-funded-futures.html','top-one-futures':'top-one-futures.html','take-profit':'take-profit-trader.html'};
 
   function stars(r){
     var full = Math.floor(r), half = (r % 1) >= 0.5;
