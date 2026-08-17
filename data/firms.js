@@ -751,185 +751,149 @@ window.FIRMS = {
     "logo": "/logos/apex.png",
     "logoText": "AP",
     "affiliateUrl": "https://apextraderfunding.com/member/aff/go/thetradingchamp",
-    "type": "Intraday · EOD · 3 Platforms",
-    "tagline": "Intraday Trail · EOD Trail · Rithmic · Tradovate · WealthCharts",
+    "type": "Intraday Trail · EOD Trail",
+    "tagline": "Intraday Trail · EOD Trail · 90% off with CHAMP",
     "badge": "popular",
     "featured": false,
     "live": true,
-    "tags": ["fast-payout"],
+    "tags": ["discount", "fast-payout"],
     "filters": ["evaluation", "fast-payout"],
     "promo": {
       "code": "CHAMP",
-      "discount": "See pricing"
+      "discount": "90% off"
     },
-    "offerLine": "90% OFF · No activation fee",
-    "offerSub": "CHAMP unlocks both: 90% off the eval AND removes the activation fee entirely. Up to 20 accounts.",
-    "summary": "Apex Trader Funding currently runs the biggest active CHAMP discount — 90% off the evaluation AND no activation fee on the Performance Account. Intraday and EOD Trail accounts on Rithmic, Tradovate, and WealthCharts. 1 day to pass, up to 20 max accounts, 5 trading day payouts.",
-    "highlights": ["90% Off + No Activation", "1-Day Pass", "20 Max Accounts"],
+    "offerLine": "90% OFF",
+    "offerSub": "CHAMP takes 90% off the eval on either Intraday or EOD Trail. A No-Activation-Fee variant is available to skip the funded activation fee.",
+    "summary": "Apex runs the biggest active CHAMP discount — 90% off the evaluation. Two account types: Intraday Trail (tighter trailing drawdown, no daily loss limit) and EOD Trail (end-of-day drawdown with a daily loss limit). Both pass in a single day, cover 25K-150K, and run on Rithmic, Tradovate, WealthCharts and TradingView. Each comes in a Standard build (lowest eval price) or a No-Activation-Fee build (higher eval price, no funded activation fee). One-time fee, no rebill, eval active 30 days.",
+    "highlights": ["90% Off Eval", "1-Day Pass", "Intraday or EOD Trail"],
     "bestFor": ["Biggest Active Discount", "Fast Pass", "Multi-Account Scaling"],
     "stats": [
       ["CHAMP Discount", "90% Off"],
-      ["Activation Fee", "$0 (was $79)"],
-      ["Max Accounts", "20"]
+      ["Types", "Intraday / EOD Trail"],
+      ["Pass In", "1 Day"]
     ],
     "boxPreviews": {
-      "deal": "CHAMP = 90% off eval + $0 activation fee (was $79)",
-      "programs": "Intraday + EOD on multiple feeds",
-      "rules": "20 accounts · 50% consistency · DLL yes",
-      "payouts": "5 trading days · 6 max payout requests"
+      "deal": "CHAMP = 90% off the eval (Intraday or EOD Trail)",
+      "programs": "Intraday Trail (no DLL) · EOD Trail (has DLL)",
+      "rules": "1 day to pass · 50% funded consistency · one-time fee, no rebill",
+      "payouts": "Payouts every 5 trading days · 100% of first $25K then 90/10"
     },
     "boxMore": {
-      "deal": "Current CHAMP pricing — biggest active discount on the site:\\n\\n50K NO ACTIVATION FEE EOD TRAIL:\\nOne Pack: $109 (was $1,098) — one-time fee, no rebill, 30-day eval\\nFive Pack: $445 (was $4,450) — one-time fee, no rebill, no resets\\n\\nAll plan sizes (25K / 50K / 100K / 150K) get the 90% off + $0 activation. Always verify current checkout pricing before purchase.",
-      "programs": "APEX 1 — Intraday Trail / Rithmic\\nAPEX 2 — Intraday Trail / Tradovate\\nAPEX 3 — Intraday Trail / WealthCharts\\nAPEX 4 — EOD Trail / Rithmic, Tradovate, WealthCharts",
-      "rules": "Min days to pass = 1\\nEval max contracts: 4 / 6 / 8 / 12 minis\\nProfit target: $1,500 / $3,000 / $6,000 / $9,000\\nMax drawdown: $1,000 / $2,000 / $3,000 / $4,000\\nPerformance account max accounts: 20\\nDLL: yes\\nConsistency: 50%\\nActivation fee: $0 with CHAMP (was $79)",
-      "payouts": "Activation deadline: 7 days from eval pass\\nPayout frequency: 5 trading days\\nPayout split: none-100%\\nMax payout requests: 6"
+      "deal": "CHAMP takes 90% off the eval. Prices with the coupon:\\n\\nINTRADAY TRAIL (Standard): $16.70 / $24.90 / $39.90 / $59.90 (25K-150K)\\nINTRADAY TRAIL (No Activation Fee): $69 / $49 / $59 / $169\\nEOD TRAIL (Standard): $45 / $55 / $99 / $189\\nEOD TRAIL (No Activation Fee): $99 / $119 / $159 / $249\\n\\nOne-time fee, no rebill, eval active for 30 days, no resets. Always verify current checkout pricing.",
+      "programs": "INTRADAY TRAIL — tighter trailing drawdown, NO daily loss limit\\nEOD TRAIL — end-of-day drawdown WITH a daily loss limit ($500 / $1,000 / $1,500 / $2,000)\\n\\nEach comes as Standard (lowest eval price) or No Activation Fee (higher eval, skips the funded activation fee).",
+      "rules": "Min days to pass = 1\\nEval max contracts: 4 / 6 / 8 / 12 minis (25K-150K)\\nProfit target: $1,500 / $3,000 / $6,000 / $9,000\\nMax drawdown: $1,000 / $2,000 / $3,000 / $4,000\\nEOD daily loss limit: $500 / $1,000 / $1,500 / $2,000 (Intraday has none)\\nFunded consistency: 50%",
+      "payouts": "Payout frequency: every 5 trading days\\nPayout split: 100% of first $25K, then 90/10\\nScaling built in for the funded (PA) account"
     },
     "programs": [
-      "Intraday Trail on Rithmic / Tradovate / WealthCharts",
-      "EOD Trail on Rithmic / Tradovate / WealthCharts"
+      "Intraday Trail — tighter trailing drawdown, no daily loss limit (25K-150K)",
+      "EOD Trail — end-of-day drawdown with a daily loss limit (25K-150K)"
     ],
     "rules": [
-      "Performance account max contracts: 2 / 4 / 6 / 10 minis",
-      "Scaling contracts: yes",
-      "Accepts credit cards note included on EOD pricing section"
+      "Pricing with CHAMP (90% off): Intraday Standard $16.70 / $24.90 / $39.90 / $59.90 · Intraday No-Activation $69 / $49 / $59 / $169 · EOD Standard $45 / $55 / $99 / $189 · EOD No-Activation $99 / $119 / $159 / $249 (25K-150K)",
+      "One-time fee, no rebill, evaluation active for 30 days, no resets",
+      "Eval max contracts: 4 / 6 / 8 / 12 minis by account size · scaling built in for the funded account",
+      "EOD Trail daily loss limit: $500 / $1,000 / $1,500 / $2,000; Intraday Trail has no daily loss limit"
     ],
     "payouts": [
-      "5 trading day payout frequency",
-      "Max payout requests: 6",
-      "Activation deadline after eval pass: 7 days"
+      "Payout frequency: every 5 trading days",
+      "Payout split: 100% of the first $25K in profit, then 90/10",
+      "Funded consistency rule: 50%"
     ],
     "platforms": [
       "Rithmic",
       "Tradovate",
       "WealthCharts",
-      "TradingView compatible",
-      "Browser / Mobile / Mac compatible"
+      "TradingView compatible"
     ],
-    "warning": "Apex pricing changes often. Always verify the current checkout pricing before purchase.",
+    "warning": "Apex pricing changes often and prices reflect a live coupon. Always verify the current checkout price before purchase.",
     "plansDetailed": [
       {
-        "name": "Intraday Trail — Evaluation",
+        "name": "Intraday Trail",
         "featured": true,
         "rules": [
-          ["Platforms", "Rithmic / Tradovate / WealthCharts"],
-          ["Min Days to Pass", "1"],
           ["Account Sizes", "25K / 50K / 100K / 150K"],
-          ["Max Contracts", "4 / 6 / 8 / 12 minis"],
+          ["Price — Standard (w/ CHAMP)", "$16.70 / $24.90 / $39.90 / $59.90"],
+          ["Price — No Activation Fee", "$69.00 / $49.00 / $59.00 / $169.00"],
+          ["Min Days to Pass", "1"],
+          ["Max Contracts (Eval)", "4 / 6 / 8 / 12 minis (40 / 60 / 80 / 120 micros)"],
           ["Profit Target", "$1,500 / $3,000 / $6,000 / $9,000"],
           ["Max Drawdown", "$1,000 / $2,000 / $3,000 / $4,000"],
-          ["Scaling", "Built-In for PA"],
-          ["Reset Fee", "N/A"]
+          ["Drawdown Type", "Intraday Trail"],
+          ["Daily Loss Limit", "None"],
+          ["Funded Consistency", "50%"],
+          ["Payout Frequency", "Every 5 trading days"],
+          ["Payout Split", "100% of first $25K, then 90/10"],
+          ["Reset Fee", "N/A (one-time, no rebill)"],
+          ["Platforms", "Rithmic · Tradovate · WealthCharts · TradingView"],
+          ["Promo Code", "CHAMP — 90% off"]
         ]
       },
       {
-        "name": "Intraday Trail — Performance Account",
+        "name": "EOD Trail",
         "rules": [
-          ["Activation Fee", "$79"],
-          ["Activation Deadline", "7 days from eval pass"],
-          ["Payout Frequency", "5 trading days"],
-          ["Max Accounts", "20"],
-          ["Max Contracts", "2 / 4 / 6 / 10 minis"],
-          ["Scaling Contracts", "Yes"],
-          ["Max Drawdown", "$1,000 / $2,000 / $3,000 / $4,000"],
-          ["DLL", "Yes"],
-          ["Consistency", "50%"],
-          ["Payout Split", "None–100%"],
-          ["Payout Requests", "6"]
-        ]
-      },
-      {
-        "name": "EOD Trail — Evaluation",
-        "rules": [
-          ["Platforms", "Rithmic / Tradovate / WealthCharts"],
-          ["Min Days to Pass", "1"],
           ["Account Sizes", "25K / 50K / 100K / 150K"],
-          ["Max Contracts", "4 / 6 / 8 / 12 minis"],
+          ["Price — Standard (w/ CHAMP)", "$45.00 / $55.00 / $99.00 / $189.00"],
+          ["Price — No Activation Fee", "$99.00 / $119.00 / $159.00 / $249.00"],
+          ["Min Days to Pass", "1"],
+          ["Max Contracts (Eval)", "4 / 6 / 8 / 12 minis (40 / 60 / 80 / 120 micros)"],
           ["Profit Target", "$1,500 / $3,000 / $6,000 / $9,000"],
           ["Max Drawdown", "$1,000 / $2,000 / $3,000 / $4,000"],
-          ["Scaling", "Built-In for PA"],
-          ["Reset Fee", "N/A"]
-        ]
-      },
-      {
-        "name": "EOD Trail — Performance Account",
-        "rules": [
-          ["Activation Fee", "$79"],
-          ["Activation Deadline", "7 days from eval pass"],
-          ["Payout Frequency", "5 trading days"],
-          ["Max Accounts", "20"],
-          ["Max Contracts", "2 / 4 / 6 / 10 minis"],
-          ["Scaling Contracts", "Yes"],
-          ["Max Drawdown", "$1,000 / $2,000 / $3,000 / $4,000"],
-          ["DLL", "Yes"],
-          ["Consistency", "50%"],
-          ["Payout Split", "None–100%"],
-          ["Payout Requests", "6"]
+          ["Drawdown Type", "End of Day"],
+          ["Daily Loss Limit", "$500 / $1,000 / $1,500 / $2,000"],
+          ["Funded Consistency", "50%"],
+          ["Payout Frequency", "Every 5 trading days"],
+          ["Payout Split", "100% of first $25K, then 90/10"],
+          ["Reset Fee", "N/A (one-time, no rebill)"],
+          ["Platforms", "Rithmic · Tradovate · WealthCharts · TradingView"],
+          ["Promo Code", "CHAMP — 90% off"]
         ]
       }
     ],
     "plansSummary": [
       {
-        "name": "NO ACTIVATION FEE — EOD TRAIL",
+        "name": "INTRADAY TRAIL",
         "featured": true,
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000",
           "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,000",
-          "Drawdown Type": "INTRADAY / EOD",
-          "Daily Loss Limit": "$500 · $1,000 · $2,000 · $3,000",
+          "Drawdown Type": "Intraday Trail",
+          "Daily Loss Limit": "None",
           "Min. Trading Days": "1 day to pass",
-          "Consistency Rule": "50% in PA",
-          "Payout Split": "None–100%",
+          "Consistency Rule": "50% funded",
+          "Payout Split": "100% first $25K · then 90/10",
           "Payout Frequency": "Every 5 trading days",
           "Max Payout": "No cap",
-          "Activation Fee": "$0 with CHAMP (was $79)",
-          "Reset Fee": "N/A",
-          "Platforms": "Rithmic · Tradovate · WealthCharts",
-          "Promo Code": "CHAMP — 90% off"
+          "Activation Fee": "None on No-Activation variant",
+          "Reset Fee": "N/A (one-time, no rebill)",
+          "Platforms": "Rithmic · Tradovate · WealthCharts · TradingView",
+          "Promo Code": "CHAMP — 90% off",
+          "Notes": "w/ CHAMP — Standard $16.70 · $24.90 · $39.90 · $59.90 · No-Activation $69 · $49 · $59 · $169"
         }
       },
       {
-        "name": "INTRADAY TRAIL",
+        "name": "EOD TRAIL",
         "featured": false,
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000",
           "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,000",
-          "Drawdown Type": "INTRADAY / EOD",
-          "Daily Loss Limit": "DLL in PA only",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "$500 · $1,000 · $1,500 · $2,000",
           "Min. Trading Days": "1 day to pass",
-          "Consistency Rule": "50% in PA",
-          "Payout Split": "None–100%",
+          "Consistency Rule": "50% funded",
+          "Payout Split": "100% first $25K · then 90/10",
           "Payout Frequency": "Every 5 trading days",
           "Max Payout": "No cap",
-          "Activation Fee": "$0 with CHAMP (was $79)",
-          "Reset Fee": "N/A",
-          "Platforms": "Rithmic · Tradovate · WealthCharts",
-          "Promo Code": "CHAMP — 90% off"
-        }
-      },
-      {
-        "name": "EOD TRAIL — STANDARD",
-        "featured": false,
-        "rules": {
-          "Account Sizes": "25K · 50K · 100K · 150K",
-          "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000",
-          "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,000",
-          "Drawdown Type": "INTRADAY / EOD",
-          "Daily Loss Limit": "DLL in PA only",
-          "Min. Trading Days": "1 day to pass",
-          "Consistency Rule": "50% in PA",
-          "Payout Split": "None–100%",
-          "Payout Frequency": "Every 5 trading days",
-          "Max Payout": "No cap",
-          "Activation Fee": "$79",
-          "Reset Fee": "NA",
-          "Platforms": "Rithmic · Tradovate · WealthCharts",
-          "Promo Code": "CHAMP — 90% off"
+          "Activation Fee": "None on No-Activation variant",
+          "Reset Fee": "N/A (one-time, no rebill)",
+          "Platforms": "Rithmic · Tradovate · WealthCharts · TradingView",
+          "Promo Code": "CHAMP — 90% off",
+          "Notes": "w/ CHAMP — Standard $45 · $55 · $99 · $189 · No-Activation $99 · $119 · $159 · $249"
         }
       }
     ],
-    "note": "Apex's current CHAMP deal — 90% off the eval AND $0 activation fee on the No-Activation EOD Trail — is the biggest active discount on PropChamps. Always verify current checkout pricing before purchase."
+    "note": "Apex Trader Funding runs two evaluation types: Intraday Trail (tighter trailing drawdown, no daily loss limit) and EOD Trail (end-of-day drawdown with a daily loss limit of $500 / $1,000 / $1,500 / $2,000 across 25K-150K). Both pass in one day, target $1,500 / $3,000 / $6,000 / $9,000, and cap drawdown at $1,000 / $2,000 / $3,000 / $4,000. CHAMP takes 90% off the eval; each type comes as Standard (lowest eval price) or No Activation Fee (higher eval, skips the funded activation fee). Funded accounts pay 100% of the first $25K then 90/10, with payouts every 5 trading days and a 50% consistency rule. One-time fee, no rebill — always verify current checkout pricing. Code CHAMP."
   },
   "take-profit": {
     "slug": "take-profit",

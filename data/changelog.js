@@ -21,6 +21,16 @@
 */
 window.CHANGELOG = [
   {
+    date: '2026-08-17', firm: 'apex-trader', firmName: 'Apex Trader Funding', logo: '/logos/apex.png',
+    category: 'rules',
+    headline: 'Apex refreshed — Intraday vs EOD split out, EOD DLL corrected',
+    was: 'Combined Intraday/EOD entries · EOD DLL listed $500/$1,000/$2,000/$3,000',
+    is: 'Intraday Trail (no DLL) and EOD Trail (DLL $500/$1,000/$1,500/$2,000) as separate plans',
+    note: 'Full pricing added with the 90% CHAMP coupon (Standard and No-Activation-Fee variants, all sizes). Targets $1,500/$3,000/$6,000/$9,000, drawdown $1,000/$2,000/$3,000/$4,000, 1-day pass, 100% of first $25K then 90/10. Verified from Apex funding-path configurator.',
+    source: '',
+    firmPage: 'apex-trader.html'
+  },
+  {
     date: '2026-08-17', firm: 'lucid-trading', firmName: 'Lucid Trading', logo: '/logos/lucid.png',
     category: 'rules',
     headline: 'Lucid lineup refreshed — Daily added, LucidScale DLL, Black retired',
