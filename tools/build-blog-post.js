@@ -23,6 +23,12 @@ const DATE = '2026-08-17';
 const CONFIG = {
   'fastest-payout-prop-firms': { eyebrow: 'Prop firm data · Payouts', tag: 'Data',
     related: [['/payouts','Live payout data'],['/best/best-prop-firms-fast-payouts','Best firms for fast payouts'],['/compare','Compare every firm']] },
+  'what-is-a-daily-loss-limit': { eyebrow: 'Prop firm rules · Explained', tag: 'Explainer',
+    related: [['/best/best-prop-firms-no-daily-loss-limit','Best firms with no DLL'],['/blog/prop-firm-drawdown-explained','Drawdown explained'],['/compare','Compare every firm']] },
+  'how-much-do-prop-firm-challenges-cost': { eyebrow: 'Prop firm data · Pricing', tag: 'Data',
+    related: [['/best/cheapest-prop-firm-challenges','Cheapest challenges'],['/deals','Active deals & codes'],['/compare','Compare every firm']] },
+  'how-prop-firm-payouts-work': { eyebrow: 'Prop firm rules · Explained', tag: 'Explainer',
+    related: [['/blog/fastest-payout-prop-firms','Fastest-paying firms'],['/payouts','Live payout data'],['/compare','Compare every firm']] },
   'how-to-pass-a-prop-firm-evaluation': { eyebrow: 'Prop firm guide · How-to', tag: 'Guide',
     related: [['/compare','Compare every firm'],['/best/best-prop-firm-for-beginners','Best firms for beginners'],['/blog/prop-firm-drawdown-explained','Drawdown explained']] },
   'are-futures-prop-firms-worth-it': { eyebrow: 'Prop firm guide · Honest take', tag: 'Guide',
