@@ -21,6 +21,16 @@
 */
 window.CHANGELOG = [
   {
+    date: '2026-08-17', firm: 'alpha-futures', firmName: 'Alpha Futures', logo: '/logos/alpha.png',
+    category: 'rules',
+    headline: 'Alpha overhauled — Standard returns, new Direct plan, CHAMP now 40% off',
+    was: 'Zero + Advanced live · Standard legacy-only · CHAMP 10% off',
+    is: 'Zero · Standard · Advanced · Direct all live · CHAMP 40% off',
+    note: 'Standard is back on the site (50K-150K, monthly $129/$239/$349). New one-time Direct plan added (straight-to-funded, 25K-150K, $349/$519/$689/$859, 20% consistency). Zero and Advanced list prices increased and Advanced dropped its $149 activation fee. Code CHAMP now takes 40% off (matches the public ALPHA40 promo). Sourced from the Alpha Futures site.',
+    source: '',
+    firmPage: 'alpha-futures.html'
+  },
+  {
     date: '2026-08-17', firm: 'tradeify', firmName: 'Tradeify', logo: '/logos/tradeify.png',
     category: 'rules',
     headline: 'Tradeify audit — Growth max accounts and Select target corrected',

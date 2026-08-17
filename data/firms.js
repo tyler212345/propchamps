@@ -554,7 +554,7 @@ window.FIRMS = {
     "reviewCount": 49,
     "country": "GB",
     "maxAllocation": "$150K",
-    "platformsList": ["Tradesea","Rithmic"],
+    "platformsList": ["AlphaTrader","WealthCharts","Quantower","DeepCharts"],
     "payoutTotal": "$10M+",
     "payoutCount": "3,000+",
     "payoutAvg": "$3,300",
@@ -565,8 +565,8 @@ window.FIRMS = {
     "logo": "/logos/alpha.png",
     "logoText": "AF",
     "affiliateUrl": "https://app.alpha-futures.com/signup/CHAMP/",
-    "type": "Zero · Advanced · Standard (legacy)",
-    "tagline": "Zero · Advanced · Standard (legacy)",
+    "type": "Zero · Standard · Advanced · Direct",
+    "tagline": "Zero · Standard · Advanced · Direct · 40% off with CHAMP",
     "badge": "new",
     "featured": false,
     "live": true,
@@ -574,119 +574,142 @@ window.FIRMS = {
     "filters": ["evaluation", "highest-discount"],
     "promo": {
       "code": "CHAMP",
-      "discount": "10% off"
+      "discount": "40% off"
     },
-    "offerLine": "Use Code CHAMP",
-    "offerSub": "Zero one-day pass · Advanced 90% always · Standard legacy",
-    "summary": "Alpha Futures (updated 05/01/26): Zero is now a one-day eval pass with flat 90% split and $0 activation. Advanced stays the premium path with no DLL, no qualified consistency, no news restrictions, $149 activation, and $1,000–$15,000 withdrawal range. Standard has been removed from the website but remains active for accounts purchased before 05/01/26.",
-    "highlights": ["Zero One-Day Pass", "Advanced 90% Always", "No News Restrictions (Advanced)"],
-    "bestFor": ["One-Day Pass (Zero)", "Advanced 90% Split", "No News Restrictions"],
+    "offerLine": "40% OFF",
+    "offerSub": "CHAMP takes 40% off at checkout across every Alpha plan — Zero, Standard, Advanced, and the new one-time Direct.",
+    "summary": "Alpha Futures runs four paths as of August 2026. Zero is the cheap one-day eval pass (flat 90% split, $0 activation, monthly $89–$279 list). Standard is back on the site as a live plan (50K–150K, monthly $129–$349). Advanced is the premium eval — 90% from day one, no daily loss limit ever, no news restrictions, $15,000 per-request withdrawals (monthly $209–$489). Direct is a new one-time, straight-to-funded option (25K–150K, $349–$859) with a 20% consistency rule. Code CHAMP takes 40% off. UK-based; runs on AlphaTrader, WealthCharts, Quantower and DeepCharts.",
+    "highlights": ["40% Off With CHAMP", "Zero One-Day Pass", "Advanced 90% + No DLL"],
+    "bestFor": ["Biggest Discount (40%)", "One-Day Pass (Zero)", "Instant Funding (Direct)"],
     "stats": [
-      ["Plans", "Zero · Advanced"],
-      ["Code", "CHAMP"],
-      ["Top Split", "90% (Advanced)"]
+      ["CHAMP Discount", "40% Off"],
+      ["Plans", "Zero · Standard · Advanced · Direct"],
+      ["Top Split", "90%"]
     ],
     "boxPreviews": {
-      "deal": "Use code CHAMP at checkout · Zero $0 activation · Advanced $149 activation",
-      "programs": "Zero (one-day pass, $0 activation), Advanced (90% flat, $149 activation), Standard (legacy)",
-      "rules": "Zero: no eval consistency · Advanced: no DLL, no news restrictions · Standard: legacy",
-      "payouts": "Zero: 90% flat · Advanced: 90% with $200+ winning-day requests · Both 50% of profit, up to 4x/month"
+      "deal": "Code CHAMP = 40% off any Alpha plan at checkout",
+      "programs": "Zero (1-day pass) · Standard (value) · Advanced (premium, no DLL) · Direct (one-time, straight to funded)",
+      "rules": "Zero/Standard/Advanced are monthly evals · Direct is one-time straight-to-funded · Advanced has no DLL and no news restrictions",
+      "payouts": "90% split on Zero/Advanced · withdraw 50% of profits up to 4x/month · Advanced allows $15,000 per request"
     },
     "boxMore": {
-      "deal": "Use code CHAMP at checkout. Updated 05/01/26: monthly subscription pricing now displayed (Zero $79–$239/mo, Advanced $139–$419/mo). Activation fees: $0 (Zero), $149 (Advanced, due within 30 days of passing). Standard removed from website — accounts bought before 05/01/26 remain active.",
-      "programs": "ALPHA ZERO — 25K, 50K, 100K · One-day eval pass · Flat 90% split · $0 activation · Monthly $79 / $119 / $239\nALPHA ADVANCED — 50K, 100K, 150K · 90% from day 1 · No DLL ever · No news restrictions · $149 activation · Monthly $139 / $279 / $419\nALPHA STANDARD (legacy) — Removed from website but active for accounts bought before 05/01/26",
-      "rules": "ZERO: No eval min days (one-day pass) · 5 qualified days to first payout · No eval consistency · 40% qualified consistency · Eval reset $69 / $109 / $219 · Qualified reset removed · Scaling on 50K/100K qualified only\nADVANCED: 2 eval days · 5 qualified days · 50% eval consistency · None qualified · No DLL on either stage · No news restrictions · No scaling (full contracts day 1) · Eval reset = monthly subscription price\nSTANDARD (legacy): 2 eval days · 3 qualified days · DLL none eval / $1,000 / $2,000 / $3,000 qualified · 50% eval / 40% qualified consistency · Tiered split 70/80/90% — only active for accounts bought before 05/01/26",
-      "payouts": "ZERO: 90% flat · Withdraw up to 50% of profits, up to 4x/month · Withdrawal range $200–$1,000 / $200–$1,500 / $200–$2,500 (25K-100K) · MLL stays fixed (does NOT slide to $0 on first withdrawal) · 5 winning days of $200+ to first payout · Max 3 funded accounts (all sizes)\nADVANCED: 90% from day 1 (not tiered) · Request every 5 winning trading days of $200+ profit · Withdrawal range $1,000–$15,000 per request, up to 4x/month · Max 3 funded accounts up to $450K combined cap\nSTANDARD (legacy): 70% (payouts 1-2) → 80% (3-4) → 90% (5+) · Withdrawal up to $15,000 per request (industry leading) · Max 3 funded accounts up to $450K combined cap"
+      "deal": "Code CHAMP takes 40% off at checkout (matches the site's public ALPHA40 promo). List monthly pricing:\\n\\nZERO: $89 / $139 / $279 (25K-100K)\\nSTANDARD: $129 / $239 / $349 (50K-150K)\\nADVANCED: $209 / $349 / $489 (50K-150K)\\nDIRECT (one-time): $349 / $519 / $689 / $859 (25K-150K)\\n\\nZero and Standard carry no activation fee. Always verify current checkout pricing.",
+      "programs": "ALPHA ZERO — 25K/50K/100K · one-day eval pass · flat 90% split · $0 activation · monthly $89 / $139 / $279\\nALPHA STANDARD — 50K/100K/150K · back on the site · monthly $129 / $239 / $349 · $0 activation\\nALPHA ADVANCED — 50K/100K/150K · 90% from day 1 · no DLL ever · no news restrictions · monthly $209 / $349 / $489\\nALPHA DIRECT — 25K/50K/100K/150K · one-time $349 / $519 / $689 / $859 · straight to funded · 20% consistency",
+      "rules": "ZERO: no eval min days (one-day pass) · 5 qualified days to first payout · no eval consistency · 40% qualified consistency · qualified reset $79 / $119 / $249\\nSTANDARD: 2 eval days · 5 qualified days · 50% eval / 40% qualified consistency · DLL none eval, $1,000 / $2,000 / $3,000 qualified · qualified reset $109 / $199 / $289\\nADVANCED: 3 eval days · 5 qualified days · 40% eval consistency · none qualified · no DLL either stage · no news restrictions · no scaling (full contracts day 1)\\nDIRECT: straight to funded (no eval) · 20% consistency · DLL $500 / $1,000 / $2,000 / $3,000 · no scaling",
+      "payouts": "ZERO: 90% flat · withdraw up to 50% of profits, up to 4x/month · payout cap $1,000 / $1,500 / $2,500 (25K-100K) · 5 winning days of $200+ to first payout\\nSTANDARD: payout cap $3,000 / $4,000 / $5,000 (50K-150K) · up to 4x/month\\nADVANCED: 90% from day 1 · request every 5 winning trading days of $200+ · withdraw up to $15,000 per request, up to 4x/month\\nDIRECT: payout cap $1,000 / $2,000 / $2,500 / $3,000 (25K-150K)\\nAll plans: max 3 funded accounts (Standard/Advanced share a $450K combined cap)"
     },
     "programs": [
-      "Alpha Zero — 25K-100K · one-day eval pass · flat 90% split · $0 activation",
-      "Alpha Advanced — 50K-150K · 90% from day 1 · no DLL · no news restrictions · $149 activation",
-      "Alpha Standard (legacy) — removed from website 05/01/26 but active for accounts bought before that date"
+      "Alpha Zero — 25K-100K · one-day eval pass · flat 90% split · $0 activation · monthly $89 / $139 / $279",
+      "Alpha Standard — 50K-150K · back on the site · monthly $129 / $239 / $349 · $0 activation",
+      "Alpha Advanced — 50K-150K · 90% from day 1 · no DLL · no news restrictions · monthly $209 / $349 / $489",
+      "Alpha Direct — 25K-150K · one-time $349 / $519 / $689 / $859 · straight to funded · 20% consistency"
     ],
     "rules": [
-      "Zero: no eval min trading days (one-day pass possible), no eval consistency, $0 activation",
-      "Advanced: no DLL on eval or qualified, no qualified consistency, no news restrictions, $149 activation",
-      "Standard (legacy): tiered 70/80/90% split — accounts bought before 05/01/26 only",
-      "Max accounts unified: 3 funded across all plans, with $450K combined cap on Standard/Advanced",
-      "Withdrawal: 50% of profits, up to 4x per month, after 5 winning days of $200+"
+      "Code CHAMP takes 40% off any plan at checkout",
+      "Zero: no eval min trading days (one-day pass possible), no eval consistency, $0 activation, flat 90% split",
+      "Standard: 2 eval days, 50% eval / 40% qualified consistency, DLL $1,000 / $2,000 / $3,000 in the funded stage, $0 activation",
+      "Advanced: no DLL on eval or qualified, no qualified consistency, no news restrictions, no scaling (full contracts day 1)",
+      "Direct: one-time payment, straight to funded, 20% consistency, no scaling",
+      "Max accounts: 3 funded across plans; Standard and Advanced share a $450K combined cap",
+      "Withdrawals: 50% of profits, up to 4x per month, after 5 winning days of $200+"
     ],
     "payouts": [
-      "Zero: 90% flat · withdrawal range $200–$1,000 / $200–$1,500 / $200–$2,500 (25K-100K) · up to 4x/month",
-      "Advanced: 90% from day 1 · request every 5 winning days of $200+ · withdrawal range $1,000–$15,000 per request",
-      "Standard (legacy): tiered 70/80/90% by payout count · up to $15,000 per request"
+      "Zero: 90% flat · payout cap $1,000 / $1,500 / $2,500 (25K-100K) · up to 4x/month",
+      "Standard: payout cap $3,000 / $4,000 / $5,000 (50K-150K) · up to 4x/month",
+      "Advanced: 90% from day 1 · withdraw up to $15,000 per request · every 5 winning days of $200+",
+      "Direct: payout cap $1,000 / $2,000 / $2,500 / $3,000 (25K-150K)"
     ],
-    "platforms": ["See Alpha Futures site for current platform list"],
-    "warning": "Alpha Standard was removed from the website on 05/01/26. Accounts bought before that date remain active under the original Standard rules. New traders should choose Zero or Advanced.",
+    "platforms": ["AlphaTrader", "WealthCharts", "Quantower", "DeepCharts"],
+    "warning": "Alpha overhauled its lineup in 2026 — Standard returned to the site and a one-time Direct plan was added. Pricing shown is list monthly; code CHAMP takes 40% off at checkout. Always confirm the current checkout price before purchasing.",
     "plansDetailed": [
       {
         "name": "Alpha Zero",
         "featured": true,
         "rules": [
           ["Account Sizes", "25K / 50K / 100K"],
-          ["Monthly Price", "$79 / $119 / $239"],
+          ["Monthly Price (list)", "$89 / $139 / $279"],
+          ["With CHAMP", "40% off at checkout"],
           ["Activation Fee", "$0 (all sizes)"],
           ["Profit Target", "$1,500 / $3,000 / $6,000"],
           ["Max Drawdown (MLL)", "$1,000 / $2,000 / $3,000"],
           ["Daily Loss Guard (DLL)", "$500 / $1,000 / $2,000"],
-          ["Max Position", "1 mini (10 micros) / 3 minis (30 micros) / 6 minis (60 micros)"],
           ["Min Trading Days (Eval)", "None (one-day pass possible)"],
           ["Min Trading Days (Qualified)", "5"],
           ["Consistency (Eval)", "None"],
           ["Consistency (Qualified)", "40%"],
-          ["Eval Reset Fee", "$69 / $109 / $219"],
-          ["Qualified Reset Fee", "Removed (no separate qualified reset)"],
-          ["Profit Split", "90% flat (Qualified)"],
-          ["Withdrawal Limit", "$200–$1,000 / $200–$1,500 / $200–$2,500"],
+          ["Qualified Reset Fee", "$79 / $119 / $249"],
+          ["Profit Split", "90% flat"],
+          ["Payout Cap", "$1,000 / $1,500 / $2,500"],
           ["Withdrawal Cadence", "Up to 50% of profits · up to 4x per month"],
-          ["MLL Behavior", "Does NOT slide to $0 at first withdrawal — stays fixed"],
-          ["Max Accounts", "3 funded (all sizes)"],
-          ["Hold Through News", "Yes (eval) · Yes with 2-min buffer (qualified)"],
-          ["Scaling Plan (Qualified)", "No on 25K · Yes on 50K and 100K"]
+          ["Max Accounts", "3 funded"],
+          ["Platforms", "AlphaTrader · WealthCharts · Quantower · DeepCharts"],
+          ["Promo Code", "CHAMP — 40% off"]
+        ]
+      },
+      {
+        "name": "Alpha Standard",
+        "rules": [
+          ["Account Sizes", "50K / 100K / 150K"],
+          ["Monthly Price (list)", "$129 / $239 / $349"],
+          ["With CHAMP", "40% off at checkout"],
+          ["Activation Fee", "$0 (all sizes)"],
+          ["Profit Target", "$3,000 / $6,000 / $9,000"],
+          ["Max Drawdown (MLL)", "$2,000 / $3,000 / $4,500"],
+          ["Daily Loss Guard (DLL)", "None (Eval) · $1,000 / $2,000 / $3,000 (Qualified)"],
+          ["Min Trading Days (Eval)", "2"],
+          ["Min Trading Days (Qualified)", "5"],
+          ["Consistency (Eval)", "50%"],
+          ["Consistency (Qualified)", "40%"],
+          ["Qualified Reset Fee", "$109 / $199 / $289"],
+          ["Profit Split", "90%"],
+          ["Payout Cap", "$3,000 / $4,000 / $5,000"],
+          ["Max Accounts", "3 funded · $450K combined cap"],
+          ["Platforms", "AlphaTrader · WealthCharts · Quantower · DeepCharts"],
+          ["Promo Code", "CHAMP — 40% off"]
         ]
       },
       {
         "name": "Alpha Advanced",
         "rules": [
           ["Account Sizes", "50K / 100K / 150K"],
-          ["Monthly Price", "$139 / $279 / $419"],
-          ["Activation Fee", "$149 (due within 30 days of passing)"],
+          ["Monthly Price (list)", "$209 / $349 / $489"],
+          ["With CHAMP", "40% off at checkout"],
+          ["Activation Fee", "None"],
           ["Profit Target", "$4,000 / $8,000 / $12,000"],
           ["Max Drawdown (MLL)", "$1,750 / $3,500 / $5,250"],
           ["Daily Loss Guard (DLL)", "None (Eval & Qualified)"],
-          ["Max Position", "5 minis (50 micros) / 10 minis (100 micros) / 15 minis (150 micros)"],
-          ["Min Trading Days (Eval)", "2"],
+          ["Min Trading Days (Eval)", "3"],
           ["Min Trading Days (Qualified)", "5"],
-          ["Consistency (Eval)", "50%"],
+          ["Consistency (Eval)", "40%"],
           ["Consistency (Qualified)", "None"],
-          ["Eval Reset Fee", "$139 / $279 / $419 (= monthly subscription)"],
+          ["Reset Fee", "None in qualified (eval reset = monthly price)"],
           ["Profit Split", "90% from day 1 (not tiered)"],
+          ["Withdrawal Limit", "Up to $15,000 per request"],
           ["Payout Frequency", "Every 5 winning trading days of $200+ profit"],
-          ["Withdrawal Limit", "$1,000–$15,000 per request"],
-          ["Withdrawal Cadence", "Up to 50% of profits · up to 4x per month"],
           ["Max Accounts", "3 funded · $450K combined cap"],
           ["Hold Through News", "Yes — NO restrictions (Eval & Qualified)"],
-          ["Scaling Plan", "None — full contract limits from day 1"]
+          ["Scaling Plan", "None — full contract limits from day 1"],
+          ["Platforms", "AlphaTrader · WealthCharts · Quantower · DeepCharts"],
+          ["Promo Code", "CHAMP — 40% off"]
         ]
       },
       {
-        "name": "Alpha Standard (legacy — removed 05/01/26)",
+        "name": "Alpha Direct (one-time, straight to funded)",
         "rules": [
-          ["Website Status", "Removed from website 05/01/26 · active only for accounts bought before that date"],
-          ["Account Sizes", "50K / 100K / 150K"],
-          ["Profit Target", "$3,000 / $6,000 / $9,000"],
-          ["Max Drawdown", "$2,000 / $4,000 / $6,000"],
-          ["DLL (Eval)", "None"],
-          ["DLL (Qualified)", "$1,000 / $2,000 / $3,000"],
-          ["Max Position", "5 minis (50 micros) / 10 minis (100 micros) / 15 minis (150 micros)"],
-          ["Min Trading Days (Eval)", "2"],
-          ["Min Trading Days (Qualified)", "3"],
-          ["Consistency (Eval)", "50%"],
-          ["Consistency (Qualified)", "40%"],
-          ["Reset Fee", "$59 / $129 / $199"],
-          ["Profit Split", "Tiered: 70% (payouts 1-2) → 80% (3-4) → 90% (5+)"],
-          ["Withdrawal Limit", "Up to $15,000 per request (industry leading)"],
-          ["Max Accounts", "3 funded · $450K combined cap"],
-          ["Hold Through News", "Yes (eval) · Yes with restrictions (qualified)"]
+          ["Account Sizes", "25K / 50K / 100K / 150K"],
+          ["One-Time Price (list)", "$349 / $519 / $689 / $859"],
+          ["With CHAMP", "40% off at checkout"],
+          ["Structure", "Straight to funded — no evaluation"],
+          ["Profit Target (1st)", "$1,500 / $3,000 / $6,000 / $9,000"],
+          ["Profit Target (subsequent)", "$1,000 / $2,000 / $4,000 / $6,000"],
+          ["Max Drawdown (EOD MLL)", "$1,000 / $2,000 / $3,000 / $4,500"],
+          ["Daily Loss Limit", "$500 / $1,000 / $2,000 / $3,000"],
+          ["Consistency", "20%"],
+          ["Payout Cap", "$1,000 / $2,000 / $2,500 / $3,000"],
+          ["Profit Split", "90%"],
+          ["Scaling Plan", "None"],
+          ["Platforms", "AlphaTrader · WealthCharts · Quantower · DeepCharts"],
+          ["Promo Code", "CHAMP — 40% off"]
         ]
       }
     ],
@@ -703,12 +726,34 @@ window.FIRMS = {
           "Min. Trading Days": "None eval (one-day pass) · 5 qualified",
           "Consistency Rule": "None eval · 40% qualified",
           "Payout Split": "90% / 10%",
-          "Payout Frequency": "4x a month (5 Trading Days)",
-          "Max Payout": "No cap",
-          "Activation Fee": "monthly $79 / $119 / $239 (0 activation fee)",
-          "Reset Fee": "$69 · $109 · $219",
-          "Platforms": "WealthCharts · DeepChart · Quantower · Tradovate · NinjaTrader · TradingView",
-          "Promo Code": "CHAMP"
+          "Payout Frequency": "4x a month (5 winning days)",
+          "Max Payout": "$1,000 · $1,500 · $2,500",
+          "Activation Fee": "$0 · monthly $89 / $139 / $279 (list)",
+          "Reset Fee": "$79 · $119 · $249 (qualified)",
+          "Platforms": "AlphaTrader · WealthCharts · Quantower · DeepCharts",
+          "Promo Code": "CHAMP — 40% off",
+          "Notes": "One-day eval pass · list prices shown, CHAMP takes 40% off"
+        }
+      },
+      {
+        "name": "ALPHA STANDARD",
+        "featured": false,
+        "rules": {
+          "Account Sizes": "50K · 100K · 150K",
+          "Profit Target": "$3,000 · $6,000 · $9,000",
+          "Max Drawdown": "$2,000 · $3,000 · $4,500",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "None eval · $1,000 · $2,000 · $3,000 qualified",
+          "Min. Trading Days": "2 eval · 5 qualified",
+          "Consistency Rule": "50% eval · 40% qualified",
+          "Payout Split": "90% / 10%",
+          "Payout Frequency": "4x a month (5 winning days)",
+          "Max Payout": "$3,000 · $4,000 · $5,000",
+          "Activation Fee": "$0 · monthly $129 / $239 / $349 (list)",
+          "Reset Fee": "$109 · $199 · $289 (qualified)",
+          "Platforms": "AlphaTrader · WealthCharts · Quantower · DeepCharts",
+          "Promo Code": "CHAMP — 40% off",
+          "Notes": "Back on the site in 2026 · CHAMP takes 40% off (public promo ALPHA40)"
         }
       },
       {
@@ -720,19 +765,41 @@ window.FIRMS = {
           "Max Drawdown": "$1,750 · $3,500 · $5,250",
           "Drawdown Type": "EOD",
           "Daily Loss Limit": "None (Eval & Qualified)",
-          "Min. Trading Days": "2 eval · 5 qualified",
-          "Consistency Rule": "50% eval · none qualified",
+          "Min. Trading Days": "3 eval · 5 qualified",
+          "Consistency Rule": "40% eval · none qualified",
+          "Payout Split": "90% from day 1",
+          "Payout Frequency": "4x a month (5 winning days)",
+          "Max Payout": "$15,000 per request",
+          "Activation Fee": "None · monthly $209 / $349 / $489 (list)",
+          "Reset Fee": "Eval reset = monthly price · none in qualified",
+          "Platforms": "AlphaTrader · WealthCharts · Quantower · DeepCharts",
+          "Promo Code": "CHAMP — 40% off",
+          "Notes": "No DLL, no news restrictions, no scaling · $15K per-request withdrawals"
+        }
+      },
+      {
+        "name": "ALPHA DIRECT",
+        "featured": false,
+        "rules": {
+          "Account Sizes": "25K · 50K · 100K · 150K",
+          "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000 (then $1,000 · $2,000 · $4,000 · $6,000)",
+          "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,500",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "$500 · $1,000 · $2,000 · $3,000",
+          "Min. Trading Days": "Straight to funded (no eval)",
+          "Consistency Rule": "20%",
           "Payout Split": "90% / 10%",
-          "Payout Frequency": "4x a month (5 Trading Days)",
-          "Max Payout": "No cap",
-          "Activation Fee": "$149 · monthly $139 / $279 / $419",
-          "Reset Fee": "$139 · $279 · $419",
-          "Platforms": "WealthCharts · DeepChart · Quantower · Tradovate · NinjaTrader · TradingView",
-          "Promo Code": "CHAMP"
+          "Payout Frequency": "4x a month (5 winning days)",
+          "Max Payout": "$1,000 · $2,000 · $2,500 · $3,000",
+          "Activation Fee": "None (one-time payment)",
+          "Reset Fee": "N/A (one-time)",
+          "Platforms": "AlphaTrader · WealthCharts · Quantower · DeepCharts",
+          "Promo Code": "CHAMP — 40% off",
+          "Notes": "One-time $349 / $519 / $689 / $859 (list) · straight to funded"
         }
       }
     ],
-    "note": "Alpha Futures (updated 05/01/26): Zero is now a one-day pass with flat 90% split and $0 activation; monthly $79–$239. Advanced is the premium path — 90% from day 1, no DLL, no qualified consistency, no news restrictions, $149 activation, monthly $139–$419, withdrawal $1,000–$15,000 per request. Standard was removed from the website on 05/01/26 but remains active for accounts purchased before that date. Max accounts are 3 funded across all plans (Standard/Advanced have a $450K combined cap). Withdrawals are 50% of profits, up to 4x per month, after 5 winning days of $200+."
+    "note": "Alpha Futures overhauled its lineup in 2026. Four plans now: Zero (one-day eval pass, flat 90% split, $0 activation, monthly $89-$279 list), Standard (back on the site, 50K-150K, monthly $129-$349), Advanced (premium eval — 90% from day 1, no DLL ever, no news restrictions, $15,000 per-request withdrawals, monthly $209-$489), and Direct (new one-time straight-to-funded, 25K-150K, $349-$859, 20% consistency). Code CHAMP takes 40% off at checkout (matching the public ALPHA40 promo). Max 3 funded accounts across plans; Standard and Advanced share a $450K combined cap. Withdrawals are 50% of profits, up to 4x per month, after 5 winning days of $200+. Pricing shown is list monthly — always verify the current checkout price."
   },
   "apex-trader": {
     "slug": "apex-trader",
