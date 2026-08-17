@@ -33,6 +33,8 @@ const CONFIG = {
     related: [['/blog/how-prop-firm-payouts-work','How payouts work'],['/compare','Compare every firm'],['/blog/prop-firm-drawdown-explained','Drawdown explained']] },
   'prop-firm-news-trading-rules': { eyebrow: 'Prop firm rules · Explained', tag: 'Explainer',
     related: [['/blog/prop-firm-consistency-rules','Consistency rules by firm'],['/compare','Compare every firm'],['/blog/how-prop-firm-payouts-work','How payouts work']] },
+  'do-prop-firms-actually-pay': { eyebrow: 'Prop firm data · Trust', tag: 'Data',
+    related: [['/payouts','Live payout data'],['/blog/how-prop-firm-payouts-work','How payouts work'],['/compare','Compare every firm']] },
   'how-to-pass-a-prop-firm-evaluation': { eyebrow: 'Prop firm guide · How-to', tag: 'Guide',
     related: [['/compare','Compare every firm'],['/best/best-prop-firm-for-beginners','Best firms for beginners'],['/blog/prop-firm-drawdown-explained','Drawdown explained']] },
   'are-futures-prop-firms-worth-it': { eyebrow: 'Prop firm guide · Honest take', tag: 'Guide',
