@@ -1,5 +1,5 @@
   <url>
-    <loc>https://propchamps.net/blog/prop-firm-consistency-rules</loc>
+    <loc>https://propchamps.net/blog/prop-firm-news-trading-rules</loc>
     <lastmod>2026-08-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
