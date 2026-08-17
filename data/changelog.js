@@ -21,6 +21,16 @@
 */
 window.CHANGELOG = [
   {
+    date: '2026-08-17', firm: 'top-one-futures', firmName: 'Top One Futures', logo: '/logos/topone.png',
+    category: 'rules',
+    headline: 'Top One refresh — S2F dropped, four paths rebuilt from the site',
+    was: 'Elite · Instant Sim · S2F · Ignite (mismatched plan data)',
+    is: 'Elite Access · Elite Daily · Instant Sim · Ignite (all 90% split)',
+    note: 'S2F Sim PRO is gone. Rebuilt all four paths cleanly: Elite Access (one-time 1-day pass, no DLL, 5-day payouts), Elite Daily (monthly eval, daily payouts, DLL $500-$1,850), Instant Sim Funded (monthly, skip eval, 20% consistency, trailing drawdown), Ignite (one-time instant funding, 15% consistency, now includes 150K). All pay a flat 90% split. List pricing added. Sourced from the Top One site.',
+    source: '',
+    firmPage: 'top-one-futures.html'
+  },
+  {
     date: '2026-08-17', firm: 'my-funded-futures', firmName: 'My Funded Futures', logo: '/logos/myfunded.png',
     category: 'rules',
     headline: 'MFF lineup refresh — Flex retired, Rapid EOD added, Builder reworked',

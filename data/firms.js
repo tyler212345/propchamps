@@ -1104,20 +1104,20 @@ window.FIRMS = {
     "rating": 4.7,
     "reviewCount": 75,
     "country": "US",
-    "maxAllocation": "$200K",
-    "platformsList": ["Rithmic","NinjaTrader","TradingView"],
-    "payoutTotal": "$25M+",
-    "payoutCount": "8,000+",
+    "maxAllocation": "$150K",
+    "platformsList": ["TradingView","Tradovate","NinjaTrader"],
+    "payoutTotal": "$27M+",
+    "payoutCount": "228,000+ accounts",
     "payoutAvg": "$3,100",
     "payoutLargest": "$31K",
-    "payoutMedianTime": "1 day",
+    "payoutMedianTime": "<12 hours",
     "name": "Top One Futures",
     "initials": "TO",
     "logo": "/logos/topone.png",
     "logoText": "TO",
     "affiliateUrl": "https://toponefutures.com/?linkId=lp_707970&sourceId=thetradingchamp&tenantId=toponefutures",
-    "type": "Elite · Instant Sim · S2F · Ignite",
-    "tagline": "Elite · Instant Sim Funded · S2F Sim PRO · Ignite",
+    "type": "Elite Access · Elite Daily · Instant Sim · Ignite",
+    "tagline": "Elite Access · Elite Daily · Instant Sim Funded · Ignite — 4 paths",
     "badge": "hot",
     "featured": false,
     "live": true,
@@ -1128,96 +1128,125 @@ window.FIRMS = {
       "discount": "60% off"
     },
     "offerLine": "60% OFF",
-    "offerSub": "Elite · Instant Sim · S2F · Ignite — 4 paths",
-    "summary": "Top One Futures runs four paths: 1-Step Elite Challenge (1-day pass), Instant Sim Funded (skip the eval entirely), S2F Sim PRO (10-day min trading days), and Ignite (instant funding on smaller accounts). High discount with code CHAMP.",
-    "highlights": ["Multiple Paths", "Instant Options", "High Current Discount"],
-    "bestFor": ["Highest Discount", "Path Variety", "Instant Options"],
+    "offerSub": "Elite Access · Elite Daily · Instant Sim · Ignite — 4 paths",
+    "summary": "Top One Futures runs four paths, all paying a flat 90% split. Elite Access is the cheap one-time 1-day-pass eval (no daily loss limit, 5-day payouts). Elite Daily is a monthly-subscription eval with daily payouts. Instant Sim Funded skips the evaluation entirely for a monthly fee (20% consistency). Ignite is a one-time instant-funding path (15% consistency, 10 copy-trade accounts). Code CHAMP applies the current discount at checkout; the site also rotates public promos. Runs on TradingView, Tradovate and NinjaTrader.",
+    "highlights": ["Flat 90% Split", "1-Day Pass or Instant", "4 Funding Paths"],
+    "bestFor": ["High Discount", "Path Variety", "Instant Options"],
     "stats": [
       ["Discount", "60% Off"],
-      ["Code", "CHAMP"],
-      ["Paths", "Elite · Instant · S2F · Ignite"]
+      ["Plans", "Elite Access · Elite Daily · Instant · Ignite"],
+      ["Split", "90% flat"]
     ],
     "boxPreviews": {
-      "deal": "60% off · Code CHAMP at checkout",
-      "programs": "1-Step Elite, Instant Sim Funded, S2F Sim PRO, Ignite",
-      "rules": "1-day pass on Elite · 25% funded consistency · Instant Sim has 20% consistency",
-      "payouts": "See site · Multiple plan-specific payout cadences"
+      "deal": "Code CHAMP at checkout · big current discount",
+      "programs": "Elite Access (1-day pass) · Elite Daily (daily payouts) · Instant Sim Funded · Ignite (instant)",
+      "rules": "No DLL on Elite Access · Instant Sim 20% consistency · Ignite 15% consistency · flat 90% split",
+      "payouts": "Daily (Elite Daily) · every 5 days (Elite Access / Instant Sim) · 90% to trader"
     },
     "boxMore": {
-      "deal": "Use code CHAMP at checkout — currently 60% off across Top One Futures plans.",
-      "programs": "1-STEP ELITE — Challenge with 1-day pass · 25K-150K\nINSTANT SIM FUNDED — Skip the eval, start funded · 25K-150K\nS2F SIM PRO — 10-day min trading days, ESS 20% · 25K-150K\nIGNITE — Instant funding on 25K-100K",
-      "rules": "1-Step Elite: 1 day to pass · No challenge consistency · 25% funded consistency\nInstant Sim: 20% consistency · Skip evaluation\nS2F: ESS 20% · Min 10 trading days to payout\nIgnite: 15% consistency · Instant funded",
-      "payouts": "See Top One Futures site for current payout structure on each plan."
+      "deal": "Use code CHAMP at checkout. The site rotates public promos (e.g. code 2.0 for 55% off, BOGO on Elite Access) — CHAMP is Champ's affiliate code. List pricing (before discount):\\n\\nELITE ACCESS (one-time): $139 / $218 / $259 / $359 (25K-150K)\\nELITE DAILY (monthly): $178 / $218 / $398 / $549\\nINSTANT SIM FUNDED (monthly): $419 / $679 / $821 / $939\\nIGNITE (one-time): $218 / $398 / $563 / $799\\n\\nAlways verify the current checkout price.",
+      "programs": "ELITE ACCESS — one-time · 1-day pass · EOD drawdown · no DLL · 5-day payouts · 90% split · 25K-150K\\nELITE DAILY — monthly subscription · EOD drawdown · daily payouts · 40% eval consistency · 90% split · 25K-150K\\nINSTANT SIM FUNDED — monthly · skip the eval, start funded · trailing drawdown · 20% consistency · 5-day payouts · 25K-150K\\nIGNITE — one-time · instant funding · trailing EOD drawdown · 15% consistency · 10 copy-trade accounts · 25K-150K",
+      "rules": "ELITE ACCESS: 1 day to pass · no eval consistency · 40% funded consistency · reset $35 · activation $139 / $189 / $259 / $359\\nELITE DAILY: 40% eval consistency · none funded · no activation fee · DLL $500 / $1,000 / $1,250 / $1,850\\nINSTANT SIM FUNDED: 20% consistency · no eval · DLL $625 / $1,250 / $2,500 / $3,000 · max 5 accounts (3 on 100K-150K)\\nIGNITE: 15% consistency · no eval · DLL $500 / $1,000 / $2,000 / $3,000 · max 10 accounts",
+      "payouts": "ELITE ACCESS: every 5 days · 90% split\\nELITE DAILY: daily · 90% split\\nINSTANT SIM FUNDED: every 5 days · 90% split\\nIGNITE: 90% split · 10 copy-trade accounts\\nAll paths pay a flat 90% to the trader."
     },
     "programs": [
-      "1-Step Elite Challenge — 1-day pass funded path",
-      "Instant Sim Funded — skip eval, start funded",
-      "S2F Sim PRO — 10-day min trading days",
-      "Ignite — instant funding on smaller accounts (25K-100K)"
+      "Elite Access — one-time, 1-day pass eval, no DLL, 5-day payouts, 90% split",
+      "Elite Daily — monthly subscription eval, daily payouts, 90% split",
+      "Instant Sim Funded — skip the eval, monthly fee, 20% consistency, 90% split",
+      "Ignite — one-time instant funding, 15% consistency, 10 copy-trade accounts, 90% split"
     ],
     "rules": [
-      "Elite: 1 day to pass, $149 activation fee, 3 max accounts",
-      "Instant Sim: 20% consistency, max 3-5 accounts",
-      "S2F Sim PRO: 20% ESS, 10-day min trading days, max 3-10 accounts",
-      "Ignite: 15% consistency, max 6-10 accounts"
+      "All four paths pay a flat 90% split to the trader",
+      "Elite Access: 1 day to pass, no daily loss limit, no eval consistency, 40% funded consistency, $35 reset",
+      "Elite Daily: monthly subscription, 40% eval consistency, no funded consistency, no activation fee",
+      "Instant Sim Funded: no evaluation, 20% consistency, trailing drawdown, max 5 accounts (3 on 100K-150K)",
+      "Ignite: no evaluation, 15% consistency, trailing EOD drawdown, up to 10 accounts and 10 copy-trade accounts"
     ],
-    "payouts": ["See Top One Futures site for current payout cadence"],
-    "platforms": ["See Top One Futures site for current platform list"],
-    "warning": null,
+    "payouts": [
+      "Elite Access: every 5 days",
+      "Elite Daily: daily",
+      "Instant Sim Funded: every 5 days",
+      "Ignite: 90% split (instant funded)"
+    ],
+    "platforms": ["TradingView", "Tradovate", "NinjaTrader"],
+    "warning": "Top One changes pricing and promos frequently. Prices shown are list (pre-discount); code CHAMP applies the current discount at checkout. Always confirm the live checkout price and plan availability.",
     "plansDetailed": [
       {
-        "name": "1-STEP ELITE Challenge",
+        "name": "Elite Access (1-day pass)",
         "featured": true,
         "rules": [
           ["Account Sizes", "25K / 50K / 100K / 150K"],
+          ["Structure", "One-time payment · evaluation"],
+          ["List Price", "$139 / $218 / $259 / $359"],
+          ["Time to Pass", "1 day"],
           ["Profit Target", "$1,500 / $3,000 / $6,000 / $9,000"],
-          ["Daily Loss Limit", "$625 / $1,250 / $2,500 / $3,750"],
-          ["Max Drawdown", "$1,000 / $2,000 / $3,000 / $4,500"],
-          ["Max Contracts", "1 mini (10 micros) / 4 minis (40 micros) / 8 minis (80 micros) / 12 minis (120 micros)"],
-          ["Min Days to Pass", "1"],
-          ["Consistency (Challenge)", "None"],
-          ["Consistency (Funded)", "25%"],
-          ["Reset Fee", "$29 / $39 / $79 / $119"],
-          ["Activation Fee", "$149"],
-          ["Max Accounts", "3"],
-          ["Monthly Fee", "$45 / $68 / $136 / $201"]
-        ]
-      },
-      {
-        "name": "Instant Sim Funded",
-        "rules": [
-          ["Account Sizes", "25K / 50K / 100K / 150K"],
-          ["Daily Loss Limit", "$625 / $1,250 / $2,500 / $3,750"],
-          ["Max Drawdown", "$1,000 / $2,000 / $4,000 / $6,000"],
-          ["Max Contracts", "1 mini (10 micros) / 4 minis (40 micros) / 8 minis (80 micros) / 12 minis (120 micros)"],
-          ["Consistency", "20%"],
-          ["Max Accounts", "5 (25K-50K) · 3 (100K-150K)"],
-          ["One-Time Fee", "$272 / $441 / $534 / $610"]
-        ]
-      },
-      {
-        "name": "S2F Sim PRO Account",
-        "rules": [
-          ["Account Sizes", "25K / 50K / 100K / 150K"],
-          ["Daily Loss Limit", "$500 / $1,000 / $2,000 / $3,000"],
-          ["Max Drawdown", "$1,000 / $1,625 / $3,250 / $5,000"],
-          ["Max Contracts", "1 mini (10 micros) / 4 minis (40 micros) / 8 minis (80 micros) / 12 minis (120 micros)"],
-          ["Equity Stability Score (ESS)", "20%"],
-          ["Min Trading Days to Payout", "10"],
+          ["Max Drawdown (EOD)", "$1,000 / $2,000 / $3,000 / $4,000"],
+          ["Daily Loss Limit", "None"],
+          ["Consistency (Eval)", "None"],
+          ["Consistency (Funded)", "40%"],
+          ["Reset Fee", "$35 (all sizes)"],
+          ["Activation Fee", "$139 / $189 / $259 / $359"],
+          ["Max Contracts", "1 / 3 / 5 / 7 mini"],
           ["Max Accounts", "10"],
-          ["One-Time Fee", "$141 / $232 / $348 / $400"]
+          ["Payout Frequency", "Every 5 days"],
+          ["Profit Split", "90% to trader"],
+          ["Platforms", "TradingView · Tradovate · NinjaTrader"],
+          ["Promo Code", "CHAMP"]
         ]
       },
       {
-        "name": "IGNITE Instant Funding",
+        "name": "Elite Daily (daily payouts)",
         "rules": [
-          ["Account Sizes", "25K / 50K / 100K"],
-          ["Daily Loss Limit", "$500 / $1,000 / $2,000"],
-          ["Max Drawdown", "$1,000 / $2,000 / $4,000"],
-          ["Max Contracts", "1 mini (10 micros) / 3 minis (30 micros) / 5 minis (50 micros)"],
+          ["Account Sizes", "25K / 50K / 100K / 150K"],
+          ["Structure", "Monthly subscription · evaluation"],
+          ["Monthly Price (list)", "$178 / $218 / $398 / $549"],
+          ["Profit Target", "$1,500 / $3,000 / $6,000 / $9,000"],
+          ["Max Drawdown (EOD)", "$1,000 / $2,000 / $3,000 / $4,500"],
+          ["Daily Loss Limit", "$500 / $1,000 / $1,250 / $1,850"],
+          ["Consistency (Eval)", "40%"],
+          ["Consistency (Funded)", "None"],
+          ["Activation Fee", "None"],
+          ["Max Contracts", "1 / 3 / 5 / 7 mini"],
+          ["Max Accounts", "5"],
+          ["Payout Frequency", "Daily"],
+          ["Profit Split", "90% to trader"],
+          ["Platforms", "TradingView · Tradovate · NinjaTrader"],
+          ["Promo Code", "CHAMP"]
+        ]
+      },
+      {
+        "name": "Instant Sim Funded (no eval)",
+        "rules": [
+          ["Account Sizes", "25K / 50K / 100K / 150K"],
+          ["Structure", "Monthly subscription · straight to funded"],
+          ["Monthly Price (list)", "$419 / $679 / $821 / $939"],
+          ["Profit Target", "Instant funded — no eval target"],
+          ["Max Drawdown (Trailing)", "$1,000 / $2,000 / $4,000 / $5,250"],
+          ["Daily Loss Limit", "$625 / $1,250 / $2,500 / $3,000"],
+          ["Consistency (Funded)", "20%"],
+          ["Max Contracts", "1 / 3 / 5 / 7 mini"],
+          ["Max Accounts", "5 (25K-50K) · 3 (100K-150K)"],
+          ["Payout Frequency", "Every 5 days"],
+          ["Profit Split", "90% to trader"],
+          ["Platforms", "TradingView · Tradovate · NinjaTrader"],
+          ["Promo Code", "CHAMP"]
+        ]
+      },
+      {
+        "name": "Ignite (instant funding)",
+        "rules": [
+          ["Account Sizes", "25K / 50K / 100K / 150K"],
+          ["Structure", "One-time payment · straight to funded"],
+          ["List Price", "$218 / $398 / $563 / $799"],
+          ["Max Drawdown (Trailing EOD)", "$1,000 / $2,000 / $4,000 / $6,000"],
+          ["Daily Loss Limit", "$500 / $1,000 / $2,000 / $3,000"],
           ["Consistency", "15%"],
-          ["Max Accounts", "10 (25K-50K) · 6 (100K)"],
-          ["One-Time Fee", "$120 / $219 / $310"]
+          ["Max Contracts", "1 / 3 / 5 / 7 mini"],
+          ["Max Accounts", "10"],
+          ["Copy-Trade Accounts", "10"],
+          ["Profit Split", "90% to trader"],
+          ["Platforms", "TradingView · Tradovate · NinjaTrader"],
+          ["Promo Code", "CHAMP"]
         ]
       }
     ],
@@ -1228,18 +1257,40 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000",
+          "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,000",
+          "Drawdown Type": "EOD",
+          "Daily Loss Limit": "None",
+          "Min. Trading Days": "1 day to pass",
+          "Consistency Rule": "None eval · 40% funded",
+          "Payout Split": "90% / 10%",
+          "Payout Frequency": "Every 5 days",
+          "Max Payout": "No cap",
+          "Activation Fee": "$139 · $189 · $259 · $359",
+          "Reset Fee": "$35 (all sizes)",
+          "Platforms": "TradingView · Tradovate · NinjaTrader",
+          "Promo Code": "CHAMP",
+          "Notes": "One-time · list price $139 / $218 / $259 / $359"
+        }
+      },
+      {
+        "name": "ELITE DAILY",
+        "featured": false,
+        "rules": {
+          "Account Sizes": "25K · 50K · 100K · 150K",
+          "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000",
           "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,500",
           "Drawdown Type": "EOD",
-          "Daily Loss Limit": "$625 · $1,250 · $2,500 · $3,750",
-          "Min. Trading Days": "5 Green Days for Payout 0 Min days for Eval",
-          "Consistency Rule": "None challenge · 40% Funded",
+          "Daily Loss Limit": "$500 · $1,000 · $1,250 · $1,850",
+          "Min. Trading Days": "Pass in 1 day",
+          "Consistency Rule": "40% eval · none funded",
           "Payout Split": "90% / 10%",
           "Payout Frequency": "Daily",
           "Max Payout": "No cap",
-          "Activation Fee": "$139 · $189 · $259 · $359",
-          "Reset Fee": "$35 FOR ALL (Eval) $299 · $499 · $849 · $1,349 (Funded)",
-          "Platforms": "Tradovate · NinjaTrader · Tradingview",
-          "Promo Code": "CHAMP"
+          "Activation Fee": "None · monthly $178 / $218 / $398 / $549 (list)",
+          "Reset Fee": "See site",
+          "Platforms": "TradingView · Tradovate · NinjaTrader",
+          "Promo Code": "CHAMP",
+          "Notes": "Monthly subscription eval with daily payouts"
         }
       },
       {
@@ -1247,40 +1298,20 @@ window.FIRMS = {
         "featured": false,
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
-          "Profit Target": "Instant funded path",
-          "Max Drawdown": "$1,000 · $2,000 · $4,000 · $6,000",
-          "Drawdown Type": "EOD",
-          "Daily Loss Limit": "$625 · $1,250 · $2,500 · $3,750",
-          "Min. Trading Days": "Instant funded (10 days 7 Green Days to Payout)",
-          "Consistency Rule": "20%",
+          "Profit Target": "Instant funded (no eval)",
+          "Max Drawdown": "$1,000 · $2,000 · $4,000 · $5,250",
+          "Drawdown Type": "Trailing",
+          "Daily Loss Limit": "$625 · $1,250 · $2,500 · $3,000",
+          "Min. Trading Days": "None — start funded",
+          "Consistency Rule": "20% funded",
           "Payout Split": "90% / 10%",
-          "Payout Frequency": "Daily",
+          "Payout Frequency": "Every 5 days",
           "Max Payout": "No cap",
-          "Activation Fee": "One-time $272 · $441 · $534 · $610",
-          "Reset Fee": "Straight To Funded",
-          "Platforms": "Tradovate · NinjaTrader · Tradingview",
-          "Promo Code": "CHAMP"
-        }
-      },
-      {
-        "name": "ELITE DAILY",
-        "featured": false,
-        "rules": {
-          "Account Sizes": "25K · 50K · 100K",
-          "Profit Target": "$1,500 · $3,000 · $6,000",
-          "Max Drawdown": "$1,000 · $1,625 · $3,250",
-          "Drawdown Type": "EOD",
-          "Daily Loss Limit": "$500 · $1,000 · $3,000",
-          "Min. Trading Days": "Pass Eval in 1 Day 5 Green Days",
-          "Consistency Rule": "40% (Challenge) NONE (Funded)",
-          "Payout Split": "90% / 10%",
-          "Payout Frequency": "Daily",
-          "Max Payout": "No cap",
-          "Activation Fee": "NONE",
-          "Reset Fee": "$89 · $119 · $219",
-          "Platforms": "Tradovate · NinjaTrader · Tradingview",
+          "Activation Fee": "Monthly $419 / $679 / $821 / $939 (list)",
+          "Reset Fee": "Straight to funded",
+          "Platforms": "TradingView · Tradovate · NinjaTrader",
           "Promo Code": "CHAMP",
-          "Notes": "Monthly fee $89 / $109 / $199"
+          "Notes": "Skip the eval · max 5 accounts (3 on 100K-150K)"
         }
       },
       {
@@ -1288,23 +1319,24 @@ window.FIRMS = {
         "featured": false,
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
-          "Profit Target": "Instant funded path",
+          "Profit Target": "Instant funded (no eval)",
           "Max Drawdown": "$1,000 · $2,000 · $4,000 · $6,000",
-          "Drawdown Type": "EOD",
+          "Drawdown Type": "Trailing EOD",
           "Daily Loss Limit": "$500 · $1,000 · $2,000 · $3,000",
-          "Min. Trading Days": "Instant funded (10 days 7 Green Days to payout)",
+          "Min. Trading Days": "None — instant funded",
           "Consistency Rule": "15%",
           "Payout Split": "90% / 10%",
-          "Payout Frequency": "Daily",
+          "Payout Frequency": "Instant funded",
           "Max Payout": "No cap",
-          "Activation Fee": "One-time $120 · $219 · $310",
-          "Reset Fee": "Straight To Funded",
-          "Platforms": "Tradovate · NinjaTrader · Tradingview",
-          "Promo Code": "CHAMP"
+          "Activation Fee": "One-time $218 / $398 / $563 / $799 (list)",
+          "Reset Fee": "Straight to funded",
+          "Platforms": "TradingView · Tradovate · NinjaTrader",
+          "Promo Code": "CHAMP",
+          "Notes": "10 accounts · 10 copy-trade accounts"
         }
       }
     ],
-    "note": "Top One Futures runs four paths: 1-Step Elite Challenge (1-day pass with $149 activation), Instant Sim Funded (skip eval, 20% consistency), S2F Sim PRO (10-day min, ESS 20%), and Ignite (instant funding on 25K-100K with 15% consistency). High discount with code CHAMP."
+    "note": "Top One Futures runs four paths as of August 2026, all paying a flat 90% split: Elite Access (one-time, 1-day pass, no daily loss limit, 5-day payouts), Elite Daily (monthly-subscription eval with daily payouts, 40% eval consistency), Instant Sim Funded (skip the eval for a monthly fee, 20% consistency, trailing drawdown), and Ignite (one-time instant funding, 15% consistency, 10 copy-trade accounts). The S2F Sim PRO path has been dropped from the lineup. Prices shown are list (pre-discount); code CHAMP applies the current discount and the site also rotates public promos. Runs on TradingView, Tradovate and NinjaTrader."
   },
   "my-funded-futures": {
     "slug": "my-funded-futures",
