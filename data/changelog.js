@@ -21,6 +21,16 @@
 */
 window.CHANGELOG = [
   {
+    date: '2026-08-17', firm: 'lucid-trading', firmName: 'Lucid Trading', logo: '/logos/lucid.png',
+    category: 'rules',
+    headline: 'Lucid lineup refreshed — Daily added, LucidScale DLL, Black retired',
+    was: 'Pro · Black · Flex · Direct',
+    is: 'Pro · Flex · Daily · Direct (Black discontinued)',
+    note: 'New LucidDaily (configurable eval — pick EOD/Intraday drawdown + DLL on/off, daily payouts). Funded accounts now use the LucidScale DLL model (60% of peak EOD above initial trail). Pro pays out in 3 days. Prices refreshed with CHAMP coupon. Verified from Lucid account pages.',
+    source: '',
+    firmPage: 'lucid-trading.html'
+  },
+  {
     date: '2026-08-17', firm: 'fundednext', firmName: 'FundedNext', logo: '/logos/fundednext.png',
     category: 'listing',
     headline: 'FundedNext Futures added to PropChamps',

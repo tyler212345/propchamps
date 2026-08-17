@@ -320,8 +320,8 @@ window.FIRMS = {
     "logo": "/logos/lucid.png",
     "logoText": "LU",
     "affiliateUrl": "https://lucidtrading.com/ref/TheTradingChamp/",
-    "type": "Pro · Black · Flex · Direct",
-    "tagline": "Pro · Black · Flex · Direct",
+    "type": "Pro · Flex · Daily · Direct",
+    "tagline": "Pro · Flex · Daily · Direct",
     "badge": "hot",
     "featured": true,
     "live": true,
@@ -329,126 +329,134 @@ window.FIRMS = {
     "filters": ["evaluation", "beginner", "fast-payout", "nodll"],
     "promo": {
       "code": "CHAMP",
-      "discount": "50% off"
+      "discount": "See pricing"
     },
-    "offerLine": "50% OFF",
-    "offerSub": "Pro · Black · Flex · Direct — multi-plan lineup, 1-day Pro pass",
-    "summary": "Lucid covers four account paths: Pro (full ladder, 1-day pass), Black (legacy, only active for accounts bought before 01/03/26), Flex (no DLL, no funded consistency), and Direct (straight to funded). Two data feeds — CGQ for Tradovate/NinjaTrader/TradingView, Rithmic for TradeSea/MotiveWave/Quantower.",
-    "highlights": ["Free Activation", "1-Day Pro Pass", "No DLL on Flex"],
-    "bestFor": ["Fast Pass", "Free Activation", "Path Flexibility"],
+    "offerLine": "Use Code CHAMP",
+    "offerSub": "Pro · Flex · Daily · Direct — 4 paths, 1-day Pro pass",
+    "summary": "Lucid runs four futures account paths: Pro (full ladder, 1-day pass, 3-day payouts), Flex (optional DLL, no funded consistency, scaling plan), Daily (configurable eval + daily payouts), and Direct (straight to funded, no eval). All pay a 90/10 split and use the LucidScale DLL model (60% of peak EOD balance above your initial trail) on funded accounts. Free activation on Pro, Flex and Daily. Platforms: Tradovate, NinjaTrader, TradingView, TradeSea, MotiveWave, Quantower. Code CHAMP applies at checkout.",
+    "highlights": ["Free Activation", "1-Day Pro Pass", "Daily Payout Option"],
+    "bestFor": ["Fast Pass", "Daily Payouts", "Path Flexibility"],
     "stats": [
-      ["Discount", "50% Off"],
+      ["Paths", "4 · Pro / Flex / Daily / Direct"],
       ["Code", "CHAMP"],
       ["Fast Pass", "1-day on Pro"]
     ],
     "boxPreviews": {
       "deal": "Use code CHAMP at checkout",
-      "programs": "PRO, BLACK (legacy), FLEX, DIRECT",
-      "rules": "No DLL on FLEX / Direct-to-funded option / plan-specific consistency",
-      "payouts": "Pro min 5 days profit · Flex 5-day payout · Black bonus payouts"
+      "programs": "PRO, FLEX, DAILY, DIRECT",
+      "rules": "EOD drawdown · optional DLL on Pro/Flex/Daily · Direct skips the eval",
+      "payouts": "Pro 3-day payouts · Daily daily payouts · Flex 5-day · Direct 5-day min"
     },
     "boxMore": {
-      "deal": "Use code CHAMP at checkout. Compare the four account paths before choosing — Pro for the full size ladder, Flex for no-DLL trading, Direct to skip the eval entirely.",
-      "programs": "LUCID PRO\nProfit Target: $1,250 / $3,000 / $6,000 / $9,000 (25K-150K)\nMax Loss: $1,000 / $2,000 / $3,000 / $4,500\nDLL: None (25K) / $1,200 / $1,800 / $2,700\n\nLUCID BLACK (removed from website but active for accounts bought before 01/03/26)\nProfit Target: $1,250 / $3,000 / $6,000 (25K-100K)\nMax Loss: $1,000 / $2,000 / $3,000\nDLL: N/A · Bonus payouts available\n\nLUCID FLEX\nProfit Target: $1,250 / $3,000 / $6,000 / $9,000 (25K-150K)\nMax Loss: $1,000 / $2,000 / $3,000 / $4,500\nDLL: None\n\nLUCID DIRECT\nStraight-to-funded structure",
-      "rules": "PRO: Consistency 40% · Pass funded in 1 day · Activation Fee FREE\nBLACK: Eval consistency 40% · Funded consistency 60% · Bonus payouts (not on payout #1)\nFLEX: No DLL · 50% eval consistency · No funded consistency · Activation FREE\nDIRECT: Consistency 20% · Max accounts 5 · Min day to payout 5",
-      "payouts": "PRO: Min days of profit 5 with size-based minimums ($50 / $100 / $150 / $200) · Min payout request $500 · Payouts to live 6\nPayout 1 cap: $1,000 / $2,000 / $2,500 / $3,000\nPayout 2 cap: $1,500 / $2,500 / $3,000 / $3,500\nBLACK: Bonus payouts $2,500 / $5,000 / $7,000 (25K-100K, not on payout #1)\nFLEX: Days to payout = 5 · Payouts to live = 6 · 90/10 split · Max payout 50% of profit up to $1,000 / $2,000 / $2,500 / $3,000"
+      "deal": "Use code CHAMP at checkout. Four account paths — Pro for the full size ladder with 3-day payouts, Flex for a scaling plan with no funded consistency, Daily for a configurable eval with daily payouts, Direct to skip the evaluation entirely.",
+      "programs": "LUCID PRO\nProfit Target: $1,250 / $3,000 / $6,000 / $9,000 (25K-150K)\nMax Loss (EOD): $1,000 / $2,000 / $3,000 / $4,500\nDLL: $600 / $1,200 / $1,800 / $2,700 (optional)\n\nLUCID FLEX\nSame targets/drawdowns as Pro · 50% eval consistency, none funded · scaling plan\n\nLUCID DAILY\nSame targets/drawdowns · configurable eval (pick EOD or Intraday drawdown, DLL on/off) · daily payouts when funded\n\nLUCID DIRECT (straight to funded)\nMax Loss (EOD): $1,000 / $2,000 / $3,500 / $5,000 · DLL: None / $1,200 / $2,100 / $3,000 · Consistency 20% · max 5 accounts",
+      "rules": "PRO: Consistency 40% · pass in 1 day · Activation FREE · LucidScale DLL 60% of peak EOD above initial trail (funded)\nFLEX: 50% eval consistency · no funded consistency · scaling plan · Activation FREE\nDAILY: 50% eval consistency · no funded consistency · choose EOD/Intraday drawdown + DLL on/off · Activation FREE\nDIRECT: Consistency 20% · straight to funded · max accounts 5 · min day to payout 5",
+      "payouts": "PRO: 3 days to payout · payout profit target $250 / $500 / $750 / $1,000 · 5 payouts to live\nFLEX: 5 days to payout · min days of profit 5 of $100 / $150 / $200 / $250 · 5 payouts to live\nDAILY: daily payouts · no funded consistency\nDIRECT: 5-day min to payout · 90/10 split"
     },
     "programs": [
-      "Lucid Pro — full size ladder from 25K to 150K (1-day pass)",
-      "Lucid Black — legacy, removed from website but still active for accounts bought before 01/03/26",
-      "Lucid Flex — no DLL product line",
-      "Lucid Direct — straight-to-funded account"
+      "Lucid Pro — full 25K-150K ladder, 1-day pass, 3-day payouts",
+      "Lucid Flex — optional DLL, no funded consistency, scaling plan",
+      "Lucid Daily — configurable eval (EOD/Intraday + DLL on/off), daily payouts",
+      "Lucid Direct — straight to funded, no evaluation"
     ],
     "rules": [
-      "Pro max size: 2 / 4 / 6 / 10 minis by account size",
-      "Flex max size: 2 / 4 / 6 / 8 minis by account size",
-      "Direct: no DLL on 25K, then $1,200 / $2,100 / $3,000 on larger accounts",
-      "Direct one-time payment: $238 / $364 / $490 / $588 (25K-150K)",
-      "Flex: 90/10 payout split, no buffer balance, max payouts don't scale"
+      "Pricing (with CHAMP): Pro $70.60 / $115.40 / $180.40 / $245.50, Flex $50.30 / $90.20 / $170.60 / $250.40, Direct $230.30 / $360.50 / $490.00 / $585.20 (25K-150K). Daily pricing is configurable at checkout. Promotional pricing was active at last check — confirm at checkout.",
+      "Drawdown: end-of-day (EOD) on Pro, Flex, Direct; Daily lets you pick EOD or Intraday in the eval (funded Daily is Intraday)",
+      "LucidScale DLL: on funded accounts, the daily loss limit above your initial trail becomes 60% of peak EOD balance",
+      "Max size: 2 / 4 / 6 / 10 minis (20 / 40 / 60 / 100 micros) by account size across all paths",
+      "Reset fees: Pro $70 / $115 / $180 / $245 · Flex $50 / $90 / $170 / $250 · Direct straight to funded"
     ],
     "payouts": [
-      "Pro: 5 days of profit, min $500 payout request, payouts to live 6",
-      "Flex: 5-day cycle, 50% of profit up to size-based caps, payouts to live 6",
-      "Direct: 5-day min to payout",
-      "Black: bonus payouts not available on payout #1"
+      "Pro: 3 days to payout, payout profit target $250 / $500 / $750 / $1,000, 5 payouts to live",
+      "Flex: 5 days to payout, min days of profit 5 of $100 / $150 / $200 / $250, scaling plan, 5 payouts to live",
+      "Daily: daily payouts, no funded consistency",
+      "Direct: 5-day minimum to payout, max 5 accounts"
     ],
     "platforms": [
-      "CGQ feed: Tradovate · NinjaTrader · TradingView",
-      "Rithmic feed: TradeSea · MotiveWave · Quantower"
+      "Tradovate · NinjaTrader · TradingView",
+      "TradeSea · MotiveWave · Quantower"
     ],
-    "warning": null,
+    "warning": "Lucid had promotional (coupon) pricing live at last check — always confirm the current price at checkout. Lucid Black is discontinued (legacy accounts only).",
     "plansDetailed": [
       {
         "name": "Lucid Pro",
         "featured": true,
         "rules": [
           ["Account Sizes", "25K / 50K / 100K / 150K"],
+          ["Price (w/ CHAMP)", "$70.60 / $115.40 / $180.40 / $245.50"],
           ["Profit Target", "$1,250 / $3,000 / $6,000 / $9,000"],
-          ["Max Loss Limit", "$1,000 / $2,000 / $3,000 / $4,500"],
-          ["DLL", "None / $1,200 / $1,800 / $2,700"],
-          ["Max Size", "2 / 4 / 6 / 10 minis"],
-          ["Reset Fee", "$75 / $100 / $170 / $225"],
-          ["One-Time Payment", "$84 / $112 / $192.50 / $259"],
-          ["Activation Fee", "Free"],
+          ["Max Loss Limit (EOD)", "$1,000 / $2,000 / $3,000 / $4,500"],
+          ["Daily Loss Limit", "$600 / $1,200 / $1,800 / $2,700 (can toggle off in eval)"],
           ["Consistency", "40%"],
-          ["Pass Funded In", "1 day"],
-          ["Min Days of Profit", "5 days with $50 / $100 / $150 / $200 thresholds"],
-          ["Payouts to Live", "6"],
-          ["Buffer Balance", "$26,100 / $52,100 / $103,100 / $154,600"],
-          ["Minimum Payout Request", "$500"],
-          ["Payout 1 Cap", "$1,000 / $2,000 / $2,500 / $3,000"],
-          ["Payout 2 Cap", "$1,500 / $2,500 / $3,000 / $3,500"]
-        ]
-      },
-      {
-        "name": "Lucid Black",
-        "rules": [
-          ["Website Status", "Removed from website but active if bought before 01/03/26"],
-          ["Account Sizes", "25K / 50K / 100K"],
-          ["Profit Target", "$1,250 / $3,000 / $6,000"],
-          ["Max Loss", "$1,000 / $2,000 / $3,000"],
-          ["DLL", "N/A"],
-          ["Max Size", "2 / 4 / 6 minis"],
-          ["One-Time Payment", "$91 / $126 / $280"],
-          ["Reset Fee", "$85 / $115 / $250"],
-          ["Consistency (Funded)", "60%"],
-          ["Consistency (Eval)", "40%"],
-          ["Bonus Payout", "$2,500 / $5,000 / $7,000 (not available on payout #1)"]
+          ["Max Size", "2 / 4 / 6 / 10 minis (20 / 40 / 60 / 100 micros)"],
+          ["Funded: DLL Below Initial Trail", "$600 / $1,200 / $1,800 / $2,700"],
+          ["Funded: LucidScale DLL Above Trail", "60% of Peak EOD Balance"],
+          ["Payout Profit Target (Funded)", "$250 / $500 / $750 / $1,000"],
+          ["Days to Payout", "3"],
+          ["Payouts to Live", "5"],
+          ["Activation Fee", "FREE"],
+          ["Reset Fee", "$70 / $115 / $180 / $245"],
+          ["Platforms", "Tradovate · NinjaTrader · TradingView · TradeSea · MotiveWave · Quantower"],
+          ["Promo Code", "CHAMP"]
         ]
       },
       {
         "name": "Lucid Flex",
         "rules": [
           ["Account Sizes", "25K / 50K / 100K / 150K"],
+          ["Price (w/ CHAMP)", "$50.30 / $90.20 / $170.60 / $250.40"],
           ["Profit Target", "$1,250 / $3,000 / $6,000 / $9,000"],
-          ["Max Loss", "$1,000 / $2,000 / $3,000 / $4,500"],
-          ["DLL", "N/A"],
-          ["Max Size", "2 / 4 / 6 / 8 minis"],
-          ["One-Time Payment", "$70 / $91 / $157.50 / $241.50"],
-          ["Reset Fee", "$60 / $85 / $140 / $225"],
-          ["Activation Fee", "Free"],
+          ["Max Loss Limit (EOD)", "$1,000 / $2,000 / $3,000 / $4,500"],
+          ["Daily Loss Limit", "$600 / $1,200 / $1,800 / $2,700 (can toggle off)"],
           ["Consistency (Eval)", "50%"],
           ["Consistency (Funded)", "None"],
+          ["Max Size", "2 / 4 / 6 / 10 minis (20 / 40 / 60 / 100 micros)"],
+          ["Funded: Min Days of Profit", "5 of $100 / $150 / $200 / $250"],
           ["Days to Payout", "5"],
-          ["Payouts to Live", "6"],
-          ["Payout Split", "90/10 (trader 90% / Lucid 10%)"],
-          ["Max Payout", "50% of profit up to $1,000 / $2,000 / $2,500 / $3,000"],
-          ["Buffer Balance", "None — maximums do not scale"]
+          ["Scaling Plan", "Yes"],
+          ["Payouts to Live", "5"],
+          ["Activation Fee", "FREE"],
+          ["Reset Fee", "$50 / $90 / $170 / $250"],
+          ["Platforms", "Tradovate · NinjaTrader · TradingView · TradeSea · MotiveWave · Quantower"],
+          ["Promo Code", "CHAMP"]
+        ]
+      },
+      {
+        "name": "Lucid Daily",
+        "rules": [
+          ["Account Sizes", "25K / 50K / 100K / 150K"],
+          ["Price", "Configurable — select drawdown + DLL options at checkout"],
+          ["Profit Target", "$1,250 / $3,000 / $6,000 / $9,000"],
+          ["Max Loss Limit", "$1,000 / $2,000 / $3,000 / $4,500"],
+          ["Drawdown (Eval)", "Choose EOD or Intraday"],
+          ["Daily Loss Limit", "Optional (ON / OFF)"],
+          ["Consistency (Eval)", "50%"],
+          ["Consistency (Funded)", "None"],
+          ["Max Size", "2 / 4 / 6 / 10 minis (20 / 40 / 60 / 100 micros)"],
+          ["Funded: Drawdown Type", "Intraday"],
+          ["Funded: DLL", "$600 / $1,200 / $1,800 / $2,700"],
+          ["Payouts", "Daily"],
+          ["Activation Fee", "FREE"],
+          ["Platforms", "Tradovate · NinjaTrader · TradingView · TradeSea · MotiveWave · Quantower"],
+          ["Promo Code", "CHAMP"]
         ]
       },
       {
         "name": "Lucid Direct",
         "rules": [
-          ["Path", "Straight to funded account"],
           ["Account Sizes", "25K / 50K / 100K / 150K"],
-          ["Max Loss", "$1,000 / $2,000 / $3,500 / See site"],
-          ["DLL", "N/A (25K) / $1,200 / $2,100 / $3,000"],
-          ["Lucid Scale DLL", "60% of peak EOD balance (50K-150K)"],
-          ["Max Size", "2 / 4 / 6 / 10 minis"],
+          ["Price (w/ CHAMP)", "$230.30 / $360.50 / $490.00 / $585.20"],
+          ["Structure", "Straight to funded — no evaluation"],
+          ["Max Loss Limit (EOD)", "$1,000 / $2,000 / $3,500 / $5,000"],
+          ["DLL Below Initial Trail", "None / $1,200 / $2,100 / $3,000"],
+          ["LucidScale DLL Above Trail", "None (25K) / 60% of Peak EOD Balance"],
           ["Consistency", "20%"],
-          ["One-Time Payment", "$238 / $364 / $490 / $588"],
+          ["Max Size", "2 / 4 / 6 / 10 minis (20 / 40 / 60 / 100 micros)"],
+          ["Min Days to Payout", "5"],
           ["Max Accounts", "5"],
-          ["Min Day to Payout", "5"]
+          ["Activation Fee", "Included in one-time payment"],
+          ["Platforms", "Tradovate · NinjaTrader · TradingView · TradeSea · MotiveWave · Quantower"],
+          ["Promo Code", "CHAMP"]
         ]
       }
     ],
@@ -461,16 +469,17 @@ window.FIRMS = {
           "Profit Target": "$1,250 · $3,000 · $6,000 · $9,000",
           "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,500",
           "Drawdown Type": "EOD",
-          "Daily Loss Limit": "None · $1,200 · $1,800 · $2,700",
-          "Min. Trading Days": "1-day pass to funded",
+          "Daily Loss Limit": "$600 · $1,200 · $1,800 · $2,700 (optional)",
+          "Min. Trading Days": "1-day pass · 3 to payout",
           "Consistency Rule": "40%",
-          "Payout Split": "90% trader / 10% Lucid",
-          "Payout Frequency": "5 profit days · min request $500",
+          "Payout Split": "90% Trader / 10% Lucid",
+          "Payout Frequency": "3 days to payout",
           "Max Payout": "No cap",
           "Activation Fee": "FREE",
-          "Reset Fee": "$90 · $120 · $180 · $245",
+          "Reset Fee": "$70 · $115 · $180 · $245",
           "Platforms": "Tradovate · NinjaTrader · TradingView · TradeSea · MotiveWave · Quantower",
-          "Promo Code": "CHAMP"
+          "Promo Code": "CHAMP",
+          "Notes": "LucidScale DLL 60% of peak EOD above trail · 5 payouts to live · w/ CHAMP $70.60 · $115.40 · $180.40 · $245.50"
         }
       },
       {
@@ -481,16 +490,38 @@ window.FIRMS = {
           "Profit Target": "$1,250 · $3,000 · $6,000 · $9,000",
           "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,500",
           "Drawdown Type": "EOD",
-          "Daily Loss Limit": "No DLL",
-          "Min. Trading Days": "5 days to payout",
+          "Daily Loss Limit": "$600 · $1,200 · $1,800 · $2,700 (optional)",
+          "Min. Trading Days": "5 profit days · 5 to payout",
           "Consistency Rule": "50% eval · none funded",
           "Payout Split": "90% Trader / 10% Lucid",
-          "Payout Frequency": "5-day cycle · 50% of profit up to size caps",
+          "Payout Frequency": "5 days",
           "Max Payout": "No cap",
           "Activation Fee": "FREE",
-          "Reset Fee": "$60 · $95 · $140 · $280",
-          "Platforms": "CGQ + Rithmic feeds",
-          "Promo Code": "CHAMP"
+          "Reset Fee": "$50 · $90 · $170 · $250",
+          "Platforms": "Tradovate · NinjaTrader · TradingView · TradeSea · MotiveWave · Quantower",
+          "Promo Code": "CHAMP",
+          "Notes": "Scaling plan · min days of profit 5 of $100/$150/$200/$250 · 5 payouts to live · w/ CHAMP $50.30 · $90.20 · $170.60 · $250.40"
+        }
+      },
+      {
+        "name": "LUCID DAILY",
+        "featured": false,
+        "rules": {
+          "Account Sizes": "25K · 50K · 100K · 150K",
+          "Profit Target": "$1,250 · $3,000 · $6,000 · $9,000",
+          "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,500",
+          "Drawdown Type": "EOD or Intraday (choose) · Intraday funded",
+          "Daily Loss Limit": "$600 · $1,200 · $1,800 · $2,700 (optional)",
+          "Min. Trading Days": "Daily payouts",
+          "Consistency Rule": "50% eval · none funded",
+          "Payout Split": "90% Trader / 10% Lucid",
+          "Payout Frequency": "Daily",
+          "Max Payout": "No cap",
+          "Activation Fee": "FREE",
+          "Reset Fee": "Configurable",
+          "Platforms": "Tradovate · NinjaTrader · TradingView · TradeSea · MotiveWave · Quantower",
+          "Promo Code": "CHAMP",
+          "Notes": "Daily payouts · configurable eval — pick EOD/Intraday drawdown + DLL on/off; price varies at checkout"
         }
       },
       {
@@ -501,20 +532,21 @@ window.FIRMS = {
           "Profit Target": "Straight to funded",
           "Max Drawdown": "$1,000 · $2,000 · $3,500 · $5,000",
           "Drawdown Type": "EOD",
-          "Daily Loss Limit": "N/A (25K) · $1,200 · $2,100 · $3,000",
-          "Min. Trading Days": "5 days to payout",
+          "Daily Loss Limit": "None · $1,200 · $2,100 · $3,000",
+          "Min. Trading Days": "5 to payout",
           "Consistency Rule": "20%",
           "Payout Split": "90% Trader / 10% Lucid",
-          "Payout Frequency": "5-day cycle",
+          "Payout Frequency": "5 days",
           "Max Payout": "No cap",
-          "Activation Fee": "One-time payment $238 / $364 / $490 / $588",
-          "Reset Fee": "Straight To Funded",
-          "Platforms": "CGQ + Rithmic feeds",
-          "Promo Code": "CHAMP"
+          "Activation Fee": "One-time payment $230.30 · $360.50 · $490.00 · $585.20",
+          "Reset Fee": "N/A (straight to funded)",
+          "Platforms": "Tradovate · NinjaTrader · TradingView · TradeSea · MotiveWave · Quantower",
+          "Promo Code": "CHAMP",
+          "Notes": "Straight to funded (no eval) · LucidScale DLL 60% peak EOD above trail (50K+) · max 5 accounts"
         }
       }
     ],
-    "note": "Lucid runs four paths: Pro (full ladder, 1-day pass, free activation), Black (legacy — only active for accounts bought before 01/03/26, has bonus payouts), Flex (no DLL, no funded consistency, 90/10 split), and Direct (straight to funded, 20% consistency). CGQ data feed covers Tradovate/NinjaTrader/TradingView. Rithmic data feed covers TradeSea/MotiveWave/Quantower."
+    "note": "Lucid Trading offers four futures paths: Pro (1-day pass, 3-day payouts), Flex (optional DLL, scaling plan, no funded consistency), Daily (configurable eval — choose EOD/Intraday drawdown and DLL on/off — with daily payouts), and Direct (straight to funded, no eval, max 5 accounts). All 90/10 split with the LucidScale DLL model on funded accounts (60% of peak EOD balance above the initial trail). Lucid Black is discontinued (legacy accounts only). Prices shown reflect CHAMP-coupon pricing at last check — confirm the current price at checkout. Code CHAMP."
   },
   "alpha-futures": {
     "slug": "alpha-futures",
