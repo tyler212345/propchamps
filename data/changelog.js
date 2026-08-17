@@ -21,6 +21,16 @@
 */
 window.CHANGELOG = [
   {
+    date: '2026-08-17', firm: 'my-funded-futures', firmName: 'My Funded Futures', logo: '/logos/myfunded.png',
+    category: 'rules',
+    headline: 'MFF lineup refresh — Flex retired, Rapid EOD added, Builder reworked',
+    was: 'Rapid · Pro · Flex · Builder (50K-150K)',
+    is: 'Rapid · Rapid EOD · Pro · Builder (25K/50K)',
+    note: 'Flex is discontinued. New limited-time Rapid EOD keeps daily payouts but uses end-of-day drawdown in the funded stage (4-day pass, 30% eval consistency). Builder is now 25K/50K only with 48-hour sim payouts and a five-payout ladder to a real Live account at Blue Row Capital. Rapid confirmed: EOD in eval then intraday trailing once funded. Sourced from the MFF plan pages (rapid, rapid-eod, pro, builder).',
+    source: '',
+    firmPage: 'my-funded-futures.html'
+  },
+  {
     date: '2026-08-17', firm: 'alpha-futures', firmName: 'Alpha Futures', logo: '/logos/alpha.png',
     category: 'rules',
     headline: 'Alpha overhauled — Standard returns, new Direct plan, CHAMP now 40% off',
