@@ -113,19 +113,19 @@ window.FIRMS = {
     },
     "boxMore": {
       "deal": "Use code CHAMP at checkout. As of 03/31/26 Tradeify removed monthly subscriptions — all plans are now one-time payments. Tradesea and Rithmic data feeds added.",
-      "programs": "GROWTH — One-time payment · 25K-150K · Eval + Funded (35% funded consistency · 5-day payouts · 10 max accounts)\nSELECT — One-time payment · 25K-150K · Eval, then choose Daily or Flex funding path\nLIGHTNING — One-time payment · 25K-150K · 20% consistency · 5-day payouts · 5 max accounts",
-      "rules": "Growth Eval (25K-150K): Profit target $1,500 / $3,000 / $6,000 / $9,000 · Drawdown $1,000 / $2,000 / $3,500 / $5,000 · DLL $600 / $1,250 / $2,500 / $3,750\nSelect Eval (25K-150K): Profit target $1,500 / $2,500 / $6,000 / $9,000 · Drawdown $1,000 / $2,000 / $3,000 / $4,500 · No DLL · 40% consistency\nLightning (25K-150K): 20% consistency · DLL none on 25K then $1,250 / $2,500 / $3,750",
+      "programs": "GROWTH — One-time payment · 25K-150K · Eval + Funded (35% funded consistency · 5-day payouts · 5 max accounts)\nSELECT — One-time payment · 25K-150K · Eval, then choose Daily or Flex funding path\nLIGHTNING — One-time payment · 25K-150K · 20% consistency · 5-day payouts · 5 max accounts",
+      "rules": "Growth Eval (25K-150K): Profit target $1,500 / $3,000 / $6,000 / $9,000 · Drawdown $1,000 / $2,000 / $3,500 / $5,000 · DLL $600 / $1,250 / $2,500 / $3,750\nSelect Eval (25K-150K): Profit target $1,500 / $3,000 / $6,000 / $9,000 · Drawdown $1,000 / $2,000 / $3,000 / $4,500 · No DLL · 40% consistency\nLightning (25K-150K): 20% consistency · DLL none on 25K then $1,250 / $2,500 / $3,000",
       "payouts": "Growth funded: 5-day payout frequency · 35% funded consistency · 10 max accounts\nSelect Daily path: daily payouts · max payout $600 / $1,000 / $1,500 / $2,500 (25K-150K)\nSelect Flex path: 5-day payout · max payout $1,250 / $3,000 / $4,000 / $5,000 · no DLL\nLightning: 5-day payout · 5 max accounts"
     },
     "programs": [
-      "Growth — eval then funded (35% consistency, 5-day payouts, 10 max accounts)",
+      "Growth — eval then funded (35% consistency, 5-day payouts, 5 max accounts)",
       "Select — eval, then choose Daily or Flex funding path",
       "Lightning — 25K-150K with 20% consistency, 5-day payouts"
     ],
     "rules": [
       "Pricing: One-time payments — Growth $59 / $87 / $153 / $221 (25K-150K), Select $65 / $99 / $159 / $221, Lightning $207 / $295 / $396 / $478",
       "Growth reset fees: $60 / $95 / $169 / $229 (25K-150K)",
-      "Select reset fees: $65 / $95 / $155 / $215 (25K-150K)",
+      "Select reset fees: $75 / $109 / $169 / $239 (25K-150K)",
       "Activation fee: None on all plans",
       "Consistent Trader Reward Pool (Select): unlock larger reward pools with consistency below 40% and never exceeding 75% of max drawdown"
     ],
@@ -153,7 +153,7 @@ window.FIRMS = {
           ["Activation Fee", "None"],
           ["Max Contracts", "1 mini (10 micros) / 4 minis (40 micros) / 8 minis (80 micros) / 12 minis (120 micros)"],
           ["Payout Frequency (Funded)", "5 days"],
-          ["Max Accounts (Funded)", "10"],
+          ["Max Accounts (Funded)", "5"],
           ["Platforms", "Tradovate · WealthCharts · Tradesea / Rithmic"],
           ["Promo Code", "CHAMP"]
         ]
@@ -163,11 +163,11 @@ window.FIRMS = {
         "rules": [
           ["Account Sizes", "25K / 50K / 100K / 150K"],
           ["One-Time Payment", "$65 / $99 / $159 / $221"],
-          ["Profit Target", "$1,500 / $2,500 / $6,000 / $9,000"],
+          ["Profit Target", "$1,500 / $3,000 / $6,000 / $9,000"],
           ["Max Drawdown", "$1,000 / $2,000 / $3,000 / $4,500"],
           ["Daily Loss Limit", "None"],
           ["Consistency", "40%"],
-          ["Reset Fee", "$65 / $95 / $155 / $215"],
+          ["Reset Fee", "$75 / $109 / $169 / $239"],
           ["Activation Fee", "None"],
           ["Max Contracts", "1 mini (10 micros) / 4 minis (40 micros) / 8 minis (80 micros) / 12 minis (120 micros)"],
           ["After Eval", "Choose Daily or Flex funding path"]
@@ -198,8 +198,8 @@ window.FIRMS = {
         "rules": [
           ["Account Sizes", "25K / 50K / 100K / 150K"],
           ["One-Time Payment", "$207 / $295 / $396 / $478"],
-          ["Daily Loss Limit", "None (25K) / $1,250 / $2,500 / $3,750"],
-          ["Max Drawdown", "$1,000 / $2,000 / $4,000 / $6,000"],
+          ["Daily Loss Limit", "None (25K) / $1,250 / $2,500 / $3,000"],
+          ["Max Drawdown", "$1,000 / $2,000 / $4,000 / $5,250"],
           ["Consistency", "20%"],
           ["Payout Frequency", "5 days"],
           ["Max Accounts", "5"],
@@ -245,7 +245,7 @@ window.FIRMS = {
         "featured": false,
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
-          "Profit Target": "$1,500 · $2,500 · $6,000 · $9,000",
+          "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000",
           "Max Drawdown": "$1,000 · $2,000 · $2,500 · $3,500",
           "Drawdown Type": "EOD",
           "Daily Loss Limit": "None eval · $500 · $1,000 · $1,250 · $1,750 funded",
@@ -255,7 +255,7 @@ window.FIRMS = {
           "Payout Frequency": "Daily",
           "Max Payout": "$600 · $1,000 · $1,500 · $2,500",
           "Activation Fee": "None (one-time payment)",
-          "Reset Fee": "$65 · $99 · $155 · $215",
+          "Reset Fee": "$75 · $109 · $169 · $239",
           "Platforms": "Tradovate · WealthCharts · Tradesea / Rithmic",
           "Promo Code": "CHAMP"
         }
@@ -265,7 +265,7 @@ window.FIRMS = {
         "featured": false,
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
-          "Profit Target": "$1,500 · $2,500 · $6,000 · $9,000",
+          "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000",
           "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,500",
           "Drawdown Type": "EOD",
           "Daily Loss Limit": "None",
@@ -275,8 +275,8 @@ window.FIRMS = {
           "Payout Frequency": "5 days",
           "Max Payout": "$1,250 · $3,000 · $4,000 · $5,000",
           "Activation Fee": "None (one-time payment)",
-          "Reset Fee": "$65 · $99 · $155 · $215",
-          "Platforms": "Tradovate · WealthCharts",
+          "Reset Fee": "$75 · $109 · $169 · $239",
+          "Platforms": "Tradovate · WealthCharts · Tradesea / Rithmic",
           "Promo Code": "CHAMP"
         }
       },
@@ -286,9 +286,9 @@ window.FIRMS = {
         "rules": {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "Straight To Funded",
-          "Max Drawdown": "$1,000 · $2,000 · $4,000 · $6,000",
+          "Max Drawdown": "$1,000 · $2,000 · $4,000 · $5,250",
           "Drawdown Type": "EOD",
-          "Daily Loss Limit": "None (25K) · $1,250 · $2,500 · $3,750",
+          "Daily Loss Limit": "None (25K) · $1,250 · $2,500 · $3,000",
           "Min. Trading Days": "Instant Funded",
           "Consistency Rule": "20%",
           "Payout Split": "Straight to Funded",
@@ -296,7 +296,7 @@ window.FIRMS = {
           "Max Payout": "No cap",
           "Activation Fee": "None (one-time payment)",
           "Reset Fee": "Straight To Funded",
-          "Platforms": "Tradovate · WealthCharts",
+          "Platforms": "Tradovate · WealthCharts · Tradesea / Rithmic",
           "Promo Code": "CHAMP"
         }
       }

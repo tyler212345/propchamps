@@ -21,6 +21,16 @@
 */
 window.CHANGELOG = [
   {
+    date: '2026-08-17', firm: 'tradeify', firmName: 'Tradeify', logo: '/logos/tradeify.png',
+    category: 'rules',
+    headline: 'Tradeify audit — Growth max accounts and Select target corrected',
+    was: 'Growth listed 10 funded accounts · Select 50K target $2,500',
+    is: 'Growth 5 funded accounts · Select 50K target $3,000',
+    note: 'Also updated: Select evaluation reset fees now $75/$109/$169/$239, and Lightning 150K daily loss limit $3,000 (was $3,750) and max drawdown $5,250 (was $6,000). Growth, Select Daily/Flex funded paths, and all pricing verified unchanged. Sourced from Tradeify checkout configurator.',
+    source: '',
+    firmPage: 'tradeify.html'
+  },
+  {
     date: '2026-08-17', firm: 'apex-trader', firmName: 'Apex Trader Funding', logo: '/logos/apex.png',
     category: 'rules',
     headline: 'Apex refreshed — Intraday vs EOD split out, EOD DLL corrected',
