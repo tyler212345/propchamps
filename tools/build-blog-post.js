@@ -17,10 +17,12 @@
 const fs = require('fs');
 const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
-const DATE = '2026-07-13';
+const DATE = '2026-08-17';
 
 // Per-article presentation (body/meta are derived from the markdown).
 const CONFIG = {
+  'fastest-payout-prop-firms': { eyebrow: 'Prop firm data · Payouts', tag: 'Data',
+    related: [['/payouts','Live payout data'],['/best/best-prop-firms-fast-payouts','Best firms for fast payouts'],['/compare','Compare every firm']] },
   'how-to-pass-a-prop-firm-evaluation': { eyebrow: 'Prop firm guide · How-to', tag: 'Guide',
     related: [['/compare','Compare every firm'],['/best/best-prop-firm-for-beginners','Best firms for beginners'],['/blog/prop-firm-drawdown-explained','Drawdown explained']] },
   'are-futures-prop-firms-worth-it': { eyebrow: 'Prop firm guide · Honest take', tag: 'Guide',
@@ -174,7 +176,7 @@ ${JSON.stringify(schema)}
 </head>
 <body>
 
-<div class="editorial-strip"><div class="container"><div class="lhs"><span class="dot"></span><span>Independent prop firm research · Reviewed weekly</span></div><div class="rhs">Last reviewed July 13, 2026</div></div></div>
+<div class="editorial-strip"><div class="container"><div class="lhs"><span class="dot"></span><span>Independent prop firm research · Reviewed weekly</span></div><div class="rhs">Last reviewed August 17, 2026</div></div></div>
 
 <header class="site">
   <div class="container">
@@ -199,7 +201,7 @@ ${JSON.stringify(schema)}
     <div class="article-eyebrow">${esc(cfg.eyebrow)}</div>
     <h1>${esc(displayTitle)}</h1>
     <p class="article-dek">${esc(dek)}</p>
-    <div class="article-byline"><span><span class="live-dot"></span> <strong>PropChamps Research</strong></span><span class="sep"></span><span>Last reviewed July 13, 2026</span><span class="sep"></span><span>~${readMin} min read</span></div>
+    <div class="article-byline"><span><span class="live-dot"></span> <strong>PropChamps Research</strong></span><span class="sep"></span><span>Last reviewed August 17, 2026</span><span class="sep"></span><span>~${readMin} min read</span></div>
   </div>
 </section>
 
