@@ -21,6 +21,16 @@
 */
 window.CHANGELOG = [
   {
+    date: '2026-08-17', firm: 'take-profit', firmName: 'Take Profit Trader', logo: '/logos/takeprofit.png',
+    category: 'rules',
+    headline: 'Take Profit Trader — full TEST → PRO → PRO+ ladder documented',
+    was: 'Single "Evaluation" entry · PRO+ split typo · placeholder platforms',
+    is: 'TEST (eval) → PRO (sim 80/20) → PRO+ (live 90/10) ladder',
+    note: 'Confirmed the daily loss limit remains removed at every stage (a homepage read that suggested a $1,100 DLL was a misread). Documented the three-stage ladder: TEST evaluation uses EOD trailing drawdown and 50% consistency; PRO is simulated-funded 80/20 with day-one payouts and switches to intraday trailing drawdown; PRO+ is a real live-market account at 90/10 with EOD drawdown. Fixed the PRO+ split (was mis-typed 90/20), added the real platform list, and clarified the $130 one-time activation vs monthly subscription. Standard eval is 5 minimum trading days. Sourced from the TPT site and current rule references.',
+    source: '',
+    firmPage: 'take-profit-trader.html'
+  },
+  {
     date: '2026-08-17', firm: 'top-one-futures', firmName: 'Top One Futures', logo: '/logos/topone.png',
     category: 'rules',
     headline: 'Top One refresh — S2F dropped, four paths rebuilt from the site',

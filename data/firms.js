@@ -968,7 +968,7 @@ window.FIRMS = {
     "reviewCount": 180,
     "country": "US",
     "maxAllocation": "$150K",
-    "platformsList": ["Rithmic","Tradovate"],
+    "platformsList": ["NinjaTrader","TradingView","Tradovate","Quantower","Rithmic"],
     "payoutTotal": "$60M+",
     "payoutCount": "18,000+",
     "payoutAvg": "$3,300",
@@ -979,8 +979,8 @@ window.FIRMS = {
     "logo": "/logos/takeprofit.png",
     "logoText": "TP",
     "affiliateUrl": "https://takeprofittrader.com/?referralCode=CHAMP",
-    "type": "Evaluation · 25K-150K",
-    "tagline": "Evaluation · DLL removed",
+    "type": "Test → PRO → PRO+ · 25K-150K",
+    "tagline": "Test → PRO → PRO+ · No daily loss limit",
     "badge": null,
     "featured": false,
     "live": true,
@@ -992,7 +992,7 @@ window.FIRMS = {
     },
     "offerLine": "$40 OFF",
     "offerSub": "DLL removed across all sizes · Clean account ladder",
-    "summary": "Take Profit Trader keeps the rule set simple — DLL removed across all five account sizes (25K through 150K). Clean ladder, straightforward drawdowns, code CHAMP for $40 off.",
+    "summary": "Take Profit Trader runs a three-stage ladder with no daily loss limit at any stage. You buy the TEST evaluation (EOD trailing drawdown, 50% consistency), pass into a PRO simulated-funded account (80/20 split, day-one payouts, switches to intraday trailing drawdown), then graduate to PRO+, a real live-market account paying 90/10 with EOD drawdown. Five account sizes (25K-150K), monthly subscription, code CHAMP for $40 off.",
     "highlights": ["DLL Removed (All Sizes)", "Simple Ladder", "$40 Off"],
     "bestFor": ["No DLL", "Straightforward Rules", "Simple Ladder"],
     "stats": [
@@ -1004,13 +1004,13 @@ window.FIRMS = {
       "deal": "$40 off · Code CHAMP at checkout",
       "programs": "Single evaluation product · 25K, 50K, 75K, 100K, 150K",
       "rules": "DLL REMOVED on all 5 sizes",
-      "payouts": "See Take Profit Trader site for current payout structure"
+      "payouts": "PRO (sim) 80/20 · PRO+ (live) 90/10 · day-one payouts"
     },
     "boxMore": {
       "deal": "Apply code CHAMP at checkout for $40 off Take Profit Trader.",
       "programs": "Five account sizes: 25K, 50K, 75K, 100K, 150K\nSingle evaluation path — no separate plan tiers",
       "rules": "All sizes have DLL REMOVED\nProfit Target: $1,500 / $3,000 / $4,500 / $6,000 / $9,000 (25K-150K)\nDrawdown: $1,500 / $2,000 / $2,500 / $3,000 / $4,500\nMax Size: 3 / 6 / 9 / 12 / 15 minis (30 / 60 / 90 / 120 / 150 micros)",
-      "payouts": "See Take Profit Trader site for current payout cadence and split."
+      "payouts": "TEST: simulated, no withdrawals\nPRO (sim funded): day-one payouts, 80/20 split, intraday trailing drawdown\nPRO+ (live market): day-one payouts, 90/10 split, EOD drawdown\nPayouts land within one business day via Plaid / PayPal / Wise"
     },
     "programs": [
       "25K — single evaluation product",
@@ -1024,8 +1024,13 @@ window.FIRMS = {
       "Drawdown ladder: $1,500 / $2,000 / $2,500 / $3,000 / $4,500 (25K-150K)",
       "Max position size: 3 / 6 / 9 / 12 / 15 minis by size"
     ],
-    "payouts": ["See Take Profit Trader site for current payout structure"],
-    "platforms": ["See Take Profit Trader site for current platform list"],
+    "payouts": [
+      "TEST evaluation: simulated, no withdrawals",
+      "PRO (sim funded): day-one payouts, 80/20 split",
+      "PRO+ (live market): day-one payouts, 90/10 split",
+      "Payouts processed within one business day via Plaid / PayPal / Wise"
+    ],
+    "platforms": ["NinjaTrader", "TradingView", "Tradovate", "Quantower", "R-Trader", "MotiveWave", "Bookmap", "ATAS", "and 15+ others (CQG & Rithmic feeds)"],
     "warning": null,
     "plansDetailed": [
       {
@@ -1087,17 +1092,17 @@ window.FIRMS = {
           "Daily Loss Limit": "REMOVED across all sizes",
           "Min. Trading Days": "5 Trading Days",
           "Consistency Rule": "50%",
-          "Payout Split": "PRO 80%/20% PRO+ 90%/20%",
+          "Payout Split": "PRO 80/20 · PRO+ 90/10",
           "Payout Frequency": "Daily",
           "Max Payout": "No cap",
-          "Activation Fee": "MONTHLY FEE $150 · $170 · $245 · $330 · $360",
+          "Activation Fee": "$130 one-time (often waived) · monthly $150 · $170 · $245 · $330 · $360",
           "Reset Fee": "$79 · $99 · $139 · $169 · $199",
           "Platforms": "TradingView · NinjaTrader · Tradovate · Bookmap · MultiCharts · Trade Navigator · R|Trader · VolFix · ATAS · Investor R/T · Quantower · Finamark · Jigsaw Trader",
           "Promo Code": "CHAMP"
         }
       }
     ],
-    "note": "Take Profit Trader keeps the rule set simple — DLL has been REMOVED across all five account sizes (25K through 150K). Drawdowns: $1,500 / $2,000 / $2,500 / $3,000 / $4,500. Max contracts: 3 / 6 / 9 / 12 / 15 minis by size. Use CHAMP for $40 off."
+    "note": "Take Profit Trader runs a three-stage ladder — TEST (evaluation) → PRO (simulated funded) → PRO+ (live market) — with NO daily loss limit at any stage across all five account sizes (25K-150K). TEST uses EOD trailing drawdown with a 50% consistency rule; targets are $1,500 / $3,000 / $4,500 / $6,000 / $9,000 and drawdowns $1,500 / $2,000 / $2,500 / $3,000 / $4,500. On passing, PRO pays 80/20 with day-one payouts and switches to intraday trailing drawdown (the single biggest rule change between stages); PRO+ is a real live-market account paying 90/10 with EOD drawdown and no buffer. Max contracts 3 / 6 / 9 / 12 / 15 minis by size. Monthly subscription $150 / $170 / $245 / $330 / $360 plus a one-time $130 activation (often waived by promo). Use CHAMP for $40 off. NOTE: the standard evaluation is 5 minimum trading days — some public promos advertise a shorter 3-day eval."
   },
   "top-one-futures": {
     "slug": "top-one-futures",
