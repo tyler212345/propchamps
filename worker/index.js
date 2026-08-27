@@ -178,7 +178,7 @@ async function authStart(req, env) {
     client_id: env.DISCORD_CLIENT_ID,
     redirect_uri: env.DISCORD_REDIRECT_URI,
     response_type: 'code',
-    scope: 'identify',
+    scope: 'identify email',
     state,
   });
   return redirect('https://discord.com/oauth2/authorize?' + params.toString());
@@ -216,17 +216,18 @@ async function authCallback(req, env) {
   const now = new Date().toISOString();
   const existing = await env.DB.prepare('SELECT id FROM users WHERE discord_id=?').bind(d.id).first();
   let userId;
+  const email = d.email && d.verified ? String(d.email).toLowerCase() : null;
   if (existing) {
     userId = existing.id;
-    await env.DB.prepare('UPDATE users SET username=?, avatar=? WHERE id=?')
-      .bind(d.username, d.avatar || '', userId)
+    await env.DB.prepare('UPDATE users SET username=?, avatar=?, email=COALESCE(?, email) WHERE id=?')
+      .bind(d.username, d.avatar || '', email, userId)
       .run();
   } else {
     userId = crypto.randomUUID();
     await env.DB.prepare(
-      'INSERT INTO users (id,discord_id,username,avatar,lifetime_points,spendable_points,created_at) VALUES (?,?,?,?,0,0,?)'
+      'INSERT INTO users (id,discord_id,username,avatar,email,lifetime_points,spendable_points,created_at) VALUES (?,?,?,?,?,0,0,?)'
     )
-      .bind(userId, d.id, d.username, d.avatar || '', now)
+      .bind(userId, d.id, d.username, d.avatar || '', email, now)
       .run();
   }
 
@@ -408,7 +409,7 @@ async function adminQueue(req, env) {
   return json({ queue: rows.results || [] });
 }
 
-async function adminReview(req, env) {
+async function adminReview(req, env, ctx) {
   const u = await currentUser(req, env);
   if (!isAdmin(u, env)) return json({ error: 'forbidden' }, 403);
   const body = await req.json().catch(() => ({}));
@@ -431,6 +432,9 @@ async function adminReview(req, env) {
       env.DB.prepare('INSERT INTO admin_actions (id,admin,action,target,created_at) VALUES (?,?,?,?,?)')
         .bind(crypto.randomUUID(), u.discord_id, 'approve', subId, now),
     ]);
+    const su = await env.DB.prepare('SELECT email, username, lifetime_points FROM users WHERE id=?').bind(sub.user_id).first();
+    if (su && su.email && ctx && ctx.waitUntil)
+      ctx.waitUntil(sendApproved(env, su.email, su.username, sub.firm_slug, POINTS_PER_SUBMISSION, su.lifetime_points, new URL(req.url).origin));
   } else if (action === 'reject') {
     await env.DB.batch([
       env.DB.prepare("UPDATE submissions SET status='rejected', reviewed_by=?, reviewed_at=? WHERE id=?")
@@ -438,6 +442,9 @@ async function adminReview(req, env) {
       env.DB.prepare('INSERT INTO admin_actions (id,admin,action,target,created_at) VALUES (?,?,?,?,?)')
         .bind(crypto.randomUUID(), u.discord_id, 'reject', subId, now),
     ]);
+    const su = await env.DB.prepare('SELECT email, username FROM users WHERE id=?').bind(sub.user_id).first();
+    if (su && su.email && ctx && ctx.waitUntil)
+      ctx.waitUntil(sendRejected(env, su.email, su.username, sub.firm_slug, new URL(req.url).origin, env.DISCORD_INVITE_URL));
   } else {
     return json({ error: 'bad_action' }, 400);
   }
@@ -630,6 +637,38 @@ async function sendWelcome(env, email, name, origin) {
     /* best-effort */
   }
 }
+async function sendApproved(env, email, username, firm, points, total, origin) {
+  if (!email) return;
+  try {
+    const unsub = origin + '/unsub?e=' + encodeURIComponent(email) + '&t=' + (await unsubToken(email));
+    const btn = 'display:inline-block;background:#c8ff00;color:#0a0d12;font-weight:700;text-decoration:none;padding:12px 22px;border-radius:10px;margin:10px 0;';
+    const body =
+      '<p>Nice work' + (username ? ', ' + username : '') + '! 🎉</p>' +
+      '<p>Your <strong>' + firm + '</strong> submission was approved and <strong>+' + points + ' points</strong> just hit your account.</p>' +
+      "<p>You're now at <strong>" + Number(total || 0).toLocaleString() + ' points</strong>. Keep submitting your CHAMP purchases to climb the leaderboard and unlock rewards.</p>' +
+      '<p><a href="' + origin + '/rewards" style="' + btn + '">View your dashboard →</a></p>';
+    await sendEmail(env, email, 'You earned ' + points + ' points! 🎉', emailShell('+' + points + ' points added', body, unsub));
+  } catch (e) {
+    /* best-effort */
+  }
+}
+async function sendRejected(env, email, username, firm, origin, discordUrl) {
+  if (!email) return;
+  try {
+    const unsub = origin + '/unsub?e=' + encodeURIComponent(email) + '&t=' + (await unsubToken(email));
+    const link = discordUrl
+      ? '<a href="' + discordUrl + '" style="color:#5b8a00;font-weight:600;">open a ticket in our Discord</a>'
+      : 'open a ticket in our Discord';
+    const body =
+      '<p>Hey' + (username ? ' ' + username : '') + ',</p>' +
+      '<p>Your <strong>' + firm + "</strong> submission wasn't approved this time. Usually that means we couldn't clearly see code <strong>CHAMP</strong> on the receipt, or the details didn't line up.</p>" +
+      '<p>If you think that was a mistake, ' + link + " and we'll get it corrected fast.</p>" +
+      '<p style="font-size:13px;color:#6b7280;">— The PropChamps team</p>';
+    await sendEmail(env, email, 'About your recent submission', emailShell('Submission update', body, unsub));
+  } catch (e) {
+    /* best-effort */
+  }
+}
 async function unsubscribe(req, env) {
   const url = new URL(req.url);
   const email = String(url.searchParams.get('e') || '').toLowerCase();
@@ -709,7 +748,7 @@ export default {
       if (p === '/api/redeem' && m === 'POST') return await apiRedeem(request, env);
 
       if (p === '/api/admin/queue') return await adminQueue(request, env);
-      if (p === '/api/admin/review' && m === 'POST') return await adminReview(request, env);
+      if (p === '/api/admin/review' && m === 'POST') return await adminReview(request, env, ctx);
       if (p.startsWith('/api/admin/image/')) return await adminImage(request, env, p.slice('/api/admin/image/'.length));
 
       if (p === '/api/giveaway/status') return await giveawayStatus(request, env);

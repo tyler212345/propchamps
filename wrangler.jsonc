@@ -15,7 +15,8 @@
     "DISCORD_REDIRECT_URI": "https://propchamps.net/auth/discord/callback",
     "ADMIN_DISCORD_IDS": "790724483454861363",
     "HOST_DISCORD_IDS": "790724483454861363",
-    "EMAIL_FROM": "PropChamps <deals@propchamps.net>"
+    "EMAIL_FROM": "PropChamps <deals@propchamps.net>",
+    "DISCORD_INVITE_URL": ""
   },
   "d1_databases": [
     {

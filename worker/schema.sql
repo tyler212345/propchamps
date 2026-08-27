@@ -7,12 +7,15 @@ CREATE TABLE IF NOT EXISTS users (
   discord_id       TEXT UNIQUE NOT NULL,
   username         TEXT NOT NULL,
   avatar           TEXT,
+  email            TEXT,                          -- from Discord (email scope); used for approval/rejection emails
   lifetime_points  INTEGER NOT NULL DEFAULT 0,   -- drives leaderboard + tier; never decreases
   spendable_points INTEGER NOT NULL DEFAULT 0,   -- what redemptions draw from
   banned           INTEGER NOT NULL DEFAULT 0,
   created_at       TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_users_pts ON users(lifetime_points DESC);
+-- If users already exists from an earlier migration, add the column:
+--   ALTER TABLE users ADD COLUMN email TEXT;
 
 CREATE TABLE IF NOT EXISTS submissions (
   id             TEXT PRIMARY KEY,
