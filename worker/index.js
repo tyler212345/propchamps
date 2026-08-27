@@ -102,13 +102,16 @@ async function authCallback(req, env) {
       redirect_uri: env.DISCORD_REDIRECT_URI,
     }),
   });
-  if (!tokenRes.ok) return redirect('/rewards?e=token');
+  if (!tokenRes.ok) {
+    const t = await tokenRes.text().catch(() => '');
+    return redirect('/rewards?e=token&s=' + tokenRes.status + '&d=' + encodeURIComponent(t.slice(0, 100)));
+  }
   const tok = await tokenRes.json();
 
   const meRes = await fetch('https://discord.com/api/users/@me', {
     headers: { Authorization: 'Bearer ' + tok.access_token },
   });
-  if (!meRes.ok) return redirect('/rewards?e=me');
+  if (!meRes.ok) return redirect('/rewards?e=me&s=' + meRes.status);
   const d = await meRes.json();
 
   const now = new Date().toISOString();
