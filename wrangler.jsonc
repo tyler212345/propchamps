@@ -13,7 +13,7 @@
   "vars": {
     "DISCORD_CLIENT_ID": "1542538970154672201",
     "DISCORD_REDIRECT_URI": "https://propchamps.net/auth/discord/callback",
-    "ADMIN_DISCORD_IDS": ""
+    "ADMIN_DISCORD_IDS": "790724483454861363"
   },
   "d1_databases": [
     {
