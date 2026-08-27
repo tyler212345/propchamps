@@ -179,6 +179,7 @@ async function authStart(req, env) {
     redirect_uri: env.DISCORD_REDIRECT_URI,
     response_type: 'code',
     scope: 'identify email',
+    prompt: 'consent',
     state,
   });
   return redirect('https://discord.com/oauth2/authorize?' + params.toString());
