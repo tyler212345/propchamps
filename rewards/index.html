@@ -602,7 +602,6 @@ function mkCardHTML(m){
     +'<div class="mk-type"><span class="mk-dot"></span> '+esc(m.type)+'</div>'
     +'<div class="mk-title">'+esc(m.size+' '+m.type)+'</div>'
     +'<div class="mk-firm">'+esc(f.name)+'</div>'
-    +'<div class="mk-val">≈ <b>$'+m.val+'</b> value · fully paid</div>'
     +'<div class="mk-foot"><div class="mk-pts"><span class="n">'+m.cost.toLocaleString()+'</span><span class="u">points</span></div>'
     +'<button class="redeem locked" data-cost="'+m.cost+'" data-name="'+esc(f.name+' — '+m.size+' '+m.type)+'">Redeem</button></div></div>';
 }
@@ -612,7 +611,7 @@ function mkFeatHTML(m,f){
     +'<div class="mk-logo'+(f.light?' light':'')+' fx-logo"><img src="'+f.logo+'" alt="'+esc(f.name)+'"></div>'
     +'<div class="fx-body"><div class="fx-badge">⚡ Instant Funded · Top reward</div>'
     +'<div class="fx-title">'+esc(f.name+' — '+m.size+' Funded')+'</div>'
-    +'<div class="fx-desc">'+esc(m.note||'')+' ≈ <b>$'+m.val+'</b> value.</div></div>'
+    +'<div class="fx-desc">'+esc(m.note||'')+'</div></div>'
     +'<div class="fx-foot"><div class="mk-pts"><span class="n">'+m.cost.toLocaleString()+'</span><span class="u">points</span></div>'
     +'<button class="redeem locked" data-cost="'+m.cost+'" data-name="'+esc(f.name+' — '+m.size+' Instant Funded')+'">Redeem</button></div></div>';
 }
