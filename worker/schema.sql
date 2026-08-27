@@ -1,0 +1,64 @@
+-- PropChamps Rewards — D1 schema (idempotent). Run once against the D1 database.
+-- Balances are denormalized on `users` but every change is also written to
+-- points_ledger (append-only) so the truth is auditable and reversible.
+
+CREATE TABLE IF NOT EXISTS users (
+  id               TEXT PRIMARY KEY,
+  discord_id       TEXT UNIQUE NOT NULL,
+  username         TEXT NOT NULL,
+  avatar           TEXT,
+  lifetime_points  INTEGER NOT NULL DEFAULT 0,   -- drives leaderboard + tier; never decreases
+  spendable_points INTEGER NOT NULL DEFAULT 0,   -- what redemptions draw from
+  banned           INTEGER NOT NULL DEFAULT 0,
+  created_at       TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_users_pts ON users(lifetime_points DESC);
+
+CREATE TABLE IF NOT EXISTS submissions (
+  id             TEXT PRIMARY KEY,
+  user_id        TEXT NOT NULL,
+  firm_slug      TEXT NOT NULL,
+  claimed_amount TEXT,
+  image_key      TEXT NOT NULL,     -- R2 object key
+  image_hash     TEXT,              -- SHA-256 of the bytes, for dedup
+  status         TEXT NOT NULL DEFAULT 'pending',  -- pending | approved | rejected
+  ai_score       REAL,              -- Phase 2: AI triage confidence
+  ai_notes       TEXT,
+  points_awarded INTEGER NOT NULL DEFAULT 0,
+  reviewed_by    TEXT,
+  reviewed_at    TEXT,
+  created_at     TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_sub_user   ON submissions(user_id);
+CREATE INDEX IF NOT EXISTS idx_sub_status ON submissions(status);
+CREATE INDEX IF NOT EXISTS idx_sub_hash   ON submissions(image_hash);
+
+CREATE TABLE IF NOT EXISTS points_ledger (
+  id            TEXT PRIMARY KEY,
+  user_id       TEXT NOT NULL,
+  delta         INTEGER NOT NULL,
+  reason        TEXT NOT NULL,
+  submission_id TEXT,
+  created_at    TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_ledger_user ON points_ledger(user_id);
+
+CREATE TABLE IF NOT EXISTS redemptions (
+  id           TEXT PRIMARY KEY,
+  user_id      TEXT NOT NULL,
+  reward_name  TEXT NOT NULL,
+  cost_points  INTEGER NOT NULL,
+  status       TEXT NOT NULL DEFAULT 'requested',  -- requested | fulfilled | denied
+  created_at   TEXT NOT NULL,
+  fulfilled_at TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_redeem_user ON redemptions(user_id);
+
+CREATE TABLE IF NOT EXISTS admin_actions (
+  id         TEXT PRIMARY KEY,
+  admin      TEXT NOT NULL,
+  action     TEXT NOT NULL,
+  target     TEXT,
+  note       TEXT,
+  created_at TEXT NOT NULL
+);

@@ -16,21 +16,17 @@
 <style>
 /* ===== REWARDS-SPECIFIC COMPONENTS (foundation inherited from blog.css) ===== */
 .rw-hero{padding:44px 0 8px;position:relative}
-.demo-flag{position:fixed;right:16px;bottom:16px;z-index:80;display:flex;align-items:center;gap:8px;background:var(--bg-card);border:1px solid var(--border-lime);border-radius:100px;padding:7px 8px 7px 14px;box-shadow:0 10px 30px -10px rgba(0,0,0,.7)}
-.demo-flag .dl{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lime-text)}
-.demo-flag button{font-size:12px;font-weight:600;color:var(--text-soft);padding:5px 11px;border-radius:100px;border:1px solid var(--border-strong);background:var(--bg-elev);transition:all .15s}
-.demo-flag button.on{color:var(--bg-base);background:var(--lime);border-color:var(--lime)}
-
-/* Dashboard card (logged-in) */
 .dash{display:grid;grid-template-columns:1.15fr 1fr;gap:18px;align-items:stretch}
 .dash-card{background:linear-gradient(180deg,var(--bg-card) 0%,var(--bg-elev) 100%);border:1px solid var(--border);border-radius:20px;padding:28px 30px;position:relative;overflow:hidden}
 .dash-card.hi{border-color:var(--border-lime);background:linear-gradient(150deg,rgba(200,255,0,.08) 0%,rgba(200,255,0,.015) 45%,var(--bg-elev) 100%)}
 .dash-card.hi::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border-lime-strong),transparent)}
 .who{display:flex;align-items:center;gap:14px;margin-bottom:22px}
-.avatar{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;font-size:20px;color:var(--bg-base);flex-shrink:0;box-shadow:0 6px 18px -6px rgba(0,0,0,.6)}
+.avatar{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;font-size:20px;color:var(--bg-base);flex-shrink:0;box-shadow:0 6px 18px -6px rgba(0,0,0,.6);background:linear-gradient(135deg,#ffd75e,#e0a878)}
 .who .nm{font-family:var(--font-display);font-weight:800;font-size:19px;color:var(--text-strong);letter-spacing:-.02em;line-height:1.1}
 .who .sub{font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint);margin-top:3px;display:flex;align-items:center;gap:7px}
 .dchip{display:inline-flex;align-items:center;gap:5px;color:#a9b2ff}
+.logout{margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--text-faint);border:1px solid var(--border-strong);border-radius:100px;padding:5px 12px;transition:all .15s}
+.logout:hover{color:var(--text);border-color:var(--border-lime)}
 .tier-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:100px;font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border:1px solid}
 .tier-gold{color:#ffd75e;border-color:rgba(255,215,94,.4);background:rgba(255,215,94,.08)}
 .tier-silver{color:#cfd8e3;border-color:rgba(207,216,227,.35);background:rgba(207,216,227,.06)}
@@ -46,12 +42,9 @@
 .mini-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:auto}
 .mini{background:var(--bg-band);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
 .mini .v{font-family:var(--font-display);font-weight:800;font-size:26px;color:var(--text-strong);letter-spacing:-.02em;line-height:1}
-.mini .v .u{font-size:14px;color:var(--text-faint);font-weight:600}
 .mini .k{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);margin-top:7px}
 .submit-cta{display:inline-flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:16px;background:var(--lime);color:var(--bg-base);font-size:15.5px;font-weight:800;border-radius:12px;margin-top:20px;box-shadow:0 0 0 1px rgba(200,255,0,.2),0 12px 30px -10px rgba(200,255,0,.5);transition:all .15s}
 .submit-cta:hover{background:var(--lime-2);transform:translateY(-1px)}
-
-/* Logged-out hero */
 .lo-hero{text-align:center;max-width:680px;margin:0 auto;padding:30px 0 8px}
 .lo-hero h1{font-family:var(--font-display);font-weight:900;font-size:clamp(34px,5.5vw,58px);line-height:1.02;letter-spacing:-.04em;color:var(--text-strong);margin-bottom:18px}
 .lo-hero h1 .accent{background:linear-gradient(135deg,var(--lime),#a3d600);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 24px rgba(200,255,0,.25))}
@@ -61,15 +54,11 @@
 .lo-props{display:flex;gap:26px;justify-content:center;flex-wrap:wrap;margin-top:34px;font-family:var(--font-mono);font-size:12.5px;color:var(--text-faint)}
 .lo-props span{display:inline-flex;align-items:center;gap:7px}
 .lo-props span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--lime)}
-
-/* How it works */
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 .step{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:24px;position:relative}
 .step .n{font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--bg-base);background:var(--lime);width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
 .step h3{font-family:var(--font-display);font-weight:700;font-size:16.5px;color:var(--text-strong);margin-bottom:8px;letter-spacing:-.015em}
 .step p{font-size:13.5px;color:var(--text-soft);line-height:1.55}
-
-/* Tier ladder */
 .ladder{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .rung{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:22px;text-align:center;position:relative}
 .rung.cur{border-color:var(--border-lime);background:linear-gradient(180deg,var(--lime-soft),transparent)}
@@ -77,9 +66,8 @@
 .rung .tn{font-family:var(--font-display);font-weight:800;font-size:16px;color:var(--text-strong);letter-spacing:-.01em}
 .rung .th{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);margin:5px 0 12px}
 .rung .pk{font-size:12.5px;color:var(--text-soft);line-height:1.5}
-.rung .youre{position:absolute;top:-9px;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--bg-base);background:var(--lime);padding:3px 10px;border-radius:100px;white-space:nowrap}
-
-/* Rewards catalog */
+.rung .youre{display:none;position:absolute;top:-9px;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--bg-base);background:var(--lime);padding:3px 10px;border-radius:100px;white-space:nowrap}
+.rung.cur .youre{display:block}
 .rwd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .rwd{background:linear-gradient(180deg,var(--bg-card),var(--bg-elev));border:1px solid var(--border);border-radius:16px;padding:24px;display:flex;flex-direction:column;transition:all .2s}
 .rwd:hover{border-color:var(--border-lime);transform:translateY(-2px)}
@@ -92,8 +80,6 @@
 .redeem.able{background:var(--lime);color:var(--bg-base);border-color:var(--lime)}
 .redeem.able:hover{background:var(--lime-2)}
 .redeem.locked{color:var(--text-faint);cursor:not-allowed}
-
-/* Leaderboard */
 .lb{border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--bg-card)}
 .lb-row{display:grid;grid-template-columns:64px 1fr auto auto;align-items:center;gap:16px;padding:15px 22px;border-bottom:1px solid var(--border);transition:background .15s}
 .lb-row:last-child{border-bottom:0}
@@ -109,11 +95,7 @@
 .lb-pts{font-family:var(--font-display);font-weight:800;font-size:16px;color:var(--text-strong);text-align:right}
 .lb-pts .u{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);font-weight:500;margin-left:3px}
 .lb-tier{justify-self:end}
-.lb-toggle{display:flex;gap:6px;justify-content:center;margin-bottom:20px}
-.lb-toggle button{font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--text-soft);padding:8px 18px;border-radius:100px;border:1px solid var(--border-strong);background:var(--bg-elev);transition:all .15s}
-.lb-toggle button.on{color:var(--lime);border-color:var(--lime);background:rgba(200,255,0,.08)}
-
-/* Submissions */
+.lb-empty{padding:40px;text-align:center;color:var(--text-faint);font-size:14px}
 .subs{display:flex;flex-direction:column;gap:10px;max-width:768px;margin:0 auto}
 .sub-row{display:flex;align-items:center;gap:16px;padding:16px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:14px}
 .sub-ic{width:42px;height:42px;border-radius:10px;background:var(--bg-elev);border:1px solid var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
@@ -123,9 +105,8 @@
 .status{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 11px;border-radius:100px;border:1px solid;white-space:nowrap}
 .status.approved{color:var(--positive);border-color:rgba(74,222,128,.35);background:rgba(74,222,128,.07)}
 .status.pending{color:var(--warning);border-color:rgba(251,191,36,.35);background:rgba(251,191,36,.07)}
+.status.rejected{color:var(--neg);border-color:rgba(248,113,113,.35);background:rgba(248,113,113,.07)}
 .sub-pts{font-family:var(--font-display);font-weight:800;font-size:15px;color:var(--lime);white-space:nowrap}
-
-/* Modal */
 .overlay{position:fixed;inset:0;background:rgba(5,7,10,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
 .overlay.open{display:flex}
 .modal{width:100%;max-width:480px;background:var(--bg-surface);border:1px solid var(--border-strong);border-radius:20px;padding:30px;position:relative;box-shadow:0 30px 80px -20px rgba(0,0,0,.8);max-height:92vh;overflow-y:auto}
@@ -149,8 +130,6 @@
 .msubmit{width:100%;padding:15px;background:var(--lime);color:var(--bg-base);font-size:15px;font-weight:800;border-radius:12px;transition:all .15s}
 .msubmit:hover{background:var(--lime-2)}
 .msubmit:disabled{opacity:.5;cursor:not-allowed}
-
-/* AI verify animation */
 .verify{text-align:center;padding:14px 0}
 .verify .spin{width:52px;height:52px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--lime);margin:0 auto 22px;animation:sp .8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
@@ -161,20 +140,17 @@
 .vitem .vc{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;transition:all .3s}
 .vitem.done .vc{background:var(--positive);border-color:var(--positive);color:var(--bg-base)}
 .vdone-ic{font-size:44px;margin-bottom:14px}
-
-/* Toast */
-.toast{position:fixed;bottom:74px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-elev);border:1px solid var(--border-lime);border-radius:12px;padding:14px 22px;font-size:14px;font-weight:600;color:var(--text-strong);box-shadow:0 16px 40px -12px rgba(0,0,0,.7);z-index:90;opacity:0;pointer-events:none;transition:all .4s var(--reveal-ease);display:flex;align-items:center;gap:10px}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-elev);border:1px solid var(--border-lime);border-radius:12px;padding:14px 22px;font-size:14px;font-weight:600;color:var(--text-strong);box-shadow:0 16px 40px -12px rgba(0,0,0,.7);z-index:90;opacity:0;pointer-events:none;transition:all .4s var(--reveal-ease);display:flex;align-items:center;gap:10px}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast .ti{color:var(--lime)}
-
 .hidden{display:none!important}
 @media(max-width:900px){.dash{grid-template-columns:1fr}.steps,.ladder,.rwd-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:640px){.steps,.ladder,.rwd-grid{grid-template-columns:1fr}.lb-row{grid-template-columns:44px 1fr auto;gap:12px;padding:13px 16px}.lb-tier{display:none}.lb-toggle button{flex:1}}
+@media(max-width:640px){.steps,.ladder,.rwd-grid{grid-template-columns:1fr}.lb-row{grid-template-columns:44px 1fr auto;gap:12px;padding:13px 16px}.lb-tier{display:none}}
 </style>
 </head>
 <body>
 
-<div class="editorial-strip"><div class="container"><div class="lhs"><span class="dot"></span><span>PropChamps Rewards · Powered by code CHAMP</span></div><div class="rhs">Beta preview</div></div></div>
+<div class="editorial-strip"><div class="container"><div class="lhs"><span class="dot"></span><span>PropChamps Rewards · Powered by code CHAMP</span></div><div class="rhs">Beta</div></div></div>
 
 <header class="site">
   <div class="container">
@@ -198,11 +174,11 @@
   <div class="container">
 
     <!-- Logged-OUT view -->
-    <div id="viewOut" class="lo-hero hidden">
+    <div id="viewOut" class="lo-hero">
       <div class="article-eyebrow" style="justify-content:center">Rewards · Powered by CHAMP</div>
       <h1>Get <span class="accent">rewarded</span> for every account you fund with CHAMP</h1>
       <p>Submit proof of any purchase made with code CHAMP, earn points, climb the leaderboard, and unlock real rewards — including free accounts.</p>
-      <a class="discord-btn" href="#" onclick="setLogin(true);return false;">
+      <a class="discord-btn" href="/auth/discord">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.445.865-.608 1.249a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.036A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.009c.12.099.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.891.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.331c-1.183 0-2.157-1.086-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.211 0 2.176 1.096 2.157 2.42 0 1.332-.955 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.086-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.211 0 2.176 1.096 2.157 2.42 0 1.332-.946 2.418-2.157 2.418z"/></svg>
         Log in with Discord
       </a>
@@ -210,35 +186,35 @@
     </div>
 
     <!-- Logged-IN dashboard -->
-    <div id="viewIn">
+    <div id="viewIn" class="hidden">
       <div class="dash">
-        <div class="dash-card hi" data-reveal>
+        <div class="dash-card hi">
           <div class="who">
-            <div class="avatar" style="background:linear-gradient(135deg,#ffd75e,#e0a878)">TC</div>
+            <div class="avatar" id="uAvatar">–</div>
             <div>
-              <div class="nm">TradeChampFan</div>
-              <div class="sub"><span class="dchip"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.445.865-.608 1.249a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.036A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.009c.12.099.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.891.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028z"/></svg> Connected</span> · Member since Jun 2026</div>
+              <div class="nm" id="uName">–</div>
+              <div class="sub"><span class="dchip"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.445.865-.608 1.249a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.036A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.009c.12.099.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.891.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028z"/></svg> Connected</span></div>
             </div>
-            <div style="margin-left:auto"><span class="tier-badge tier-gold">★ Gold</span></div>
+            <a class="logout" href="/auth/logout">Log out</a>
           </div>
           <div class="pts-lab">Your points</div>
-          <div class="pts-big" id="ptsBig">3,450</div>
+          <div class="pts-big" id="ptsBig">0</div>
           <div class="prog">
-            <div class="prog-top"><span>Progress to <b>Champ's Circle</b></span><span id="progTxt">3,450 / 10,000</span></div>
+            <div class="prog-top"><span id="progLabel">Progress to next tier</span><span id="progTxt">0 / 1,000</span></div>
             <div class="bar"><span id="progBar"></span></div>
           </div>
           <button class="submit-cta" onclick="openModal()">＋ Submit a purchase for points</button>
         </div>
 
-        <div class="dash-card" data-reveal>
-          <div class="pts-lab" style="margin-bottom:14px">This season</div>
+        <div class="dash-card">
+          <div class="pts-lab" style="margin-bottom:14px">Your standing</div>
           <div class="mini-stats" style="margin-top:0">
-            <div class="mini"><div class="v">#<span id="rankVal">7</span></div><div class="k">Leaderboard rank</div></div>
-            <div class="mini"><div class="v" id="acctVal">6</div><div class="k">Accounts funded</div></div>
-            <div class="mini"><div class="v">Gold</div><div class="k">Current tier</div></div>
+            <div class="mini"><div class="v">#<span id="rankVal">–</span></div><div class="k">Leaderboard rank</div></div>
+            <div class="mini"><div class="v" id="acctVal">0</div><div class="k">Accounts funded</div></div>
+            <div class="mini"><div class="v" id="tierVal">Bronze</div><div class="k">Current tier</div></div>
             <div class="mini"><div class="v">$500</div><div class="k">Raffle this month</div></div>
           </div>
-          <div class="callout tip" style="margin-top:16px"><span class="callout-label">Next reward</span>6,550 points from a <strong>free 50K evaluation</strong> — about 3 more funded accounts.</div>
+          <div class="callout tip" style="margin-top:16px" id="nextReward"><span class="callout-label">Keep going</span>Every approved purchase is <strong>+250 points</strong>. Submit your latest to climb.</div>
         </div>
       </div>
     </div>
@@ -255,7 +231,7 @@
     <div class="steps">
       <div class="step" data-reveal><div class="n">1</div><h3>Buy with CHAMP</h3><p>Fund any account at a firm we cover using code CHAMP at checkout.</p></div>
       <div class="step" data-reveal><div class="n">2</div><h3>Submit your proof</h3><p>Upload the receipt or order screenshot. Takes 20 seconds.</p></div>
-      <div class="step" data-reveal><div class="n">3</div><h3>We verify it</h3><p>Our AI checks the receipt instantly, and the team confirms — usually within a day.</p></div>
+      <div class="step" data-reveal><div class="n">3</div><h3>We verify it</h3><p>Our AI checks the receipt, and the team confirms — usually within a day.</p></div>
       <div class="step" data-reveal><div class="n">4</div><h3>Earn &amp; redeem</h3><p>Points hit your balance. Climb the board and cash them in for rewards.</p></div>
     </div>
   </div>
@@ -268,10 +244,10 @@
     <h2 class="section-h2">Tiers &amp; perks</h2>
     <p class="section-sub">Every point you earn is permanent — spend on rewards without losing your rank or tier.</p>
     <div class="ladder">
-      <div class="rung" data-reveal><div class="ic">🥉</div><div class="tn">Bronze</div><div class="th">0+ pts</div><div class="pk">Discord role · leaderboard access · raffle entries</div></div>
-      <div class="rung" data-reveal><div class="ic">🥈</div><div class="tn">Silver</div><div class="th">1,000+ pts</div><div class="pk">Everything in Bronze · 2× raffle entries · early deal alerts</div></div>
-      <div class="rung cur" data-reveal><span class="youre">You're here</span><div class="ic">🥇</div><div class="tn">Gold</div><div class="th">3,000+ pts</div><div class="pk">Priority verification · exclusive giveaways · Gold Discord flair</div></div>
-      <div class="rung" data-reveal><div class="ic">👑</div><div class="tn">Champ's Circle</div><div class="th">10,000+ pts</div><div class="pk">Free account drops · direct line to Champ · top-supporter perks</div></div>
+      <div class="rung" data-tier="Bronze"><span class="youre">You're here</span><div class="ic">🥉</div><div class="tn">Bronze</div><div class="th">0+ pts</div><div class="pk">Discord role · leaderboard access · raffle entries</div></div>
+      <div class="rung" data-tier="Silver"><span class="youre">You're here</span><div class="ic">🥈</div><div class="tn">Silver</div><div class="th">1,000+ pts</div><div class="pk">Everything in Bronze · 2× raffle entries · early deal alerts</div></div>
+      <div class="rung" data-tier="Gold"><span class="youre">You're here</span><div class="ic">🥇</div><div class="tn">Gold</div><div class="th">3,000+ pts</div><div class="pk">Priority verification · exclusive giveaways · Gold Discord flair</div></div>
+      <div class="rung" data-tier="Champ's Circle"><span class="youre">You're here</span><div class="ic">👑</div><div class="tn">Champ's Circle</div><div class="th">10,000+ pts</div><div class="pk">Free account drops · direct line to Champ · top-supporter perks</div></div>
     </div>
   </div>
 </section>
@@ -281,14 +257,14 @@
   <div class="container">
     <div class="section-eyebrow">Redeem</div>
     <h2 class="section-h2">Rewards catalog</h2>
-    <p class="section-sub">Turn your points into real value. You have <strong style="color:var(--lime-text)" id="catBal">3,450</strong> points to spend.</p>
-    <div class="rwd-grid">
-      <div class="rwd" data-reveal><div class="ic">🎟️</div><h3>Monthly $500 raffle entry</h3><p>One entry into this month's cash raffle. Stack as many as you want.</p><div class="cost">250 <span class="x">points</span></div><button class="redeem able" onclick="redeem(250,this)">Redeem</button></div>
-      <div class="rwd" data-reveal><div class="ic">💬</div><h3>Discord VIP role</h3><p>Stand out in Champ's server with a permanent supporter flair.</p><div class="cost">500 <span class="x">points</span></div><button class="redeem able" onclick="redeem(500,this)">Redeem</button></div>
-      <div class="rwd" data-reveal><div class="ic">🏷️</div><h3>$25 off your next challenge</h3><p>A stackable discount code on top of CHAMP at any firm we cover.</p><div class="cost">1,000 <span class="x">points</span></div><button class="redeem able" onclick="redeem(1000,this)">Redeem</button></div>
-      <div class="rwd" data-reveal><div class="ic">👕</div><h3>PropChamps merch drop</h3><p>Limited hoodie + sticker pack, shipped to your door.</p><div class="cost">2,500 <span class="x">points</span></div><button class="redeem able" onclick="redeem(2500,this)">Redeem</button></div>
-      <div class="rwd" data-reveal><div class="ic">🎯</div><h3>Free 50K evaluation</h3><p>A fully-paid 50K eval at a partner firm. The big one.</p><div class="cost">10,000 <span class="x">points</span></div><button class="redeem locked" data-cost="10000">6,550 pts to go</button></div>
-      <div class="rwd" data-reveal><div class="ic">💸</div><h3>$250 cash payout</h3><p>Straight cash to your PayPal or Wise. No strings.</p><div class="cost">12,000 <span class="x">points</span></div><button class="redeem locked" data-cost="12000">8,550 pts to go</button></div>
+    <p class="section-sub" id="catSub">Turn your points into real value.</p>
+    <div class="rwd-grid" id="rwdGrid">
+      <div class="rwd"><div class="ic">🎟️</div><h3>Monthly $500 raffle entry</h3><p>One entry into this month's cash raffle. Stack as many as you want.</p><div class="cost">250 <span class="x">points</span></div><button class="redeem locked" data-cost="250" data-name="Monthly $500 raffle entry">Redeem</button></div>
+      <div class="rwd"><div class="ic">💬</div><h3>Discord VIP role</h3><p>Stand out in Champ's server with a permanent supporter flair.</p><div class="cost">500 <span class="x">points</span></div><button class="redeem locked" data-cost="500" data-name="Discord VIP role">Redeem</button></div>
+      <div class="rwd"><div class="ic">🏷️</div><h3>$25 off your next challenge</h3><p>A stackable discount code on top of CHAMP at any firm we cover.</p><div class="cost">1,000 <span class="x">points</span></div><button class="redeem locked" data-cost="1000" data-name="$25 off next challenge">Redeem</button></div>
+      <div class="rwd"><div class="ic">👕</div><h3>PropChamps merch drop</h3><p>Limited hoodie + sticker pack, shipped to your door.</p><div class="cost">2,500 <span class="x">points</span></div><button class="redeem locked" data-cost="2500" data-name="PropChamps merch drop">Redeem</button></div>
+      <div class="rwd"><div class="ic">🎯</div><h3>Free 50K evaluation</h3><p>A fully-paid 50K eval at a partner firm. The big one.</p><div class="cost">10,000 <span class="x">points</span></div><button class="redeem locked" data-cost="10000" data-name="Free 50K evaluation">Redeem</button></div>
+      <div class="rwd"><div class="ic">💸</div><h3>$250 cash payout</h3><p>Straight cash to your PayPal or Wise. No strings.</p><div class="cost">12,000 <span class="x">points</span></div><button class="redeem locked" data-cost="12000" data-name="$250 cash payout">Redeem</button></div>
     </div>
   </div>
 </section>
@@ -299,24 +275,16 @@
     <div class="section-eyebrow">Top supporters</div>
     <h2 class="section-h2">The leaderboard</h2>
     <p class="section-sub">The traders backing CHAMP the hardest. Top of the board every month wins.</p>
-    <div class="lb-toggle">
-      <button class="on" onclick="lbTab(this,'all')">All time</button>
-      <button onclick="lbTab(this,'month')">This month</button>
-    </div>
-    <div class="lb" id="lbBox"></div>
+    <div class="lb" id="lbBox"><div class="lb-empty">Loading leaderboard…</div></div>
   </div>
 </section>
 
 <!-- ============ YOUR SUBMISSIONS ============ -->
-<section class="block" style="border-top:0">
+<section class="block" style="border-top:0" id="activitySec">
   <div class="container">
     <div class="section-eyebrow">Your activity</div>
     <h2 class="section-h2">Recent submissions</h2>
-    <div class="subs" id="subsBox">
-      <div class="sub-row"><div class="sub-ic">🎯</div><div class="sub-main"><div class="t">Apex Trader Funding · 100K</div><div class="d">Submitted Aug 14 · order #APX-88213</div></div><span class="status approved">Approved</span><span class="sub-pts">+250</span></div>
-      <div class="sub-row"><div class="sub-ic">⚡</div><div class="sub-main"><div class="t">Tradeify · Growth 50K</div><div class="d">Submitted Aug 9 · order #TDF-40917</div></div><span class="status approved">Approved</span><span class="sub-pts">+250</span></div>
-      <div class="sub-row"><div class="sub-ic">🚀</div><div class="sub-main"><div class="t">FundedNext · Flex 100K</div><div class="d">Submitted Aug 2 · order #FN-19042</div></div><span class="status approved">Approved</span><span class="sub-pts">+250</span></div>
-    </div>
+    <div class="subs" id="subsBox"></div>
   </div>
 </section>
 
@@ -388,7 +356,7 @@
       <div class="spin"></div>
       <h2>Verifying your receipt…</h2>
       <div class="vlist">
-        <div class="vitem" id="v1"><div class="vc">1</div><span>Reading your receipt</span></div>
+        <div class="vitem" id="v1"><div class="vc">1</div><span>Uploading your receipt</span></div>
         <div class="vitem" id="v2"><div class="vc">2</div><span>Checking for code CHAMP</span></div>
         <div class="vitem" id="v3"><div class="vc">3</div><span>Matching firm &amp; amount</span></div>
         <div class="vitem" id="v4"><div class="vc">4</div><span>Screening for duplicates</span></div>
@@ -397,168 +365,187 @@
 
     <div id="doneStage" class="verify hidden">
       <div class="vdone-ic">✅</div>
-      <h2>Looks legit!</h2>
-      <p class="msub" style="text-align:center">Our AI cleared it — the team will give it a final ✓ shortly. Your <strong style="color:var(--lime-text)">+250 points</strong> are pending.</p>
-      <button class="msubmit" onclick="finishSubmit()">Nice — see my points</button>
+      <h2>Submitted!</h2>
+      <p class="msub" style="text-align:center">Your receipt is in — the team will review it shortly and your <strong style="color:var(--lime-text)">+250 points</strong> will land once approved.</p>
+      <button class="msubmit" onclick="finishSubmit()">Got it</button>
     </div>
   </div>
 </div>
 
 <div class="toast" id="toast"><span class="ti">✓</span><span id="toastMsg"></span></div>
 
-<div class="demo-flag">
-  <span class="dl">Demo</span>
-  <button id="btnIn" class="on" onclick="setLogin(true)">Logged in</button>
-  <button id="btnOut" onclick="setLogin(false)">Logged out</button>
-</div>
-
 <script>
-var PTS=3450, RANK=7, ACCTS=6, TARGET=10000;
+var ME=null, SELECTED_FILE=null;
+var TIERS=[{n:"Champ's Circle",min:10000},{n:'Gold',min:3000},{n:'Silver',min:1000},{n:'Bronze',min:0}];
+function tierClass(t){return t==="Champ's Circle"?'tier-champ':t==='Gold'?'tier-gold':t==='Silver'?'tier-silver':'tier-bronze';}
+function nextTier(pts){for(var i=TIERS.length-1;i>=0;i--){if(pts<TIERS[i].min)return TIERS[i];}return null;}
+function initials(n){return String(n||'?').replace(/[^A-Za-z0-9]/g,'').slice(0,2).toUpperCase()||'?';}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function fmtDate(s){try{return new Date(s).toLocaleDateString(undefined,{month:'short',day:'numeric'});}catch(e){return s;}}
 
-/* ---- leaderboard data ---- */
-var LB_ALL=[
-  {n:'FuturesKing',p:14200,t:'champ',c:'#c8ff00'},
-  {n:'ScalpQueen',p:11850,t:'champ',c:'#7ee787'},
-  {n:'PropGrinder',p:9600,t:'gold',c:'#ffd75e'},
-  {n:'RiskOn_Ray',p:7300,t:'gold',c:'#79c0ff'},
-  {n:'MicroMachine',p:5100,t:'gold',c:'#ff9e64'},
-  {n:'DrawdownDodger',p:3900,t:'gold',c:'#d2a8ff'},
-  {n:'TradeChampFan',p:3450,t:'gold',c:'#ffd75e',me:true},
-  {n:'GreenDayGabe',p:2800,t:'silver',c:'#56d364'},
-  {n:'TickHunter',p:2100,t:'silver',c:'#f778ba'},
-  {n:'FundedFred',p:1450,t:'silver',c:'#a5d6ff'},
-];
-var LB_MONTH=[
-  {n:'ScalpQueen',p:2400,t:'champ',c:'#7ee787'},
-  {n:'TradeChampFan',p:1000,t:'gold',c:'#ffd75e',me:true},
-  {n:'FuturesKing',p:900,t:'champ',c:'#c8ff00'},
-  {n:'GreenDayGabe',p:750,t:'silver',c:'#56d364'},
-  {n:'RiskOn_Ray',p:500,t:'gold',c:'#79c0ff'},
-  {n:'TickHunter',p:250,t:'silver',c:'#f778ba'},
-];
-function initials(n){return n.replace(/[^A-Za-z]/g,'').slice(0,2).toUpperCase();}
-function tierBadge(t){var m={champ:['tier-champ','👑 Circle'],gold:['tier-gold','★ Gold'],silver:['tier-silver','◆ Silver'],bronze:['tier-bronze','● Bronze']};var x=m[t]||m.bronze;return '<span class="tier-badge '+x[0]+'">'+x[1]+'</span>';}
-function renderLB(data){
-  var h='';
-  data.forEach(function(r,i){
-    var rank=i+1, medal=rank<=3?['🥇','🥈','🥉'][rank-1]:null;
-    h+='<div class="lb-row'+(r.me?' me':'')+(rank<=3?' top':'')+'">'
-      +'<div class="lb-rank">'+(medal?'<span class="medal">'+medal+'</span>':rank)+'</div>'
-      +'<div class="lb-user"><div class="lb-av" style="background:linear-gradient(135deg,'+r.c+',rgba(0,0,0,.35))">'+initials(r.n)+'</div>'
-      +'<div class="lb-nm">'+r.n+(r.me?'<span class="me-tag">YOU</span>':'')+'</div></div>'
-      +'<div class="lb-pts">'+r.p.toLocaleString()+'<span class="u">pts</span></div>'
-      +'<div class="lb-tier">'+tierBadge(r.t)+'</div></div>';
+/* ---- init ---- */
+async function init(){
+  try{ ME=await fetch('/api/me').then(function(r){return r.json();}); }catch(e){ ME={loggedIn:false}; }
+  renderMe();
+  loadLeaderboard();
+}
+function renderMe(){
+  var inV=document.getElementById('viewIn'), outV=document.getElementById('viewOut'), act=document.getElementById('activitySec');
+  if(!ME||!ME.loggedIn){
+    inV.classList.add('hidden'); outV.classList.remove('hidden'); act.classList.add('hidden');
+    renderCatalog(0,false);
+    return;
+  }
+  var u=ME.user;
+  outV.classList.add('hidden'); inV.classList.remove('hidden'); act.classList.remove('hidden');
+  document.getElementById('uAvatar').textContent=initials(u.username);
+  document.getElementById('uName').textContent=u.username;
+  document.getElementById('ptsBig').textContent=u.lifetimePoints.toLocaleString();
+  document.getElementById('rankVal').textContent=u.rank;
+  document.getElementById('acctVal').textContent=u.accounts;
+  document.getElementById('tierVal').textContent=u.tier;
+  // progress to next tier
+  var nt=nextTier(u.lifetimePoints);
+  if(nt){
+    var prev=0;TIERS.forEach(function(t){if(u.lifetimePoints>=t.min&&t.min>prev)prev=t.min;});
+    var span=nt.min-prev, into=u.lifetimePoints-prev;
+    var pct=Math.max(3,Math.min(100,Math.round(into/span*100)));
+    document.getElementById('progLabel').innerHTML='Progress to <b>'+esc(nt.n)+'</b>';
+    document.getElementById('progTxt').textContent=u.lifetimePoints.toLocaleString()+' / '+nt.min.toLocaleString();
+    setTimeout(function(){document.getElementById('progBar').style.width=pct+'%';},250);
+    document.getElementById('nextReward').innerHTML='<span class="callout-label">Next tier</span>'+(nt.min-u.lifetimePoints).toLocaleString()+' points to <strong>'+esc(nt.n)+'</strong> — about '+Math.ceil((nt.min-u.lifetimePoints)/250)+' more approved purchases.';
+  } else {
+    document.getElementById('progLabel').innerHTML='<b>Champ’s Circle</b> — top tier reached';
+    document.getElementById('progTxt').textContent=u.lifetimePoints.toLocaleString()+' pts';
+    setTimeout(function(){document.getElementById('progBar').style.width='100%';},250);
+  }
+  // tier ladder highlight
+  document.querySelectorAll('.rung').forEach(function(r){r.classList.toggle('cur',r.getAttribute('data-tier')===u.tier);});
+  renderCatalog(u.spendablePoints,true);
+  renderSubs(ME.submissions||[]);
+}
+function renderCatalog(spendable,loggedIn){
+  document.getElementById('catSub').innerHTML=loggedIn?('Turn your points into real value. You have <strong style="color:var(--lime-text)">'+spendable.toLocaleString()+'</strong> points to spend.'):'Turn your points into real value. <a href="/auth/discord" style="color:var(--lime-text)">Log in</a> to start earning.';
+  document.querySelectorAll('#rwdGrid .redeem').forEach(function(b){
+    var cost=parseInt(b.getAttribute('data-cost'),10);
+    if(loggedIn&&spendable>=cost){b.className='redeem able';b.textContent='Redeem';b.disabled=false;}
+    else{b.className='redeem locked';b.disabled=false;b.textContent=loggedIn?((cost-spendable).toLocaleString()+' pts to go'):'Redeem';}
   });
-  document.getElementById('lbBox').innerHTML=h;
 }
-function lbTab(btn,which){document.querySelectorAll('.lb-toggle button').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');renderLB(which==='all'?LB_ALL:LB_MONTH);}
-renderLB(LB_ALL);
-
-/* ---- progress bar ---- */
-function paintProg(){
-  var pct=Math.min(100,Math.round(PTS/TARGET*100));
-  setTimeout(function(){document.getElementById('progBar').style.width=pct+'%';},250);
-  document.getElementById('progTxt').textContent=PTS.toLocaleString()+' / '+TARGET.toLocaleString();
-}
-paintProg();
-
-/* ---- login toggle ---- */
-function setLogin(inState){
-  document.getElementById('viewIn').classList.toggle('hidden',!inState);
-  document.getElementById('viewOut').classList.toggle('hidden',inState);
-  document.getElementById('btnIn').classList.toggle('on',inState);
-  document.getElementById('btnOut').classList.toggle('on',!inState);
-  if(inState)paintProg();
-  window.scrollTo({top:0,behavior:'smooth'});
+function renderSubs(subs){
+  var box=document.getElementById('subsBox');
+  if(!subs.length){box.innerHTML='<div class="lb-empty" style="border:1px solid var(--border);border-radius:14px">No submissions yet — hit “Submit a purchase” to get started.</div>';return;}
+  box.innerHTML=subs.map(function(s){
+    var ic=s.status==='approved'?'✅':s.status==='rejected'?'❌':'🕒';
+    var pts=s.status==='approved'?('+'+(s.points_awarded||250)):s.status==='rejected'?'—':'+250';
+    var dtxt=s.status==='pending'?'Awaiting review':s.status==='approved'?('Approved · +'+(s.points_awarded||250)+' points'):'Not approved';
+    return '<div class="sub-row"><div class="sub-ic">'+ic+'</div><div class="sub-main"><div class="t">'+esc(s.firm_slug)+(s.claimed_amount?' · '+esc(s.claimed_amount):'')+'</div><div class="d">'+esc(fmtDate(s.created_at))+' · '+dtxt+'</div></div><span class="status '+esc(s.status)+'">'+esc(s.status)+'</span><span class="sub-pts">'+pts+'</span></div>';
+  }).join('');
 }
 
-/* ---- modal ---- */
-function openModal(){resetForm();document.getElementById('overlay').classList.add('open');document.body.style.overflow='hidden';}
+/* ---- leaderboard ---- */
+async function loadLeaderboard(){
+  var data;
+  try{ data=await fetch('/api/leaderboard').then(function(r){return r.json();}); }catch(e){ data={leaderboard:[]}; }
+  var rows=data.leaderboard||[], box=document.getElementById('lbBox');
+  if(!rows.length){box.innerHTML='<div class="lb-empty">No supporters on the board yet — be the first.</div>';return;}
+  var colors=['#ffd75e','#7ee787','#79c0ff','#ff9e64','#d2a8ff','#f778ba','#56d364','#a5d6ff','#c8ff00','#ffab70'];
+  box.innerHTML=rows.map(function(r,i){
+    var medal=r.rank<=3?['🥇','🥈','🥉'][r.rank-1]:null;
+    var badge='<span class="tier-badge '+tierClass(r.tier)+'">'+esc(r.tier)+'</span>';
+    return '<div class="lb-row'+(r.me?' me':'')+(r.rank<=3?' top':'')+'">'
+      +'<div class="lb-rank">'+(medal?'<span class="medal">'+medal+'</span>':r.rank)+'</div>'
+      +'<div class="lb-user"><div class="lb-av" style="background:linear-gradient(135deg,'+colors[i%colors.length]+',rgba(0,0,0,.35))">'+initials(r.username)+'</div>'
+      +'<div class="lb-nm">'+esc(r.username)+(r.me?'<span class="me-tag">YOU</span>':'')+'</div></div>'
+      +'<div class="lb-pts">'+r.points.toLocaleString()+'<span class="u">pts</span></div>'
+      +'<div class="lb-tier">'+badge+'</div></div>';
+  }).join('');
+}
+
+/* ---- modal + submit ---- */
+function openModal(){
+  if(!ME||!ME.loggedIn){window.location.href='/auth/discord';return;}
+  resetForm();document.getElementById('overlay').classList.add('open');document.body.style.overflow='hidden';
+}
 function closeModal(){document.getElementById('overlay').classList.remove('open');document.body.style.overflow='';}
 document.getElementById('overlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
 function resetForm(){
   ['verifyStage','doneStage'].forEach(function(id){document.getElementById(id).classList.add('hidden');});
   document.getElementById('formStage').classList.remove('hidden');
-  document.getElementById('fChk').checked=false;document.getElementById('fAmt').value='';
+  document.getElementById('fChk').checked=false;document.getElementById('fAmt').value='';SELECTED_FILE=null;
   var d=document.getElementById('drop');d.classList.remove('filled');document.getElementById('dropIc').textContent='📄';document.getElementById('dropT').textContent='Click to upload or drag a screenshot';document.getElementById('dropH').textContent='PNG or JPG · make sure code CHAMP is visible';
+  document.getElementById('file').value='';
   ['v1','v2','v3','v4'].forEach(function(id){document.getElementById(id).classList.remove('done');});
 }
 function onFile(inp){
-  var name=inp.files&&inp.files[0]?inp.files[0].name:'screenshot.png';
+  if(!inp.files||!inp.files[0])return;
+  SELECTED_FILE=inp.files[0];
   var d=document.getElementById('drop');d.classList.add('filled');
-  document.getElementById('dropIc').textContent='🖼️';document.getElementById('dropT').textContent=name;document.getElementById('dropH').textContent='Ready to verify';
+  document.getElementById('dropIc').textContent='🖼️';document.getElementById('dropT').textContent=SELECTED_FILE.name;document.getElementById('dropH').textContent='Ready to submit';
 }
 var drop=document.getElementById('drop');
 ['dragover','dragenter'].forEach(function(e){drop.addEventListener(e,function(ev){ev.preventDefault();drop.classList.add('hot');});});
 ['dragleave','drop'].forEach(function(e){drop.addEventListener(e,function(ev){ev.preventDefault();drop.classList.remove('hot');});});
 drop.addEventListener('drop',function(ev){if(ev.dataTransfer.files.length)onFile({files:ev.dataTransfer.files});});
 
-function doSubmit(){
+async function doSubmit(){
   if(!document.getElementById('fChk').checked){toast('Confirm you used code CHAMP first');return;}
+  if(!SELECTED_FILE){toast('Add a screenshot of your receipt');return;}
   document.getElementById('formStage').classList.add('hidden');
   document.getElementById('verifyStage').classList.remove('hidden');
-  var steps=['v1','v2','v3','v4'];
-  steps.forEach(function(id,i){setTimeout(function(){document.getElementById(id).classList.add('done');},600+i*750);});
-  setTimeout(function(){
+  ['v1','v2','v3','v4'].forEach(function(id,i){setTimeout(function(){document.getElementById(id).classList.add('done');},400+i*450);});
+  var fd=new FormData();
+  fd.append('firm',document.getElementById('fFirm').value);
+  fd.append('amount',document.getElementById('fAmt').value||'');
+  fd.append('image',SELECTED_FILE);
+  var res;
+  try{ res=await fetch('/api/submit',{method:'POST',body:fd}).then(function(r){return r.json().then(function(j){return{status:r.status,j:j};});}); }
+  catch(e){ res={status:0,j:{error:'network'}}; }
+  // wait for the little animation to finish
+  await new Promise(function(r){setTimeout(r,2100);});
+  if(res.j&&res.j.ok){
     document.getElementById('verifyStage').classList.add('hidden');
     document.getElementById('doneStage').classList.remove('hidden');
-  },600+steps.length*750+500);
+  } else {
+    var msg=res.j&&res.j.error==='duplicate'?'This receipt was already submitted.':res.j&&res.j.error==='too_many_pending'?'You have too many pending submissions — hang tight.':res.j&&res.j.error==='file_too_large'?'That image is too large (max 8MB).':res.j&&res.j.error==='not_logged_in'?'Please log in again.':'Something went wrong — try again.';
+    document.getElementById('verifyStage').classList.add('hidden');
+    document.getElementById('formStage').classList.remove('hidden');
+    toast(msg);
+  }
 }
-
-function finishSubmit(){
-  var firm=document.getElementById('fFirm').value;
-  var amt=document.getElementById('fAmt').value||'account';
+async function finishSubmit(){
   closeModal();
-  // add pending submission row at top
-  var box=document.getElementById('subsBox');
-  var row=document.createElement('div');row.className='sub-row';row.style.opacity='0';
-  row.innerHTML='<div class="sub-ic">🕒</div><div class="sub-main"><div class="t">'+firm+' · '+amt+'</div><div class="d">Just now · awaiting team review</div></div><span class="status pending">Pending</span><span class="sub-pts">+250</span>';
-  box.insertBefore(row,box.firstChild);
-  setTimeout(function(){row.style.transition='opacity .5s';row.style.opacity='1';},50);
-  toast('Submission received — verifying!');
-  // simulate team approval after a few seconds
-  setTimeout(function(){
-    row.querySelector('.status').className='status approved';row.querySelector('.status').textContent='Approved';
-    row.querySelector('.sub-ic').textContent='✅';row.querySelector('.d').textContent='Approved just now · +250 points';
-    countUp(PTS,PTS+250);PTS+=250;ACCTS++;
-    document.getElementById('acctVal').textContent=ACCTS;
-    paintProg();bumpRank();
-    document.getElementById('catBal').textContent=PTS.toLocaleString();
-    toast('Approved! +250 points added 🎉');
-  },4200);
+  toast('Submitted — pending review!');
+  try{ ME=await fetch('/api/me').then(function(r){return r.json();}); renderMe(); }catch(e){}
 }
 
-function countUp(from,to){
-  var el=document.getElementById('ptsBig'),start=null,dur=900;
-  function step(ts){if(!start)start=ts;var k=Math.min(1,(ts-start)/dur);var v=Math.round(from+(to-from)*(k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2));el.textContent=v.toLocaleString();if(k<1)requestAnimationFrame(step);}
-  requestAnimationFrame(step);
-  setTimeout(function(){el.textContent=to.toLocaleString();},dur+80);
+/* ---- redeem ---- */
+async function redeemClick(btn){
+  if(btn.classList.contains('locked'))return;
+  var cost=parseInt(btn.getAttribute('data-cost'),10), name=btn.getAttribute('data-name');
+  btn.disabled=true;
+  var res;
+  try{ res=await fetch('/api/redeem',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({cost:cost,name:name})}).then(function(r){return r.json();}); }
+  catch(e){ res={error:'network'}; }
+  if(res.ok){
+    toast('Redeemed! The team will process it 🎁');
+    btn.className='redeem locked';btn.textContent='Requested ✓';
+    if(ME&&ME.user){ME.user.spendablePoints-=cost;renderCatalog(ME.user.spendablePoints,true);}
+  } else { btn.disabled=false; toast(res.error==='insufficient_points'?'Not enough points yet':'Could not redeem — try again'); }
 }
-function bumpRank(){
-  // update the "me" entry in all-time board and re-sort
-  LB_ALL.forEach(function(r){if(r.me)r.p=PTS;});
-  LB_ALL.sort(function(a,b){return b.p-a.p;});
-  var idx=LB_ALL.findIndex(function(r){return r.me;});
-  if(idx+1<RANK){RANK=idx+1;document.getElementById('rankVal').textContent=RANK;}
-  if(document.querySelector('.lb-toggle button.on').textContent.indexOf('All')>=0)renderLB(LB_ALL);
-}
+document.getElementById('rwdGrid').addEventListener('click',function(e){var b=e.target.closest('.redeem');if(b)redeemClick(b);});
 
-function redeem(cost,btn){
-  if(PTS<cost){toast('Not enough points yet');return;}
-  toast('Redeemed! The team will process it 🎁');
-  btn.textContent='Redeemed ✓';btn.className='redeem locked';
-}
-
+/* ---- toast + chrome ---- */
 var toastT;
-function toast(msg){var t=document.getElementById('toast');document.getElementById('toastMsg').textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove('show');},2600);}
-
-/* ---- chrome: mobile menu + reveal ---- */
+function toast(msg){var t=document.getElementById('toast');document.getElementById('toastMsg').textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove('show');},2800);}
 var mt=document.getElementById('menuToggle'),hdr=document.querySelector('header.site');
 function closeMenu(){hdr.classList.remove('is-open');document.body.classList.remove('is-menu-open');}
 if(mt)mt.addEventListener('click',function(){var o=hdr.classList.toggle('is-open');document.body.classList.toggle('is-menu-open',o);});
 document.querySelectorAll('.mobile-menu a').forEach(function(a){a.addEventListener('click',closeMenu);});
 var els=document.querySelectorAll('[data-reveal]');
 if('IntersectionObserver' in window){var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.08,rootMargin:'0px 0px -40px 0px'});els.forEach(function(el){io.observe(el);});setTimeout(function(){els.forEach(function(el){el.classList.add('in');});},2500);}else{els.forEach(function(el){el.classList.add('in');});}
+
+init();
 </script>
 </body>
 </html>

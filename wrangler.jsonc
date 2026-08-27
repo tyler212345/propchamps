@@ -2,9 +2,36 @@
   "$schema": "https://unpkg.com/wrangler/config-schema.json",
   "name": "propchamps",
   "compatibility_date": "2026-05-01",
+  "main": "worker/index.js",
   "assets": {
     "directory": "./",
+    "binding": "ASSETS",
     "not_found_handling": "404-page",
     "html_handling": "auto-trailing-slash"
-  }
+  },
+  "observability": { "enabled": true },
+  "vars": {
+    "DISCORD_CLIENT_ID": "1542538970154672201",
+    "DISCORD_REDIRECT_URI": "https://propchamps.net/auth/discord/callback",
+    "ADMIN_DISCORD_IDS": ""
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "propchamps-rewards",
+      "database_id": "f7bbde9f-ad4f-4aac-b0c9-fcd3e4044732"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "RECEIPTS",
+      "bucket_name": "propchamps-receipts"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "SESSIONS",
+      "id": "87c6210d66b1403c82b4b95f7beae70f"
+    }
+  ]
 }

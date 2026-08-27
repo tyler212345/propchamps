@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0d12">
+<title>Rewards Admin — PropChamps</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/blog/blog.css">
+<style>
+.admin-wrap{max-width:900px;margin:0 auto;padding:40px var(--gutter) 80px}
+.admin-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:8px;flex-wrap:wrap}
+.admin-head h1{font-family:var(--font-display);font-weight:800;font-size:30px;letter-spacing:-.03em;color:var(--text-strong)}
+.admin-head .cnt{font-family:var(--font-mono);font-size:13px;color:var(--lime-text)}
+.admin-sub{color:var(--text-soft);font-size:15px;margin-bottom:30px}
+.q-card{display:grid;grid-template-columns:200px 1fr;gap:20px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:14px}
+.q-img{width:200px;height:150px;border-radius:10px;object-fit:cover;background:var(--bg-band);border:1px solid var(--border-strong);cursor:zoom-in}
+.q-body{display:flex;flex-direction:column;min-width:0}
+.q-firm{font-family:var(--font-display);font-weight:800;font-size:18px;color:var(--text-strong);letter-spacing:-.02em}
+.q-amt{font-size:14px;color:var(--text-soft);margin-top:4px}
+.q-meta{font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint);margin-top:8px;line-height:1.6}
+.q-actions{margin-top:auto;display:flex;gap:10px;padding-top:14px}
+.q-actions button{padding:11px 22px;font-size:14px;font-weight:700;border-radius:10px;transition:all .15s}
+.b-app{background:var(--lime);color:var(--bg-base)}.b-app:hover{background:var(--lime-2)}
+.b-rej{background:var(--bg-elev);color:var(--neg);border:1px solid rgba(248,113,113,.35)}.b-rej:hover{border-color:var(--neg)}
+.q-actions button:disabled{opacity:.4;cursor:not-allowed}
+.state{text-align:center;padding:60px 20px;color:var(--text-soft)}
+.state .big{font-size:40px;margin-bottom:14px}
+.gate{max-width:440px;margin:80px auto;text-align:center}
+.gate h1{font-family:var(--font-display);font-weight:800;font-size:26px;color:var(--text-strong);margin-bottom:12px}
+.gate p{color:var(--text-soft);font-size:15px;line-height:1.6;margin-bottom:22px}
+.gate a{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;background:#5865F2;color:#fff;font-weight:700;border-radius:12px}
+.lightbox{position:fixed;inset:0;background:rgba(5,7,10,.9);display:none;align-items:center;justify-content:center;z-index:100;padding:30px;cursor:zoom-out}
+.lightbox.open{display:flex}.lightbox img{max-width:100%;max-height:100%;border-radius:12px}
+@media(max-width:640px){.q-card{grid-template-columns:1fr}.q-img{width:100%;height:180px}}
+</style>
+</head>
+<body>
+<div class="editorial-strip"><div class="container"><div class="lhs"><span class="dot"></span><span>PropChamps Rewards · Admin</span></div><div class="rhs" id="who"></div></div></div>
+
+<div class="admin-wrap" id="wrap">
+  <div class="state"><div class="big">⏳</div>Loading…</div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')"><img id="lbImg" src="" alt="receipt"></div>
+
+<script>
+var ME=null;
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function fmtDate(s){try{return new Date(s).toLocaleString();}catch(e){return s;}}
+
+async function init(){
+  var me=await fetch('/api/me').then(function(r){return r.json();}).catch(function(){return{loggedIn:false};});
+  ME=me;
+  var w=document.getElementById('wrap');
+  if(!me.loggedIn){
+    w.innerHTML='<div class="gate"><h1>Rewards Admin</h1><p>Log in with the Discord account that owns this rewards program.</p><a href="/auth/discord"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.445.865-.608 1.249a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.036A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.009c.12.099.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.891.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.331c-1.183 0-2.157-1.086-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.211 0 2.176 1.096 2.157 2.42 0 1.332-.955 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.086-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.211 0 2.176 1.096 2.157 2.42 0 1.332-.946 2.418-2.157 2.418z"/></svg> Log in with Discord</a></div>';
+    return;
+  }
+  document.getElementById('who').textContent=me.user.username;
+  if(!me.user.isAdmin){
+    w.innerHTML='<div class="gate"><h1>Not authorized</h1><p>Your Discord account ('+esc(me.user.username)+') isn’t on the admin list. Your Discord ID is <code style="color:var(--lime-text)">'+esc(me.user.discordId)+'</code> — add it to ADMIN_DISCORD_IDS to get access.</p></div>';
+    return;
+  }
+  loadQueue();
+}
+
+async function loadQueue(){
+  var w=document.getElementById('wrap');
+  var data=await fetch('/api/admin/queue').then(function(r){return r.json();}).catch(function(){return{queue:[]};});
+  var q=data.queue||[];
+  var head='<div class="admin-head"><h1>Review queue</h1><span class="cnt">'+q.length+' pending</span></div><p class="admin-sub">Open each receipt, confirm code CHAMP is visible, and approve or reject. Approving awards 250 points.</p>';
+  if(!q.length){ w.innerHTML=head+'<div class="state"><div class="big">✅</div>All caught up — nothing pending.</div>'; return; }
+  w.innerHTML=head+q.map(function(s){
+    return '<div class="q-card" id="card-'+s.id+'">'
+      +'<img class="q-img" src="/api/admin/image/'+s.id+'" alt="receipt" onclick="zoom(this.src)" onerror="this.style.opacity=.3">'
+      +'<div class="q-body">'
+      +'<div class="q-firm">'+esc(s.firm_slug)+'</div>'
+      +'<div class="q-amt">'+esc(s.claimed_amount||'—')+'</div>'
+      +'<div class="q-meta">by <strong>'+esc(s.username)+'</strong> · Discord '+esc(s.discord_id)+'<br>submitted '+esc(fmtDate(s.created_at))+'</div>'
+      +'<div class="q-actions"><button class="b-app" onclick="review(\''+s.id+'\',\'approve\',this)">✓ Approve (+250)</button>'
+      +'<button class="b-rej" onclick="review(\''+s.id+'\',\'reject\',this)">✕ Reject</button></div>'
+      +'</div></div>';
+  }).join('');
+}
+
+async function review(id,action,btn){
+  var card=document.getElementById('card-'+id);
+  card.querySelectorAll('button').forEach(function(b){b.disabled=true;});
+  var res=await fetch('/api/admin/review',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({submissionId:id,action:action})}).then(function(r){return r.json();}).catch(function(){return{error:'network'};});
+  if(res.ok){
+    card.style.transition='opacity .4s';card.style.opacity='0';
+    setTimeout(function(){card.remove();
+      var cnt=document.querySelector('.admin-head .cnt');var n=Math.max(0,parseInt(cnt.textContent)-1);cnt.textContent=n+' pending';
+      if(!document.querySelector('.q-card'))loadQueue();
+    },400);
+  } else { alert('Error: '+(res.error||'failed')); card.querySelectorAll('button').forEach(function(b){b.disabled=false;}); }
+}
+function zoom(src){document.getElementById('lbImg').src=src;document.getElementById('lightbox').classList.add('open');}
+init();
+</script>
+</body>
+</html>
