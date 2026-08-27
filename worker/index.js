@@ -465,7 +465,7 @@ async function giveawayStatus(req, env) {
   const c = await env.DB.prepare('SELECT COUNT(*) AS c FROM giveaway_entries').first();
   return json({ open: st.open, title: st.title, count: c?.c || 0 });
 }
-async function giveawayEnter(req, env) {
+async function giveawayEnter(req, env, ctx) {
   const st = await getGiveawayState(env);
   if (!st.open) return json({ error: 'closed' }, 403);
   const body = await req.json().catch(() => ({}));
@@ -485,6 +485,8 @@ async function giveawayEnter(req, env) {
     env.DB.prepare('INSERT OR IGNORE INTO email_list (email,name,source,first_seen) VALUES (?,?,?,?)')
       .bind(email, name, 'giveaway', now),
   ]);
+  const origin = new URL(req.url).origin;
+  if (ctx && ctx.waitUntil) ctx.waitUntil(sendWelcome(env, email, name, origin));
   return json({ ok: true });
 }
 
@@ -574,9 +576,125 @@ async function hostRaffleAction(req, env) {
   return json({ ok: true });
 }
 
+// ---------- email (Resend) ----------
+const UNSUB_SALT = 'pc_unsub_2026';
+async function unsubToken(email) {
+  return (await sha256hex(new TextEncoder().encode(email + UNSUB_SALT))).slice(0, 20);
+}
+function emailShell(heading, bodyHtml, unsubUrl) {
+  return (
+    '<!doctype html><html><body style="margin:0;padding:0;background:#f4f5f7;">' +
+    '<div style="max-width:520px;margin:0 auto;padding:32px 18px;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;">' +
+    '<div style="background:#0a0d12;border-radius:16px 16px 0 0;padding:24px;text-align:center;">' +
+    '<img src="https://propchamps.net/logos/propchamps.png" alt="PropChamps" style="height:28px;">' +
+    '</div>' +
+    '<div style="background:#ffffff;border:1px solid #e5e7eb;border-top:0;border-radius:0 0 16px 16px;padding:30px 28px;">' +
+    '<h1 style="font-size:22px;font-weight:800;margin:0 0 16px;color:#0a0d12;letter-spacing:-.02em;">' + heading + '</h1>' +
+    '<div style="font-size:15px;line-height:1.6;color:#374151;">' + bodyHtml + '</div>' +
+    '</div>' +
+    '<p style="text-align:center;font-size:12px;color:#9ca3af;margin:20px 0 0;line-height:1.5;">' +
+    'PropChamps · Independent prop firm research<br>' +
+    'You got this because you entered a giveaway or signed up at propchamps.net.<br>' +
+    '<a href="' + unsubUrl + '" style="color:#9ca3af;">Unsubscribe</a>' +
+    '</p></div></body></html>'
+  );
+}
+function messageToHtml(text) {
+  var e = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  e = e.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" style="color:#5b8a00;">$1</a>');
+  return e.split(/\n\n+/).map(function (p) { return '<p>' + p.replace(/\n/g, '<br>') + '</p>'; }).join('');
+}
+async function sendEmail(env, to, subject, html) {
+  if (!env.RESEND_API_KEY || !env.EMAIL_FROM) return { ok: false, error: 'not_configured' };
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + env.RESEND_API_KEY, 'content-type': 'application/json' },
+    body: JSON.stringify({ from: env.EMAIL_FROM, to: [to], subject, html }),
+  });
+  if (!res.ok) return { ok: false, error: 'api_' + res.status };
+  return { ok: true };
+}
+async function sendWelcome(env, email, name, origin) {
+  try {
+    const unsub = origin + '/unsub?e=' + encodeURIComponent(email) + '&t=' + (await unsubToken(email));
+    const hi = name ? 'Hey ' + name + ',' : 'Hey,';
+    const btn = 'display:inline-block;background:#c8ff00;color:#0a0d12;font-weight:700;text-decoration:none;padding:12px 22px;border-radius:10px;margin:10px 0;';
+    const body =
+      '<p>' + hi + '</p>' +
+      "<p>You're entered in the giveaway — the winner gets picked <strong>live on stream</strong>, so keep it on. 🍀</p>" +
+      "<p>While you're here: PropChamps tracks every futures prop firm's rules, payouts, and promo codes so you never overpay or get caught by a rule you didn't know about. Code <strong>CHAMP</strong> gets you the best price at every firm we cover.</p>" +
+      '<p><a href="' + origin + '/deals" style="' + btn + '">See the current best deals →</a></p>' +
+      '<p style="font-size:13px;color:#6b7280;">Good luck 🍀<br>— The PropChamps team</p>';
+    await sendEmail(env, email, "You're in! 🎯 Plus the best prop firm deals right now", emailShell("You're entered!", body, unsub));
+  } catch (e) {
+    /* best-effort */
+  }
+}
+async function unsubscribe(req, env) {
+  const url = new URL(req.url);
+  const email = String(url.searchParams.get('e') || '').toLowerCase();
+  const token = String(url.searchParams.get('t') || '');
+  const valid = email && token === (await unsubToken(email));
+  if (valid) await env.DB.prepare('UPDATE email_list SET unsubscribed=1 WHERE email=?').bind(email).run();
+  const msg = valid
+    ? "You've been unsubscribed. You won't get any more emails from PropChamps."
+    : 'That unsubscribe link is invalid or expired.';
+  return new Response(
+    '<!doctype html><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><body style="font-family:system-ui,sans-serif;background:#0a0d12;color:#e8edf2;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;text-align:center;padding:20px"><div><img src="/logos/propchamps.png" style="height:34px;margin-bottom:20px"><p style="font-size:16px;max-width:400px;line-height:1.5">' + msg + '</p></div>',
+    { headers: { 'content-type': 'text/html; charset=utf-8' } }
+  );
+}
+async function hostBroadcast(req, env, ctx) {
+  const u = await currentUser(req, env);
+  if (!isHost(u, env)) return json({ error: 'forbidden' }, 403);
+  if (!env.RESEND_API_KEY || !env.EMAIL_FROM) return json({ error: 'not_configured' }, 400);
+  const body = await req.json().catch(() => ({}));
+  const subject = String(body.subject || '').slice(0, 150);
+  const message = String(body.message || '').slice(0, 8000);
+  if (!subject || !message) return json({ error: 'missing_fields' }, 400);
+  const origin = new URL(req.url).origin;
+  const rows = await env.DB.prepare('SELECT email FROM email_list WHERE unsubscribed=0 LIMIT 5000').all();
+  const emails = (rows.results || []).map((r) => r.email);
+  const send = async () => {
+    for (let i = 0; i < emails.length; i += 100) {
+      const chunk = emails.slice(i, i + 100);
+      const payload = await Promise.all(
+        chunk.map(async (e) => ({
+          from: env.EMAIL_FROM,
+          to: [e],
+          subject,
+          html: emailShell(subject, messageToHtml(message), origin + '/unsub?e=' + encodeURIComponent(e) + '&t=' + (await unsubToken(e))),
+        }))
+      );
+      await fetch('https://api.resend.com/emails/batch', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + env.RESEND_API_KEY, 'content-type': 'application/json' },
+        body: JSON.stringify(payload),
+      }).catch(() => {});
+    }
+  };
+  if (ctx && ctx.waitUntil) ctx.waitUntil(send());
+  else await send();
+  return json({ ok: true, queued: emails.length });
+}
+async function hostEmailsCsv(req, env) {
+  const u = await currentUser(req, env);
+  if (!isHost(u, env)) return new Response('forbidden', { status: 403 });
+  const rows = await env.DB.prepare('SELECT email, name, source, first_seen, unsubscribed FROM email_list ORDER BY first_seen DESC LIMIT 100000').all();
+  let csv = 'email,name,source,first_seen,unsubscribed\n';
+  (rows.results || []).forEach((r) => {
+    csv += [r.email, r.name || '', r.source || '', r.first_seen || '', r.unsubscribed ? '1' : '0']
+      .map((x) => '"' + String(x).replace(/"/g, '""') + '"')
+      .join(',') + '\n';
+  });
+  return new Response(csv, {
+    headers: { 'content-type': 'text/csv; charset=utf-8', 'content-disposition': 'attachment; filename="propchamps-emails.csv"' },
+  });
+}
+
 // ---------- router ----------
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const p = url.pathname;
     const m = request.method;
@@ -595,13 +713,16 @@ export default {
       if (p.startsWith('/api/admin/image/')) return await adminImage(request, env, p.slice('/api/admin/image/'.length));
 
       if (p === '/api/giveaway/status') return await giveawayStatus(request, env);
-      if (p === '/api/giveaway/enter' && m === 'POST') return await giveawayEnter(request, env);
+      if (p === '/api/giveaway/enter' && m === 'POST') return await giveawayEnter(request, env, ctx);
+      if (p === '/unsub') return await unsubscribe(request, env);
       if (p === '/api/host/giveaway') return await hostGiveaway(request, env);
       if (p === '/api/host/giveaway/action' && m === 'POST') return await hostGiveawayAction(request, env);
       if (p === '/api/host/fulfillment') return await hostFulfillment(request, env);
       if (p === '/api/host/fulfillment/mark' && m === 'POST') return await hostFulfillMark(request, env);
       if (p === '/api/host/raffle') return await hostRaffle(request, env);
       if (p === '/api/host/raffle/action' && m === 'POST') return await hostRaffleAction(request, env);
+      if (p === '/api/host/broadcast' && m === 'POST') return await hostBroadcast(request, env, ctx);
+      if (p === '/api/host/emails.csv') return await hostEmailsCsv(request, env);
 
       // Not an API/auth route → serve the static site (assets binding).
       if (env.ASSETS) return env.ASSETS.fetch(request);

@@ -46,6 +46,11 @@
 .rf-date .lb{font-family:var(--font-mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--text-faint)}
 .rf-date button{font-family:var(--font-display);font-weight:600;font-size:13px;padding:10px 16px;border-radius:10px;background:var(--bg-elev);color:var(--text);border:1px solid var(--border-strong);cursor:pointer}
 .rf-date button:hover{border-color:var(--border-lime)}
+.em-form{display:flex;flex-direction:column;gap:12px}
+.em-form input,.em-form textarea{width:100%;padding:13px 15px;background:var(--bg-band);border:1px solid var(--border-strong);border-radius:11px;color:var(--text);font-size:14px;font-family:var(--font-display);resize:vertical}
+.em-form input:focus,.em-form textarea:focus{outline:none;border-color:var(--lime)}
+.em-form textarea{line-height:1.5;min-height:130px}
+.em-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 
 /* wheel */
 .present-title{display:none;position:relative;z-index:1;font-family:var(--font-display);font-weight:900;font-size:clamp(30px,4.4vw,50px);letter-spacing:-.035em;color:var(--text-strong);text-align:center;margin-bottom:4px}
@@ -201,9 +206,10 @@ async function init(){
     '<div class="host-head"><h1>Host Portal</h1><div class="who">'+esc(ME.user.username)+'<a href="/auth/logout">Log out</a></div></div>'
     +'<div class="sec" id="gvSec"><div class="empty">Loading giveaway…</div></div>'
     +'<div class="sec" id="rfSec"><div class="empty">Loading raffle…</div></div>'
+    +'<div class="sec" id="emSec"><div class="empty">Loading email…</div></div>'
     +'<div class="sec" id="ffSec"><div class="empty">Loading fulfillment…</div></div>';
   gWheel=makeWheel('gwheel','gSpin'); rWheel=makeWheel('rwheel','rSpin');
-  loadGiveaway(); loadRaffle(); loadFulfillment();
+  await loadGiveaway(); loadEmail(); loadRaffle(); loadFulfillment();
 }
 
 /* ---------- LIVE GIVEAWAY ---------- */
@@ -275,6 +281,30 @@ async function loadFulfillment(){
   }).join('');
 }
 async function ffMark(id,status){var row=document.getElementById('ff-'+id);if(row)row.style.opacity='.4';await fetch('/api/host/fulfillment/mark',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({id:id,status:status})}).catch(function(){});loadFulfillment();}
+
+/* ---------- EMAIL THE LIST ---------- */
+function loadEmail(){
+  var total=(GV&&GV.totalEmails)||0;
+  document.getElementById('emSec').innerHTML=
+    '<div class="sec-h"><h2>✉️ Email the list</h2><span class="pill '+(total?'live':'off')+'">'+total.toLocaleString()+' subscribers</span></div>'
+    +'<div class="sec-sub">Blast the list about a new deal, a promo code, a new firm — every giveaway entrant already gets an automatic welcome email. Send a test to yourself first.</div>'
+    +'<div class="em-form"><input id="emSubject" placeholder="Subject — e.g. Alpha just dropped to 40% off with CHAMP">'
+      +'<textarea id="emBody" placeholder="Write your message. Links auto-format.&#10;&#10;Alpha Futures just cut prices — 40% off with code CHAMP.&#10;&#10;https://propchamps.net/firms/alpha-futures"></textarea>'
+      +'<div class="em-row"><button class="hb hb-open" id="emSend" onclick="sendBroadcast()">Send to '+total.toLocaleString()+' subscribers</button>'
+      +'<a class="hb hb-reset" style="text-decoration:none" href="/api/host/emails.csv">⬇ Export CSV</a></div>'
+      +'<div class="wheel-note" id="emNote" style="max-width:none;text-align:left"></div></div>';
+}
+async function sendBroadcast(){
+  var subject=(document.getElementById('emSubject').value||'').trim(), message=(document.getElementById('emBody').value||'').trim();
+  var note=document.getElementById('emNote'), btn=document.getElementById('emSend');
+  if(!subject||!message){note.textContent='Add a subject and a message first.';return;}
+  if(!confirm('Send this to your whole list?'))return;
+  btn.disabled=true;var o=btn.textContent;btn.textContent='Sending…';
+  var res; try{ res=await fetch('/api/host/broadcast',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({subject:subject,message:message})}).then(function(r){return r.json();}); }catch(e){ res={error:'network'}; }
+  btn.disabled=false;btn.textContent=o;
+  if(res.ok){ note.textContent='✓ Sending to '+(res.queued||0).toLocaleString()+' subscribers — they will land shortly.'; document.getElementById('emSubject').value='';document.getElementById('emBody').value=''; }
+  else { note.textContent='⚠ '+(res.error==='not_configured'?'Resend isn’t set up yet — add the RESEND_API_KEY secret and verify your sending domain.':'Error: '+(res.error||'failed')); }
+}
 init();
 </script>
 </body>

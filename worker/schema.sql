@@ -81,11 +81,14 @@ CREATE TABLE IF NOT EXISTS giveaway_entries (
 
 -- Permanent email list — every email ever entered, forever. The owned asset.
 CREATE TABLE IF NOT EXISTS email_list (
-  email      TEXT PRIMARY KEY,
-  name       TEXT,
-  source     TEXT,
-  first_seen TEXT NOT NULL
+  email        TEXT PRIMARY KEY,
+  name         TEXT,
+  source       TEXT,
+  first_seen   TEXT NOT NULL,
+  unsubscribed INTEGER NOT NULL DEFAULT 0
 );
+-- If email_list already exists from an earlier migration, add the column:
+--   ALTER TABLE email_list ADD COLUMN unsubscribed INTEGER NOT NULL DEFAULT 0;
 
 -- Monthly raffle (wired next). One active cycle at a time.
 CREATE TABLE IF NOT EXISTS raffle_cycles (
