@@ -126,6 +126,29 @@ function isAdmin(user, env) {
     .filter(Boolean)
     .includes(user.discord_id);
 }
+function isHost(user, env) {
+  if (!user) return false;
+  return (env.HOST_DISCORD_IDS || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .includes(user.discord_id);
+}
+async function getGiveawayState(env) {
+  const row = await env.DB.prepare("SELECT v FROM app_state WHERE k='giveaway'").first();
+  if (!row || !row.v) return { open: false, title: 'Win a Funded Account' };
+  try {
+    const s = JSON.parse(row.v);
+    return { open: !!s.open, title: s.title || 'Win a Funded Account' };
+  } catch (e) {
+    return { open: false, title: 'Win a Funded Account' };
+  }
+}
+async function setGiveawayState(env, st) {
+  await env.DB.prepare("INSERT INTO app_state (k,v) VALUES ('giveaway',?) ON CONFLICT(k) DO UPDATE SET v=excluded.v")
+    .bind(JSON.stringify(st))
+    .run();
+}
 async function currentUser(req, env) {
   const token = parseCookies(req)['pc_session'];
   if (!token) return null;
@@ -232,6 +255,7 @@ async function apiMe(req, env) {
       rank: (rankRow?.c || 0) + 1,
       accounts: acctRow?.c || 0,
       isAdmin: isAdmin(u, env),
+      isHost: isHost(u, env),
     },
     submissions: subs.results || [],
   });
@@ -409,6 +433,87 @@ async function adminImage(req, env, subId) {
   });
 }
 
+// ---------- live giveaway (public) ----------
+async function giveawayStatus(req, env) {
+  const st = await getGiveawayState(env);
+  const c = await env.DB.prepare('SELECT COUNT(*) AS c FROM giveaway_entries').first();
+  return json({ open: st.open, title: st.title, count: c?.c || 0 });
+}
+async function giveawayEnter(req, env) {
+  const st = await getGiveawayState(env);
+  if (!st.open) return json({ error: 'closed' }, 403);
+  const body = await req.json().catch(() => ({}));
+  const email = String(body.email || '').trim().toLowerCase().slice(0, 120);
+  const name = String(body.name || '').trim().slice(0, 60);
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return json({ error: 'invalid_email' }, 400);
+  const now = new Date().toISOString();
+  const dupe = await env.DB.prepare('SELECT id FROM giveaway_entries WHERE email=?').bind(email).first();
+  if (dupe) {
+    await env.DB.prepare("INSERT OR IGNORE INTO email_list (email,name,source,first_seen) VALUES (?,?,?,?)")
+      .bind(email, name, 'giveaway', now).run();
+    return json({ ok: true, already: true });
+  }
+  await env.DB.batch([
+    env.DB.prepare('INSERT OR IGNORE INTO giveaway_entries (id,email,name,created_at) VALUES (?,?,?,?)')
+      .bind(crypto.randomUUID(), email, name, now),
+    env.DB.prepare('INSERT OR IGNORE INTO email_list (email,name,source,first_seen) VALUES (?,?,?,?)')
+      .bind(email, name, 'giveaway', now),
+  ]);
+  return json({ ok: true });
+}
+
+// ---------- host portal ----------
+async function hostGiveaway(req, env) {
+  const u = await currentUser(req, env);
+  if (!isHost(u, env)) return json({ error: 'forbidden' }, 403);
+  const st = await getGiveawayState(env);
+  const rows = await env.DB.prepare('SELECT name, email, created_at FROM giveaway_entries ORDER BY created_at ASC LIMIT 1000').all();
+  const total = await env.DB.prepare('SELECT COUNT(*) AS c FROM email_list').first();
+  const list = rows.results || [];
+  return json({ open: st.open, title: st.title, entries: list, count: list.length, totalEmails: total?.c || 0 });
+}
+async function hostGiveawayAction(req, env) {
+  const u = await currentUser(req, env);
+  if (!isHost(u, env)) return json({ error: 'forbidden' }, 403);
+  const body = await req.json().catch(() => ({}));
+  const st = await getGiveawayState(env);
+  if (body.action === 'open') {
+    st.open = true;
+    if (body.title) st.title = String(body.title).slice(0, 80);
+    await setGiveawayState(env, st);
+  } else if (body.action === 'close') {
+    st.open = false;
+    await setGiveawayState(env, st);
+  } else if (body.action === 'reset') {
+    st.open = false;
+    await setGiveawayState(env, st);
+    await env.DB.prepare('DELETE FROM giveaway_entries').run();
+  } else {
+    return json({ error: 'bad_action' }, 400);
+  }
+  return json({ ok: true });
+}
+async function hostFulfillment(req, env) {
+  const u = await currentUser(req, env);
+  if (!isHost(u, env)) return json({ error: 'forbidden' }, 403);
+  const rows = await env.DB.prepare(
+    "SELECT r.id, r.reward_name, r.cost_points, r.status, r.created_at, u.username, u.discord_id " +
+      "FROM redemptions r JOIN users u ON u.id=r.user_id WHERE r.status='requested' ORDER BY r.created_at ASC LIMIT 100"
+  ).all();
+  return json({ pending: rows.results || [] });
+}
+async function hostFulfillMark(req, env) {
+  const u = await currentUser(req, env);
+  if (!isHost(u, env)) return json({ error: 'forbidden' }, 403);
+  const body = await req.json().catch(() => ({}));
+  const id = String(body.id || '');
+  const status = body.status === 'denied' ? 'denied' : 'fulfilled';
+  const now = new Date().toISOString();
+  await env.DB.prepare("UPDATE redemptions SET status=?, fulfilled_at=? WHERE id=? AND status='requested'")
+    .bind(status, now, id).run();
+  return json({ ok: true });
+}
+
 // ---------- router ----------
 export default {
   async fetch(request, env) {
@@ -428,6 +533,13 @@ export default {
       if (p === '/api/admin/queue') return await adminQueue(request, env);
       if (p === '/api/admin/review' && m === 'POST') return await adminReview(request, env);
       if (p.startsWith('/api/admin/image/')) return await adminImage(request, env, p.slice('/api/admin/image/'.length));
+
+      if (p === '/api/giveaway/status') return await giveawayStatus(request, env);
+      if (p === '/api/giveaway/enter' && m === 'POST') return await giveawayEnter(request, env);
+      if (p === '/api/host/giveaway') return await hostGiveaway(request, env);
+      if (p === '/api/host/giveaway/action' && m === 'POST') return await hostGiveawayAction(request, env);
+      if (p === '/api/host/fulfillment') return await hostFulfillment(request, env);
+      if (p === '/api/host/fulfillment/mark' && m === 'POST') return await hostFulfillMark(request, env);
 
       // Not an API/auth route → serve the static site (assets binding).
       if (env.ASSETS) return env.ASSETS.fetch(request);

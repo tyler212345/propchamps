@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0d12">
+<title>Win a Funded Account — PropChamps</title>
+<meta name="description" content="Enter to win a funded futures account, live with Champ. Drop your email — winner picked on stream.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-base:#0a0d12;--bg-card:#131922;--bg-elev:#131820;--bg-band:#07090d;
+  --border:#1c2532;--border-strong:#2a3441;--border-lime:rgba(200,255,0,.22);--border-lime-strong:rgba(200,255,0,.45);
+  --text:#e8edf2;--text-strong:#fff;--text-soft:#94a3b8;--text-faint:#6b7785;
+  --lime:#c8ff00;--lime-2:#d4ff33;--lime-soft:rgba(200,255,0,.10);--lime-text:#b4e600;--neg:#f87171;
+  --font-display:'Inter',system-ui,sans-serif;--font-mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-base);color:var(--text);font-family:var(--font-display);min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:22px;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 80% 55% at 50% 30%,rgba(200,255,0,.10),transparent 70%);pointer-events:none}
+body::after{content:"";position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(200,255,0,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(200,255,0,.035) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse 70% 60% at 50% 20%,black 20%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 20%,black 20%,transparent 80%);pointer-events:none}
+.card{position:relative;z-index:1;width:100%;max-width:440px;text-align:center}
+.logo{height:40px;margin:0 auto 26px;display:block}
+.live{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--lime-text);background:var(--lime-soft);border:1px solid var(--border-lime);border-radius:100px;padding:7px 15px;margin-bottom:22px}
+.live .dot{width:8px;height:8px;border-radius:50%;background:var(--lime);box-shadow:0 0 12px rgba(200,255,0,.9);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+h1{font-weight:900;font-size:clamp(34px,9vw,46px);letter-spacing:-.04em;line-height:1.02;color:var(--text-strong);margin-bottom:14px}
+h1 .accent{background:linear-gradient(135deg,var(--lime),#a3d600);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 22px rgba(200,255,0,.3))}
+.sub{font-size:16px;line-height:1.55;color:var(--text-soft);margin-bottom:12px}
+.entered-cnt{font-family:var(--font-mono);font-size:12.5px;color:var(--text-faint);margin-bottom:26px}
+.entered-cnt b{color:var(--lime-text)}
+form{display:flex;flex-direction:column;gap:12px}
+input{width:100%;padding:17px 18px;background:var(--bg-card);border:1.5px solid var(--border-strong);border-radius:14px;color:var(--text);font-size:16px;font-family:var(--font-display);transition:border-color .15s;text-align:center}
+input:focus{outline:none;border-color:var(--lime)}
+input::placeholder{color:var(--text-faint)}
+.enter-btn{width:100%;padding:18px;background:var(--lime);color:var(--bg-base);font-size:18px;font-weight:800;border:none;border-radius:14px;cursor:pointer;transition:all .15s;box-shadow:0 0 0 1px rgba(200,255,0,.3),0 16px 40px -12px rgba(200,255,0,.6);margin-top:4px}
+.enter-btn:hover:not(:disabled){background:var(--lime-2);transform:translateY(-1px)}
+.enter-btn:disabled{opacity:.55;cursor:not-allowed}
+.consent{font-size:11.5px;line-height:1.5;color:var(--text-faint);margin-top:16px}
+.err{color:var(--neg);font-size:13.5px;font-weight:600;min-height:18px;margin-top:4px}
+/* success */
+.success{display:none}
+.success .big{font-size:64px;margin-bottom:16px;animation:pop .5s cubic-bezier(.16,1.3,.4,1)}
+@keyframes pop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.success h2{font-weight:900;font-size:clamp(30px,8vw,40px);letter-spacing:-.03em;color:var(--text-strong);margin-bottom:12px}
+.success p{font-size:16px;color:var(--text-soft);line-height:1.55}
+.success .again{margin-top:24px;font-family:var(--font-mono);font-size:12px;color:var(--text-faint)}
+/* closed */
+.closed{display:none}
+.closed .big{font-size:52px;margin-bottom:16px}
+.closed h2{font-weight:800;font-size:26px;color:var(--text-strong);margin-bottom:10px;letter-spacing:-.02em}
+.closed p{font-size:15px;color:var(--text-soft);line-height:1.55}
+.loading{color:var(--text-faint);font-family:var(--font-mono);font-size:13px;padding:40px 0}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<div class="card">
+  <img class="logo" src="/logos/propchamps.png" alt="PropChamps">
+
+  <div id="loading" class="loading">Loading…</div>
+
+  <!-- OPEN: entry form -->
+  <div id="open" class="hide">
+    <div class="live"><span class="dot"></span> Live Giveaway</div>
+    <h1 id="title">Win a <span class="accent">Funded Account</span></h1>
+    <p class="sub">Drop your email to enter. Winner picked <strong>live on stream</strong> — good luck. 🍀</p>
+    <div class="entered-cnt"><b id="cnt">0</b> already entered</div>
+    <form id="form" onsubmit="return enter(event)">
+      <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="your@email.com" required>
+      <input id="name" type="text" autocomplete="given-name" placeholder="First name (optional)" maxlength="60">
+      <button class="enter-btn" id="btn" type="submit">ENTER TO WIN 🎯</button>
+      <div class="err" id="err"></div>
+    </form>
+    <p class="consent">By entering you agree to receive occasional emails from PropChamps about deals &amp; drops. Unsubscribe anytime.</p>
+  </div>
+
+  <!-- SUCCESS -->
+  <div id="success" class="success">
+    <div class="big">🎉</div>
+    <h2>You're in!</h2>
+    <p>Keep the stream on — the winner gets picked live. Good luck!</p>
+    <div class="again">Watching with friends? Have them enter too.</div>
+  </div>
+
+  <!-- CLOSED -->
+  <div id="closed" class="closed">
+    <div class="big">🔒</div>
+    <h2>No giveaway live right now</h2>
+    <p>You just missed it or it hasn't started. Stick around on the stream — the next drop could be any minute.</p>
+  </div>
+</div>
+
+<script>
+function view(which){
+  document.getElementById('loading').style.display='none';
+  document.getElementById('open').style.display=which==='open'?'block':'none';
+  document.getElementById('success').style.display=which==='success'?'block':'none';
+  document.getElementById('closed').style.display=which==='closed'?'block':'none';
+}
+async function load(){
+  var st;
+  try{ st=await fetch('/api/giveaway/status').then(function(r){return r.json();}); }catch(e){ st={open:false}; }
+  if(st.open){
+    if(st.title)document.getElementById('title').textContent=st.title;
+    document.getElementById('cnt').textContent=(st.count||0).toLocaleString();
+    view('open');
+  } else { view('closed'); }
+}
+async function enter(e){
+  e.preventDefault();
+  var email=document.getElementById('email').value.trim();
+  var name=document.getElementById('name').value.trim();
+  var err=document.getElementById('err'), btn=document.getElementById('btn');
+  err.textContent='';
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){err.textContent='Enter a valid email';return false;}
+  btn.disabled=true;btn.textContent='Entering…';
+  var res;
+  try{ res=await fetch('/api/giveaway/enter',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:email,name:name})}).then(function(r){return r.json();}); }
+  catch(e2){ res={error:'network'}; }
+  if(res.ok){ view('success'); }
+  else if(res.error==='closed'){ view('closed'); }
+  else { btn.disabled=false;btn.textContent='ENTER TO WIN 🎯'; err.textContent=res.error==='invalid_email'?'Enter a valid email':'Something went wrong — try again'; }
+  return false;
+}
+load();
+</script>
+</body>
+</html>

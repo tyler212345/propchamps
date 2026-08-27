@@ -62,3 +62,46 @@ CREATE TABLE IF NOT EXISTS admin_actions (
   note       TEXT,
   created_at TEXT NOT NULL
 );
+
+-- Generic key/value app state (strongly consistent, unlike KV). Used for the
+-- live giveaway open/closed flag so it flips instantly on stream.
+CREATE TABLE IF NOT EXISTS app_state (
+  k TEXT PRIMARY KEY,
+  v TEXT
+);
+
+-- The current live-giveaway entry pool. Wiped on reset; emails are preserved
+-- separately in email_list so a reset never loses the collected list.
+CREATE TABLE IF NOT EXISTS giveaway_entries (
+  id         TEXT PRIMARY KEY,
+  email      TEXT NOT NULL UNIQUE,
+  name       TEXT,
+  created_at TEXT NOT NULL
+);
+
+-- Permanent email list — every email ever entered, forever. The owned asset.
+CREATE TABLE IF NOT EXISTS email_list (
+  email      TEXT PRIMARY KEY,
+  name       TEXT,
+  source     TEXT,
+  first_seen TEXT NOT NULL
+);
+
+-- Monthly raffle (wired next). One active cycle at a time.
+CREATE TABLE IF NOT EXISTS raffle_cycles (
+  id             TEXT PRIMARY KEY,
+  name           TEXT NOT NULL,
+  draw_date      TEXT,
+  status         TEXT NOT NULL DEFAULT 'active',
+  winner_user_id TEXT,
+  created_at     TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS raffle_entries (
+  id         TEXT PRIMARY KEY,
+  cycle_id   TEXT NOT NULL,
+  user_id    TEXT NOT NULL,
+  username   TEXT NOT NULL,
+  entries    INTEGER NOT NULL DEFAULT 1,
+  created_at TEXT NOT NULL,
+  UNIQUE(cycle_id, user_id)
+);
