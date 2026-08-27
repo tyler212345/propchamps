@@ -66,8 +66,8 @@ function toBase64(buf) {
 // on any failure (missing key, too large, API error, unparseable) so a
 // submission is never blocked by the AI.
 async function verifyReceipt(env, bytes, mediaType, firmClaimed, amountClaimed) {
-  if (!env.ANTHROPIC_API_KEY) return null;
-  if (bytes.byteLength > 5 * 1024 * 1024) return null; // over the vision API per-image limit
+  if (!env.ANTHROPIC_API_KEY) return { error: 'no_key' };
+  if (bytes.byteLength > 5 * 1024 * 1024) return { error: 'image_too_large' }; // over the vision API per-image limit
   const prompt =
     'You are verifying a proof-of-purchase for a futures prop-firm rewards program. The user claims they funded an account at "' +
     firmClaimed + '"' + (amountClaimed ? ' for "' + amountClaimed + '"' : '') + ' using discount code CHAMP.\n\n' +
@@ -77,37 +77,45 @@ async function verifyReceipt(env, bytes, mediaType, firmClaimed, amountClaimed) 
     'If code CHAMP is not clearly visible in the image, set champCodeVisible=false and recommendation no higher than "review". ' +
     'If the image is clearly not an order receipt or confirmation, set isReceipt=false and recommendation="reject". ' +
     'Flag red flags such as edited or mismatched numbers, a screenshot of a screenshot, or a firm that differs from the claim. Keep summary to one short sentence.';
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'x-api-key': env.ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01',
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: AI_MODEL,
-      max_tokens: 2000,
-      messages: [
-        {
-          role: 'user',
-          content: [
-            { type: 'image', source: { type: 'base64', media_type: mediaType, data: toBase64(bytes) } },
-            { type: 'text', text: prompt },
-          ],
-        },
-      ],
-    }),
-    signal: AbortSignal.timeout(22000),
-  });
-  if (!res.ok) return null;
+  let res;
+  try {
+    res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: AI_MODEL,
+        max_tokens: 2000,
+        messages: [
+          {
+            role: 'user',
+            content: [
+              { type: 'image', source: { type: 'base64', media_type: mediaType, data: toBase64(bytes) } },
+              { type: 'text', text: prompt },
+            ],
+          },
+        ],
+      }),
+      signal: AbortSignal.timeout(22000),
+    });
+  } catch (e) {
+    return { error: 'fetch_failed', detail: String((e && e.message) || e).slice(0, 180) };
+  }
+  if (!res.ok) {
+    const t = await res.text().catch(() => '');
+    return { error: 'api_' + res.status, detail: t.slice(0, 220) };
+  }
   const data = await res.json();
   const text = (data.content || []).filter((c) => c.type === 'text').map((c) => c.text).join('');
   const m = text.match(/\{[\s\S]*\}/);
-  if (!m) return null;
+  if (!m) return { error: 'no_json', detail: text.slice(0, 200) };
   try {
     return JSON.parse(m[0]);
   } catch (e) {
-    return null;
+    return { error: 'parse_fail', detail: text.slice(0, 200) };
   }
 }
 function isAdmin(user, env) {
@@ -292,7 +300,7 @@ async function apiSubmit(req, env) {
     : 'image/jpeg';
   try {
     const v = await verifyReceipt(env, bytes, mediaType, firm, amount);
-    if (v) {
+    if (v && !v.error) {
       await env.DB.prepare('UPDATE submissions SET ai_score=?, ai_notes=? WHERE id=?')
         .bind(typeof v.confidence === 'number' ? v.confidence : null, JSON.stringify(v).slice(0, 1500), subId)
         .run();
@@ -301,9 +309,19 @@ async function apiSubmit(req, env) {
         confidence: v.confidence != null ? v.confidence : null,
         champCodeVisible: !!v.champCodeVisible,
       };
+    } else if (v && v.error) {
+      await env.DB.prepare('UPDATE submissions SET ai_notes=? WHERE id=?')
+        .bind(JSON.stringify(v).slice(0, 1500), subId)
+        .run();
     }
   } catch (e) {
-    /* leave pending for manual review */
+    try {
+      await env.DB.prepare('UPDATE submissions SET ai_notes=? WHERE id=?')
+        .bind(JSON.stringify({ error: 'exception', detail: String((e && e.message) || e).slice(0, 180) }), subId)
+        .run();
+    } catch (e2) {
+      /* leave pending for manual review */
+    }
   }
 
   return json({ ok: true, submissionId: subId, ai });

@@ -65,6 +65,7 @@ function fmtDate(s){try{return new Date(s).toLocaleString();}catch(e){return s;}
 function renderAI(s){
   var v=null; try{ v=s.ai_notes?JSON.parse(s.ai_notes):null; }catch(e){}
   if(!v){return '<div class="ai-box"><span class="ai-badge ai-none">AI · not scored</span></div>';}
+  if(v.error){return '<div class="ai-box"><span class="ai-badge ai-reject">AI error · '+esc(v.error)+'</span>'+(v.detail?'<div class="ai-sum">'+esc(v.detail)+'</div>':'')+'</div>';}
   var rec=v.recommendation||'review';
   var cls=rec==='approve'?'ai-approve':rec==='reject'?'ai-reject':'ai-review';
   var label=rec==='approve'?'✓ AI: likely legit':rec==='reject'?'✕ AI: probably junk':'⚠ AI: needs a look';
