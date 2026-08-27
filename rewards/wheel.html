@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0d12">
+<title>Spin the Wheel — PropChamps</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-base:#0a0d12;--bg-surface:#0f1419;--bg-elev:#131820;--bg-card:#131922;--bg-band:#07090d;
+  --border:#1c2532;--border-strong:#2a3441;--border-lime:rgba(200,255,0,.22);--border-lime-strong:rgba(200,255,0,.45);
+  --text:#e8edf2;--text-strong:#fff;--text-soft:#94a3b8;--text-faint:#6b7785;
+  --lime:#c8ff00;--lime-2:#d4ff33;--lime-soft:rgba(200,255,0,.10);--lime-text:#b4e600;
+  --font-display:'Inter',system-ui,sans-serif;--font-body:'Inter',system-ui,sans-serif;--font-mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-base);color:var(--text);font-family:var(--font-body);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;position:relative}
+body::before{content:"";position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(200,255,0,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(200,255,0,.04) 1px,transparent 1px);background-size:46px 46px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,black 20%,transparent 85%);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,black 20%,transparent 85%);pointer-events:none}
+body::after{content:"";position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 55% 45% at 50% 42%,rgba(200,255,0,.07),transparent 70%);pointer-events:none}
+.stage{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:34px 20px 60px;text-align:center;display:flex;flex-direction:column;align-items:center;min-height:100vh}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.brand{display:flex;align-items:center;gap:9px;font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--lime-text)}
+.brand::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--lime);box-shadow:0 0 12px rgba(200,255,0,.8);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+h1{font-family:var(--font-display);font-weight:900;font-size:clamp(28px,5vw,44px);letter-spacing:-.035em;color:var(--text-strong);margin:14px 0 8px;line-height:1.05}
+h1 .accent{background:linear-gradient(135deg,var(--lime),#a3d600);-webkit-background-clip:text;background-clip:text;color:transparent}
+.count{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:13px;color:var(--text-soft);background:var(--bg-card);border:1px solid var(--border);border-radius:100px;padding:7px 16px;margin-bottom:26px}
+.count b{color:var(--lime-text);font-weight:700}
+
+.wheel-wrap{position:relative;width:min(90vw,460px);height:min(90vw,460px);margin:0 auto}
+.pointer{position:absolute;top:-6px;left:50%;transform:translateX(-50%);z-index:5;width:0;height:0;border-left:17px solid transparent;border-right:17px solid transparent;border-top:30px solid var(--lime);filter:drop-shadow(0 3px 8px rgba(200,255,0,.6))}
+.wheel-ring{position:absolute;inset:0;border-radius:50%;padding:10px;background:conic-gradient(from 0deg,rgba(200,255,0,.5),rgba(200,255,0,.05),rgba(200,255,0,.5),rgba(200,255,0,.05),rgba(200,255,0,.5));box-shadow:0 0 0 1px var(--border-strong),0 30px 80px -24px rgba(0,0,0,.9),0 0 60px -10px rgba(200,255,0,.25)}
+.wheel-ring::before{content:"";position:absolute;inset:10px;border-radius:50%;background:var(--bg-band);z-index:0}
+#wheel{position:relative;z-index:1;width:100%;height:100%;transform:rotate(0deg);will-change:transform}
+#wheel svg{display:block;width:100%;height:100%}
+.hub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:4;width:78px;height:78px;border-radius:50%;background:radial-gradient(circle at 40% 35%,var(--bg-elev),var(--bg-band));border:2px solid var(--border-lime-strong);display:flex;align-items:center;justify-content:center;box-shadow:0 0 24px -4px rgba(200,255,0,.4),inset 0 2px 8px rgba(0,0,0,.6)}
+.hub span{font-family:var(--font-display);font-weight:900;font-size:26px;color:var(--lime);filter:drop-shadow(0 0 8px rgba(200,255,0,.5))}
+
+.spin-btn{margin-top:34px;display:inline-flex;align-items:center;gap:11px;padding:18px 46px;background:var(--lime);color:var(--bg-base);font-family:var(--font-display);font-size:18px;font-weight:800;letter-spacing:.01em;border:none;border-radius:14px;cursor:pointer;transition:all .15s;box-shadow:0 0 0 1px rgba(200,255,0,.3),0 16px 40px -12px rgba(200,255,0,.6)}
+.spin-btn:hover:not(:disabled){background:var(--lime-2);transform:translateY(-2px)}
+.spin-btn:active:not(:disabled){transform:translateY(0)}
+.spin-btn:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+.controls{margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.ghost{font-family:var(--font-mono);font-size:12.5px;color:var(--text-faint);background:var(--bg-card);border:1px solid var(--border-strong);border-radius:100px;padding:9px 18px;cursor:pointer;transition:all .15s}
+.ghost:hover{color:var(--text);border-color:var(--border-lime)}
+
+/* Winner reveal */
+.winner{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(5,7,10,.55);backdrop-filter:blur(3px)}
+.winner.show{display:flex;animation:fade .4s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.winner-card{background:linear-gradient(180deg,var(--bg-card),var(--bg-band));border:1px solid var(--border-lime-strong);border-radius:24px;padding:44px 48px;text-align:center;box-shadow:0 40px 100px -20px rgba(0,0,0,.9),0 0 80px -20px rgba(200,255,0,.4);transform:scale(.85);animation:pop .5s cubic-bezier(.16,1.3,.4,1) forwards;max-width:440px}
+@keyframes pop{to{transform:scale(1)}}
+.winner-card .lab{font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--lime-text);margin-bottom:14px}
+.winner-card .name{font-family:var(--font-display);font-weight:900;font-size:clamp(32px,7vw,54px);letter-spacing:-.03em;line-height:1.05;color:var(--text-strong);margin-bottom:6px;word-break:break-word}
+.winner-card .em{font-size:20px;margin-bottom:26px}
+.winner-card .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.winner-card button{font-family:var(--font-display);font-weight:700;font-size:14px;padding:12px 22px;border-radius:11px;cursor:pointer;transition:all .15s;border:1px solid}
+.wb-close{background:var(--lime);color:var(--bg-base);border-color:var(--lime)}.wb-close:hover{background:var(--lime-2)}
+.wb-again{background:var(--bg-elev);color:var(--text);border-color:var(--border-strong)}.wb-again:hover{border-color:var(--border-lime)}
+
+.confetti{position:fixed;top:-12px;z-index:30;width:10px;height:14px;pointer-events:none;border-radius:2px}
+.footer-note{margin-top:auto;padding-top:30px;font-family:var(--font-mono);font-size:11px;color:var(--text-faint);letter-spacing:.04em}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="brand">PropChamps Live · Demo</div>
+  <h1>Monthly <span class="accent">$500</span> Raffle</h1>
+  <div class="count"><span>Entrants in the pot:</span> <b id="cnt">14</b></div>
+
+  <div class="wheel-wrap">
+    <div class="pointer"></div>
+    <div class="wheel-ring"></div>
+    <div id="wheel"></div>
+    <div class="hub"><span>P</span></div>
+  </div>
+
+  <button class="spin-btn" id="spinBtn" onclick="spin()">🎯 SPIN THE WHEEL</button>
+  <div class="controls">
+    <button class="ghost" onclick="resetAll()">↻ Reset entrants</button>
+    <span class="ghost" style="cursor:default">Draw date: Sept 30, 2026</span>
+  </div>
+
+  <div class="footer-note">Winner is picked at random · weighted by tier entries</div>
+</div>
+
+<div class="winner" id="winner">
+  <div class="winner-card">
+    <div class="lab">🎉 Winner 🎉</div>
+    <div class="name" id="winName">—</div>
+    <div class="em" id="winEmoji">🏆</div>
+    <div class="row">
+      <button class="wb-close" onclick="closeWinner()">Awesome</button>
+      <button class="wb-again" onclick="removeAndRespin()">Remove &amp; spin again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Demo entrants. Each name can carry `entries` (tier bonus = more slices/weight).
+var ENTRANTS=[
+  {n:'FuturesKing',e:5},{n:'ScalpQueen',e:3},{n:'PropGrinder',e:2},{n:'RiskOn_Ray',e:2},
+  {n:'MicroMachine',e:1},{n:'DrawdownDodger',e:2},{n:'TradeChampFan',e:3},{n:'GreenDayGabe',e:1},
+  {n:'TickHunter',e:1},{n:'FundedFred',e:2},{n:'MidnightMara',e:1},{n:'ContractCarl',e:1},
+  {n:'PipPilot',e:2},{n:'SwingSasha',e:1}
+];
+var wheelEl=document.getElementById('wheel'), btn=document.getElementById('spinBtn');
+var currentRot=0, spinning=false, winnerIdx=-1, spinFallback=null;
+var COLORS=['#141b26','#0e141c']; // alternating dark slices
+function esc(s){return String(s).replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
+
+function buildWheel(){
+  var N=ENTRANTS.length, seg=360/N, r=225, cx=225, cy=225;
+  var s='<svg viewBox="0 0 450 450" xmlns="http://www.w3.org/2000/svg">';
+  for(var i=0;i<N;i++){
+    var a0=(i*seg-90)*Math.PI/180, a1=((i+1)*seg-90)*Math.PI/180;
+    var x0=(cx+r*Math.cos(a0)).toFixed(2), y0=(cy+r*Math.sin(a0)).toFixed(2);
+    var x1=(cx+r*Math.cos(a1)).toFixed(2), y1=(cy+r*Math.sin(a1)).toFixed(2);
+    var large=seg>180?1:0;
+    var tint = ENTRANTS[i].e>=3 ? 'rgba(200,255,0,.09)' : COLORS[i%2];
+    s+='<path d="M'+cx+','+cy+' L'+x0+','+y0+' A'+r+','+r+' 0 '+large+' 1 '+x1+','+y1+' Z" fill="'+tint+'" stroke="rgba(200,255,0,.16)" stroke-width="1.5"/>';
+    // radial label
+    var mid=(i+0.5)*seg;                      // degrees clockwise from top
+    var phi=(mid-90)*Math.PI/180, lr=r*0.66;
+    var lx=(cx+lr*Math.cos(phi)), ly=(cy+lr*Math.sin(phi));
+    var rot=mid-90; if(rot>90&&rot<270) rot+=180;   // keep text upright on the left half
+    var nm=ENTRANTS[i].n; if(nm.length>13) nm=nm.slice(0,12)+'…';
+    var star = ENTRANTS[i].e>=3 ? ' ★' : '';
+    s+='<text x="'+lx.toFixed(2)+'" y="'+ly.toFixed(2)+'" fill="#e8edf2" font-size="14" font-weight="700" text-anchor="middle" dominant-baseline="middle" font-family="Inter,sans-serif" transform="rotate('+rot.toFixed(2)+' '+lx.toFixed(2)+' '+ly.toFixed(2)+')">'+esc(nm)+star+'</text>';
+  }
+  s+='</svg>';
+  wheelEl.innerHTML=s;
+  document.getElementById('cnt').textContent=ENTRANTS.length;
+}
+
+function weightedPick(){
+  // more entries = higher chance
+  var total=ENTRANTS.reduce(function(a,x){return a+(x.e||1);},0);
+  var roll=Math.random()*total, acc=0;
+  for(var i=0;i<ENTRANTS.length;i++){acc+=(ENTRANTS[i].e||1); if(roll<acc)return i;}
+  return ENTRANTS.length-1;
+}
+
+function spin(){
+  if(spinning||!ENTRANTS.length)return;
+  spinning=true; btn.disabled=true;
+  var N=ENTRANTS.length, seg=360/N;
+  var w=weightedPick(); winnerIdx=w;
+  var targetMod=((360-((w+0.5)*seg))%360+360)%360;
+  var jitter=(Math.random()-0.5)*seg*0.6;
+  var base=currentRot-(currentRot%360);
+  var newRot=base + 6*360 + targetMod + jitter;
+  if(newRot<=currentRot+720) newRot+=360;
+  currentRot=newRot;
+  wheelEl.style.transition='transform 5.8s cubic-bezier(.12,.62,.11,1)';
+  wheelEl.style.transform='rotate('+newRot+'deg)';
+  clearTimeout(spinFallback);
+  spinFallback=setTimeout(finishSpin,6050); // guarantee a reveal even if transitionend is dropped
+}
+function finishSpin(){
+  if(!spinning)return;
+  clearTimeout(spinFallback);
+  spinning=false; btn.disabled=false;
+  showWinner(ENTRANTS[winnerIdx]);
+  burst();
+}
+wheelEl.addEventListener('transitionend',finishSpin);
+
+function showWinner(x){
+  document.getElementById('winName').textContent=x.n;
+  document.getElementById('winEmoji').textContent=x.e>=3?'👑 '+x.e+' entries':'🏆 '+x.e+' entr'+(x.e===1?'y':'ies');
+  document.getElementById('winner').classList.add('show');
+}
+function closeWinner(){document.getElementById('winner').classList.remove('show');}
+function removeAndRespin(){
+  if(winnerIdx>=0)ENTRANTS.splice(winnerIdx,1);
+  buildWheel(); closeWinner();
+  setTimeout(spin,400);
+}
+function resetAll(){location.reload();}
+
+// lightweight confetti
+function burst(){
+  var colors=['#c8ff00','#d4ff33','#ffffff','#a3d600','#e8edf2'];
+  for(var i=0;i<90;i++){
+    (function(){
+      var c=document.createElement('div');c.className='confetti';
+      var x=Math.random()*100;
+      c.style.left=x+'vw';
+      c.style.background=colors[i%colors.length];
+      c.style.width=(6+Math.random()*7)+'px';c.style.height=(9+Math.random()*8)+'px';
+      c.style.opacity=String(.7+Math.random()*.3);
+      document.body.appendChild(c);
+      var fall=1400+Math.random()*1400, rot=(Math.random()*720-360);
+      c.animate([
+        {transform:'translateY(0) rotate(0deg)',opacity:1},
+        {transform:'translateY(105vh) rotate('+rot+'deg)',opacity:.9}
+      ],{duration:fall,easing:'cubic-bezier(.2,.6,.4,1)',delay:Math.random()*250});
+      setTimeout(function(){c.remove();},fall+400);
+    })();
+  }
+}
+buildWheel();
+</script>
+</body>
+</html>
