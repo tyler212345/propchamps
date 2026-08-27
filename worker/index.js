@@ -14,6 +14,8 @@ const POINTS_PER_SUBMISSION = 250;
 const SESSION_TTL = 60 * 60 * 24 * 30; // 30 days
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
 const MAX_PENDING_PER_USER = 8;
+// Receipt triage model. Switch to 'claude-haiku-4-5' for ~5x cheaper high volume.
+const AI_MODEL = 'claude-opus-5';
 
 const TIERS = [
   { name: "Champ's Circle", min: 10000 },
@@ -51,6 +53,62 @@ function sessionCookie(token, maxAge) {
 async function sha256hex(buf) {
   const h = await crypto.subtle.digest('SHA-256', buf);
   return [...new Uint8Array(h)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+function toBase64(buf) {
+  const bytes = new Uint8Array(buf);
+  let bin = '';
+  const chunk = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunk) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+  return btoa(bin);
+}
+
+// Claude vision receipt triage. Best-effort: returns a verdict object, or null
+// on any failure (missing key, too large, API error, unparseable) so a
+// submission is never blocked by the AI.
+async function verifyReceipt(env, bytes, mediaType, firmClaimed, amountClaimed) {
+  if (!env.ANTHROPIC_API_KEY) return null;
+  if (bytes.byteLength > 5 * 1024 * 1024) return null; // over the vision API per-image limit
+  const prompt =
+    'You are verifying a proof-of-purchase for a futures prop-firm rewards program. The user claims they funded an account at "' +
+    firmClaimed + '"' + (amountClaimed ? ' for "' + amountClaimed + '"' : '') + ' using discount code CHAMP.\n\n' +
+    'Examine the image and respond with ONLY a JSON object (no prose, no markdown fences) in exactly this shape:\n' +
+    '{"isReceipt":boolean,"firmDetected":string|null,"amountDetected":string|null,"champCodeVisible":boolean,"confidence":number,"recommendation":"approve"|"review"|"reject","redFlags":[string],"summary":string}\n\n' +
+    'Rules: confidence is 0.0-1.0 that this is a genuine purchase made with code CHAMP. ' +
+    'If code CHAMP is not clearly visible in the image, set champCodeVisible=false and recommendation no higher than "review". ' +
+    'If the image is clearly not an order receipt or confirmation, set isReceipt=false and recommendation="reject". ' +
+    'Flag red flags such as edited or mismatched numbers, a screenshot of a screenshot, or a firm that differs from the claim. Keep summary to one short sentence.';
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'x-api-key': env.ANTHROPIC_API_KEY,
+      'anthropic-version': '2023-06-01',
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: AI_MODEL,
+      max_tokens: 2000,
+      messages: [
+        {
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: mediaType, data: toBase64(bytes) } },
+            { type: 'text', text: prompt },
+          ],
+        },
+      ],
+    }),
+    signal: AbortSignal.timeout(22000),
+  });
+  if (!res.ok) return null;
+  const data = await res.json();
+  const text = (data.content || []).filter((c) => c.type === 'text').map((c) => c.text).join('');
+  const m = text.match(/\{[\s\S]*\}/);
+  if (!m) return null;
+  try {
+    return JSON.parse(m[0]);
+  } catch (e) {
+    return null;
+  }
 }
 function isAdmin(user, env) {
   if (!user) return false;
@@ -222,7 +280,33 @@ async function apiSubmit(req, env) {
     .bind(subId, u.id, firm, amount, key, hash, 'pending', now)
     .run();
 
-  return json({ ok: true, submissionId: subId });
+  // AI triage — best-effort. Scores/annotates the submission for the admin
+  // queue; never blocks a successful submission. Human still approves.
+  let ai = null;
+  const mediaType = type.includes('png')
+    ? 'image/png'
+    : type.includes('webp')
+    ? 'image/webp'
+    : type.includes('gif')
+    ? 'image/gif'
+    : 'image/jpeg';
+  try {
+    const v = await verifyReceipt(env, bytes, mediaType, firm, amount);
+    if (v) {
+      await env.DB.prepare('UPDATE submissions SET ai_score=?, ai_notes=? WHERE id=?')
+        .bind(typeof v.confidence === 'number' ? v.confidence : null, JSON.stringify(v).slice(0, 1500), subId)
+        .run();
+      ai = {
+        recommendation: v.recommendation || 'review',
+        confidence: v.confidence != null ? v.confidence : null,
+        champCodeVisible: !!v.champCodeVisible,
+      };
+    }
+  } catch (e) {
+    /* leave pending for manual review */
+  }
+
+  return json({ ok: true, submissionId: subId, ai });
 }
 
 async function apiRedeem(req, env) {
@@ -250,7 +334,7 @@ async function adminQueue(req, env) {
   const u = await currentUser(req, env);
   if (!isAdmin(u, env)) return json({ error: 'forbidden' }, 403);
   const rows = await env.DB.prepare(
-    "SELECT s.id, s.firm_slug, s.claimed_amount, s.status, s.created_at, u.username, u.discord_id " +
+    "SELECT s.id, s.firm_slug, s.claimed_amount, s.status, s.ai_score, s.ai_notes, s.created_at, u.username, u.discord_id " +
       "FROM submissions s JOIN users u ON u.id=s.user_id WHERE s.status='pending' ORDER BY s.created_at ASC LIMIT 100"
   ).all();
   return json({ queue: rows.results || [] });

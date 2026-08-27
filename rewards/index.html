@@ -365,8 +365,8 @@
 
     <div id="doneStage" class="verify hidden">
       <div class="vdone-ic">✅</div>
-      <h2>Submitted!</h2>
-      <p class="msub" style="text-align:center">Your receipt is in — the team will review it shortly and your <strong style="color:var(--lime-text)">+250 points</strong> will land once approved.</p>
+      <h2 id="doneTitle">Submitted!</h2>
+      <p class="msub" style="text-align:center" id="doneMsg">Your receipt is in — the team will review it shortly and your <strong style="color:var(--lime-text)">+250 points</strong> will land once approved.</p>
       <button class="msubmit" onclick="finishSubmit()">Got it</button>
     </div>
   </div>
@@ -494,6 +494,7 @@ async function doSubmit(){
   document.getElementById('formStage').classList.add('hidden');
   document.getElementById('verifyStage').classList.remove('hidden');
   ['v1','v2','v3','v4'].forEach(function(id,i){setTimeout(function(){document.getElementById(id).classList.add('done');},400+i*450);});
+  var minDelay=new Promise(function(r){setTimeout(r,2300);});
   var fd=new FormData();
   fd.append('firm',document.getElementById('fFirm').value);
   fd.append('amount',document.getElementById('fAmt').value||'');
@@ -501,9 +502,19 @@ async function doSubmit(){
   var res;
   try{ res=await fetch('/api/submit',{method:'POST',body:fd}).then(function(r){return r.json().then(function(j){return{status:r.status,j:j};});}); }
   catch(e){ res={status:0,j:{error:'network'}}; }
-  // wait for the little animation to finish
-  await new Promise(function(r){setTimeout(r,2100);});
+  await minDelay; // ensure the verify animation plays even if the AI is fast
   if(res.j&&res.j.ok){
+    var ai=res.j.ai, dt=document.getElementById('doneTitle'), dm=document.getElementById('doneMsg');
+    if(ai&&ai.recommendation==='approve'&&ai.champCodeVisible){
+      dt.textContent='Looks legit! ✅';
+      dm.innerHTML='Our AI checked your receipt and it looks good — pending a final ✓ from the team. Your <strong style="color:var(--lime-text)">+250 points</strong> will land shortly.';
+    } else if(ai&&ai.recommendation==='reject'){
+      dt.textContent='Submitted';
+      dm.innerHTML='We couldn’t clearly verify code CHAMP on this one, so the team will take a closer look. Double-check that <strong>CHAMP</strong> is visible in your screenshot.';
+    } else {
+      dt.textContent='Submitted!';
+      dm.innerHTML='Your receipt is in — the team will review it shortly and your <strong style="color:var(--lime-text)">+250 points</strong> will land once approved.';
+    }
     document.getElementById('verifyStage').classList.add('hidden');
     document.getElementById('doneStage').classList.remove('hidden');
   } else {
