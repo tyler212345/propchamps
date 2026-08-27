@@ -27,6 +27,9 @@ function tierFor(pts) {
   for (const t of TIERS) if (pts >= t.min) return t.name;
   return 'Bronze';
 }
+function tierMultiplier(tier) {
+  return tier === "Champ's Circle" ? 5 : tier === 'Gold' ? 3 : tier === 'Silver' ? 2 : 1;
+}
 
 // ---------- small helpers ----------
 function json(data, status = 200, headers = {}) {
@@ -148,6 +151,16 @@ async function setGiveawayState(env, st) {
   await env.DB.prepare("INSERT INTO app_state (k,v) VALUES ('giveaway',?) ON CONFLICT(k) DO UPDATE SET v=excluded.v")
     .bind(JSON.stringify(st))
     .run();
+}
+async function ensureRaffleCycle(env) {
+  const c = await env.DB.prepare("SELECT * FROM raffle_cycles WHERE status='active' ORDER BY created_at DESC LIMIT 1").first();
+  if (c) return c;
+  const id = crypto.randomUUID();
+  const now = new Date().toISOString();
+  await env.DB.prepare("INSERT INTO raffle_cycles (id,name,draw_date,status,created_at) VALUES (?,?,?,'active',?)")
+    .bind(id, 'Monthly $500 Raffle', null, now)
+    .run();
+  return { id, name: 'Monthly $500 Raffle', draw_date: null, status: 'active', created_at: now };
 }
 async function currentUser(req, env) {
   const token = parseCookies(req)['pc_session'];
@@ -360,14 +373,27 @@ async function apiRedeem(req, env) {
   if (cost <= 0) return json({ error: 'bad_request' }, 400);
   if (u.spendable_points < cost) return json({ error: 'insufficient_points' }, 400);
 
+  const isRaffle = /raffle/i.test(name);
   const now = new Date().toISOString();
   await env.DB.batch([
     env.DB.prepare('INSERT INTO redemptions (id,user_id,reward_name,cost_points,status,created_at) VALUES (?,?,?,?,?,?)')
-      .bind(crypto.randomUUID(), u.id, name, cost, 'requested', now),
+      .bind(crypto.randomUUID(), u.id, name, cost, isRaffle ? 'fulfilled' : 'requested', now),
     env.DB.prepare('INSERT INTO points_ledger (id,user_id,delta,reason,created_at) VALUES (?,?,?,?,?)')
       .bind(crypto.randomUUID(), u.id, -cost, 'redeem:' + name, now),
     env.DB.prepare('UPDATE users SET spendable_points = spendable_points - ? WHERE id=?').bind(cost, u.id),
   ]);
+
+  if (isRaffle) {
+    const cycle = await ensureRaffleCycle(env);
+    const mult = tierMultiplier(tierFor(u.lifetime_points));
+    await env.DB.prepare(
+      'INSERT INTO raffle_entries (id,cycle_id,user_id,username,entries,created_at) VALUES (?,?,?,?,?,?) ' +
+        'ON CONFLICT(cycle_id,user_id) DO UPDATE SET entries = entries + ?'
+    )
+      .bind(crypto.randomUUID(), cycle.id, u.id, u.username, mult, now, mult)
+      .run();
+    return json({ ok: true, raffle: true, entriesAdded: mult });
+  }
   return json({ ok: true });
 }
 
@@ -513,6 +539,40 @@ async function hostFulfillMark(req, env) {
     .bind(status, now, id).run();
   return json({ ok: true });
 }
+async function hostRaffle(req, env) {
+  const u = await currentUser(req, env);
+  if (!isHost(u, env)) return json({ error: 'forbidden' }, 403);
+  const cycle = await ensureRaffleCycle(env);
+  const rows = await env.DB.prepare('SELECT username, entries FROM raffle_entries WHERE cycle_id=? ORDER BY entries DESC, created_at ASC LIMIT 500')
+    .bind(cycle.id).all();
+  const list = rows.results || [];
+  const total = list.reduce((a, x) => a + (x.entries || 1), 0);
+  return json({
+    cycle: { id: cycle.id, name: cycle.name, draw_date: cycle.draw_date },
+    entrants: list,
+    entrantCount: list.length,
+    totalEntries: total,
+  });
+}
+async function hostRaffleAction(req, env) {
+  const u = await currentUser(req, env);
+  if (!isHost(u, env)) return json({ error: 'forbidden' }, 403);
+  const body = await req.json().catch(() => ({}));
+  const cycle = await ensureRaffleCycle(env);
+  if (body.action === 'setdate') {
+    await env.DB.prepare('UPDATE raffle_cycles SET draw_date=? WHERE id=?')
+      .bind(String(body.draw_date || '').slice(0, 40), cycle.id).run();
+  } else if (body.action === 'draw') {
+    await env.DB.prepare('UPDATE raffle_cycles SET winner_user_id=? WHERE id=?')
+      .bind(String(body.winner || '').slice(0, 80), cycle.id).run();
+  } else if (body.action === 'newcycle') {
+    await env.DB.prepare("UPDATE raffle_cycles SET status='drawn' WHERE id=?").bind(cycle.id).run();
+    await ensureRaffleCycle(env);
+  } else {
+    return json({ error: 'bad_action' }, 400);
+  }
+  return json({ ok: true });
+}
 
 // ---------- router ----------
 export default {
@@ -540,6 +600,8 @@ export default {
       if (p === '/api/host/giveaway/action' && m === 'POST') return await hostGiveawayAction(request, env);
       if (p === '/api/host/fulfillment') return await hostFulfillment(request, env);
       if (p === '/api/host/fulfillment/mark' && m === 'POST') return await hostFulfillMark(request, env);
+      if (p === '/api/host/raffle') return await hostRaffle(request, env);
+      if (p === '/api/host/raffle/action' && m === 'POST') return await hostRaffleAction(request, env);
 
       // Not an API/auth route → serve the static site (assets binding).
       if (env.ASSETS) return env.ASSETS.fetch(request);
