@@ -143,6 +143,36 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 .redeem.able:hover{transform:translateY(-1px)}
 .redeem.locked{color:var(--text-faint);cursor:not-allowed;background:transparent}
 
+/* ---- rewards marketplace ---- */
+.mk-filters{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:30px}
+.mk-chip{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.02em;color:var(--text-soft);border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.02);padding:8px 15px;border-radius:100px;cursor:pointer;transition:all .16s;white-space:nowrap}
+.mk-chip:hover{border-color:var(--border-lime);color:var(--text)}
+.mk-chip.on{background:var(--lime);color:#0a0d12;border-color:transparent;font-weight:700}
+.mk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.mk{--fc:var(--lime);position:relative;border-radius:22px;padding:24px;background:linear-gradient(180deg,rgba(21,27,37,.66),rgba(13,18,25,.72));border:1px solid rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 24px 50px -30px rgba(0,0,0,.9);overflow:hidden;display:flex;flex-direction:column;transition:transform .3s var(--ease),border-color .3s}
+.mk:hover{transform:translateY(-4px)}
+.mk::before{content:"";position:absolute;top:0;left:24px;right:24px;height:1px;background:linear-gradient(90deg,transparent,var(--fc),transparent);opacity:.7}
+.mk::after{content:"";position:absolute;width:220px;height:220px;right:-70px;top:-90px;background:radial-gradient(circle,color-mix(in srgb,var(--fc) 20%,transparent),transparent 66%);pointer-events:none}
+.mk>*{position:relative;z-index:1}
+.mk-logo{height:82px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;padding:0 22px;margin-bottom:18px}
+.mk-logo.light{background:linear-gradient(180deg,#eff2f5,#dde3e9);border-color:rgba(255,255,255,.22)}
+.mk-logo img{max-height:44px;max-width:168px;object-fit:contain;display:block}
+.mk-pop{position:absolute;top:15px;right:15px;z-index:3;font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;color:#0a0d12;background:var(--lime);padding:5px 11px;border-radius:100px}
+.mk-type{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--fc);margin-bottom:10px}
+.mk-type .mk-dot{width:6px;height:6px;border-radius:50%;background:var(--fc);box-shadow:0 0 8px var(--fc)}
+.mk-title{font-family:var(--font-display);font-weight:800;font-size:21px;letter-spacing:-.02em;line-height:1.05;color:var(--text-strong)}
+.mk-firm{font-size:13.5px;color:var(--text-soft);margin-top:6px}
+.mk-val{margin-top:13px;font-family:var(--font-mono);font-size:12.5px;color:var(--text-faint)}
+.mk-val b{color:var(--text);font-weight:600}
+.mk-foot{display:flex;align-items:flex-end;justify-content:space-between;padding-top:18px;margin-top:auto;border-top:1px solid rgba(255,255,255,.08)}
+.mk-pts{display:flex;flex-direction:column}
+.mk-pts .n{font-family:var(--font-display);font-weight:800;font-size:23px;letter-spacing:-.02em;color:var(--lime);line-height:1}
+.mk-pts .u{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;color:var(--text-faint);margin-top:5px;text-transform:uppercase}
+.mk-foot .redeem{padding:11px 18px;align-self:center}
+.mk-more-head{margin-top:58px}
+@media(max-width:900px){.mk-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.mk-grid{grid-template-columns:1fr}}
+
 /* ---- leaderboard ---- */
 .lb{overflow:hidden;padding:8px}
 .lb-row{display:grid;grid-template-columns:56px 1fr auto auto;align-items:center;gap:16px;padding:15px 20px;border-radius:16px;transition:background .18s;position:relative}
@@ -341,22 +371,23 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
   </div>
 </section>
 
-<!-- ============ REWARDS CATALOG ============ -->
+<!-- ============ REWARDS MARKETPLACE ============ -->
 <section class="rw-sec tight">
   <div class="container">
     <div class="sec-head center">
       <div class="eyebrow">Redeem</div>
-      <h2 class="rw-h2">Rewards catalog</h2>
-      <p class="rw-lead" id="catSub">Turn your points into real value.</p>
+      <h2 class="rw-h2">Rewards Marketplace</h2>
+      <p class="rw-lead" id="catSub">Cash your points in for real funded accounts — from the firms we actually cover.</p>
     </div>
-    <div class="rwd-grid" id="rwdGrid">
-      <div class="rwd glass" data-rv><div class="ic">🎟️</div><h3>Monthly $500 raffle entry</h3><p>One entry into this month's cash raffle. Stack as many as you want.</p><div class="cost">250 <span class="x">points</span></div><button class="redeem locked" data-cost="250" data-name="Monthly $500 raffle entry">Redeem</button></div>
-      <div class="rwd glass" data-rv><div class="ic">💬</div><h3>Discord VIP role</h3><p>Stand out in Champ's server with a permanent supporter flair.</p><div class="cost">500 <span class="x">points</span></div><button class="redeem locked" data-cost="500" data-name="Discord VIP role">Redeem</button></div>
-      <div class="rwd glass" data-rv><div class="ic">🏷️</div><h3>$25 off your next challenge</h3><p>A stackable discount code on top of CHAMP at any firm we cover.</p><div class="cost">1,000 <span class="x">points</span></div><button class="redeem locked" data-cost="1000" data-name="$25 off next challenge">Redeem</button></div>
-      <div class="rwd glass" data-rv><div class="ic">👕</div><h3>PropChamps merch drop</h3><p>Limited hoodie + sticker pack, shipped to your door.</p><div class="cost">2,500 <span class="x">points</span></div><button class="redeem locked" data-cost="2500" data-name="PropChamps merch drop">Redeem</button></div>
-      <div class="rwd glass" data-rv><div class="ic">🎯</div><h3>Free 50K evaluation</h3><p>A fully-paid 50K eval at a partner firm. The big one.</p><div class="cost">10,000 <span class="x">points</span></div><button class="redeem locked" data-cost="10000" data-name="Free 50K evaluation">Redeem</button></div>
-      <div class="rwd glass" data-rv><div class="ic">💸</div><h3>$250 cash payout</h3><p>Straight cash to your PayPal or Wise. No strings.</p><div class="cost">12,000 <span class="x">points</span></div><button class="redeem locked" data-cost="12000" data-name="$250 cash payout">Redeem</button></div>
+    <div class="mk-filters" id="mkFilters"></div>
+    <div class="mk-grid" id="rwdGrid"></div>
+
+    <div class="sec-head center mk-more-head">
+      <div class="eyebrow">More perks</div>
+      <h2 class="rw-h2">More ways to redeem</h2>
+      <p class="rw-lead">Points aren't just for accounts — grab raffle entries, discounts, merch, and cash.</p>
     </div>
+    <div class="rwd-grid" id="moreGrid"></div>
   </div>
 </section>
 
@@ -520,13 +551,77 @@ function renderMe(){
   renderCatalog(u.spendablePoints,true);
   renderSubs(ME.submissions||[]);
 }
-function renderCatalog(spendable,loggedIn){
-  document.getElementById('catSub').innerHTML=loggedIn?('Turn your points into real value. You have <strong style="color:var(--lime-text)">'+spendable.toLocaleString()+'</strong> points to spend.'):'Turn your points into real value. <a href="/auth/discord" style="color:var(--lime-text)">Log in</a> to start earning.';
-  document.querySelectorAll('#rwdGrid .redeem').forEach(function(b){
+/* ---- rewards marketplace (data-driven) ---- */
+var FIRMS_META={
+  apex:{name:'Apex Trader Funding',logo:'/logos/mk/apex.png',ac:'#3b6ef5'},
+  tradify:{name:'Tradeify',logo:'/logos/mk/tradify.png',ac:'#19d3c5'},
+  lucid:{name:'Lucid Trading',logo:'/logos/mk/lucid.png',ac:'#8091ff',light:true},
+  alpha:{name:'Alpha Futures',logo:'/logos/mk/alpha.png',ac:'#3fbf6f'},
+  takeprofit:{name:'Take Profit Trader',logo:'/logos/mk/takeprofit.png',ac:'#f0623a'},
+  topone:{name:'Top One Futures',logo:'/logos/mk/topone.png',ac:'#22c55e'},
+  myfunded:{name:'My Funded Futures',logo:'/logos/mk/myfunded.png',ac:'#f2b02e'},
+  fundednext:{name:'FundedNext',logo:'/logos/mk/fundednext.png',ac:'#10c99a'}
+};
+var MK_ORDER=['apex','tradify','lucid','alpha','takeprofit','topone','myfunded','fundednext'];
+var SIZE_META={'25K':{cost:6000,val:79},'50K':{cost:9000,val:109},'100K':{cost:14000,val:169}};
+var MK_SIZES=['25K','50K','100K'];
+var MK_POPULAR={apex:'50K',tradify:'50K',lucid:'50K'};
+var MORE=[
+  {ic:'🎟️',title:'Monthly $500 raffle entry',desc:"One entry into this month's cash raffle. Stack as many as you want.",cost:250},
+  {ic:'💬',title:'Discord VIP role',desc:"A permanent supporter flair in Champ's server.",cost:500},
+  {ic:'🏷️',title:'$25 off your next challenge',desc:'Stackable discount on top of CHAMP at any firm we cover.',cost:1000},
+  {ic:'👕',title:'PropChamps merch drop',desc:'Limited hoodie + sticker pack, shipped to your door.',cost:2500},
+  {ic:'💸',title:'$250 cash payout',desc:'Straight cash to your PayPal or Wise. No strings.',cost:12000}
+];
+var MK_FILTER='all', MK_BUILT=false, MK_STATE={spendable:0,loggedIn:false};
+
+function shortFirm(n){return n.replace(' Trader Funding','').replace(' Futures','').replace(' Trading','').replace('Take Profit Trader','Take Profit');}
+function buildFilters(){
+  var el=document.getElementById('mkFilters'); if(!el||el.children.length)return;
+  var chips=[['all','All firms']].concat(MK_ORDER.map(function(s){return [s,shortFirm(FIRMS_META[s].name)];}));
+  el.innerHTML=chips.map(function(c){return '<button class="mk-chip'+(c[0]==='all'?' on':'')+'" data-f="'+c[0]+'">'+esc(c[1])+'</button>';}).join('');
+  el.addEventListener('click',function(e){var b=e.target.closest('.mk-chip');if(!b)return;MK_FILTER=b.getAttribute('data-f');el.querySelectorAll('.mk-chip').forEach(function(x){x.classList.toggle('on',x===b);});paintMarket();});
+}
+function mkCardHTML(fs,size){
+  var f=FIRMS_META[fs],s=SIZE_META[size],pop=MK_POPULAR[fs]===size;
+  return '<div class="mk" data-firm="'+fs+'" style="--fc:'+f.ac+'">'
+    +(pop?'<div class="mk-pop">★ POPULAR</div>':'')
+    +'<div class="mk-logo'+(f.light?' light':'')+'"><img src="'+f.logo+'" alt="'+esc(f.name)+'"></div>'
+    +'<div class="mk-type"><span class="mk-dot"></span> Evaluation</div>'
+    +'<div class="mk-title">'+size+' Evaluation</div>'
+    +'<div class="mk-firm">'+esc(f.name)+'</div>'
+    +'<div class="mk-val">≈ <b>$'+s.val+'</b> value · fully paid</div>'
+    +'<div class="mk-foot"><div class="mk-pts"><span class="n">'+s.cost.toLocaleString()+'</span><span class="u">points</span></div>'
+    +'<button class="redeem locked" data-cost="'+s.cost+'" data-name="'+esc(f.name+' — '+size+' Evaluation')+'">Redeem</button></div></div>';
+}
+function moreCardHTML(m){
+  return '<div class="rwd glass"><div class="ic">'+m.ic+'</div><h3>'+esc(m.title)+'</h3><p>'+esc(m.desc)+'</p><div class="cost">'+m.cost.toLocaleString()+' <span class="x">points</span></div><button class="redeem locked" data-cost="'+m.cost+'" data-name="'+esc(m.title)+'">Redeem</button></div>';
+}
+function buildMarket(){
+  if(MK_BUILT)return; MK_BUILT=true;
+  buildFilters();
+  var more=document.getElementById('moreGrid'); if(more)more.innerHTML=MORE.map(moreCardHTML).join('');
+  paintMarket();
+}
+function paintMarket(){
+  var grid=document.getElementById('rwdGrid'); if(!grid)return;
+  var html='';
+  MK_ORDER.forEach(function(fs){ if(MK_FILTER!=='all'&&MK_FILTER!==fs)return; MK_SIZES.forEach(function(sz){ html+=mkCardHTML(fs,sz); }); });
+  grid.innerHTML=html;
+  applyAffordability();
+}
+function applyAffordability(){
+  document.querySelectorAll('.redeem').forEach(function(b){
     var cost=parseInt(b.getAttribute('data-cost'),10);
-    if(loggedIn&&spendable>=cost){b.className='redeem able';b.textContent='Redeem';b.disabled=false;}
-    else{b.className='redeem locked';b.disabled=false;b.textContent=loggedIn?((cost-spendable).toLocaleString()+' pts to go'):'Redeem';}
+    if(MK_STATE.loggedIn&&MK_STATE.spendable>=cost){b.className='redeem able';b.textContent='Redeem';b.disabled=false;}
+    else{b.className='redeem locked';b.disabled=false;b.textContent=MK_STATE.loggedIn?((cost-MK_STATE.spendable).toLocaleString()+' pts to go'):'Redeem';}
   });
+}
+function renderCatalog(spendable,loggedIn){
+  MK_STATE.spendable=spendable; MK_STATE.loggedIn=loggedIn;
+  document.getElementById('catSub').innerHTML=loggedIn?('Cash your points in for real funded accounts. You have <strong style="color:var(--lime-text)">'+spendable.toLocaleString()+'</strong> points to spend.'):'Cash your points in for real funded accounts. <a href="/auth/discord" style="color:var(--lime-text)">Log in</a> to start earning.';
+  buildMarket();
+  applyAffordability();
 }
 function renderSubs(subs){
   var box=document.getElementById('subsBox');
@@ -643,7 +738,7 @@ async function redeemClick(btn){
     if(ME&&ME.user){ME.user.spendablePoints-=cost;renderCatalog(ME.user.spendablePoints,true);}
   } else { btn.disabled=false; toast(res.error==='insufficient_points'?'Not enough points yet':'Could not redeem — try again'); }
 }
-document.getElementById('rwdGrid').addEventListener('click',function(e){var b=e.target.closest('.redeem');if(b)redeemClick(b);});
+['rwdGrid','moreGrid'].forEach(function(id){var g=document.getElementById(id);if(g)g.addEventListener('click',function(e){var b=e.target.closest('.redeem');if(b)redeemClick(b);});});
 
 /* ---- toast + chrome + reveal ---- */
 var toastT;
