@@ -350,6 +350,7 @@
       </div>
       <label class="chk"><input type="checkbox" id="fChk"> I confirm I used code <strong>CHAMP</strong> on this purchase and this receipt is my own.</label>
       <button class="msubmit" id="submitBtn" onclick="doSubmit()">Submit for verification</button>
+      <div id="submitErr" style="color:#f87171;font-size:13px;text-align:center;margin-top:12px;min-height:16px;line-height:1.4"></div>
     </div>
 
     <div id="verifyStage" class="verify hidden">
@@ -475,6 +476,7 @@ function resetForm(){
   document.getElementById('fChk').checked=false;document.getElementById('fAmt').value='';SELECTED_FILE=null;
   var d=document.getElementById('drop');d.classList.remove('filled');document.getElementById('dropIc').textContent='📄';document.getElementById('dropT').textContent='Click to upload or drag a screenshot';document.getElementById('dropH').textContent='PNG or JPG · make sure code CHAMP is visible';
   document.getElementById('file').value='';
+  var se=document.getElementById('submitErr'); if(se)se.textContent='';
   ['v1','v2','v3','v4'].forEach(function(id){document.getElementById(id).classList.remove('done');});
 }
 function onFile(inp){
@@ -518,9 +520,11 @@ async function doSubmit(){
     document.getElementById('verifyStage').classList.add('hidden');
     document.getElementById('doneStage').classList.remove('hidden');
   } else {
-    var msg=res.j&&res.j.error==='duplicate'?'This receipt was already submitted.':res.j&&res.j.error==='too_many_pending'?'You have too many pending submissions — hang tight.':res.j&&res.j.error==='file_too_large'?'That image is too large (max 8MB).':res.j&&res.j.error==='not_logged_in'?'Please log in again.':'Something went wrong — try again.';
+    var err=res.j&&res.j.error;
+    var msg=err==='duplicate'?'This exact receipt was already submitted — try a different screenshot.':err==='too_many_pending'?'You have 8 submissions still pending review — those need to be approved or rejected first (check /rewards/admin).':err==='file_too_large'?'That image is too large (max 8MB).':err==='not_logged_in'?'Your session expired — log out and back in.':err==='missing_fields'?'Add a screenshot before submitting.':('Something went wrong'+(err?' ('+err+')':'')+' — try again.');
     document.getElementById('verifyStage').classList.add('hidden');
     document.getElementById('formStage').classList.remove('hidden');
+    var se=document.getElementById('submitErr'); if(se)se.textContent=msg;
     toast(msg);
   }
 }
