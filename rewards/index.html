@@ -150,11 +150,11 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 .mk-chip.on{background:var(--lime);color:#0a0d12;border-color:transparent;font-weight:700}
 .mk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .mk{--fc:var(--lime);position:relative;border-radius:22px;padding:24px;background:linear-gradient(180deg,rgba(21,27,37,.66),rgba(13,18,25,.72));border:1px solid rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 24px 50px -30px rgba(0,0,0,.9);overflow:hidden;display:flex;flex-direction:column;transition:transform .3s var(--ease),border-color .3s}
-.mk:hover{transform:translateY(-4px)}
+.mk:hover{transform:translateY(-5px);border-color:color-mix(in srgb,var(--fc) 45%,rgba(255,255,255,.1));box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 30px 60px -26px rgba(0,0,0,.92),0 10px 40px -18px color-mix(in srgb,var(--fc) 40%,transparent)}
 .mk::before{content:"";position:absolute;top:0;left:24px;right:24px;height:1px;background:linear-gradient(90deg,transparent,var(--fc),transparent);opacity:.7}
 .mk::after{content:"";position:absolute;width:220px;height:220px;right:-70px;top:-90px;background:radial-gradient(circle,color-mix(in srgb,var(--fc) 20%,transparent),transparent 66%);pointer-events:none}
 .mk>*{position:relative;z-index:1}
-.mk-logo{height:82px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;padding:0 22px;margin-bottom:18px}
+.mk-logo{height:82px;border-radius:14px;background:linear-gradient(158deg,color-mix(in srgb,var(--fc) 14%,rgba(255,255,255,.02)),rgba(255,255,255,.012));border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;padding:0 22px;margin-bottom:18px}
 .mk-logo.light{background:linear-gradient(180deg,#eff2f5,#dde3e9);border-color:rgba(255,255,255,.22)}
 .mk-logo img{max-height:44px;max-width:168px;object-fit:contain;display:block}
 .mk-pop{position:absolute;top:15px;right:15px;z-index:3;font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;color:#0a0d12;background:var(--lime);padding:5px 11px;border-radius:100px}
@@ -170,8 +170,21 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 .mk-pts .u{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;color:var(--text-faint);margin-top:5px;text-transform:uppercase}
 .mk-foot .redeem{padding:11px 18px;align-self:center}
 .mk-more-head{margin-top:58px}
-@media(max-width:900px){.mk-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.mk-grid{grid-template-columns:1fr}}
+/* featured instant-funded card */
+.mk-feat{grid-column:1/-1;position:relative;display:flex;align-items:center;gap:28px;padding:26px 32px;border-radius:22px;overflow:hidden;background:linear-gradient(115deg,rgba(200,255,0,.12),rgba(18,24,33,.72) 48%);border:1px solid var(--border-lime-strong);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 30px 60px -30px rgba(0,0,0,.92);transition:transform .3s var(--ease)}
+.mk-feat:hover{transform:translateY(-4px)}
+.mk-feat::before{content:"";position:absolute;top:0;left:32px;right:32px;height:1px;background:linear-gradient(90deg,transparent,var(--lime),transparent)}
+.mk-feat .fx-glow{position:absolute;width:420px;height:420px;right:-110px;top:-170px;background:radial-gradient(circle,rgba(200,255,0,.22),transparent 66%);pointer-events:none}
+.mk-feat .fx-logo{width:190px;height:100px;flex-shrink:0;margin:0;position:relative;z-index:1}
+.fx-body{flex:1;min-width:0;position:relative;z-index:1}
+.fx-badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--lime-text);margin-bottom:11px}
+.fx-title{font-family:var(--font-display);font-weight:800;font-size:27px;letter-spacing:-.025em;color:var(--text-strong);line-height:1.04}
+.fx-desc{font-size:14px;color:var(--text-soft);margin-top:9px;line-height:1.5}.fx-desc b{color:var(--text-strong)}
+.fx-foot{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-end;gap:14px;flex-shrink:0}
+.fx-foot .mk-pts{align-items:flex-end}.fx-foot .mk-pts .n{font-size:32px}
+.fx-foot .redeem{padding:14px 28px;font-size:15px}
+@media(max-width:900px){.mk-grid{grid-template-columns:1fr 1fr}.mk-feat .fx-logo{width:150px;height:84px}}
+@media(max-width:640px){.mk-grid{grid-template-columns:1fr}.mk-feat{flex-direction:column;align-items:flex-start;gap:18px}.mk-feat .fx-foot{flex-direction:row;align-items:center;justify-content:space-between;width:100%}}
 
 /* ---- leaderboard ---- */
 .lb{overflow:hidden;padding:8px}
@@ -379,7 +392,6 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
       <h2 class="rw-h2">Rewards Marketplace</h2>
       <p class="rw-lead" id="catSub">Cash your points in for real funded accounts — from the firms we actually cover.</p>
     </div>
-    <div class="mk-filters" id="mkFilters"></div>
     <div class="mk-grid" id="rwdGrid"></div>
 
     <div class="sec-head center mk-more-head">
@@ -551,22 +563,27 @@ function renderMe(){
   renderCatalog(u.spendablePoints,true);
   renderSubs(ME.submissions||[]);
 }
-/* ---- rewards marketplace (data-driven) ---- */
-// px[size] = [approx retail $ (checkout w/ CHAMP where available), points cost]
-// Points ≈ 60 pts per $1 of real account cost, rounded to nearest 250 (min 1000).
+/* ---- rewards marketplace (curated) ---- */
 var FIRMS_META={
-  apex:{name:'Apex Trader Funding',logo:'/logos/mk/apex.png',ac:'#3b6ef5',px:{'25K':[17,1000],'50K':[25,1500],'100K':[40,2500]}},
-  tradify:{name:'Tradeify',logo:'/logos/mk/tradify.png',ac:'#19d3c5',px:{'25K':[59,3500],'50K':[87,5250],'100K':[153,9250]}},
-  lucid:{name:'Lucid Trading',logo:'/logos/mk/lucid.png',ac:'#8091ff',light:true,px:{'25K':[50,3000],'50K':[90,5500],'100K':[171,10250]}},
-  alpha:{name:'Alpha Futures',logo:'/logos/mk/alpha.png',ac:'#3fbf6f',px:{'25K':[53,3250],'50K':[83,5000],'100K':[167,10000]}},
-  takeprofit:{name:'Take Profit Trader',logo:'/logos/mk/takeprofit.png',ac:'#f0623a',px:{'25K':[110,6500],'50K':[130,7750],'100K':[290,17500]}},
-  topone:{name:'Top One Futures',logo:'/logos/mk/topone.png',ac:'#22c55e',px:{'25K':[139,8250],'50K':[218,13000],'100K':[259,15500]}},
-  myfunded:{name:'My Funded Futures',logo:'/logos/mk/myfunded.png',ac:'#f2b02e',px:{'25K':[63,3750],'50K':[125,7500],'100K':[250,15000]}},
-  fundednext:{name:'FundedNext',logo:'/logos/mk/fundednext.png',ac:'#10c99a',px:{'25K':[80,4750],'50K':[170,10250],'100K':[280,16750]}}
+  apex:{name:'Apex Trader Funding',logo:'/logos/mk/apex.png',ac:'#3b6ef5'},
+  tradify:{name:'Tradeify',logo:'/logos/mk/tradify.png',ac:'#19d3c5'},
+  lucid:{name:'Lucid Trading',logo:'/logos/mk/lucid.png',ac:'#8091ff',light:true},
+  alpha:{name:'Alpha Futures',logo:'/logos/mk/alpha.png',ac:'#3fbf6f'},
+  takeprofit:{name:'Take Profit Trader',logo:'/logos/mk/takeprofit.png',ac:'#f0623a'},
+  topone:{name:'Top One Futures',logo:'/logos/mk/topone.png',ac:'#22c55e'},
+  myfunded:{name:'My Funded Futures',logo:'/logos/mk/myfunded.png',ac:'#f2b02e'},
+  fundednext:{name:'FundedNext',logo:'/logos/mk/fundednext.png',ac:'#10c99a'}
 };
-var MK_ORDER=['apex','tradify','lucid','alpha','takeprofit','topone','myfunded','fundednext'];
-var MK_SIZES=['25K','50K','100K'];
-var MK_POPULAR={apex:'50K',tradify:'50K',lucid:'50K'};
+// Curated marketplace — each: {f:firm, size, type, val:$ value, cost:points, pop?, featured?}
+var MARKET=[
+  {f:'apex',size:'25K',type:'Evaluation',val:17,cost:1000},
+  {f:'tradify',size:'50K',type:'Evaluation',val:87,cost:5250,pop:true},
+  {f:'takeprofit',size:'50K',type:'Evaluation',val:130,cost:7750},
+  {f:'myfunded',size:'50K',type:'Evaluation',val:125,cost:7500},
+  {f:'lucid',size:'100K',type:'Evaluation',val:171,cost:10250},
+  {f:'fundednext',size:'100K',type:'Evaluation',val:280,cost:16750},
+  {f:'alpha',size:'100K',type:'Instant Funded',val:413,cost:30000,featured:true,note:'Skip the eval entirely — a straight-to-funded account.'}
+];
 var MORE=[
   {ic:'🎟️',title:'Monthly $500 raffle entry',desc:"One entry into this month's cash raffle. Stack as many as you want.",cost:250},
   {ic:'💬',title:'Discord VIP role',desc:"A permanent supporter flair in Champ's server.",cost:500},
@@ -574,41 +591,42 @@ var MORE=[
   {ic:'👕',title:'PropChamps merch drop',desc:'Limited hoodie + sticker pack, shipped to your door.',cost:2500},
   {ic:'💸',title:'$250 cash payout',desc:'Straight cash to your PayPal or Wise. No strings.',cost:12000}
 ];
-var MK_FILTER='all', MK_BUILT=false, MK_STATE={spendable:0,loggedIn:false};
+var MK_BUILT=false, MK_STATE={spendable:0,loggedIn:false};
 
-function shortFirm(n){return n.replace(' Trader Funding','').replace(' Futures','').replace(' Trading','').replace('Take Profit Trader','Take Profit');}
-function buildFilters(){
-  var el=document.getElementById('mkFilters'); if(!el||el.children.length)return;
-  var chips=[['all','All firms']].concat(MK_ORDER.map(function(s){return [s,shortFirm(FIRMS_META[s].name)];}));
-  el.innerHTML=chips.map(function(c){return '<button class="mk-chip'+(c[0]==='all'?' on':'')+'" data-f="'+c[0]+'">'+esc(c[1])+'</button>';}).join('');
-  el.addEventListener('click',function(e){var b=e.target.closest('.mk-chip');if(!b)return;MK_FILTER=b.getAttribute('data-f');el.querySelectorAll('.mk-chip').forEach(function(x){x.classList.toggle('on',x===b);});paintMarket();});
-}
-function mkCardHTML(fs,size){
-  var f=FIRMS_META[fs],p=f.px[size],pop=MK_POPULAR[fs]===size;
-  return '<div class="mk" data-firm="'+fs+'" style="--fc:'+f.ac+'">'
-    +(pop?'<div class="mk-pop">★ POPULAR</div>':'')
+function mkCardHTML(m){
+  var f=FIRMS_META[m.f];
+  if(m.featured) return mkFeatHTML(m,f);
+  return '<div class="mk" data-firm="'+m.f+'" style="--fc:'+f.ac+'">'
+    +(m.pop?'<div class="mk-pop">★ POPULAR</div>':'')
     +'<div class="mk-logo'+(f.light?' light':'')+'"><img src="'+f.logo+'" alt="'+esc(f.name)+'"></div>'
-    +'<div class="mk-type"><span class="mk-dot"></span> Evaluation</div>'
-    +'<div class="mk-title">'+size+' Evaluation</div>'
+    +'<div class="mk-type"><span class="mk-dot"></span> '+esc(m.type)+'</div>'
+    +'<div class="mk-title">'+esc(m.size+' '+m.type)+'</div>'
     +'<div class="mk-firm">'+esc(f.name)+'</div>'
-    +'<div class="mk-val">≈ <b>$'+p[0]+'</b> value · fully paid</div>'
-    +'<div class="mk-foot"><div class="mk-pts"><span class="n">'+p[1].toLocaleString()+'</span><span class="u">points</span></div>'
-    +'<button class="redeem locked" data-cost="'+p[1]+'" data-name="'+esc(f.name+' — '+size+' Evaluation')+'">Redeem</button></div></div>';
+    +'<div class="mk-val">≈ <b>$'+m.val+'</b> value · fully paid</div>'
+    +'<div class="mk-foot"><div class="mk-pts"><span class="n">'+m.cost.toLocaleString()+'</span><span class="u">points</span></div>'
+    +'<button class="redeem locked" data-cost="'+m.cost+'" data-name="'+esc(f.name+' — '+m.size+' '+m.type)+'">Redeem</button></div></div>';
+}
+function mkFeatHTML(m,f){
+  return '<div class="mk-feat" data-firm="'+m.f+'" style="--fc:'+f.ac+'">'
+    +'<div class="fx-glow"></div>'
+    +'<div class="mk-logo'+(f.light?' light':'')+' fx-logo"><img src="'+f.logo+'" alt="'+esc(f.name)+'"></div>'
+    +'<div class="fx-body"><div class="fx-badge">⚡ Instant Funded · Top reward</div>'
+    +'<div class="fx-title">'+esc(f.name+' — '+m.size+' Funded')+'</div>'
+    +'<div class="fx-desc">'+esc(m.note||'')+' ≈ <b>$'+m.val+'</b> value.</div></div>'
+    +'<div class="fx-foot"><div class="mk-pts"><span class="n">'+m.cost.toLocaleString()+'</span><span class="u">points</span></div>'
+    +'<button class="redeem locked" data-cost="'+m.cost+'" data-name="'+esc(f.name+' — '+m.size+' Instant Funded')+'">Redeem</button></div></div>';
 }
 function moreCardHTML(m){
   return '<div class="rwd glass"><div class="ic">'+m.ic+'</div><h3>'+esc(m.title)+'</h3><p>'+esc(m.desc)+'</p><div class="cost">'+m.cost.toLocaleString()+' <span class="x">points</span></div><button class="redeem locked" data-cost="'+m.cost+'" data-name="'+esc(m.title)+'">Redeem</button></div>';
 }
 function buildMarket(){
   if(MK_BUILT)return; MK_BUILT=true;
-  buildFilters();
   var more=document.getElementById('moreGrid'); if(more)more.innerHTML=MORE.map(moreCardHTML).join('');
   paintMarket();
 }
 function paintMarket(){
   var grid=document.getElementById('rwdGrid'); if(!grid)return;
-  var html='';
-  MK_ORDER.forEach(function(fs){ if(MK_FILTER!=='all'&&MK_FILTER!==fs)return; MK_SIZES.forEach(function(sz){ html+=mkCardHTML(fs,sz); }); });
-  grid.innerHTML=html;
+  grid.innerHTML=MARKET.map(mkCardHTML).join('');
   applyAffordability();
 }
 function applyAffordability(){
