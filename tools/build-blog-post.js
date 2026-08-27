@@ -194,7 +194,7 @@ ${JSON.stringify(schema)}
   <div class="container">
     <a class="logo-mark" href="/" aria-label="PropChamps home"><img src="/logos/propchamps.png" alt="PropChamps"></a>
     <nav class="primary">
-      <a href="/">Firms</a><a href="/compare">Compare</a><a href="/deals">Deals</a><a href="/payouts">Payouts</a><a href="/audit-log">Audit log</a><a href="/guide">Guide</a><a href="/blog/" class="active">Blog</a>
+      <a href="/">Firms</a><a href="/compare">Compare</a><a href="/deals">Deals</a><a href="/payouts">Payouts</a><a href="/blog/" class="active">Blog</a><a href="/rewards">Rewards</a>
     </nav>
     <a class="header-cta" href="/compare">Compare firms
       <svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L11 8 L5 4"/></svg>
@@ -202,7 +202,7 @@ ${JSON.stringify(schema)}
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><span class="bar"></span></button>
   </div></header>
 <div class="mobile-menu" id="mobileMenu">
-  <a href="/">Firms</a><a href="/compare">Compare</a><a href="/deals">Deals</a><a href="/payouts">Payouts</a><a href="/audit-log">Audit log</a><a href="/guide">Guide</a><a href="/blog/">Blog</a><a href="/methodology">Methodology</a>
+  <a href="/">Firms</a><a href="/compare">Compare</a><a href="/deals">Deals</a><a href="/payouts">Payouts</a><a href="/blog/">Blog</a><a href="/rewards">Rewards</a>
   <a class="mobile-cta" href="/compare">Compare firms →</a>
 </div>
 
