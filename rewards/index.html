@@ -94,10 +94,10 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 .ring-wrap{position:relative;width:134px;height:134px;flex-shrink:0}
 .ring{width:134px;height:134px;transform:rotate(-90deg)}
 .ring-track{fill:none;stroke:rgba(255,255,255,.07);stroke-width:9}
-.ring-arc{fill:none;stroke:var(--lime);stroke-width:9;stroke-linecap:round;stroke-dasharray:377;stroke-dashoffset:377;filter:drop-shadow(0 0 6px rgba(200,255,0,.55));transition:stroke-dashoffset 1.3s var(--ease)}
+.ring-arc{fill:none;stroke:var(--tc,var(--lime));stroke-width:9;stroke-linecap:round;stroke-dasharray:377;stroke-dashoffset:377;filter:drop-shadow(0 0 6px color-mix(in srgb,var(--tc,var(--lime)) 60%,transparent));transition:stroke-dashoffset 1.3s var(--ease),stroke .35s}
 .ring-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
 .ring-ic{font-size:33px;line-height:1;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45))}
-.ring-t{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-soft)}
+.ring-t{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--tc,var(--text-soft))}
 .prog-cap{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--text-soft);margin-top:22px}
 .prog-cap b{color:var(--text-strong);font-weight:700}
 .prog-cap #progTxt{font-family:var(--font-mono);color:var(--text)}
@@ -561,6 +561,7 @@ function renderMe(){
   document.getElementById('spendVal').textContent=Number(u.spendablePoints||0).toLocaleString();
   document.getElementById('ringIc').textContent=(u.tier==="Champ's Circle"?'👑':u.tier==='Gold'?'🥇':u.tier==='Silver'?'🥈':'🥉');
   document.getElementById('ringTier').textContent=(u.tier==="Champ's Circle"?"Champ's":u.tier);
+  document.querySelector('.ring-wrap').style.setProperty('--tc',(u.tier==="Champ's Circle"?'#c8ff00':u.tier==='Gold'?'#ffd75e':u.tier==='Silver'?'#cfd8e3':'#e0a878'));
   var RC=377;
   var nt=nextTier(u.lifetimePoints);
   if(nt){
