@@ -31,6 +31,22 @@ function tierMultiplier(tier) {
   return tier === "Champ's Circle" ? 5 : tier === 'Gold' ? 3 : tier === 'Silver' ? 2 : 1;
 }
 
+// Server-authoritative reward catalog (id -> cost + raffle flag + display label).
+// The browser NEVER sets a reward's price: apiRedeem looks the cost up here by id,
+// so nobody can redeem an expensive reward cheaply by tampering with the request.
+// Keep in sync with MARKET/MORE in rewards/index.html.
+const REWARDS = {
+  'lucid-25K-ev': { cost: 8500, label: 'Lucid Trading — 25K Evaluation' },
+  'lucid-50K-ev': { cost: 14000, label: 'Lucid Trading — 50K Evaluation' },
+  'lucid-50K-if': { cost: 35000, label: 'Lucid Trading — 50K Instant Funded' },
+  'fundednext-25K-ev': { cost: 9000, label: 'FundedNext — 25K Evaluation' },
+  'fundednext-50K-ev': { cost: 15000, label: 'FundedNext — 50K Evaluation' },
+  'myfunded-50K-ev': { cost: 14000, label: 'My Funded Futures — 50K Evaluation' },
+  'tradify-50K-ev': { cost: 14000, label: 'Tradeify — 50K Evaluation' },
+  'raffle-500': { cost: 250, raffle: true, label: 'Monthly $500 raffle entry' },
+  'cashback-150': { cost: 10000, label: '$150 cash back' },
+};
+
 // ---------- small helpers ----------
 function json(data, status = 200, headers = {}) {
   return new Response(JSON.stringify(data), {
@@ -370,33 +386,48 @@ async function apiRedeem(req, env) {
   const u = await currentUser(req, env);
   if (!u) return json({ error: 'not_logged_in' }, 401);
   const body = await req.json().catch(() => ({}));
-  const cost = parseInt(body.cost, 10) || 0;
-  const name = String(body.name || 'reward').slice(0, 80);
-  if (cost <= 0) return json({ error: 'bad_request' }, 400);
-  if (u.spendable_points < cost) return json({ error: 'insufficient_points' }, 400);
+  // Cost + name come from the SERVER catalog by id — never from the request.
+  const rid = String(body.id || '');
+  const reward = Object.prototype.hasOwnProperty.call(REWARDS, rid) ? REWARDS[rid] : null;
+  if (!reward || typeof reward.cost !== 'number') return json({ error: 'unknown_reward' }, 400);
+  const cost = reward.cost;
+  const name = reward.label;
+  const isRaffle = !!reward.raffle;
 
-  const isRaffle = /raffle/i.test(name);
+  // Atomic check-and-deduct: the row updates ONLY if the balance is truly >= cost.
+  // This blocks both overspending and the race where two requests each pass a
+  // separate balance check and then both deduct (which could go negative).
+  const ded = await env.DB
+    .prepare('UPDATE users SET spendable_points = spendable_points - ? WHERE id=? AND spendable_points >= ?')
+    .bind(cost, u.id, cost)
+    .run();
+  if (!ded.meta || ded.meta.changes !== 1) return json({ error: 'insufficient_points' }, 400);
+
   const now = new Date().toISOString();
-  await env.DB.batch([
-    env.DB.prepare('INSERT INTO redemptions (id,user_id,reward_name,cost_points,status,created_at) VALUES (?,?,?,?,?,?)')
-      .bind(crypto.randomUUID(), u.id, name, cost, isRaffle ? 'fulfilled' : 'requested', now),
-    env.DB.prepare('INSERT INTO points_ledger (id,user_id,delta,reason,created_at) VALUES (?,?,?,?,?)')
-      .bind(crypto.randomUUID(), u.id, -cost, 'redeem:' + name, now),
-    env.DB.prepare('UPDATE users SET spendable_points = spendable_points - ? WHERE id=?').bind(cost, u.id),
-  ]);
-
-  if (isRaffle) {
-    const cycle = await ensureRaffleCycle(env);
-    const mult = tierMultiplier(tierFor(u.lifetime_points));
-    await env.DB.prepare(
-      'INSERT INTO raffle_entries (id,cycle_id,user_id,username,entries,created_at) VALUES (?,?,?,?,?,?) ' +
-        'ON CONFLICT(cycle_id,user_id) DO UPDATE SET entries = entries + ?'
-    )
-      .bind(crypto.randomUUID(), cycle.id, u.id, u.username, mult, now, mult)
-      .run();
-    return json({ ok: true, raffle: true, entriesAdded: mult });
+  try {
+    await env.DB.batch([
+      env.DB.prepare('INSERT INTO redemptions (id,user_id,reward_name,cost_points,status,created_at) VALUES (?,?,?,?,?,?)')
+        .bind(crypto.randomUUID(), u.id, name, cost, isRaffle ? 'fulfilled' : 'requested', now),
+      env.DB.prepare('INSERT INTO points_ledger (id,user_id,delta,reason,created_at) VALUES (?,?,?,?,?)')
+        .bind(crypto.randomUUID(), u.id, -cost, 'redeem:' + String(body.id), now),
+    ]);
+    if (isRaffle) {
+      const cycle = await ensureRaffleCycle(env);
+      const mult = tierMultiplier(tierFor(u.lifetime_points));
+      await env.DB.prepare(
+        'INSERT INTO raffle_entries (id,cycle_id,user_id,username,entries,created_at) VALUES (?,?,?,?,?,?) ' +
+          'ON CONFLICT(cycle_id,user_id) DO UPDATE SET entries = entries + ?'
+      )
+        .bind(crypto.randomUUID(), cycle.id, u.id, u.username, mult, now, mult)
+        .run();
+      return json({ ok: true, raffle: true, entriesAdded: mult });
+    }
+    return json({ ok: true });
+  } catch (e) {
+    // Never take points without recording the redemption — refund on failure.
+    await env.DB.prepare('UPDATE users SET spendable_points = spendable_points + ? WHERE id=?').bind(cost, u.id).run().catch(() => {});
+    return json({ error: 'redeem_failed' }, 500);
   }
-  return json({ ok: true });
 }
 
 // ---------- admin ----------
