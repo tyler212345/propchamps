@@ -385,6 +385,7 @@ async function apiSubmit(req, env) {
 async function apiRedeem(req, env) {
   const u = await currentUser(req, env);
   if (!u) return json({ error: 'not_logged_in' }, 401);
+  if (u.banned) return json({ error: 'banned' }, 403);
   const body = await req.json().catch(() => ({}));
   // Cost + name come from the SERVER catalog by id — never from the request.
   const rid = String(body.id || '');
@@ -452,10 +453,14 @@ async function adminReview(req, env, ctx) {
   const now = new Date().toISOString();
 
   if (action === 'approve') {
+    // Atomic claim: only the first approval flips pending->approved, so a
+    // double-click (two concurrent requests) can't award points twice.
+    const claim = await env.DB
+      .prepare("UPDATE submissions SET status='approved', points_awarded=?, reviewed_by=?, reviewed_at=? WHERE id=? AND status='pending'")
+      .bind(POINTS_PER_SUBMISSION, u.discord_id, now, subId)
+      .run();
+    if (!claim.meta || claim.meta.changes !== 1) return json({ error: 'not_pending' }, 400);
     await env.DB.batch([
-      env.DB.prepare(
-        "UPDATE submissions SET status='approved', points_awarded=?, reviewed_by=?, reviewed_at=? WHERE id=?"
-      ).bind(POINTS_PER_SUBMISSION, u.discord_id, now, subId),
       env.DB.prepare(
         'INSERT INTO points_ledger (id,user_id,delta,reason,submission_id,created_at) VALUES (?,?,?,?,?,?)'
       ).bind(crypto.randomUUID(), sub.user_id, POINTS_PER_SUBMISSION, 'submission_approved', subId, now),
@@ -617,8 +622,11 @@ async function hostRaffleAction(req, env) {
 
 // ---------- email (Resend) ----------
 const UNSUB_SALT = 'pc_unsub_2026';
-async function unsubToken(email) {
-  return (await sha256hex(new TextEncoder().encode(email + UNSUB_SALT))).slice(0, 20);
+async function unsubToken(email, env) {
+  // Prefer a runtime secret (set UNSUB_SALT in Cloudflare) so the salt isn't
+  // guessable from the source; falls back to the default if unset.
+  const salt = (env && env.UNSUB_SALT) || UNSUB_SALT;
+  return (await sha256hex(new TextEncoder().encode(email + salt))).slice(0, 20);
 }
 function emailShell(heading, bodyHtml, unsubUrl) {
   return (
@@ -655,7 +663,7 @@ async function sendEmail(env, to, subject, html) {
 }
 async function sendWelcome(env, email, name, origin) {
   try {
-    const unsub = origin + '/unsub?e=' + encodeURIComponent(email) + '&t=' + (await unsubToken(email));
+    const unsub = origin + '/unsub?e=' + encodeURIComponent(email) + '&t=' + (await unsubToken(email, env));
     const hi = name ? 'Hey ' + name + ',' : 'Hey,';
     const btn = 'display:inline-block;background:#c8ff00;color:#0a0d12;font-weight:700;text-decoration:none;padding:12px 22px;border-radius:10px;margin:10px 0;';
     const body =
@@ -672,7 +680,7 @@ async function sendWelcome(env, email, name, origin) {
 async function sendApproved(env, email, username, firm, points, total, origin) {
   if (!email) return;
   try {
-    const unsub = origin + '/unsub?e=' + encodeURIComponent(email) + '&t=' + (await unsubToken(email));
+    const unsub = origin + '/unsub?e=' + encodeURIComponent(email) + '&t=' + (await unsubToken(email, env));
     const btn = 'display:inline-block;background:#c8ff00;color:#0a0d12;font-weight:700;text-decoration:none;padding:12px 22px;border-radius:10px;margin:10px 0;';
     const body =
       '<p>Nice work' + (username ? ', ' + username : '') + '! 🎉</p>' +
@@ -687,7 +695,7 @@ async function sendApproved(env, email, username, firm, points, total, origin) {
 async function sendRejected(env, email, username, firm, origin, discordUrl) {
   if (!email) return;
   try {
-    const unsub = origin + '/unsub?e=' + encodeURIComponent(email) + '&t=' + (await unsubToken(email));
+    const unsub = origin + '/unsub?e=' + encodeURIComponent(email) + '&t=' + (await unsubToken(email, env));
     const link = discordUrl
       ? '<a href="' + discordUrl + '" style="color:#5b8a00;font-weight:600;">open a ticket in our Discord</a>'
       : 'open a ticket in our Discord';
@@ -705,7 +713,7 @@ async function unsubscribe(req, env) {
   const url = new URL(req.url);
   const email = String(url.searchParams.get('e') || '').toLowerCase();
   const token = String(url.searchParams.get('t') || '');
-  const valid = email && token === (await unsubToken(email));
+  const valid = email && token === (await unsubToken(email, env));
   if (valid) await env.DB.prepare('UPDATE email_list SET unsubscribed=1 WHERE email=?').bind(email).run();
   const msg = valid
     ? "You've been unsubscribed. You won't get any more emails from PropChamps."
@@ -734,7 +742,7 @@ async function hostBroadcast(req, env, ctx) {
           from: env.EMAIL_FROM,
           to: [e],
           subject,
-          html: emailShell(subject, messageToHtml(message), origin + '/unsub?e=' + encodeURIComponent(e) + '&t=' + (await unsubToken(e))),
+          html: emailShell(subject, messageToHtml(message), origin + '/unsub?e=' + encodeURIComponent(e) + '&t=' + (await unsubToken(e, env))),
         }))
       );
       await fetch('https://api.resend.com/emails/batch', {
@@ -799,7 +807,9 @@ export default {
       if (env.ASSETS) return env.ASSETS.fetch(request);
       return new Response('Not found', { status: 404 });
     } catch (err) {
-      return json({ error: 'server_error', message: String((err && err.message) || err) }, 500);
+      // Log the detail (Workers observability), but never leak internals to the client.
+      console.error('worker error', p, err && err.stack ? err.stack : err);
+      return json({ error: 'server_error' }, 500);
     }
   },
 };
