@@ -89,21 +89,29 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 .pts-lab{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);margin-bottom:2px}
 .pts-hero{font-family:var(--font-display);font-weight:800;font-size:clamp(58px,9.5vw,94px);line-height:.86;letter-spacing:-.05em;background:linear-gradient(176deg,#ffffff 4%,var(--lime) 56%,#a1d400 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 42px rgba(200,255,0,.32));font-variant-numeric:tabular-nums}
 .pts-hero-suf{font-family:var(--font-mono);font-size:13px;color:var(--text-faint);margin-top:8px;letter-spacing:.04em}
-.prog{margin-top:26px}
-.prog-top{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--text-soft);margin-bottom:10px}
-.prog-top b{color:var(--text-strong);font-weight:700}
-.bar{height:10px;border-radius:100px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.06);overflow:hidden;position:relative}
-.bar>span{display:block;height:100%;border-radius:100px;background:linear-gradient(90deg,#8fbf00,var(--lime));box-shadow:0 0 18px rgba(200,255,0,.55);width:0;transition:width 1.3s var(--ease)}
-.bar>span::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);animation:shimmer 2.6s linear infinite;border-radius:100px}
+.d-hero{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:8px}
+.pts-block{min-width:0}
+.ring-wrap{position:relative;width:134px;height:134px;flex-shrink:0}
+.ring{width:134px;height:134px;transform:rotate(-90deg)}
+.ring-track{fill:none;stroke:rgba(255,255,255,.07);stroke-width:9}
+.ring-arc{fill:none;stroke:var(--lime);stroke-width:9;stroke-linecap:round;stroke-dasharray:377;stroke-dashoffset:377;filter:drop-shadow(0 0 6px rgba(200,255,0,.55));transition:stroke-dashoffset 1.3s var(--ease)}
+.ring-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.ring-ic{font-size:33px;line-height:1;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45))}
+.ring-t{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-soft)}
+.prog-cap{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--text-soft);margin-top:22px}
+.prog-cap b{color:var(--text-strong);font-weight:700}
+.prog-cap #progTxt{font-family:var(--font-mono);color:var(--text)}
 @keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
-.submit-cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;background:linear-gradient(180deg,var(--lime),#b6e800);color:#0a0d12;font-size:15.5px;font-weight:800;border-radius:14px;margin-top:26px;box-shadow:0 16px 34px -12px rgba(200,255,0,.55),inset 0 1px 0 rgba(255,255,255,.4);transition:all .2s var(--ease)}
+.submit-cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;background:linear-gradient(180deg,var(--lime),#b6e800);color:#0a0d12;font-size:15.5px;font-weight:800;border-radius:14px;margin-top:auto;box-shadow:0 16px 34px -12px rgba(200,255,0,.55),inset 0 1px 0 rgba(255,255,255,.4);transition:all .2s var(--ease)}
 .submit-cta:hover{transform:translateY(-2px);box-shadow:0 22px 40px -12px rgba(200,255,0,.65)}
 .d-side{display:flex;flex-direction:column;gap:14px}
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;flex:1}
-.stat{padding:18px 20px;display:flex;flex-direction:column;justify-content:center;border-radius:var(--r-md)}
-.stat .v{font-family:var(--font-display);font-weight:800;font-size:27px;color:var(--text-strong);letter-spacing:-.02em;line-height:1}
+.stat{padding:15px 16px;display:flex;align-items:center;gap:12px;border-radius:var(--r-md)}
+.stat .s-ic{width:38px;height:38px;border-radius:11px;background:rgba(200,255,0,.07);border:1px solid rgba(200,255,0,.16);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.stat .s-body{min-width:0}
+.stat .v{font-family:var(--font-display);font-weight:800;font-size:23px;color:var(--text-strong);letter-spacing:-.02em;line-height:1}
 .stat .v.lime{color:var(--lime)}
-.stat .k{font-family:var(--font-mono);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--text-faint);margin-top:8px}
+.stat .k{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);margin-top:6px;line-height:1.3}
 .next-rw{padding:18px 20px;border-radius:var(--r-md);background:linear-gradient(140deg,rgba(200,255,0,.09),rgba(200,255,0,.01))}
 .next-rw .callout-label{display:block;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lime-text);margin-bottom:7px}
 .next-rw{font-size:13.5px;color:var(--text-soft);line-height:1.5}.next-rw strong{color:var(--text-strong)}
@@ -270,7 +278,8 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 .hidden{display:none!important}
 
 @media(max-width:900px){.dash{grid-template-columns:1fr}.steps,.ladder,.rwd-grid{grid-template-columns:1fr 1fr}.lo-feats{grid-template-columns:1fr}}
-@media(max-width:640px){.steps,.ladder,.rwd-grid{grid-template-columns:1fr}.lb-row{grid-template-columns:40px 1fr auto;gap:12px;padding:13px 14px}.lb-tier{display:none}.d-main{padding:26px 24px}.rw-sec{padding:48px 0}}
+@media(max-width:640px){.steps,.ladder,.rwd-grid{grid-template-columns:1fr}.lb-row{grid-template-columns:40px 1fr auto;gap:12px;padding:13px 14px}.lb-tier{display:none}.d-main{padding:26px 24px}.rw-sec{padding:48px 0}.ring-wrap,.ring{width:110px;height:110px}.ring-ic{font-size:27px}}
+@media(max-width:400px){.d-hero{gap:12px}.ring-wrap,.ring{width:96px;height:96px}}
 </style>
 </head>
 <body>
@@ -325,22 +334,27 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
             </div>
             <a class="logout" href="/auth/logout">Log out</a>
           </div>
-          <div class="pts-lab">Your points</div>
-          <div class="pts-hero" id="ptsBig">0</div>
-          <div class="pts-hero-suf">lifetime · never expire</div>
-          <div class="prog">
-            <div class="prog-top"><span id="progLabel">Progress to next tier</span><span id="progTxt">0 / 1,000</span></div>
-            <div class="bar"><span id="progBar"></span></div>
+          <div class="d-hero">
+            <div class="pts-block">
+              <div class="pts-lab">Your points</div>
+              <div class="pts-hero" id="ptsBig">0</div>
+              <div class="pts-hero-suf">lifetime · never expire</div>
+            </div>
+            <div class="ring-wrap">
+              <svg class="ring" viewBox="0 0 134 134" aria-hidden="true"><circle class="ring-track" cx="67" cy="67" r="60"/><circle class="ring-arc" id="ringArc" cx="67" cy="67" r="60"/></svg>
+              <div class="ring-c"><div class="ring-ic" id="ringIc">🥉</div><div class="ring-t" id="ringTier">Bronze</div></div>
+            </div>
           </div>
+          <div class="prog-cap"><span id="progLabel">Progress to next tier</span><span id="progTxt">0 / 1,000</span></div>
           <button class="submit-cta" onclick="openModal()">＋ Submit a purchase for points</button>
         </div>
 
         <div class="d-side">
           <div class="stat-grid glass" style="padding:8px">
-            <div class="stat"><div class="v">#<span id="rankVal">–</span></div><div class="k">Leaderboard rank</div></div>
-            <div class="stat"><div class="v" id="acctVal">0</div><div class="k">Accounts funded</div></div>
-            <div class="stat"><div class="v lime" id="tierVal">Bronze</div><div class="k">Current tier</div></div>
-            <div class="stat"><div class="v">$500</div><div class="k">Raffle this month</div></div>
+            <div class="stat"><div class="s-ic">🏆</div><div class="s-body"><div class="v">#<span id="rankVal">–</span></div><div class="k">Leaderboard rank</div></div></div>
+            <div class="stat"><div class="s-ic">🎯</div><div class="s-body"><div class="v" id="acctVal">0</div><div class="k">Accounts funded</div></div></div>
+            <div class="stat"><div class="s-ic">🪙</div><div class="s-body"><div class="v" id="spendVal">0</div><div class="k">Points to spend</div></div></div>
+            <div class="stat"><div class="s-ic">🎟️</div><div class="s-body"><div class="v">$500</div><div class="k">Raffle this month</div></div></div>
           </div>
           <div class="next-rw glass" id="nextReward"><span class="callout-label">Keep going</span>Every approved purchase is <strong>+250 points</strong>. Submit your latest to climb.</div>
         </div>
@@ -544,7 +558,10 @@ function renderMe(){
   countUp(document.getElementById('ptsBig'),u.lifetimePoints);
   document.getElementById('rankVal').textContent=u.rank;
   document.getElementById('acctVal').textContent=u.accounts;
-  document.getElementById('tierVal').textContent=u.tier;
+  document.getElementById('spendVal').textContent=Number(u.spendablePoints||0).toLocaleString();
+  document.getElementById('ringIc').textContent=(u.tier==="Champ's Circle"?'👑':u.tier==='Gold'?'🥇':u.tier==='Silver'?'🥈':'🥉');
+  document.getElementById('ringTier').textContent=(u.tier==="Champ's Circle"?"Champ's":u.tier);
+  var RC=377;
   var nt=nextTier(u.lifetimePoints);
   if(nt){
     var prev=0;TIERS.forEach(function(t){if(u.lifetimePoints>=t.min&&t.min>prev)prev=t.min;});
@@ -552,12 +569,12 @@ function renderMe(){
     var pct=Math.max(3,Math.min(100,Math.round(into/span*100)));
     document.getElementById('progLabel').innerHTML='Progress to <b>'+esc(nt.n)+'</b>';
     document.getElementById('progTxt').textContent=u.lifetimePoints.toLocaleString()+' / '+nt.min.toLocaleString();
-    setTimeout(function(){document.getElementById('progBar').style.width=pct+'%';},350);
+    setTimeout(function(){document.getElementById('ringArc').style.strokeDashoffset=(RC*(1-pct/100)).toFixed(1);},350);
     document.getElementById('nextReward').innerHTML='<span class="callout-label">Next tier</span>'+(nt.min-u.lifetimePoints).toLocaleString()+' points to <strong>'+esc(nt.n)+'</strong> — about '+Math.ceil((nt.min-u.lifetimePoints)/250)+' more approved purchases.';
   } else {
     document.getElementById('progLabel').innerHTML='<b>Champ’s Circle</b> — top tier reached';
     document.getElementById('progTxt').textContent=u.lifetimePoints.toLocaleString()+' pts';
-    setTimeout(function(){document.getElementById('progBar').style.width='100%';},350);
+    setTimeout(function(){document.getElementById('ringArc').style.strokeDashoffset='0';},350);
   }
   document.querySelectorAll('.rung').forEach(function(r){r.classList.toggle('cur',r.getAttribute('data-tier')===u.tier);});
   renderCatalog(u.spendablePoints,true);
