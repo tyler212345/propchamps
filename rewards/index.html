@@ -80,7 +80,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 .d-main::after{content:"";position:absolute;width:340px;height:340px;right:-90px;top:-120px;background:radial-gradient(circle,rgba(200,255,0,.14),transparent 66%);pointer-events:none;z-index:0}
 .d-main>*{position:relative;z-index:1}
 .who{display:flex;align-items:center;gap:14px;margin-bottom:28px}
-.avatar{width:50px;height:50px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;font-size:19px;color:#0a0d12;flex-shrink:0;background:linear-gradient(140deg,var(--lime),#9bd400);box-shadow:0 8px 20px -8px rgba(200,255,0,.5)}
+.avatar{width:50px;height:50px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;font-size:19px;color:#0a0d12;flex-shrink:0;background:linear-gradient(140deg,var(--tc,var(--lime)),color-mix(in srgb,var(--tc,var(--lime)) 66%,#000));box-shadow:0 8px 20px -8px color-mix(in srgb,var(--tc,var(--lime)) 55%,transparent);transition:background .35s,box-shadow .35s}
 .who .nm{font-family:var(--font-display);font-weight:800;font-size:18px;color:var(--text-strong);letter-spacing:-.02em;line-height:1.1}
 .who .sub{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);margin-top:4px;display:flex;align-items:center;gap:6px}
 .dchip{display:inline-flex;align-items:center;gap:5px;color:#a9b2ff}
@@ -561,7 +561,7 @@ function renderMe(){
   document.getElementById('spendVal').textContent=Number(u.spendablePoints||0).toLocaleString();
   document.getElementById('ringIc').textContent=(u.tier==="Champ's Circle"?'👑':u.tier==='Gold'?'🥇':u.tier==='Silver'?'🥈':'🥉');
   document.getElementById('ringTier').textContent=(u.tier==="Champ's Circle"?"Champ's":u.tier);
-  document.querySelector('.ring-wrap').style.setProperty('--tc',(u.tier==="Champ's Circle"?'#c8ff00':u.tier==='Gold'?'#ffd75e':u.tier==='Silver'?'#cfd8e3':'#e0a878'));
+  document.querySelector('.d-main').style.setProperty('--tc',(u.tier==="Champ's Circle"?'#c8ff00':u.tier==='Gold'?'#ffd75e':u.tier==='Silver'?'#cfd8e3':'#e0a878'));
   var RC=377;
   var nt=nextTier(u.lifetimePoints);
   if(nt){
