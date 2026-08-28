@@ -80,7 +80,9 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 .d-main::after{content:"";position:absolute;width:340px;height:340px;right:-90px;top:-120px;background:radial-gradient(circle,rgba(200,255,0,.14),transparent 66%);pointer-events:none;z-index:0}
 .d-main>*{position:relative;z-index:1}
 .who{display:flex;align-items:center;gap:14px;margin-bottom:28px}
-.avatar{width:50px;height:50px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;font-size:19px;color:#0a0d12;flex-shrink:0;background:linear-gradient(140deg,var(--tc,var(--lime)),color-mix(in srgb,var(--tc,var(--lime)) 66%,#000));box-shadow:0 8px 20px -8px color-mix(in srgb,var(--tc,var(--lime)) 55%,transparent);transition:background .35s,box-shadow .35s}
+.avatar{width:52px;height:52px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;font-size:19px;color:#0a0d12;flex-shrink:0;background:linear-gradient(140deg,var(--tc,var(--lime)),color-mix(in srgb,var(--tc,var(--lime)) 66%,#000));box-shadow:0 8px 20px -8px color-mix(in srgb,var(--tc,var(--lime)) 55%,transparent);transition:background .35s,box-shadow .35s}
+.avatar.has-img{background:none;overflow:hidden;box-shadow:0 0 0 2px var(--tc,var(--lime)),0 8px 22px -8px color-mix(in srgb,var(--tc,var(--lime)) 60%,transparent)}
+.avatar img{width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit}
 .who .nm{font-family:var(--font-display);font-weight:800;font-size:18px;color:var(--text-strong);letter-spacing:-.02em;line-height:1.1}
 .who .sub{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);margin-top:4px;display:flex;align-items:center;gap:6px}
 .dchip{display:inline-flex;align-items:center;gap:5px;color:#a9b2ff}
@@ -98,11 +100,13 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 .ring-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
 .ring-ic{font-size:33px;line-height:1;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45))}
 .ring-t{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--tc,var(--text-soft))}
-.prog-cap{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--text-soft);margin-top:22px}
+.prog-cap{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--text-soft);margin-top:20px}
 .prog-cap b{color:var(--text-strong);font-weight:700}
 .prog-cap #progTxt{font-family:var(--font-mono);color:var(--text)}
+.pbar{height:7px;border-radius:100px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.06);overflow:hidden;margin-top:11px}
+.pbar>span{display:block;height:100%;border-radius:100px;background:var(--tc,var(--lime));box-shadow:0 0 12px color-mix(in srgb,var(--tc,var(--lime)) 55%,transparent);width:0;transition:width 1.3s var(--ease),background .35s}
 @keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
-.submit-cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;background:linear-gradient(180deg,var(--lime),#b6e800);color:#0a0d12;font-size:15.5px;font-weight:800;border-radius:14px;margin-top:auto;box-shadow:0 16px 34px -12px rgba(200,255,0,.55),inset 0 1px 0 rgba(255,255,255,.4);transition:all .2s var(--ease)}
+.submit-cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;background:linear-gradient(180deg,var(--lime),#b6e800);color:#0a0d12;font-size:15.5px;font-weight:800;border-radius:14px;margin-top:26px;box-shadow:0 16px 34px -12px rgba(200,255,0,.55),inset 0 1px 0 rgba(255,255,255,.4);transition:all .2s var(--ease)}
 .submit-cta:hover{transform:translateY(-2px);box-shadow:0 22px 40px -12px rgba(200,255,0,.65)}
 .d-side{display:flex;flex-direction:column;gap:14px}
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;flex:1}
@@ -346,6 +350,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
             </div>
           </div>
           <div class="prog-cap"><span id="progLabel">Progress to next tier</span><span id="progTxt">0 / 1,000</span></div>
+          <div class="pbar"><span id="progBar"></span></div>
           <button class="submit-cta" onclick="openModal()">＋ Submit a purchase for points</button>
         </div>
 
@@ -403,17 +408,17 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
   <div class="container">
     <div class="sec-head center">
       <div class="eyebrow">Redeem</div>
-      <h2 class="rw-h2">Rewards Marketplace</h2>
-      <p class="rw-lead" id="catSub">Cash your points in for real funded accounts — from the firms we actually cover.</p>
-    </div>
-    <div class="mk-grid" id="rwdGrid"></div>
-
-    <div class="sec-head center mk-more-head">
-      <div class="eyebrow">More perks</div>
-      <h2 class="rw-h2">More ways to redeem</h2>
-      <p class="rw-lead">Points aren't just for accounts — grab raffle entries, discounts, merch, and cash.</p>
+      <h2 class="rw-h2">Raffles &amp; rewards</h2>
+      <p class="rw-lead" id="catSub">Enter the monthly $500 raffle, grab perks, or save up for a free funded account.</p>
     </div>
     <div class="rwd-grid" id="moreGrid"></div>
+
+    <div class="sec-head center mk-more-head">
+      <div class="eyebrow">Go big</div>
+      <h2 class="rw-h2">Free funded accounts</h2>
+      <p class="rw-lead">The big goal — bank your points for a fully-paid account from the firms we cover.</p>
+    </div>
+    <div class="mk-grid" id="rwdGrid"></div>
   </div>
 </section>
 
@@ -553,7 +558,9 @@ function renderMe(){
   }
   var u=ME.user;
   outV.classList.add('hidden'); inV.classList.remove('hidden'); act.classList.remove('hidden');
-  document.getElementById('uAvatar').textContent=initials(u.username);
+  var av=document.getElementById('uAvatar');
+  if(u.avatar&&u.discordId){av.classList.add('has-img');av.innerHTML='<img src="https://cdn.discordapp.com/avatars/'+u.discordId+'/'+u.avatar+'.png?size=128" alt="" referrerpolicy="no-referrer" onerror="this.remove();this.parentNode.classList.remove(\'has-img\');this.parentNode.textContent=\''+initials(u.username)+'\'">';}
+  else{av.classList.remove('has-img');av.textContent=initials(u.username);}
   document.getElementById('uName').textContent=u.username;
   countUp(document.getElementById('ptsBig'),u.lifetimePoints);
   document.getElementById('rankVal').textContent=u.rank;
@@ -570,12 +577,12 @@ function renderMe(){
     var pct=Math.max(3,Math.min(100,Math.round(into/span*100)));
     document.getElementById('progLabel').innerHTML='Progress to <b>'+esc(nt.n)+'</b>';
     document.getElementById('progTxt').textContent=u.lifetimePoints.toLocaleString()+' / '+nt.min.toLocaleString();
-    setTimeout(function(){document.getElementById('ringArc').style.strokeDashoffset=(RC*(1-pct/100)).toFixed(1);},350);
+    setTimeout(function(){document.getElementById('ringArc').style.strokeDashoffset=(RC*(1-pct/100)).toFixed(1);document.getElementById('progBar').style.width=pct+'%';},350);
     document.getElementById('nextReward').innerHTML='<span class="callout-label">Next tier</span>'+(nt.min-u.lifetimePoints).toLocaleString()+' points to <strong>'+esc(nt.n)+'</strong> — about '+Math.ceil((nt.min-u.lifetimePoints)/250)+' more approved purchases.';
   } else {
     document.getElementById('progLabel').innerHTML='<b>Champ’s Circle</b> — top tier reached';
     document.getElementById('progTxt').textContent=u.lifetimePoints.toLocaleString()+' pts';
-    setTimeout(function(){document.getElementById('ringArc').style.strokeDashoffset='0';},350);
+    setTimeout(function(){document.getElementById('ringArc').style.strokeDashoffset='0';document.getElementById('progBar').style.width='100%';},350);
   }
   document.querySelectorAll('.rung').forEach(function(r){r.classList.toggle('cur',r.getAttribute('data-tier')===u.tier);});
   renderCatalog(u.spendablePoints,true);
@@ -594,13 +601,13 @@ var FIRMS_META={
 };
 // Curated marketplace — each: {f:firm, size, type, val:$ value, cost:points, pop?, featured?}
 var MARKET=[
-  {f:'apex',size:'25K',type:'Evaluation',val:17,cost:1000},
-  {f:'tradify',size:'50K',type:'Evaluation',val:87,cost:5250,pop:true},
-  {f:'takeprofit',size:'50K',type:'Evaluation',val:130,cost:7750},
-  {f:'myfunded',size:'50K',type:'Evaluation',val:125,cost:7500},
-  {f:'lucid',size:'100K',type:'Evaluation',val:171,cost:10250},
-  {f:'fundednext',size:'100K',type:'Evaluation',val:280,cost:16750},
-  {f:'alpha',size:'100K',type:'Instant Funded',val:413,cost:30000,featured:true,note:'Skip the eval entirely — a straight-to-funded account.'}
+  {f:'apex',size:'25K',type:'Evaluation',val:17,cost:8000},
+  {f:'tradify',size:'50K',type:'Evaluation',val:87,cost:14000,pop:true},
+  {f:'takeprofit',size:'50K',type:'Evaluation',val:130,cost:15000},
+  {f:'myfunded',size:'50K',type:'Evaluation',val:125,cost:14000},
+  {f:'lucid',size:'100K',type:'Evaluation',val:171,cost:25000},
+  {f:'fundednext',size:'100K',type:'Evaluation',val:280,cost:28000},
+  {f:'alpha',size:'100K',type:'Instant Funded',val:413,cost:45000,featured:true,note:'Skip the eval entirely — a straight-to-funded account.'}
 ];
 var MORE=[
   {ic:'🎟️',title:'Monthly $500 raffle entry',desc:"One entry into this month's cash raffle. Stack as many as you want.",cost:250},
@@ -655,7 +662,7 @@ function applyAffordability(){
 }
 function renderCatalog(spendable,loggedIn){
   MK_STATE.spendable=spendable; MK_STATE.loggedIn=loggedIn;
-  document.getElementById('catSub').innerHTML=loggedIn?('Cash your points in for real funded accounts. You have <strong style="color:var(--lime-text)">'+spendable.toLocaleString()+'</strong> points to spend.'):'Cash your points in for real funded accounts. <a href="/auth/discord" style="color:var(--lime-text)">Log in</a> to start earning.';
+  document.getElementById('catSub').innerHTML=loggedIn?('Enter the monthly $500 raffle, grab perks, or save up for a free account. You have <strong style="color:var(--lime-text)">'+spendable.toLocaleString()+'</strong> points to spend.'):'Enter the monthly $500 raffle, grab perks, or save up for a free account. <a href="/auth/discord" style="color:var(--lime-text)">Log in</a> to start earning.';
   buildMarket();
   applyAffordability();
 }
