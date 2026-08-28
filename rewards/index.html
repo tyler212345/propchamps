@@ -634,14 +634,15 @@ var FIRMS_META={
   fundednext:{name:'FundedNext',logo:'/logos/mk/fundednext.png',ac:'#10c99a'}
 };
 // Curated marketplace — each: {f:firm, size, type, val:$ value, cost:points, pop?, featured?}
+// Redeemable accounts: ONLY Apex / Tradeify / Lucid / My Funded / FundedNext, and ONLY 25K + 50K (never 100K).
 var MARKET=[
   {f:'apex',size:'25K',type:'Evaluation',val:17,cost:8000},
-  {f:'tradify',size:'50K',type:'Evaluation',val:87,cost:14000,pop:true},
-  {f:'takeprofit',size:'50K',type:'Evaluation',val:130,cost:15000},
+  {f:'tradify',size:'25K',type:'Evaluation',val:59,cost:9000},
+  {f:'lucid',size:'25K',type:'Evaluation',val:50,cost:8500},
   {f:'myfunded',size:'50K',type:'Evaluation',val:125,cost:14000},
-  {f:'lucid',size:'100K',type:'Evaluation',val:171,cost:25000},
-  {f:'fundednext',size:'100K',type:'Evaluation',val:280,cost:28000},
-  {f:'alpha',size:'100K',type:'Instant Funded',val:413,cost:45000,featured:true,note:'Skip the eval entirely — a straight-to-funded account.'}
+  {f:'fundednext',size:'50K',type:'Evaluation',val:170,cost:15000},
+  {f:'tradify',size:'50K',type:'Evaluation',val:87,cost:14000,pop:true},
+  {f:'lucid',size:'50K',type:'Instant Funded',val:360,cost:35000,featured:true,note:'Skip the eval entirely — a straight-to-funded account.'}
 ];
 var MORE=[
   {ic:'🎟️',title:'Monthly $500 raffle entry',desc:"One entry into this month's cash raffle. Stack as many as you want.",cost:250},
