@@ -414,7 +414,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
       <h2 class="rw-h2">Raffles &amp; rewards</h2>
       <p class="rw-lead" id="catSub">Enter the monthly $500 raffle, grab perks, or save up for a free funded account.</p>
     </div>
-    <div class="rwd-grid" id="moreGrid"></div>
+    <div class="rwd-grid" id="moreGrid" style="grid-template-columns:repeat(auto-fit,minmax(260px,360px));justify-content:center"></div>
 
     <div class="sec-head center mk-more-head">
       <div class="eyebrow">Go big</div>
@@ -634,21 +634,19 @@ var FIRMS_META={
   fundednext:{name:'FundedNext',logo:'/logos/mk/fundednext.png',ac:'#10c99a'}
 };
 // Curated marketplace — each: {f:firm, size, type, val:$ value, cost:points, pop?, featured?}
-// Redeemable accounts: ONLY Apex / Tradeify / Lucid / My Funded / FundedNext, and ONLY 25K + 50K (never 100K).
+// Redeemable accounts: ONLY Lucid / FundedNext / My Funded / Tradeify (Apex removed), ONLY 25K + 50K.
+// Ordered by how many free accounts Champ actually gets from each firm: Lucid > FundedNext > MFF > Tradeify.
 var MARKET=[
-  {f:'apex',size:'25K',type:'Evaluation',val:17,cost:8000},
-  {f:'tradify',size:'25K',type:'Evaluation',val:59,cost:9000},
   {f:'lucid',size:'25K',type:'Evaluation',val:50,cost:8500},
-  {f:'myfunded',size:'50K',type:'Evaluation',val:125,cost:14000},
+  {f:'lucid',size:'50K',type:'Evaluation',val:90,cost:14000,pop:true},
+  {f:'fundednext',size:'25K',type:'Evaluation',val:80,cost:9000},
   {f:'fundednext',size:'50K',type:'Evaluation',val:170,cost:15000},
-  {f:'tradify',size:'50K',type:'Evaluation',val:87,cost:14000,pop:true},
+  {f:'myfunded',size:'50K',type:'Evaluation',val:125,cost:14000},
+  {f:'tradify',size:'50K',type:'Evaluation',val:87,cost:14000},
   {f:'lucid',size:'50K',type:'Instant Funded',val:360,cost:35000,featured:true,note:'Skip the eval entirely — a straight-to-funded account.'}
 ];
 var MORE=[
   {ic:'🎟️',title:'Monthly $500 raffle entry',desc:"One entry into this month's cash raffle. Stack as many as you want.",cost:250},
-  {ic:'💬',title:'Discord VIP role',desc:"A permanent supporter flair in Champ's server.",cost:500},
-  {ic:'🏷️',title:'$25 off your next challenge',desc:'Stackable discount on top of CHAMP at any firm we cover.',cost:1000},
-  {ic:'👕',title:'PropChamps merch drop',desc:'Limited hoodie + sticker pack, shipped to your door.',cost:2500},
   {ic:'💸',title:'$250 cash payout',desc:'Straight cash to your PayPal or Wise. No strings.',cost:12000}
 ];
 var MK_BUILT=false, MK_STATE={spendable:0,loggedIn:false};
