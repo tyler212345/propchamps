@@ -400,8 +400,8 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
     <div class="ladder">
       <div class="rung glass" data-tier="Bronze" data-rv><span class="youre">You're here</span><div class="ic">🥉</div><div class="tn">Bronze</div><div class="th">0+ pts</div><div class="pk">Discord role · leaderboard · raffle entries</div></div>
       <div class="rung glass" data-tier="Silver" data-rv><span class="youre">You're here</span><div class="ic">🥈</div><div class="tn">Silver</div><div class="th">1,000+ pts</div><div class="pk">Everything in Bronze · 2× raffle entries · early deal alerts</div></div>
-      <div class="rung glass" data-tier="Gold" data-rv><span class="youre">You're here</span><div class="ic">🥇</div><div class="tn">Gold</div><div class="th">3,000+ pts</div><div class="pk">Priority verification · exclusive giveaways · Gold flair</div></div>
-      <div class="rung glass" data-tier="Champ's Circle" data-rv><span class="youre">You're here</span><div class="ic">👑</div><div class="tn">Champ's Circle</div><div class="th">10,000+ pts</div><div class="pk">Free account drops · direct line to Champ · top-supporter perks</div></div>
+      <div class="rung glass" data-tier="Gold" data-rv><span class="youre">You're here</span><div class="ic">🥇</div><div class="tn">Gold</div><div class="th">10,000+ pts</div><div class="pk">Priority verification · exclusive giveaways · Gold flair</div></div>
+      <div class="rung glass" data-tier="Champ's Circle" data-rv><span class="youre">You're here</span><div class="ic">👑</div><div class="tn">Champ's Circle</div><div class="th">25,000+ pts</div><div class="pk">Free account drops · direct line to Champ · top-supporter perks</div></div>
     </div>
   </div>
 </section>
@@ -538,7 +538,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 
 <script>
 var ME=null, SELECTED_FILE=null;
-var TIERS=[{n:"Champ's Circle",min:10000},{n:'Gold',min:3000},{n:'Silver',min:1000},{n:'Bronze',min:0}];
+var TIERS=[{n:"Champ's Circle",min:25000},{n:'Gold',min:10000},{n:'Silver',min:1000},{n:'Bronze',min:0}];
 function tierClass(t){return t==="Champ's Circle"?'tier-champ':t==='Gold'?'tier-gold':t==='Silver'?'tier-silver':'tier-bronze';}
 function nextTier(pts){for(var i=TIERS.length-1;i>=0;i--){if(pts<TIERS[i].min)return TIERS[i];}return null;}
 function initials(n){return String(n||'?').replace(/[^A-Za-z0-9]/g,'').slice(0,2).toUpperCase()||'?';}
@@ -643,7 +643,7 @@ var MARKET=[
   {f:'fundednext',size:'50K',type:'Evaluation',val:170,cost:15000},
   {f:'myfunded',size:'50K',type:'Evaluation',val:125,cost:14000},
   {f:'tradify',size:'50K',type:'Evaluation',val:87,cost:14000},
-  {f:'lucid',size:'50K',type:'Instant Funded',val:360,cost:35000,featured:true,note:'Skip the eval entirely — a straight-to-funded account.'}
+  {f:'lucid',size:'100K',type:'Evaluation',val:171,cost:30000,featured:true,note:'The biggest account we offer — a fully-paid 100K evaluation.'}
 ];
 // id must match the server-side REWARDS catalog in worker/index.js.
 var MORE=[
@@ -669,11 +669,11 @@ function mkFeatHTML(m,f){
   return '<div class="mk-feat" data-firm="'+m.f+'" style="--fc:'+f.ac+'">'
     +'<div class="fx-glow"></div>'
     +'<div class="mk-logo'+(f.light?' light':'')+' fx-logo"><img src="'+f.logo+'" alt="'+esc(f.name)+'"></div>'
-    +'<div class="fx-body"><div class="fx-badge">⚡ Instant Funded · Top reward</div>'
-    +'<div class="fx-title">'+esc(f.name+' — '+m.size+' Funded')+'</div>'
+    +'<div class="fx-body"><div class="fx-badge">👑 Top reward</div>'
+    +'<div class="fx-title">'+esc(f.name+' — '+m.size+' '+m.type)+'</div>'
     +'<div class="fx-desc">'+esc(m.note||'')+'</div></div>'
     +'<div class="fx-foot"><div class="mk-pts"><span class="n">'+m.cost.toLocaleString()+'</span><span class="u">points</span></div>'
-    +'<button class="redeem locked" data-cost="'+m.cost+'" data-id="'+mkId(m)+'" data-name="'+esc(f.name+' — '+m.size+' Instant Funded')+'">Redeem</button></div></div>';
+    +'<button class="redeem locked" data-cost="'+m.cost+'" data-id="'+mkId(m)+'" data-name="'+esc(f.name+' — '+m.size+' '+m.type)+'">Redeem</button></div></div>';
 }
 function moreCardHTML(m){
   return '<div class="rwd glass"><div class="ic">'+m.ic+'</div><h3>'+esc(m.title)+'</h3><p>'+esc(m.desc)+'</p><div class="cost">'+m.cost.toLocaleString()+' <span class="x">points</span></div><button class="redeem locked" data-cost="'+m.cost+'" data-id="'+m.id+'" data-name="'+esc(m.title)+'">Redeem</button></div>';

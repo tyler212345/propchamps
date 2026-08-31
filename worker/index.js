@@ -18,8 +18,8 @@ const MAX_PENDING_PER_USER = 8;
 const AI_MODEL = 'claude-opus-5';
 
 const TIERS = [
-  { name: "Champ's Circle", min: 10000 },
-  { name: 'Gold', min: 3000 },
+  { name: "Champ's Circle", min: 25000 },
+  { name: 'Gold', min: 10000 },
   { name: 'Silver', min: 1000 },
   { name: 'Bronze', min: 0 },
 ];
@@ -38,11 +38,11 @@ function tierMultiplier(tier) {
 const REWARDS = {
   'lucid-25K-ev': { cost: 8500, label: 'Lucid Trading — 25K Evaluation' },
   'lucid-50K-ev': { cost: 14000, label: 'Lucid Trading — 50K Evaluation' },
-  'lucid-50K-if': { cost: 35000, label: 'Lucid Trading — 50K Instant Funded' },
   'fundednext-25K-ev': { cost: 9000, label: 'FundedNext — 25K Evaluation' },
   'fundednext-50K-ev': { cost: 15000, label: 'FundedNext — 50K Evaluation' },
   'myfunded-50K-ev': { cost: 14000, label: 'My Funded Futures — 50K Evaluation' },
   'tradify-50K-ev': { cost: 14000, label: 'Tradeify — 50K Evaluation' },
+  'lucid-100K-ev': { cost: 30000, label: 'Lucid Trading — 100K Evaluation' },
   'raffle-500': { cost: 250, raffle: true, label: 'Monthly $500 raffle entry' },
   'cashback-150': { cost: 10000, label: '$150 cash back' },
 };
