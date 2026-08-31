@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS submissions (
   user_id        TEXT NOT NULL,
   firm_slug      TEXT NOT NULL,
   claimed_amount TEXT,
+  kind           TEXT NOT NULL DEFAULT 'purchase', -- purchase (CHAMP buy, +250) | payout (1 pt per $1, admin-entered)
   image_key      TEXT NOT NULL,     -- R2 object key
   image_hash     TEXT,              -- SHA-256 of the bytes, for dedup
   status         TEXT NOT NULL DEFAULT 'pending',  -- pending | approved | rejected
@@ -35,6 +36,8 @@ CREATE TABLE IF NOT EXISTS submissions (
 CREATE INDEX IF NOT EXISTS idx_sub_user   ON submissions(user_id);
 CREATE INDEX IF NOT EXISTS idx_sub_status ON submissions(status);
 CREATE INDEX IF NOT EXISTS idx_sub_hash   ON submissions(image_hash);
+-- If submissions already exists from an earlier migration, add the column:
+--   ALTER TABLE submissions ADD COLUMN kind TEXT NOT NULL DEFAULT 'purchase';
 
 CREATE TABLE IF NOT EXISTS points_ledger (
   id            TEXT PRIMARY KEY,

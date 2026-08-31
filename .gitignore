@@ -7,3 +7,6 @@
 node_modules/
 .env
 .env.local
+
+# Wrangler local cache/state (never commit)
+.wrangler/

@@ -257,6 +257,10 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 .fld label{display:block;font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text-faint);margin-bottom:8px}
 .fld select,.fld input{width:100%;padding:13px 15px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:var(--text);font-size:14.5px;font-family:var(--font-body);transition:border-color .15s}
 .fld select:focus,.fld input:focus{outline:none;border-color:var(--lime)}
+.seg{display:flex;gap:6px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:5px;margin-bottom:18px}
+.seg-b{flex:1;padding:11px 8px;border-radius:9px;font-size:13.5px;font-weight:700;color:var(--text-soft);background:transparent;cursor:pointer;transition:all .15s}
+.seg-b:hover:not(.active){color:var(--text)}
+.seg-b.active{background:linear-gradient(180deg,var(--lime),#b6e800);color:#0a0d12;box-shadow:0 6px 16px -6px rgba(200,255,0,.5)}
 .drop{border:1.5px dashed rgba(255,255,255,.14);border-radius:14px;padding:26px;text-align:center;cursor:pointer;transition:all .18s;background:rgba(0,0,0,.2)}
 .drop:hover,.drop.hot{border-color:var(--lime);background:rgba(200,255,0,.04)}
 .drop .di{font-size:30px;margin-bottom:10px}
@@ -488,16 +492,20 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
   <div class="modal" id="modal">
     <button class="x-close" onclick="closeModal()">✕</button>
     <div id="formStage">
-      <h2>Submit a purchase</h2>
-      <p class="msub">Prove you funded an account with code CHAMP and earn <strong style="color:var(--lime-text)">250 points</strong>.</p>
+      <h2 id="mTitle">Submit a purchase</h2>
+      <p class="msub" id="mSub">Prove you funded an account with code CHAMP and earn <strong style="color:var(--lime-text)">250 points</strong>.</p>
+      <div class="seg" id="kindSeg">
+        <button type="button" class="seg-b active" data-kind="purchase" onclick="setKind('purchase')">🛒 CHAMP purchase</button>
+        <button type="button" class="seg-b" data-kind="payout" onclick="setKind('payout')">💸 Prop payout</button>
+      </div>
       <div class="fld">
-        <label>Which firm?</label>
+        <label id="fFirmLabel">Which firm?</label>
         <select id="fFirm">
           <option>Apex Trader Funding</option><option>Tradeify</option><option>Lucid Trading</option><option>FundedNext</option><option>Alpha Futures</option><option>Take Profit Trader</option><option>Top One Futures</option><option>My Funded Futures</option>
         </select>
       </div>
       <div class="fld">
-        <label>Account size / amount paid</label>
+        <label id="amtLabel">Account size / amount paid</label>
         <input id="fAmt" type="text" placeholder="e.g. 50K account — $87">
       </div>
       <div class="fld">
@@ -509,7 +517,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
         </div>
         <input id="file" type="file" accept="image/*" class="hidden" onchange="onFile(this)">
       </div>
-      <label class="chk"><input type="checkbox" id="fChk"> I confirm I used code <strong>CHAMP</strong> on this purchase and this receipt is my own.</label>
+      <label class="chk"><input type="checkbox" id="fChk"> <span id="chkLabel">I confirm I used code <strong>CHAMP</strong> on this purchase and this receipt is my own.</span></label>
       <button class="msubmit" id="submitBtn" onclick="doSubmit()">Submit for verification</button>
       <div id="submitErr" style="color:#f87171;font-size:13px;text-align:center;margin-top:12px;min-height:16px;line-height:1.4"></div>
     </div>
@@ -519,7 +527,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
       <h2>Verifying your receipt…</h2>
       <div class="vlist">
         <div class="vitem" id="v1"><div class="vc">1</div><span>Uploading your receipt</span></div>
-        <div class="vitem" id="v2"><div class="vc">2</div><span>Checking for code CHAMP</span></div>
+        <div class="vitem" id="v2"><div class="vc">2</div><span id="v2label">Checking for code CHAMP</span></div>
         <div class="vitem" id="v3"><div class="vc">3</div><span>Matching firm &amp; amount</span></div>
         <div class="vitem" id="v4"><div class="vc">4</div><span>Screening for duplicates</span></div>
       </div>
@@ -537,7 +545,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 <div class="toast" id="toast"><span class="ti">✓</span><span id="toastMsg"></span></div>
 
 <script>
-var ME=null, SELECTED_FILE=null;
+var ME=null, SELECTED_FILE=null, SUBMIT_KIND='purchase';
 var TIERS=[{n:"Champ's Circle",min:25000},{n:'Gold',min:10000},{n:'Silver',min:1000},{n:'Bronze',min:0}];
 function tierClass(t){return t==="Champ's Circle"?'tier-champ':t==='Gold'?'tier-gold':t==='Silver'?'tier-silver':'tier-bronze';}
 function nextTier(pts){for(var i=TIERS.length-1;i>=0;i--){if(pts<TIERS[i].min)return TIERS[i];}return null;}
@@ -705,10 +713,13 @@ function renderSubs(subs){
   var box=document.getElementById('subsBox');
   if(!subs.length){box.innerHTML='<div class="lb-empty glass" style="border-radius:18px">No submissions yet — hit “Submit a purchase” to get started.</div>';return;}
   box.innerHTML=subs.map(function(s){
-    var ic=s.status==='approved'?'✅':s.status==='rejected'?'❌':'🕒';
-    var pts=s.status==='approved'?('+'+(s.points_awarded||250)):s.status==='rejected'?'—':'+250';
-    var dtxt=s.status==='pending'?'Awaiting review':s.status==='approved'?('Approved · +'+(s.points_awarded||250)+' points'):'Not approved';
-    return '<div class="sub-row glass"><div class="sub-ic">'+ic+'</div><div class="sub-main"><div class="t">'+esc(s.firm_slug)+(s.claimed_amount?' · '+esc(s.claimed_amount):'')+'</div><div class="d">'+esc(fmtDate(s.created_at))+' · '+dtxt+'</div></div><span class="status '+esc(s.status)+'">'+esc(s.status)+'</span><span class="sub-pts">'+pts+'</span></div>';
+    var pay=s.kind==='payout';
+    var base=pay?250:250; // purchases are a flat 250; payouts are variable (unknown until approved)
+    var ic=s.status==='approved'?'✅':s.status==='rejected'?'❌':(pay?'💸':'🕒');
+    var pending=pay?'💸':'+250';
+    var pts=s.status==='approved'?('+'+(s.points_awarded||base)):s.status==='rejected'?'—':pending;
+    var dtxt=s.status==='pending'?(pay?'Payout · awaiting review':'Awaiting review'):s.status==='approved'?('Approved · +'+(s.points_awarded||base)+' points'):'Not approved';
+    return '<div class="sub-row glass"><div class="sub-ic">'+ic+'</div><div class="sub-main"><div class="t">'+esc(s.firm_slug)+(pay?' payout':'')+(s.claimed_amount?' · '+esc(s.claimed_amount):'')+'</div><div class="d">'+esc(fmtDate(s.created_at))+' · '+dtxt+'</div></div><span class="status '+esc(s.status)+'">'+esc(s.status)+'</span><span class="sub-pts">'+pts+'</span></div>';
   }).join('');
 }
 
@@ -738,14 +749,34 @@ function openModal(){
 }
 function closeModal(){document.getElementById('overlay').classList.remove('open');document.body.style.overflow='';}
 document.getElementById('overlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
+function setKind(k){
+  SUBMIT_KIND=(k==='payout')?'payout':'purchase';
+  var pay=SUBMIT_KIND==='payout';
+  var seg=document.getElementById('kindSeg');
+  if(seg)Array.prototype.forEach.call(seg.querySelectorAll('.seg-b'),function(b){b.classList.toggle('active',b.getAttribute('data-kind')===SUBMIT_KIND);});
+  document.getElementById('mTitle').textContent=pay?'Submit a payout':'Submit a purchase';
+  document.getElementById('mSub').innerHTML=pay
+    ?'Prove a payout you got from a prop firm and earn <strong style="color:var(--lime-text)">1 point per $1</strong> paid out.'
+    :'Prove you funded an account with code CHAMP and earn <strong style="color:var(--lime-text)">250 points</strong>.';
+  document.getElementById('fFirmLabel').textContent=pay?'Which firm paid you?':'Which firm?';
+  document.getElementById('amtLabel').textContent=pay?'Payout amount (USD)':'Account size / amount paid';
+  document.getElementById('fAmt').placeholder=pay?'e.g. 2,200':'e.g. 50K account — $87';
+  document.getElementById('chkLabel').innerHTML=pay
+    ?'I confirm this is a real payout I received and this screenshot is my own.'
+    :'I confirm I used code <strong>CHAMP</strong> on this purchase and this receipt is my own.';
+  document.getElementById('dropH').textContent=pay?'PNG or JPG · make sure the payout amount is clearly visible':'PNG or JPG · make sure code CHAMP is visible';
+  document.getElementById('v2label').textContent=pay?'Reading the payout amount':'Checking for code CHAMP';
+  document.getElementById('submitBtn').textContent=pay?'Submit payout for verification':'Submit for verification';
+}
 function resetForm(){
   ['verifyStage','doneStage'].forEach(function(id){document.getElementById(id).classList.add('hidden');});
   document.getElementById('formStage').classList.remove('hidden');
   document.getElementById('fChk').checked=false;document.getElementById('fAmt').value='';SELECTED_FILE=null;
-  var d=document.getElementById('drop');d.classList.remove('filled');document.getElementById('dropIc').textContent='📄';document.getElementById('dropT').textContent='Click to upload or drag a screenshot';document.getElementById('dropH').textContent='PNG or JPG · make sure code CHAMP is visible';
+  var d=document.getElementById('drop');d.classList.remove('filled');document.getElementById('dropIc').textContent='📄';document.getElementById('dropT').textContent='Click to upload or drag a screenshot';
   document.getElementById('file').value='';
   var se=document.getElementById('submitErr'); if(se)se.textContent='';
   ['v1','v2','v3','v4'].forEach(function(id){document.getElementById(id).classList.remove('done');});
+  setKind('purchase');
 }
 function onFile(inp){
   if(!inp.files||!inp.files[0])return;
@@ -759,8 +790,9 @@ var drop=document.getElementById('drop');
 drop.addEventListener('drop',function(ev){if(ev.dataTransfer.files.length)onFile({files:ev.dataTransfer.files});});
 
 async function doSubmit(){
-  if(!document.getElementById('fChk').checked){toast('Confirm you used code CHAMP first');return;}
-  if(!SELECTED_FILE){toast('Add a screenshot of your receipt');return;}
+  var pay=SUBMIT_KIND==='payout';
+  if(!document.getElementById('fChk').checked){toast(pay?'Confirm the payout details first':'Confirm you used code CHAMP first');return;}
+  if(!SELECTED_FILE){toast('Add a screenshot of your '+(pay?'payout':'receipt'));return;}
   document.getElementById('formStage').classList.add('hidden');
   document.getElementById('verifyStage').classList.remove('hidden');
   ['v1','v2','v3','v4'].forEach(function(id,i){setTimeout(function(){document.getElementById(id).classList.add('done');},400+i*450);});
@@ -768,6 +800,7 @@ async function doSubmit(){
   var fd=new FormData();
   fd.append('firm',document.getElementById('fFirm').value);
   fd.append('amount',document.getElementById('fAmt').value||'');
+  fd.append('kind',SUBMIT_KIND);
   fd.append('image',SELECTED_FILE);
   var res;
   try{ res=await fetch('/api/submit',{method:'POST',body:fd}).then(function(r){return r.json().then(function(j){return{status:r.status,j:j};});}); }
@@ -775,7 +808,10 @@ async function doSubmit(){
   await minDelay;
   if(res.j&&res.j.ok){
     var ai=res.j.ai, dt=document.getElementById('doneTitle'), dm=document.getElementById('doneMsg');
-    if(ai&&ai.recommendation==='approve'&&ai.champCodeVisible){
+    if(pay){
+      dt.textContent='Payout submitted! 💸';
+      dm.innerHTML='Your payout proof is in — the team will verify the amount and your points (<strong style="color:var(--lime-text)">1 per $1</strong>) will land once approved.';
+    } else if(ai&&ai.recommendation==='approve'&&ai.champCodeVisible){
       dt.textContent='Looks legit! ✅';
       dm.innerHTML='Our AI checked your receipt and it looks good — pending a final ✓ from the team. Your <strong style="color:var(--lime-text)">+250 points</strong> will land shortly.';
     } else if(ai&&ai.recommendation==='reject'){

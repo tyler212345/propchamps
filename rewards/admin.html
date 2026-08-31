@@ -27,6 +27,13 @@
 .b-app{background:var(--lime);color:var(--bg-base)}.b-app:hover{background:var(--lime-2)}
 .b-rej{background:var(--bg-elev);color:var(--neg);border:1px solid rgba(248,113,113,.35)}.b-rej:hover{border-color:var(--neg)}
 .q-actions button:disabled{opacity:.4;cursor:not-allowed}
+.q-actions.pay{flex-wrap:wrap;align-items:center}
+.kind-badge{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:100px;margin-bottom:8px;border:1px solid}
+.kind-badge.pay{color:#5eead4;border-color:rgba(94,234,212,.4);background:rgba(94,234,212,.08)}
+.pts-row{display:flex;flex-direction:column;gap:5px;margin-right:auto}
+.pts-lbl{font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text-faint)}
+.pts-in{width:130px;padding:9px 12px;background:var(--bg-base);border:1px solid var(--border-strong);border-radius:9px;color:var(--text-strong);font-size:15px;font-weight:700;font-family:var(--font-mono)}
+.pts-in:focus{outline:none;border-color:var(--lime)}
 .state{text-align:center;padding:60px 20px;color:var(--text-soft)}
 .state .big{font-size:40px;margin-bottom:14px}
 .gate{max-width:440px;margin:80px auto;text-align:center}
@@ -101,26 +108,50 @@ async function loadQueue(){
   var w=document.getElementById('wrap');
   var data=await fetch('/api/admin/queue').then(function(r){return r.json();}).catch(function(){return{queue:[]};});
   var q=data.queue||[];
-  var head='<div class="admin-head"><h1>Review queue</h1><span class="cnt">'+q.length+' pending</span></div><p class="admin-sub">Open each receipt, confirm code CHAMP is visible, and approve or reject. Approving awards 250 points.</p>';
+  var head='<div class="admin-head"><h1>Review queue</h1><span class="cnt">'+q.length+' pending</span></div><p class="admin-sub">Purchases: confirm code CHAMP is visible → approve for 250 points. Payouts: confirm the amount → award 1 point per $1.</p>';
   if(!q.length){ w.innerHTML=head+'<div class="state"><div class="big">✅</div>All caught up — nothing pending.</div>'; return; }
   w.innerHTML=head+q.map(function(s){
+    var pay=s.kind==='payout';
+    var guess=pay?parsePayout(s.claimed_amount):0;
+    var actions=pay
+      ? '<div class="q-actions pay"><div class="pts-row"><span class="pts-lbl">Points to award</span><input class="pts-in" id="pts-'+s.id+'" type="number" min="1" step="1" value="'+(guess||'')+'" placeholder="e.g. 2200"></div>'
+        +'<button class="b-app" onclick="review(\''+s.id+'\',\'approve\',this)">✓ Approve payout</button>'
+        +'<button class="b-rej" onclick="review(\''+s.id+'\',\'reject\',this)">✕ Reject</button></div>'
+      : '<div class="q-actions"><button class="b-app" onclick="review(\''+s.id+'\',\'approve\',this)">✓ Approve (+250)</button>'
+        +'<button class="b-rej" onclick="review(\''+s.id+'\',\'reject\',this)">✕ Reject</button></div>';
     return '<div class="q-card" id="card-'+s.id+'">'
       +'<img class="q-img" src="/api/admin/image/'+s.id+'" alt="receipt" onclick="zoom(this.src)" onerror="this.style.opacity=.3">'
       +'<div class="q-body">'
+      +(pay?'<div class="kind-badge pay">💸 Payout · 1 pt / $1</div>':'')
       +'<div class="q-firm">'+esc(s.firm_slug)+'</div>'
-      +'<div class="q-amt">'+esc(s.claimed_amount||'—')+'</div>'
+      +'<div class="q-amt">'+(pay?'Claimed payout: ':'')+esc(s.claimed_amount||'—')+'</div>'
       +'<div class="q-meta">by <strong>'+esc(s.username)+'</strong> · Discord '+esc(s.discord_id)+'<br>submitted '+esc(fmtDate(s.created_at))+'</div>'
-      +renderAI(s)
-      +'<div class="q-actions"><button class="b-app" onclick="review(\''+s.id+'\',\'approve\',this)">✓ Approve (+250)</button>'
-      +'<button class="b-rej" onclick="review(\''+s.id+'\',\'reject\',this)">✕ Reject</button></div>'
+      +(pay?'':renderAI(s))
+      +actions
       +'</div></div>';
   }).join('');
+}
+function parsePayout(str){
+  if(!str)return 0;
+  var m=String(str).replace(/,/g,'').match(/\d+(\.\d+)?/);
+  return m?Math.round(parseFloat(m[0])):0;
 }
 
 async function review(id,action,btn){
   var card=document.getElementById('card-'+id);
+  var payload={submissionId:id,action:action};
+  if(action==='approve'){
+    var inp=document.getElementById('pts-'+id);
+    if(inp){ // payout — award the entered amount (1 pt / $1)
+      var p=Math.floor(Number(inp.value));
+      if(!p||p<1){alert('Enter the payout points (1 per $1) before approving.');return;}
+      if(p>500000){alert('That exceeds the max of 500,000 points — double-check the amount.');return;}
+      if(!confirm('Award '+p.toLocaleString()+' points for this payout?'))return;
+      payload.points=p;
+    }
+  }
   card.querySelectorAll('button').forEach(function(b){b.disabled=true;});
-  var res=await fetch('/api/admin/review',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({submissionId:id,action:action})}).then(function(r){return r.json();}).catch(function(){return{error:'network'};});
+  var res=await fetch('/api/admin/review',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)}).then(function(r){return r.json();}).catch(function(){return{error:'network'};});
   if(res.ok){
     card.style.transition='opacity .4s';card.style.opacity='0';
     setTimeout(function(){card.remove();

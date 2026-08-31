@@ -11,6 +11,7 @@
  */
 
 const POINTS_PER_SUBMISSION = 250;
+const MAX_PAYOUT_POINTS = 500000; // sanity cap on a single payout award ($500k)
 const SESSION_TTL = 60 * 60 * 24 * 30; // 30 days
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
 const MAX_PENDING_PER_USER = 8;
@@ -270,7 +271,7 @@ async function apiMe(req, env) {
     .bind(u.id)
     .first();
   const subs = await env.DB.prepare(
-    'SELECT id, firm_slug, claimed_amount, status, points_awarded, created_at FROM submissions WHERE user_id=? ORDER BY created_at DESC LIMIT 12'
+    'SELECT id, firm_slug, claimed_amount, status, points_awarded, kind, created_at FROM submissions WHERE user_id=? ORDER BY created_at DESC LIMIT 12'
   )
     .bind(u.id)
     .all();
@@ -315,6 +316,7 @@ async function apiSubmit(req, env) {
   const form = await req.formData();
   const firm = String(form.get('firm') || '').slice(0, 80);
   const amount = String(form.get('amount') || '').slice(0, 80);
+  const kind = form.get('kind') === 'payout' ? 'payout' : 'purchase';
   const file = form.get('image');
   if (!firm || !file || typeof file === 'string') return json({ error: 'missing_fields' }, 400);
 
@@ -338,9 +340,9 @@ async function apiSubmit(req, env) {
 
   const now = new Date().toISOString();
   await env.DB.prepare(
-    'INSERT INTO submissions (id,user_id,firm_slug,claimed_amount,image_key,image_hash,status,created_at) VALUES (?,?,?,?,?,?,?,?)'
+    'INSERT INTO submissions (id,user_id,firm_slug,claimed_amount,image_key,image_hash,kind,status,created_at) VALUES (?,?,?,?,?,?,?,?,?)'
   )
-    .bind(subId, u.id, firm, amount, key, hash, 'pending', now)
+    .bind(subId, u.id, firm, amount, key, hash, kind, 'pending', now)
     .run();
 
   // AI triage — best-effort. Scores/annotates the submission for the admin
@@ -353,7 +355,7 @@ async function apiSubmit(req, env) {
     : type.includes('gif')
     ? 'image/gif'
     : 'image/jpeg';
-  try {
+  if (kind === 'purchase') try {
     const v = await verifyReceipt(env, bytes, mediaType, firm, amount);
     if (v && !v.error) {
       await env.DB.prepare('UPDATE submissions SET ai_score=?, ai_notes=? WHERE id=?')
@@ -440,7 +442,7 @@ async function adminQueue(req, env) {
   const u = await currentUser(req, env);
   if (!isAdmin(u, env)) return json({ error: 'forbidden' }, 403);
   const rows = await env.DB.prepare(
-    "SELECT s.id, s.firm_slug, s.claimed_amount, s.status, s.ai_score, s.ai_notes, s.created_at, u.username, u.discord_id " +
+    "SELECT s.id, s.firm_slug, s.claimed_amount, s.kind, s.status, s.ai_score, s.ai_notes, s.created_at, u.username, u.discord_id " +
       "FROM submissions s JOIN users u ON u.id=s.user_id WHERE s.status='pending' ORDER BY s.created_at ASC LIMIT 100"
   ).all();
   return json({ queue: rows.results || [] });
@@ -457,25 +459,35 @@ async function adminReview(req, env, ctx) {
   const now = new Date().toISOString();
 
   if (action === 'approve') {
+    // Purchases award a fixed +250. Payouts award 1 point per $1 of the payout,
+    // entered by the admin at review time (server-validated: positive integer,
+    // capped). The award is server-authoritative — the browser only proposes it.
+    const isPayout = sub.kind === 'payout';
+    let award = POINTS_PER_SUBMISSION;
+    if (isPayout) {
+      const p = Math.floor(Number(body.points));
+      if (!Number.isFinite(p) || p <= 0) return json({ error: 'bad_points' }, 400);
+      award = Math.min(p, MAX_PAYOUT_POINTS);
+    }
     // Atomic claim: only the first approval flips pending->approved, so a
     // double-click (two concurrent requests) can't award points twice.
     const claim = await env.DB
       .prepare("UPDATE submissions SET status='approved', points_awarded=?, reviewed_by=?, reviewed_at=? WHERE id=? AND status='pending'")
-      .bind(POINTS_PER_SUBMISSION, u.discord_id, now, subId)
+      .bind(award, u.discord_id, now, subId)
       .run();
     if (!claim.meta || claim.meta.changes !== 1) return json({ error: 'not_pending' }, 400);
     await env.DB.batch([
       env.DB.prepare(
         'INSERT INTO points_ledger (id,user_id,delta,reason,submission_id,created_at) VALUES (?,?,?,?,?,?)'
-      ).bind(crypto.randomUUID(), sub.user_id, POINTS_PER_SUBMISSION, 'submission_approved', subId, now),
+      ).bind(crypto.randomUUID(), sub.user_id, award, isPayout ? 'payout_approved' : 'submission_approved', subId, now),
       env.DB.prepare('UPDATE users SET lifetime_points=lifetime_points+?, spendable_points=spendable_points+? WHERE id=?')
-        .bind(POINTS_PER_SUBMISSION, POINTS_PER_SUBMISSION, sub.user_id),
+        .bind(award, award, sub.user_id),
       env.DB.prepare('INSERT INTO admin_actions (id,admin,action,target,created_at) VALUES (?,?,?,?,?)')
-        .bind(crypto.randomUUID(), u.discord_id, 'approve', subId, now),
+        .bind(crypto.randomUUID(), u.discord_id, isPayout ? 'approve_payout' : 'approve', subId, now),
     ]);
     const su = await env.DB.prepare('SELECT email, username, lifetime_points FROM users WHERE id=?').bind(sub.user_id).first();
     if (su && su.email && ctx && ctx.waitUntil)
-      ctx.waitUntil(sendApproved(env, su.email, su.username, sub.firm_slug, POINTS_PER_SUBMISSION, su.lifetime_points, new URL(req.url).origin));
+      ctx.waitUntil(sendApproved(env, su.email, su.username, sub.firm_slug, award, su.lifetime_points, new URL(req.url).origin, isPayout));
   } else if (action === 'reject') {
     await env.DB.batch([
       env.DB.prepare("UPDATE submissions SET status='rejected', reviewed_by=?, reviewed_at=? WHERE id=?")
@@ -680,15 +692,21 @@ async function sendWelcome(env, email, name, origin) {
     /* best-effort */
   }
 }
-async function sendApproved(env, email, username, firm, points, total, origin) {
+async function sendApproved(env, email, username, firm, points, total, origin, isPayout) {
   if (!email) return;
   try {
     const unsub = origin + '/unsub?e=' + encodeURIComponent(email) + '&t=' + (await unsubToken(email, env));
     const btn = 'display:inline-block;background:#c8ff00;color:#0a0d12;font-weight:700;text-decoration:none;padding:12px 22px;border-radius:10px;margin:10px 0;';
+    const line = isPayout
+      ? 'Your <strong>' + firm + '</strong> payout was verified and <strong>+' + points + ' points</strong> just hit your account.'
+      : 'Your <strong>' + firm + '</strong> submission was approved and <strong>+' + points + ' points</strong> just hit your account.';
+    const climb = isPayout
+      ? 'Keep logging your payouts and CHAMP purchases to climb the leaderboard and unlock rewards.'
+      : 'Keep submitting your CHAMP purchases to climb the leaderboard and unlock rewards.';
     const body =
       '<p>Nice work' + (username ? ', ' + username : '') + '! 🎉</p>' +
-      '<p>Your <strong>' + firm + '</strong> submission was approved and <strong>+' + points + ' points</strong> just hit your account.</p>' +
-      "<p>You're now at <strong>" + Number(total || 0).toLocaleString() + ' points</strong>. Keep submitting your CHAMP purchases to climb the leaderboard and unlock rewards.</p>' +
+      '<p>' + line + '</p>' +
+      "<p>You're now at <strong>" + Number(total || 0).toLocaleString() + ' points</strong>. ' + climb + '</p>' +
       '<p><a href="' + origin + '/rewards" style="' + btn + '">View your dashboard →</a></p>';
     await sendEmail(env, email, 'You earned ' + points + ' points! 🎉', emailShell('+' + points + ' points added', body, unsub));
   } catch (e) {
