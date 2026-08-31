@@ -53,6 +53,30 @@
 .ai-fields{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:8px;font-family:var(--font-mono);font-size:11px;color:var(--text-faint)}
 .ai-fields b{color:var(--text);font-weight:600}
 .ai-flags{margin:8px 0 0 16px;font-size:12px;color:var(--warning)}
+/* ---- per-person folders ---- */
+.folder{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;margin-bottom:14px;overflow:hidden}
+.folder.dup{border-color:rgba(248,113,113,.5)}
+.folder-head{display:flex;align-items:center;gap:14px;padding:15px 18px;cursor:pointer;user-select:none}
+.folder-head:hover{background:rgba(255,255,255,.025)}
+.fh-av{width:44px;height:44px;border-radius:12px;flex-shrink:0;background:linear-gradient(135deg,#2a3441,#151b24);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;color:var(--text-strong);font-size:15px;border:1px solid var(--border-strong);overflow:hidden}
+.fh-av img{width:100%;height:100%;object-fit:cover}
+.fh-main{flex:1;min-width:0}
+.fh-name{font-family:var(--font-display);font-weight:800;font-size:17px;color:var(--text-strong);letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fh-sub{font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint);margin-top:3px}
+.fh-chevron{font-size:13px;color:var(--text-faint);transition:transform .2s;flex-shrink:0}
+.folder.open .fh-chevron{transform:rotate(180deg)}
+.folder-body{display:none;padding:2px 14px 14px;flex-direction:column;gap:12px}
+.folder.open .folder-body{display:flex}
+.folder-body .q-card{margin-bottom:0;background:var(--bg-band)}
+.dup-badge{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.03em;padding:4px 10px;border-radius:100px;border:1px solid;margin-bottom:8px;line-height:1.3}
+.dup-badge.duplicate{color:var(--neg);border-color:rgba(248,113,113,.5);background:rgba(248,113,113,.1)}
+.dup-badge.similar{color:var(--warning);border-color:rgba(251,191,36,.45);background:rgba(251,191,36,.09)}
+.fh-flag{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:4px 10px;border-radius:100px;border:1px solid rgba(248,113,113,.5);color:var(--neg);background:rgba(248,113,113,.1);white-space:nowrap;flex-shrink:0}
+.reason-box{margin-top:12px}
+.reason-box label{display:block;font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text-faint);margin-bottom:6px}
+.reason-in{width:100%;min-height:62px;resize:vertical;padding:10px 12px;background:var(--bg-base);border:1px solid var(--border-strong);border-radius:10px;color:var(--text);font-size:13px;font-family:inherit;line-height:1.5}
+.reason-in:focus{outline:none;border-color:var(--neg)}
+.reason-hint{font-size:11px;color:var(--text-faint);margin-top:5px}
 @media(max-width:640px){.q-card{grid-template-columns:1fr}.q-img{width:100%;height:180px}}
 </style>
 </head>
@@ -104,33 +128,61 @@ async function init(){
   loadQueue();
 }
 
+function initials(n){return String(n||'?').replace(/[^A-Za-z0-9]/g,'').slice(0,2).toUpperCase()||'?';}
+function aiRedFlagsText(s){
+  try{ var v=JSON.parse(s.ai_notes||'{}'); var f=Array.isArray(v.redFlags)?v.redFlags:[]; return f.map(function(x){return String(x||'').trim();}).filter(Boolean).join('\n'); }catch(e){ return ''; }
+}
+function countLabel(pending,people){ return pending+' pending · '+people+' '+(people===1?'person':'people'); }
+
 async function loadQueue(){
   var w=document.getElementById('wrap');
-  var data=await fetch('/api/admin/queue').then(function(r){return r.json();}).catch(function(){return{queue:[]};});
-  var q=data.queue||[];
-  var head='<div class="admin-head"><h1>Review queue</h1><span class="cnt">'+q.length+' pending</span></div><p class="admin-sub">Purchases: confirm code CHAMP is visible → approve for 250 points. Payouts: confirm the amount → award 1 point per $1.</p>';
-  if(!q.length){ w.innerHTML=head+'<div class="state"><div class="big">✅</div>All caught up — nothing pending.</div>'; return; }
-  w.innerHTML=head+q.map(function(s){
-    var pay=s.kind==='payout';
-    var guess=pay?parsePayout(s.claimed_amount):0;
-    var actions=pay
-      ? '<div class="q-actions pay"><div class="pts-row"><span class="pts-lbl">Points to award</span><input class="pts-in" id="pts-'+s.id+'" type="number" min="1" step="1" value="'+(guess||'')+'" placeholder="e.g. 2200"></div>'
-        +'<button class="b-app" onclick="review(\''+s.id+'\',\'approve\',this)">✓ Approve payout</button>'
-        +'<button class="b-rej" onclick="review(\''+s.id+'\',\'reject\',this)">✕ Reject</button></div>'
-      : '<div class="q-actions"><button class="b-app" onclick="review(\''+s.id+'\',\'approve\',this)">✓ Approve (+250)</button>'
-        +'<button class="b-rej" onclick="review(\''+s.id+'\',\'reject\',this)">✕ Reject</button></div>';
-    return '<div class="q-card" id="card-'+s.id+'">'
-      +'<img class="q-img" src="/api/admin/image/'+s.id+'" alt="receipt" onclick="zoom(this.src)" onerror="this.style.opacity=.3">'
-      +'<div class="q-body">'
-      +(pay?'<div class="kind-badge pay">💸 Payout · 1 pt / $1</div>':'')
-      +'<div class="q-firm">'+esc(s.firm_slug)+'</div>'
-      +'<div class="q-amt">'+(pay?'Claimed payout: ':'')+esc(s.claimed_amount||'—')+'</div>'
-      +'<div class="q-meta">by <strong>'+esc(s.username)+'</strong> · Discord '+esc(s.discord_id)+'<br>submitted '+esc(fmtDate(s.created_at))+'</div>'
-      +(pay?'':renderAI(s))
-      +actions
-      +'</div></div>';
-  }).join('');
+  var data=await fetch('/api/admin/queue').then(function(r){return r.json();}).catch(function(){return{groups:[],count:0};});
+  var groups=data.groups||[]; var count=data.count||0;
+  var head='<div class="admin-head"><h1>Review queue</h1><span class="cnt">'+countLabel(count,groups.length)+'</span></div>'
+    +'<p class="admin-sub">Grouped by person — click a name to open their submissions. Purchases: confirm code CHAMP → approve (+250). Payouts: confirm the amount → award 1 pt/$1. Rejecting emails them the reason (pre-filled from the AI — edit it first). A <span style="color:var(--neg);font-weight:600">red flag</span> means a possible repeat submission.</p>';
+  if(!count){ w.innerHTML=head+'<div class="state"><div class="big">✅</div>All caught up — nothing pending.</div>'; return; }
+  var single=groups.length===1;
+  w.innerHTML=head+groups.map(function(g){return renderFolder(g, single||g.hasDuplicates);}).join('');
 }
+function renderFolder(g, open){
+  var n=g.submissions.length;
+  var avImg=g.avatar?'<img src="https://cdn.discordapp.com/avatars/'+esc(g.discord_id)+'/'+esc(g.avatar)+'.png?size=64" alt="" onerror="this.style.display=\'none\';this.parentNode.textContent=\''+initials(g.username)+'\'">':initials(g.username);
+  var flag=g.hasDuplicates?'<span class="fh-flag">⚠ possible repeat</span>':'';
+  return '<div class="folder'+(g.hasDuplicates?' dup':'')+(open?' open':'')+'" id="folder-'+esc(g.user_id)+'">'
+    +'<div class="folder-head" onclick="toggleFolder(\''+esc(g.user_id)+'\')">'
+    +'<div class="fh-av">'+avImg+'</div>'
+    +'<div class="fh-main"><div class="fh-name">'+esc(g.username)+'</div><div class="fh-sub">'+n+' pending · Discord '+esc(g.discord_id)+'</div></div>'
+    +flag+'<div class="fh-chevron">▾</div></div>'
+    +'<div class="folder-body">'+g.submissions.map(renderSub).join('')+'</div>'
+    +'</div>';
+}
+function renderSub(s){
+  var pay=s.kind==='payout';
+  var guess=pay?parsePayout(s.claimed_amount):0;
+  var dupBadge=s.dup?('<div class="dup-badge '+esc(s.dup.level)+'">'+(s.dup.level==='duplicate'?'🚫 ':'⚠ ')+esc(s.dup.note)+'</div>'):'';
+  var reasonBox='<div class="reason-box"><label>Rejection note — emailed if you reject</label>'
+    +'<textarea class="reason-in" id="reason-'+s.id+'" placeholder="Why is this being rejected? (blank = send the default note)">'+esc(aiRedFlagsText(s))+'</textarea>'
+    +'<div class="reason-hint">Pre-filled from the AI. Edit or clear before you reject.</div></div>';
+  var actions=pay
+    ? '<div class="q-actions pay"><div class="pts-row"><span class="pts-lbl">Points to award</span><input class="pts-in" id="pts-'+s.id+'" type="number" min="1" step="1" value="'+(guess||'')+'" placeholder="e.g. 2200"></div>'
+      +'<button class="b-app" onclick="review(\''+s.id+'\',\'approve\',this)">✓ Approve payout</button>'
+      +'<button class="b-rej" onclick="review(\''+s.id+'\',\'reject\',this)">✕ Reject</button></div>'
+    : '<div class="q-actions"><button class="b-app" onclick="review(\''+s.id+'\',\'approve\',this)">✓ Approve (+250)</button>'
+      +'<button class="b-rej" onclick="review(\''+s.id+'\',\'reject\',this)">✕ Reject</button></div>';
+  return '<div class="q-card" id="card-'+s.id+'">'
+    +'<img class="q-img" src="/api/admin/image/'+s.id+'" alt="receipt" onclick="zoom(this.src)" onerror="this.style.opacity=.3">'
+    +'<div class="q-body">'
+    +(pay?'<div class="kind-badge pay">💸 Payout · 1 pt / $1</div>':'')
+    +dupBadge
+    +'<div class="q-firm">'+esc(s.firm_slug)+'</div>'
+    +'<div class="q-amt">'+(pay?'Claimed payout: ':'')+esc(s.claimed_amount||'—')+'</div>'
+    +'<div class="q-meta">submitted '+esc(fmtDate(s.created_at))+'</div>'
+    +(pay?'':renderAI(s))
+    +reasonBox
+    +actions
+    +'</div></div>';
+}
+function toggleFolder(id){var f=document.getElementById('folder-'+id);if(f)f.classList.toggle('open');}
 function parsePayout(str){
   if(!str)return 0;
   var m=String(str).replace(/,/g,'').match(/\d+(\.\d+)?/);
@@ -149,15 +201,23 @@ async function review(id,action,btn){
       if(!confirm('Award '+p.toLocaleString()+' points for this payout?'))return;
       payload.points=p;
     }
+  } else if(action==='reject'){
+    var r=document.getElementById('reason-'+id);
+    if(r)payload.reason=r.value;
+    if(!confirm('Reject this submission? They’ll be emailed the reason'+((r&&r.value.trim())?'.':' (default note).')))return;
   }
   card.querySelectorAll('button').forEach(function(b){b.disabled=true;});
   var res=await fetch('/api/admin/review',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)}).then(function(r){return r.json();}).catch(function(){return{error:'network'};});
   if(res.ok){
-    card.style.transition='opacity .4s';card.style.opacity='0';
-    setTimeout(function(){card.remove();
-      var cnt=document.querySelector('.admin-head .cnt');var n=Math.max(0,parseInt(cnt.textContent)-1);cnt.textContent=n+' pending';
-      if(!document.querySelector('.q-card'))loadQueue();
-    },400);
+    var folder=card.closest('.folder');
+    card.style.transition='opacity .3s';card.style.opacity='0';
+    setTimeout(function(){
+      card.remove();
+      if(folder&&!folder.querySelector('.q-card'))folder.remove();
+      var cnt=document.querySelector('.admin-head .cnt');
+      if(cnt){var m=cnt.textContent.match(/^(\d+)/);var n=Math.max(0,(m?parseInt(m[1],10):1)-1);cnt.textContent=countLabel(n,document.querySelectorAll('.folder').length);}
+      if(!document.querySelector('.folder'))loadQueue();
+    },320);
   } else { alert('Error: '+(res.error||'failed')); card.querySelectorAll('button').forEach(function(b){b.disabled=false;}); }
 }
 function zoom(src){document.getElementById('lbImg').src=src;document.getElementById('lightbox').classList.add('open');}

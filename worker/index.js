@@ -187,15 +187,20 @@ function toBase64(buf) {
 async function verifyReceipt(env, bytes, mediaType, firmClaimed, amountClaimed) {
   if (!env.ANTHROPIC_API_KEY) return { error: 'no_key' };
   if (bytes.byteLength > 5 * 1024 * 1024) return { error: 'image_too_large' }; // over the vision API per-image limit
+  const today = new Date().toISOString().slice(0, 10);
   const prompt =
     'You are verifying a proof-of-purchase for a futures prop-firm rewards program. The user claims they funded an account at "' +
     firmClaimed + '"' + (amountClaimed ? ' for "' + amountClaimed + '"' : '') + ' using discount code CHAMP.\n\n' +
+    "Today's date is " + today + '. Use this as the current date for any reasoning — do NOT rely on your own sense of what today is.\n\n' +
     'Examine the image and respond with ONLY a JSON object (no prose, no markdown fences) in exactly this shape:\n' +
-    '{"isReceipt":boolean,"firmDetected":string|null,"amountDetected":string|null,"champCodeVisible":boolean,"confidence":number,"recommendation":"approve"|"review"|"reject","redFlags":[string],"summary":string}\n\n' +
+    '{"isReceipt":boolean,"firmDetected":string|null,"amountDetected":string|null,"orderId":string|null,"champCodeVisible":boolean,"confidence":number,"recommendation":"approve"|"review"|"reject","redFlags":[string],"summary":string}\n\n' +
     'Rules: confidence is 0.0-1.0 that this is a genuine purchase made with code CHAMP. ' +
+    'orderId = the order / invoice / transaction / confirmation number shown on the receipt (used to spot duplicate submissions of the same purchase), or null if none is visible. ' +
     'If code CHAMP is not clearly visible in the image, set champCodeVisible=false and recommendation no higher than "review". ' +
     'If the image is clearly not an order receipt or confirmation, set isReceipt=false and recommendation="reject". ' +
-    'Flag red flags such as edited or mismatched numbers, a screenshot of a screenshot, or a firm that differs from the claim. Keep summary to one short sentence.';
+    'Flag red flags such as edited or mismatched numbers, a screenshot of a screenshot, or a firm that differs from the claim. ' +
+    "Only flag a date as implausible if it is clearly wrong relative to today's date above (e.g. dated in the future, or years off) — a recent PAST date is normal, never flag that. " +
+    'Write each red flag as a short, user-facing sentence (it may be shown to the submitter). Keep summary to one short sentence.';
   let res;
   try {
     res = await fetch('https://api.anthropic.com/v1/messages', {
@@ -584,14 +589,59 @@ async function apiRewardStock(req, env) {
 }
 
 // ---------- admin ----------
+function aiField(aiNotes, key) {
+  try { const v = JSON.parse(aiNotes || '{}'); const x = v[key]; return x == null ? '' : String(x).trim(); } catch (e) { return ''; }
+}
+function aiRedFlags(aiNotes) {
+  try { const v = JSON.parse(aiNotes || '{}'); const f = Array.isArray(v.redFlags) ? v.redFlags : []; return f.map((x) => String(x || '').trim()).filter(Boolean); } catch (e) { return []; }
+}
+
 async function adminQueue(req, env) {
   const u = await currentUser(req, env);
   if (!isAdmin(u, env)) return json({ error: 'forbidden' }, 403);
   const rows = await env.DB.prepare(
-    "SELECT s.id, s.firm_slug, s.claimed_amount, s.kind, s.status, s.ai_score, s.ai_notes, s.created_at, u.username, u.discord_id " +
-      "FROM submissions s JOIN users u ON u.id=s.user_id WHERE s.status='pending' ORDER BY s.created_at ASC LIMIT 100"
+    'SELECT s.id, s.user_id, s.firm_slug, s.claimed_amount, s.kind, s.status, s.ai_score, s.ai_notes, s.image_hash, s.created_at, u.username, u.discord_id, u.avatar ' +
+      "FROM submissions s JOIN users u ON u.id=s.user_id WHERE s.status='pending' ORDER BY s.created_at ASC LIMIT 200"
   ).all();
-  return json({ queue: rows.results || [] });
+  const subs = rows.results || [];
+  // Group pending submissions by user (people usually send several at once).
+  const byUser = new Map();
+  for (const s of subs) {
+    if (!byUser.has(s.user_id))
+      byUser.set(s.user_id, { user_id: s.user_id, discord_id: s.discord_id, username: s.username, avatar: s.avatar, submissions: [] });
+    byUser.get(s.user_id).submissions.push(s);
+  }
+  const groups = [];
+  for (const g of byUser.values()) {
+    // Duplicate detection within a user's batch. Hard = same order/invoice number
+    // (AI-read) or byte-identical image; soft = same firm + amount (worth a look).
+    const hard = {}, soft = {};
+    for (const s of g.submissions) {
+      const oid = aiField(s.ai_notes, 'orderId').toLowerCase();
+      s._hard = oid ? 'o:' + oid : s.image_hash ? 'h:' + s.image_hash : '';
+      const firm = aiField(s.ai_notes, 'firmDetected').toLowerCase();
+      const amt = aiField(s.ai_notes, 'amountDetected').toLowerCase().replace(/\s+/g, '');
+      s._soft = firm && amt ? 's:' + firm + '|' + amt : '';
+      if (s._hard) hard[s._hard] = (hard[s._hard] || 0) + 1;
+      if (s._soft) soft[s._soft] = (soft[s._soft] || 0) + 1;
+    }
+    let dupAny = false;
+    for (const s of g.submissions) {
+      if (s._hard && hard[s._hard] > 1) {
+        s.dup = { level: 'duplicate', note: s._hard[0] === 'o' ? 'Same order/invoice number as another submission' : 'Byte-identical image to another submission' };
+        dupAny = true;
+      } else if (s._soft && soft[s._soft] > 1) {
+        s.dup = { level: 'similar', note: 'Same firm & amount as another — check it is not a repeat' };
+        dupAny = true;
+      }
+      delete s._hard; delete s._soft; delete s.image_hash; // internal only
+    }
+    g.hasDuplicates = dupAny;
+    groups.push(g);
+  }
+  // Folders with possible duplicates float to the top; otherwise oldest first.
+  groups.sort((a, b) => b.hasDuplicates - a.hasDuplicates || (a.submissions[0].created_at < b.submissions[0].created_at ? -1 : 1));
+  return json({ groups, count: subs.length });
 }
 
 async function adminReview(req, env, ctx) {
@@ -635,15 +685,24 @@ async function adminReview(req, env, ctx) {
     if (su && su.email && ctx && ctx.waitUntil)
       ctx.waitUntil(sendApproved(env, su.email, su.username, sub.firm_slug, award, su.lifetime_points, new URL(req.url).origin, isPayout));
   } else if (action === 'reject') {
+    // Reason shown in the email: admin-edited text wins (one per line); else the
+    // AI's red flags. Stored on the action row for the audit trail.
+    let reasons = [];
+    if (typeof body.reason === 'string' && body.reason.trim()) {
+      reasons = body.reason.split('\n').map((s) => s.trim()).filter(Boolean).slice(0, 8);
+    } else {
+      reasons = aiRedFlags(sub.ai_notes).slice(0, 8);
+    }
+    const note = reasons.join(' | ').slice(0, 800);
     await env.DB.batch([
       env.DB.prepare("UPDATE submissions SET status='rejected', reviewed_by=?, reviewed_at=? WHERE id=?")
         .bind(u.discord_id, now, subId),
-      env.DB.prepare('INSERT INTO admin_actions (id,admin,action,target,created_at) VALUES (?,?,?,?,?)')
-        .bind(crypto.randomUUID(), u.discord_id, 'reject', subId, now),
+      env.DB.prepare('INSERT INTO admin_actions (id,admin,action,target,note,created_at) VALUES (?,?,?,?,?,?)')
+        .bind(crypto.randomUUID(), u.discord_id, 'reject', subId, note, now),
     ]);
     const su = await env.DB.prepare('SELECT email, username FROM users WHERE id=?').bind(sub.user_id).first();
     if (su && su.email && ctx && ctx.waitUntil)
-      ctx.waitUntil(sendRejected(env, su.email, su.username, sub.firm_slug, new URL(req.url).origin, env.DISCORD_INVITE_URL));
+      ctx.waitUntil(sendRejected(env, su.email, su.username, sub.firm_slug, new URL(req.url).origin, env.DISCORD_INVITE_URL, reasons));
   } else {
     return json({ error: 'bad_action' }, 400);
   }
@@ -807,6 +866,10 @@ function emailShell(heading, bodyHtml, unsubUrl) {
     '</p></div></body></html>'
   );
 }
+function escHtml(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
 function messageToHtml(text) {
   var e = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   e = e.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" style="color:#5b8a00;">$1</a>');
@@ -859,17 +922,25 @@ async function sendApproved(env, email, username, firm, points, total, origin, i
     /* best-effort */
   }
 }
-async function sendRejected(env, email, username, firm, origin, discordUrl) {
+async function sendRejected(env, email, username, firm, origin, discordUrl, reasons) {
   if (!email) return;
   try {
     const unsub = origin + '/unsub?e=' + encodeURIComponent(email) + '&t=' + (await unsubToken(email, env));
     const link = discordUrl
       ? '<a href="' + discordUrl + '" style="color:#5b8a00;font-weight:600;">open a ticket in our Discord</a>'
       : 'open a ticket in our Discord';
+    const list = (Array.isArray(reasons) ? reasons : []).map((r) => String(r || '').trim()).filter(Boolean).slice(0, 8);
+    const reasonBlock = list.length
+      ? "<p>Here's what we couldn't verify:</p>" +
+        '<ul style="padding-left:18px;margin:10px 0;color:#374151;line-height:1.55;">' +
+        list.map((r) => '<li style="margin:5px 0;">' + escHtml(r) + '</li>').join('') +
+        '</ul>'
+      : "<p>Usually that means we couldn't clearly see code <strong>CHAMP</strong> on the receipt, or the details didn't line up.</p>";
     const body =
-      '<p>Hey' + (username ? ' ' + username : '') + ',</p>' +
-      '<p>Your <strong>' + firm + "</strong> submission wasn't approved this time. Usually that means we couldn't clearly see code <strong>CHAMP</strong> on the receipt, or the details didn't line up.</p>" +
-      '<p>If you think that was a mistake, ' + link + " and we'll get it corrected fast.</p>" +
+      '<p>Hey' + (username ? ' ' + escHtml(username) : '') + ',</p>' +
+      '<p>Your <strong>' + escHtml(firm) + "</strong> submission wasn't approved this time.</p>" +
+      reasonBlock +
+      '<p>Fixed it, or think this was a mistake? Re-submit with a clearer screenshot, or ' + link + " and we'll sort it out fast.</p>" +
       '<p style="font-size:13px;color:#6b7280;">— The PropChamps team</p>';
     await sendEmail(env, email, 'About your recent submission', emailShell('Submission update', body, unsub));
   } catch (e) {
