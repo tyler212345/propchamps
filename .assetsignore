@@ -1,1 +1,25 @@
+# Files/dirs listed here are NOT uploaded as public static assets.
+# The assets directory is the repo root ("./"), so everything not needed by
+# the public site must be excluded — especially source, config, VCS, and
+# local/dev state. Gitignore-style syntax.
+
+# source + build tooling (never needed by the browser)
 worker
+tools
+
+# Cloudflare / project config (contains infra + admin IDs — not secret, but not public)
+wrangler.jsonc
+
+# version control (would otherwise expose the entire repo + history)
+.git
+
+# local dev / editor state
+.wrangler
+.claude
+.gitignore
+.assetsignore
+.DS_Store
+
+# docs + drafts not meant to be served
+README.md
+preview
