@@ -329,14 +329,14 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
     <nav class="primary">
       <a href="/">Firms</a><a href="/compare">Compare</a><a href="/deals">Deals</a><a href="/payouts">Payouts</a><a href="/blog/">Blog</a><a href="/rewards" class="active">Rewards</a>
     </nav>
-    <a class="header-cta" href="#submit" onclick="openModal();return false;">Submit a purchase
+    <a class="header-cta" href="#submit" onclick="openModal();return false;">Submit for points
       <svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L11 8 L5 4"/></svg>
     </a>
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><span class="bar"></span></button>
   </div></header>
 <div class="mobile-menu" id="mobileMenu">
   <a href="/">Firms</a><a href="/compare">Compare</a><a href="/deals">Deals</a><a href="/payouts">Payouts</a><a href="/blog/">Blog</a><a href="/rewards">Rewards</a>
-  <a class="mobile-cta" href="#" onclick="closeMenu();openModal();return false;">Submit a purchase →</a>
+  <a class="mobile-cta" href="#" onclick="closeMenu();openModal();return false;">Submit for points →</a>
 </div>
 
 <!-- ============ HERO ============ -->
@@ -347,7 +347,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
     <div id="viewOut" class="lo">
       <div class="eyebrow" style="justify-content:center">PropChamps Rewards</div>
       <h1>Get <span class="accent">rewarded</span><br>for trading with CHAMP</h1>
-      <p>Submit proof of any account you fund with code CHAMP, earn points, climb the leaderboard, and unlock real rewards — including free accounts.</p>
+      <p>Submit proof of any account you fund with code CHAMP — or a payout you pull from a prop firm — to earn points, climb the leaderboard, and unlock real rewards, including free accounts.</p>
       <a class="discord-btn" href="/auth/discord">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.445.865-.608 1.249a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.036A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.009c.12.099.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.891.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.331c-1.183 0-2.157-1.086-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.211 0 2.176 1.096 2.157 2.42 0 1.332-.955 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.086-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.211 0 2.176 1.096 2.157 2.42 0 1.332-.946 2.418-2.157 2.418z"/></svg>
         Log in with Discord
@@ -384,7 +384,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
           </div>
           <div class="prog-cap"><span id="progLabel">Progress to next tier</span><span id="progTxt">0 / 1,000</span></div>
           <div class="pbar"><span id="progBar"></span></div>
-          <button class="submit-cta" onclick="openModal()">＋ Submit a purchase for points</button>
+          <button class="submit-cta" onclick="openModal()">＋ Submit a purchase or payout</button>
         </div>
 
         <div class="d-side">
@@ -394,7 +394,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
             <div class="stat"><div class="s-ic"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" fill="#c8ff00"/><path d="M12 7 l1.5 3 3.3 .48 -2.4 2.34 .57 3.28 -2.95 -1.55 -2.95 1.55 .57 -3.28 -2.4 -2.34 3.3 -.48 Z" fill="#0a0d12"/></svg></div><div class="s-body"><div class="v" id="spendVal">0</div><div class="k">Total earned</div></div></div>
             <div class="stat"><div class="s-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6.5 H20 A2 2 0 0 1 22 8.5 V10.3 A1.9 1.9 0 0 0 22 14.1 V15.5 A2 2 0 0 1 20 17.5 H4 A2 2 0 0 1 2 15.5 V14.1 A1.9 1.9 0 0 0 2 10.3 V8.5 A2 2 0 0 1 4 6.5 Z" fill="#c8ff00"/><path d="M13.5 8 V16" stroke="#0a0d12" stroke-width="1.7" stroke-linecap="round" stroke-dasharray="2 2.2"/></svg></div><div class="s-body"><div class="v">$500</div><div class="k">Raffle this month</div></div></div>
           </div>
-          <div class="next-rw glass" id="nextReward"><span class="callout-label">Keep going</span>Every approved purchase is <strong>+250 points</strong>. Submit your latest to climb.</div>
+          <div class="next-rw glass" id="nextReward"><span class="callout-label">Keep going</span>Every approved purchase is <strong>+250 points</strong>, and payouts earn <strong>1 point per $1</strong>. Submit yours to climb.</div>
         </div>
       </div>
     </div>
@@ -500,7 +500,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
         <h2 class="rw-h2" style="font-size:clamp(24px,3.4vw,34px)">Already funded an account with CHAMP?</h2>
         <p class="rw-lead" style="margin:12px auto 26px">Don't leave points on the table. Submit your proof and start climbing.</p>
         <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-          <button class="submit-cta" style="width:auto;margin:0;padding:15px 30px" onclick="openModal()">Submit a purchase</button>
+          <button class="submit-cta" style="width:auto;margin:0;padding:15px 30px" onclick="openModal()">Submit for points</button>
           <a class="btn-ghost" href="/deals">See active deals</a>
         </div>
       </div>
@@ -515,7 +515,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
         <a class="logo-mark" href="/"><img src="/logos/propchamps.png" alt="PropChamps"></a>
         <p>Independent research on futures prop trading firms — and now, rewards for the community that trades with code CHAMP.</p>
       </div>
-      <div><h4>Rewards</h4><ul><li><a href="/rewards">Dashboard</a></li><li><a href="#" onclick="openModal();return false;">Submit a purchase</a></li><li><a href="/rewards">Leaderboard</a></li></ul></div>
+      <div><h4>Rewards</h4><ul><li><a href="/rewards">Dashboard</a></li><li><a href="#" onclick="openModal();return false;">Submit for points</a></li><li><a href="/rewards">Leaderboard</a></li></ul></div>
       <div><h4>Research</h4><ul><li><a href="/">All firms</a></li><li><a href="/compare">Compare</a></li><li><a href="/deals">Deals</a></li><li><a href="/blog/">Blog</a></li></ul></div>
       <div><h4>Legal</h4><ul><li><a href="/privacy">Privacy</a></li><li><a href="/methodology#disclosure">Affiliate disclosure</a></li></ul></div>
     </div>
@@ -677,7 +677,7 @@ function renderMe(){
     document.getElementById('progLabel').innerHTML='Progress to <b>'+esc(nt.n)+'</b>';
     document.getElementById('progTxt').textContent=u.lifetimePoints.toLocaleString()+' / '+nt.min.toLocaleString();
     setTimeout(function(){document.getElementById('ringArc').style.strokeDashoffset=(RC*(1-pct/100)).toFixed(1);document.getElementById('progBar').style.width=pct+'%';},350);
-    document.getElementById('nextReward').innerHTML='<span class="callout-label">Next tier</span>'+(nt.min-u.lifetimePoints).toLocaleString()+' points to <strong>'+esc(nt.n)+'</strong> — about '+Math.ceil((nt.min-u.lifetimePoints)/250)+' more approved purchases.';
+    document.getElementById('nextReward').innerHTML='<span class="callout-label">Next tier</span>'+(nt.min-u.lifetimePoints).toLocaleString()+' points to <strong>'+esc(nt.n)+'</strong> — earn them with CHAMP purchases or prop payouts.';
   } else {
     document.getElementById('progLabel').innerHTML='<b>Champ’s Circle</b> — top tier reached';
     document.getElementById('progTxt').textContent=u.lifetimePoints.toLocaleString()+' pts';
@@ -783,7 +783,7 @@ function renderCatalog(spendable,loggedIn){
 }
 function renderSubs(subs){
   var box=document.getElementById('subsBox');
-  if(!subs.length){box.innerHTML='<div class="lb-empty glass" style="border-radius:18px">No submissions yet — hit “Submit a purchase” to get started.</div>';return;}
+  if(!subs.length){box.innerHTML='<div class="lb-empty glass" style="border-radius:18px">No submissions yet — hit “Submit for points” to get started.</div>';return;}
   box.innerHTML=subs.map(function(s){
     var pay=s.kind==='payout';
     var base=pay?250:250; // purchases are a flat 250; payouts are variable (unknown until approved)
