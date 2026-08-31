@@ -231,7 +231,7 @@ async function loadGiveaway(){
       +'<button class="spin-btn" id="gSpin" onclick="spinGiveaway()"'+((GV.count||0)<1?' disabled':'')+'>🎯 SPIN FOR A WINNER</button>'
       +'<div class="wheel-note" id="gNote"></div></div>';
   document.getElementById('gvCountBig').textContent=(GV.count||0).toLocaleString()+' entered';
-  var all=(GV.entries||[]).map(function(e){return {label:(e.name&&e.name.trim())?e.name.trim():String(e.email||'').split('@')[0],weight:1,meta:e.email};});
+  var all=(GV.entries||[]).map(function(e){return {label:e.username||(String(e.email||'').split('@')[0])||'—',weight:1,meta:e.email||''};});
   gWheel.render(all);
   var note=document.getElementById('gNote');
   if(note)note.textContent=!all.length?'No entries yet — open the giveaway and share the link.':(all.length>20?('Showing 20 of '+all.length.toLocaleString()+' — winner drawn from all.'):(all.length+' entrant'+(all.length===1?'':'s')));

@@ -512,26 +512,25 @@ async function giveawayStatus(req, env) {
 async function giveawayEnter(req, env, ctx) {
   const st = await getGiveawayState(env);
   if (!st.open) return json({ error: 'closed' }, 403);
-  const body = await req.json().catch(() => ({}));
-  const email = String(body.email || '').trim().toLowerCase().slice(0, 120);
-  const name = String(body.name || '').trim().slice(0, 60);
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return json({ error: 'invalid_email' }, 400);
+  // Require Discord login so it's one entry per person + we know who wins.
+  const u = await currentUser(req, env);
+  if (!u) return json({ error: 'not_logged_in' }, 401);
+  if (u.banned) return json({ error: 'banned' }, 403);
   const now = new Date().toISOString();
-  const dupe = await env.DB.prepare('SELECT id FROM giveaway_entries WHERE email=?').bind(email).first();
-  if (dupe) {
-    await env.DB.prepare("INSERT OR IGNORE INTO email_list (email,name,source,first_seen) VALUES (?,?,?,?)")
-      .bind(email, name, 'giveaway', now).run();
-    return json({ ok: true, already: true });
+  const email = u.email ? String(u.email).toLowerCase().slice(0, 120) : null;
+  // One entry per Discord user (UNIQUE user_id) — INSERT OR IGNORE means a
+  // second attempt just reports already-entered instead of adding an entry.
+  const ins = await env.DB
+    .prepare('INSERT OR IGNORE INTO giveaway_entries (id,user_id,username,email,created_at) VALUES (?,?,?,?,?)')
+    .bind(crypto.randomUUID(), u.id, u.username, email, now)
+    .run();
+  const already = !ins.meta || ins.meta.changes !== 1;
+  if (email) {
+    await env.DB.prepare('INSERT OR IGNORE INTO email_list (email,name,source,first_seen) VALUES (?,?,?,?)')
+      .bind(email, u.username, 'giveaway', now).run();
+    if (!already && ctx && ctx.waitUntil) ctx.waitUntil(sendWelcome(env, email, u.username, new URL(req.url).origin));
   }
-  await env.DB.batch([
-    env.DB.prepare('INSERT OR IGNORE INTO giveaway_entries (id,email,name,created_at) VALUES (?,?,?,?)')
-      .bind(crypto.randomUUID(), email, name, now),
-    env.DB.prepare('INSERT OR IGNORE INTO email_list (email,name,source,first_seen) VALUES (?,?,?,?)')
-      .bind(email, name, 'giveaway', now),
-  ]);
-  const origin = new URL(req.url).origin;
-  if (ctx && ctx.waitUntil) ctx.waitUntil(sendWelcome(env, email, name, origin));
-  return json({ ok: true });
+  return json({ ok: true, already });
 }
 
 // ---------- host portal ----------
@@ -539,7 +538,7 @@ async function hostGiveaway(req, env) {
   const u = await currentUser(req, env);
   if (!isHost(u, env)) return json({ error: 'forbidden' }, 403);
   const st = await getGiveawayState(env);
-  const rows = await env.DB.prepare('SELECT name, email, created_at FROM giveaway_entries ORDER BY created_at ASC LIMIT 1000').all();
+  const rows = await env.DB.prepare('SELECT username, email, created_at FROM giveaway_entries ORDER BY created_at ASC LIMIT 1000').all();
   const total = await env.DB.prepare('SELECT COUNT(*) AS c FROM email_list').first();
   const list = rows.results || [];
   return json({ open: st.open, title: st.title, entries: list, count: list.length, totalEmails: total?.c || 0 });

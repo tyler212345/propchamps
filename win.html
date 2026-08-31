@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0a0d12">
 <title>Win a Funded Account — PropChamps</title>
-<meta name="description" content="Enter to win a funded futures account, live with Champ. Drop your email — winner picked on stream.">
+<meta name="description" content="Enter to win a funded futures account, live with Champ. Log in with Discord — winner picked on stream.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,29 +30,23 @@ body::after{content:"";position:fixed;inset:0;z-index:0;background-image:linear-
 h1{font-weight:900;font-size:clamp(34px,9vw,46px);letter-spacing:-.04em;line-height:1.02;color:var(--text-strong);margin-bottom:14px}
 h1 .accent{background:linear-gradient(135deg,var(--lime),#a3d600);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 22px rgba(200,255,0,.3))}
 .sub{font-size:16px;line-height:1.55;color:var(--text-soft);margin-bottom:12px}
+.sub strong{color:var(--text)}
 .entered-cnt{font-family:var(--font-mono);font-size:12.5px;color:var(--text-faint);margin-bottom:26px}
 .entered-cnt b{color:var(--lime-text)}
-form{display:flex;flex-direction:column;gap:12px}
-input{width:100%;padding:17px 18px;background:var(--bg-card);border:1.5px solid var(--border-strong);border-radius:14px;color:var(--text);font-size:16px;font-family:var(--font-display);transition:border-color .15s;text-align:center}
-input:focus{outline:none;border-color:var(--lime)}
-input::placeholder{color:var(--text-faint)}
-.enter-btn{width:100%;padding:18px;background:var(--lime);color:var(--bg-base);font-size:18px;font-weight:800;border:none;border-radius:14px;cursor:pointer;transition:all .15s;box-shadow:0 0 0 1px rgba(200,255,0,.3),0 16px 40px -12px rgba(200,255,0,.6);margin-top:4px}
+.enter-btn{display:inline-flex;align-items:center;justify-content:center;gap:11px;width:100%;padding:18px;background:var(--lime);color:var(--bg-base);font-size:18px;font-weight:800;border:none;border-radius:14px;cursor:pointer;transition:all .15s;box-shadow:0 0 0 1px rgba(200,255,0,.3),0 16px 40px -12px rgba(200,255,0,.6)}
 .enter-btn:hover:not(:disabled){background:var(--lime-2);transform:translateY(-1px)}
 .enter-btn:disabled{opacity:.55;cursor:not-allowed}
+.enter-btn.discord{background:#5865F2;color:#fff;box-shadow:0 16px 40px -12px rgba(88,101,242,.7),inset 0 1px 0 rgba(255,255,255,.2)}
+.enter-btn.discord:hover{background:#4b56d6}
 .consent{font-size:11.5px;line-height:1.5;color:var(--text-faint);margin-top:16px}
-.err{color:var(--neg);font-size:13.5px;font-weight:600;min-height:18px;margin-top:4px}
-/* success */
-.success{display:none}
-.success .big{font-size:64px;margin-bottom:16px;animation:pop .5s cubic-bezier(.16,1.3,.4,1)}
+.err{color:var(--neg);font-size:13.5px;font-weight:600;min-height:18px;margin-top:8px}
+.success,.closed{display:none}
+.success .big,.closed .big{font-size:64px;margin-bottom:16px}
+.success .big{animation:pop .5s cubic-bezier(.16,1.3,.4,1)}
 @keyframes pop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
-.success h2{font-weight:900;font-size:clamp(30px,8vw,40px);letter-spacing:-.03em;color:var(--text-strong);margin-bottom:12px}
-.success p{font-size:16px;color:var(--text-soft);line-height:1.55}
+.success h2,.closed h2{font-weight:900;font-size:clamp(28px,8vw,40px);letter-spacing:-.03em;color:var(--text-strong);margin-bottom:12px}
+.success p,.closed p{font-size:16px;color:var(--text-soft);line-height:1.55}
 .success .again{margin-top:24px;font-family:var(--font-mono);font-size:12px;color:var(--text-faint)}
-/* closed */
-.closed{display:none}
-.closed .big{font-size:52px;margin-bottom:16px}
-.closed h2{font-weight:800;font-size:26px;color:var(--text-strong);margin-bottom:10px;letter-spacing:-.02em}
-.closed p{font-size:15px;color:var(--text-soft);line-height:1.55}
 .loading{color:var(--text-faint);font-family:var(--font-mono);font-size:13px;padding:40px 0}
 .hide{display:none}
 </style>
@@ -63,27 +57,35 @@ input::placeholder{color:var(--text-faint)}
 
   <div id="loading" class="loading">Loading…</div>
 
-  <!-- OPEN: entry form -->
+  <!-- OPEN + not logged in: Discord login gate -->
+  <div id="login" class="hide">
+    <div class="live"><span class="dot"></span> Live Giveaway</div>
+    <h1 id="titleL">Win a <span class="accent">Funded Account</span></h1>
+    <p class="sub">Log in with Discord to enter. <strong>One entry per person</strong> — winner picked live on stream. 🍀</p>
+    <div class="entered-cnt"><b id="cntL">0</b> already entered</div>
+    <a class="enter-btn discord" href="/auth/discord">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.445.865-.608 1.249a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.036A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.009c.12.099.246.198.373.292a.077.077 0 0 1-.006.127 12.3 12.3 0 0 1-1.873.891.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.331c-1.183 0-2.157-1.086-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.211 0 2.176 1.096 2.157 2.42 0 1.332-.955 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.086-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.211 0 2.176 1.096 2.157 2.42 0 1.332-.946 2.418-2.157 2.418z"/></svg>
+      Log in with Discord to enter
+    </a>
+    <p class="consent">We use your Discord login to keep it fair — one entry each — and to reach you if you win.</p>
+  </div>
+
+  <!-- OPEN + logged in: enter button -->
   <div id="open" class="hide">
     <div class="live"><span class="dot"></span> Live Giveaway</div>
     <h1 id="title">Win a <span class="accent">Funded Account</span></h1>
-    <p class="sub">Drop your email to enter. Winner picked <strong>live on stream</strong> — good luck. 🍀</p>
+    <p class="sub">Logged in as <strong id="uname">—</strong>. Hit enter — <strong>one shot</strong>, winner picked live. 🍀</p>
     <div class="entered-cnt"><b id="cnt">0</b> already entered</div>
-    <form id="form" onsubmit="return enter(event)">
-      <input id="email" type="email" inputmode="email" autocomplete="email" placeholder="your@email.com" required>
-      <input id="name" type="text" autocomplete="given-name" placeholder="First name (optional)" maxlength="60">
-      <button class="enter-btn" id="btn" type="submit">ENTER TO WIN 🎯</button>
-      <div class="err" id="err"></div>
-    </form>
-    <p class="consent">By entering you agree to receive occasional emails from PropChamps about deals &amp; drops. Unsubscribe anytime.</p>
+    <button class="enter-btn" id="btn" onclick="enter()">ENTER TO WIN 🎯</button>
+    <div class="err" id="err"></div>
   </div>
 
   <!-- SUCCESS -->
   <div id="success" class="success">
     <div class="big">🎉</div>
-    <h2>You're in!</h2>
+    <h2 id="successH">You're in!</h2>
     <p>Keep the stream on — the winner gets picked live. Good luck!</p>
-    <div class="again">Watching with friends? Have them enter too.</div>
+    <div class="again">One entry per person — you're locked in.</div>
   </div>
 
   <!-- CLOSED -->
@@ -96,35 +98,36 @@ input::placeholder{color:var(--text-faint)}
 
 <script>
 function view(which){
-  document.getElementById('loading').style.display='none';
-  document.getElementById('open').style.display=which==='open'?'block':'none';
-  document.getElementById('success').style.display=which==='success'?'block':'none';
-  document.getElementById('closed').style.display=which==='closed'?'block':'none';
+  ['loading','login','open','success','closed'].forEach(function(id){
+    var el=document.getElementById(id); if(el)el.style.display=(id===which)?(id==='login'||id==='open'?'block':'block'):'none';
+  });
+  document.getElementById('loading').style.display=which==='loading'?'block':'none';
 }
 async function load(){
-  var st;
+  var st, me;
   try{ st=await fetch('/api/giveaway/status').then(function(r){return r.json();}); }catch(e){ st={open:false}; }
-  if(st.open){
-    if(st.title)document.getElementById('title').textContent=st.title;
-    document.getElementById('cnt').textContent=(st.count||0).toLocaleString();
+  if(!st.open){ view('closed'); return; }
+  try{ me=await fetch('/api/me').then(function(r){return r.json();}); }catch(e){ me={loggedIn:false}; }
+  if(st.title){ document.getElementById('title').textContent=st.title; document.getElementById('titleL').textContent=st.title; }
+  var c=(st.count||0).toLocaleString();
+  document.getElementById('cnt').textContent=c; document.getElementById('cntL').textContent=c;
+  if(me&&me.loggedIn){
+    document.getElementById('uname').textContent=me.user.username;
     view('open');
-  } else { view('closed'); }
+  } else {
+    view('login');
+  }
 }
-async function enter(e){
-  e.preventDefault();
-  var email=document.getElementById('email').value.trim();
-  var name=document.getElementById('name').value.trim();
-  var err=document.getElementById('err'), btn=document.getElementById('btn');
-  err.textContent='';
-  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){err.textContent='Enter a valid email';return false;}
-  btn.disabled=true;btn.textContent='Entering…';
+async function enter(){
+  var btn=document.getElementById('btn'), err=document.getElementById('err'); err.textContent='';
+  btn.disabled=true; btn.textContent='Entering…';
   var res;
-  try{ res=await fetch('/api/giveaway/enter',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:email,name:name})}).then(function(r){return r.json();}); }
-  catch(e2){ res={error:'network'}; }
-  if(res.ok){ view('success'); }
+  try{ res=await fetch('/api/giveaway/enter',{method:'POST'}).then(function(r){return r.json();}); }
+  catch(e){ res={error:'network'}; }
+  if(res.ok){ if(res.already){document.getElementById('successH').textContent="You're already in!";} view('success'); }
   else if(res.error==='closed'){ view('closed'); }
-  else { btn.disabled=false;btn.textContent='ENTER TO WIN 🎯'; err.textContent=res.error==='invalid_email'?'Enter a valid email':'Something went wrong — try again'; }
-  return false;
+  else if(res.error==='not_logged_in'){ view('login'); }
+  else { btn.disabled=false; btn.textContent='ENTER TO WIN 🎯'; err.textContent='Something went wrong — try again'; }
 }
 load();
 </script>

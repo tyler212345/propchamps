@@ -75,10 +75,13 @@ CREATE TABLE IF NOT EXISTS app_state (
 
 -- The current live-giveaway entry pool. Wiped on reset; emails are preserved
 -- separately in email_list so a reset never loses the collected list.
+-- Login-gated: one entry per Discord user. Wiped on giveaway reset; emails
+-- are preserved separately in email_list so a reset never loses the list.
 CREATE TABLE IF NOT EXISTS giveaway_entries (
   id         TEXT PRIMARY KEY,
-  email      TEXT NOT NULL UNIQUE,
-  name       TEXT,
+  user_id    TEXT NOT NULL UNIQUE,   -- one entry per Discord user
+  username   TEXT,
+  email      TEXT,                   -- from Discord (email scope); may be null
   created_at TEXT NOT NULL
 );
 
