@@ -157,6 +157,14 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 .redeem.able{background:linear-gradient(180deg,var(--lime),#b6e800);color:#0a0d12;border-color:transparent;box-shadow:0 12px 26px -12px rgba(200,255,0,.5)}
 .redeem.able:hover{transform:translateY(-1px)}
 .redeem.locked{color:var(--text-faint);cursor:not-allowed;background:transparent}
+.redeem.soldout{color:var(--text-faint);cursor:not-allowed;background:transparent;border-color:rgba(255,255,255,.08);opacity:.7}
+.mk-avail{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.02em;color:var(--text-soft);margin-top:12px}
+.mk-avail .dot{width:6px;height:6px;border-radius:50%;background:#5eead4;box-shadow:0 0 8px rgba(94,234,212,.7);flex-shrink:0}
+.mk-avail.low{color:#ffcf6b}
+.mk-avail.low .dot{background:#ffcf6b;box-shadow:0 0 8px rgba(255,207,107,.7)}
+.mk-avail.out{color:var(--neg,#f87171)}
+.mk-avail.out .dot{background:var(--neg,#f87171);box-shadow:none}
+.fx-body .mk-avail{margin-top:10px}
 
 /* ---- rewards marketplace ---- */
 .mk-filters{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:30px}
@@ -260,6 +268,12 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 /* ---- modal ---- */
 .overlay{position:fixed;inset:0;background:rgba(6,8,12,.74);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
 .overlay.open{display:flex}
+.claim-card{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:16px 18px;background:rgba(0,0,0,.3);border:1px solid var(--border-lime);border-radius:14px;margin-bottom:16px}
+.claim-name{font-family:var(--font-display);font-weight:800;font-size:16px;color:var(--text-strong);line-height:1.2}
+.claim-cost{font-family:var(--font-display);font-weight:800;font-size:20px;color:var(--lime);white-space:nowrap}
+.claim-cost .u{font-family:var(--font-mono);font-size:10px;color:var(--text-faint);font-weight:500;text-transform:uppercase;margin-left:2px}
+.claim-note{font-size:13px;line-height:1.5;color:var(--text-soft);background:rgba(255,207,107,.06);border:1px solid rgba(255,207,107,.25);border-radius:12px;padding:12px 14px;margin-bottom:16px}
+.claim-note strong{color:#ffcf6b}
 .modal{width:100%;max-width:480px;background:linear-gradient(180deg,rgba(24,30,40,.96),rgba(15,20,27,.98));border:1px solid rgba(255,255,255,.09);border-radius:var(--r-lg);padding:30px;position:relative;box-shadow:0 40px 100px -24px rgba(0,0,0,.9);max-height:92vh;overflow-y:auto}
 .modal h2{font-family:var(--font-display);font-weight:800;font-size:23px;color:var(--text-strong);letter-spacing:-.025em;margin-bottom:6px}
 .modal .msub{font-size:14px;color:var(--text-soft);margin-bottom:22px;line-height:1.5}
@@ -567,6 +581,23 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
   </div>
 </div>
 
+<!-- ============ CLAIM CONFIRM (free accounts) ============ -->
+<div class="overlay" id="claimOverlay">
+  <div class="modal" id="claimModal" style="max-width:440px">
+    <button class="x-close" onclick="closeClaim()">✕</button>
+    <h2>Claim your account</h2>
+    <p class="msub" id="claimSub">You're about to redeem this account.</p>
+    <div class="claim-card">
+      <div class="claim-name" id="claimName">—</div>
+      <div class="claim-cost"><span id="claimCost">0</span> <span class="u">points</span></div>
+    </div>
+    <div class="claim-note">⏱️ Heads up: each free account is processed by hand. It can take <strong>3–10 business days</strong> to land after you claim — we'll email you when it's ready.</div>
+    <label class="chk"><input type="checkbox" id="claimChk" onchange="document.getElementById('claimBtn').disabled=!this.checked"> <span>I understand it can take <strong>3–10 business days</strong> to process, and my points will be spent now.</span></label>
+    <button class="msubmit" id="claimBtn" disabled onclick="confirmClaim()">Confirm claim</button>
+    <div id="claimErr" style="color:#f87171;font-size:13px;text-align:center;margin-top:12px;min-height:16px;line-height:1.4"></div>
+  </div>
+</div>
+
 <div class="toast" id="toast"><span class="ti">✓</span><span id="toastMsg"></span></div>
 
 <script>
@@ -585,6 +616,7 @@ async function init(){
   try{ ME=await fetch('/api/me').then(function(r){return r.json();}); }catch(e){ ME={loggedIn:false}; }
   renderMe();
   loadLeaderboard();
+  loadStock();
 }
 var TROPHY_N=0;
 function trophyGrad(t){return t==="Champ's Circle"?['#f4ffc8','#c8ff2a','#84b400']:t==='Gold'?['#fff2bf','#ffcf3d','#b07d17']:t==='Silver'?['#ffffff','#d6dde8','#8b95a4']:['#eec6a0','#bd7845','#79451f'];}
@@ -667,15 +699,17 @@ var FIRMS_META={
   fundednext:{name:'FundedNext',logo:'/logos/mk/fundednext.png',ac:'#10c99a'}
 };
 // Curated marketplace — each: {f:firm, size, type, val:$ value, cost:points, pop?, featured?}
-// Redeemable accounts: ONLY Lucid / FundedNext / My Funded / Tradeify (Apex removed), ONLY 25K + 50K.
-// Ordered by how many free accounts Champ actually gets from each firm: Lucid > FundedNext > MFF > Tradeify.
+// Every card's mkId() MUST match an account entry in the server REWARDS catalog
+// (worker/index.js) — that's where cost + stock limits live. Order ≈ Champ's supply.
 var MARKET=[
   {f:'lucid',size:'25K',type:'Evaluation',val:50,cost:8500},
   {f:'lucid',size:'50K',type:'Evaluation',val:90,cost:14000,pop:true},
+  {f:'myfunded',size:'25K',type:'Evaluation',val:70,cost:9000},
   {f:'fundednext',size:'25K',type:'Evaluation',val:80,cost:9000},
   {f:'fundednext',size:'50K',type:'Evaluation',val:170,cost:15000},
   {f:'myfunded',size:'50K',type:'Evaluation',val:125,cost:14000},
   {f:'tradify',size:'50K',type:'Evaluation',val:87,cost:14000},
+  {f:'apex',size:'50K',type:'Evaluation',val:100,cost:10000},
   {f:'lucid',size:'100K',type:'Evaluation',val:171,cost:30000,featured:true,note:'The biggest account we offer — a fully-paid 100K evaluation.'}
 ];
 // id must match the server-side REWARDS catalog in worker/index.js.
@@ -683,9 +717,19 @@ var MORE=[
   {id:'raffle-500',ic:'🎟️',title:'Monthly $500 raffle entry',desc:"One entry into this month's cash raffle. Stack as many as you want.",cost:250},
   {id:'cashback-150',ic:'💸',title:'$150 cash back',desc:'Real money back for funding with code CHAMP — paid to your PayPal or Wise.',cost:10000}
 ];
-var MK_BUILT=false, MK_STATE={spendable:0,loggedIn:false};
+var MK_BUILT=false, MK_STATE={spendable:0,loggedIn:false}, MK_STOCK={};
 
 function mkId(m){return m.f+'-'+m.size+'-'+(m.type==='Instant Funded'?'if':'ev');}
+function availHTML(id){
+  var s=MK_STOCK[id]; if(!s)return '';
+  if(s.remaining<=0)return '<div class="mk-avail out"><span class="dot"></span>Sold out</div>';
+  var low=s.remaining<=Math.max(3,Math.ceil(s.total*0.2));
+  return '<div class="mk-avail'+(low?' low':'')+'"><span class="dot"></span>'+s.remaining+' of '+s.total+' available</div>';
+}
+async function loadStock(){
+  try{ var d=await fetch('/api/rewards/stock').then(function(r){return r.json();}); MK_STOCK=d.stock||{}; }catch(e){}
+  if(MK_BUILT)paintMarket();
+}
 function mkCardHTML(m){
   var f=FIRMS_META[m.f];
   if(m.featured) return mkFeatHTML(m,f);
@@ -695,6 +739,7 @@ function mkCardHTML(m){
     +'<div class="mk-type"><span class="mk-dot"></span> '+esc(m.type)+'</div>'
     +'<div class="mk-title">'+esc(m.size+' '+m.type)+'</div>'
     +'<div class="mk-firm">'+esc(f.name)+'</div>'
+    +availHTML(mkId(m))
     +'<div class="mk-foot"><div class="mk-pts"><span class="n">'+m.cost.toLocaleString()+'</span><span class="u">points</span></div>'
     +'<button class="redeem locked" data-cost="'+m.cost+'" data-id="'+mkId(m)+'" data-name="'+esc(f.name+' — '+m.size+' '+m.type)+'">Redeem</button></div></div>';
 }
@@ -704,7 +749,7 @@ function mkFeatHTML(m,f){
     +'<div class="mk-logo'+(f.light?' light':'')+' fx-logo"><img src="'+f.logo+'" alt="'+esc(f.name)+'"></div>'
     +'<div class="fx-body"><div class="fx-badge">👑 Top reward</div>'
     +'<div class="fx-title">'+esc(f.name+' — '+m.size+' '+m.type)+'</div>'
-    +'<div class="fx-desc">'+esc(m.note||'')+'</div></div>'
+    +'<div class="fx-desc">'+esc(m.note||'')+'</div>'+availHTML(mkId(m))+'</div>'
     +'<div class="fx-foot"><div class="mk-pts"><span class="n">'+m.cost.toLocaleString()+'</span><span class="u">points</span></div>'
     +'<button class="redeem locked" data-cost="'+m.cost+'" data-id="'+mkId(m)+'" data-name="'+esc(f.name+' — '+m.size+' '+m.type)+'">Redeem</button></div></div>';
 }
@@ -724,6 +769,8 @@ function paintMarket(){
 function applyAffordability(){
   document.querySelectorAll('.redeem').forEach(function(b){
     var cost=parseInt(b.getAttribute('data-cost'),10);
+    var st=MK_STOCK[b.getAttribute('data-id')];
+    if(st&&st.remaining<=0){b.className='redeem locked soldout';b.disabled=true;b.textContent='Sold out';return;}
     if(MK_STATE.loggedIn&&MK_STATE.spendable>=cost){b.className='redeem able';b.textContent='Redeem';b.disabled=false;}
     else{b.className='redeem locked';b.disabled=false;b.textContent=MK_STATE.loggedIn?((cost-MK_STATE.spendable).toLocaleString()+' pts to go'):'Redeem';}
   });
@@ -895,24 +942,60 @@ async function finishSubmit(){
 }
 
 /* ---- redeem ---- */
+function isAccountId(id){return /-(ev|if)$/.test(String(id||''));}
+function redeemErr(e){
+  return e==='insufficient_points'?'Not enough points yet':e==='sold_out'?'Sorry — that one just sold out':e==='ack_required'?'Please check the box to continue':e==='not_logged_in'?'Your session expired — log out and back in':e==='banned'?'Your account is restricted':e==='unknown_reward'?'That reward is unavailable':'Could not redeem — try again';
+}
+async function postRedeem(id,ack){
+  try{ return await fetch('/api/redeem',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(ack?{id:id,ack:true}:{id:id})}).then(function(r){return r.json();}); }
+  catch(e){ return {error:'network'}; }
+}
 async function redeemClick(btn){
-  if(btn.classList.contains('locked'))return;
+  if(btn.classList.contains('locked')||btn.classList.contains('soldout'))return;
   var id=btn.getAttribute('data-id');
-  btn.disabled=true;
-  var res;
-  try{ res=await fetch('/api/redeem',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({id:id})}).then(function(r){return r.json();}); }
-  catch(e){ res={error:'network'}; }
+  if(isAccountId(id)){ openClaim(btn); return; } // free account → confirm + acknowledge 3–10 days
+  btn.disabled=true;                              // raffle / cash back → instant
+  var res=await postRedeem(id,false);
   if(res.ok){
     if(res.raffle){var n=res.entriesAdded||1;toast("You're in — +"+n+" raffle entr"+(n>1?'ies':'y')+" 🎟️");}
     else toast('Redeemed! The team will process it 🎁');
-    // refetch the authoritative balance so points visibly drop
     try{ ME=await fetch('/api/me').then(function(r){return r.json();}); renderMe(); }catch(e){ btn.disabled=false; }
-  } else {
-    btn.disabled=false;
-    toast(res.error==='insufficient_points'?'Not enough points yet':res.error==='unknown_reward'?'That reward is unavailable':'Could not redeem — try again');
-  }
+  } else { btn.disabled=false; toast(redeemErr(res.error)); }
 }
 ['rwdGrid','moreGrid'].forEach(function(id){var g=document.getElementById(id);if(g)g.addEventListener('click',function(e){var b=e.target.closest('.redeem');if(b)redeemClick(b);});});
+
+/* ---- claim confirm (free accounts, 3–10 business days) ---- */
+var CLAIM_BTN=null, CLAIM_ID=null;
+function openClaim(btn){
+  if(!MK_STATE.loggedIn){ window.location.href='/auth/discord'; return; }
+  var cost=parseInt(btn.getAttribute('data-cost'),10)||0;
+  if(MK_STATE.spendable<cost){ toast((cost-MK_STATE.spendable).toLocaleString()+' more points to go'); return; }
+  CLAIM_BTN=btn; CLAIM_ID=btn.getAttribute('data-id');
+  document.getElementById('claimName').textContent=btn.getAttribute('data-name')||'This account';
+  document.getElementById('claimCost').textContent=cost.toLocaleString();
+  var chk=document.getElementById('claimChk'); chk.checked=false;
+  var cb=document.getElementById('claimBtn'); cb.disabled=true; cb.textContent='Confirm claim';
+  document.getElementById('claimErr').textContent='';
+  document.getElementById('claimOverlay').classList.add('open'); document.body.style.overflow='hidden';
+}
+function closeClaim(){ document.getElementById('claimOverlay').classList.remove('open'); document.body.style.overflow=''; }
+document.getElementById('claimOverlay').addEventListener('click',function(e){if(e.target===this)closeClaim();});
+async function confirmClaim(){
+  if(!document.getElementById('claimChk').checked)return;
+  var b=document.getElementById('claimBtn'), err=document.getElementById('claimErr'); err.textContent='';
+  b.disabled=true; b.textContent='Claiming…';
+  var res=await postRedeem(CLAIM_ID,true);
+  if(res.ok){
+    closeClaim();
+    toast('Claimed! We’ll email you when it’s ready 🎁');
+    try{ ME=await fetch('/api/me').then(function(r){return r.json();}); renderMe(); }catch(e){}
+    loadStock();
+  } else {
+    b.disabled=false; b.textContent='Confirm claim';
+    err.textContent=redeemErr(res.error);
+    if(res.error==='sold_out')loadStock();
+  }
+}
 
 /* ---- toast + chrome + reveal ---- */
 var toastT;

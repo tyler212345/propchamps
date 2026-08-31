@@ -126,17 +126,26 @@ async function maybeRollover(env) {
 // The browser NEVER sets a reward's price: apiRedeem looks the cost up here by id,
 // so nobody can redeem an expensive reward cheaply by tampering with the request.
 // Keep in sync with MARKET/MORE in rewards/index.html.
+// Account rewards carry `account:true` (requires the 3–10 business-day
+// acknowledgment) and `stock` (total ever available; remaining = stock − claimed,
+// tracked in the reward_stock table). Stock totals Champ gave: Lucid 25K/50K=30,
+// MyFunded 25K=20, Apex 50K=10. The rest default to 20 (Lucid 100K=10) until Champ
+// sets real numbers — change the `stock` value here to adjust a limit.
 const REWARDS = {
-  'lucid-25K-ev': { cost: 8500, label: 'Lucid Trading — 25K Evaluation' },
-  'lucid-50K-ev': { cost: 14000, label: 'Lucid Trading — 50K Evaluation' },
-  'fundednext-25K-ev': { cost: 9000, label: 'FundedNext — 25K Evaluation' },
-  'fundednext-50K-ev': { cost: 15000, label: 'FundedNext — 50K Evaluation' },
-  'myfunded-50K-ev': { cost: 14000, label: 'My Funded Futures — 50K Evaluation' },
-  'tradify-50K-ev': { cost: 14000, label: 'Tradeify — 50K Evaluation' },
-  'lucid-100K-ev': { cost: 30000, label: 'Lucid Trading — 100K Evaluation' },
+  'lucid-25K-ev': { cost: 8500, label: 'Lucid Trading — 25K Evaluation', account: true, stock: 30 },
+  'lucid-50K-ev': { cost: 14000, label: 'Lucid Trading — 50K Evaluation', account: true, stock: 30 },
+  'fundednext-25K-ev': { cost: 9000, label: 'FundedNext — 25K Evaluation', account: true, stock: 20 },
+  'fundednext-50K-ev': { cost: 15000, label: 'FundedNext — 50K Evaluation', account: true, stock: 20 },
+  'myfunded-25K-ev': { cost: 9000, label: 'My Funded Futures — 25K Evaluation', account: true, stock: 20 },
+  'myfunded-50K-ev': { cost: 14000, label: 'My Funded Futures — 50K Evaluation', account: true, stock: 20 },
+  'tradify-50K-ev': { cost: 14000, label: 'Tradeify — 50K Evaluation', account: true, stock: 20 },
+  'apex-50K-ev': { cost: 10000, label: 'Apex Trader Funding — 50K Evaluation', account: true, stock: 10 },
+  'lucid-100K-ev': { cost: 30000, label: 'Lucid Trading — 100K Evaluation', account: true, stock: 10 },
   'raffle-500': { cost: 250, raffle: true, label: 'Monthly $500 raffle entry' },
   'cashback-150': { cost: 10000, label: '$150 cash back' },
 };
+// Account reward ids in display order (used by the public stock endpoint).
+const ACCOUNT_REWARD_IDS = Object.keys(REWARDS).filter((k) => REWARDS[k].account);
 
 // ---------- small helpers ----------
 function json(data, status = 200, headers = {}) {
@@ -495,6 +504,8 @@ async function apiRedeem(req, env, ctx) {
   const cost = reward.cost;
   const name = reward.label;
   const isRaffle = !!reward.raffle;
+  // Free-account claims require the 3–10 business-day acknowledgment (the checkbox).
+  if (reward.account && body.ack !== true) return json({ error: 'ack_required' }, 400);
 
   // Atomic check-and-deduct: the row updates ONLY if the balance is truly >= cost.
   // This blocks both overspending and the race where two requests each pass a
@@ -504,6 +515,26 @@ async function apiRedeem(req, env, ctx) {
     .bind(cost, u.id, cost)
     .run();
   if (!ded.meta || ded.meta.changes !== 1) return json({ error: 'insufficient_points' }, 400);
+
+  // Inventory: atomically claim one unit for account rewards. If sold out, refund
+  // the points we just deducted and stop (the UPDATE only lands while claimed < stock).
+  let stockClaimed = false;
+  if (reward.account && typeof reward.stock === 'number') {
+    let claimedOk = false;
+    if (reward.stock > 0) {
+      await env.DB.prepare('INSERT OR IGNORE INTO reward_stock (reward_id, claimed) VALUES (?, 0)').bind(rid).run();
+      const claim = await env.DB
+        .prepare('UPDATE reward_stock SET claimed = claimed + 1 WHERE reward_id = ? AND claimed < ?')
+        .bind(rid, reward.stock)
+        .run();
+      claimedOk = !!(claim.meta && claim.meta.changes === 1);
+    }
+    if (!claimedOk) {
+      await env.DB.prepare('UPDATE users SET spendable_points = spendable_points + ? WHERE id=?').bind(cost, u.id).run().catch(() => {});
+      return json({ error: 'sold_out' }, 409);
+    }
+    stockClaimed = true;
+  }
 
   const now = new Date().toISOString();
   try {
@@ -530,10 +561,26 @@ async function apiRedeem(req, env, ctx) {
       ctx.waitUntil(sendClaimReceived(env, u.email, u.username, name, new URL(req.url).origin));
     return json({ ok: true });
   } catch (e) {
-    // Never take points without recording the redemption — refund on failure.
+    // Never take points (or a stock unit) without recording the redemption.
+    if (stockClaimed)
+      await env.DB.prepare('UPDATE reward_stock SET claimed = claimed - 1 WHERE reward_id = ? AND claimed > 0').bind(rid).run().catch(() => {});
     await env.DB.prepare('UPDATE users SET spendable_points = spendable_points + ? WHERE id=?').bind(cost, u.id).run().catch(() => {});
     return json({ error: 'redeem_failed' }, 500);
   }
+}
+
+// Public inventory for the marketplace: {rid: {total, remaining}} for every account.
+async function apiRewardStock(req, env) {
+  const rows = await env.DB.prepare('SELECT reward_id, claimed FROM reward_stock').all();
+  const claimedMap = {};
+  for (const r of rows.results || []) claimedMap[r.reward_id] = r.claimed;
+  const out = {};
+  for (const rid of ACCOUNT_REWARD_IDS) {
+    const total = REWARDS[rid].stock;
+    const claimed = claimedMap[rid] || 0;
+    out[rid] = { total, remaining: Math.max(0, total - claimed) };
+  }
+  return json({ stock: out });
 }
 
 // ---------- admin ----------
@@ -920,6 +967,7 @@ export default {
 
       if (p === '/api/me') return await apiMe(request, env);
       if (p === '/api/leaderboard') return await apiLeaderboard(request, env);
+      if (p === '/api/rewards/stock') return await apiRewardStock(request, env);
       if (p === '/api/submit' && m === 'POST') return await apiSubmit(request, env);
       if (p === '/api/redeem' && m === 'POST') return await apiRedeem(request, env, ctx);
 

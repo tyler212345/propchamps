@@ -65,6 +65,14 @@ CREATE TABLE IF NOT EXISTS redemptions (
 );
 CREATE INDEX IF NOT EXISTS idx_redeem_user ON redemptions(user_id);
 
+-- Per-reward inventory. Totals live in the worker's REWARDS catalog (`stock`);
+-- this table just tracks how many have been claimed. remaining = stock − claimed.
+-- A row is created lazily on the first claim of each account reward.
+CREATE TABLE IF NOT EXISTS reward_stock (
+  reward_id TEXT PRIMARY KEY,
+  claimed   INTEGER NOT NULL DEFAULT 0
+);
+
 CREATE TABLE IF NOT EXISTS admin_actions (
   id         TEXT PRIMARY KEY,
   admin      TEXT NOT NULL,
