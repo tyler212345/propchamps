@@ -32,6 +32,96 @@ function tierMultiplier(tier) {
   return tier === "Champ's Circle" ? 5 : tier === 'Gold' ? 3 : tier === 'Silver' ? 2 : 1;
 }
 
+// ---------- seasons (quarterly leaderboard reset) ----------
+// The LEADERBOARD runs in quarterly "seasons" anchored to Sept 1, 2026, tracked
+// in users.season_points. At each quarter boundary (1st of Mar/Jun/Sep/Dec)
+// season_points reset to 0 and the outgoing season's top 10 carry a 1,000-pt
+// head start. lifetime_points (tiers) and spendable_points (the bank) are NEVER
+// reset — only the competitive standing rolls over.
+const SEASON_EPOCH_KEY = 202609; // Sept 2026 — season 1; first reset is Dec 1, 2026
+const SEASON_CARRY_TOP = 10;
+const SEASON_CARRY_POINTS = 1000;
+const SEASON_NAMES = { 3: 'Spring', 6: 'Summer', 9: 'Fall', 12: 'Winter' };
+
+function seasonBoundaryFor(date) {
+  let y = date.getUTCFullYear();
+  const mo = date.getUTCMonth() + 1;
+  let m;
+  if (mo >= 12) m = 12;
+  else if (mo >= 9) m = 9;
+  else if (mo >= 6) m = 6;
+  else if (mo >= 3) m = 3;
+  else { m = 12; y -= 1; }
+  return { y, m };
+}
+function seasonKeyOf(b) { return b.y * 100 + b.m; }
+function seasonKeyToBoundary(key) { return { y: Math.floor(key / 100), m: key % 100 }; }
+function seasonNext(b) { let y = b.y, m = b.m + 3; if (m > 12) { m -= 12; y += 1; } return { y, m }; }
+function seasonIso(b) { return new Date(Date.UTC(b.y, b.m - 1, 1, 0, 0, 0)).toISOString(); }
+function seasonLabel(b) { return (SEASON_NAMES[b.m] || 'Season') + ' ' + b.y; }
+function activeSeasonBoundary(storedKey) {
+  return seasonKeyToBoundary(Math.max(storedKey || SEASON_EPOCH_KEY, SEASON_EPOCH_KEY));
+}
+async function readSeasonKey(env) {
+  const row = await env.DB.prepare("SELECT v FROM app_state WHERE k='season_key'").first();
+  const k = row && row.v != null ? parseInt(row.v, 10) : NaN;
+  return Number.isFinite(k) ? k : SEASON_EPOCH_KEY;
+}
+// Public season descriptor for the countdown clock (safe for logged-out too).
+async function seasonState(env) {
+  const cur = activeSeasonBoundary(await readSeasonKey(env));
+  const next = seasonNext(cur);
+  return {
+    key: seasonKeyOf(cur),
+    label: seasonLabel(cur),
+    start: seasonIso(cur),
+    nextReset: seasonIso(next),
+    carryTop: SEASON_CARRY_TOP,
+    carryPoints: SEASON_CARRY_POINTS,
+  };
+}
+// If the calendar has advanced past the stored season, roll over exactly once.
+// A compare-and-swap on app_state.season_key elects a single winner, which then
+// performs the reset inline (so this request already sees the fresh standings).
+async function maybeRollover(env) {
+  const curKey = seasonKeyOf(seasonBoundaryFor(new Date()));
+  if (curKey <= SEASON_EPOCH_KEY) return; // still in / before season 1
+  const storedKey = await readSeasonKey(env);
+  if (curKey <= storedKey) return; // already rolled
+  await env.DB.prepare("INSERT OR IGNORE INTO app_state (k,v) VALUES ('season_key', ?)").bind(String(storedKey)).run();
+  const claim = await env.DB
+    .prepare("UPDATE app_state SET v=? WHERE k='season_key' AND CAST(v AS INTEGER) < ?")
+    .bind(String(curKey), curKey)
+    .run();
+  if (!claim.meta || claim.meta.changes !== 1) return; // lost the race — someone else is rolling
+  try {
+    const nowIso = new Date().toISOString();
+    const top = await env.DB
+      .prepare('SELECT id FROM users WHERE banned=0 AND season_points>0 ORDER BY season_points DESC LIMIT ?')
+      .bind(SEASON_CARRY_TOP)
+      .all();
+    const winners = (top.results || []).map((r) => r.id);
+    await env.DB.prepare('UPDATE users SET season_points=0 WHERE season_points<>0').run();
+    const stmts = [];
+    for (const id of winners) {
+      stmts.push(env.DB.prepare('UPDATE users SET season_points=? WHERE id=?').bind(SEASON_CARRY_POINTS, id));
+      stmts.push(
+        env.DB
+          .prepare('INSERT INTO points_ledger (id,user_id,delta,reason,submission_id,created_at) VALUES (?,?,?,?,?,?)')
+          .bind(crypto.randomUUID(), id, SEASON_CARRY_POINTS, 'season_carryover', null, nowIso)
+      );
+    }
+    stmts.push(
+      env.DB
+        .prepare('INSERT INTO admin_actions (id,admin,action,target,note,created_at) VALUES (?,?,?,?,?,?)')
+        .bind(crypto.randomUUID(), 'system', 'season_rollover', String(curKey), 'carried top ' + winners.length, nowIso)
+    );
+    if (stmts.length) await env.DB.batch(stmts);
+  } catch (e) {
+    console.error('season rollover failed', String((e && e.message) || e));
+  }
+}
+
 // Server-authoritative reward catalog (id -> cost + raffle flag + display label).
 // The browser NEVER sets a reward's price: apiRedeem looks the cost up here by id,
 // so nobody can redeem an expensive reward cheaply by tampering with the request.
@@ -263,9 +353,15 @@ async function logout(req, env) {
 // ---------- user-facing API ----------
 async function apiMe(req, env) {
   const u = await currentUser(req, env);
-  if (!u) return json({ loggedIn: false });
-  const rankRow = await env.DB.prepare('SELECT COUNT(*) AS c FROM users WHERE lifetime_points > ?')
-    .bind(u.lifetime_points)
+  if (!u) {
+    // Still expose the season clock so the logged-out page can show the countdown.
+    return json({ loggedIn: false, season: await seasonState(env) });
+  }
+  await maybeRollover(env);
+  const fresh = (await env.DB.prepare('SELECT lifetime_points, spendable_points, season_points FROM users WHERE id=?').bind(u.id).first()) || u;
+  const seasonPts = fresh.season_points || 0;
+  const rankRow = await env.DB.prepare('SELECT COUNT(*) AS c FROM users WHERE banned=0 AND season_points > ?')
+    .bind(seasonPts)
     .first();
   const acctRow = await env.DB.prepare("SELECT COUNT(*) AS c FROM submissions WHERE user_id=? AND status='approved'")
     .bind(u.id)
@@ -281,31 +377,34 @@ async function apiMe(req, env) {
       username: u.username,
       avatar: u.avatar,
       discordId: u.discord_id,
-      lifetimePoints: u.lifetime_points,
-      spendablePoints: u.spendable_points,
-      tier: tierFor(u.lifetime_points),
+      lifetimePoints: fresh.lifetime_points,
+      spendablePoints: fresh.spendable_points,
+      seasonPoints: seasonPts,
+      tier: tierFor(fresh.lifetime_points),
       rank: (rankRow?.c || 0) + 1,
       accounts: acctRow?.c || 0,
       isAdmin: isAdmin(u, env),
       isHost: isHost(u, env),
     },
+    season: await seasonState(env),
     submissions: subs.results || [],
   });
 }
 
 async function apiLeaderboard(req, env) {
   const u = await currentUser(req, env);
+  await maybeRollover(env);
   const rows = await env.DB.prepare(
-    'SELECT username, avatar, discord_id, lifetime_points FROM users WHERE banned=0 ORDER BY lifetime_points DESC LIMIT 25'
+    'SELECT username, avatar, discord_id, lifetime_points, season_points FROM users WHERE banned=0 ORDER BY season_points DESC, lifetime_points DESC LIMIT 25'
   ).all();
   const list = (rows.results || []).map((r, i) => ({
     rank: i + 1,
     username: r.username,
-    points: r.lifetime_points,
+    points: r.season_points || 0,
     tier: tierFor(r.lifetime_points),
     me: !!(u && r.discord_id === u.discord_id),
   }));
-  return json({ leaderboard: list });
+  return json({ leaderboard: list, season: await seasonState(env) });
 }
 
 async function apiSubmit(req, env) {
@@ -480,8 +579,8 @@ async function adminReview(req, env, ctx) {
       env.DB.prepare(
         'INSERT INTO points_ledger (id,user_id,delta,reason,submission_id,created_at) VALUES (?,?,?,?,?,?)'
       ).bind(crypto.randomUUID(), sub.user_id, award, isPayout ? 'payout_approved' : 'submission_approved', subId, now),
-      env.DB.prepare('UPDATE users SET lifetime_points=lifetime_points+?, spendable_points=spendable_points+? WHERE id=?')
-        .bind(award, award, sub.user_id),
+      env.DB.prepare('UPDATE users SET lifetime_points=lifetime_points+?, season_points=season_points+?, spendable_points=spendable_points+? WHERE id=?')
+        .bind(award, award, award, sub.user_id),
       env.DB.prepare('INSERT INTO admin_actions (id,admin,action,target,created_at) VALUES (?,?,?,?,?)')
         .bind(crypto.randomUUID(), u.discord_id, isPayout ? 'approve_payout' : 'approve', subId, now),
     ]);

@@ -219,6 +219,18 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 .lb-pts .u{font-family:var(--font-mono);font-size:10px;color:var(--text-faint);font-weight:500;margin-left:3px}
 .lb-tier{justify-self:end}
 .lb-empty{padding:44px;text-align:center;color:var(--text-faint);font-size:14px}
+/* ---- season countdown ---- */
+.season-clock{max-width:580px;margin:0 auto 30px;padding:24px 26px;border-radius:22px;text-align:center;border:1px solid var(--border-lime);background:linear-gradient(180deg,rgba(200,255,0,.055),rgba(19,25,34,.55));box-shadow:0 24px 60px -32px rgba(200,255,0,.35)}
+.sc-label{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:11.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--lime-text)}
+.sc-label b{color:var(--text-strong);font-weight:700}
+.sc-grid{display:flex;align-items:flex-start;justify-content:center;gap:9px;margin:17px 0 15px}
+.sc-cell{display:flex;flex-direction:column;align-items:center;min-width:64px;padding:13px 6px 10px;background:rgba(0,0,0,.34);border:1px solid var(--border);border-radius:14px}
+.sc-num{font-family:var(--font-mono);font-weight:700;font-size:31px;line-height:1;color:var(--text-strong);font-variant-numeric:tabular-nums}
+.sc-unit{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--text-faint);margin-top:8px}
+.sc-sep{font-family:var(--font-mono);font-size:26px;font-weight:700;color:var(--lime);opacity:.45;padding-top:12px}
+.sc-note{font-size:12.5px;color:var(--text-soft);line-height:1.5}
+.sc-note b{color:var(--lime-text)}
+@media(max-width:520px){.season-clock{padding:20px 16px}.sc-cell{min-width:0;flex:1;padding:11px 2px 8px}.sc-num{font-size:24px}.sc-sep{font-size:19px;padding-top:9px}}
 
 /* tier badges */
 .tier-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:100px;font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border:1px solid}
@@ -435,7 +447,20 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
     <div class="sec-head center">
       <div class="eyebrow">Top supporters</div>
       <h2 class="rw-h2">The leaderboard</h2>
-      <p class="rw-lead">The traders backing CHAMP the hardest. Top of the board every month wins.</p>
+      <p class="rw-lead">A fresh race every season. The traders backing CHAMP the hardest rise to the top.</p>
+    </div>
+    <div class="season-clock" id="seasonClock" hidden>
+      <div class="sc-label">⏳ <b id="scName">This season</b> · resets in</div>
+      <div class="sc-grid">
+        <div class="sc-cell"><span class="sc-num" id="scD">--</span><span class="sc-unit">days</span></div>
+        <div class="sc-sep">:</div>
+        <div class="sc-cell"><span class="sc-num" id="scH">--</span><span class="sc-unit">hrs</span></div>
+        <div class="sc-sep">:</div>
+        <div class="sc-cell"><span class="sc-num" id="scM">--</span><span class="sc-unit">min</span></div>
+        <div class="sc-sep">:</div>
+        <div class="sc-cell"><span class="sc-num" id="scS">--</span><span class="sc-unit">sec</span></div>
+      </div>
+      <div class="sc-note">🏆 Top <b id="scTop">10</b> at reset carry a <b id="scCarry">1,000</b>-pt head start into the next season.</div>
     </div>
     <div class="lb glass" id="lbBox" data-rv><div class="lb-empty">Loading leaderboard…</div></div>
   </div>
@@ -723,10 +748,41 @@ function renderSubs(subs){
   }).join('');
 }
 
+/* ---- season countdown ---- */
+var SEASON_TIMER=null, SEASON_TARGET=null;
+function startSeasonClock(season){
+  var el=document.getElementById('seasonClock');
+  if(!el||!season||!season.nextReset)return;
+  document.getElementById('scName').textContent=season.label||'This season';
+  document.getElementById('scTop').textContent=(season.carryTop||10);
+  document.getElementById('scCarry').textContent=(season.carryPoints||1000).toLocaleString();
+  var target=new Date(season.nextReset).getTime();
+  if(!isFinite(target))return;
+  if(target!==SEASON_TARGET){SEASON_TARGET=target;startSeasonClock._rolled=false;}
+  el.hidden=false;
+  function pad(n){return(n<10?'0':'')+n;}
+  function tick(){
+    var diff=SEASON_TARGET-Date.now();
+    if(diff<0)diff=0;
+    document.getElementById('scD').textContent=Math.floor(diff/86400000);
+    document.getElementById('scH').textContent=pad(Math.floor(diff/3600000)%24);
+    document.getElementById('scM').textContent=pad(Math.floor(diff/60000)%60);
+    document.getElementById('scS').textContent=pad(Math.floor(diff/1000)%60);
+    if(diff<=0&&!startSeasonClock._rolled){ // boundary hit — nudge the server to roll over, then refresh
+      startSeasonClock._rolled=true;
+      setTimeout(function(){ loadLeaderboard(); if(window.ME&&ME.loggedIn){refreshMe();} },5000);
+    }
+  }
+  if(SEASON_TIMER)clearInterval(SEASON_TIMER);
+  tick(); SEASON_TIMER=setInterval(tick,1000);
+}
+async function refreshMe(){ try{ ME=await fetch('/api/me').then(function(r){return r.json();}); renderMe(); }catch(e){} }
+
 /* ---- leaderboard ---- */
 async function loadLeaderboard(){
   var data;
   try{ data=await fetch('/api/leaderboard').then(function(r){return r.json();}); }catch(e){ data={leaderboard:[]}; }
+  if(data.season)startSeasonClock(data.season);
   var rows=data.leaderboard||[], box=document.getElementById('lbBox');
   if(!rows.length){box.innerHTML='<div class="lb-empty">No supporters on the board yet — be the first.</div>';return;}
   var colors=['#ffd75e','#7ee787','#79c0ff','#ff9e64','#d2a8ff','#f778ba','#56d364','#a5d6ff','#c8ff00','#ffab70'];

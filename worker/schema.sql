@@ -8,14 +8,19 @@ CREATE TABLE IF NOT EXISTS users (
   username         TEXT NOT NULL,
   avatar           TEXT,
   email            TEXT,                          -- from Discord (email scope); used for approval/rejection emails
-  lifetime_points  INTEGER NOT NULL DEFAULT 0,   -- drives leaderboard + tier; never decreases
-  spendable_points INTEGER NOT NULL DEFAULT 0,   -- what redemptions draw from
+  lifetime_points  INTEGER NOT NULL DEFAULT 0,   -- drives TIER (loyalty); never decreases
+  season_points    INTEGER NOT NULL DEFAULT 0,   -- drives the LEADERBOARD; reset each quarter (top 10 carry 1,000)
+  spendable_points INTEGER NOT NULL DEFAULT 0,   -- what redemptions draw from; never reset by seasons
   banned           INTEGER NOT NULL DEFAULT 0,
   created_at       TEXT NOT NULL
 );
-CREATE INDEX IF NOT EXISTS idx_users_pts ON users(lifetime_points DESC);
--- If users already exists from an earlier migration, add the column:
+CREATE INDEX IF NOT EXISTS idx_users_pts    ON users(lifetime_points DESC);
+CREATE INDEX IF NOT EXISTS idx_users_season ON users(season_points DESC);
+-- If users already exists from an earlier migration, add the columns:
 --   ALTER TABLE users ADD COLUMN email TEXT;
+--   ALTER TABLE users ADD COLUMN season_points INTEGER NOT NULL DEFAULT 0;
+--   UPDATE users SET season_points = lifetime_points;   -- seed the current (first) season
+-- The current season key lives in app_state under 'season_key' (e.g. 202609 = Fall 2026).
 
 CREATE TABLE IF NOT EXISTS submissions (
   id             TEXT PRIMARY KEY,
