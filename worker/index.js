@@ -382,7 +382,7 @@ async function apiSubmit(req, env) {
   return json({ ok: true, submissionId: subId, ai });
 }
 
-async function apiRedeem(req, env) {
+async function apiRedeem(req, env, ctx) {
   const u = await currentUser(req, env);
   if (!u) return json({ error: 'not_logged_in' }, 401);
   if (u.banned) return json({ error: 'banned' }, 403);
@@ -423,6 +423,10 @@ async function apiRedeem(req, env) {
         .run();
       return json({ ok: true, raffle: true, entriesAdded: mult });
     }
+    // Account / cash-back claim → confirmation email (best-effort) + it lands
+    // in the host fulfillment queue for the team to deliver within 24-48h.
+    if (u.email && ctx && ctx.waitUntil)
+      ctx.waitUntil(sendClaimReceived(env, u.email, u.username, name, new URL(req.url).origin));
     return json({ ok: true });
   } catch (e) {
     // Never take points without recording the redemption — refund on failure.
@@ -708,6 +712,22 @@ async function sendRejected(env, email, username, firm, origin, discordUrl) {
     /* best-effort */
   }
 }
+async function sendClaimReceived(env, email, username, rewardName, origin) {
+  if (!email) return;
+  try {
+    const unsub = origin + '/unsub?e=' + encodeURIComponent(email) + '&t=' + (await unsubToken(email, env));
+    const btn = 'display:inline-block;background:#c8ff00;color:#0a0d12;font-weight:700;text-decoration:none;padding:12px 22px;border-radius:10px;margin:10px 0;';
+    const body =
+      '<p>Hey' + (username ? ' ' + username : '') + '! 🎉</p>' +
+      '<p>We got your claim for <strong>' + rewardName + '</strong> — nice one.</p>' +
+      "<p>Give us <strong>24–48 hours</strong> and we'll get everything sorted and sent straight to you — account login details, payout info, whatever your reward needs. Keep an eye on this inbox (and your Discord).</p>" +
+      '<p><a href="' + origin + '/rewards" style="' + btn + '">Back to your dashboard →</a></p>' +
+      '<p style="font-size:13px;color:#6b7280;">Thanks for rocking with code CHAMP.<br>— The PropChamps team</p>';
+    await sendEmail(env, email, 'We got your reward claim 🎁 — ' + rewardName, emailShell('Claim received!', body, unsub));
+  } catch (e) {
+    /* best-effort */
+  }
+}
 async function unsubscribe(req, env) {
   const url = new URL(req.url);
   const email = String(url.searchParams.get('e') || '').toLowerCase();
@@ -784,7 +804,7 @@ export default {
       if (p === '/api/me') return await apiMe(request, env);
       if (p === '/api/leaderboard') return await apiLeaderboard(request, env);
       if (p === '/api/submit' && m === 'POST') return await apiSubmit(request, env);
-      if (p === '/api/redeem' && m === 'POST') return await apiRedeem(request, env);
+      if (p === '/api/redeem' && m === 'POST') return await apiRedeem(request, env, ctx);
 
       if (p === '/api/admin/queue') return await adminQueue(request, env);
       if (p === '/api/admin/review' && m === 'POST') return await adminReview(request, env, ctx);
