@@ -77,6 +77,26 @@
 .reason-in{width:100%;min-height:62px;resize:vertical;padding:10px 12px;background:var(--bg-base);border:1px solid var(--border-strong);border-radius:10px;color:var(--text);font-size:13px;font-family:inherit;line-height:1.5}
 .reason-in:focus{outline:none;border-color:var(--neg)}
 .reason-hint{font-size:11px;color:var(--text-faint);margin-top:5px}
+.prior-badge{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.03em;padding:4px 10px;border-radius:100px;border:1px solid rgba(248,113,113,.4);color:var(--neg);background:rgba(248,113,113,.08);margin-bottom:8px;line-height:1.3}
+/* ---- past-submission history ---- */
+.hist-block{margin-top:4px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--bg-base)}
+.hist-head{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;user-select:none}
+.hist-head:hover{background:rgba(255,255,255,.02)}
+.hist-t{font-family:var(--font-display);font-weight:700;font-size:13.5px;color:var(--text)}
+.hist-meta{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);margin-left:auto}
+.hist-chevron{font-size:12px;color:var(--text-faint);transition:transform .2s}
+.hist-block.open .hist-chevron{transform:rotate(180deg)}
+.hist-list{display:none;flex-direction:column;gap:8px;padding:0 12px 12px}
+.hist-block.open .hist-list{display:flex}
+.hist-item{display:flex;align-items:center;gap:12px;padding:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:10px}
+.hist-img{width:64px;height:48px;border-radius:7px;object-fit:cover;background:var(--bg-band);border:1px solid var(--border-strong);cursor:zoom-in;flex-shrink:0}
+.hist-info{flex:1;min-width:0}
+.hist-firm{font-family:var(--font-display);font-weight:700;font-size:13px;color:var(--text-strong);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hist-amt{font-size:12px;color:var(--text-soft);margin-top:2px}
+.hist-date{font-family:var(--font-mono);font-size:10.5px;color:var(--text-faint);margin-top:3px}
+.hist-status{font-family:var(--font-mono);font-size:10.5px;font-weight:700;padding:4px 9px;border-radius:100px;border:1px solid;white-space:nowrap;flex-shrink:0}
+.hist-status.approved{color:var(--positive);border-color:rgba(74,222,128,.4);background:rgba(74,222,128,.08)}
+.hist-status.rejected{color:var(--neg);border-color:rgba(248,113,113,.4);background:rgba(248,113,113,.08)}
 @media(max-width:640px){.q-card{grid-template-columns:1fr}.q-img{width:100%;height:180px}}
 </style>
 </head>
@@ -139,27 +159,51 @@ async function loadQueue(){
   var data=await fetch('/api/admin/queue').then(function(r){return r.json();}).catch(function(){return{groups:[],count:0};});
   var groups=data.groups||[]; var count=data.count||0;
   var head='<div class="admin-head"><h1>Review queue</h1><span class="cnt">'+countLabel(count,groups.length)+'</span></div>'
-    +'<p class="admin-sub">Grouped by person — click a name to open their submissions. Purchases: confirm code CHAMP → approve (+250). Payouts: confirm the amount → award 1 pt/$1. Rejecting emails them the reason (pre-filled from the AI — edit it first). A <span style="color:var(--neg);font-weight:600">red flag</span> means a possible repeat submission.</p>';
+    +'<p class="admin-sub">Grouped by person — click a name to open their submissions and their past ones. Purchases: confirm code CHAMP → approve (+250). Payouts: confirm the amount → award 1 pt/$1. Rejecting emails them the reason (pre-filled from the AI — edit it first). A <span style="color:var(--neg);font-weight:600">red flag</span> means a possible repeat of something they already submitted, approved, or had rejected.</p>';
   if(!count){ w.innerHTML=head+'<div class="state"><div class="big">✅</div>All caught up — nothing pending.</div>'; return; }
   var single=groups.length===1;
-  w.innerHTML=head+groups.map(function(g){return renderFolder(g, single||g.hasDuplicates);}).join('');
+  w.innerHTML=head+groups.map(function(g){return renderFolder(g, single||g.hasHistoryMatch||g.hasDuplicates);}).join('');
 }
 function renderFolder(g, open){
   var n=g.submissions.length;
   var avImg=g.avatar?'<img src="https://cdn.discordapp.com/avatars/'+esc(g.discord_id)+'/'+esc(g.avatar)+'.png?size=64" alt="" onerror="this.style.display=\'none\';this.parentNode.textContent=\''+initials(g.username)+'\'">':initials(g.username);
-  var flag=g.hasDuplicates?'<span class="fh-flag">⚠ possible repeat</span>':'';
-  return '<div class="folder'+(g.hasDuplicates?' dup':'')+(open?' open':'')+'" id="folder-'+esc(g.user_id)+'">'
+  var flag=g.hasHistoryMatch?'<span class="fh-flag">⚠ repeat of a past one</span>':(g.hasDuplicates?'<span class="fh-flag">⚠ possible repeat</span>':'');
+  var past=((g.approvedCount||0)+(g.rejectedCount||0));
+  var sub=n+' pending'+(past?(' · '+(g.approvedCount||0)+' approved · '+(g.rejectedCount||0)+' rejected before'):'')+' · Discord '+esc(g.discord_id);
+  return '<div class="folder'+((g.hasDuplicates||g.hasHistoryMatch)?' dup':'')+(open?' open':'')+'" id="folder-'+esc(g.user_id)+'">'
     +'<div class="folder-head" onclick="toggleFolder(\''+esc(g.user_id)+'\')">'
     +'<div class="fh-av">'+avImg+'</div>'
-    +'<div class="fh-main"><div class="fh-name">'+esc(g.username)+'</div><div class="fh-sub">'+n+' pending · Discord '+esc(g.discord_id)+'</div></div>'
+    +'<div class="fh-main"><div class="fh-name">'+esc(g.username)+'</div><div class="fh-sub">'+sub+'</div></div>'
     +flag+'<div class="fh-chevron">▾</div></div>'
-    +'<div class="folder-body">'+g.submissions.map(renderSub).join('')+'</div>'
+    +'<div class="folder-body">'+g.submissions.map(renderSub).join('')+renderHistory(g)+'</div>'
     +'</div>';
 }
+function renderHistory(g){
+  if(!g.history||!g.history.length)return '';
+  return '<div class="hist-block" id="hist-'+esc(g.user_id)+'">'
+    +'<div class="hist-head" onclick="toggleHist(\''+esc(g.user_id)+'\')"><span class="hist-t">🗂 Past submissions</span>'
+    +'<span class="hist-meta">'+(g.approvedCount||0)+' approved · '+(g.rejectedCount||0)+' rejected</span><span class="hist-chevron">▾</span></div>'
+    +'<div class="hist-list">'+g.history.map(renderHistItem).join('')+'</div></div>';
+}
+function renderHistItem(h){
+  var pay=h.kind==='payout';
+  var pts=(h.status==='approved'&&h.points_awarded)?(' · +'+Number(h.points_awarded).toLocaleString()+' pts'):'';
+  return '<div class="hist-item">'
+    +'<img class="hist-img" loading="lazy" src="/api/admin/image/'+h.id+'" alt="" onclick="zoom(this.src)" onerror="this.style.opacity=.25">'
+    +'<div class="hist-info"><div class="hist-firm">'+esc(h.firm_slug)+(pay?' · payout':'')+'</div>'
+    +'<div class="hist-amt">'+esc(h.claimed_amount||'—')+pts+'</div>'
+    +'<div class="hist-date">'+esc(fmtDate(h.reviewed_at||h.created_at))+'</div></div>'
+    +'<span class="hist-status '+esc(h.status)+'">'+(h.status==='approved'?'✓ approved':'✕ rejected')+'</span></div>';
+}
+function toggleHist(id){var f=document.getElementById('hist-'+id);if(f)f.classList.toggle('open');}
 function renderSub(s){
   var pay=s.kind==='payout';
   var guess=pay?parsePayout(s.claimed_amount):0;
-  var dupBadge=s.dup?('<div class="dup-badge '+esc(s.dup.level)+'">'+(s.dup.level==='duplicate'?'🚫 ':'⚠ ')+esc(s.dup.note)+'</div>'):'';
+  var histMatch=s.dup&&(s.dup.against==='approved'||s.dup.against==='rejected');
+  var badgeCls=histMatch?'duplicate':(s.dup?s.dup.level:'');
+  var dupBadge=s.dup?('<div class="dup-badge '+badgeCls+'">'+((s.dup.level==='duplicate'||histMatch)?'🚫 ':'⚠ ')+esc(s.dup.note)+'</div>'):'';
+  var priorBadge=s.priorRejects?('<div class="prior-badge">⚠ '+s.priorRejects+' earlier '+esc(s.firm_slug)+' '+(pay?'payout':'submission')+(s.priorRejects>1?'s':'')+' from this person were rejected</div>'):'';
+  dupBadge=dupBadge+priorBadge;
   var reasonBox='<div class="reason-box"><label>Rejection note — emailed if you reject</label>'
     +'<textarea class="reason-in" id="reason-'+s.id+'" placeholder="Why is this being rejected? (blank = send the default note)">'+esc(aiRedFlagsText(s))+'</textarea>'
     +'<div class="reason-hint">Pre-filled from the AI. Edit or clear before you reject.</div></div>';

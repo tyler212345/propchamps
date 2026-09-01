@@ -596,6 +596,29 @@ function aiRedFlags(aiNotes) {
   try { const v = JSON.parse(aiNotes || '{}'); const f = Array.isArray(v.redFlags) ? v.redFlags : []; return f.map((x) => String(x || '').trim()).filter(Boolean); } catch (e) { return []; }
 }
 
+// Fingerprints used to spot repeats. HARD = same order/invoice number (AI-read)
+// or a byte-identical image. SOFT = same firm + amount, taken from the SUBMITTED
+// firm_slug + claimed_amount so it works for payouts too (which skip the AI).
+const lc = (x) => String(x == null ? '' : x).toLowerCase().trim();
+function subHard(s) {
+  const oid = aiField(s.ai_notes, 'orderId').toLowerCase();
+  return oid ? 'o:' + oid : s.image_hash ? 'h:' + s.image_hash : '';
+}
+function subSoft(s) {
+  const firm = lc(s.firm_slug);
+  const amt = lc(s.claimed_amount).replace(/[^0-9.]/g, '');
+  return firm && amt ? 's:' + firm + '|' + amt : '';
+}
+function dupNote(level, against) {
+  if (level === 'duplicate')
+    return against === 'rejected' ? 'Same receipt (order # or image) as one you already REJECTED'
+      : against === 'approved' ? 'Same receipt as one you already APPROVED — possible double-claim'
+      : 'Duplicate of another submission in this batch';
+  return against === 'rejected' ? 'Same firm & amount as one you REJECTED'
+    : against === 'approved' ? 'Same firm & amount as one you APPROVED'
+    : 'Same firm & amount as another in this batch';
+}
+
 async function adminQueue(req, env) {
   const u = await currentUser(req, env);
   if (!isAdmin(u, env)) return json({ error: 'forbidden' }, 403);
@@ -608,39 +631,65 @@ async function adminQueue(req, env) {
   const byUser = new Map();
   for (const s of subs) {
     if (!byUser.has(s.user_id))
-      byUser.set(s.user_id, { user_id: s.user_id, discord_id: s.discord_id, username: s.username, avatar: s.avatar, submissions: [] });
+      byUser.set(s.user_id, { user_id: s.user_id, discord_id: s.discord_id, username: s.username, avatar: s.avatar, submissions: [], history: [] });
     byUser.get(s.user_id).submissions.push(s);
+  }
+  // Pull each pending user's DECIDED history (approved + rejected) so we can
+  // compare against what was already approved/rejected — not just this batch.
+  const uids = [...byUser.keys()];
+  if (uids.length) {
+    const ph = uids.map(() => '?').join(',');
+    const hist = await env.DB.prepare(
+      'SELECT id, user_id, firm_slug, claimed_amount, kind, status, ai_notes, image_hash, points_awarded, created_at, reviewed_at ' +
+        `FROM submissions WHERE user_id IN (${ph}) AND status IN ('approved','rejected') ORDER BY created_at DESC LIMIT 600`
+    ).bind(...uids).all();
+    for (const h of hist.results || []) {
+      const g = byUser.get(h.user_id);
+      if (g && g.history.length < 40) g.history.push(h);
+    }
   }
   const groups = [];
   for (const g of byUser.values()) {
-    // Duplicate detection within a user's batch. Hard = same order/invoice number
-    // (AI-read) or byte-identical image; soft = same firm + amount (worth a look).
-    const hard = {}, soft = {};
+    const all = g.submissions.concat(g.history);
+    for (const o of all) { o._h = subHard(o); o._s = subSoft(o); }
     for (const s of g.submissions) {
-      const oid = aiField(s.ai_notes, 'orderId').toLowerCase();
-      s._hard = oid ? 'o:' + oid : s.image_hash ? 'h:' + s.image_hash : '';
-      const firm = aiField(s.ai_notes, 'firmDetected').toLowerCase();
-      const amt = aiField(s.ai_notes, 'amountDetected').toLowerCase().replace(/\s+/g, '');
-      s._soft = firm && amt ? 's:' + firm + '|' + amt : '';
-      if (s._hard) hard[s._hard] = (hard[s._hard] || 0) + 1;
-      if (s._soft) soft[s._soft] = (soft[s._soft] || 0) + 1;
-    }
-    let dupAny = false;
-    for (const s of g.submissions) {
-      if (s._hard && hard[s._hard] > 1) {
-        s.dup = { level: 'duplicate', note: s._hard[0] === 'o' ? 'Same order/invoice number as another submission' : 'Byte-identical image to another submission' };
-        dupAny = true;
-      } else if (s._soft && soft[s._soft] > 1) {
-        s.dup = { level: 'similar', note: 'Same firm & amount as another — check it is not a repeat' };
-        dupAny = true;
+      // Strongest match anywhere in this person's set: hard > soft, and a match
+      // against a REJECTED item outranks approved, which outranks the batch.
+      let best = null;
+      for (const o of all) {
+        if (o.id === s.id) continue;
+        let level = null;
+        if (s._h && o._h === s._h) level = 'duplicate';
+        else if (s._s && o._s === s._s) level = 'similar';
+        if (!level) continue;
+        const against = o.status === 'rejected' ? 'rejected' : o.status === 'approved' ? 'approved' : 'batch';
+        const r = (level === 'duplicate' ? 100 : 50) + (against === 'rejected' ? 3 : against === 'approved' ? 2 : 1);
+        if (!best || r > best.r) best = { level, against, r };
       }
-      delete s._hard; delete s._soft; delete s.image_hash; // internal only
+      if (best) s.dup = { level: best.level, against: best.against, note: dupNote(best.level, best.against) };
+      // Behavioral: how many earlier submissions of the same firm + kind were rejected
+      // (catches "3 Lucid payouts under different names, all rejected, tries again").
+      const priorRej = g.history.filter((h) => h.status === 'rejected' && lc(h.firm_slug) === lc(s.firm_slug) && h.kind === s.kind).length;
+      if (priorRej > 0) s.priorRejects = priorRej;
     }
-    g.hasDuplicates = dupAny;
+    for (const o of all) { delete o._h; delete o._s; }
+    for (const s of g.submissions) delete s.image_hash; // internal only
+    // Trim history to what the UI shows (drop hash + heavy ai_notes).
+    g.history = g.history.map((h) => ({
+      id: h.id, firm_slug: h.firm_slug, claimed_amount: h.claimed_amount, kind: h.kind,
+      status: h.status, points_awarded: h.points_awarded, created_at: h.created_at, reviewed_at: h.reviewed_at,
+    }));
+    g.approvedCount = g.history.filter((h) => h.status === 'approved').length;
+    g.rejectedCount = g.history.filter((h) => h.status === 'rejected').length;
+    g.hasDuplicates = g.submissions.some((s) => s.dup);
+    g.hasHistoryMatch = g.submissions.some((s) => (s.dup && s.dup.against !== 'batch') || s.priorRejects);
     groups.push(g);
   }
-  // Folders with possible duplicates float to the top; otherwise oldest first.
-  groups.sort((a, b) => b.hasDuplicates - a.hasDuplicates || (a.submissions[0].created_at < b.submissions[0].created_at ? -1 : 1));
+  // History matches float highest, then in-batch dups, then oldest first.
+  groups.sort((a, b) =>
+    b.hasHistoryMatch - a.hasHistoryMatch || b.hasDuplicates - a.hasDuplicates ||
+    (a.submissions[0].created_at < b.submissions[0].created_at ? -1 : 1)
+  );
   return json({ groups, count: subs.length });
 }
 
