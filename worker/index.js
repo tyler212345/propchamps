@@ -773,6 +773,69 @@ async function adminImage(req, env, subId) {
   });
 }
 
+// Admin-triggered AI visual comparison: reads a person's receipt images from R2
+// and asks Claude vision which ones are the SAME source (template reused with the
+// name/amount/order # swapped) — catches repeats that share no data fingerprint.
+// Best-effort + read-only: it never changes a submission, it only reports.
+async function adminCompare(req, env) {
+  const u = await currentUser(req, env);
+  if (!isAdmin(u, env)) return json({ error: 'forbidden' }, 403);
+  if (!env.ANTHROPIC_API_KEY) return json({ error: 'no_ai' }, 400);
+  const body = await req.json().catch(() => ({}));
+  const userId = String(body.userId || '');
+  if (!userId) return json({ error: 'bad_request' }, 400);
+  // All pending first, then most-recent decided — up to 8 images.
+  const rows = await env.DB.prepare(
+    "SELECT id, image_key, status, firm_slug, claimed_amount, kind FROM submissions " +
+      "WHERE user_id=? AND status IN ('pending','approved','rejected') ORDER BY (status='pending') DESC, created_at DESC LIMIT 8"
+  ).bind(userId).all();
+  const subs = rows.results || [];
+  if (subs.length < 2) return json({ ok: true, groups: [], checked: subs.length, summary: 'Need at least two submissions to compare.' });
+  const items = [];
+  for (const s of subs) {
+    try {
+      const obj = await env.RECEIPTS.get(s.image_key);
+      if (!obj) continue;
+      const buf = await obj.arrayBuffer();
+      if (buf.byteLength > 4 * 1024 * 1024) continue; // skip oversized for the vision call
+      const ct = (obj.httpMetadata && obj.httpMetadata.contentType) || 'image/jpeg';
+      const media = ct.includes('png') ? 'image/png' : ct.includes('webp') ? 'image/webp' : ct.includes('gif') ? 'image/gif' : 'image/jpeg';
+      items.push({ id: s.id, status: s.status, firm: s.firm_slug, amount: s.claimed_amount, kind: s.kind, media, data: toBase64(buf) });
+    } catch (e) { /* skip unreadable */ }
+  }
+  if (items.length < 2) return json({ ok: true, groups: [], checked: items.length, summary: 'Could not load enough images to compare.' });
+  const content = [];
+  items.forEach((it, i) => {
+    content.push({ type: 'text', text: 'Image [' + (i + 1) + '] — firm: ' + (it.firm || '?') + ', amount: ' + (it.amount || '?') + ', type: ' + it.kind + ', status: ' + it.status });
+    content.push({ type: 'image', source: { type: 'base64', media_type: it.media, data: it.data } });
+  });
+  content.push({ type: 'text', text:
+    'All ' + items.length + ' images above were submitted by the SAME person to a prop-firm rewards program. Find images that are actually the SAME underlying receipt or screenshot — INCLUDING cases where someone edited the name, amount, order/transaction number, or date to pass one screenshot off as several separate purchases (identical layout, fonts, spacing, background, or crop = same source). Do NOT group two genuinely different receipts just because they are from the same firm or a similar amount. Respond with ONLY a JSON object (no prose, no code fences): {"groups":[{"members":[1,2],"confidence":0.0-1.0,"reason":"one short sentence on what matches"}],"summary":"one short sentence"}. "members" are the [n] image numbers; return an empty groups array if none share a source.' });
+  let data;
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'x-api-key': env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
+      body: JSON.stringify({ model: AI_MODEL, max_tokens: 1200, messages: [{ role: 'user', content }] }),
+      signal: AbortSignal.timeout(50000),
+    });
+    if (!res.ok) { const t = await res.text().catch(() => ''); return json({ error: 'ai_' + res.status, detail: t.slice(0, 160) }, 502); }
+    data = await res.json();
+  } catch (e) { return json({ error: 'ai_failed', detail: String((e && e.message) || e).slice(0, 160) }, 502); }
+  const text = (data.content || []).filter((c) => c.type === 'text').map((c) => c.text).join('');
+  let parsed = null;
+  try { const m = text.match(/\{[\s\S]*\}/); parsed = m ? JSON.parse(m[0]) : null; } catch (e) { /* unparseable */ }
+  if (!parsed || !Array.isArray(parsed.groups)) return json({ ok: true, groups: [], checked: items.length, summary: 'The AI could not return a clear result — compare by eye.' });
+  const groups = parsed.groups
+    .map((gp) => {
+      const members = (Array.isArray(gp.members) ? gp.members : []).map((n) => items[n - 1]).filter(Boolean)
+        .map((x) => ({ id: x.id, firm: x.firm, amount: x.amount, status: x.status, kind: x.kind }));
+      return { members, confidence: typeof gp.confidence === 'number' ? gp.confidence : null, reason: String(gp.reason || '').slice(0, 200) };
+    })
+    .filter((gp) => gp.members.length >= 2);
+  return json({ ok: true, groups, checked: items.length, summary: String(parsed.summary || '').slice(0, 240) });
+}
+
 // ---------- live giveaway (public) ----------
 async function giveawayStatus(req, env) {
   const st = await getGiveawayState(env);
@@ -1093,6 +1156,7 @@ export default {
 
       if (p === '/api/admin/queue') return await adminQueue(request, env);
       if (p === '/api/admin/review' && m === 'POST') return await adminReview(request, env, ctx);
+      if (p === '/api/admin/compare' && m === 'POST') return await adminCompare(request, env);
       if (p.startsWith('/api/admin/image/')) return await adminImage(request, env, p.slice('/api/admin/image/'.length));
 
       if (p === '/api/giveaway/status') return await giveawayStatus(request, env);
