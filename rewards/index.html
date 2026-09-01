@@ -429,9 +429,9 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
     </div>
     <div class="ladder">
       <div class="rung glass" data-tier="Bronze" data-rv><span class="youre">You're here</span><div class="ic">🥉</div><div class="tn">Bronze</div><div class="th">0+ pts</div><div class="pk">Discord role · leaderboard · raffle entries</div></div>
-      <div class="rung glass" data-tier="Silver" data-rv><span class="youre">You're here</span><div class="ic">🥈</div><div class="tn">Silver</div><div class="th">1,000+ pts</div><div class="pk">Everything in Bronze · 2× raffle entries · early deal alerts</div></div>
-      <div class="rung glass" data-tier="Gold" data-rv><span class="youre">You're here</span><div class="ic">🥇</div><div class="tn">Gold</div><div class="th">10,000+ pts</div><div class="pk">Priority verification · exclusive giveaways · Gold flair</div></div>
-      <div class="rung glass" data-tier="Champ's Circle" data-rv><span class="youre">You're here</span><div class="ic">👑</div><div class="tn">Champ's Circle</div><div class="th">25,000+ pts</div><div class="pk">Free account drops · direct line to Champ · top-supporter perks</div></div>
+      <div class="rung glass" data-tier="Silver" data-rv><span class="youre">You're here</span><div class="ic">🥈</div><div class="tn">Silver</div><div class="th">5,000+ pts</div><div class="pk">Everything in Bronze · 2× raffle entries · early deal alerts</div></div>
+      <div class="rung glass" data-tier="Gold" data-rv><span class="youre">You're here</span><div class="ic">🥇</div><div class="tn">Gold</div><div class="th">25,000+ pts</div><div class="pk">Priority verification · exclusive giveaways · Gold flair</div></div>
+      <div class="rung glass" data-tier="Champ's Circle" data-rv><span class="youre">You're here</span><div class="ic">👑</div><div class="tn">Champ's Circle</div><div class="th">50,000+ pts</div><div class="pk">Free account drops · direct line to Champ · top-supporter perks</div></div>
     </div>
   </div>
 </section>
@@ -602,7 +602,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 
 <script>
 var ME=null, SELECTED_FILE=null, SUBMIT_KIND='purchase';
-var TIERS=[{n:"Champ's Circle",min:25000},{n:'Gold',min:10000},{n:'Silver',min:1000},{n:'Bronze',min:0}];
+var TIERS=[{n:"Champ's Circle",min:50000},{n:'Gold',min:25000},{n:'Silver',min:5000},{n:'Bronze',min:0}];
 function tierClass(t){return t==="Champ's Circle"?'tier-champ':t==='Gold'?'tier-gold':t==='Silver'?'tier-silver':'tier-bronze';}
 function nextTier(pts){for(var i=TIERS.length-1;i>=0;i--){if(pts<TIERS[i].min)return TIERS[i];}return null;}
 function initials(n){return String(n||'?').replace(/[^A-Za-z0-9]/g,'').slice(0,2).toUpperCase()||'?';}
@@ -702,15 +702,15 @@ var FIRMS_META={
 // Every card's mkId() MUST match an account entry in the server REWARDS catalog
 // (worker/index.js) — that's where cost + stock limits live. Order ≈ Champ's supply.
 var MARKET=[
-  {f:'lucid',size:'25K',type:'Evaluation',val:50,cost:8500},
-  {f:'lucid',size:'50K',type:'Evaluation',val:90,cost:14000,pop:true},
-  {f:'myfunded',size:'25K',type:'Evaluation',val:70,cost:9000},
-  {f:'fundednext',size:'25K',type:'Evaluation',val:80,cost:9000},
-  {f:'fundednext',size:'50K',type:'Evaluation',val:170,cost:15000},
-  {f:'myfunded',size:'50K',type:'Evaluation',val:125,cost:14000},
-  {f:'tradify',size:'50K',type:'Evaluation',val:87,cost:14000},
-  {f:'apex',size:'50K',type:'Evaluation',val:100,cost:10000},
-  {f:'lucid',size:'100K',type:'Evaluation',val:171,cost:30000,featured:true,note:'The biggest account we offer — a fully-paid 100K evaluation.'}
+  {f:'lucid',size:'25K',type:'Evaluation',val:50,cost:17000},
+  {f:'lucid',size:'50K',type:'Evaluation',val:90,cost:28000,pop:true},
+  {f:'myfunded',size:'25K',type:'Evaluation',val:70,cost:18000},
+  {f:'fundednext',size:'25K',type:'Evaluation',val:80,cost:18000},
+  {f:'fundednext',size:'50K',type:'Evaluation',val:170,cost:30000},
+  {f:'myfunded',size:'50K',type:'Evaluation',val:125,cost:28000},
+  {f:'tradify',size:'50K',type:'Evaluation',val:87,cost:28000},
+  {f:'apex',size:'50K',type:'Evaluation',val:100,cost:20000},
+  {f:'lucid',size:'100K',type:'Evaluation',val:171,cost:45000,featured:true,note:'The biggest account we offer — a fully-paid 100K evaluation.'}
 ];
 // id must match the server-side REWARDS catalog in worker/index.js.
 var MORE=[

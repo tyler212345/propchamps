@@ -19,9 +19,9 @@ const MAX_PENDING_PER_USER = 8;
 const AI_MODEL = 'claude-opus-5';
 
 const TIERS = [
-  { name: "Champ's Circle", min: 25000 },
-  { name: 'Gold', min: 10000 },
-  { name: 'Silver', min: 1000 },
+  { name: "Champ's Circle", min: 50000 },
+  { name: 'Gold', min: 25000 },
+  { name: 'Silver', min: 5000 },
   { name: 'Bronze', min: 0 },
 ];
 function tierFor(pts) {
@@ -132,15 +132,15 @@ async function maybeRollover(env) {
 // MyFunded 25K=20, Apex 50K=10. The rest default to 20 (Lucid 100K=10) until Champ
 // sets real numbers — change the `stock` value here to adjust a limit.
 const REWARDS = {
-  'lucid-25K-ev': { cost: 8500, label: 'Lucid Trading — 25K Evaluation', account: true, stock: 30 },
-  'lucid-50K-ev': { cost: 14000, label: 'Lucid Trading — 50K Evaluation', account: true, stock: 30 },
-  'fundednext-25K-ev': { cost: 9000, label: 'FundedNext — 25K Evaluation', account: true, stock: 20 },
-  'fundednext-50K-ev': { cost: 15000, label: 'FundedNext — 50K Evaluation', account: true, stock: 20 },
-  'myfunded-25K-ev': { cost: 9000, label: 'My Funded Futures — 25K Evaluation', account: true, stock: 20 },
-  'myfunded-50K-ev': { cost: 14000, label: 'My Funded Futures — 50K Evaluation', account: true, stock: 20 },
-  'tradify-50K-ev': { cost: 14000, label: 'Tradeify — 50K Evaluation', account: true, stock: 20 },
-  'apex-50K-ev': { cost: 10000, label: 'Apex Trader Funding — 50K Evaluation', account: true, stock: 10 },
-  'lucid-100K-ev': { cost: 30000, label: 'Lucid Trading — 100K Evaluation', account: true, stock: 10 },
+  'lucid-25K-ev': { cost: 17000, label: 'Lucid Trading — 25K Evaluation', account: true, stock: 30 },
+  'lucid-50K-ev': { cost: 28000, label: 'Lucid Trading — 50K Evaluation', account: true, stock: 30 },
+  'fundednext-25K-ev': { cost: 18000, label: 'FundedNext — 25K Evaluation', account: true, stock: 20 },
+  'fundednext-50K-ev': { cost: 30000, label: 'FundedNext — 50K Evaluation', account: true, stock: 20 },
+  'myfunded-25K-ev': { cost: 18000, label: 'My Funded Futures — 25K Evaluation', account: true, stock: 20 },
+  'myfunded-50K-ev': { cost: 28000, label: 'My Funded Futures — 50K Evaluation', account: true, stock: 20 },
+  'tradify-50K-ev': { cost: 28000, label: 'Tradeify — 50K Evaluation', account: true, stock: 20 },
+  'apex-50K-ev': { cost: 20000, label: 'Apex Trader Funding — 50K Evaluation', account: true, stock: 10 },
+  'lucid-100K-ev': { cost: 45000, label: 'Lucid Trading — 100K Evaluation', account: true, stock: 10 },
   'raffle-500': { cost: 250, raffle: true, label: 'Monthly $500 raffle entry' },
   'cashback-150': { cost: 10000, label: '$150 cash back' },
 };
