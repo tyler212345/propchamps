@@ -137,7 +137,8 @@ function fmtDate(s){try{return new Date(s).toLocaleString();}catch(e){return s;}
 
 /* ---------- reusable wheel widget ---------- */
 function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
-function makeWheel(wheelId,btnId){
+function makeWheel(wheelId,btnId,maxSlices){
+  var CAP=maxSlices||20;
   var st={rot:0,spinning:false,fallback:null,items:[],display:[]};
   function draw(items){
     var el=document.getElementById(wheelId); if(!el)return;
@@ -159,7 +160,7 @@ function makeWheel(wheelId,btnId){
   }
   function render(items){
     st.items=items||[];
-    st.display = st.items.length<=20 ? st.items.slice() : shuffle(st.items.slice()).slice(0,20);
+    st.display = st.items.length<=CAP ? st.items.slice() : shuffle(st.items.slice()).slice(0,CAP);
     draw(st.display);
   }
   function pick(){var total=st.items.reduce(function(a,x){return a+(x.weight||1);},0),roll=Math.random()*total,acc=0;for(var i=0;i<st.items.length;i++){acc+=(st.items[i].weight||1);if(roll<acc)return st.items[i];}return st.items[st.items.length-1];}
@@ -208,7 +209,7 @@ async function init(){
     +'<div class="sec" id="rfSec"><div class="empty">Loading raffle…</div></div>'
     +'<div class="sec" id="emSec"><div class="empty">Loading email…</div></div>'
     +'<div class="sec" id="ffSec"><div class="empty">Loading fulfillment…</div></div>';
-  gWheel=makeWheel('gwheel','gSpin'); rWheel=makeWheel('rwheel','rSpin');
+  gWheel=makeWheel('gwheel','gSpin'); rWheel=makeWheel('rwheel','rSpin',48);
   await loadGiveaway(); loadEmail(); loadRaffle(); loadFulfillment();
 }
 
@@ -252,16 +253,31 @@ async function loadRaffle(){
     +'<div class="sec-sub">Members enter by redeeming the 250-pt raffle reward — tier multiplies their entries (Bronze 1× · Silver 2× · Gold 3× · Champ’s Circle 5×). Spin live, then start a fresh month.</div>'
     +'<div class="rf-date"><span class="lb">Draw date</span><input id="rfDate" type="date" value="'+esc(dd)+'"><button onclick="rfSetDate()">Set</button></div>'
     +'<div class="gv-stats"><div class="gv-stat"><div class="v lime">'+(RF.entrantCount||0).toLocaleString()+'</div><div class="k">Entrants</div></div>'
-      +'<div class="gv-stat"><div class="v">'+(RF.totalEntries||0).toLocaleString()+'</div><div class="k">Total entries (weighted)</div></div></div>'
+      +'<div class="gv-stat"><div class="v">'+(RF.totalEntries||0).toLocaleString()+'</div><div class="k">Total entries (slots on the wheel)</div></div></div>'
     +'<div class="wheel-area"><div class="wheel-wrap"><div class="pointer"></div><div class="wheel-ring"></div><div class="gwheel" id="rwheel"></div><div class="hub"><img src="/logos/propchamps-icon.png" alt=""></div></div>'
       +'<button class="spin-btn" id="rSpin" onclick="spinRaffle()"'+((RF.entrantCount||0)<1?' disabled':'')+'>🎯 DRAW A WINNER</button>'
       +'<div class="wheel-note" id="rNote"></div></div>'
     +'<div class="gv-controls" style="margin-top:20px;justify-content:center"><button class="hb hb-reset" onclick="rfNewCycle()">↻ Start a new month (clears entries)</button></div>';
   document.getElementById('rfCountBig').textContent=(RF.entrantCount||0).toLocaleString()+' entrants · '+(RF.totalEntries||0).toLocaleString()+' entries';
-  var items=(RF.entrants||[]).map(function(e){return {label:e.entries>1?(e.username+' ×'+e.entries):e.username,weight:e.entries||1,meta:(e.entries||1)+' entr'+((e.entries||1)===1?'y':'ies')};});
+  // Each ENTRY is its own slot on the wheel — one slice per entry, not per person —
+  // so someone with 12 entries genuinely occupies 12 of the total slots. A uniform
+  // draw over every individual entry gives exactly the intended odds, shown honestly.
+  var entrants=RF.entrants||[];
+  var totalE=entrants.reduce(function(a,e){return a+Math.max(1,e.entries||1);},0);
+  var items=[];
+  if(totalE<=4000){
+    entrants.forEach(function(e){var n=Math.max(1,e.entries||1);var m=n+' entr'+(n===1?'y':'ies');for(var k=0;k<n;k++)items.push({label:e.username,weight:1,meta:m});});
+    shuffle(items); // interleave so the wheel isn't one big block per person
+  } else { // safety valve for an unrealistically huge pool: weighted (identical odds)
+    items=entrants.map(function(e){return {label:e.username,weight:e.entries||1,meta:(e.entries||1)+' entries'};});
+  }
   rWheel.render(items);
   var note=document.getElementById('rNote');
-  if(note)note.textContent=!items.length?'No entries yet — members enter by redeeming the raffle reward.':(items.length>20?('Showing 20 of '+items.length.toLocaleString()+' — winner drawn weighted from all.'):'Odds are weighted by entries (★ tiers get more).');
+  if(note){
+    if(!items.length) note.textContent='No entries yet — members enter by redeeming the raffle reward.';
+    else if(items.length>48) note.textContent='Showing 48 of '+items.length.toLocaleString()+' entries — each entry is its own slot; the winner is drawn from all '+items.length.toLocaleString()+'.';
+    else note.textContent=items.length.toLocaleString()+' individual entr'+(items.length===1?'y':'ies')+' on the wheel — each is one slot.';
+  }
 }
 function spinRaffle(){ rWheel.spin(function(w){ showWinner(w.label.replace(/ ×\d+$/,''), w.meta||'', spinRaffle); fetch('/api/host/raffle/action',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'draw',winner:w.label})}).catch(function(){}); }); }
 async function rfSetDate(){var d=document.getElementById('rfDate').value;await fetch('/api/host/raffle/action',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'setdate',draw_date:d})}).catch(function(){});loadRaffle();}
