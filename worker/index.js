@@ -129,8 +129,10 @@ async function maybeRollover(env) {
 // Account rewards carry `account:true` (requires the 3–10 business-day
 // acknowledgment) and `stock` (total ever available; remaining = stock − claimed,
 // tracked in the reward_stock table). Stock totals Champ gave: Lucid 25K/50K=30,
-// MyFunded 25K=20, Apex 50K=10. The rest default to 20 (Lucid 100K=10) until Champ
-// sets real numbers — change the `stock` value here to adjust a limit.
+// MyFunded 25K=20. The rest default to 20 (Lucid 100K=10) until Champ sets real
+// numbers — change the `stock` value here to adjust a limit.
+// NOTE: Apex is BANNED from rewards (2026-09-01) — Apex emailed Champ that we may
+// not reward buying/redeeming their accounts. Keep Apex out of this catalog.
 const REWARDS = {
   'lucid-25K-ev': { cost: 17000, label: 'Lucid Trading — 25K Evaluation', account: true, stock: 30 },
   'lucid-50K-ev': { cost: 28000, label: 'Lucid Trading — 50K Evaluation', account: true, stock: 30 },
@@ -139,7 +141,6 @@ const REWARDS = {
   'myfunded-25K-ev': { cost: 18000, label: 'My Funded Futures — 25K Evaluation', account: true, stock: 20 },
   'myfunded-50K-ev': { cost: 28000, label: 'My Funded Futures — 50K Evaluation', account: true, stock: 20 },
   'tradify-50K-ev': { cost: 28000, label: 'Tradeify — 50K Evaluation', account: true, stock: 20 },
-  'apex-50K-ev': { cost: 20000, label: 'Apex Trader Funding — 50K Evaluation', account: true, stock: 10 },
   'lucid-100K-ev': { cost: 45000, label: 'Lucid Trading — 100K Evaluation', account: true, stock: 10 },
   'raffle-500': { cost: 250, raffle: true, label: 'Monthly $500 raffle entry' },
   'cashback-150': { cost: 10000, label: '$150 cash back' },

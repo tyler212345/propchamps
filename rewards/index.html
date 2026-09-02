@@ -283,6 +283,8 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
 .fld label{display:block;font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text-faint);margin-bottom:8px}
 .fld select,.fld input{width:100%;padding:13px 15px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:var(--text);font-size:14.5px;font-family:var(--font-body);transition:border-color .15s}
 .fld select:focus,.fld input:focus{outline:none;border-color:var(--lime)}
+.fld-note{font-size:12px;line-height:1.45;color:var(--text-soft);margin-top:8px;padding:8px 11px;background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.22);border-radius:9px}
+.fld-note strong{color:#ffcf6b}
 .seg{display:flex;gap:6px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:5px;margin-bottom:18px}
 .seg-b{flex:1;padding:11px 8px;border-radius:9px;font-size:13.5px;font-weight:700;color:var(--text-soft);background:transparent;cursor:pointer;transition:all .15s}
 .seg-b:hover:not(.active){color:var(--text)}
@@ -540,8 +542,9 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
       <div class="fld">
         <label id="fFirmLabel">Which firm?</label>
         <select id="fFirm">
-          <option>Apex Trader Funding</option><option>Tradeify</option><option>Lucid Trading</option><option>FundedNext</option><option>Alpha Futures</option><option>Take Profit Trader</option><option>Top One Futures</option><option>My Funded Futures</option>
+          <option>Tradeify</option><option>Lucid Trading</option><option>FundedNext</option><option>Alpha Futures</option><option>Take Profit Trader</option><option>Top One Futures</option><option>My Funded Futures</option>
         </select>
+        <div class="fld-note">Note: <strong>Apex Trader Funding doesn’t count</strong> toward rewards — Apex submissions won’t be approved.</div>
       </div>
       <div class="fld">
         <label id="amtLabel">Account size / amount paid</label>
@@ -689,7 +692,6 @@ function renderMe(){
 }
 /* ---- rewards marketplace (curated) ---- */
 var FIRMS_META={
-  apex:{name:'Apex Trader Funding',logo:'/logos/mk/apex.png',ac:'#3b6ef5'},
   tradify:{name:'Tradeify',logo:'/logos/mk/tradify.png',ac:'#19d3c5'},
   lucid:{name:'Lucid Trading',logo:'/logos/mk/lucid.png',ac:'#8091ff',light:true},
   alpha:{name:'Alpha Futures',logo:'/logos/mk/alpha.png',ac:'#3fbf6f'},
@@ -709,7 +711,6 @@ var MARKET=[
   {f:'fundednext',size:'50K',type:'Evaluation',val:170,cost:30000},
   {f:'myfunded',size:'50K',type:'Evaluation',val:125,cost:28000},
   {f:'tradify',size:'50K',type:'Evaluation',val:87,cost:28000},
-  {f:'apex',size:'50K',type:'Evaluation',val:100,cost:20000},
   {f:'lucid',size:'100K',type:'Evaluation',val:171,cost:45000,featured:true,note:'The biggest account we offer — a fully-paid 100K evaluation.'}
 ];
 // id must match the server-side REWARDS catalog in worker/index.js.
