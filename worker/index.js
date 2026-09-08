@@ -1145,6 +1145,15 @@ export default {
     const p = url.pathname;
     const m = request.method;
     try {
+      // Rewards program is HIDDEN (2026-09-01) — the prop firms said it breaks their
+      // terms, so every rewards/giveaway page redirects home. The code + data are kept
+      // intact for a possible future revival; to un-hide, remove this block and the
+      // rewards/win entries in .assetsignore. (The /api/* + /auth/* routes below still
+      // work so nothing breaks / data is reachable, but no page loads them.)
+      if (p === '/rewards' || p.startsWith('/rewards/') || p === '/win' || p === '/win.html' || p === '/win/') {
+        return redirect('/');
+      }
+
       if (p === '/auth/discord') return await authStart(request, env);
       if (p === '/auth/discord/callback') return await authCallback(request, env);
       if (p === '/auth/logout') return await logout(request, env);

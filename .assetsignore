@@ -23,3 +23,10 @@ wrangler.jsonc
 # docs + drafts not meant to be served
 README.md
 preview
+
+# Rewards program — HIDDEN 2026-09-01 (prop firms said it breaks their terms).
+# Kept in the repo for a possible future revival, but NOT served publicly; the
+# worker also redirects these paths to home. To bring it back: remove these two
+# lines and the redirect block in worker/index.js.
+rewards
+win.html
