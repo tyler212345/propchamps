@@ -11,6 +11,12 @@
  */
 
 const POINTS_PER_SUBMISSION = 250;
+// Program paused 2026-09-01 (prop firms' terms). When true, the public write
+// endpoints (submit / redeem / giveaway enter) reject new activity so no points,
+// redemptions, or entries can be created while it's dark. Reads + admin/host +
+// /unsub still work, and all data is untouched. Flip to false to revive.
+const REWARDS_FROZEN = true;
+const FROZEN_RESPONSE = { error: 'program_paused', message: 'The PropChamps rewards program is currently paused.' };
 const MAX_PAYOUT_POINTS = 500000; // sanity cap on a single payout award ($500k)
 const SESSION_TTL = 60 * 60 * 24 * 30; // 30 days
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
@@ -423,6 +429,7 @@ async function apiLeaderboard(req, env) {
 }
 
 async function apiSubmit(req, env) {
+  if (REWARDS_FROZEN) return json(FROZEN_RESPONSE, 403);
   const u = await currentUser(req, env);
   if (!u) return json({ error: 'not_logged_in' }, 401);
   if (u.banned) return json({ error: 'banned' }, 403);
@@ -499,6 +506,7 @@ async function apiSubmit(req, env) {
 }
 
 async function apiRedeem(req, env, ctx) {
+  if (REWARDS_FROZEN) return json(FROZEN_RESPONSE, 403);
   const u = await currentUser(req, env);
   if (!u) return json({ error: 'not_logged_in' }, 401);
   if (u.banned) return json({ error: 'banned' }, 403);
@@ -844,6 +852,7 @@ async function giveawayStatus(req, env) {
   return json({ open: st.open, title: st.title, count: c?.c || 0 });
 }
 async function giveawayEnter(req, env, ctx) {
+  if (REWARDS_FROZEN) return json(FROZEN_RESPONSE, 403);
   const st = await getGiveawayState(env);
   if (!st.open) return json({ error: 'closed' }, 403);
   // Require Discord login so it's one entry per person + we know who wins.
