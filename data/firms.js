@@ -55,8 +55,16 @@
  *   • To hide a firm without removing it: set live: false.
  *   • To remove a firm entirely: delete its entry AND remove from FIRM_ORDER.
  *
- * LAST DATA UPDATE — June 08, 2026 (full plan-rules refresh from ops sheet)
- *   Alpha:      Zero (one-day pass · flat 90% · $0 activation) · Advanced (90% day-1 · $149 activation · no news restrictions) · Standard (LEGACY — removed from website 05/01/26, active for prior accounts only)
+ * LAST DATA UPDATE — Sept 18, 2026 (accuracy audit vs each firm's live help center — verified fixes applied)
+ *   Sept audit highlights: Apex 4.0 (100% split, no split · payouts capped 6-ladder · max alloc $150K) ·
+ *     "No cap" corrected to real per-payout caps on Apex/Tradeify/Lucid/TopOne · MFF + TopOne Instant now
+ *     one-time (not monthly) · TopOne Instant EOD-trailing + $28M payouts · MFF Rapid EOD 25K/50K + funded
+ *     no-news · Alpha Standard is CURRENT (add TradingView; Advanced reset $189/$319/$449) · Tradeify
+ *     Lightning 20/25/30 consistency + instant payouts + Select caps re-tiered · TPT min 3 days + CHAMP 40%
+ *     off · FundedNext Rapid price drop. Deferred to ops-sheet confirm: all exact CHAMP %s, a few checkout-
+ *     gated prices/reset fees, TopOne S2F Sim Pro full spec, Lucid Direct pricing.
+ * PRIOR DATA UPDATE — June 08, 2026 (full plan-rules refresh from ops sheet)
+ *   Alpha:      Zero (one-day pass · flat 90% · $0 activation) · Advanced (90% day-1 · $149 activation · no news restrictions) · Standard (CURRENT — back on the site; a short-lived "Premium" replaced it then was dropped)
  *   Tradeify:   one-time payments + Tradesea/Rithmic (effective 03/31/26)
  *   Lucid:      Pro · Black (legacy) · Flex · Direct
  *   MyFunded:   Rapid Live $10K-session transition (effective 04/16/26)
@@ -72,7 +80,7 @@ window.FIRMS = {
     "rating": 4.7,
     "reviewCount": 160,
     "country": "US",
-    "maxAllocation": "$150K",
+    "maxAllocation": "$300K",
     "platformsList": ["Tradovate","WealthCharts","Tradesea","Rithmic"],
     "payoutTotal": "$5M+",
     "payoutCount": "1,500+",
@@ -124,7 +132,7 @@ window.FIRMS = {
     ],
     "rules": [
       "Pricing: One-time payments — Growth $59 / $87 / $153 / $221 (25K-150K), Select $65 / $99 / $159 / $221, Lightning $207 / $295 / $396 / $478",
-      "Growth reset fees: $60 / $95 / $169 / $229 (25K-150K)",
+      "Growth reset fees: $60 / $95 / $155 / $215 (25K-150K)",
       "Select reset fees: $75 / $109 / $169 / $239 (25K-150K)",
       "Activation fee: None on all plans",
       "Consistent Trader Reward Pool (Select): unlock larger reward pools with consistency below 40% and never exceeding 75% of max drawdown"
@@ -149,7 +157,7 @@ window.FIRMS = {
           ["Daily Loss Limit", "$600 / $1,250 / $2,500 / $3,750"],
           ["Consistency (Eval)", "None"],
           ["Consistency (Funded)", "35%"],
-          ["Reset Fee", "$60 / $95 / $169 / $229"],
+          ["Reset Fee", "$60 / $95 / $155 / $215"],
           ["Activation Fee", "None"],
           ["Max Contracts", "1 mini (10 micros) / 4 minis (40 micros) / 8 minis (80 micros) / 12 minis (120 micros)"],
           ["Payout Frequency (Funded)", "5 days"],
@@ -232,9 +240,9 @@ window.FIRMS = {
           "Consistency Rule": "None eval · 35% funded",
           "Payout Split": "90% Trader 10% Tradeify",
           "Payout Frequency": "5 days (funded)",
-          "Max Payout": "No cap",
+          "Max Payout": "Capped: $1,000·$1,500·$2,000·$2,500 (1st) → $1,000·$3,000·$4,000·$5,000 (4+)",
           "Activation Fee": "None (one-time payment)",
-          "Reset Fee": "$60 · $95 · $169 · $229",
+          "Reset Fee": "$60 · $95 · $155 · $215",
           "Platforms": "Tradovate · WealthCharts · Tradesea / Rithmic",
           "Promo Code": "CHAMP",
           "Notes": "Crypto payouts available"
@@ -253,7 +261,7 @@ window.FIRMS = {
           "Consistency Rule": "40% eval · none funded",
           "Payout Split": "90% Trader 10% Tradeify",
           "Payout Frequency": "Daily",
-          "Max Payout": "$600 · $1,000 · $1,500 · $2,500",
+          "Max Payout": "$600 · $1,250 · $1,750 · $2,500",
           "Activation Fee": "None (one-time payment)",
           "Reset Fee": "$75 · $109 · $169 · $239",
           "Platforms": "Tradovate · WealthCharts · Tradesea / Rithmic",
@@ -273,7 +281,7 @@ window.FIRMS = {
           "Consistency Rule": "40% eval · none funded",
           "Payout Split": "90% Trader 10% Tradeify",
           "Payout Frequency": "5 days",
-          "Max Payout": "$1,250 · $3,000 · $4,000 · $5,000",
+          "Max Payout": "$1,250 · $2,500 · $3,500 · $4,500",
           "Activation Fee": "None (one-time payment)",
           "Reset Fee": "$75 · $109 · $169 · $239",
           "Platforms": "Tradovate · WealthCharts · Tradesea / Rithmic",
@@ -290,10 +298,10 @@ window.FIRMS = {
           "Drawdown Type": "EOD",
           "Daily Loss Limit": "None (25K) · $1,250 · $2,500 · $3,000",
           "Min. Trading Days": "Instant Funded",
-          "Consistency Rule": "20%",
+          "Consistency Rule": "20% / 25% / 30% (P1 / P2 / P3+)",
           "Payout Split": "Straight to Funded",
-          "Payout Frequency": "5 days",
-          "Max Payout": "No cap",
+          "Payout Frequency": "Instant / on-demand (no min days)",
+          "Max Payout": "Capped: $1,000·$2,000·$2,500·$3,000 (payouts 1-3) → $1,000·$2,500·$3,000·$3,500 (4+)",
           "Activation Fee": "None (one-time payment)",
           "Reset Fee": "Straight To Funded",
           "Platforms": "Tradovate · WealthCharts · Tradesea / Rithmic",
@@ -367,7 +375,7 @@ window.FIRMS = {
       "Reset fees: Pro $70 / $115 / $180 / $245 · Flex $50 / $90 / $170 / $250 · Direct straight to funded"
     ],
     "payouts": [
-      "Pro: 3 days to payout, payout profit target $250 / $500 / $750 / $1,000, 5 payouts to live",
+      "Pro: 3 days to payout, $500 minimum payout, 5 payouts to live",
       "Flex: 5 days to payout, min days of profit 5 of $100 / $150 / $200 / $250, scaling plan, 5 payouts to live",
       "Daily: daily payouts, no funded consistency",
       "Direct: 5-day minimum to payout, max 5 accounts"
@@ -474,7 +482,7 @@ window.FIRMS = {
           "Consistency Rule": "40%",
           "Payout Split": "90% Trader / 10% Lucid",
           "Payout Frequency": "3 days to payout",
-          "Max Payout": "No cap",
+          "Max Payout": "Capped in sim-funded: $1,000·$2,000·$2,500·$3,000 (1st) → $1,500·$2,500·$3,000·$3,500 (2nd+) · uncapped once live",
           "Activation Fee": "FREE",
           "Reset Fee": "$70 · $115 · $180 · $245",
           "Platforms": "Tradovate · NinjaTrader · TradingView · TradeSea · MotiveWave · Quantower",
@@ -495,7 +503,7 @@ window.FIRMS = {
           "Consistency Rule": "50% eval · none funded",
           "Payout Split": "90% Trader / 10% Lucid",
           "Payout Frequency": "5 days",
-          "Max Payout": "No cap",
+          "Max Payout": "50% of cycle, capped $1,000·$2,000·$2,500·$3,000 · uncapped once live",
           "Activation Fee": "FREE",
           "Reset Fee": "$50 · $90 · $170 · $250",
           "Platforms": "Tradovate · NinjaTrader · TradingView · TradeSea · MotiveWave · Quantower",
@@ -516,7 +524,7 @@ window.FIRMS = {
           "Consistency Rule": "50% eval · none funded",
           "Payout Split": "90% Trader / 10% Lucid",
           "Payout Frequency": "Daily",
-          "Max Payout": "No cap",
+          "Max Payout": "No per-payout cap · $500 min",
           "Activation Fee": "FREE",
           "Reset Fee": "Configurable",
           "Platforms": "Tradovate · NinjaTrader · TradingView · TradeSea · MotiveWave · Quantower",
@@ -537,7 +545,7 @@ window.FIRMS = {
           "Consistency Rule": "20%",
           "Payout Split": "90% Trader / 10% Lucid",
           "Payout Frequency": "5 days",
-          "Max Payout": "No cap",
+          "Max Payout": "Capped: $1,000·$2,000·$2,500·$3,000 (payouts 1-3) → $1,000·$2,500·$3,000·$3,500 (4-5) · uncapped once live",
           "Activation Fee": "One-time payment $230.30 · $360.50 · $490.00 · $585.20",
           "Reset Fee": "N/A (straight to funded)",
           "Platforms": "Tradovate · NinjaTrader · TradingView · TradeSea · MotiveWave · Quantower",
@@ -546,7 +554,7 @@ window.FIRMS = {
         }
       }
     ],
-    "note": "Lucid Trading offers four futures paths: Pro (1-day pass, 3-day payouts), Flex (optional DLL, scaling plan, no funded consistency), Daily (configurable eval — choose EOD/Intraday drawdown and DLL on/off — with daily payouts), and Direct (straight to funded, no eval, max 5 accounts). All 90/10 split with the LucidScale DLL model on funded accounts (60% of peak EOD balance above the initial trail). Lucid Black is discontinued (legacy accounts only). Prices shown reflect CHAMP-coupon pricing at last check — confirm the current price at checkout. Code CHAMP."
+    "note": "Lucid Trading offers four futures paths: Pro (1-day pass, 3-day payouts), Flex (optional DLL, scaling plan, no funded consistency), Daily (configurable eval — choose EOD/Intraday drawdown and DLL on/off — with daily payouts), and Direct (straight to funded, no eval, max 5 accounts). All 90/10 split with the LucidScale DLL model on funded accounts (60% of peak EOD balance above the initial trail). Lucid Black is discontinued (legacy accounts only). Lucid also runs LucidMaxx, an invite-only (non-purchasable) eval-to-live tier for qualifying funded traders. Prices shown reflect CHAMP-coupon pricing at last check — confirm the current price at checkout. Code CHAMP."
   },
   "alpha-futures": {
     "slug": "alpha-futures",
@@ -554,7 +562,7 @@ window.FIRMS = {
     "reviewCount": 49,
     "country": "GB",
     "maxAllocation": "$150K",
-    "platformsList": ["AlphaTrader","WealthCharts","Quantower","DeepCharts"],
+    "platformsList": ["AlphaTrader","TradingView","WealthCharts","Quantower","DeepCharts"],
     "payoutTotal": "$10M+",
     "payoutCount": "3,000+",
     "payoutAvg": "$3,300",
@@ -771,7 +779,7 @@ window.FIRMS = {
           "Payout Frequency": "4x a month (5 winning days)",
           "Max Payout": "$15,000 per request",
           "Activation Fee": "None · monthly $209 / $349 / $489 (list)",
-          "Reset Fee": "Eval reset = monthly price · none in qualified",
+          "Reset Fee": "$189 · $319 · $449 (eval) · none in qualified",
           "Platforms": "AlphaTrader · WealthCharts · Quantower · DeepCharts",
           "Promo Code": "CHAMP — 40% off",
           "Notes": "No DLL, no news restrictions, no scaling · $15K per-request withdrawals"
@@ -806,7 +814,7 @@ window.FIRMS = {
     "rating": 4.4,
     "reviewCount": 1248,
     "country": "US",
-    "maxAllocation": "$300K",
+    "maxAllocation": "$150K",
     "platformsList": ["Rithmic","Tradovate","WealthCharts","TradingView"],
     "payoutTotal": "$300M+",
     "payoutCount": "150K+",
@@ -843,13 +851,13 @@ window.FIRMS = {
       "deal": "CHAMP = 90% off the eval (Intraday or EOD Trail)",
       "programs": "Intraday Trail (no DLL) · EOD Trail (has DLL)",
       "rules": "1 day to pass · 50% funded consistency · one-time fee, no rebill",
-      "payouts": "Payouts every 5 trading days · 100% of first $25K then 90/10"
+      "payouts": "Payouts every 5 trading days · 100% (no split)"
     },
     "boxMore": {
       "deal": "CHAMP takes 90% off the eval. Prices with the coupon:\\n\\nINTRADAY TRAIL (Standard): $16.70 / $24.90 / $39.90 / $59.90 (25K-150K)\\nINTRADAY TRAIL (No Activation Fee): $69 / $49 / $59 / $169\\nEOD TRAIL (Standard): $45 / $55 / $99 / $189\\nEOD TRAIL (No Activation Fee): $99 / $119 / $159 / $249\\n\\nOne-time fee, no rebill, eval active for 30 days, no resets. Always verify current checkout pricing.",
       "programs": "INTRADAY TRAIL — tighter trailing drawdown, NO daily loss limit\\nEOD TRAIL — end-of-day drawdown WITH a daily loss limit ($500 / $1,000 / $1,500 / $2,000)\\n\\nEach comes as Standard (lowest eval price) or No Activation Fee (higher eval, skips the funded activation fee).",
       "rules": "Min days to pass = 1\\nEval max contracts: 4 / 6 / 8 / 12 minis (25K-150K)\\nProfit target: $1,500 / $3,000 / $6,000 / $9,000\\nMax drawdown: $1,000 / $2,000 / $3,000 / $4,000\\nEOD daily loss limit: $500 / $1,000 / $1,500 / $2,000 (Intraday has none)\\nFunded consistency: 50%",
-      "payouts": "Payout frequency: every 5 trading days\\nPayout split: 100% of first $25K, then 90/10\\nScaling built in for the funded (PA) account"
+      "payouts": "Payout frequency: every 5 trading days\\nPayout split: 100% — no split (funded PAs keep 100%)\\nScaling built in for the funded (PA) account"
     },
     "programs": [
       "Intraday Trail — tighter trailing drawdown, no daily loss limit (25K-150K)",
@@ -859,11 +867,13 @@ window.FIRMS = {
       "Pricing with CHAMP (90% off): Intraday Standard $16.70 / $24.90 / $39.90 / $59.90 · Intraday No-Activation $69 / $49 / $59 / $169 · EOD Standard $45 / $55 / $99 / $189 · EOD No-Activation $99 / $119 / $159 / $249 (25K-150K)",
       "One-time fee, no rebill, evaluation active for 30 days, no resets",
       "Eval max contracts: 4 / 6 / 8 / 12 minis by account size · scaling built in for the funded account",
-      "EOD Trail daily loss limit: $500 / $1,000 / $1,500 / $2,000; Intraday Trail has no daily loss limit"
+      "EOD Trail daily loss limit: $500 / $1,000 / $1,500 / $2,000; Intraday Trail has no daily loss limit in the eval (the funded Intraday account adds a scaling daily loss limit)",
+      "Trading through news with your normal strategy is allowed, but dedicated news-only / straddle strategies and hedging are prohibited; positions must be flat by market close"
     ],
     "payouts": [
       "Payout frequency: every 5 trading days",
-      "Payout split: 100% of the first $25K in profit, then 90/10",
+      "Payout split: 100% — no split (funded PAs keep 100% of the approved amount)",
+      "Max payout is capped per request and rises over the first payouts (25K-150K: $1,000 / $1,500 / $2,000 / $2,500 first, up to $1,000 / $3,000 / $4,000 / $5,000 by the 6th); max 6 payouts per PA, min $500",
       "Funded consistency rule: 50%"
     ],
     "platforms": [
@@ -889,7 +899,7 @@ window.FIRMS = {
           ["Daily Loss Limit", "None"],
           ["Funded Consistency", "50%"],
           ["Payout Frequency", "Every 5 trading days"],
-          ["Payout Split", "100% of first $25K, then 90/10"],
+          ["Payout Split", "100% — no split (funded PAs keep 100%)"],
           ["Reset Fee", "N/A (one-time, no rebill)"],
           ["Platforms", "Rithmic · Tradovate · WealthCharts · TradingView"],
           ["Promo Code", "CHAMP — 90% off"]
@@ -909,7 +919,7 @@ window.FIRMS = {
           ["Daily Loss Limit", "$500 / $1,000 / $1,500 / $2,000"],
           ["Funded Consistency", "50%"],
           ["Payout Frequency", "Every 5 trading days"],
-          ["Payout Split", "100% of first $25K, then 90/10"],
+          ["Payout Split", "100% — no split (funded PAs keep 100%)"],
           ["Reset Fee", "N/A (one-time, no rebill)"],
           ["Platforms", "Rithmic · Tradovate · WealthCharts · TradingView"],
           ["Promo Code", "CHAMP — 90% off"]
@@ -925,12 +935,12 @@ window.FIRMS = {
           "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000",
           "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,000",
           "Drawdown Type": "Intraday Trail",
-          "Daily Loss Limit": "None",
+          "Daily Loss Limit": "None in eval · scaling DLL once funded",
           "Min. Trading Days": "1 day to pass",
           "Consistency Rule": "50% funded",
-          "Payout Split": "100% first $25K · then 90/10",
+          "Payout Split": "100% — no split",
           "Payout Frequency": "Every 5 trading days",
-          "Max Payout": "No cap",
+          "Max Payout": "Capped per payout: $1,000·$1,500·$2,000·$2,500 (1st) → up to $5,000 by 6th · max 6 · min $500",
           "Activation Fee": "None on No-Activation variant",
           "Reset Fee": "N/A (one-time, no rebill)",
           "Platforms": "Rithmic · Tradovate · WealthCharts · TradingView",
@@ -949,9 +959,9 @@ window.FIRMS = {
           "Daily Loss Limit": "$500 · $1,000 · $1,500 · $2,000",
           "Min. Trading Days": "1 day to pass",
           "Consistency Rule": "50% funded",
-          "Payout Split": "100% first $25K · then 90/10",
+          "Payout Split": "100% — no split",
           "Payout Frequency": "Every 5 trading days",
-          "Max Payout": "No cap",
+          "Max Payout": "Capped per payout: $1,000·$1,500·$2,000·$2,500 (1st) → up to $5,000 by 6th · max 6 · min $500",
           "Activation Fee": "None on No-Activation variant",
           "Reset Fee": "N/A (one-time, no rebill)",
           "Platforms": "Rithmic · Tradovate · WealthCharts · TradingView",
@@ -960,7 +970,7 @@ window.FIRMS = {
         }
       }
     ],
-    "note": "Apex Trader Funding runs two evaluation types: Intraday Trail (tighter trailing drawdown, no daily loss limit) and EOD Trail (end-of-day drawdown with a daily loss limit of $500 / $1,000 / $1,500 / $2,000 across 25K-150K). Both pass in one day, target $1,500 / $3,000 / $6,000 / $9,000, and cap drawdown at $1,000 / $2,000 / $3,000 / $4,000. CHAMP takes 90% off the eval; each type comes as Standard (lowest eval price) or No Activation Fee (higher eval, skips the funded activation fee). Funded accounts pay 100% of the first $25K then 90/10, with payouts every 5 trading days and a 50% consistency rule. One-time fee, no rebill — always verify current checkout pricing. Code CHAMP."
+    "note": "Apex Trader Funding runs two evaluation types: Intraday Trail (tighter trailing drawdown, no daily loss limit) and EOD Trail (end-of-day drawdown with a daily loss limit of $500 / $1,000 / $1,500 / $2,000 across 25K-150K). Both pass in one day, target $1,500 / $3,000 / $6,000 / $9,000, and cap drawdown at $1,000 / $2,000 / $3,000 / $4,000. CHAMP takes 90% off the eval; each type comes as Standard (lowest eval price) or No Activation Fee (higher eval, skips the funded activation fee). Funded accounts keep 100% (no split), with payouts every 5 trading days (capped per request, max 6 payouts per PA) and a 50% consistency rule. One-time fee, no rebill — always verify current checkout pricing. Code CHAMP."
   },
   "take-profit": {
     "slug": "take-profit",
@@ -988,26 +998,26 @@ window.FIRMS = {
     "filters": ["evaluation", "nodll"],
     "promo": {
       "code": "CHAMP",
-      "discount": "$40 off"
+      "discount": "40% off"
     },
-    "offerLine": "$40 OFF",
+    "offerLine": "40% OFF",
     "offerSub": "DLL removed across all sizes · Clean account ladder",
-    "summary": "Take Profit Trader runs a three-stage ladder with no daily loss limit at any stage. You buy the TEST evaluation (EOD trailing drawdown, 50% consistency), pass into a PRO simulated-funded account (80/20 split, day-one payouts, switches to intraday trailing drawdown), then graduate to PRO+, a real live-market account paying 90/10 with EOD drawdown. Five account sizes (25K-150K), monthly subscription, code CHAMP for $40 off.",
-    "highlights": ["DLL Removed (All Sizes)", "Simple Ladder", "$40 Off"],
+    "summary": "Take Profit Trader runs a three-stage ladder with no daily loss limit at any stage. You buy the TEST evaluation (EOD trailing drawdown, 50% consistency), pass into a PRO simulated-funded account (80/20 split, day-one payouts, switches to intraday trailing drawdown), then graduate to PRO+, a real live-market account paying 90/10 with EOD drawdown. Five account sizes (25K-150K), monthly subscription, code CHAMP for 40% off.",
+    "highlights": ["DLL Removed (All Sizes)", "Simple Ladder", "40% Off"],
     "bestFor": ["No DLL", "Straightforward Rules", "Simple Ladder"],
     "stats": [
-      ["Discount", "$40 Off"],
+      ["Discount", "40% Off"],
       ["Code", "CHAMP"],
       ["DLL", "Removed across all"]
     ],
     "boxPreviews": {
-      "deal": "$40 off · Code CHAMP at checkout",
+      "deal": "40% off · Code CHAMP at checkout",
       "programs": "Single evaluation product · 25K, 50K, 75K, 100K, 150K",
       "rules": "DLL REMOVED on all 5 sizes",
       "payouts": "PRO (sim) 80/20 · PRO+ (live) 90/10 · day-one payouts"
     },
     "boxMore": {
-      "deal": "Apply code CHAMP at checkout for $40 off Take Profit Trader.",
+      "deal": "Apply code CHAMP at checkout for 40% off Take Profit Trader.",
       "programs": "Five account sizes: 25K, 50K, 75K, 100K, 150K\nSingle evaluation path — no separate plan tiers",
       "rules": "All sizes have DLL REMOVED\nProfit Target: $1,500 / $3,000 / $4,500 / $6,000 / $9,000 (25K-150K)\nDrawdown: $1,500 / $2,000 / $2,500 / $3,000 / $4,500\nMax Size: 3 / 6 / 9 / 12 / 15 minis (30 / 60 / 90 / 120 / 150 micros)",
       "payouts": "TEST: simulated, no withdrawals\nPRO (sim funded): day-one payouts, 80/20 split, intraday trailing drawdown\nPRO+ (live market): day-one payouts, 90/10 split, EOD drawdown\nPayouts land within one business day via Plaid / PayPal / Wise"
@@ -1090,7 +1100,7 @@ window.FIRMS = {
           "Max Drawdown": "$1,500 · $2,000 · $2,500 · $3,000 · $4,500",
           "Drawdown Type": "EOD",
           "Daily Loss Limit": "REMOVED across all sizes",
-          "Min. Trading Days": "5 Trading Days",
+          "Min. Trading Days": "3 Trading Days",
           "Consistency Rule": "50%",
           "Payout Split": "PRO 80/20 · PRO+ 90/10",
           "Payout Frequency": "Daily",
@@ -1102,7 +1112,7 @@ window.FIRMS = {
         }
       }
     ],
-    "note": "Take Profit Trader runs a three-stage ladder — TEST (evaluation) → PRO (simulated funded) → PRO+ (live market) — with NO daily loss limit at any stage across all five account sizes (25K-150K). TEST uses EOD trailing drawdown with a 50% consistency rule; targets are $1,500 / $3,000 / $4,500 / $6,000 / $9,000 and drawdowns $1,500 / $2,000 / $2,500 / $3,000 / $4,500. On passing, PRO pays 80/20 with day-one payouts and switches to intraday trailing drawdown (the single biggest rule change between stages); PRO+ is a real live-market account paying 90/10 with EOD drawdown and no buffer. Max contracts 3 / 6 / 9 / 12 / 15 minis by size. Monthly subscription $150 / $170 / $245 / $330 / $360 plus a one-time $130 activation (often waived by promo). Use CHAMP for $40 off. NOTE: the standard evaluation is 5 minimum trading days — some public promos advertise a shorter 3-day eval."
+    "note": "Take Profit Trader runs a three-stage ladder — TEST (evaluation) → PRO (simulated funded) → PRO+ (live market) — with NO daily loss limit at any stage across all five account sizes (25K-150K). TEST uses EOD trailing drawdown with a 50% consistency rule; targets are $1,500 / $3,000 / $4,500 / $6,000 / $9,000 and drawdowns $1,500 / $2,000 / $2,500 / $3,000 / $4,500. On passing, PRO pays 80/20 with day-one payouts and switches to intraday trailing drawdown (the single biggest rule change between stages); PRO+ is a real live-market account paying 90/10 with EOD drawdown and no buffer. Max contracts 3 / 6 / 9 / 12 / 15 minis by size. Monthly subscription $150 / $170 / $245 / $330 / $360 plus a one-time $130 activation (often waived by promo). Use CHAMP for 40% off. NOTE: the standard evaluation is 5 minimum trading days — some public promos advertise a shorter 3-day eval."
   },
   "top-one-futures": {
     "slug": "top-one-futures",
@@ -1111,7 +1121,7 @@ window.FIRMS = {
     "country": "US",
     "maxAllocation": "$150K",
     "platformsList": ["TradingView","Tradovate","NinjaTrader"],
-    "payoutTotal": "$27M+",
+    "payoutTotal": "$28M+",
     "payoutCount": "228,000+ accounts",
     "payoutAvg": "$3,100",
     "payoutLargest": "$31K",
@@ -1134,7 +1144,7 @@ window.FIRMS = {
     },
     "offerLine": "60% OFF",
     "offerSub": "Elite Access · Elite Daily · Instant Sim · Ignite — 4 paths",
-    "summary": "Top One Futures runs four paths, all paying a flat 90% split. Elite Access is the cheap one-time 1-day-pass eval (no daily loss limit, 5-day payouts). Elite Daily is a monthly-subscription eval with daily payouts. Instant Sim Funded skips the evaluation entirely for a monthly fee (20% consistency). Ignite is a one-time instant-funding path (15% consistency, 10 copy-trade accounts). Code CHAMP applies the current discount at checkout; the site also rotates public promos. Runs on TradingView, Tradovate and NinjaTrader.",
+    "summary": "Top One Futures runs four paths, all paying a flat 90% split. Elite Access is the cheap one-time 1-day-pass eval (no daily loss limit, 5-day payouts). Elite Daily is a monthly-subscription eval with daily payouts. Instant Sim Funded skips the evaluation entirely for a one-time fee (20% consistency, EOD-trailing drawdown). Ignite is a one-time instant-funding path (15% consistency, 10 copy-trade accounts). Code CHAMP applies the current discount at checkout; the site also rotates public promos. Runs on TradingView, Tradovate and NinjaTrader.",
     "highlights": ["Flat 90% Split", "1-Day Pass or Instant", "4 Funding Paths"],
     "bestFor": ["High Discount", "Path Variety", "Instant Options"],
     "stats": [
@@ -1157,7 +1167,7 @@ window.FIRMS = {
     "programs": [
       "Elite Access — one-time, 1-day pass eval, no DLL, 5-day payouts, 90% split",
       "Elite Daily — monthly subscription eval, daily payouts, 90% split",
-      "Instant Sim Funded — skip the eval, monthly fee, 20% consistency, 90% split",
+      "Instant Sim Funded — skip the eval, one-time fee, 20% consistency, 90% split",
       "Ignite — one-time instant funding, 15% consistency, 10 copy-trade accounts, 90% split"
     ],
     "rules": [
@@ -1223,10 +1233,10 @@ window.FIRMS = {
         "name": "Instant Sim Funded (no eval)",
         "rules": [
           ["Account Sizes", "25K / 50K / 100K / 150K"],
-          ["Structure", "Monthly subscription · straight to funded"],
-          ["Monthly Price (list)", "$419 / $679 / $821 / $939"],
+          ["Structure", "One-time · straight to funded (Instant 2.0)"],
+          ["Price (list, one-time)", "$419 / $679 / $821 / $939"],
           ["Profit Target", "Instant funded — no eval target"],
-          ["Max Drawdown (Trailing)", "$1,000 / $2,000 / $4,000 / $5,250"],
+          ["Max Drawdown (EOD trailing)", "$1,000 / $2,000 / $4,000 / $5,250"],
           ["Daily Loss Limit", "$625 / $1,250 / $2,500 / $3,000"],
           ["Consistency (Funded)", "20%"],
           ["Max Contracts", "1 / 3 / 5 / 7 mini"],
@@ -1269,12 +1279,12 @@ window.FIRMS = {
           "Consistency Rule": "None eval · 40% funded",
           "Payout Split": "90% / 10%",
           "Payout Frequency": "Every 5 days",
-          "Max Payout": "No cap",
+          "Max Payout": "Capped per request: $1,000 · $1,500 · $2,000 · $2,500 (by size)",
           "Activation Fee": "$139 · $189 · $259 · $359",
           "Reset Fee": "$35 (all sizes)",
           "Platforms": "TradingView · Tradovate · NinjaTrader",
           "Promo Code": "CHAMP",
-          "Notes": "One-time · list price $139 / $218 / $259 / $359"
+          "Notes": "$39 flat entry (any size) · $35 reset · activation-on-pass $139–$359 (Top One 2.0)"
         }
       },
       {
@@ -1290,9 +1300,9 @@ window.FIRMS = {
           "Consistency Rule": "40% eval · none funded",
           "Payout Split": "90% / 10%",
           "Payout Frequency": "Daily",
-          "Max Payout": "No cap",
+          "Max Payout": "Capped per request: $750 – $2,250 (by size)",
           "Activation Fee": "None · monthly $178 / $218 / $398 / $549 (list)",
-          "Reset Fee": "See site",
+          "Reset Fee": "eval $75–$242 · funded $299–$1,250 (by size)",
           "Platforms": "TradingView · Tradovate · NinjaTrader",
           "Promo Code": "CHAMP",
           "Notes": "Monthly subscription eval with daily payouts"
@@ -1305,18 +1315,18 @@ window.FIRMS = {
           "Account Sizes": "25K · 50K · 100K · 150K",
           "Profit Target": "Instant funded (no eval)",
           "Max Drawdown": "$1,000 · $2,000 · $4,000 · $5,250",
-          "Drawdown Type": "Trailing",
+          "Drawdown Type": "EOD trailing",
           "Daily Loss Limit": "$625 · $1,250 · $2,500 · $3,000",
           "Min. Trading Days": "None — start funded",
           "Consistency Rule": "20% funded",
           "Payout Split": "90% / 10%",
           "Payout Frequency": "Every 5 days",
-          "Max Payout": "No cap",
-          "Activation Fee": "Monthly $419 / $679 / $821 / $939 (list)",
+          "Max Payout": "Capped per request: ~$1,000 – $3,500 (by size)",
+          "Activation Fee": "One-time $419 / $679 / $821 / $939 (list)",
           "Reset Fee": "Straight to funded",
           "Platforms": "TradingView · Tradovate · NinjaTrader",
           "Promo Code": "CHAMP",
-          "Notes": "Skip the eval · max 5 accounts (3 on 100K-150K)"
+          "Notes": "Skip the eval · Instant 2.0 (one-time) · max 5 accounts (3 on 100K-150K)"
         }
       },
       {
@@ -1332,7 +1342,7 @@ window.FIRMS = {
           "Consistency Rule": "15%",
           "Payout Split": "90% / 10%",
           "Payout Frequency": "Instant funded",
-          "Max Payout": "No cap",
+          "Max Payout": "Capped per request: $500 · $1,000 · $1,500 · $2,000 (by size)",
           "Activation Fee": "One-time $218 / $398 / $563 / $799 (list)",
           "Reset Fee": "Straight to funded",
           "Platforms": "TradingView · Tradovate · NinjaTrader",
@@ -1341,7 +1351,7 @@ window.FIRMS = {
         }
       }
     ],
-    "note": "Top One Futures runs four paths as of August 2026, all paying a flat 90% split: Elite Access (one-time, 1-day pass, no daily loss limit, 5-day payouts), Elite Daily (monthly-subscription eval with daily payouts, 40% eval consistency), Instant Sim Funded (skip the eval for a monthly fee, 20% consistency, trailing drawdown), and Ignite (one-time instant funding, 15% consistency, 10 copy-trade accounts). The S2F Sim PRO path has been dropped from the lineup. Prices shown are list (pre-discount); code CHAMP applies the current discount and the site also rotates public promos. Runs on TradingView, Tradovate and NinjaTrader."
+    "note": "Top One Futures runs four paths as of August 2026, all paying a flat 90% split: Elite Access (one-time, 1-day pass, no daily loss limit, 5-day payouts), Elite Daily (monthly-subscription eval with daily payouts, 40% eval consistency), Instant Sim Funded (skip the eval for a one-time fee, 20% consistency, EOD-trailing drawdown), and Ignite (one-time instant funding, 15% consistency, 10 copy-trade accounts). A fifth path, S2F Sim Pro (straight-to-funded, 20% consistency), is also offered. Prices shown are list (pre-discount); code CHAMP applies the current discount and the site also rotates public promos. Runs on TradingView, Tradovate and NinjaTrader."
   },
   "my-funded-futures": {
     "slug": "my-funded-futures",
@@ -1373,7 +1383,7 @@ window.FIRMS = {
     },
     "offerLine": "Use Code CHAMP",
     "offerSub": "Rapid · Rapid EOD · Pro · Builder — No DLL, no activation fee",
-    "summary": "My Funded Futures runs four products as of August 2026: Rapid (daily payouts, 90/10, intraday-trailing once funded), the new limited-time Rapid EOD (daily payouts but end-of-day drawdown in funded), Pro (bi-weekly payouts, 80/20, up to $100K per cycle), and Builder (25K/50K subscription eval, 48-hour payouts, and a five-payout ladder to a real Live account at Blue Row Capital). No plan has a daily loss limit or an activation fee. Code CHAMP takes up to 50% off. Flex has been retired.",
+    "summary": "My Funded Futures runs four products as of August 2026: Rapid (daily payouts, 90/10, intraday-trailing once funded), Rapid EOD (25K/50K, daily payouts but end-of-day drawdown in funded), Pro (bi-weekly payouts, 80/20, up to $100K per cycle), and Builder (25K/50K eval, 48-hour payouts, and a five-payout ladder to a real Live account at Blue Row Capital). All plans are one-time purchases (no monthly renewals, effective Aug 2026). No plan has a daily loss limit or an activation fee. Code CHAMP takes up to 50% off. Flex has been retired.",
     "highlights": ["No DLL Across All", "No Activation Fee", "Daily Payouts (Rapid)"],
     "bestFor": ["No DLL", "No Activation Fee", "Frequent Payouts"],
     "stats": [
@@ -1388,21 +1398,21 @@ window.FIRMS = {
       "payouts": "Daily (Rapid / Rapid EOD) · bi-weekly (Pro) · every 48h (Builder sim)"
     },
     "boxMore": {
-      "deal": "Use code CHAMP at checkout (up to 50% off). MFF also rotates public per-plan promos (RAPID, EOD, UNCAPPED, builder) — CHAMP is Champ's affiliate code. List monthly pricing (starts): Rapid $79 (25K) / $157 (50K) · Pro $227 (50K, ~$114 promo) · Builder $63 (25K) / $125 (50K). Always verify current checkout pricing.",
-      "programs": "RAPID — daily payouts · 25K-150K · 90/10 · EOD in eval, intraday trailing once funded (locks after a $100 buffer) · 2-day pass · 50% eval consistency\\nRAPID EOD — limited-time · daily payouts but EOD drawdown in funded (no intraday trail) · 90/10 · 4-day pass · 30% eval consistency\\nPRO — bi-weekly payouts · 50K-150K · 80/20 · up to $100K per cycle · no Tier-1 news · 2-day pass\\nBUILDER — 25K/50K subscription eval · EOD trailing · 48-hour payouts · 80/20 · five-payout ladder to a real Live account at Blue Row Capital",
+      "deal": "Use code CHAMP at checkout (up to 50% off). MFF also rotates public per-plan promos (RAPID, EOD, UNCAPPED, builder) — CHAMP is Champ's affiliate code. All plans are one-time purchases (no monthly renewals since Aug 2026). Representative one-time promo pricing: Rapid ~$125 (25K/50K) · Rapid EOD 50K ~$126 · Pro 50K ~$159 · Builder ~$75 (25K) / ~$125 (50K). Always verify current checkout pricing.",
+      "programs": "RAPID — daily payouts · 25K-150K · 90/10 · EOD in eval, intraday trailing once funded (locks after a $100 buffer) · 2-day pass · 50% eval consistency\\nRAPID EOD — 25K/50K · daily payouts but EOD drawdown in funded (no intraday trail) · 90/10 · 4-day pass · 30% eval consistency\\nPRO — bi-weekly payouts · 50K-150K · 80/20 · up to $100K per cycle · no Tier-1 news · 2-day pass\\nBUILDER — 25K/50K eval · EOD trailing · 48-hour payouts · 80/20 · five-payout ladder to a real Live account at Blue Row Capital",
       "rules": "All plans: NO DLL (Builder 50K has a $1,000 soft pause), NO activation fee\\nRAPID: 2 min days · 50% eval consistency · min payout $500\\nRAPID EOD: 4 min days · 30% eval consistency · min payout $500\\nPRO: 2 min days · 50% eval consistency · max contracts 5 / 10 / 15 mini · no Tier-1 news · must trade every 7 days · min payout $1,000\\nBUILDER: 1-day pass · no eval consistency · 50% consistency at payout stage · min 2 qualifying days per cycle",
       "payouts": "RAPID / RAPID EOD: daily · min payout $500 · scale up to $100K in payouts\\nPRO: bi-weekly (14 days from first trade) · min payout $1,000 · up to $100K per cycle · 3 consecutive payouts triggers Live risk review\\nBUILDER (sim): every 48 hours · min payout $250 (25K) / $500 (50K) · max $1,000 (25K) / $2,000 (50K) per cycle · 5 approved payouts unlocks a real Live account at Blue Row Capital (daily payouts, 80/20, EOD trailing, no DLL, no consistency)"
     },
     "programs": [
       "Funded Futures Rapid — daily payouts · 25K-150K · 90/10 · intraday trailing once funded · no DLL · no activation fee",
-      "Rapid EOD — limited-time · daily payouts with end-of-day drawdown in funded · 90/10 · no DLL",
+      "Rapid EOD — 25K/50K · daily payouts with end-of-day drawdown in funded · 90/10 · no DLL",
       "Funded Futures Pro — bi-weekly payouts · 50K-150K · 80/20 · up to $100K per cycle · no DLL",
-      "Builder — 25K/50K subscription eval · 48-hour payouts · 80/20 · five-payout ladder to a real Live account"
+      "Builder — 25K/50K eval · 48-hour payouts · 80/20 · five-payout ladder to a real Live account"
     ],
     "rules": [
       "All plans: NO daily loss limit (Builder 50K has a $1,000 soft pause), NO activation fee",
-      "Rapid: EOD drawdown in eval, intraday trailing once funded (locks permanently after a $100 buffer), 2-day pass, 50% eval consistency",
-      "Rapid EOD: daily payouts but EOD drawdown in the funded stage too, 4-day pass, 30% eval consistency (limited-time plan)",
+      "Rapid: EOD drawdown in eval, intraday trailing once funded (locks permanently after a $100 buffer), 2-day pass, 50% eval consistency; funded accounts may not trade Tier-1 news",
+      "Rapid EOD: 25K/50K only, daily payouts but EOD drawdown in the funded stage too, 4-day pass, 30% eval consistency; funded accounts may not trade Tier-1 news",
       "Pro: EOD trailing, 80/20, bi-weekly payouts up to $100K per cycle, no Tier-1 news trading, must trade at least every 7 days",
       "Builder: 25K/50K only, EOD trailing, 48-hour payouts, five approved sim payouts unlock a real Live funded account at Blue Row Capital",
       "Funded consistency: none on Rapid/Rapid EOD/Pro; 50% at Builder's payout stage"
@@ -1414,14 +1424,14 @@ window.FIRMS = {
       "Scale up to $100K in total payouts based on plan and performance"
     ],
     "platforms": ["NinjaTrader", "Tradovate", "TradingView", "Quantower", "DeepChart", "Fintevo"],
-    "warning": "MFF retired the Flex plan and added a limited-time Rapid EOD variant; Builder is now 25K/50K only with 48-hour payouts. Rapid uses EOD drawdown in evaluation but switches to intraday trailing once funded. Always confirm current plan availability and checkout pricing.",
+    "warning": "MFF retired the Flex plan and added a Rapid EOD variant (25K/50K); all plans are now one-time purchases (no monthly renewals). Builder is 25K/50K with 48-hour payouts. Rapid uses EOD drawdown in evaluation but switches to intraday trailing once funded. Always confirm current plan availability and checkout pricing.",
     "plansDetailed": [
       {
         "name": "Funded Futures Rapid",
         "featured": true,
         "rules": [
           ["Account Sizes", "25K / 50K / 100K / 150K"],
-          ["Monthly Price (from)", "$79 (25K) · $157 (50K)"],
+          ["Price (one-time, from)", "~$125 (25K/50K promo) · confirm at checkout"],
           ["Profit Target", "$1,500 / $3,000 / $6,000 / $9,000"],
           ["Max Drawdown", "$1,000 / $2,000 / $3,000 / $4,500"],
           ["Drawdown Type", "EOD (Eval) → Intraday Trailing (Funded), locks after $100 buffer"],
@@ -1439,10 +1449,10 @@ window.FIRMS = {
         ]
       },
       {
-        "name": "Rapid EOD (limited-time)",
+        "name": "Rapid EOD",
         "rules": [
-          ["Account Sizes", "25K / 50K / 100K / 150K"],
-          ["Monthly Price (50K)", "$126 promo (from $157)"],
+          ["Account Sizes", "25K / 50K"],
+          ["Price (one-time, 50K)", "~$126 promo · confirm at checkout"],
           ["Profit Target", "$1,500 / $3,000 / $6,000 / $9,000"],
           ["Max Drawdown", "$1,000 / $2,000 / $3,000 / $4,500"],
           ["Drawdown Type", "End-of-Day (Eval & Funded) — no intraday trail"],
@@ -1462,7 +1472,7 @@ window.FIRMS = {
         "name": "Funded Futures Pro",
         "rules": [
           ["Account Sizes", "50K / 100K / 150K"],
-          ["Monthly Price (from)", "$114 promo (50K, reg $227)"],
+          ["Price (one-time, from)", "~$159 (50K promo) · confirm at checkout"],
           ["Profit Target", "$3,000 / $6,000 / $9,000"],
           ["Max Drawdown", "$2,000 / $3,000 / $4,500"],
           ["Drawdown Type", "End-of-Day trailing"],
@@ -1487,7 +1497,7 @@ window.FIRMS = {
         "name": "Builder Plan (path to Live)",
         "rules": [
           ["Account Sizes", "25K / 50K"],
-          ["Monthly Price", "$63 (25K) · $125 (50K)"],
+          ["Price (one-time)", "~$75 (25K) · ~$125 (50K) promo"],
           ["Profit Target", "$1,500 (25K) · $3,000 (50K)"],
           ["Max Drawdown (EOD trailing)", "$1,000 (25K) · $2,000 (50K)"],
           ["Daily Loss Limit", "None (25K) · $1,000 soft pause (50K)"],
@@ -1520,7 +1530,7 @@ window.FIRMS = {
           "Payout Split": "90% / 10%",
           "Payout Frequency": "Daily",
           "Max Payout": "Scale up to $100K",
-          "Activation Fee": "FREE · monthly from $79 (25K)",
+          "Activation Fee": "FREE · one-time (from ~$125 promo)",
           "Reset Fee": "$87 · $157 · $267 · $347",
           "Platforms": "NinjaTrader · Tradovate · TradingView · Quantower · DeepChart · Fintevo",
           "Promo Code": "CHAMP",
@@ -1531,7 +1541,7 @@ window.FIRMS = {
         "name": "RAPID EOD",
         "featured": false,
         "rules": {
-          "Account Sizes": "25K · 50K · 100K · 150K",
+          "Account Sizes": "25K · 50K",
           "Profit Target": "$1,500 · $3,000 · $6,000 · $9,000",
           "Max Drawdown": "$1,000 · $2,000 · $3,000 · $4,500",
           "Drawdown Type": "EOD (eval & funded)",
@@ -1541,11 +1551,11 @@ window.FIRMS = {
           "Payout Split": "90% / 10%",
           "Payout Frequency": "Daily",
           "Max Payout": "Scale up to $100K",
-          "Activation Fee": "FREE · 50K ~$126 promo (from $157)",
+          "Activation Fee": "FREE · one-time · 50K ~$126 promo",
           "Reset Fee": "See site (mirrors Rapid)",
           "Platforms": "NinjaTrader · Tradovate · TradingView · Quantower · DeepChart · Fintevo",
           "Promo Code": "CHAMP",
-          "Notes": "Limited-time · daily payouts but EOD drawdown in funded (no intraday trail) · min payout $500"
+          "Notes": "25K/50K only · daily payouts but EOD drawdown in funded (no intraday trail) · no Tier-1 news when funded · min payout $500"
         }
       },
       {
@@ -1562,7 +1572,7 @@ window.FIRMS = {
           "Payout Split": "80% / 20%",
           "Payout Frequency": "Bi-weekly (min $1,000)",
           "Max Payout": "$100K per cycle",
-          "Activation Fee": "FREE · monthly from $114 promo (reg $227)",
+          "Activation Fee": "FREE · one-time (~$159 promo)",
           "Reset Fee": "$227 · $344 · $477",
           "Platforms": "NinjaTrader · Tradovate · TradingView · Quantower · DeepChart · Fintevo",
           "Promo Code": "CHAMP",
@@ -1591,7 +1601,7 @@ window.FIRMS = {
         }
       }
     ],
-    "note": "My Funded Futures runs four products as of August 2026: Rapid (daily payouts, 90/10, EOD drawdown in eval then intraday trailing once funded — locks after a $100 buffer), the limited-time Rapid EOD (daily payouts but end-of-day drawdown in the funded stage too, 4-day pass, 30% eval consistency), Pro (bi-weekly payouts, 80/20, up to $100K per cycle, no Tier-1 news trading), and Builder (25K/50K subscription eval, 48-hour sim payouts, and a five-payout ladder to a real Live account at Blue Row Capital). No plan carries a daily loss limit (Builder's 50K has a $1,000 soft pause) or an activation fee. Code CHAMP takes up to 50% off; MFF also rotates public per-plan promos. Flex has been retired."
+    "note": "My Funded Futures runs four products as of August 2026: Rapid (daily payouts, 90/10, EOD drawdown in eval then intraday trailing once funded — locks after a $100 buffer), Rapid EOD (25K/50K — daily payouts but end-of-day drawdown in the funded stage too, 4-day pass, 30% eval consistency), Pro (bi-weekly payouts, 80/20, up to $100K per cycle, no Tier-1 news trading), and Builder (25K/50K eval, 48-hour sim payouts, and a five-payout ladder to a real Live account at Blue Row Capital). All plans are one-time purchases (no monthly renewals, since Aug 2026). No plan carries a daily loss limit (Builder's 50K has a $1,000 soft pause) or an activation fee. Code CHAMP takes up to 50% off; MFF also rotates public per-plan promos. Flex has been retired."
   },
   "fundednext": {
     "slug": "fundednext",
@@ -1646,7 +1656,7 @@ window.FIRMS = {
       "Rapid — 1-day pass, choose Pro (no DLL) or Daily (daily payouts), 90% share (25K-100K)"
     ],
     "rules": [
-      "Pricing: one-time challenge fees — Flex $69.99 / $129.99 / $249.99 (50K-150K), Legacy $79.99 / $199.99 / $239.99 (25K-100K), Rapid $79.99 / $169.99 / $279.99 (25K-100K). Promotional pricing was active at last check — confirm at checkout.",
+      "Pricing: one-time challenge fees — Flex $69.99 / $129.99 / $249.99 (50K-150K), Legacy $79.99 / $199.99 / $239.99 (25K-100K), Rapid $79.99 / $149.99 / $249.99 (25K-100K). Promotional pricing was active at last check — confirm at checkout.",
       "Drawdown: end-of-day (EOD) max loss limit on all account types",
       "Daily loss limit: none on Flex, Legacy and Rapid Pro; Rapid Daily has a DLL ($500 / $1,000 / $1,250)",
       "Consistency: 40% during the challenge on Flex, Legacy and Rapid Pro; none on Rapid Daily",
@@ -1711,7 +1721,7 @@ window.FIRMS = {
         "name": "RAPID — Pro Plan",
         "rules": [
           ["Account Sizes", "25K / 50K / 100K"],
-          ["One-Time Fee", "$79.99 / $169.99 / $279.99"],
+          ["One-Time Fee", "$79.99 / $149.99 / $249.99"],
           ["Days to Pass", "1"],
           ["Profit Target", "$1,500 / $3,000 / $5,000"],
           ["Max Loss Limit (EOD)", "$1,000 / $2,000 / $2,500"],
@@ -1732,7 +1742,7 @@ window.FIRMS = {
         "name": "RAPID — Daily Plan",
         "rules": [
           ["Account Sizes", "25K / 50K / 100K"],
-          ["One-Time Fee", "$79.99 / $169.99 / $279.99"],
+          ["One-Time Fee", "$79.99 / $149.99 / $249.99"],
           ["Days to Pass", "1"],
           ["Profit Target", "$1,500 / $3,000 / $5,000"],
           ["Max Loss Limit (EOD)", "$1,000 / $2,000 / $2,500"],
