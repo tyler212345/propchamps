@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0a0d12">
+<title>Apex Trader Funding Drawdown Explained: Intraday vs EOD Trailing (2026) | PropChamps</title>
+<meta name="description" content="Apex's trailing threshold ends more accounts than any losing streak — not because traders blow up, but because they never learned where their floor actually…">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://propchamps.net/blog/apex-drawdown-explained">
+<meta property="og:site_name" content="PropChamps">
+<meta property="og:title" content="Apex Trader Funding Drawdown Explained: Intraday vs EOD Trailing">
+<meta property="og:description" content="Apex's trailing threshold ends more accounts than any losing streak — not because traders blow up, but because they never learned where their floor actually…">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://propchamps.net/blog/apex-drawdown-explained">
+<meta property="og:image" content="https://propchamps.net/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="PropChamps — Independent prop firm research">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://propchamps.net/og-image.jpg">
+<meta name="twitter:title" content="Apex Trader Funding Drawdown Explained: Intraday vs EOD Trailing">
+<meta name="twitter:description" content="Apex's trailing threshold ends more accounts than any losing streak — not because traders blow up, but because they never learned where their floor actually…">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://propchamps.net/blog/apex-drawdown-explained#article","headline":"Apex Trader Funding Drawdown Explained: Intraday vs EOD Trailing (2026)","description":"Apex's trailing threshold ends more accounts than any losing streak — not because traders blow up, but because they never learned where their floor actually…","image":"https://propchamps.net/og-image.jpg","datePublished":"2026-09-18","dateModified":"2026-09-18","inLanguage":"en","articleSection":"Explainer","author":{"@type":"Organization","name":"PropChamps","url":"https://propchamps.net"},"publisher":{"@type":"Organization","name":"PropChamps","url":"https://propchamps.net","logo":{"@type":"ImageObject","url":"https://propchamps.net/logos/propchamps.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://propchamps.net/blog/apex-drawdown-explained"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://propchamps.net/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://propchamps.net/blog/"},{"@type":"ListItem","position":3,"name":"Apex Trader Funding Drawdown Explained: Intraday vs EOD Trailing"}]},{"@type":"FAQPage","@id":"https://propchamps.net/blog/apex-drawdown-explained#faq","mainEntity":[{"@type":"Question","name":"What is Apex's trailing threshold drawdown?","acceptedAnswer":{"@type":"Answer","text":"It is the lowest balance your account may reach before Apex closes it, set a fixed dollar amount below your highest balance ($1,000 / $2,000 / $3,000 / $4,000 for the 25K / 50K / 100K / 150K). As your balance makes new highs, the threshold trails up behind it — so your fail line rises as you profit, and it never resets."}},{"@type":"Question","name":"Does Apex's drawdown count unrealized (open) profit?","acceptedAnswer":{"@type":"Answer","text":"On the Intraday Trail account, yes — the threshold trails your real-time peak, including profit sitting in an open position, so a spike you never bank can still raise your floor. On the EOD Trail account it does not; the floor is measured only from your closing balance."}},{"@type":"Question","name":"When does the Apex trailing drawdown stop trailing?","acceptedAnswer":{"@type":"Answer","text":"Once the threshold reaches your starting balance + $100, it locks and never moves again. That happens the moment your peak balance touches starting balance + drawdown + $100 — on a 50K, when your balance hits $52,100, the floor locks at $50,100. Traders call that locked floor the \"safety net.\""}},{"@type":"Question","name":"Do Apex Intraday accounts have a daily loss limit?","acceptedAnswer":{"@type":"Answer","text":"Not during the evaluation — the Intraday eval has no DLL. But the funded Intraday Performance Account adds a daily loss limit that scales with your account size, so the \"no daily loss limit\" benefit applies to the eval stage only. EOD Trail accounts carry a DLL ($500 / $1,000 / $1,500 / $2,000) throughout."}},{"@type":"Question","name":"Is Intraday Trail or EOD Trail easier to pass?","acceptedAnswer":{"@type":"Answer","text":"For most traders, EOD Trail is more forgiving: open-trade spikes do not raise your floor, so you are judged on where you close, not your highest tick. The catch is EOD's daily loss limit. Fast scalpers who rarely hold open profit often do fine on the cheaper Intraday plan; traders who hold or scale usually prefer EOD."}},{"@type":"Question","name":"Does Apex really pay 100% now?","acceptedAnswer":{"@type":"Answer","text":"Yes. Funded Apex accounts keep a flat 100% of the approved payout, with no split — the older \"100% of the first $25K, then 90/10\" model has been retired. Payouts are available every five trading days with a $500 minimum, capped per request on a ladder that rises across your first six payouts, with a maximum of six payouts per account."}}]}]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/blog/blog.css">
+</head>
+<body>
+
+<div class="editorial-strip"><div class="container"><div class="lhs"><span class="dot"></span><span>Independent prop firm research · Reviewed weekly</span></div><div class="rhs">Last reviewed September 18, 2026</div></div></div>
+
+<header class="site">
+  <div class="container">
+    <a class="logo-mark" href="/" aria-label="PropChamps home"><img src="/logos/propchamps.png" alt="PropChamps"></a>
+    <nav class="primary">
+      <a href="/">Firms</a><a href="/compare">Compare</a><a href="/deals">Deals</a><a href="/payouts">Payouts</a><a href="/blog/" class="active">Blog</a>
+    </nav>
+    <a class="header-cta" href="/compare">Compare firms
+      <svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L11 8 L5 4"/></svg>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><span class="bar"></span></button>
+  </div></header>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/">Firms</a><a href="/compare">Compare</a><a href="/deals">Deals</a><a href="/payouts">Payouts</a><a href="/blog/">Blog</a>
+  <a class="mobile-cta" href="/compare">Compare firms →</a>
+</div>
+
+<section class="article-hero">
+  <div class="bg-stack"></div>
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span>Apex Trader Funding Drawdown Explained: Intraday vs EOD Trailing</div>
+    <div class="article-eyebrow">Prop firm rules · Explained</div>
+    <h1>Apex Trader Funding Drawdown Explained: Intraday vs EOD Trailing</h1>
+    <p class="article-dek">Apex's trailing threshold ends more accounts than any losing streak — not because traders blow up, but because they never learned where their floor actually sits. Here is exactly how it moves, with a worked $50K example and the difference…</p>
+    <div class="article-byline"><span><span class="live-dot"></span> <strong>PropChamps Research</strong></span><span class="sep"></span><span>Last reviewed September 18, 2026</span><span class="sep"></span><span>~11 min read</span></div>
+  </div>
+</section>
+
+<nav class="section-nav" id="sectionNav">
+  <div class="container">
+    <span class="section-nav-label">Jump to</span>
+    <a class="section-nav-link" href="#the-two-apex-account-types">The two Apex account types</a><a class="section-nav-link" href="#what-trailing-threshold-drawdown-actually-means">What "trailing threshold drawdown" actually means</a><a class="section-nav-link" href="#a-worked-example-a-50k-intraday-trail-account">A worked example: a $50K Intraday Trail account</a><a class="section-nav-link" href="#intraday-vs-eod-trailing-compared">Intraday vs EOD trailing, compared</a><a class="section-nav-link" href="#the-daily-loss-limit-and-the-funded-intraday-twist">The daily loss limit — and the funded Intraday twist</a><a class="section-nav-link" href="#the-2026-payout-model-flat-100-on-a-six-payout-lad">The 2026 payout model: flat 100%, on a six-payout ladder</a><a class="section-nav-link" href="#common-mistakes-that-blow-an-apex-account">Common mistakes that blow an Apex account</a><a class="section-nav-link" href="#is-apex-right-for-you">Is Apex right for you?</a><a class="section-nav-link" href="#faq">FAQ</a>
+  </div>
+</nav>
+
+<section class="block" style="border-top:0">
+  <div class="container">
+    <div class="article-body">
+      <div class="takeaways" data-reveal><span class="kt-label">The short version</span><ul><li>Apex runs two evaluation types in 2026: <strong>Intraday Trail</strong>, where your floor follows your real-time peak (including open, unrealized profit), and <strong>EOD Trail</strong>, where the floor only recalculates once a day at the close. Same sizes, same targets — very different behavior.</li><li>The trailing threshold sits a fixed dollar amount below your highest balance: <strong>$1,000 / $2,000 / $3,000 / $4,000</strong> on the 25K / 50K / 100K / 150K.</li><li>The threshold <strong>stops trailing</strong> once it reaches your starting balance <strong>+ $100</strong> — the moment your peak balance touches <em>starting balance + drawdown + $100</em>. After that, your floor is locked and never moves again.</li><li><strong>Intraday Trail has no daily loss limit in the evaluation</strong> (the funded account adds a scaling one). <strong>EOD Trail carries a daily loss limit</strong> of $500 / $1,000 / $1,500 / $2,000.</li><li>Funded Apex accounts now keep a <strong>flat 100%</strong> of profit — no split — with payouts every five trading days, capped on a six-payout ladder per account.</li><li>The most expensive mistake on Apex is letting a big open winner ratchet your Intraday floor upward, then handing the profit back.</li></ul></div>
+      <p class="lead">Apex's trailing threshold ends more accounts than any losing streak — not because traders blow up, but because they never learned where their floor actually sits. Here is exactly how it moves, with a worked $50K example and the difference between the two account types Apex sells today.</p><p>Apex changes pricing and rules often; the figures below reflect a Sept 18, 2026 audit, so confirm current terms at checkout before you buy.</p><h2 id="the-two-apex-account-types">The two Apex account types</h2><p>Apex used to be a single trailing-drawdown product. In 2026 it sells two, and choosing the wrong one is the first way traders sabotage themselves.</p><p><strong>Intraday Trail</strong> is the classic Apex account. Its floor trails your account's highest point in real time, and — this is the part that catches people — that peak includes <em>unrealized</em> profit from an open position. There is no daily loss limit on the Intraday evaluation.</p><p><strong>EOD Trail</strong> is the calmer sibling. Its floor recalculates only once per day, at the session close (4:59:59 PM ET on Apex's clock), using your closing balance. Intraday spikes in an open trade are ignored entirely. In exchange, the EOD account carries a daily loss limit.</p><p>Both come in four sizes — 25K, 50K, 100K, 150K — with identical profit targets ($1,500 / $3,000 / $6,000 / $9,000), a one-day minimum to pass, and a 50% consistency rule once funded. Each is sold as a Standard build (lowest eval price) or a No-Activation-Fee build (higher eval price, but you skip the funded activation fee). The drawdown mechanics are what separate them.</p><h2 id="what-trailing-threshold-drawdown-actually-means">What "trailing threshold drawdown" actually means</h2><p>A drawdown is the lowest your balance may fall before Apex closes the account. On Apex it <em>trails</em>, so the line moves.</p><p>The threshold sits a fixed distance below your highest balance. On a 50K that distance is $2,000: you start at $50,000 with a fail line of $48,000, and as your balance makes new highs the threshold trails up behind it, always $2,000 below the peak. Bank enough profit and your fail line climbs above your original starting balance.</p><p>Two features make this dangerous, and they are why so many funded Apex accounts die green. First, on the Intraday account the threshold trails your peak balance <em>including open trades</em> — if a position runs to +$1,500 before you close it for +$300, your floor moves up as though you had banked the full $1,500, and it does not come back down. Second, the threshold is permanent: unlike a daily loss limit, it never resets overnight. It is the true kill line. For how static, trailing, intraday and EOD models differ across firms, see our <a href="/blog/prop-firm-drawdown-explained">guide to prop firm drawdown</a>.</p><h2 id="a-worked-example-a-50k-intraday-trail-account">A worked example: a $50K Intraday Trail account</h2><p>Numbers make this concrete. Take a 50K Intraday Trail evaluation:</p><ul><li><strong>Starting balance:</strong> $50,000</li><li><strong>Trailing drawdown:</strong> $2,000</li><li><strong>Opening fail line (threshold):</strong> $48,000</li><li><strong>Profit target to pass:</strong> $3,000, i.e. a balance of $53,000</li></ul><p>Now trade it.</p><ol><li><strong>You start with $2,000 of room.</strong> Balance $50,000, threshold $48,000.</li><li><strong>You open a long and it runs.</strong> Your unrealized balance peaks at $51,000 (up $1,000 on an open position). The Intraday threshold immediately ratchets to $51,000 − $2,000 = <strong>$49,000</strong>. Your floor just rose $1,000 on profit you have not booked.</li><li><strong>The trade pulls back and you close at +$400</strong> (balance $50,400). The threshold does <strong>not</strong> fall back — it stays at $49,000. You closed the trade green, yet your cushion shrank from $2,000 to $1,400 ($50,400 − $49,000). That gap between your peak and your close was quietly converted into risk.</li><li><strong>You keep pushing and your peak balance touches $52,100.</strong> The threshold trails to $52,100 − $2,000 = <strong>$50,100</strong> — and here it locks. That is your starting balance plus $100. From this point the threshold never moves again, no matter how high the account goes.</li><li><strong>You reach the $53,000 target.</strong> With the floor frozen at $50,100 you now carry a $2,900 cushion, and the evaluation is passed.</li></ol><p>The lock point in step 4 is the number worth memorizing. The threshold stops trailing once it reaches <strong>starting balance + $100</strong>, which happens the instant your peak balance (realized <em>or</em> unrealized) hits <strong>starting balance + drawdown + $100</strong>. On the 50K that trigger is $50,000 + $2,000 + $100 = <strong>$52,100</strong>, and the floor locks at <strong>$50,100</strong>. Traders call that locked floor the "safety net": once you clear it, you can never be trailed out of your original balance again — your only remaining risk on the threshold is falling back to $50,100.</p><div class="table-wrap"><table class="data"><thead><tr><th>Milestone</th><th>Peak balance needed</th><th>Where the floor locks (safety net)</th></tr></thead><tbody><tr><td class="firm-c">25K ($1,000 drawdown)</td><td>$26,100</td><td>$25,100</td></tr><tr><td class="firm-c">50K ($2,000 drawdown)</td><td>$52,100</td><td>$50,100</td></tr><tr><td class="firm-c">100K ($3,000 drawdown)</td><td>$103,100</td><td>$100,100</td></tr><tr><td class="firm-c">150K ($4,000 drawdown)</td><td>$154,100</td><td>$150,100</td></tr></tbody></table></div><p>Getting to the safety net is the real goal of the first stretch of any Apex account. Until you reach it, every dollar of open profit you give back tightens the noose.</p><h2 id="intraday-vs-eod-trailing-compared">Intraday vs EOD trailing, compared</h2><p>The EOD Trail account changes one thing: <em>when</em> the floor is measured. Instead of tracking your peak tick by tick, it recalculates once at the close, off your end-of-day balance, then enforces that fixed level through the next session.</p><p>Run the same sequence from the worked example on a 50K EOD account. You spike to $51,000 unrealized and close the day at $50,400. Because EOD ignores the intraday peak, your floor is set from the <em>closing</em> $50,400 balance: $50,400 − $2,000 = <strong>$48,400</strong>. That is $400 more room than the Intraday account's $49,000 floor — and the difference only widens the more you let winners breathe during the day.</p><p>The trade-off is the daily loss limit, covered next. EOD gives you room to hold and scale intraday; in return it caps how much you can lose in a single session.</p><div class="table-wrap"><table class="data"><thead><tr><th>Rule</th><th>Intraday Trail</th><th>EOD Trail</th></tr></thead><tbody><tr><td class="firm-c"><strong>Drawdown type</strong></td><td>Trails your real-time peak, including open profit</td><td>Recalculates once at the close, off realized balance</td></tr><tr><td class="firm-c"><strong>When the floor updates</strong></td><td>Tick by tick, all session</td><td>Once daily (≈4:59:59 PM ET), then fixed next session</td></tr><tr><td class="firm-c"><strong>Daily loss limit</strong></td><td>None in the eval (funded PA adds a scaling DLL)</td><td>$500 / $1,000 / $1,500 / $2,000 by size</td></tr><tr><td class="firm-c"><strong>Max drawdown</strong></td><td>$1,000 / $2,000 / $3,000 / $4,000</td><td>$1,000 / $2,000 / $3,000 / $4,000</td></tr><tr><td class="firm-c"><strong>Profit target</strong></td><td>$1,500 / $3,000 / $6,000 / $9,000</td><td>$1,500 / $3,000 / $6,000 / $9,000</td></tr><tr><td class="firm-c"><strong>Price w/ CHAMP (Standard)</strong></td><td>$16.70 / $24.90 / $39.90 / $59.90</td><td>$45 / $55 / $99 / $189</td></tr><tr><td class="firm-c"><strong>Best for</strong></td><td>Scalpers who close fast and rarely sit on open profit</td><td>Traders who hold, scale in, or swing intraday and want no peak-chasing</td></tr></tbody></table></div><p>The Intraday plans are also cheaper. If you truly scalp — small targets, quick exits, little unrealized profit sitting on the screen — the Intraday floor rarely gets a chance to run away from you, and you save money. If you let trades develop, EOD's forgiveness is usually worth the higher price and the daily cap.</p><h2 id="the-daily-loss-limit-and-the-funded-intraday-twist">The daily loss limit — and the funded Intraday twist</h2><p>A daily loss limit (DLL) caps how much you can lose in one session and resets overnight. On Apex it is separate from the trailing threshold, and the two behave differently: per Apex's help center, hitting the <strong>daily loss limit ends your trading day</strong>, while touching the <strong>trailing threshold ends the account</strong>. For the mechanics of daily limits generally, see <a href="/blog/what-is-a-daily-loss-limit">what a daily loss limit is</a>.</p><p>On <strong>EOD Trail</strong>, the DLL is $500 (25K), $1,000 (50K), $1,500 (100K) and $2,000 (150K), and it scales by tier once you are funded. It gives the EOD account a hard intraday floor even though the trailing threshold only updates at the close.</p><p><strong>Intraday Trail</strong> has <strong>no DLL during the evaluation</strong> — but that is not "no limit." The Intraday trailing threshold is itself a tight real-time floor, and once you are funded, the Intraday <strong>Performance Account adds a daily loss limit that scales with your tier</strong>. So the "no daily loss limit" selling point applies to the eval, not the funded stage. Verify the current figure for your size before you trade near it.</p><h2 id="the-2026-payout-model-flat-100-on-a-six-payout-lad">The 2026 payout model: flat 100%, on a six-payout ladder</h2><p>Apex's old "100% of the first $25,000, then a 90/10 split" model is gone. Funded Apex accounts now keep a <strong>flat 100%</strong> of the approved payout — no split.</p><p>The details that matter:</p><ul><li><strong>Frequency:</strong> you can request a payout every five trading days.</li><li><strong>Minimum:</strong> $500 per request.</li><li><strong>Per-payout cap, rising on a ladder:</strong> each request is capped, and the cap grows over your first six payouts. On the 50K, the cap starts at $1,500 and climbs toward $3,000 by the sixth; the 100K runs $2,000 up to $4,000, and the 150K runs $2,500 up to $5,000. (The 25K sits flat at $1,000.)</li><li><strong>Six payouts per account:</strong> a single Performance Account is capped at six payouts. Once you have taken them, that PA has reached the end of its payout ladder, and Apex's model expects you to continue on a fresh account.</li><li><strong>50% consistency rule:</strong> to withdraw, no single day's profit may exceed 50% of your total profit on the account. One monster day can lock up a payout until your other days catch up.</li></ul><p>The flat 100% is genuinely trader-friendly; the ladder and the six-payout ceiling are the strings attached. See our <a href="/payouts">payout data</a> for how Apex's real-world payout speed and amounts compare across firms.</p><h2 id="common-mistakes-that-blow-an-apex-account">Common mistakes that blow an Apex account</h2><ul><li><strong>Letting a winner trail against you (Intraday).</strong> The classic Apex death: a trade runs +$1,800, your floor jumps, you hold for more, price reverses, and you are stopped out of the <em>account</em> while the trade is still green. Bank partials and protect the peak.</li><li><strong>Trading a big size before you reach the safety net.</strong> Until the threshold locks at start + $100, your floor is chasing every high. Oversized early trades give the trail more room to climb and less room for you to be wrong.</li><li><strong>Confusing the daily loss limit with the drawdown.</strong> The DLL resets tomorrow; the trailing threshold does not. Respecting your daily limit perfectly will not save you from clipping the threshold.</li><li><strong>Forgetting the funded Intraday DLL exists.</strong> "No daily loss limit" is an evaluation feature. The funded Intraday PA adds one — trade the funded stage as if it is there, because it is.</li><li><strong>Ignoring consistency until payout day.</strong> A single outsized session can breach the 50% rule and freeze your withdrawal. Spread profit across days from the start.</li><li><strong>Assuming your 50K trails $2,500.</strong> Apex's current audited drawdown on the 50K is <strong>$2,000</strong>, not the older $2,500. Trade off the number in your live account, not a figure from an old guide.</li></ul><h2 id="is-apex-right-for-you">Is Apex right for you?</h2><p>Apex fits a specific trader well: someone who wants the biggest active discount (CHAMP takes 90% off the eval), a one-day pass, a one-time fee with no monthly rebill, and a flat 100% payout once funded. The two account types serve different styles — Intraday for fast scalpers, EOD for traders who hold and scale.</p><p>It is a worse fit if you trade large and let positions swing without banking partials, or if you want a simple static floor you never have to think about. The trailing threshold is a skill you trade around, not a rule you can ignore. Read the full <a href="/firms/apex-trader">Apex Trader Funding breakdown</a> for current pricing and the complete rule set, then <a href="/compare">compare Apex against other futures firms</a> before you commit.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="faq">
+  <div class="container">
+    <div class="section-eyebrow">Common questions</div>
+    <h2 class="section-h2">Frequently asked questions</h2>
+    <div class="faq-list">
+      <details class="faq-item"><summary class="faq-q">What is Apex's trailing threshold drawdown?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>It is the lowest balance your account may reach before Apex closes it, set a fixed dollar amount below your highest balance ($1,000 / $2,000 / $3,000 / $4,000 for the 25K / 50K / 100K / 150K). As your balance makes new highs, the threshold trails up behind it — so your fail line rises as you profit, and it never resets.</p></div></details>
+      <details class="faq-item"><summary class="faq-q">Does Apex's drawdown count unrealized (open) profit?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>On the <strong>Intraday Trail</strong> account, yes — the threshold trails your real-time peak, including profit sitting in an open position, so a spike you never bank can still raise your floor. On the <strong>EOD Trail</strong> account it does not; the floor is measured only from your closing balance.</p></div></details>
+      <details class="faq-item"><summary class="faq-q">When does the Apex trailing drawdown stop trailing?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>Once the threshold reaches your <strong>starting balance + $100</strong>, it locks and never moves again. That happens the moment your peak balance touches <strong>starting balance + drawdown + $100</strong> — on a 50K, when your balance hits $52,100, the floor locks at $50,100. Traders call that locked floor the "safety net."</p></div></details>
+      <details class="faq-item"><summary class="faq-q">Do Apex Intraday accounts have a daily loss limit?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>Not during the evaluation — the Intraday eval has no DLL. But the funded <strong>Intraday Performance Account adds a daily loss limit that scales with your account size</strong>, so the "no daily loss limit" benefit applies to the eval stage only. EOD Trail accounts carry a DLL ($500 / $1,000 / $1,500 / $2,000) throughout.</p></div></details>
+      <details class="faq-item"><summary class="faq-q">Is Intraday Trail or EOD Trail easier to pass?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>For most traders, <strong>EOD Trail</strong> is more forgiving: open-trade spikes do not raise your floor, so you are judged on where you close, not your highest tick. The catch is EOD's daily loss limit. Fast scalpers who rarely hold open profit often do fine on the cheaper Intraday plan; traders who hold or scale usually prefer EOD.</p></div></details>
+      <details class="faq-item"><summary class="faq-q">Does Apex really pay 100% now?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>Yes. Funded Apex accounts keep a <strong>flat 100%</strong> of the approved payout, with no split — the older "100% of the first $25K, then 90/10" model has been retired. Payouts are available every five trading days with a $500 minimum, capped per request on a ladder that rises across your first six payouts, with a maximum of six payouts per account.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<div class="author-box" data-reveal>
+  <img class="ab-logo" src="/logos/propchamps.png" alt="PropChamps">
+  <div>
+    <h4>PropChamps Research</h4>
+    <p>We independently track rules, drawdown methods, payouts, and promo codes across every major futures prop firm, and re-verify them weekly against each firm's own documentation. See <a href="/methodology">how we audit</a>.</p>
+  </div>
+</div>
+
+<section class="cta-band">
+  <div class="container">
+    <div class="cta-card" data-reveal>
+      <h2>Compare every futures prop firm</h2>
+      <p>Rules, drawdown method, payout split, and price — side by side, in one table, re-verified weekly.</p>
+      <div class="cta-row">
+        <a class="btn-primary" href="/compare">Compare firms
+          <svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L11 8 L5 4"/></svg>
+        </a>
+        <a class="btn-ghost" href="/deals">See active deals</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="container">
+    <div class="section-eyebrow">Keep reading</div>
+    <h2 class="section-h2">Related guides</h2>
+    <div class="more-grid">
+      <a class="more-card" href="/firms/apex-trader"><span>Apex Trader Funding review</span><span class="arr">→</span></a><a class="more-card" href="/blog/prop-firm-drawdown-explained"><span>Drawdown explained</span><span class="arr">→</span></a><a class="more-card" href="/blog/what-is-a-daily-loss-limit"><span>Daily loss limit explained</span><span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="container">
+    <div class="top">
+      <div class="brand">
+        <a class="logo-mark" href="/"><img src="/logos/propchamps.png" alt="PropChamps"></a>
+        <p>Independent research on futures prop trading firms. We track rules, payouts, drawdown methods, and active promo codes — and publish what changes.</p>
+      </div>
+      <div><h4>Research</h4><ul><li><a href="/">All firms</a></li><li><a href="/compare">Compare</a></li><li><a href="/deals">Active deals</a></li><li><a href="/payouts">Payouts</a></li><li><a href="/audit-log">Audit log</a></li></ul></div>
+      <div><h4>Editorial</h4><ul><li><a href="/blog/">Blog</a></li><li><a href="/guide">Beginner's guide</a></li><li><a href="/join">Join the list</a></li><li><a href="/methodology">How we audit</a></li></ul></div>
+      <div><h4>Legal</h4><ul><li><a href="/privacy">Privacy</a></li><li><a href="/methodology#disclosure">Affiliate disclosure</a></li></ul></div>
+    </div>
+    <div class="legal">
+      <div>© 2026 PropChamps. Independent prop firm research. Not financial advice.</div>
+      <div>Trading involves substantial risk.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var toggle=document.getElementById('menuToggle'),header=document.querySelector('header.site');
+  if(toggle){toggle.addEventListener('click',function(){var o=header.classList.toggle('is-open');document.body.classList.toggle('is-menu-open',o);});
+    document.querySelectorAll('.mobile-menu a').forEach(function(a){a.addEventListener('click',function(){header.classList.remove('is-open');document.body.classList.remove('is-menu-open');});});}
+  var links=[].slice.call(document.querySelectorAll('.section-nav-link'));
+  var sections=links.map(function(l){return document.getElementById(l.getAttribute('href').slice(1));}).filter(Boolean);
+  function onScroll(){var y=window.scrollY+170,cur=sections[0]?sections[0].id:null;sections.forEach(function(s){if(s.offsetTop<=y)cur=s.id;});links.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+cur);});}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var els=document.querySelectorAll('[data-reveal]');
+  if('IntersectionObserver' in window){var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.08,rootMargin:'0px 0px -40px 0px'});els.forEach(function(el){io.observe(el);});setTimeout(function(){els.forEach(function(el){el.classList.add('in');});},2500);}else{els.forEach(function(el){el.classList.add('in');});}
+})();
+</script>
+</body>
+</html>

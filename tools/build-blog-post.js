@@ -17,7 +17,7 @@
 const fs = require('fs');
 const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
-const DATE = '2026-08-17';
+const DATE = '2026-09-18';
 
 // Per-article presentation (body/meta are derived from the markdown).
 const CONFIG = {
@@ -43,6 +43,12 @@ const CONFIG = {
     related: [['/compare','Compare every firm'],['/deals','Active deals'],['/blog/prop-firm-drawdown-explained','Drawdown explained']] },
   'what-happens-when-you-break-a-prop-firm-rule': { eyebrow: 'Prop firm rules · Explained', tag: 'Explainer',
     related: [['/blog/prop-firm-drawdown-explained','Drawdown explained'],['/guide','Beginner’s guide'],['/compare','Compare every firm']] },
+  'prop-firm-taxes-explained': { eyebrow: 'Prop firm guide · Taxes', tag: 'Guide',
+    related: [['/payouts','Live payout data'],['/blog/how-prop-firm-payouts-work','How payouts work'],['/blog/do-prop-firms-actually-pay','Do prop firms actually pay?']] },
+  'best-platforms-tradovate-vs-ninjatrader-vs-tradingview': { eyebrow: 'Prop firm guide · Platforms', tag: 'Guide',
+    related: [['/compare','Compare every firm'],['/firms/tradeify','Tradeify review'],['/blog/prop-firm-drawdown-explained','Drawdown explained']] },
+  'apex-drawdown-explained': { eyebrow: 'Prop firm rules · Explained', tag: 'Explainer',
+    related: [['/firms/apex-trader','Apex Trader Funding review'],['/blog/prop-firm-drawdown-explained','Drawdown explained'],['/blog/what-is-a-daily-loss-limit','Daily loss limit explained']] },
 };
 
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -188,7 +194,7 @@ ${JSON.stringify(schema)}
 </head>
 <body>
 
-<div class="editorial-strip"><div class="container"><div class="lhs"><span class="dot"></span><span>Independent prop firm research · Reviewed weekly</span></div><div class="rhs">Last reviewed August 17, 2026</div></div></div>
+<div class="editorial-strip"><div class="container"><div class="lhs"><span class="dot"></span><span>Independent prop firm research · Reviewed weekly</span></div><div class="rhs">Last reviewed September 18, 2026</div></div></div>
 
 <header class="site">
   <div class="container">
@@ -213,7 +219,7 @@ ${JSON.stringify(schema)}
     <div class="article-eyebrow">${esc(cfg.eyebrow)}</div>
     <h1>${esc(displayTitle)}</h1>
     <p class="article-dek">${esc(dek)}</p>
-    <div class="article-byline"><span><span class="live-dot"></span> <strong>PropChamps Research</strong></span><span class="sep"></span><span>Last reviewed August 17, 2026</span><span class="sep"></span><span>~${readMin} min read</span></div>
+    <div class="article-byline"><span><span class="live-dot"></span> <strong>PropChamps Research</strong></span><span class="sep"></span><span>Last reviewed September 18, 2026</span><span class="sep"></span><span>~${readMin} min read</span></div>
   </div>
 </section>
 
