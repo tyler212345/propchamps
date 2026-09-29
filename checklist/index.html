@@ -62,44 +62,13 @@
     <div id="list"></div>
 
     <section class="more">
-      <div class="more-head">
-        <h2>More from <span class="accent">Champ</span></h2>
-        <p>The checklist is the foundation — this is where it comes alive every session.</p>
-      </div>
-      <div class="boxes">
-        <div class="box box-discord">
-          <div class="box-top">
-            <div class="box-ico"><img src="/logos/oasis-discord.png" alt="Oasis Trading Group"></div>
-            <div class="box-top-txt">
-              <div class="box-kicker">Trade with the room</div>
-              <div class="box-title">Oasis Trading Group</div>
-            </div>
-          </div>
-          <div class="box-stats">
-            <div class="box-stat"><b>68K+</b>members</div>
-            <div class="box-stat"><b><span class="dot"></span>Live</b>every session</div>
-          </div>
-          <p>Champ's Discord — live trades, real-time breakdowns, and the community running this checklist together every day.</p>
-          <a class="btn" href="https://discord.gg/oasisalerts" target="_blank" rel="noopener">
-            <svg class="discord-logo" viewBox="0 0 24 24" fill="currentColor"><path d="M20.32 4.37a19.8 19.8 0 0 0-4.9-1.52.07.07 0 0 0-.08.04c-.2.38-.44.87-.6 1.25a18.3 18.3 0 0 0-5.48 0 12.6 12.6 0 0 0-.62-1.25.08.08 0 0 0-.08-.04 19.7 19.7 0 0 0-4.9 1.52.07.07 0 0 0-.03.03C.53 9.05-.32 13.58.1 18.06a.08.08 0 0 0 .03.06 19.9 19.9 0 0 0 6 3.03.08.08 0 0 0 .08-.03c.46-.63.87-1.29 1.23-1.99a.08.08 0 0 0-.04-.11c-.65-.25-1.27-.55-1.87-.89a.08.08 0 0 1-.01-.13l.37-.29a.07.07 0 0 1 .08-.01 14.2 14.2 0 0 0 12.06 0 .07.07 0 0 1 .08 0l.37.3a.08.08 0 0 1 0 .13c-.6.34-1.22.64-1.87.89a.08.08 0 0 0-.04.11c.36.7.78 1.36 1.23 1.98a.08.08 0 0 0 .08.04 19.8 19.8 0 0 0 6.01-3.03.08.08 0 0 0 .03-.06c.5-5.18-.84-9.67-3.54-13.66a.06.06 0 0 0-.03-.03zM8.02 15.33c-1.18 0-2.16-1.08-2.16-2.42s.96-2.42 2.16-2.42c1.21 0 2.18 1.09 2.16 2.42 0 1.34-.96 2.42-2.16 2.42zm7.97 0c-1.18 0-2.15-1.08-2.15-2.42s.95-2.42 2.15-2.42c1.21 0 2.18 1.09 2.16 2.42 0 1.34-.95 2.42-2.16 2.42z"/></svg>
-            Join the Discord
-          </a>
-        </div>
-
-        <div class="box box-yt">
-          <div class="box-top">
-            <div class="box-ico"><img src="/logos/champ-avatar.jpg" alt="The Trading Champ"></div>
-            <div class="box-top-txt">
-              <div class="box-kicker">Watch the strategy</div>
-              <div class="box-title">Champ on YouTube</div>
-            </div>
-          </div>
-          <div class="yt-vids" id="ytVids"><div class="yt-loading">Loading latest videos…</div></div>
-          <a class="btn" id="ytCta" href="https://www.youtube.com/@thetradingchamp" target="_blank" rel="noopener">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.12-2.13C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.52A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.12 2.13c1.88.52 9.38.52 9.38.52s7.5 0 9.38-.52a3 3 0 0 0 2.12-2.13A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>
-            Subscribe on YouTube
-          </a>
-        </div>
+      <div class="more-banners">
+        <a class="banner-link discord" href="https://discord.gg/oasisalerts" target="_blank" rel="noopener" aria-label="Join Champ's Discord — Oasis Trading Group">
+          <img src="/logos/champ-discord-banner.jpg" alt="Join Champ's Discord" loading="lazy">
+        </a>
+        <a class="banner-link youtube" href="https://www.youtube.com/@thetradingchamp" target="_blank" rel="noopener" aria-label="Subscribe to Champ on YouTube">
+          <img src="/logos/champ-youtube-banner.jpg" alt="Subscribe to Champ on YouTube" loading="lazy">
+        </a>
       </div>
     </section>
 
@@ -138,22 +107,6 @@
   });
   paint();
   document.getElementById('resetBtn').addEventListener('click',function(){ state={}; try{localStorage.removeItem(KEY);}catch(_){}; paint(); });
-
-  var vidsEl=document.getElementById('ytVids'), cta=document.getElementById('ytCta');
-  fetch('/api/champ-videos').then(function(r){return r.json();}).then(function(d){
-    var vids=(d&&d.videos)||[], url=(d&&d.channelUrl)||'https://www.youtube.com/@thetradingchamp';
-    cta.href=url;
-    if(!vids.length){ vidsEl.innerHTML='<p style="font-size:13px;color:var(--text-soft);line-height:1.5;margin:0">New breakdowns drop every week — subscribe so you never miss Champ walking these setups live.</p>'; return; }
-    var html='';
-    vids.forEach(function(v){
-      var t=(v.title||'Watch on YouTube').replace(/</g,'&lt;');
-      html+='<a class="yt-vid" href="https://www.youtube.com/watch?v='+encodeURIComponent(v.id)+'" target="_blank" rel="noopener">'
-        +'<span class="yt-thumb"><img loading="lazy" src="https://i.ytimg.com/vi/'+encodeURIComponent(v.id)+'/mqdefault.jpg" alt="">'
-        +'<span class="pl"><i><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></i></span></span>'
-        +'<span class="yt-vt">'+t+'</span></a>';
-    });
-    vidsEl.innerHTML=html;
-  }).catch(function(){ vidsEl.innerHTML='<p style="font-size:13px;color:var(--text-soft);margin:0">Catch Champ’s latest breakdowns on YouTube.</p>'; });
 })();
 </script>
 </body>
