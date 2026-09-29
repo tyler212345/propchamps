@@ -1,17 +1,17 @@
-/* Champ's pre-trade checklist — single source of truth for the on-page and PDF
-   renderings. The emailed copy lives in worker/index.js (CHECKLIST_PHASES); keep
-   the two in sync when the checklist changes. */
+/* The Trading Champ — pre-trade checklist. Single source of truth for the
+   on-page + PDF renderings. The emailed copy lives in worker/index.js
+   (CHECKLIST_PHASES) — keep them in sync when this changes. */
 window.CHAMP_CHECKLIST = [
   {
     n: '01',
     title: 'Read the market',
-    sub: 'Before you even look for an entry',
+    sub: 'Before you look for an entry',
     items: [
-      ['Checked today’s major news & scheduled speakers?', 'Pull up the economic calendar. Know exactly when high-impact news — CPI, FOMC, jobs, any scheduled Fed speaker — hits, so it never catches you mid-trade.'],
-      ['Waited for the first 15-minute opening range to form?', 'The first 15 minutes after the open are noise. Let that range fully print before you make a single decision.'],
-      ['Marked the opening-range high & low?', 'Draw both lines. They’re the session’s key levels — price reacts to them all day, and they frame every setup that follows.'],
-      ['Are the Nasdaq and S&P supporting the same direction?', 'NQ and ES should agree. When the two indexes confirm each other your bias is stronger; when they fight, sit on your hands.'],
-      ['Does WAVE data support your bias?', 'Order-flow tells you what price alone can’t. Champ reads WAVE data on flowtopia.co — it should confirm your direction, not argue with it.'],
+      ['Checked today’s news & scheduled speakers?', 'Know when CPI, FOMC or a Fed speaker drops — before it blindsides you.'],
+      ['Waited for the 15-minute opening range?', 'The first 15 minutes are noise. Let the range form first.'],
+      ['Marked the opening-range high & low?', 'Your session’s key levels. Price reacts to them all day.'],
+      ['Nasdaq & S&P pointing the same way?', 'NQ and ES agree = stronger bias. They fight = stand down.'],
+      ['Does WAVE data back your bias?', 'Order-flow should confirm your read, not fight it. <span class="hl">(flowtopia.co)</span>'],
     ],
   },
   {
@@ -19,11 +19,11 @@ window.CHAMP_CHECKLIST = [
     title: 'Build the trade',
     sub: 'Only if the read checks out',
     items: [
-      ['Is your real entry model actually present?', 'Be honest — is your setup genuinely here, or are you forcing a trade because you want one? No model, no trade.'],
-      ['Where does your technical stop belong?', 'Place it where the trade is proven wrong — the level that invalidates the idea — not at a random dollar amount you’re “comfortable” losing.'],
-      ['Have you calculated contract size using that stop?', 'Size the position from the stop distance. The stop sets the size; your confidence doesn’t.'],
-      ['Does this trade fit your remaining daily loss budget?', 'If it hits the stop, are you still inside your max loss for the day? If it blows the budget, it’s not a trade — it’s a gamble.'],
-      ['Is there enough room to your target for the R:R you require?', 'Measure the distance to target. Does it actually pay the risk-to-reward you demand? Thin R:R → skip it.'],
+      ['Is your real entry model present?', 'Your setup is actually here — or are you forcing it? No model, no trade.'],
+      ['Where does your stop belong?', 'At the level that proves you wrong — not a random dollar amount.'],
+      ['Sized off that stop?', 'Contract size comes from the stop distance, not your confidence.'],
+      ['Fits your daily loss budget?', 'If it stops out, are you still inside today’s max? If not, skip it.'],
+      ['Enough room to your target?', 'Does the distance to target pay the risk-to-reward you require?'],
     ],
   },
   {
@@ -31,24 +31,26 @@ window.CHAMP_CHECKLIST = [
     title: 'Check your head',
     sub: 'The part everyone skips',
     items: [
-      ['Comfortable taking this loss without needing to win it back?', 'If losing this trade would make you need to win it back, your size is too big or your head isn’t right. Fix one before you click.'],
-      ['Rules — or emotion?', 'Are you taking this because it meets your rules, or because you’re bored, frustrated, or chasing the last move? If it’s the second one, walk away.'],
+      ['Comfortable taking this loss?', 'If you’d need to win it back, your size or your head is off.'],
+      ['Rules — or emotion?', 'Meeting your rules, or bored / frustrated / chasing? Be honest.'],
     ],
   },
   {
     n: '04',
     title: 'After the trade',
-    sub: 'Where the edge is actually built',
+    sub: 'Where the edge is built',
     items: [
-      ['Did you follow your rules, regardless of the outcome?', 'The only question that matters: did you execute your plan? That’s the scorecard. Outcome is noise.'],
-      ['Have you recorded the setup and what you could improve?', 'Log the trade and one thing you’d do better. Your journal is where your edge actually gets built.'],
-      ['Another valid setup with risk left — or are you done for the day?', 'Is there a fresh, valid setup with risk still on the table, or are you finished? Knowing when to stop is a skill.'],
+      ['Did you follow your rules?', 'Win or lose — did you run your plan? That’s the only score.'],
+      ['Logged the setup?', 'Record it plus one fix. The journal builds the edge.'],
+      ['Another setup — or done?', 'Fresh valid setup with risk left, or walk away for the day?'],
     ],
   },
 ];
 
-/* Renders the phased checklist into `el`. Shared by access.html and print.html;
-   each page styles the .cl-* classes itself. */
+var CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+
+/* Renders the phased checklist into `el`. Shared by index.html + print.html;
+   each page styles the .cl-* classes itself. Static (no check-off tool). */
 window.renderChecklistInto = function (el) {
   if (!el || !window.CHAMP_CHECKLIST) return;
   var out = '';
@@ -57,16 +59,16 @@ window.renderChecklistInto = function (el) {
       '<section class="cl-phase">' +
       '<div class="cl-phase-head">' +
       '<span class="cl-phase-n">' + ph.n + '</span>' +
-      '<div><h3 class="cl-phase-title">' + ph.title + '</h3>' +
-      '<p class="cl-phase-sub">' + ph.sub + '</p></div>' +
+      '<div><div class="cl-phase-title">' + ph.title + '</div>' +
+      '<div class="cl-phase-sub">' + ph.sub + '</div></div>' +
       '</div>';
     ph.items.forEach(function (it) {
       out +=
-        '<label class="cl-item">' +
-        '<span class="cl-box" aria-hidden="true"></span>' +
+        '<div class="cl-item">' +
+        '<span class="cl-tick">' + CHECK_SVG + '</span>' +
         '<span class="cl-text"><span class="cl-q">' + it[0] + '</span>' +
         '<span class="cl-why">' + it[1] + '</span></span>' +
-        '</label>';
+        '</div>';
     });
     out += '</section>';
   });

@@ -29,8 +29,8 @@ const AI_MODEL = 'claude-opus-5';
 // feed). Set CHAMP_YT_CHANNEL_ID to his UC... id to light it up; CHAMP_YT_URL
 // is the channel link for the "watch more" button. Both can also be overridden
 // by Cloudflare vars of the same name without a redeploy.
-const CHAMP_YT_CHANNEL_ID = '';
-const CHAMP_YT_URL = '';
+const CHAMP_YT_CHANNEL_ID = 'UC3Ev6rOQkIy0E1mj5bNfQQw';
+const CHAMP_YT_URL = 'https://www.youtube.com/@thetradingchamp';
 
 const TIERS = [
   { name: "Champ's Circle", min: 50000 },
@@ -1109,65 +1109,65 @@ async function sendWelcome(env, email, name, origin) {
 const CHECKLIST_PHASES = [
   {
     title: '1 · Read the market',
-    sub: 'Before you even look for an entry',
+    sub: 'Before you look for an entry',
     items: [
-      ['Checked today’s major news & scheduled speakers?', 'Pull up the economic calendar. Know exactly when high-impact news (CPI, FOMC, jobs, any scheduled Fed speaker) hits so it never catches you mid-trade.'],
-      ['Waited for the first 15-minute opening range to form?', 'The first 15 minutes after the open are noise. Let that range fully print before you make a single decision.'],
-      ['Marked the opening-range high & low?', 'Draw both lines. They’re the session’s key levels — price reacts to them all day and they frame every setup that follows.'],
-      ['Are the Nasdaq and S&P supporting the same direction?', 'NQ and ES should agree. When the two indexes confirm each other your bias is stronger; when they fight, sit on your hands.'],
-      ['Does WAVE data support your bias?', 'Order-flow tells you what price alone can’t. Champ reads WAVE data on flowtopia.co — it should confirm your direction, not argue with it.'],
+      ['Checked today’s news & scheduled speakers?', 'Know when CPI, FOMC or a Fed speaker drops — before it blindsides you.'],
+      ['Waited for the 15-minute opening range?', 'The first 15 minutes are noise. Let the range form first.'],
+      ['Marked the opening-range high & low?', 'Your session’s key levels. Price reacts to them all day.'],
+      ['Nasdaq & S&P pointing the same way?', 'NQ and ES agree = stronger bias. They fight = stand down.'],
+      ['Does WAVE data back your bias?', 'Order-flow should confirm your read, not fight it. (flowtopia.co)'],
     ],
   },
   {
     title: '2 · Build the trade',
     sub: 'Only if the read checks out',
     items: [
-      ['Is your real entry model actually present?', 'Be honest — is your setup genuinely here, or are you forcing a trade because you want one? No model, no trade.'],
-      ['Where does your technical stop belong?', 'Place it where the trade is proven wrong — the level that invalidates the idea — not at a random dollar amount you’re “comfortable” losing.'],
-      ['Have you calculated contract size using that stop?', 'Size the position from the stop distance. The stop sets the size; your confidence doesn’t.'],
-      ['Does this trade fit your remaining daily loss budget?', 'If it hits the stop, are you still inside your max loss for the day? If it blows the budget, it’s not a trade — it’s a gamble.'],
-      ['Is there enough room to your target for the R:R you require?', 'Measure the distance to target. Does it actually pay the risk-to-reward you demand? Thin R:R → skip it.'],
+      ['Is your real entry model present?', 'Your setup is actually here — or are you forcing it? No model, no trade.'],
+      ['Where does your stop belong?', 'At the level that proves you wrong — not a random dollar amount.'],
+      ['Sized off that stop?', 'Contract size comes from the stop distance, not your confidence.'],
+      ['Fits your daily loss budget?', 'If it stops out, are you still inside today’s max? If not, skip it.'],
+      ['Enough room to your target?', 'Does the distance to target pay the risk-to-reward you require?'],
     ],
   },
   {
     title: '3 · Check your head',
     sub: 'The part everyone skips',
     items: [
-      ['Are you comfortable taking this loss without needing to win it back?', 'If losing this trade would make you need to win it back, your size is too big or your head isn’t right. Fix one before you click.'],
-      ['Rules — or emotion?', 'Are you taking this because it meets your rules, or because you’re bored, frustrated, or chasing the last move? If it’s the second one, walk away.'],
+      ['Comfortable taking this loss?', 'If you’d need to win it back, your size or your head is off.'],
+      ['Rules — or emotion?', 'Meeting your rules, or bored / frustrated / chasing? Be honest.'],
     ],
   },
   {
     title: 'After the trade',
-    sub: 'Where the edge is actually built',
+    sub: 'Where the edge is built',
     items: [
-      ['Did you follow your rules, regardless of the outcome?', 'The only question that matters: did you execute your plan? That’s the scorecard. Outcome is noise.'],
-      ['Have you recorded the setup and what you could improve?', 'Log the trade and one thing you’d do better. Your journal is where your edge actually gets built.'],
-      ['Another valid setup with risk left — or are you done for the day?', 'Is there a fresh, valid setup with risk still on the table, or are you finished? Knowing when to stop is a skill.'],
+      ['Did you follow your rules?', 'Win or lose — did you run your plan? That’s the only score.'],
+      ['Logged the setup?', 'Record it plus one fix. The journal builds the edge.'],
+      ['Another setup — or done?', 'Fresh valid setup with risk left, or walk away for the day?'],
     ],
   },
 ];
 function checklistEmailBody(origin) {
-  const btn = 'display:inline-block;background:#c8ff00;color:#0a0d12;font-weight:700;text-decoration:none;padding:12px 22px;border-radius:10px;';
-  let h = '<p>You asked for it — here’s the exact checklist Champ runs before every trade. Nothing gets risked until it clears these questions. Save this email, screenshot it, keep it next to your charts.</p>';
-  h += '<p style="margin:14px 0 4px;"><a href="' + origin + '/checklist/champs-trading-checklist.pdf" style="' + btn + '">⬇︎ Download the PDF</a></p>';
+  const btn = 'display:inline-block;background:#1e90ff;color:#ffffff;font-weight:700;text-decoration:none;padding:12px 22px;border-radius:10px;';
+  let h = '<p>You asked for it — here’s the exact checklist I run before every trade. Nothing gets risked until it clears these questions. Save this email, screenshot it, keep it next to your charts.</p>';
+  h += '<p style="margin:14px 0 4px;"><a href="' + origin + '/checklist" style="' + btn + '">Open the checklist →</a>&nbsp;&nbsp;<a href="' + origin + '/checklist/champs-trading-checklist.pdf" style="color:#0b6fd6;font-weight:700;text-decoration:underline;">Download the PDF</a></p>';
   for (const ph of CHECKLIST_PHASES) {
-    h += '<h2 style="font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#5b8a00;margin:24px 0 2px;font-weight:800;">' + escHtml(ph.title) + '</h2>';
+    h += '<h2 style="font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#0b6fd6;margin:24px 0 2px;font-weight:800;">' + escHtml(ph.title) + '</h2>';
     h += '<p style="font-size:12px;color:#9ca3af;margin:0 0 12px;">' + escHtml(ph.sub) + '</p>';
     for (const it of ph.items) {
       h += '<div style="margin:0 0 13px;padding-left:24px;position:relative;">' +
-        '<span style="position:absolute;left:0;top:0;color:#5b8a00;font-weight:800;font-size:15px;">☐</span>' +
+        '<span style="position:absolute;left:0;top:0;color:#1e90ff;font-weight:800;font-size:15px;">✓</span>' +
         '<div style="font-weight:700;color:#0a0d12;font-size:14px;line-height:1.4;">' + escHtml(it[0]) + '</div>' +
         '<div style="font-size:13px;color:#6b7280;line-height:1.55;margin-top:2px;">' + escHtml(it[1]) + '</div>' +
         '</div>';
     }
   }
   h += '<div style="border-top:1px solid #e5e7eb;margin:28px 0 0;padding-top:22px;">' +
-    '<p style="font-weight:800;color:#0a0d12;font-size:16px;margin:0 0 10px;">Want more from Champ?</p>' +
-    '<p style="font-size:13px;color:#6b7280;line-height:1.55;margin:0 0 12px;">Live trades, real-time breakdowns, and the community that runs this checklist every session.</p>' +
-    '<p style="margin:0;"><a href="https://discord.gg/oasisalerts" style="' + btn + '">Join Champ’s Discord →</a></p>' +
+    '<p style="font-weight:800;color:#0a0d12;font-size:16px;margin:0 0 10px;">More from Champ</p>' +
+    '<p style="font-size:13px;color:#6b7280;line-height:1.55;margin:0 0 12px;">Oasis Trading Group — live trades, real-time breakdowns, and 68K+ traders running this checklist every session.</p>' +
+    '<p style="margin:0;"><a href="https://discord.gg/oasisalerts" style="' + btn + '">Join the Discord →</a></p>' +
     '</div>';
-  h += '<p style="font-size:13px;color:#6b7280;margin-top:22px;">Trade well —<br>Champ &amp; the PropChamps team</p>';
+  h += '<p style="font-size:13px;color:#6b7280;margin-top:22px;">Trade well —<br>The Trading Champ</p>';
   return h;
 }
 async function sendChecklist(env, email, origin) {
@@ -1176,11 +1176,11 @@ async function sendChecklist(env, email, origin) {
     await sendEmail(
       env,
       email,
-      "📋 Champ's pre-trade checklist (save this one)",
+      "Champ's pre-trade checklist (save this one)",
       emailShell('Your pre-trade checklist', checklistEmailBody(origin), unsub)
     );
   } catch (e) {
-    /* best-effort — /checklist/access is the primary delivery */
+    /* best-effort — /checklist is the primary delivery */
   }
 }
 async function sendApproved(env, email, username, firm, points, total, origin, isPayout) {
@@ -1322,6 +1322,10 @@ export default {
       if (p === '/rewards' || p.startsWith('/rewards/') || p === '/win' || p === '/win.html' || p === '/win/') {
         return redirect('/');
       }
+
+      // The checklist funnel briefly shipped its delivery page at /checklist/access;
+      // it now lives at /checklist. Redirect any stale links.
+      if (p === '/checklist/access' || p === '/checklist/access/') return redirect('/checklist');
 
       if (p === '/auth/discord') return await authStart(request, env);
       if (p === '/auth/discord/callback') return await authCallback(request, env);

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Champ's Pre-Trade Checklist</title>
+<title>The Trading Champ — Pre-Trade Checklist</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,41 +11,44 @@
 <style>
 @page{size:letter;margin:0}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--ink:#0a0d12;--ink2:#33404f;--muted:#697586;--line:#e3e7ec;--lime:#c8ff00;--limeInk:#5f7d00}
+:root{--ink:#0a0f18;--ink2:#31415a;--muted:#6a7a90;--line:#e2e7ee;--blue:#1e90ff;--blueDk:#0b6fd6}
 html,body{background:#fff}
 body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.page{width:8.5in;min-height:11in;margin:0 auto;padding:0.62in 0.66in 0.5in;position:relative}
+.page{width:8.5in;min-height:11in;margin:0 auto;padding:0.6in 0.66in 0.5in;position:relative}
 /* header */
-.head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;border-bottom:3px solid var(--ink);padding-bottom:16px;margin-bottom:8px}
-.head .kicker{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--limeInk);margin-bottom:7px}
-.head h1{font-size:33px;font-weight:900;letter-spacing:-.035em;line-height:.98;color:var(--ink)}
-.head h1 em{font-style:normal;background:var(--lime);padding:0 6px;border-radius:4px}
-.head .brand{text-align:right;flex-shrink:0;padding-top:3px}
-.head .brand .by{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
-.head .brand .pc{font-size:15px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
-.head .brand .pc span{color:var(--limeInk)}
-.intro{font-size:12.5px;color:var(--ink2);margin:14px 0 20px;max-width:6.4in;line-height:1.5}
+.head{display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:3px solid var(--blue);padding-bottom:15px;margin-bottom:8px}
+.head .kicker{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--blueDk);margin-bottom:7px}
+.head h1{font-size:34px;font-weight:900;letter-spacing:-.035em;line-height:.98;color:var(--ink)}
+.head h1 em{font-style:normal;color:#fff;background:var(--blue);padding:0 8px;border-radius:5px}
+.head .brand{display:flex;align-items:center;gap:11px;flex-shrink:0}
+.head .brand .ava{width:52px;height:52px;border-radius:50%;border:2px solid var(--blue);object-fit:cover}
+.head .brand .who{text-align:right}
+.head .brand .who .by{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.head .brand .who .nm{font-size:13px;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.15}
+.head .brand .who .nm b{color:var(--blueDk)}
+.intro{font-size:12.5px;color:var(--ink2);margin:13px 0 18px;max-width:6.4in;line-height:1.5}
 .intro b{color:var(--ink);font-weight:700}
 /* phases */
-.cl-phase{break-inside:avoid;margin-bottom:15px}
-.cl-phase-head{display:flex;align-items:center;gap:11px;margin-bottom:9px}
-.cl-phase-n{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--limeInk);background:#f2ffb8;border:1px solid #dcef8f;width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cl-phase{break-inside:avoid;margin-bottom:13px}
+.cl-phase-head{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.cl-phase-n{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:#fff;background:var(--blue);width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .cl-phase-title{font-size:16px;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1.1}
-.cl-phase-sub{font-size:10.5px;color:var(--muted);margin-top:1px}
-.cl-item{display:flex;align-items:flex-start;gap:11px;padding:6px 0 6px 2px;break-inside:avoid;border-bottom:1px solid var(--line)}
+.cl-phase-sub{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:1px}
+.cl-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;break-inside:avoid;border-bottom:1px solid var(--line)}
 .cl-phase .cl-item:last-child{border-bottom:0}
-.cl-box{flex-shrink:0;width:16px;height:16px;border:2px solid var(--ink);border-radius:4px;margin-top:1px}
-.cl-box::after{display:none}
+.cl-tick{flex-shrink:0;width:15px;height:15px;border:2px solid var(--blue);border-radius:4px;margin-top:1px}
+.cl-tick svg{display:none}
 .cl-text{display:flex;flex-direction:column;gap:1px}
-.cl-q{font-size:12.5px;font-weight:700;color:var(--ink);line-height:1.32}
-.cl-why{font-size:10.7px;color:var(--muted);line-height:1.4}
+.cl-q{font-size:12.5px;font-weight:700;color:var(--ink);line-height:1.3}
+.cl-why{font-size:10.7px;color:var(--muted);line-height:1.35}
+.cl-why .hl{color:var(--blueDk);font-weight:600}
 /* footer */
-.foot{margin-top:20px;border-top:2px solid var(--ink);padding-top:12px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.foot{margin-top:18px;border-top:2px solid var(--ink);padding-top:11px;display:flex;align-items:center;justify-content:space-between;gap:14px}
 .foot .cta{font-size:11.5px;color:var(--ink2)}
 .foot .cta b{color:var(--ink)}
-.foot .cta .dc{color:var(--limeInk);font-weight:700}
-.foot .site{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);text-align:right;line-height:1.5}
-.disclaim{font-size:8.6px;color:#98a2b3;margin-top:9px;line-height:1.4}
+.foot .cta .dc{color:var(--blueDk);font-weight:700}
+.foot .site{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--muted);text-align:right;line-height:1.5}
+.disclaim{font-size:8.6px;color:#9aa6b5;margin-top:8px;line-height:1.4}
 </style>
 </head>
 <body>
@@ -53,20 +56,24 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);lin
     <div class="head">
       <div>
         <div class="kicker">Champ's Playbook</div>
-        <h1>Pre-Trade<br><em>Checklist</em></h1>
+        <h1>Pre-Trade <em>Checklist</em></h1>
       </div>
       <div class="brand">
-        <div class="by">Free from</div>
-        <div class="pc">Prop<span>Champs</span></div>
+        <div class="who">
+          <div class="by">Free from</div>
+          <div class="nm">The Trading Champ</div>
+          <div class="by" style="margin-top:2px">× PropChamps</div>
+        </div>
+        <img class="ava" src="/logos/champ-avatar.jpg" alt="">
       </div>
     </div>
-    <p class="intro">This is the exact run-through Champ does before risking a single dollar. If a trade can't clear every box, it doesn't get taken. <b>Print it, keep it next to your charts, and run it every session.</b></p>
+    <p class="intro">This is the exact run-through I do before risking a single dollar. If a trade can't clear every box, it doesn't get taken. <b>Print it, keep it next to your charts, and run it every session.</b></p>
 
     <div id="list"></div>
 
     <div class="foot">
-      <div class="cta">Trade it live with the community — <span class="dc">discord.gg/oasisalerts</span></div>
-      <div class="site">propchamps.net<br>× Champ</div>
+      <div class="cta">Trade it live with the room — <span class="dc">discord.gg/oasisalerts</span></div>
+      <div class="site">The Trading Champ<br>propchamps.net</div>
     </div>
     <p class="disclaim">Educational purposes only — not financial advice. Trading futures involves substantial risk of loss and is not suitable for every investor.</p>
   </div>

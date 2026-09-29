@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Trading Champ — Free Pre-Trade Checklist</title>
+<meta name="description" content="Get The Trading Champ's exact 15-point pre-trade checklist free. Enter your email and it's yours instantly.">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="The Trading Champ — Free Pre-Trade Checklist">
+<meta property="og:description" content="The exact 15-point check Champ runs before every trade. Free — just tell us where to send it.">
+<meta property="og:image" content="https://propchamps.net/logos/champ-banner.jpg">
+<link rel="icon" href="/logos/champ-avatar.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/checklist/champ.css">
+</head>
+<body>
+  <main class="wrap">
+    <div class="cobrand"><b>PropChamps</b> <span class="x">✕</span> <span class="champ">The Trading Champ</span></div>
+
+    <div class="hero">
+      <div class="hero-banner"><img src="/logos/champ-banner.jpg" alt="The Trading Champ" loading="eager"></div>
+      <div class="hero-body">
+        <img class="hero-ava" src="/logos/champ-avatar.jpg" alt="Champ">
+        <div class="hero-meta">
+          <div class="hero-kicker">Champ's playbook</div>
+          <div class="hero-name">The Trading Champ
+            <svg class="verified" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1l2.4 2.1 3.1-.5 1.2 2.9 2.9 1.2-.5 3.1L23 12l-2.1 2.4.5 3.1-2.9 1.2-1.2 2.9-3.1-.5L12 23l-2.4-2.1-3.1.5-1.2-2.9L2.4 17l.5-3.1L1 12l2.1-2.4-.5-3.1 2.9-1.2 1.2-2.9 3.1.5z"/><path d="M9.5 12.5l1.8 1.8 3.7-3.7" fill="none" stroke="#0f1826" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="hero-sub">Trade · Learn · Improve · Repeat</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lead">
+      <div class="eyebrow">Free · straight to your inbox</div>
+      <h1>Get My <span class="accent">Pre-Trade</span> Checklist</h1>
+      <p>The exact <strong>15-point check</strong> I run before every single trade. Drop your email and it's yours — instantly on the next page, plus a copy sent to your inbox.</p>
+    </div>
+
+    <div class="signup-card">
+      <div class="perks">
+        <div class="perk"><span class="cl-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Read the market</b> — news, opening range, index alignment, WAVE data</span></div>
+        <div class="perk"><span class="cl-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Build the trade</b> — entry model, stop, sizing, risk-to-reward</span></div>
+        <div class="perk"><span class="cl-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>Check your head</b> — the mindset questions everyone skips</span></div>
+      </div>
+      <form id="optin" novalidate>
+        <label class="field-label" for="email">Where should I send it?</label>
+        <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" required aria-label="Email address">
+        <button class="btn btn-blue btn-block cta" type="submit" id="submitBtn">
+          <span class="spin" aria-hidden="true"></span>
+          <span class="label">Send me the checklist →</span>
+        </button>
+        <div class="msg" id="msg" role="alert"></div>
+      </form>
+      <div class="reassure">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        No spam, ever. Unsubscribe anytime.
+      </div>
+    </div>
+
+    <p class="foot">Powered by <span class="pc"><img src="/logos/propchamps.png" alt="PropChamps"></span> · Independent futures prop-firm research.<br>Educational only — not financial advice.</p>
+  </main>
+
+<script>
+(function(){
+  var form=document.getElementById('optin'),input=document.getElementById('email'),
+      btn=document.getElementById('submitBtn'),msg=document.getElementById('msg'),card=document.querySelector('.signup-card');
+  var re=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  function fail(t){msg.textContent=t;card.classList.remove('is-loading');btn.disabled=false;}
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var email=(input.value||'').trim().toLowerCase();
+    msg.textContent='';
+    if(!re.test(email)){fail('Please enter a valid email address.');input.focus();return;}
+    btn.disabled=true;card.classList.add('is-loading');
+    fetch('/api/checklist',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:email})})
+      .then(function(r){return r.json().catch(function(){return {};});})
+      .then(function(d){
+        if(d&&d.ok){
+          try{localStorage.setItem('pc_checklist','1');}catch(_){}
+          window.location.href='/checklist?welcome=1';
+        }else{
+          fail((d&&d.error==='bad_email')?'That email doesn’t look right — try again.':'Something went wrong. Please try again.');
+        }
+      })
+      .catch(function(){fail('Network hiccup — please try again.');});
+  });
+})();
+</script>
+</body>
+</html>
