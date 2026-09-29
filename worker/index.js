@@ -24,6 +24,14 @@ const MAX_PENDING_PER_USER = 8;
 // Receipt triage model. Switch to 'claude-haiku-4-5' for ~5x cheaper high volume.
 const AI_MODEL = 'claude-opus-5';
 
+// Champ's YouTube channel — powers the "more from Champ" box on the checklist
+// funnel (/api/champ-videos pulls his 3 latest uploads from the public RSS
+// feed). Set CHAMP_YT_CHANNEL_ID to his UC... id to light it up; CHAMP_YT_URL
+// is the channel link for the "watch more" button. Both can also be overridden
+// by Cloudflare vars of the same name without a redeploy.
+const CHAMP_YT_CHANNEL_ID = '';
+const CHAMP_YT_URL = '';
+
 const TIERS = [
   { name: "Champ's Circle", min: 50000 },
   { name: 'Gold', min: 25000 },
@@ -876,6 +884,78 @@ async function giveawayEnter(req, env, ctx) {
   return json({ ok: true, already });
 }
 
+// ---------- Champ's checklist opt-in (lead magnet funnel) ----------
+// Public and intentionally NOT gated by REWARDS_FROZEN — this is a separate
+// email-capture funnel for Champ's video, unrelated to the paused rewards
+// program. It drops the email into the owned list (source 'checklist') and
+// best-effort emails the checklist. Delivery never depends on the send: the
+// /checklist/access page shows the checklist regardless of email status.
+async function apiChecklist(req, env, ctx) {
+  const body = await req.json().catch(() => ({}));
+  const email = String(body.email || '').trim().toLowerCase().slice(0, 120);
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ error: 'bad_email' }, 400);
+  const now = new Date().toISOString();
+  try {
+    await env.DB.prepare('INSERT OR IGNORE INTO email_list (email,name,source,first_seen) VALUES (?,?,?,?)')
+      .bind(email, null, 'checklist', now).run();
+  } catch (e) {
+    console.error('checklist email_list insert failed', String((e && e.message) || e));
+  }
+  if (ctx && ctx.waitUntil) ctx.waitUntil(sendChecklist(env, email, new URL(req.url).origin));
+  return json({ ok: true });
+}
+
+// Champ's 3 most recent YouTube uploads for the checklist "more from Champ"
+// box. Reads the channel's public RSS feed and caches the result in KV for an
+// hour so the box is always current without hardcoding video IDs. Returns
+// { videos:[{id,title}], channelUrl } — empty videos until the channel id is
+// configured, which the page handles gracefully.
+async function apiChampVideos(req, env) {
+  const chan = (env && env.CHAMP_YT_CHANNEL_ID) || CHAMP_YT_CHANNEL_ID;
+  const channelUrl =
+    (env && env.CHAMP_YT_URL) || CHAMP_YT_URL || (chan ? 'https://www.youtube.com/channel/' + chan : '');
+  if (!chan) return json({ videos: [], channelUrl }, 200, { 'Cache-Control': 'public, max-age=300' });
+  const cacheKey = 'champ_videos_' + chan;
+  try {
+    const cached = await env.SESSIONS.get(cacheKey);
+    if (cached) return json(JSON.parse(cached), 200, { 'Cache-Control': 'public, max-age=600' });
+  } catch (e) {
+    /* cache miss is fine */
+  }
+  let videos = [];
+  try {
+    const r = await fetch('https://www.youtube.com/feeds/videos.xml?channel_id=' + encodeURIComponent(chan), {
+      headers: { 'user-agent': 'PropChamps/1.0 (+https://propchamps.net)' },
+    });
+    if (r.ok) {
+      const xml = await r.text();
+      videos = xml
+        .split('<entry>')
+        .slice(1, 4)
+        .map((e) => {
+          const id = (e.match(/<yt:videoId>([^<]+)<\/yt:videoId>/) || [])[1] || '';
+          let title = (e.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || '';
+          title = title
+            .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+            .replace(/&#39;/g, "'").replace(/&quot;/g, '"').trim();
+          return { id, title };
+        })
+        .filter((v) => v.id);
+    }
+  } catch (e) {
+    console.error('champ videos fetch failed', String((e && e.message) || e));
+  }
+  const payload = { videos, channelUrl };
+  if (videos.length) {
+    try {
+      await env.SESSIONS.put(cacheKey, JSON.stringify(payload), { expirationTtl: 3600 });
+    } catch (e) {
+      /* best-effort cache */
+    }
+  }
+  return json(payload, 200, { 'Cache-Control': 'public, max-age=600' });
+}
+
 // ---------- host portal ----------
 async function hostGiveaway(req, env) {
   const u = await currentUser(req, env);
@@ -1021,6 +1101,86 @@ async function sendWelcome(env, email, name, origin) {
     await sendEmail(env, email, "You're in! 🎯 Plus the best prop firm deals right now", emailShell("You're entered!", body, unsub));
   } catch (e) {
     /* best-effort */
+  }
+}
+// Champ's pre-trade checklist — the single source of truth for the emailed
+// copy. The on-page + PDF versions live in /checklist/checklist-data.js; keep
+// the two in sync when the checklist changes.
+const CHECKLIST_PHASES = [
+  {
+    title: '1 · Read the market',
+    sub: 'Before you even look for an entry',
+    items: [
+      ['Checked today’s major news & scheduled speakers?', 'Pull up the economic calendar. Know exactly when high-impact news (CPI, FOMC, jobs, any scheduled Fed speaker) hits so it never catches you mid-trade.'],
+      ['Waited for the first 15-minute opening range to form?', 'The first 15 minutes after the open are noise. Let that range fully print before you make a single decision.'],
+      ['Marked the opening-range high & low?', 'Draw both lines. They’re the session’s key levels — price reacts to them all day and they frame every setup that follows.'],
+      ['Are the Nasdaq and S&P supporting the same direction?', 'NQ and ES should agree. When the two indexes confirm each other your bias is stronger; when they fight, sit on your hands.'],
+      ['Does WAVE data support your bias?', 'Order-flow tells you what price alone can’t. Champ reads WAVE data on flowtopia.co — it should confirm your direction, not argue with it.'],
+    ],
+  },
+  {
+    title: '2 · Build the trade',
+    sub: 'Only if the read checks out',
+    items: [
+      ['Is your real entry model actually present?', 'Be honest — is your setup genuinely here, or are you forcing a trade because you want one? No model, no trade.'],
+      ['Where does your technical stop belong?', 'Place it where the trade is proven wrong — the level that invalidates the idea — not at a random dollar amount you’re “comfortable” losing.'],
+      ['Have you calculated contract size using that stop?', 'Size the position from the stop distance. The stop sets the size; your confidence doesn’t.'],
+      ['Does this trade fit your remaining daily loss budget?', 'If it hits the stop, are you still inside your max loss for the day? If it blows the budget, it’s not a trade — it’s a gamble.'],
+      ['Is there enough room to your target for the R:R you require?', 'Measure the distance to target. Does it actually pay the risk-to-reward you demand? Thin R:R → skip it.'],
+    ],
+  },
+  {
+    title: '3 · Check your head',
+    sub: 'The part everyone skips',
+    items: [
+      ['Are you comfortable taking this loss without needing to win it back?', 'If losing this trade would make you need to win it back, your size is too big or your head isn’t right. Fix one before you click.'],
+      ['Rules — or emotion?', 'Are you taking this because it meets your rules, or because you’re bored, frustrated, or chasing the last move? If it’s the second one, walk away.'],
+    ],
+  },
+  {
+    title: 'After the trade',
+    sub: 'Where the edge is actually built',
+    items: [
+      ['Did you follow your rules, regardless of the outcome?', 'The only question that matters: did you execute your plan? That’s the scorecard. Outcome is noise.'],
+      ['Have you recorded the setup and what you could improve?', 'Log the trade and one thing you’d do better. Your journal is where your edge actually gets built.'],
+      ['Another valid setup with risk left — or are you done for the day?', 'Is there a fresh, valid setup with risk still on the table, or are you finished? Knowing when to stop is a skill.'],
+    ],
+  },
+];
+function checklistEmailBody(origin) {
+  const btn = 'display:inline-block;background:#c8ff00;color:#0a0d12;font-weight:700;text-decoration:none;padding:12px 22px;border-radius:10px;';
+  let h = '<p>You asked for it — here’s the exact checklist Champ runs before every trade. Nothing gets risked until it clears these questions. Save this email, screenshot it, keep it next to your charts.</p>';
+  h += '<p style="margin:14px 0 4px;"><a href="' + origin + '/checklist/champs-trading-checklist.pdf" style="' + btn + '">⬇︎ Download the PDF</a></p>';
+  for (const ph of CHECKLIST_PHASES) {
+    h += '<h2 style="font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:#5b8a00;margin:24px 0 2px;font-weight:800;">' + escHtml(ph.title) + '</h2>';
+    h += '<p style="font-size:12px;color:#9ca3af;margin:0 0 12px;">' + escHtml(ph.sub) + '</p>';
+    for (const it of ph.items) {
+      h += '<div style="margin:0 0 13px;padding-left:24px;position:relative;">' +
+        '<span style="position:absolute;left:0;top:0;color:#5b8a00;font-weight:800;font-size:15px;">☐</span>' +
+        '<div style="font-weight:700;color:#0a0d12;font-size:14px;line-height:1.4;">' + escHtml(it[0]) + '</div>' +
+        '<div style="font-size:13px;color:#6b7280;line-height:1.55;margin-top:2px;">' + escHtml(it[1]) + '</div>' +
+        '</div>';
+    }
+  }
+  h += '<div style="border-top:1px solid #e5e7eb;margin:28px 0 0;padding-top:22px;">' +
+    '<p style="font-weight:800;color:#0a0d12;font-size:16px;margin:0 0 10px;">Want more from Champ?</p>' +
+    '<p style="font-size:13px;color:#6b7280;line-height:1.55;margin:0 0 12px;">Live trades, real-time breakdowns, and the community that runs this checklist every session.</p>' +
+    '<p style="margin:0;"><a href="https://discord.gg/oasisalerts" style="' + btn + '">Join Champ’s Discord →</a></p>' +
+    '</div>';
+  h += '<p style="font-size:13px;color:#6b7280;margin-top:22px;">Trade well —<br>Champ &amp; the PropChamps team</p>';
+  return h;
+}
+async function sendChecklist(env, email, origin) {
+  try {
+    const unsub = origin + '/unsub?e=' + encodeURIComponent(email) + '&t=' + (await unsubToken(email, env));
+    await sendEmail(
+      env,
+      email,
+      "📋 Champ's pre-trade checklist (save this one)",
+      emailShell('Your pre-trade checklist', checklistEmailBody(origin), unsub)
+    );
+  } catch (e) {
+    /* best-effort — /checklist/access is the primary delivery */
   }
 }
 async function sendApproved(env, email, username, firm, points, total, origin, isPayout) {
@@ -1181,6 +1341,8 @@ export default {
       if (p === '/api/giveaway/status') return await giveawayStatus(request, env);
       if (p === '/api/giveaway/enter' && m === 'POST') return await giveawayEnter(request, env, ctx);
       if (p === '/unsub') return await unsubscribe(request, env);
+      if (p === '/api/checklist' && m === 'POST') return await apiChecklist(request, env, ctx);
+      if (p === '/api/champ-videos') return await apiChampVideos(request, env);
       if (p === '/api/host/giveaway') return await hostGiveaway(request, env);
       if (p === '/api/host/giveaway/action' && m === 'POST') return await hostGiveawayAction(request, env);
       if (p === '/api/host/fulfillment') return await hostFulfillment(request, env);
