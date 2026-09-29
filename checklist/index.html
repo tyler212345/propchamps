@@ -51,6 +51,14 @@
       </a>
     </div>
 
+    <div class="progress" id="prog">
+      <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
+      <div class="progress-meta">
+        <span class="progress-num"><b id="pdone">0</b> / <span id="ptotal">15</span><span id="pmsg"> checked</span></span>
+        <button class="progress-reset" id="resetBtn" type="button">Reset</button>
+      </div>
+    </div>
+
     <div id="list"></div>
 
     <section class="more">
@@ -102,7 +110,34 @@
 <script>
 (function(){
   try{ if(new URLSearchParams(location.search).get('welcome')==='1'){ document.getElementById('flash').classList.remove('hidden'); } }catch(_){}
-  window.renderChecklistInto(document.getElementById('list'));
+
+  // render + wire up the walk-through (tap to check, progress saves)
+  var listEl=document.getElementById('list');
+  window.renderChecklistInto(listEl);
+  var items=[].slice.call(listEl.querySelectorAll('.cl-item'));
+  var total=items.length, prog=document.getElementById('prog');
+  document.getElementById('ptotal').textContent=total;
+  var KEY='pc_checklist_state_v2', state={};
+  try{ state=JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(_){ state={}; }
+  function paint(){
+    var done=0;
+    items.forEach(function(el,i){
+      if(state[i]){el.classList.add('done');el.setAttribute('aria-checked','true');done++;}
+      else{el.classList.remove('done');el.setAttribute('aria-checked','false');}
+    });
+    document.getElementById('pdone').textContent=done;
+    document.getElementById('pfill').style.width=(total?done/total*100:0)+'%';
+    document.getElementById('pmsg').textContent=(done===total&&total)?' · locked in ✓':' checked';
+    prog.classList.toggle('active',done>0);
+    prog.classList.toggle('complete',done===total&&total>0);
+  }
+  items.forEach(function(el,i){
+    el.setAttribute('role','checkbox');el.setAttribute('tabindex','0');
+    el.addEventListener('click',function(){ state[i]=!state[i]; try{localStorage.setItem(KEY,JSON.stringify(state));}catch(_){}; paint(); });
+    el.addEventListener('keydown',function(e){ if(e.key===' '||e.key==='Enter'){e.preventDefault();el.click();} });
+  });
+  paint();
+  document.getElementById('resetBtn').addEventListener('click',function(){ state={}; try{localStorage.removeItem(KEY);}catch(_){}; paint(); });
 
   var vidsEl=document.getElementById('ytVids'), cta=document.getElementById('ytCta');
   fetch('/api/champ-videos').then(function(r){return r.json();}).then(function(d){

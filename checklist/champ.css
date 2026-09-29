@@ -68,14 +68,37 @@ h1 .accent{background:linear-gradient(135deg,var(--blue-lt),var(--blue));-webkit
 .cl-phase-n{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--blue-lt);background:var(--blue-soft);border:1px solid var(--border-blue);min-width:30px;height:30px;padding:0 4px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .cl-phase-title{font-size:clamp(16px,4vw,19px);font-weight:800;letter-spacing:-.02em;color:var(--text-strong);line-height:1.15}
 .cl-phase-sub{font-size:11.5px;color:var(--text-faint);font-family:var(--mono);letter-spacing:.02em;margin-top:1px}
-.cl-item{display:flex;align-items:flex-start;gap:12px;padding:9px 2px}
-.cl-item+.cl-item{border-top:1px solid rgba(26,39,64,.6)}
-.cl-tick{flex-shrink:0;width:21px;height:21px;border-radius:6px;background:linear-gradient(180deg,var(--blue-lt),var(--blue));display:flex;align-items:center;justify-content:center;margin-top:1px;box-shadow:0 0 14px -2px var(--blue-glow)}
-.cl-tick svg{width:12px;height:12px;color:#04101f}
+.cl-item{display:flex;align-items:flex-start;gap:12px;padding:9px 8px;border-radius:11px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;transition:background .15s}
+.cl-item+.cl-item{border-top:1px solid rgba(26,39,64,.55)}
+.cl-item:hover{background:rgba(30,144,255,.055)}
+.cl-tick{flex-shrink:0;width:22px;height:22px;border-radius:6px;background:linear-gradient(180deg,var(--blue-lt),var(--blue));display:flex;align-items:center;justify-content:center;margin-top:1px;box-shadow:0 0 14px -2px var(--blue-glow);transition:background .18s,border-color .18s,box-shadow .18s}
+.cl-tick svg{width:12px;height:12px;color:#04101f;transition:opacity .18s,transform .2s cubic-bezier(.16,1.4,.3,1)}
+/* interactive: rows on the checklist page start unchecked, fill blue when tapped */
+.cl-item .cl-tick{background:transparent;border:2px solid var(--border-2);box-shadow:none}
+.cl-item .cl-tick svg{opacity:0;transform:scale(.3)}
+.cl-item:hover .cl-tick{border-color:var(--border-blue-str)}
+.cl-item.done .cl-tick{background:linear-gradient(180deg,var(--blue-lt),var(--blue));border-color:transparent;box-shadow:0 0 14px -1px var(--blue-glow)}
+.cl-item.done .cl-tick svg{opacity:1;transform:scale(1)}
+.cl-item.done .cl-q{color:var(--text-soft)}
 .cl-text{display:flex;flex-direction:column;gap:1px;min-width:0}
-.cl-q{font-size:14.5px;font-weight:700;color:var(--text-strong);line-height:1.35}
+.cl-q{font-size:14.5px;font-weight:700;color:var(--text-strong);line-height:1.35;transition:color .15s}
 .cl-why{font-size:13px;color:var(--text-soft);line-height:1.45}
 .cl-why .hl{color:var(--blue-lt);font-weight:600}
+
+/* ---- progress ("walk through it live") ---- */
+.progress{position:sticky;top:10px;z-index:6;max-width:520px;margin:2px auto clamp(20px,3.6vw,28px);background:rgba(7,11,18,.82);backdrop-filter:saturate(160%) blur(12px);-webkit-backdrop-filter:saturate(160%) blur(12px);border:1px solid var(--border-2);border-radius:14px;padding:12px 15px;box-shadow:0 12px 34px -20px rgba(0,0,0,.85)}
+.progress-track{position:relative;height:8px;border-radius:100px;background:var(--bg-4);border:1px solid var(--border);margin-bottom:9px}
+.progress-fill{position:relative;height:100%;width:0;border-radius:100px;background:linear-gradient(90deg,var(--blue-dp),var(--blue-lt));transition:width .5s cubic-bezier(.16,1,.3,1)}
+.progress-fill::after{content:"";position:absolute;right:-3px;top:50%;transform:translateY(-50%);width:15px;height:15px;border-radius:50%;background:radial-gradient(circle at 34% 32%,#f2f9ff,var(--blue-lt) 72%);box-shadow:0 0 11px 2px var(--blue-glow),0 0 0 4px rgba(30,144,255,.16);opacity:0;transition:opacity .3s}
+.progress.active .progress-fill::after{opacity:1}
+.progress.complete .progress-fill{background:linear-gradient(90deg,#1e90ff,#3ba55d)}
+.progress-meta{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.progress-num{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--text-soft)}
+.progress-num b{color:var(--blue-lt);transition:color .2s}
+.progress.complete .progress-num b{color:#4ade80}
+.progress.complete .progress-num #pmsg{color:#4ade80}
+.progress-reset{background:none;border:0;font-family:var(--font);font-size:12px;color:var(--text-faint);cursor:pointer;text-decoration:underline;text-underline-offset:2px;padding:2px 0}
+.progress-reset:hover{color:var(--text-soft)}
 
 /* ---- "more from champ" ---- */
 .more{margin-top:clamp(36px,6vw,52px)}
