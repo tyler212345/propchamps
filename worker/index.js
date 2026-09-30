@@ -1077,12 +1077,17 @@ function messageToHtml(text) {
   e = e.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" style="color:#5b8a00;">$1</a>');
   return e.split(/\n\n+/).map(function (p) { return '<p>' + p.replace(/\n/g, '<br>') + '</p>'; }).join('');
 }
-async function sendEmail(env, to, subject, html) {
+async function sendEmail(env, to, subject, html, tags) {
   if (!env.RESEND_API_KEY || !env.EMAIL_FROM) return { ok: false, error: 'not_configured' };
+  // Resend `tags` ([{name,value}]) label the send so it can be filtered/segmented
+  // in the Resend dashboard — e.g. source=checklist vs source=giveaway. Tag names
+  // and values may only contain ASCII letters, numbers, underscores and dashes.
+  const payload = { from: env.EMAIL_FROM, to: [to], subject, html };
+  if (Array.isArray(tags) && tags.length) payload.tags = tags;
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: 'Bearer ' + env.RESEND_API_KEY, 'content-type': 'application/json' },
-    body: JSON.stringify({ from: env.EMAIL_FROM, to: [to], subject, html }),
+    body: JSON.stringify(payload),
   });
   if (!res.ok) return { ok: false, error: 'api_' + res.status };
   return { ok: true };
@@ -1098,7 +1103,7 @@ async function sendWelcome(env, email, name, origin) {
       "<p>While you're here: PropChamps tracks every futures prop firm's rules, payouts, and promo codes so you never overpay or get caught by a rule you didn't know about. Code <strong>CHAMP</strong> gets you the best price at every firm we cover.</p>" +
       '<p><a href="' + origin + '/deals" style="' + btn + '">See the current best deals →</a></p>' +
       '<p style="font-size:13px;color:#6b7280;">Good luck 🍀<br>— The PropChamps team</p>';
-    await sendEmail(env, email, "You're in! 🎯 Plus the best prop firm deals right now", emailShell("You're entered!", body, unsub));
+    await sendEmail(env, email, "You're in! 🎯 Plus the best prop firm deals right now", emailShell("You're entered!", body, unsub), [{ name: 'source', value: 'giveaway' }]);
   } catch (e) {
     /* best-effort */
   }
@@ -1177,7 +1182,8 @@ async function sendChecklist(env, email, origin) {
       env,
       email,
       "Champ's pre-trade checklist (save this one)",
-      emailShell('Your pre-trade checklist', checklistEmailBody(origin), unsub)
+      emailShell('Your pre-trade checklist', checklistEmailBody(origin), unsub),
+      [{ name: 'source', value: 'checklist' }]
     );
   } catch (e) {
     /* best-effort — /checklist is the primary delivery */
