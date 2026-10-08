@@ -956,6 +956,46 @@ async function apiChampVideos(req, env) {
   return json(payload, 200, { 'Cache-Control': 'public, max-age=600' });
 }
 
+// Near-real-time ES/NQ futures bars for the Arena (practice/challenge). Proxies a
+// public market-data source server-side (no CORS) and edge-caches the response for a
+// few seconds so the upstream is hit at most ~once/6s regardless of traffic. Swap the
+// source for Flowtopia's real-time feed when available (same response shape).
+async function apiArenaBars(req, env, ctx) {
+  const sym = (new URL(req.url).searchParams.get('sym') || 'NQ').toUpperCase();
+  const ysym = sym === 'ES' ? 'ES=F' : 'NQ=F';
+  const cache = caches.default;
+  const ck = new Request('https://arena.cache/bars/' + ysym);
+  const hit = await cache.match(ck);
+  if (hit) return hit;
+  const out = { symbol: sym, price: null, bars: [] };
+  for (const host of ['query1', 'query2']) {
+    try {
+      const u = 'https://' + host + '.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ysym) + '?interval=1m&range=1d';
+      const r = await fetch(u, { headers: { 'user-agent': 'Mozilla/5.0', accept: 'application/json' } });
+      if (!r.ok) continue;
+      const j = await r.json();
+      const res = j.chart && j.chart.result && j.chart.result[0];
+      if (!res) continue;
+      const ts = res.timestamp || [];
+      const q = (res.indicators && res.indicators.quote && res.indicators.quote[0]) || {};
+      const bars = [];
+      for (let i = 0; i < ts.length; i++) {
+        const o = q.open[i], h = q.high[i], l = q.low[i], c = q.close[i];
+        if (o == null || c == null) continue;
+        bars.push({ time: ts[i], open: +o, high: +h, low: +l, close: +c });
+      }
+      out.bars = bars;
+      out.price = (res.meta && res.meta.regularMarketPrice) || (bars.length ? bars[bars.length - 1].close : null);
+      break;
+    } catch (e) {
+      console.error('arena bars', host, String((e && e.message) || e));
+    }
+  }
+  const resp = json(out, 200, { 'Cache-Control': 'public, max-age=6' });
+  if (out.bars.length && ctx && ctx.waitUntil) ctx.waitUntil(cache.put(ck, resp.clone()));
+  return resp;
+}
+
 // ---------- host portal ----------
 async function hostGiveaway(req, env) {
   const u = await currentUser(req, env);
@@ -1353,6 +1393,7 @@ export default {
       if (p === '/unsub') return await unsubscribe(request, env);
       if (p === '/api/checklist' && m === 'POST') return await apiChecklist(request, env, ctx);
       if (p === '/api/champ-videos') return await apiChampVideos(request, env);
+      if (p === '/api/arena/bars') return await apiArenaBars(request, env, ctx);
       if (p === '/api/host/giveaway') return await hostGiveaway(request, env);
       if (p === '/api/host/giveaway/action' && m === 'POST') return await hostGiveawayAction(request, env);
       if (p === '/api/host/fulfillment') return await hostFulfillment(request, env);
