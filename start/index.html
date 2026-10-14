@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Build your funding plan — PropChamps</title>
+<meta name="description" content="Answer 3 quick questions and get a personalized plan to get funded — the right prop account and the tools to pass it.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/logos/propchamps-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0b12;--bg2:#131320;--bg3:#1a1728;--bg4:#231f36;
+  --border:#262238;--border2:#352f4e;--border-v:rgba(124,92,255,.32);
+  --violet:#7c5cff;--violet-lt:#a08cff;--violet-dp:#5a3ff0;--violet-soft:rgba(124,92,255,.12);
+  --gold:#f5c14e;
+  --text:#edebf6;--strong:#fff;--soft:#9a95b5;--faint:#6a6686;
+  --pos:#3ddc97;--pos-soft:rgba(61,220,151,.13);--neg:#ff6b6b;
+  --font:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100dvh;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(1200px 640px at 50% -12%,rgba(124,92,255,.14),transparent 62%)}
+a{color:inherit;text-decoration:none}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+.shell{position:relative;z-index:1;max-width:580px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;padding:0 20px env(safe-area-inset-bottom,20px)}
+.top{display:flex;align-items:center;gap:14px;padding:18px 0 8px}
+.brand{display:flex;align-items:center;gap:9px}
+.brand .cr{color:var(--gold)}
+.brand .cr svg{width:22px;height:22px;display:block}
+.brand b{font-weight:800;letter-spacing:-.02em;font-size:16px;color:var(--strong)}
+.brand b span{color:var(--violet-lt)}
+.back{width:38px;height:38px;border-radius:10px;border:1px solid var(--border2);background:var(--bg2);color:var(--soft);display:none;align-items:center;justify-content:center;cursor:pointer}
+.back svg{width:18px;height:18px}
+.back.show{display:inline-flex}
+.prog-wrap{flex:1;display:flex;align-items:center;gap:7px;margin-left:auto;max-width:160px}
+.prog{flex:1;height:5px;border-radius:999px;background:var(--bg4);overflow:hidden}
+.prog>span{display:block;height:100%;width:33%;border-radius:999px;background:linear-gradient(90deg,var(--violet-dp),var(--violet-lt));transition:width .45s cubic-bezier(.16,1,.3,1)}
+.prog-n{font-family:var(--mono);font-size:11px;color:var(--faint);white-space:nowrap}
+
+main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:14px 0 28px}
+.step{display:none}
+.step.on{display:block;animation:rise .5s cubic-bezier(.16,1,.3,1)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.kick{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--violet-lt);margin-bottom:14px}
+.q{font-size:clamp(26px,6.4vw,36px);font-weight:800;letter-spacing:-.03em;line-height:1.1;color:var(--strong);text-wrap:balance}
+.q-sub{color:var(--soft);font-size:15.5px;margin-top:12px;max-width:440px}
+
+/* slider */
+.goalbox{margin:34px 0 10px;text-align:center}
+.goalnum{font-family:var(--mono);font-size:clamp(44px,13vw,68px);font-weight:700;letter-spacing:-.04em;color:var(--strong);line-height:1}
+.goalnum .per{font-size:18px;color:var(--faint);font-weight:500;letter-spacing:0}
+.goalhint{color:var(--violet-lt);font-size:13.5px;font-weight:600;margin-top:8px;min-height:18px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:30px;background:transparent;cursor:pointer;margin-top:18px}
+input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:999px;background:linear-gradient(90deg,var(--violet) var(--fill,30%),var(--bg4) var(--fill,30%))}
+input[type=range]::-moz-range-track{height:8px;border-radius:999px;background:var(--bg4)}
+input[type=range]::-moz-range-progress{height:8px;border-radius:999px;background:var(--violet)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:5px solid var(--violet);margin-top:-9px;box-shadow:0 4px 14px rgba(124,92,255,.5)}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:5px solid var(--violet);box-shadow:0 4px 14px rgba(124,92,255,.5)}
+.ends{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--faint);margin-top:4px}
+
+/* choices */
+.choices{display:grid;gap:12px;margin-top:30px}
+.choice{display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--border);border-radius:15px;padding:17px 18px;cursor:pointer;text-align:left;width:100%;color:var(--text);transition:border-color .15s,background .15s,transform .12s;font-family:inherit}
+.choice:hover{border-color:var(--border2)}
+.choice.sel{border-color:var(--violet);background:var(--violet-soft)}
+.choice .ci{width:42px;height:42px;border-radius:11px;background:var(--bg4);color:var(--violet-lt);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s,color .15s}
+.choice.sel .ci{background:var(--violet);color:#fff}
+.choice .ci svg{width:21px;height:21px}
+.choice .ct b{display:block;font-size:16px;font-weight:700;color:var(--strong)}
+.choice .ct small{display:block;font-size:13px;color:var(--soft);margin-top:1px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:0;border-radius:13px;font-family:inherit;font-size:16px;font-weight:800;padding:16px 22px;cursor:pointer;transition:transform .12s,background .15s,box-shadow .15s;width:100%}
+.btn svg{width:18px;height:18px}
+.btn-v{background:var(--violet);color:#fff;box-shadow:0 12px 34px -12px rgba(124,92,255,.6)}
+.btn-v:hover{background:var(--violet-lt);transform:translateY(-1px)}
+.btn-ghost{background:var(--bg3);color:var(--text);border:1px solid var(--border2)}
+.btn-ghost:hover{border-color:var(--violet)}
+.cont{margin-top:34px}
+
+/* plan */
+.plan-head{text-align:center;margin-bottom:24px}
+.plan-head .kick{display:inline-block}
+.plan-head h1{font-size:clamp(27px,6.6vw,38px);font-weight:900;letter-spacing:-.035em;line-height:1.06;color:var(--strong);text-wrap:balance}
+.plan-head h1 em{font-style:normal;color:var(--violet-lt)}
+.plan-head p{color:var(--soft);font-size:15px;margin-top:12px}
+.sec-lbl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin:28px 0 12px;display:flex;align-items:center;gap:9px}
+.sec-lbl::after{content:"";flex:1;height:1px;background:var(--border)}
+
+.acct{background:linear-gradient(165deg,rgba(124,92,255,.16),var(--bg2));border:1px solid var(--border-v);border-radius:18px;padding:22px}
+.acct-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.acct-tag{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);background:rgba(245,193,78,.12);border:1px solid rgba(245,193,78,.28);padding:5px 10px;border-radius:999px}
+.acct-off{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--gold)}
+.acct h3{font-size:22px;font-weight:800;letter-spacing:-.02em;color:var(--strong)}
+.acct .sz{color:var(--violet-lt);font-weight:700;font-size:14px;margin-top:2px}
+.acct p{color:var(--soft);font-size:14.5px;line-height:1.6;margin:12px 0 18px}
+.acct .code{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12.5px;color:var(--soft);margin-top:14px}
+.acct .code b{color:var(--gold);letter-spacing:.04em}
+
+.tools{display:grid;gap:12px}
+.tool{display:flex;gap:14px;align-items:flex-start;background:var(--bg2);border:1px solid var(--border);border-radius:15px;padding:16px 18px;transition:border-color .15s,transform .12s}
+.tool:hover{border-color:var(--border2);transform:translateY(-1px)}
+.tool .ti{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:800;font-size:15px}
+.tool .tx{flex:1;min-width:0}
+.tool .tx b{font-size:15.5px;font-weight:700;color:var(--strong);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tool .own{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--violet-lt);background:var(--violet-soft);border:1px solid var(--border-v);padding:2px 6px;border-radius:5px}
+.tool .tx p{color:var(--soft);font-size:13.5px;line-height:1.5;margin:3px 0 0}
+.tool .go{color:var(--violet-lt);flex-shrink:0;align-self:center}
+.tool .go svg{width:19px;height:19px;display:block}
+
+.save{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:20px;margin-top:26px;text-align:center}
+.save b{font-size:16.5px;font-weight:800;color:var(--strong)}
+.save p{color:var(--soft);font-size:13.5px;margin:6px 0 14px}
+.save form{display:flex;gap:9px;flex-wrap:wrap}
+.save input{flex:1;min-width:180px;padding:14px 15px;font-size:15px;font-family:inherit;color:var(--strong);background:var(--bg);border:1.5px solid var(--border2);border-radius:11px;outline:none;transition:border-color .15s}
+.save input:focus{border-color:var(--violet)}
+.save .btn{width:auto;flex-shrink:0;padding:14px 20px}
+.save .msg{font-size:12.5px;color:var(--soft);margin-top:11px;min-height:15px}
+.save .msg.err{color:var(--neg)}
+
+.foot{text-align:center;color:var(--faint);font-size:11.5px;padding:18px 0 8px;line-height:1.7}
+.spin{width:16px;height:16px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;display:none}
+.is-loading .spin{display:inline-block}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <button class="back" id="back" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <a class="brand" href="/"><span class="cr"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 7l4.2 3.6L12 4l4.8 6.6L21 7l-1.7 12.2H4.7L3 7z"/></svg></span><b>Prop<span>Champs</span></b></a>
+    <div class="prog-wrap"><div class="prog"><span id="pfill"></span></div><span class="prog-n" id="pnum">1/3</span></div>
+  </div>
+
+  <main>
+    <!-- Q1 -->
+    <section class="step on" data-step="1">
+      <div class="kick">Let's build your plan</div>
+      <h2 class="q">How much do you want to make trading each month?</h2>
+      <div class="goalbox">
+        <div class="goalnum" id="goalnum">$5,000<span class="per"> / mo</span></div>
+        <div class="goalhint" id="goalhint">A realistic first funded goal</div>
+        <input type="range" id="goal" min="500" max="20000" step="250" value="5000" aria-label="Monthly income goal">
+        <div class="ends"><span>$500</span><span>$20k+</span></div>
+      </div>
+      <button class="btn btn-v cont" onclick="next()">Continue <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </section>
+
+    <!-- Q2 -->
+    <section class="step" data-step="2">
+      <div class="kick">Question 2 of 3</div>
+      <h2 class="q">Where are you right now?</h2>
+      <div class="choices" id="q2">
+        <button class="choice" data-v="new" onclick="pick(this,'situation','new')"><span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v6M12 22v-4M4.9 4.9l3 3M19 19l-3-3M2 12h6M22 12h-4"/></svg></span><span class="ct"><b>Brand new to prop firms</b><small>Haven't bought an account yet</small></span></button>
+        <button class="choice" data-v="blown" onclick="pick(this,'situation','blown')"><span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.3 3.9l-7 12A2 2 0 005 19h14a2 2 0 001.7-3L13.7 4a2 2 0 00-3.4 0zM12 9v4M12 17h.01"/></svg></span><span class="ct"><b>I've blown accounts before</b><small>Keep breaking a rule and losing them</small></span></button>
+        <button class="choice" data-v="eval" onclick="pick(this,'situation','eval')"><span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.1V12a10 10 0 11-5.9-9.1M22 4L12 14l-3-3"/></svg></span><span class="ct"><b>In an evaluation now</b><small>Trying to pass and get funded</small></span></button>
+        <button class="choice" data-v="funded" onclick="pick(this,'situation','funded')"><span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8M21 7v6h-6"/></svg></span><span class="ct"><b>Already funded</b><small>Looking to scale up and get paid</small></span></button>
+      </div>
+    </section>
+
+    <!-- Q3 -->
+    <section class="step" data-step="3">
+      <div class="kick">Last one</div>
+      <h2 class="q">What matters most in a prop firm?</h2>
+      <div class="choices" id="q3">
+        <button class="choice" data-v="cheap" onclick="pick(this,'priority','cheap')"><span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></span><span class="ct"><b>Cheapest to get in</b><small>Lowest cost to start</small></span></button>
+        <button class="choice" data-v="fast" onclick="pick(this,'priority','fast')"><span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg></span><span class="ct"><b>Fastest payouts</b><small>Get paid as soon as possible</small></span></button>
+        <button class="choice" data-v="easy" onclick="pick(this,'priority','easy')"><span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span><span class="ct"><b>Forgiving rules</b><small>Hardest to accidentally blow</small></span></button>
+        <button class="choice" data-v="scale" onclick="pick(this,'priority','scale')"><span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></svg></span><span class="ct"><b>Room to scale big</b><small>Most buying power as I grow</small></span></button>
+      </div>
+    </section>
+
+    <!-- PLAN -->
+    <section class="step" data-step="4" id="plan"></section>
+  </main>
+
+  <div class="foot">PropChamps is independent — affiliate links never change our ratings. Educational only, not financial advice.</div>
+</div>
+
+<script>
+var state={goal:5000,situation:null,priority:null};
+var step=1, MAX=3;
+var $=function(id){return document.getElementById(id)};
+
+function show(n){
+  document.querySelectorAll('.step').forEach(function(s){ s.classList.toggle('on', +s.dataset.step===n); });
+  $('back').classList.toggle('show', n>1);
+  if(n<=MAX){ $('pfill').style.width=(n/MAX*100)+'%'; $('pnum').textContent=n+'/'+MAX; document.querySelector('.prog-wrap').style.visibility='visible'; }
+  else { document.querySelector('.prog-wrap').style.visibility='hidden'; }
+  window.scrollTo(0,0);
+}
+function next(){ if(step<4){ step++; if(step===4) renderPlan(); show(step); } }
+$('back').addEventListener('click',function(){ if(step>1){ step--; show(step); } });
+
+/* slider */
+var goal=$('goal');
+function fmtK(n){ return n>=1000 ? '$'+(n/1000).toFixed(n%1000?1:0).replace('.0','')+'k' : '$'+n; }
+function updGoal(){
+  var v=+goal.value;
+  state.goal=v;
+  $('goalnum').innerHTML='$'+v.toLocaleString()+'<span class="per"> / mo</span>';
+  goal.style.setProperty('--fill',((v-500)/(20000-500)*100)+'%');
+  var h = v<1500?'A solid first funded goal' : v<4000?'A realistic full-time income' : v<9000?'Serious money — you’ll want size' : v<16000?'Pro-level — time to scale accounts' : 'Dream big. We’ll build the path.';
+  $('goalhint').textContent=h;
+}
+goal.addEventListener('input',updGoal); updGoal();
+
+/* choices */
+function pick(el,key,val){
+  state[key]=val;
+  el.parentElement.querySelectorAll('.choice').forEach(function(c){ c.classList.remove('sel'); });
+  el.classList.add('sel');
+  setTimeout(next,260);
+}
+
+/* recommendation */
+var ACCTS={
+  cheap:{name:'Apex Trader Funding',tag:'Cheapest entry',off:'Up to 90% off',url:'https://apextraderfunding.com/member/aff/go/thetradingchamp',
+    why:'The cheapest way to get funded. One-time fee, the biggest active discount we have, and you can run up to 20 accounts as you scale.'},
+  fast:{name:'Take Profit Trader',tag:'Fastest payouts',off:'40% off',url:'https://takeprofittrader.com/?referralCode=CHAMP',
+    why:'Funded and paid fast. Withdraw from day one, no daily loss limit, and a clean three-stage ladder to a real live account.'},
+  easy:{name:'My Funded Futures',tag:'Most forgiving',off:'Up to 50% off',url:'https://www.myfundedfutures.com/challenge?ref=5148&code=champ',
+    why:'The hardest account to accidentally blow. No daily loss limit, one-time fee, and rules built so beginners don’t fail on a technicality.'},
+  scale:{name:'Tradeify',tag:'Most buying power',off:'Code CHAMP',url:'https://tradeify.co/?ref=CHAMP',
+    why:'Built to grow. Multiple funding paths, up to a 300K account, and a daily-payout option once you’re funded.'}
+};
+function sizeFor(g){ return g<2000?'50K account':g<5000?'100K account':g<10000?'150K account':'150K account — then scale into a few'; }
+function openLine(s){ return {new:'Since you’re just starting, we kept this simple and low-risk.',blown:'You’ve lost accounts to a rule before — so this one is forgiving by design.',eval:'You’re mid-eval, so here’s the cleanest path to finishing it.',funded:'You’re already funded — this is about scaling and getting paid.'}[s]||''; }
+
+function renderPlan(){
+  var a=ACCTS[state.priority]||ACCTS.easy, sz=sizeFor(state.goal), line=openLine(state.situation);
+  var goalStr='$'+state.goal.toLocaleString();
+  var h=''+
+  '<div class="plan-head"><div class="kick">Your plan</div><h1>Your path to <em>'+goalStr+'/mo</em>.</h1><p>'+line+' Here’s the account that fits, plus the exact toolkit to pass it.</p></div>'+
+  '<div class="sec-lbl">Start here — your account</div>'+
+  '<div class="acct"><div class="acct-top"><span class="acct-tag">'+a.tag+'</span><span class="acct-off">'+a.off+' · CHAMP</span></div>'+
+    '<h3>'+a.name+'</h3><div class="sz">Recommended: '+sz+'</div>'+
+    '<p>'+a.why+'</p>'+
+    '<a class="btn btn-v" href="'+a.url+'" target="_blank" rel="noopener">Get funded →</a>'+
+    '<div class="code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Apply code <b>CHAMP</b> at checkout for the discount</div>'+
+  '</div>'+
+  '<div class="sec-lbl">Your toolkit</div>'+
+  '<div class="tools">'+
+    tool('J','#7c5cff','#fff','Journaly','ours','Every funded trader journals. Journaly logs your trades and shows how close you are to each firm’s rules — it’s our product, so it’s free for you.','https://journaly.io')+
+    tool('F','#f5c14e','#1a1200','Flowtopia','ours','The institutional order-flow data Champ actually trades with. See where the big money is positioned before you take the trade.','https://flowtopia.net')+
+    tool('TV','#2962ff','#fff','TradingView','','Trade on the charts the pros use. Grab the discount Champ set up on the plan you need.','https://www.tradingview.com/')+
+  '</div>'+
+  '<div class="save"><b>Want this plan + every code saved?</b><p>We’ll email your plan and the current discount codes so you have them when you’re ready.</p>'+
+    '<form id="saveform" novalidate><input id="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" aria-label="Email"><button class="btn btn-v" type="submit" id="savebtn"><span class="spin"></span><span class="lbl">Email it to me</span></button></form>'+
+    '<div class="msg" id="savemsg"></div></div>'+
+  '<div style="text-align:center;margin-top:22px"><button class="btn btn-ghost" onclick="restart()">Start over</button></div>';
+  $('plan').innerHTML=h;
+  wireSave();
+}
+function tool(mono,bg,fg,name,own,desc,url){
+  return '<a class="tool" href="'+url+'" target="_blank" rel="noopener"><span class="ti" style="background:'+bg+';color:'+fg+'">'+mono+'</span>'+
+    '<span class="tx"><b>'+name+(own?'<span class="own">Ours</span>':'')+'</b><p>'+desc+'</p></span>'+
+    '<span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></span></a>';
+}
+function restart(){ state={goal:5000,situation:null,priority:null}; step=1; goal.value=5000; updGoal(); document.querySelectorAll('.choice').forEach(function(c){c.classList.remove('sel')}); show(1); }
+
+function wireSave(){
+  var f=$('saveform'),inp=$('email'),btn=$('savebtn'),msg=$('savemsg');
+  var re=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var email=(inp.value||'').trim().toLowerCase(); msg.textContent=''; msg.className='msg';
+    if(!re.test(email)){ msg.textContent='Enter a valid email.'; msg.className='msg err'; inp.focus(); return; }
+    btn.classList.add('is-loading'); btn.disabled=true;
+    fetch('/api/plan',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:email})})
+      .then(function(r){return r.json().catch(function(){return{}})})
+      .then(function(d){
+        f.style.display='none';
+        msg.className='msg'; msg.innerHTML='<span style="color:var(--pos)">✓ Saved. Your plan is on the way.</span>';
+      })
+      .catch(function(){ btn.classList.remove('is-loading'); btn.disabled=false; msg.textContent='Network hiccup — try again.'; msg.className='msg err'; });
+  });
+}
+show(1);
+</script>
+</body>
+</html>

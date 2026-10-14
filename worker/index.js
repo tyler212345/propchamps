@@ -905,6 +905,22 @@ async function apiChecklist(req, env, ctx) {
   return json({ ok: true });
 }
 
+// Lead capture for the /start funnel ("your plan"). Stores the email in the owned
+// list (source 'funnel'); NOT gated by the rewards freeze. No email is sent here.
+async function apiPlan(req, env) {
+  const body = await req.json().catch(() => ({}));
+  const email = String(body.email || '').trim().toLowerCase().slice(0, 120);
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ error: 'bad_email' }, 400);
+  const now = new Date().toISOString();
+  try {
+    await env.DB.prepare('INSERT OR IGNORE INTO email_list (email,name,source,first_seen) VALUES (?,?,?,?)')
+      .bind(email, null, 'funnel', now).run();
+  } catch (e) {
+    console.error('plan insert failed', String((e && e.message) || e));
+  }
+  return json({ ok: true });
+}
+
 // Champ's 3 most recent YouTube uploads for the checklist "more from Champ"
 // box. Reads the channel's public RSS feed and caches the result in KV for an
 // hour so the box is always current without hardcoding video IDs. Returns
@@ -1352,6 +1368,7 @@ export default {
       if (p === '/api/giveaway/enter' && m === 'POST') return await giveawayEnter(request, env, ctx);
       if (p === '/unsub') return await unsubscribe(request, env);
       if (p === '/api/checklist' && m === 'POST') return await apiChecklist(request, env, ctx);
+      if (p === '/api/plan' && m === 'POST') return await apiPlan(request, env);
       if (p === '/api/champ-videos') return await apiChampVideos(request, env);
       if (p === '/api/host/giveaway') return await hostGiveaway(request, env);
       if (p === '/api/host/giveaway/action' && m === 'POST') return await hostGiveawayAction(request, env);
