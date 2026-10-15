@@ -28,7 +28,7 @@
 <meta name="twitter:description" content="The drawdown rule ends more funded accounts than bad trades do. Here's every type, explained clearly — with the method each futures prop firm actually uses.">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
-{"@type":"Article","@id":"https://propchamps.net/blog/prop-firm-drawdown-explained#article","headline":"Prop Firm Drawdown Explained: Trailing vs EOD vs Intraday (2026)","description":"The clearest explanation of prop firm drawdown for futures traders: static vs trailing, intraday vs end-of-day, a worked $50K example, and which futures prop firm uses which method.","image":"https://propchamps.net/og-image.jpg","datePublished":"2026-07-13","dateModified":"2026-07-13","inLanguage":"en","articleSection":"Prop firm rules","author":{"@type":"Organization","name":"PropChamps","url":"https://propchamps.net"},"publisher":{"@type":"Organization","name":"PropChamps","url":"https://propchamps.net","logo":{"@type":"ImageObject","url":"https://propchamps.net/logos/pc-logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://propchamps.net/blog/prop-firm-drawdown-explained"}},
+{"@type":"Article","@id":"https://propchamps.net/blog/prop-firm-drawdown-explained#article","headline":"Prop Firm Drawdown Explained: Trailing vs EOD vs Intraday (2026)","description":"The clearest explanation of prop firm drawdown for futures traders: static vs trailing, intraday vs end-of-day, a worked $50K example, and which futures prop firm uses which method.","image":"https://propchamps.net/og-image.jpg","datePublished":"2026-07-13","dateModified":"2026-10-14","inLanguage":"en","articleSection":"Prop firm rules","author":{"@type":"Organization","name":"PropChamps","url":"https://propchamps.net"},"publisher":{"@type":"Organization","name":"PropChamps","url":"https://propchamps.net","logo":{"@type":"ImageObject","url":"https://propchamps.net/logos/pc-logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://propchamps.net/blog/prop-firm-drawdown-explained"}},
 {"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://propchamps.net/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://propchamps.net/blog"},{"@type":"ListItem","position":3,"name":"Prop Firm Drawdown Explained"}]},
 {"@type":"FAQPage","@id":"https://propchamps.net/blog/prop-firm-drawdown-explained#faq","mainEntity":[
 {"@type":"Question","name":"What is the difference between trailing and end-of-day drawdown?","acceptedAnswer":{"@type":"Answer","text":"A trailing drawdown threshold follows your account's peak balance upward, so your minimum allowed balance rises as you make profit. The difference is when it updates: an intraday trailing drawdown updates in real time and counts your unrealized (open) profit, while an end-of-day (EOD) trailing drawdown recalculates only once, at the session close, using your realized closing balance. EOD is more forgiving because open trade profit does not raise the floor."}},
@@ -84,7 +84,7 @@
     <div class="article-eyebrow">Prop firm rules · Explained</div>
     <h1>Prop firm drawdown, explained: <span class="accent">trailing vs EOD vs intraday</span></h1>
     <p class="article-dek">The drawdown rule ends more funded accounts than bad trades do — and it's the single most misunderstood rule in futures prop trading. Here's every type, in plain English, with a worked example and the exact method each major firm uses.</p>
-    <div class="article-byline"><span><span class="live-dot"></span> <strong>PropChamps Research</strong></span><span class="sep"></span><span>Last reviewed July 13, 2026</span><span class="sep"></span><span>~9 min read</span></div>
+    <div class="article-byline"><span><span class="live-dot"></span> <strong>PropChamps Research</strong></span><span class="sep"></span><span>Last reviewed October 14, 2026</span><span class="sep"></span><span>~9 min read</span></div>
   </div>
 </section>
 
@@ -167,10 +167,11 @@
             <tr><td class="firm-c"><a href="/firms/apex-trader">Apex Trader Funding</a></td><td>Intraday trailing <em>or</em> EOD Trail (you choose the account)</td><td>The most flexible — pick EOD Trail if you dislike intraday spikes.</td></tr>
             <tr><td class="firm-c"><a href="/firms/my-funded-futures">My Funded Futures</a></td><td>EOD in evaluation → intraday once funded (Rapid)</td><td>Forgiving to pass, stricter once live — plan for the switch.</td></tr>
             <tr><td class="firm-c"><a href="/firms/tradeify">Tradeify</a></td><td>End-of-day trailing</td><td>Open-trade spikes don't raise your floor.</td></tr>
-            <tr><td class="firm-c"><a href="/firms/take-profit-trader">Take Profit Trader</a></td><td>End-of-day trailing</td><td>Measured on your close, not your peak.</td></tr>
+            <tr><td class="firm-c"><a href="/firms/take-profit-trader">Take Profit Trader</a></td><td>EOD in Test → intraday in PRO (sim funded) → EOD in PRO+</td><td>Measured on your close to pass — plan for the intraday switch in PRO.</td></tr>
             <tr><td class="firm-c"><a href="/firms/alpha-futures">Alpha Futures</a></td><td>End-of-day trailing</td><td>Kinder to traders who let winners run.</td></tr>
-            <tr><td class="firm-c"><a href="/firms/lucid-trading">Lucid Trading</a></td><td>End-of-day trailing</td><td>Floor moves once per day on realized balance.</td></tr>
+            <tr><td class="firm-c"><a href="/firms/lucid-trading">Lucid Trading</a></td><td>End-of-day trailing (LucidDaily: intraday optional in eval, intraday once funded)</td><td>Floor moves once per day on realized balance.</td></tr>
             <tr><td class="firm-c"><a href="/firms/top-one-futures">Top One Futures</a></td><td>End-of-day trailing</td><td>No intraday chasing of your peak.</td></tr>
+            <tr><td class="firm-c"><a href="/firms/fundednext">FundedNext</a></td><td>End-of-day (EOD) on all account types</td><td>Same EOD rule on Flex, Legacy and Rapid.</td></tr>
           </tbody>
         </table>
       </div>
@@ -265,9 +266,6 @@
 <script>
 (function(){
   /* mobile menu */
-  var toggle=document.getElementById('menuToggle'),header=document.querySelector('header.site');
-  if(toggle){toggle.addEventListener('click',function(){var o=header.classList.toggle('is-open');document.body.classList.toggle('is-menu-open',o);});
-    document.querySelectorAll('.mobile-menu a').forEach(function(a){a.addEventListener('click',function(){header.classList.remove('is-open');document.body.classList.remove('is-menu-open');});});}
 
   /* scroll-spy for the section nav */
   var links=[].slice.call(document.querySelectorAll('.section-nav-link'));

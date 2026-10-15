@@ -167,9 +167,6 @@
 
 <script>
 (function(){
-  var toggle=document.getElementById('menuToggle'),header=document.querySelector('header.site');
-  if(toggle){toggle.addEventListener('click',function(){var o=header.classList.toggle('is-open');document.body.classList.toggle('is-menu-open',o);});
-    document.querySelectorAll('.mobile-menu a').forEach(function(a){a.addEventListener('click',function(){header.classList.remove('is-open');document.body.classList.remove('is-menu-open');});});}
   var links=[].slice.call(document.querySelectorAll('.section-nav-link'));
   var sections=links.map(function(l){return document.getElementById(l.getAttribute('href').slice(1));}).filter(Boolean);
   function onScroll(){var y=window.scrollY+170,cur=sections[0]?sections[0].id:null;sections.forEach(function(s){if(s.offsetTop<=y)cur=s.id;});links.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+cur);});}

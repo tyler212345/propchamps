@@ -35,7 +35,7 @@
 {"@type":"Question","name":"What is the difference between intraday and end-of-day drawdown?","acceptedAnswer":{"@type":"Answer","text":"An intraday trailing drawdown updates in real time and counts unrealized open-trade profit, so a spike you never banked still raises your floor. An end-of-day trailing drawdown recalculates once at the session close using your realized closing balance, so intraday spikes are ignored. EOD is meaningfully more forgiving."}},
 {"@type":"Question","name":"Does the trailing drawdown stop moving?","acceptedAnswer":{"@type":"Answer","text":"On most futures prop firms, yes. The floor trails your peak until it reaches your starting balance plus the drawdown amount, then it locks — usually at or near your original starting balance. The calculator models this with the lock option enabled by default."}},
 {"@type":"Question","name":"Is this drawdown calculator free?","acceptedAnswer":{"@type":"Answer","text":"Yes, it is completely free and requires no signup. It runs entirely in your browser and uses the drawdown amounts and methods PropChamps tracks for each futures prop firm, re-verified weekly."}},
-{"@type":"Question","name":"Which futures prop firms use intraday trailing drawdown?","acceptedAnswer":{"@type":"Answer","text":"Apex Trader Funding offers both intraday trailing and an end-of-day trail account, and My Funded Futures uses end-of-day during evaluation and intraday once funded on its Rapid product. Most other firms we track — Tradeify, Take Profit Trader, Alpha Futures, Lucid Trading, and Top One Futures — use end-of-day trailing. Always confirm current rules on the firm's review page."}}
+{"@type":"Question","name":"Which futures prop firms use intraday trailing drawdown?","acceptedAnswer":{"@type":"Answer","text":"Apex Trader Funding offers both intraday trailing and an end-of-day trail account, My Funded Futures uses end-of-day during evaluation and intraday once funded on its Rapid product, and Take Profit Trader switches to intraday trailing in its PRO (sim-funded) stage. Most other firms we track — Tradeify, Alpha Futures, Lucid Trading (except LucidDaily, which offers intraday in the eval and is intraday once funded), and Top One Futures — use end-of-day trailing, and FundedNext uses an end-of-day max loss limit on every account type. Always confirm current rules on the firm's review page."}}
 ]}]}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -176,10 +176,11 @@
           <tr><td class="firm-c"><a href="/firms/apex-trader">Apex Trader Funding</a></td><td>Intraday trailing <em>or</em> EOD Trail — you choose the account type</td></tr>
           <tr><td class="firm-c"><a href="/firms/my-funded-futures">My Funded Futures</a></td><td>EOD in evaluation → intraday once funded (Rapid)</td></tr>
           <tr><td class="firm-c"><a href="/firms/tradeify">Tradeify</a></td><td>End-of-day trailing</td></tr>
-          <tr><td class="firm-c"><a href="/firms/take-profit-trader">Take Profit Trader</a></td><td>End-of-day trailing</td></tr>
+          <tr><td class="firm-c"><a href="/firms/take-profit-trader">Take Profit Trader</a></td><td>EOD in Test → intraday in PRO (sim funded) → EOD in PRO+</td></tr>
           <tr><td class="firm-c"><a href="/firms/alpha-futures">Alpha Futures</a></td><td>End-of-day trailing</td></tr>
-          <tr><td class="firm-c"><a href="/firms/lucid-trading">Lucid Trading</a></td><td>End-of-day trailing</td></tr>
+          <tr><td class="firm-c"><a href="/firms/lucid-trading">Lucid Trading</a></td><td>End-of-day trailing (LucidDaily: intraday optional in eval, intraday once funded)</td></tr>
           <tr><td class="firm-c"><a href="/firms/top-one-futures">Top One Futures</a></td><td>End-of-day trailing</td></tr>
+          <tr><td class="firm-c"><a href="/firms/fundednext">FundedNext</a></td><td>End-of-day (EOD) on all account types</td></tr>
         </tbody>
       </table>
     </div>
@@ -196,7 +197,7 @@
       <details class="faq-item"><summary class="faq-q">What's the difference between intraday and end-of-day drawdown?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>An <strong>intraday</strong> trail updates in real time and counts unrealized open-trade profit, so a spike you never banked still raises your floor. An <strong>end-of-day</strong> trail recalculates once at the close on your realized balance, ignoring intraday spikes — meaningfully more forgiving. Full breakdown in <a href="/blog/prop-firm-drawdown-explained">drawdown explained</a>.</p></div></details>
       <details class="faq-item"><summary class="faq-q">Does the trailing drawdown ever stop moving?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>On most futures firms, yes. It trails your peak until it reaches your starting balance plus the drawdown amount, then <strong>locks</strong> — usually at or near your original starting balance. That's the "lock" checkbox, on by default.</p></div></details>
       <details class="faq-item"><summary class="faq-q">Is it free?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>Completely free, no signup. It runs entirely in your browser and uses the drawdown amounts and methods we track per firm, re-verified weekly.</p></div></details>
-      <details class="faq-item"><summary class="faq-q">Which firms use intraday trailing?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p><a href="/firms/apex-trader">Apex</a> offers both intraday and an EOD Trail account, and <a href="/firms/my-funded-futures">My Funded Futures</a> uses EOD in evaluation then intraday once funded on Rapid. Most others we track use end-of-day trailing — see the table above.</p></div></details>
+      <details class="faq-item"><summary class="faq-q">Which firms use intraday trailing?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p><a href="/firms/apex-trader">Apex</a> offers both intraday and an EOD Trail account, <a href="/firms/my-funded-futures">My Funded Futures</a> uses EOD in evaluation then intraday once funded on Rapid, and <a href="/firms/take-profit-trader">Take Profit Trader</a> trails intraday in its PRO (sim-funded) stage. Most others we track use end-of-day — see the table above.</p></div></details>
     </div>
   </div>
 </section>
@@ -241,11 +242,6 @@
 <script src="/data/firms.js"></script>
 <script>
 (function(){
-  /* ---------- mobile menu ---------- */
-  var toggle=document.getElementById('menuToggle'),header=document.querySelector('header.site');
-  if(toggle){toggle.addEventListener('click',function(){var o=header.classList.toggle('is-open');document.body.classList.toggle('is-menu-open',o);});
-    document.querySelectorAll('.mobile-menu a').forEach(function(a){a.addEventListener('click',function(){header.classList.remove('is-open');document.body.classList.remove('is-menu-open');});});}
-
   /* ---------- helpers ---------- */
   var $=function(id){return document.getElementById(id);};
   function money(n){ return '$'+Math.round(n).toLocaleString('en-US'); }
