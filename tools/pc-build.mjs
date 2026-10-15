@@ -47,6 +47,17 @@ const hash = crypto.createHash('sha1')
   .update(fs.readFileSync(path.join(ROOT, 'assets/pc.js')))
   .digest('hex').slice(0, 8);
 
+/* Favicons are cached per-URL by browsers for weeks, so every icon link carries
+   a content hash — replacing the icon files changes the URL and forces a refetch. */
+const ICONS = ['favicon-16x16', 'favicon-32x32', 'favicon-48x48', 'apple-touch-icon', 'icon-192', 'icon-512'];
+const iconHash = (() => {
+  const h = crypto.createHash('sha1');
+  for (const n of ICONS) h.update(fs.readFileSync(path.join(ROOT, n + '.png')));
+  h.update(fs.readFileSync(path.join(ROOT, 'favicon.ico')));
+  return h.digest('hex').slice(0, 8);
+})();
+const ICON_RE = new RegExp(`(["(]/(?:${ICONS.join('|')})\\.png)(?:\\?v=[0-9a-f]+)?(?=[")])`, 'g');
+
 /* ---------- templates ---------- */
 const ARROW = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>';
 const CHEV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
@@ -248,6 +259,7 @@ for (const page of walk('')) {
   else html = html.replace(/<\/head>/i, head + '\n</head>');
   html = html.replace(/<style>header\.site nav\.primary a,header\.site \.header-cta\{white-space:nowrap\}[^<]*<\/style>\s*/g, '');
   html = html.replace(/<meta name="theme-color" content="[^"]*">/i, '<meta name="theme-color" content="#0b0b12">');
+  html = html.replace(ICON_RE, `$1?v=${iconHash}`);
   html = html.replace(/\/logos\/propchamps\.png/g, '/logos/pc-logo.png').replace(/\/logos\/propchamps-icon\.png/g, '/logos/pc-icon.png');
   // Small square logo slots (blog author box) need the mark, not the wide wordmark.
   html = html.replace(/(class="ab-logo"[^>]*src=")\/logos\/pc-logo\.png/g, '$1/logos/pc-mark.png');
@@ -271,6 +283,14 @@ for (const f of CSS_FILES) {
   const before = fs.readFileSync(file, 'utf8');
   const after = reskin(before);
   if (after !== before) { if (!CHECK) fs.writeFileSync(file, after); report.push(`${CHECK ? 'would reskin' : 'reskinned'} ${f}`); }
+}
+{ // web app manifest icons get the same cache-busting version
+  const mf = path.join(ROOT, 'site.webmanifest');
+  const before = fs.readFileSync(mf, 'utf8');
+  const m = JSON.parse(before);
+  for (const ic of m.icons || []) ic.src = ic.src.replace(/\?v=[0-9a-f]+$/, '') + '?v=' + iconHash;
+  const after = JSON.stringify(m, null, 2) + '\n';
+  if (after !== before) { if (!CHECK) fs.writeFileSync(mf, after); report.push(`${CHECK ? 'would update' : 'updated'}  site.webmanifest (icon version)`); }
 }
 console.log(report.join('\n'));
 console.log(`\nassets hash ${hash} · ${report.filter((r) => /updat|reskin/.test(r)).length} files touched`);
