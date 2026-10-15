@@ -12,8 +12,14 @@
  *
  * Companion to tools/build-firm-pages.js — run BOTH after any data change:
  *   node tools/build-firm-pages.js && node tools/build-content-pages.js
+ *   After generating, run: node tools/pc-build.mjs (injects the shared chrome; idempotent)
  *
- * Idempotent — content lives between <!--g:id-->…<!--/g:id--> markers.
+ * Idempotent — content lives between <!--g:id-->…<!--/g:id--> markers; nothing
+ * outside them is touched (the <!-- pc:chrome/pc:footer/pc:head --> regions are
+ * owned by tools/pc-build.mjs). Each render below must stay byte-identical to
+ * what the page's own inline JS renders (same markup + classes, e.g. the deals
+ * "gold" offer class), so hydration doesn't visibly change the page. No colours
+ * or legacy chrome in the markup — styling comes from the page CSS / pc.css.
  * data/firms.js + data/changelog.js stay the single source of truth.
  */
 'use strict';
@@ -29,6 +35,11 @@ try { vm.runInContext(fs.readFileSync(path.join(ROOT, 'data', 'changelog.js'), '
 const FIRMS = sandbox.window.FIRMS;
 const CHANGELOG = sandbox.window.CHANGELOG || [];
 if (!FIRMS) { console.error('Could not load window.FIRMS from data/firms.js'); process.exit(1); }
+
+// slug -> firm page file (same map as the payouts/compare inline JS; the
+// "take-profit" slug lives in take-profit-trader.html). Every firm must be here.
+var FIRM_PAGE = { 'lucid-trading': 'lucid-trading.html', 'tradeify': 'tradeify.html', 'alpha-futures': 'alpha-futures.html', 'apex-trader': 'apex-trader.html', 'my-funded-futures': 'my-funded-futures.html', 'top-one-futures': 'top-one-futures.html', 'take-profit': 'take-profit-trader.html', 'fundednext': 'fundednext.html' };
+Object.keys(FIRMS).forEach(function (s) { if (!FIRM_PAGE[s]) console.warn('  ! no firm page mapped for slug "' + s + '" — add it to FIRM_PAGE (links will be "#")'); });
 
 // Object.values insertion order, live firms only — matches every page's JS
 const LIVE = Object.values(FIRMS).filter(function (f) { return f && f.live !== false; });
@@ -74,7 +85,8 @@ function buildDeals() {
     return '<article class="deal-card" data-slug="' + f.slug + '">' +
       '<div class="deal-card-head"><div class="deal-card-logo"><img src="' + f.logo + '" alt="' + f.name + '"></div>' +
       '<div><div class="deal-card-firm">' + f.name + '</div><div class="deal-card-tagline">' + (f.tagline || f.type || '') + '</div></div></div>' +
-      '<div class="deal-card-offer"><span class="accent">' + offer.big + '</span></div>' +
+      // "% OFF"/"FREE OFF" offers render gold, exactly like the page JS (/OFF$/i)
+      '<div class="deal-card-offer"><span class="accent' + (/OFF$/i.test(offer.big) ? ' gold' : '') + '">' + offer.big + '</span></div>' +
       (offer.rest || f.offerSub ? '<div class="deal-card-offersub">' + (offer.rest || f.offerSub || '') + '</div>' : '') +
       (tags ? '<div class="deal-card-tags">' + tags + '</div>' : '') +
       '<div class="deal-card-foot"><span class="deal-code-chip js-copy-champ">' + code + ' · COPY</span>' +
@@ -105,7 +117,7 @@ function buildPayouts() {
   function timeBarPct(t) { if (maxTime === minTime) return 50; return Math.max(8, Math.round(100 * (1 - (t - minTime) / (maxTime - minTime)))); }
   function timeBarClass(t) { var oneDay = 60 * 24; if (t <= 6 * 60) return 'time-fill-fast'; if (t <= oneDay) return 'time-fill-medium'; if (t <= 3 * oneDay) return 'time-fill-slow'; return 'time-fill-slowest'; }
   var FLAGS = { US: '🇺🇸', GB: '🇬🇧', CA: '🇨🇦', AE: '🇦🇪' };
-  var PAGES = { 'lucid-trading': 'lucid-trading.html', 'tradeify': 'tradeify.html', 'alpha-futures': 'alpha-futures.html', 'apex-trader': 'apex-trader.html', 'my-funded-futures': 'my-funded-futures.html', 'top-one-futures': 'top-one-futures.html', 'take-profit': 'take-profit-trader.html', 'fundednext': 'fundednext.html' };
+  var PAGES = FIRM_PAGE;
   var rows = firms.map(function (f) {
     var page = PAGES[f.slug] || '#'; var flag = FLAGS[f.country] || ''; var rating = f.rating || 0;
     var pct = timeBarPct(f._t); var barCls = timeBarClass(f._t);
@@ -168,7 +180,7 @@ function buildAuditLog() {
 // ============================ /compare ============================
 function buildCompare() {
   var file = path.join(ROOT, 'compare.html'); var before = read('compare.html'); var html = before;
-  var firmPageMap = { 'lucid-trading': 'lucid-trading.html', 'tradeify': 'tradeify.html', 'alpha-futures': 'alpha-futures.html', 'apex-trader': 'apex-trader.html', 'my-funded-futures': 'my-funded-futures.html', 'top-one-futures': 'top-one-futures.html', 'take-profit': 'take-profit-trader.html', 'fundednext': 'fundednext.html' };
+  var firmPageMap = FIRM_PAGE;
   var totalPlans = 0;
   var groups = LIVE.map(function (f) {
     var plans = (f.plansSummary || []);

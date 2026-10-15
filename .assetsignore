@@ -13,6 +13,11 @@ tools/*
 !tools/*.html
 !tools/*.css
 
+# Build-script output snippets (post cards / sitemap entries to paste by hand).
+# Nothing loads them at runtime, and a bare HTML fragment shouldn't be indexable.
+blog/_*
+vs/_*
+
 # Cloudflare / project config (contains infra + admin IDs — not secret, but not public)
 wrangler.jsonc
 

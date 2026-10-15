@@ -2,22 +2,38 @@
 /**
  * build-blog-post.js — Assemble PropChamps blog articles from markdown drafts.
  *
- * Turns a batch of {slug, title, markdown} drafts (e.g. from the blog-batch
- * workflow) into full /blog/<slug>.html pages that match the drawdown flagship
- * EXACTLY: same head/schema, editorial strip, header, footer, section-nav,
- * FAQ accordion, author box, CTA. This is the reusable engine for volume.
+ * After generating, run: node tools/pc-build.mjs (injects the shared chrome; idempotent)
  *
- * USAGE: node tools/build-blog-post.js <drafts.json>
+ * Turns a batch of {slug, title, markdown} drafts (e.g. from the blog-batch
+ * workflow) into full /blog/<slug>.html pages that match the existing posts:
+ * same head/schema, section-nav, FAQ accordion, author box, CTA. The site
+ * chrome (ticker, header/nav, mobile menu, footer) and the shared design-system
+ * assets are NOT written here — the template only emits the empty
+ * <!-- pc:chrome -->, <!-- pc:footer --> and <!-- pc:head --> marker pairs,
+ * which tools/pc-build.mjs fills in. So the page is unstyled/chromeless until
+ * pc-build has run.
+ *
+ * USAGE: node tools/build-blog-post.js <drafts.json> [--date=YYYY-MM-DD]
+ *        node tools/pc-build.mjs
  *   drafts.json = either an array of {slug,title,markdown} OR a workflow
  *   output object with a `.result` array of the same. Per-slug presentation
  *   (eyebrow, related links) comes from CONFIG below; everything else is
- *   derived from the markdown. Prints post-card + sitemap snippets at the end.
+ *   derived from the markdown. --date sets datePublished/dateModified, the
+ *   "Last reviewed" byline and the sitemap <lastmod> (default: today) — pass the
+ *   original date when re-generating an already-published post.
+ *
+ * WRITES: blog/<slug>.html for each draft, plus blog/_cards.html (post-card
+ *   snippets for blog/index.html) and blog/_sitemap.txt (<url> entries for
+ *   sitemap.xml) — both hold ONLY this batch and are pasted in by hand.
  */
 'use strict';
 const fs = require('fs');
 const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
-const DATE = '2026-09-18';
+const DATE_ARG = process.argv.find(a => /^--date=/.test(a));
+const DATE = DATE_ARG ? DATE_ARG.slice(7) : new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD (local)
+if (!/^\d{4}-\d{2}-\d{2}$/.test(DATE)) { console.error('bad --date (want YYYY-MM-DD): ' + DATE); process.exit(1); }
+const DATE_LONG = new Date(DATE + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' }); // "September 18, 2026"
 
 // Per-article presentation (body/meta are derived from the markdown).
 const CONFIG = {
@@ -129,7 +145,8 @@ function build(article){
   const faq=[]; if(faqIdx>=0){ let j=faqIdx+1; while(j<blocks.length){ if(blocks[j].t==='h'&&blocks[j].lvl>=3){ const q=blocks[j].x; const ans=[]; j++; while(j<blocks.length&&!(blocks[j].t==='h'&&blocks[j].lvl<=3)){ ans.push(blocks[j]); j++; } faq.push({q, a:ans}); } else { j++; } } }
 
   // derive dek + meta from the first intro paragraph
-  const firstP = (intro.find(b=>b.t==='p')||{x:displayTitle}).x.replace(/\*\*/g,'');
+  // plain text: drop markdown bold/italic/code/link syntax so it never leaks into the dek or <meta> tags
+  const firstP = (intro.find(b=>b.t==='p')||{x:displayTitle}).x.replace(/\*\*/g,'').replace(/\[([^\]]+)\]\([^)]+\)/g,'$1').replace(/`([^`]+)`/g,'$1').replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g,'$1$2');
   const dek = firstP.length>240 ? firstP.slice(0,firstP.slice(0,240).lastIndexOf(' '))+'…' : firstP;
   const metaDesc = (firstP.length>158 ? firstP.slice(0,firstP.slice(0,158).lastIndexOf(' '))+'…' : firstP);
 
@@ -149,7 +166,7 @@ function build(article){
   const url='https://propchamps.net/blog/'+article.slug;
 
   const schema = {'@context':'https://schema.org','@graph':[
-    {'@type':'Article','@id':url+'#article','headline':title,'description':metaDesc,'image':'https://propchamps.net/og-image.jpg','datePublished':DATE,'dateModified':DATE,'inLanguage':'en','articleSection':cfg.tag,'author':{'@type':'Organization','name':'PropChamps','url':'https://propchamps.net'},'publisher':{'@type':'Organization','name':'PropChamps','url':'https://propchamps.net','logo':{'@type':'ImageObject','url':'https://propchamps.net/logos/propchamps.png'}},'mainEntityOfPage':{'@type':'WebPage','@id':url}},
+    {'@type':'Article','@id':url+'#article','headline':title,'description':metaDesc,'image':'https://propchamps.net/og-image.jpg','datePublished':DATE,'dateModified':DATE,'inLanguage':'en','articleSection':cfg.tag,'author':{'@type':'Organization','name':'PropChamps','url':'https://propchamps.net'},'publisher':{'@type':'Organization','name':'PropChamps','url':'https://propchamps.net','logo':{'@type':'ImageObject','url':'https://propchamps.net/logos/pc-logo.png'}},'mainEntityOfPage':{'@type':'WebPage','@id':url}},
     {'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':'Home','item':'https://propchamps.net/'},{'@type':'ListItem','position':2,'name':'Blog','item':'https://propchamps.net/blog/'},{'@type':'ListItem','position':3,'name':displayTitle}]}
   ]};
   if(faqSchema.length) schema['@graph'].push({'@type':'FAQPage','@id':url+'#faq','mainEntity':faqSchema});
@@ -166,7 +183,7 @@ function build(article){
 <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<meta name="theme-color" content="#0a0d12">
+<meta name="theme-color" content="#0b0b12">
 <title>${esc(title)} | PropChamps</title>
 <meta name="description" content="${attr(metaDesc)}">
 <meta name="robots" content="index, follow">
@@ -189,28 +206,13 @@ ${JSON.stringify(schema)}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/blog/blog.css">
+<!-- pc:head --><!-- /pc:head -->
 </head>
 <body>
 
-<div class="editorial-strip"><div class="container"><div class="lhs"><span class="dot"></span><span>Independent prop firm research · Reviewed weekly</span></div><div class="rhs">Last reviewed September 18, 2026</div></div></div>
-
-<header class="site">
-  <div class="container">
-    <a class="logo-mark" href="/" aria-label="PropChamps home"><img src="/logos/propchamps.png" alt="PropChamps"></a>
-    <nav class="primary">
-      <a href="/">Firms</a><a href="/compare">Compare</a><a href="/deals">Deals</a><a href="/payouts">Payouts</a><a href="/blog/" class="active">Blog</a>
-    </nav>
-    <a class="header-cta" href="/compare">Compare firms
-      <svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L11 8 L5 4"/></svg>
-    </a>
-    <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><span class="bar"></span></button>
-  </div></header>
-<div class="mobile-menu" id="mobileMenu">
-  <a href="/">Firms</a><a href="/compare">Compare</a><a href="/deals">Deals</a><a href="/payouts">Payouts</a><a href="/blog/">Blog</a>
-  <a class="mobile-cta" href="/compare">Compare firms →</a>
-</div>
+<!-- pc:chrome --><!-- /pc:chrome -->
 
 <section class="article-hero">
   <div class="bg-stack"></div>
@@ -219,7 +221,7 @@ ${JSON.stringify(schema)}
     <div class="article-eyebrow">${esc(cfg.eyebrow)}</div>
     <h1>${esc(displayTitle)}</h1>
     <p class="article-dek">${esc(dek)}</p>
-    <div class="article-byline"><span><span class="live-dot"></span> <strong>PropChamps Research</strong></span><span class="sep"></span><span>Last reviewed September 18, 2026</span><span class="sep"></span><span>~${readMin} min read</span></div>
+    <div class="article-byline"><span><span class="live-dot"></span> <strong>PropChamps Research</strong></span><span class="sep"></span><span>Last reviewed ${DATE_LONG}</span><span class="sep"></span><span>~${readMin} min read</span></div>
   </div>
 </section>
 
@@ -250,7 +252,7 @@ ${JSON.stringify(schema)}
 </section>
 
 <div class="author-box" data-reveal>
-  <img class="ab-logo" src="/logos/propchamps.png" alt="PropChamps">
+  <img class="ab-logo" src="/logos/pc-mark.png" alt="PropChamps">
   <div>
     <h4>PropChamps Research</h4>
     <p>We independently track rules, drawdown methods, payouts, and promo codes across every major futures prop firm, and re-verify them weekly against each firm's own documentation. See <a href="/methodology">how we audit</a>.</p>
@@ -264,7 +266,7 @@ ${JSON.stringify(schema)}
       <p>Rules, drawdown method, payout split, and price — side by side, in one table, re-verified weekly.</p>
       <div class="cta-row">
         <a class="btn-primary" href="/compare">Compare firms
-          <svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L11 8 L5 4"/></svg>
+          <svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
         </a>
         <a class="btn-ghost" href="/deals">See active deals</a>
       </div>
@@ -282,29 +284,10 @@ ${JSON.stringify(schema)}
   </div>
 </section>
 
-<footer class="site">
-  <div class="container">
-    <div class="top">
-      <div class="brand">
-        <a class="logo-mark" href="/"><img src="/logos/propchamps.png" alt="PropChamps"></a>
-        <p>Independent research on futures prop trading firms. We track rules, payouts, drawdown methods, and active promo codes — and publish what changes.</p>
-      </div>
-      <div><h4>Research</h4><ul><li><a href="/">All firms</a></li><li><a href="/compare">Compare</a></li><li><a href="/deals">Active deals</a></li><li><a href="/payouts">Payouts</a></li><li><a href="/audit-log">Audit log</a></li></ul></div>
-      <div><h4>Editorial</h4><ul><li><a href="/blog/">Blog</a></li><li><a href="/guide">Beginner's guide</a></li><li><a href="/join">Join the list</a></li><li><a href="/methodology">How we audit</a></li></ul></div>
-      <div><h4>Legal</h4><ul><li><a href="/privacy">Privacy</a></li><li><a href="/methodology#disclosure">Affiliate disclosure</a></li></ul></div>
-    </div>
-    <div class="legal">
-      <div>© 2026 PropChamps. Independent prop firm research. Not financial advice.</div>
-      <div>Trading involves substantial risk.</div>
-    </div>
-  </div>
-</footer>
+<!-- pc:footer --><!-- /pc:footer -->
 
 <script>
 (function(){
-  var toggle=document.getElementById('menuToggle'),header=document.querySelector('header.site');
-  if(toggle){toggle.addEventListener('click',function(){var o=header.classList.toggle('is-open');document.body.classList.toggle('is-menu-open',o);});
-    document.querySelectorAll('.mobile-menu a').forEach(function(a){a.addEventListener('click',function(){header.classList.remove('is-open');document.body.classList.remove('is-menu-open');});});}
   var links=[].slice.call(document.querySelectorAll('.section-nav-link'));
   var sections=links.map(function(l){return document.getElementById(l.getAttribute('href').slice(1));}).filter(Boolean);
   function onScroll(){var y=window.scrollY+170,cur=sections[0]?sections[0].id:null;sections.forEach(function(s){if(s.offsetTop<=y)cur=s.id;});links.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+cur);});}
@@ -320,8 +303,8 @@ ${JSON.stringify(schema)}
 }
 
 // ---- run ----
-const inPath = process.argv[2];
-if(!inPath){ console.error('usage: node tools/build-blog-post.js <drafts.json>'); process.exit(1); }
+const inPath = process.argv.slice(2).find(a => !/^--/.test(a));
+if(!inPath){ console.error('usage: node tools/build-blog-post.js <drafts.json> [--date=YYYY-MM-DD]'); process.exit(1); }
 let raw = JSON.parse(fs.readFileSync(inPath,'utf8'));
 const articles = Array.isArray(raw) ? raw : raw.result;
 const cards=[], sitemap=[];
@@ -334,4 +317,5 @@ articles.forEach(a=>{
 });
 fs.writeFileSync(path.join(ROOT,'blog','_cards.html'), cards.join('\n'));
 fs.writeFileSync(path.join(ROOT,'blog','_sitemap.txt'), sitemap.join('\n'));
-console.log('\nWrote '+articles.length+' posts. Card + sitemap snippets in blog/_cards.html and blog/_sitemap.txt');
+console.log('\nWrote '+articles.length+' posts (dated '+DATE+'). Card + sitemap snippets in blog/_cards.html and blog/_sitemap.txt');
+console.log('Next: node tools/pc-build.mjs  (injects the shared chrome/footer/assets into the new pages)');

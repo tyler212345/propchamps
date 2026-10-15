@@ -17,9 +17,16 @@
  *
  * USAGE
  *   node tools/build-firm-pages.js        # run after any firms.js change
+ *   After generating, run: node tools/pc-build.mjs (injects the shared chrome; idempotent)
  *
  * It is IDEMPOTENT — content is wrapped in <!--g:id--> markers, so re-running
- * just refreshes between the markers. Safe to run repeatedly.
+ * just refreshes between the markers. Safe to run repeatedly. It never touches
+ * the <!-- pc:chrome/pc:footer/pc:head --> regions (owned by tools/pc-build.mjs);
+ * outside the g: markers it only patches three things in the inline page JS:
+ * the old "Firm not found" guard, the related-firm pageMap (generated from
+ * FILE_FOR below) and the related-firm count (all other live firms).
+ * Pre-rendered markup must use the page's own class names only — no colours
+ * (pc-build re-skins the page CSS) and no legacy site chrome.
  *
  * data/firms.js stays the single source of truth.
  */
@@ -53,6 +60,7 @@ const FILE_FOR = {
 // slug -> clean URL path (no .html), used for related-firm links
 const PATH_FOR = {};
 Object.keys(FILE_FOR).forEach(function (s) { PATH_FOR[s] = '/firms/' + FILE_FOR[s].replace(/\.html$/, ''); });
+Object.keys(FIRMS).forEach(function (s) { if (!FILE_FOR[s]) console.warn('  ! no firm page mapped for slug "' + s + '" — add it to FILE_FOR (related links will be "#")'); });
 
 function esc(s) {
   return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -115,9 +123,10 @@ function render(slug, f) {
   ];
   out.watchList = cautions.map(function (c) { return '<li>' + c + '</li>'; }).join('');
 
-  // related firms (live, not self) with clean-URL links
+  // related firms: EVERY other live firm (not self), in Object.values order —
+  // exactly what the inline JS renders (see patchRelatedCount), clean-URL links
   var related = Object.values(FIRMS).filter(function (o) { return o && o.live !== false && o.slug !== slug; });
-  out.relatedGrid = related.slice(0, 6).map(function (o) {
+  out.relatedGrid = related.map(function (o) {
     var page = PATH_FOR[o.slug] || '#';
     return '<a class="related-card" href="' + page + '"><div class="related-logo"><img src="' + o.logo +
       '" alt=""></div><div><div class="related-name">' + o.name +
@@ -166,10 +175,16 @@ function patchGuard(html) {
 }
 function patchPageMap(html) {
   // Related-firm links should be clean URLs (match the static pre-render + canonicals).
-  return html.replace(
-    /var pageMap=\{[^}]*\};/,
-    "var pageMap={'lucid-trading':'lucid-trading','tradeify':'tradeify','alpha-futures':'alpha-futures','apex-trader':'apex-trader','my-funded-futures':'my-funded-futures','top-one-futures':'top-one-futures','take-profit':'take-profit-trader'};"
-  );
+  // Generated from FILE_FOR so every firm (incl. fundednext) is always mapped.
+  var map = 'var pageMap={' + Object.keys(FILE_FOR).map(function (s) {
+    return "'" + s + "':'" + FILE_FOR[s].replace(/\.html$/, '') + "'";
+  }).join(',') + '};';
+  return html.replace(/var pageMap=\{[^}]*\};/, function () { return map; });
+}
+function patchRelatedCount(html) {
+  // The inline JS used to cap the related grid (slice(0,7)); show every other
+  // live firm so hydration matches the static pre-render above.
+  return html.replace(/allFirms\.slice\(0,\s*\d+\)\.map\(/, 'allFirms.map(');
 }
 
 // --- build all pages ---
@@ -198,6 +213,7 @@ Object.keys(FILE_FOR).forEach(function (slug) {
   html = setHref(html, 'ctaAffiliate', r.affiliate);
   html = patchGuard(html);
   html = patchPageMap(html);
+  html = patchRelatedCount(html);
 
   var plans = (f.plansSummary || f.plansDetailed || []).slice(0, 4).length;
   if (html !== before) {
