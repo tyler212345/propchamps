@@ -5,7 +5,13 @@
 
 # source + build tooling (never needed by the browser)
 worker
-tools
+# tools/ holds build scripts (private) AND one public page — the drawdown
+# calculator (/tools/prop-firm-drawdown-calculator) + its stylesheet. Ignore the
+# folder's contents, then re-include only page/style files. Wrangler tests each
+# file path with the gitignore-compatible `ignore` lib, so negation works here.
+tools/*
+!tools/*.html
+!tools/*.css
 
 # Cloudflare / project config (contains infra + admin IDs — not secret, but not public)
 wrangler.jsonc
