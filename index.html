@@ -227,7 +227,8 @@ a.hp-tr:hover .hp-arr{color:var(--pc-violet-lt);transform:translateX(3px)}
 .hp-tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .hp-tool{display:flex;flex-direction:column;padding:26px;border-radius:20px;border:1px solid var(--pc-line);background:linear-gradient(180deg,var(--pc-surface),var(--pc-bg-2));transition:border-color .2s,transform .2s var(--pc-ease)}
 .hp-tool:hover{border-color:var(--pc-line-v);transform:translateY(-3px)}
-.hp-tool-ic{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:19px;letter-spacing:-.04em;margin-bottom:20px}
+.hp-tool-ic{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:19px;letter-spacing:-.04em;margin-bottom:20px;overflow:hidden;flex-shrink:0}
+.hp-tool-ic img{width:100%;height:100%;object-fit:cover;display:block}
 .hp-tool h3{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800;letter-spacing:-.02em;color:#fff;margin-bottom:8px}
 .hp-tool p{font-size:14.5px;line-height:1.6;color:var(--pc-soft);flex:1}
 .hp-tool .pc-link{margin-top:18px}
@@ -516,7 +517,7 @@ a.hp-tr:hover .hp-arr{color:var(--pc-violet-lt);transform:translateX(3px)}
       <article class="hp-step" data-pc-reveal>
         <div class="hp-step-n">03</div>
         <h3>Pass with the right toolkit</h3>
-        <p>Journal every trade, read the order flow, and watch how Champ trades it live — the habits that keep funded accounts alive.</p>
+        <p>Journal every trade, read the options flow, and watch how Champ trades it live — the habits that keep funded accounts alive.</p>
         <a class="pc-link" href="#toolkit">See the toolkit →</a>
       </article>
     </div>
@@ -560,16 +561,16 @@ a.hp-tr:hover .hp-arr{color:var(--pc-violet-lt);transform:translateX(3px)}
       </div>
     </div>
     <div class="hp-tools">
-      <a class="hp-tool" href="https://journaly.io" target="_blank" rel="noopener" data-pc-reveal>
-        <span class="hp-tool-ic" style="background:linear-gradient(160deg,#9178ff,#5b3df0);color:#fff">J</span>
-        <h3>Journaly <span class="pc-own">Ours</span></h3>
-        <p>The trading journal built for prop traders. Log every trade, find the leaks in your process, and see how close you are to each firm’s rules before you break one.</p>
-        <span class="pc-link">Open Journaly →</span>
+      <a class="hp-tool" href="https://journali.io" target="_blank" rel="noopener" data-pc-reveal>
+        <span class="hp-tool-ic"><img src="/logos/journali.png" alt="Journali logo" width="52" height="52" loading="lazy"></span>
+        <h3>Journali <span class="pc-own">Ours</span></h3>
+        <p>The trading journal built for prop traders. Log every trade, track your edge by setup, and run all your prop firm accounts in one place — with AI to compare them. Free to start.</p>
+        <span class="pc-link">Open Journali →</span>
       </a>
-      <a class="hp-tool gold" href="https://flowtopia.net" target="_blank" rel="noopener" data-pc-reveal>
-        <span class="hp-tool-ic" style="background:linear-gradient(160deg,#ffd77a,#e0a92e);color:#1d1503">F</span>
+      <a class="hp-tool" href="https://www.flowtopia.co" target="_blank" rel="noopener" data-pc-reveal>
+        <span class="hp-tool-ic"><img src="/logos/flowtopia.png" alt="Flowtopia logo" width="52" height="52" loading="lazy"></span>
         <h3>Flowtopia <span class="pc-own">Ours</span></h3>
-        <p>The institutional order-flow data Champ trades with. See where the size is positioned before you take the trade — not after.</p>
+        <p>Real-time options flow and smart-money tracking — the institutional-grade data Champ trades with. See where size is positioned before you take the trade, not after.</p>
         <span class="pc-link">Open Flowtopia →</span>
       </a>
       <a class="hp-tool" href="https://www.tradingview.com/" target="_blank" rel="noopener" data-pc-reveal>
