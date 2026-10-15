@@ -10,12 +10,7 @@
   var pair = window.PROPCHAMPS_VS || [];
   var a = F[pair[0]], b = F[pair[1]];
 
-  /* ---- mobile menu ---- */
-  var toggle = document.getElementById('menuToggle'), header = document.querySelector('header.site');
-  if (toggle){
-    toggle.addEventListener('click', function(){ var o = header.classList.toggle('is-open'); document.body.classList.toggle('is-menu-open', o); });
-    document.querySelectorAll('.mobile-menu a').forEach(function(el){ el.addEventListener('click', function(){ header.classList.remove('is-open'); document.body.classList.remove('is-menu-open'); }); });
-  }
+  /* (header, mobile menu and ticker are handled site-wide by /assets/pc.js) */
 
   if (!a || !b){ return; }
 
@@ -30,7 +25,7 @@
     document.querySelectorAll('[data-vs-logo="'+side+'"]').forEach(function(el){ el.src = f.logo; el.alt = f.name + ' logo'; });
     document.querySelectorAll('[data-vs-cta="'+side+'"]').forEach(function(el){
       if (f.affiliateUrl){ el.href = f.affiliateUrl; el.target = '_blank'; el.rel = 'noopener'; }
-      if (!el.dataset.keepText){ el.innerHTML = 'Get ' + f.name + ' deal <svg width="13" height="13" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L11 8 L5 4"/></svg>'; }
+      if (!el.dataset.keepText){ el.innerHTML = 'Get ' + f.name + ' deal <svg width="13" height="13" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>'; }
     });
   }
   fill('a', a); fill('b', b);
@@ -41,7 +36,7 @@
     return '<div class="vs-firm">'+
       '<div class="vs-firm-head"><div class="vs-firm-logo"><img src="'+f.logo+'" alt="'+f.name+' logo"></div>'+
         '<div><div class="vs-firm-name">'+f.name+'</div><div class="vs-firm-type">'+(f.type||'')+'</div></div></div>'+
-      '<div class="vs-firm-rating"><strong>'+(f.rating||'—')+'</strong><span>/ 5 · '+(f.reviewCount||0)+' reviews</span></div>'+
+      '<div class="vs-firm-rating"><strong>'+(f.rating||'—')+'</strong><span>/ 5'+(f.reviewCount ? ' · '+f.reviewCount+' reviews' : '')+'</span></div>'+
       '<div class="vs-firm-chips">'+chips(f)+'</div>'+
       '<a class="vs-cta" href="'+(f.affiliateUrl||'#')+'" target="_blank" rel="noopener">Get '+f.name+' deal</a>'+
     '</div>';
@@ -106,7 +101,8 @@
       var el = document.getElementById(l.getAttribute('href').slice(1)); if (!el) return;
       e.preventDefault();
       var navH = document.getElementById('sectionNav') ? document.getElementById('sectionNav').offsetHeight : 0;
-      window.scrollTo({ top: offsetTop(el) - 80 - navH - 8, behavior: 'smooth' });
+      var hdrH = document.getElementById('pcHeader') ? document.getElementById('pcHeader').offsetHeight : 0;
+      window.scrollTo({ top: offsetTop(el) - hdrH - navH - 16, behavior: 'smooth' });
     });
   });
   window.addEventListener('scroll', updateActive, {passive:true});

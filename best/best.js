@@ -8,14 +8,9 @@
 (function(){
   var F = window.FIRMS || {};
   // slug -> firm review page filename (slugs don't all match filenames)
-  var PAGE = {'lucid-trading':'lucid-trading.html','tradeify':'tradeify.html','alpha-futures':'alpha-futures.html','apex-trader':'apex-trader.html','my-funded-futures':'my-funded-futures.html','top-one-futures':'top-one-futures.html','take-profit':'take-profit-trader.html'};
+  var PAGE = {'lucid-trading':'lucid-trading.html','tradeify':'tradeify.html','alpha-futures':'alpha-futures.html','apex-trader':'apex-trader.html','my-funded-futures':'my-funded-futures.html','top-one-futures':'top-one-futures.html','take-profit':'take-profit-trader.html','fundednext':'fundednext.html'};
 
-  /* mobile menu */
-  var toggle = document.getElementById('menuToggle'), header = document.querySelector('header.site');
-  if (toggle){
-    toggle.addEventListener('click', function(){ var o = header.classList.toggle('is-open'); document.body.classList.toggle('is-menu-open', o); });
-    document.querySelectorAll('.mobile-menu a').forEach(function(el){ el.addEventListener('click', function(){ header.classList.remove('is-open'); document.body.classList.remove('is-menu-open'); }); });
-  }
+  /* (header, mobile menu and ticker are handled site-wide by /assets/pc.js) */
 
   /* fill each rank card's live data from firms.js */
   document.querySelectorAll('.rank-card[data-firm]').forEach(function(card){
@@ -24,11 +19,11 @@
     var logo = card.querySelector('.rank-logo');
     if (logo){ logo.src = f.logo; logo.alt = f.name + ' logo'; }
     var rating = card.querySelector('.rank-rating');
-    if (rating){ rating.innerHTML = '<strong>' + (f.rating || '—') + '</strong><span>/ 5 · ' + (f.reviewCount || 0) + ' reviews</span>'; }
+    if (rating){ rating.innerHTML = '<strong>' + (f.rating || '—') + '</strong><span>/ 5' + (f.reviewCount ? ' · ' + f.reviewCount + ' reviews' : '') + '</span>'; }
     var cta = card.querySelector('.rank-cta');
     if (cta){
       if (f.affiliateUrl){ cta.href = f.affiliateUrl; cta.target = '_blank'; cta.rel = 'noopener'; }
-      cta.innerHTML = 'Get ' + f.name + ' deal <svg width="13" height="13" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L11 8 L5 4"/></svg>';
+      cta.innerHTML = 'Get ' + f.name + ' deal <svg width="13" height="13" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>';
     }
     var review = card.querySelector('.rank-review');
     if (review && PAGE[card.dataset.firm]){ review.href = '/firms/' + PAGE[card.dataset.firm]; }
@@ -48,7 +43,8 @@
       var el = document.getElementById(l.getAttribute('href').slice(1)); if (!el) return;
       e.preventDefault();
       var navH = document.getElementById('sectionNav') ? document.getElementById('sectionNav').offsetHeight : 0;
-      window.scrollTo({ top: offsetTop(el) - 80 - navH - 8, behavior: 'smooth' });
+      var hdrH = document.getElementById('pcHeader') ? document.getElementById('pcHeader').offsetHeight : 0;
+      window.scrollTo({ top: offsetTop(el) - hdrH - navH - 16, behavior: 'smooth' });
     });
   });
   window.addEventListener('scroll', updateActive, {passive:true});

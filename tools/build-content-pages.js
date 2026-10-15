@@ -89,7 +89,7 @@ function buildDeals() {
 function buildPayouts() {
   var file = path.join(ROOT, 'payouts.html'); var before = read('payouts.html'); var html = before;
   function parseAmount(s) { if (!s) return 0; var clean = ('' + s).replace(/[$,+]/g, '').toUpperCase(); var n = parseFloat(clean); if (isNaN(n)) return 0; if (/K\b/.test(clean)) n *= 1e3; else if (/M\b/.test(clean)) n *= 1e6; else if (/B\b/.test(clean)) n *= 1e9; return n; }
-  function parseTimeMinutes(s) { if (!s) return 9999; var l = ('' + s).toLowerCase(); var m = l.match(/(\d+\.?\d*)\s*(hour|hr|h|day|d|min|m|week|w)/); if (!m) return 9999; var n = parseFloat(m[1]), unit = m[2]; if (unit.startsWith('min') || unit === 'm') return n; if (unit.startsWith('h')) return n * 60; if (unit.startsWith('d')) return n * 60 * 24; if (unit.startsWith('w')) return n * 60 * 24 * 7; return 9999; }
+  function parseTimeMinutes(s) { if (!s) return 9999; var l = ('' + s).toLowerCase(); if (/instant/.test(l)) return 0; var m = l.match(/(\d+\.?\d*)\s*(hour|hr|h|day|d|min|m|week|w)/); if (!m) return 9999; var n = parseFloat(m[1]), unit = m[2]; if (unit.startsWith('min') || unit === 'm') return n; if (unit.startsWith('h')) return n * 60; if (unit.startsWith('d')) return n * 60 * 24; if (unit.startsWith('w')) return n * 60 * 24 * 7; return 9999; }
   function fmtMoney(n) { if (n >= 1e9) return '$' + (n / 1e9).toFixed(1) + 'B'; if (n >= 1e6) return '$' + Math.round(n / 1e6) + 'M'; if (n >= 1e3) return '$' + Math.round(n / 1e3) + 'K'; return '$' + Math.round(n); }
   function fmtCount(n) { if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M'; if (n >= 1e3) return Math.round(n / 1e3) + 'K'; return '' + Math.round(n); }
   function stars(r) { var f = Math.floor(r), h = (r % 1) >= 0.5, s = ''; for (var i = 0; i < 5; i++) { s += i < f ? '★' : (i === f && h ? '½' : '☆'); } return s; }
@@ -112,7 +112,7 @@ function buildPayouts() {
     return '<tr data-href="/firms/' + page + '">' +
       '<td class="col-firm"><div class="p-firm"><div class="p-firm-logo"><img src="' + f.logo + '" alt="' + f.name + '"></div>' +
       '<div><div class="p-firm-name">' + f.name + (flag ? '<span class="p-firm-flag">' + flag + '</span>' : '') + '</div>' +
-      '<div class="p-firm-rating"><span class="stars">' + stars(rating) + '</span>' + rating.toFixed(1) + ' · ' + (f.reviewCount || 0) + ' reviews</div></div></div></td>' +
+      '<div class="p-firm-rating"><span class="stars">' + stars(rating) + '</span>' + rating.toFixed(1) + ' · ' + (f.reviewCount ? f.reviewCount + ' reviews' : 'New listing') + '</div></div></div></td>' +
       '<td class="col-total"><div class="p-value lime">' + (f.payoutTotal || '—') + '</div><div class="p-value-sub">Verified</div></td>' +
       '<td class="col-count"><div class="p-value">' + (f.payoutCount || '—') + '</div><div class="p-value-sub">Payouts</div></td>' +
       '<td class="col-largest"><div class="p-value">' + (f.payoutLargest || '—') + '</div><div class="p-value-sub">Single</div></td>' +
@@ -195,7 +195,7 @@ function buildCompare() {
       promoLine +
       '<div class="fg-plans-label">Choose plan(s) to compare</div>' +
       '<div class="fg-plans">' + planChips + '</div>' +
-      '<div class="fg-actions"><button type="button" class="fg-bulk" data-firm="' + f.slug + '"><span>Compare all ' + n + ' plans</span></button>' +
+      '<div class="fg-actions"><button type="button" class="fg-bulk" data-firm="' + f.slug + '"><span>' + (n === 1 ? 'Compare this plan' : 'Compare all ' + n + ' plans') + '</span></button>' +
       '<a class="fg-review" href="/firms/' + firmPage + '">Read review</a></div></article>';
   }).join('');
   html = injectInner(html, 'firmsGrouped', groups);

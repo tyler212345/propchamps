@@ -972,6 +972,52 @@ async function apiChampVideos(req, env) {
   return json(payload, 200, { 'Cache-Control': 'public, max-age=600' });
 }
 
+// Is Champ live right now? Homepage "Watch Champ live" block. Reads the public
+// channel /live page: while a stream is on air its canonical URL is the stream's
+// watch URL and the player data says isLiveNow. Cached 2 min in the edge Cache API
+// (not KV — this would blow through KV's daily write quota).
+async function apiChampLive(req, env, ctx) {
+  const chan = (env && env.CHAMP_YT_CHANNEL_ID) || CHAMP_YT_CHANNEL_ID;
+  const cache = caches.default;
+  const key = new Request('https://propchamps.net/__edge-cache/champ-live/' + chan);
+  try {
+    const hit = await cache.match(key);
+    if (hit) return hit;
+  } catch (e) {
+    /* cache miss is fine */
+  }
+  let out = { live: false, id: null, title: null };
+  try {
+    const r = await fetch('https://www.youtube.com/channel/' + encodeURIComponent(chan) + '/live', {
+      headers: {
+        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36',
+        'accept-language': 'en-US,en;q=0.9',
+        cookie: 'SOCS=CAI; CONSENT=YES+cb',
+      },
+    });
+    if (r.ok) {
+      const html = await r.text();
+      const id = (html.match(/<link rel="canonical" href="https:\/\/www\.youtube\.com\/watch\?v=([\w-]{11})"/) || [])[1];
+      const liveNow = /"isLiveNow":\s*true/.test(html);
+      if (id && liveNow) {
+        let title = (html.match(/<meta name="title" content="([^"]*)"/) || [])[1] || '';
+        title = title.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+        out = { live: true, id, title };
+      }
+    }
+  } catch (e) {
+    console.error('champ live check failed', String((e && e.message) || e));
+  }
+  const res = json(out, 200, { 'Cache-Control': 'public, max-age=120' });
+  try {
+    const put = cache.put(key, res.clone());
+    if (ctx && ctx.waitUntil) ctx.waitUntil(put); else await put;
+  } catch (e) {
+    /* best-effort cache */
+  }
+  return res;
+}
+
 // ---------- host portal ----------
 async function hostGiveaway(req, env) {
   const u = await currentUser(req, env);
@@ -1070,8 +1116,8 @@ function emailShell(heading, bodyHtml, unsubUrl) {
   return (
     '<!doctype html><html><body style="margin:0;padding:0;background:#f4f5f7;">' +
     '<div style="max-width:520px;margin:0 auto;padding:32px 18px;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;">' +
-    '<div style="background:#0a0d12;border-radius:16px 16px 0 0;padding:24px;text-align:center;">' +
-    '<img src="https://propchamps.net/logos/propchamps.png" alt="PropChamps" style="height:28px;">' +
+    '<div style="background:#0b0b12;border-radius:16px 16px 0 0;padding:24px;text-align:center;border-bottom:2px solid #7c5cff;">' +
+    '<img src="https://propchamps.net/logos/pc-logo.png" alt="PropChamps" style="height:30px;">' +
     '</div>' +
     '<div style="background:#ffffff;border:1px solid #e5e7eb;border-top:0;border-radius:0 0 16px 16px;padding:30px 28px;">' +
     '<h1 style="font-size:22px;font-weight:800;margin:0 0 16px;color:#0a0d12;letter-spacing:-.02em;">' + heading + '</h1>' +
@@ -1090,7 +1136,7 @@ function escHtml(s) {
 }
 function messageToHtml(text) {
   var e = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  e = e.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" style="color:#5b8a00;">$1</a>');
+  e = e.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" style="color:#5b3df0;">$1</a>');
   return e.split(/\n\n+/).map(function (p) { return '<p>' + p.replace(/\n/g, '<br>') + '</p>'; }).join('');
 }
 async function sendEmail(env, to, subject, html, tags) {
@@ -1112,7 +1158,7 @@ async function sendWelcome(env, email, name, origin) {
   try {
     const unsub = origin + '/unsub?e=' + encodeURIComponent(email) + '&t=' + (await unsubToken(email, env));
     const hi = name ? 'Hey ' + name + ',' : 'Hey,';
-    const btn = 'display:inline-block;background:#c8ff00;color:#0a0d12;font-weight:700;text-decoration:none;padding:12px 22px;border-radius:10px;margin:10px 0;';
+    const btn = 'display:inline-block;background:#7c5cff;color:#ffffff;font-weight:700;text-decoration:none;padding:12px 22px;border-radius:10px;margin:10px 0;';
     const body =
       '<p>' + hi + '</p>' +
       "<p>You're entered in the giveaway — the winner gets picked <strong>live on stream</strong>, so keep it on. 🍀</p>" +
@@ -1209,7 +1255,7 @@ async function sendApproved(env, email, username, firm, points, total, origin, i
   if (!email) return;
   try {
     const unsub = origin + '/unsub?e=' + encodeURIComponent(email) + '&t=' + (await unsubToken(email, env));
-    const btn = 'display:inline-block;background:#c8ff00;color:#0a0d12;font-weight:700;text-decoration:none;padding:12px 22px;border-radius:10px;margin:10px 0;';
+    const btn = 'display:inline-block;background:#7c5cff;color:#ffffff;font-weight:700;text-decoration:none;padding:12px 22px;border-radius:10px;margin:10px 0;';
     const line = isPayout
       ? 'Your <strong>' + firm + '</strong> payout was verified and <strong>+' + points + ' points</strong> just hit your account.'
       : 'Your <strong>' + firm + '</strong> submission was approved and <strong>+' + points + ' points</strong> just hit your account.';
@@ -1231,7 +1277,7 @@ async function sendRejected(env, email, username, firm, origin, discordUrl, reas
   try {
     const unsub = origin + '/unsub?e=' + encodeURIComponent(email) + '&t=' + (await unsubToken(email, env));
     const link = discordUrl
-      ? '<a href="' + discordUrl + '" style="color:#5b8a00;font-weight:600;">open a ticket in our Discord</a>'
+      ? '<a href="' + discordUrl + '" style="color:#5b3df0;font-weight:600;">open a ticket in our Discord</a>'
       : 'open a ticket in our Discord';
     const list = (Array.isArray(reasons) ? reasons : []).map((r) => String(r || '').trim()).filter(Boolean).slice(0, 8);
     const reasonBlock = list.length
@@ -1255,7 +1301,7 @@ async function sendClaimReceived(env, email, username, rewardName, origin) {
   if (!email) return;
   try {
     const unsub = origin + '/unsub?e=' + encodeURIComponent(email) + '&t=' + (await unsubToken(email, env));
-    const btn = 'display:inline-block;background:#c8ff00;color:#0a0d12;font-weight:700;text-decoration:none;padding:12px 22px;border-radius:10px;margin:10px 0;';
+    const btn = 'display:inline-block;background:#7c5cff;color:#ffffff;font-weight:700;text-decoration:none;padding:12px 22px;border-radius:10px;margin:10px 0;';
     const body =
       '<p>Hey' + (username ? ' ' + username : '') + '! 🎉</p>' +
       '<p>We got your claim for <strong>' + rewardName + '</strong> — nice one.</p>' +
@@ -1277,7 +1323,7 @@ async function unsubscribe(req, env) {
     ? "You've been unsubscribed. You won't get any more emails from PropChamps."
     : 'That unsubscribe link is invalid or expired.';
   return new Response(
-    '<!doctype html><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><body style="font-family:system-ui,sans-serif;background:#0a0d12;color:#e8edf2;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;text-align:center;padding:20px"><div><img src="/logos/propchamps.png" style="height:34px;margin-bottom:20px"><p style="font-size:16px;max-width:400px;line-height:1.5">' + msg + '</p></div>',
+    '<!doctype html><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><body style="font-family:system-ui,sans-serif;background:#0b0b12;color:#ecebf5;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;text-align:center;padding:20px"><div><img src="/logos/pc-logo.png" style="height:34px;margin-bottom:20px"><p style="font-size:16px;max-width:400px;line-height:1.5">' + msg + '</p></div>',
     { headers: { 'content-type': 'text/html; charset=utf-8' } }
   );
 }
@@ -1370,6 +1416,7 @@ export default {
       if (p === '/api/checklist' && m === 'POST') return await apiChecklist(request, env, ctx);
       if (p === '/api/plan' && m === 'POST') return await apiPlan(request, env);
       if (p === '/api/champ-videos') return await apiChampVideos(request, env);
+      if (p === '/api/champ-live') return await apiChampLive(request, env, ctx);
       if (p === '/api/host/giveaway') return await hostGiveaway(request, env);
       if (p === '/api/host/giveaway/action' && m === 'POST') return await hostGiveawayAction(request, env);
       if (p === '/api/host/fulfillment') return await hostFulfillment(request, env);

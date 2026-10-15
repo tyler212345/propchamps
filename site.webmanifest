@@ -1,11 +1,11 @@
 {
-  "name": "PropChamps — Independent prop firm research",
+  "name": "PropChamps \u2014 Pay less to get funded",
   "short_name": "PropChamps",
   "description": "Compare rules, payouts, and active discounts across futures prop firms.",
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#0a0d12",
-  "background_color": "#0a0d12",
+  "theme_color": "#0b0b12",
+  "background_color": "#0b0b12",
   "icons": [
     {
       "src": "/icon-192.png",

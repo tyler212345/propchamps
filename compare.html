@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<meta name="theme-color" content="#0a0d12">
+<meta name="theme-color" content="#0b0b12">
 <title>Compare Prop Firms & Plans — PropChamps</title>
 <meta name="description" content="Compare prop trading firms and their evaluation plans side-by-side. Match account sizes, drawdowns, payout splits, and rules across firms.">
 <meta name="robots" content="index, follow">
@@ -30,10 +30,10 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root{--bg-base:#0a0d12;--bg-surface:#0f1419;--bg-elev:#131820;--bg-card:#131922;--bg-card-elev:#181f29;--bg-band:#07090d;--border:#1c2532;--border-strong:#2a3441;--border-lime:rgba(200,255,0,0.22);--border-lime-strong:rgba(200,255,0,0.45);--text:#e8edf2;--text-strong:#fff;--text-soft:#94a3b8;--text-faint:#6b7785;--lime:#c8ff00;--lime-2:#d4ff33;--lime-soft:rgba(200,255,0,0.10);--lime-glow:rgba(200,255,0,0.18);--lime-text:#b4e600;--positive:#4ade80;--warning:#fbbf24;--neg:#f87171;--info:#60a5fa;--font-display:'Inter',system-ui,-apple-system,sans-serif;--font-body:'Inter',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono',ui-monospace,monospace;--max-w:1320px;--gutter:clamp(20px,4vw,48px);--ease:cubic-bezier(0.16,1,0.3,1)}
+:root{--bg-base:#0b0b12;--bg-surface:#0f1419;--bg-elev:#131820;--bg-card:#131922;--bg-card-elev:#181f29;--bg-band:#07090d;--border:#1c2532;--border-strong:#2a3441;--border-lime:rgba(124,92,255,0.22);--border-lime-strong:rgba(124,92,255,0.45);--text:#e8edf2;--text-strong:#fff;--text-soft:#94a3b8;--text-faint:#6b7785;--lime:#7c5cff;--lime-2:#8f73ff;--lime-soft:rgba(124,92,255,0.10);--lime-glow:rgba(124,92,255,0.18);--lime-text:#a996ff;--positive:#4ade80;--warning:#fbbf24;--neg:#f87171;--info:#60a5fa;--font-display:'Inter',system-ui,-apple-system,sans-serif;--font-body:'Inter',system-ui,-apple-system,sans-serif;--font-mono:'JetBrains Mono',ui-monospace,monospace;--max-w:1320px;--gutter:clamp(16px,4vw,40px);--ease:cubic-bezier(0.16,1,0.3,1)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg-base);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-feature-settings:"cv11","ss01";overflow-x:hidden}
@@ -43,11 +43,11 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%;height:aut
 .editorial-strip{background:var(--bg-band);border-bottom:1px solid var(--border);color:var(--text-soft);font-size:12.5px;font-weight:500;position:relative;z-index:10}
 .editorial-strip .container{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-top:10px;padding-bottom:10px}
 .editorial-strip .lhs{display:flex;align-items:center;gap:10px}
-.editorial-strip .dot{width:6px;height:6px;border-radius:50%;background:var(--lime);box-shadow:0 0 8px rgba(200,255,0,.6);animation:pulse 2.4s ease-in-out infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 6px rgba(200,255,0,.5)}50%{box-shadow:0 0 12px rgba(200,255,0,.8)}}
+.editorial-strip .dot{width:6px;height:6px;border-radius:50%;background:var(--lime);box-shadow:0 0 8px rgba(124,92,255,.6);animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 6px rgba(124,92,255,.5)}50%{box-shadow:0 0 12px rgba(124,92,255,.8)}}
 .editorial-strip .rhs{font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint)}
 
-header.site{background:rgba(10,13,18,.78);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px)}
+header.site{background:rgba(11,11,18,.78);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px)}
 header.site .container{display:flex;align-items:center;justify-content:space-between;height:80px}
 .logo-mark{display:inline-flex;align-items:center;height:44px;transition:opacity .15s var(--ease)}
 .logo-mark img{height:44px;width:auto}.logo-mark:hover{opacity:.85}
@@ -55,9 +55,9 @@ nav.primary{display:flex;align-items:center;gap:4px}
 nav.primary a{font-size:14px;font-weight:500;color:var(--text-soft);padding:8px 14px;border-radius:8px;transition:all .15s var(--ease);position:relative}
 nav.primary a:hover{color:var(--text-strong);background:rgba(255,255,255,.04)}
 nav.primary a.active{color:var(--text-strong)}
-nav.primary a.active::after{content:"";position:absolute;bottom:-1px;left:14px;right:14px;height:2px;background:var(--lime);border-radius:2px;box-shadow:0 0 12px rgba(200,255,0,.6)}
-.header-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--lime);color:var(--bg-base);font-size:14px;font-weight:700;letter-spacing:-.005em;border-radius:8px;transition:all .18s var(--ease);box-shadow:0 0 0 1px rgba(200,255,0,.2),0 8px 24px -8px rgba(200,255,0,.4)}
-.header-cta:hover{background:var(--lime-2);transform:translateY(-1px);box-shadow:0 0 0 1px rgba(200,255,0,.3),0 12px 32px -8px rgba(200,255,0,.6)}
+nav.primary a.active::after{content:"";position:absolute;bottom:-1px;left:14px;right:14px;height:2px;background:var(--lime);border-radius:2px;box-shadow:0 0 12px rgba(124,92,255,.6)}
+.header-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--lime);color:var(--on-accent);font-size:14px;font-weight:700;letter-spacing:-.005em;border-radius:8px;transition:all .18s var(--ease);box-shadow:0 0 0 1px rgba(124,92,255,.2),0 8px 24px -8px rgba(124,92,255,.4)}
+.header-cta:hover{background:var(--lime-2);transform:translateY(-1px);box-shadow:0 0 0 1px rgba(124,92,255,.3),0 12px 32px -8px rgba(124,92,255,.6)}
 .menu-toggle{display:none;width:40px;height:40px;border-radius:8px;border:1px solid var(--border-strong);background:var(--bg-card);align-items:center;justify-content:center}
 .menu-toggle .bar{width:16px;height:1.5px;background:var(--text);position:relative;transition:all .2s var(--ease)}
 .menu-toggle .bar::before,.menu-toggle .bar::after{content:"";position:absolute;left:0;width:16px;height:1.5px;background:var(--text);transition:all .2s var(--ease)}
@@ -67,18 +67,18 @@ header.is-open .menu-toggle .bar::before{transform:translateY(5px) rotate(45deg)
 header.is-open .menu-toggle .bar::after{transform:translateY(-5px) rotate(-45deg)}
 .mobile-menu{display:none;position:fixed;inset:80px 0 0 0;background:var(--bg-base);border-top:1px solid var(--border);padding:32px 24px;z-index:40}
 .mobile-menu a{display:block;font-size:18px;font-weight:600;color:var(--text);padding:14px 0;border-bottom:1px solid var(--border)}
-.mobile-menu .mobile-cta{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;background:var(--lime);color:var(--bg-base);font-weight:700;border-radius:10px;margin-top:24px;border-bottom:0}
+.mobile-menu .mobile-cta{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;background:var(--lime);color:var(--on-accent);font-weight:700;border-radius:10px;margin-top:24px;border-bottom:0}
 body.is-menu-open .mobile-menu { display: block; }
 
 .bg-stack{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.bg-stack::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(200,255,0,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(200,255,0,.045) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse 80% 70% at 50% 25%,black 30%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 25%,black 30%,transparent 90%)}
-.bg-stack::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 50% 25%,rgba(200,255,0,.10) 0%,rgba(200,255,0,.04) 30%,transparent 70%)}
+.bg-stack::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(124,92,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(124,92,255,.045) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse 80% 70% at 50% 25%,black 30%,transparent 90%);-webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 25%,black 30%,transparent 90%)}
+.bg-stack::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 50% 25%,rgba(124,92,255,.10) 0%,rgba(124,92,255,.04) 30%,transparent 70%)}
 
 .hero{padding:72px 0 36px;position:relative}
 .hero-kicker{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--lime-text);margin-bottom:22px}
 .hero-kicker::before{content:"";width:24px;height:1px;background:var(--lime-text)}
 .hero h1{font-family:var(--font-display);font-weight:800;font-size:clamp(36px,5.5vw,56px);line-height:1.0;letter-spacing:-.04em;color:var(--text-strong);margin-bottom:18px;max-width:920px}
-.hero h1 .accent-word{background:linear-gradient(135deg,var(--lime) 0%,#a3d600 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 24px rgba(200,255,0,.25))}
+.hero h1 .accent-word{background:linear-gradient(100deg,#c9bcff 0%,var(--pc-violet-lt) 30%,var(--pc-violet) 75%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 24px rgba(124,92,255,.25))}
 .hero-sub{font-size:17.5px;line-height:1.55;color:var(--text-soft);max-width:720px;letter-spacing:-.005em}
 
 /* How-it-works steps */
@@ -86,7 +86,7 @@ body.is-menu-open .mobile-menu { display: block; }
 .howto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .howto-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:18px 20px;display:flex;align-items:flex-start;gap:14px;transition:border-color .18s var(--ease)}
 .howto-card:hover{border-color:var(--border-lime)}
-.howto-num{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--lime);flex-shrink:0;width:24px;height:24px;border-radius:6px;background:var(--lime-soft);border:1px solid var(--border-lime);display:flex;align-items:center;justify-content:center}
+.howto-num{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--lime-text);flex-shrink:0;width:24px;height:24px;border-radius:6px;background:var(--lime-soft);border:1px solid var(--border-lime);display:flex;align-items:center;justify-content:center}
 .howto-body{font-size:13.5px;line-height:1.5;color:var(--text-soft)}
 .howto-body strong{color:var(--text-strong);font-weight:600;display:block;margin-bottom:2px;font-size:14px}
 
@@ -99,12 +99,12 @@ body.is-menu-open .mobile-menu { display: block; }
 .toolbar-search input{background:transparent;border:0;outline:0;color:var(--text);font:inherit;font-size:14px;width:100%}
 .toolbar-search input::placeholder{color:var(--text-faint)}
 .toolbar-tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--text-soft);white-space:nowrap}
-.toolbar-tag strong{color:var(--lime);font-weight:700;font-variant-numeric:tabular-nums}
+.toolbar-tag strong{color:var(--lime-text);font-weight:700;font-variant-numeric:tabular-nums}
 
 /* Firm group cards */
 .firms-grouped{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:14px}
 .firm-group{position:relative;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:18px;transition:border-color .22s var(--ease);overflow:hidden}
-.firm-group::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 50% 70% at 100% 0%,rgba(200,255,0,.04),transparent 50%);opacity:0;transition:opacity .22s var(--ease);pointer-events:none}
+.firm-group::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 50% 70% at 100% 0%,rgba(124,92,255,.04),transparent 50%);opacity:0;transition:opacity .22s var(--ease);pointer-events:none}
 .firm-group.has-selected{border-color:var(--border-lime)}
 .firm-group.has-selected::before{opacity:1}
 .firm-group>*{position:relative;z-index:1}
@@ -116,37 +116,37 @@ body.is-menu-open .mobile-menu { display: block; }
 .fg-name{font-family:var(--font-display);font-size:20px;font-weight:800;letter-spacing:-.025em;color:var(--text-strong);line-height:1.15}
 .fg-sub{font-size:12.5px;color:var(--text-soft);margin-top:2px;letter-spacing:-.005em}
 .fg-count{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--text-faint);background:var(--bg-elev);border:1px solid var(--border);padding:5px 10px;border-radius:6px;white-space:nowrap}
-.fg-count strong{color:var(--lime);font-weight:700;font-variant-numeric:tabular-nums}
+.fg-count strong{color:var(--lime-text);font-weight:700;font-variant-numeric:tabular-nums}
 
 .fg-promo-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;background:var(--bg-elev);border:1px solid var(--border);border-radius:10px}
 .fg-promo-label{font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint)}
 .fg-promo-value{font-family:var(--font-display);font-size:13.5px;font-weight:700;color:var(--text-strong);letter-spacing:-.01em;margin-top:2px}
-.fg-promo-code{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--lime);background:var(--lime-soft);border:1px solid var(--border-lime);padding:6px 10px;border-radius:6px;white-space:nowrap;cursor:pointer}
-.fg-promo-code:hover{background:rgba(200,255,0,.15)}
+.fg-promo-code{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--pc-gold);background:rgba(245,193,78,.06);border:1px dashed var(--pc-gold-line);padding:6px 10px;border-radius:8px;white-space:nowrap;cursor:pointer;transition:background .15s,border-color .15s}
+.fg-promo-code:hover{background:rgba(245,193,78,.12);border-color:var(--pc-gold)}
 
 .fg-plans-label{font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);margin-top:2px;margin-bottom:-6px}
 
 .fg-plans{display:flex;flex-wrap:wrap;gap:8px}
 .plan-chip{position:relative;display:inline-flex;flex-direction:column;align-items:flex-start;gap:3px;padding:9px 14px;background:var(--bg-elev);border:1px solid var(--border-strong);border-radius:10px;cursor:pointer;transition:all .15s var(--ease);min-width:0}
-.plan-chip:hover{border-color:var(--border-lime);background:rgba(200,255,0,.03)}
-.plan-chip.selected{background:linear-gradient(180deg,rgba(200,255,0,.10),rgba(200,255,0,.02));border-color:var(--lime);box-shadow:0 0 0 1px var(--lime)}
-.plan-chip.selected::after{content:"✓";position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:var(--lime);color:var(--bg-base);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;box-shadow:0 0 0 2px var(--bg-card)}
+.plan-chip:hover{border-color:var(--border-lime);background:rgba(124,92,255,.03)}
+.plan-chip.selected{background:linear-gradient(180deg,rgba(124,92,255,.10),rgba(124,92,255,.02));border-color:var(--lime);box-shadow:0 0 0 1px var(--lime)}
+.plan-chip.selected::after{content:"✓";position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:var(--lime);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;box-shadow:0 0 0 2px var(--bg-card)}
 .plan-chip-name{font-family:var(--font-display);font-size:13.5px;font-weight:700;color:var(--text-strong);letter-spacing:-.015em;line-height:1.15;white-space:nowrap}
 .plan-chip-meta{font-family:var(--font-mono);font-size:10px;color:var(--text-soft);letter-spacing:.02em}
-.plan-chip.featured .plan-chip-name::before{content:"★ ";color:var(--lime);font-size:11px}
+.plan-chip.featured .plan-chip-name::before{content:"★ ";color:var(--lime-text);font-size:11px}
 
 .fg-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:14px;border-top:1px solid var(--border);margin-top:auto}
 .fg-bulk{font-size:13px;font-weight:600;color:var(--text);letter-spacing:-.005em;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:color .15s var(--ease);background:none;border:0}
-.fg-bulk:hover{color:var(--lime)}
+.fg-bulk:hover{color:var(--lime-text)}
 .fg-bulk-x{color:var(--text-faint);font-weight:500}
 .fg-review{font-size:13px;color:var(--text-soft);display:inline-flex;align-items:center;gap:6px;transition:color .15s var(--ease)}
 .fg-review::after{content:"→";color:var(--text-faint);transition:transform .15s var(--ease),color .15s var(--ease)}
-.fg-review:hover{color:var(--lime)}
-.fg-review:hover::after{color:var(--lime);transform:translateX(3px)}
+.fg-review:hover{color:var(--lime-text)}
+.fg-review:hover::after{color:var(--lime-text);transform:translateX(3px)}
 
 /* Sticky tray — restructured: header row + chips row + actions row */
-.tray-bar{position:sticky;bottom:16px;display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"count info actions";align-items:center;gap:14px 18px;margin-top:28px;padding:18px 22px;background:linear-gradient(180deg,rgba(15,20,25,.94),rgba(8,11,15,.97));border:1px solid var(--border-lime);border-radius:16px;z-index:30;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 24px 48px -16px rgba(0,0,0,.5),0 0 0 1px rgba(200,255,0,.05);transition:transform .15s var(--ease)}
-.tray-count{grid-area:count;font-family:var(--font-display);font-size:32px;font-weight:900;color:var(--lime);letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1;text-shadow:0 0 20px rgba(200,255,0,.35)}
+.tray-bar{position:sticky;bottom:16px;display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"count info actions";align-items:center;gap:14px 18px;margin-top:28px;padding:18px 22px;background:linear-gradient(180deg,rgba(25,23,37,.94),rgba(11,11,18,.97));border:1px solid var(--border-lime);border-radius:16px;z-index:30;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 24px 48px -16px rgba(0,0,0,.5),0 0 0 1px rgba(124,92,255,.05);transition:transform .15s var(--ease)}
+.tray-count{grid-area:count;font-family:var(--font-display);font-size:32px;font-weight:900;color:var(--lime);letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1;text-shadow:0 0 20px rgba(124,92,255,.35)}
 .tray-info{grid-area:info;display:flex;flex-direction:column;gap:8px;min-width:0}
 .tray-msg{font-size:13.5px;color:var(--text-soft);letter-spacing:-.005em;line-height:1.3}
 .tray-msg strong{color:var(--text-strong);font-weight:600}
@@ -157,28 +157,28 @@ body.is-menu-open .mobile-menu { display: block; }
 .tray-chip .x{cursor:pointer;color:var(--text-faint);font-weight:700;padding:2px 6px;border-radius:50%;line-height:1;flex-shrink:0}
 .tray-chip .x:hover{color:var(--neg);background:rgba(248,113,113,.08)}
 .tray-actions{grid-area:actions;display:flex;gap:10px}
-.btn-primary{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;background:var(--lime);color:var(--bg-base);font-size:14px;font-weight:700;letter-spacing:-.005em;border-radius:10px;transition:all .18s var(--ease);box-shadow:0 0 0 1px rgba(200,255,0,.2),0 12px 32px -8px rgba(200,255,0,.4)}
-.btn-primary:hover:not(:disabled){background:var(--lime-2);transform:translateY(-2px);box-shadow:0 0 0 1px rgba(200,255,0,.35),0 18px 40px -8px rgba(200,255,0,.6)}
+.btn-primary{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;background:var(--lime);color:var(--on-accent);font-size:14px;font-weight:700;letter-spacing:-.005em;border-radius:10px;transition:all .18s var(--ease);box-shadow:0 0 0 1px rgba(124,92,255,.2),0 12px 32px -8px rgba(124,92,255,.4)}
+.btn-primary:hover:not(:disabled){background:var(--lime-2);transform:translateY(-2px);box-shadow:0 0 0 1px rgba(124,92,255,.35),0 18px 40px -8px rgba(124,92,255,.6)}
 .btn-primary:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
 .btn-ghost{padding:12px 18px;background:transparent;color:var(--text);border:1px solid var(--border-strong);border-radius:10px;font-size:14px;font-weight:500;letter-spacing:-.005em;transition:all .15s var(--ease)}
 .btn-ghost:hover{border-color:var(--border-lime);background:var(--lime-soft);color:var(--text-strong)}
 
 /* Matrix */
-.matrix-wrap{margin-top:64px;padding-top:48px;border-top:1px solid var(--border);scroll-margin-top:120px}
+.matrix-wrap{margin-top:64px;padding-top:48px;border-top:1px solid var(--border);scroll-margin-top:calc(var(--pc-header-h) + 16px)}
 .matrix-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:32px;flex-wrap:wrap}
 .matrix-head-lhs h2{font-family:var(--font-display);font-weight:800;font-size:clamp(26px,3.5vw,38px);letter-spacing:-.035em;color:var(--text-strong);line-height:1.1;margin-bottom:8px}
 .matrix-head-lhs p{font-size:14.5px;color:var(--text-soft);letter-spacing:-.005em}
-.matrix-head-lhs p strong{color:var(--lime);font-variant-numeric:tabular-nums}
+.matrix-head-lhs p strong{color:var(--lime-text);font-variant-numeric:tabular-nums}
 /* Diff toggle — pill button style, clear on/off feedback */
 .diff-toggle{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--text-soft);cursor:pointer;user-select:none;padding:8px 14px 8px 12px;border:1px solid var(--border-strong);border-radius:100px;background:var(--bg-elev);transition:all .18s var(--ease)}
 .diff-toggle:hover{color:var(--text-strong);border-color:var(--border-lime)}
 .diff-toggle .switch{position:relative;width:32px;height:18px;background:var(--bg-base);border:1px solid var(--border-strong);border-radius:100px;transition:all .2s var(--ease);flex-shrink:0}
 .diff-toggle .switch::after{content:"";position:absolute;top:1px;left:1px;width:14px;height:14px;border-radius:50%;background:var(--text-soft);transition:all .2s var(--ease)}
-.diff-toggle.on{color:var(--text-strong);border-color:var(--lime);background:rgba(200,255,0,.07);box-shadow:0 0 0 1px var(--lime),0 0 16px rgba(200,255,0,.2)}
+.diff-toggle.on{color:var(--text-strong);border-color:var(--lime);background:rgba(124,92,255,.07);box-shadow:0 0 0 1px var(--lime),0 0 16px rgba(124,92,255,.2)}
 .diff-toggle.on .switch{background:var(--lime);border-color:var(--lime)}
 .diff-toggle.on .switch::after{transform:translateX(13px);background:var(--bg-base);box-shadow:none}
 .diff-toggle .diff-count{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);letter-spacing:.04em}
-.diff-toggle.on .diff-count{color:var(--lime)}
+.diff-toggle.on .diff-count{color:var(--lime-text)}
 
 .matrix-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:16px;border:1px solid var(--border);background:var(--bg-card)}
 .matrix-scroll-hint{display:none}
@@ -211,11 +211,11 @@ body.is-menu-open .mobile-menu { display: block; }
 .matrix-table thead .col-firm-row{display:flex;align-items:center;gap:10px;margin-top:6px;margin-bottom:4px}
 .matrix-table thead .col-firm-row img{width:24px;height:24px;border-radius:6px;background:var(--bg-elev);border:1px solid var(--border);object-fit:contain;padding:3px;flex-shrink:0}
 .matrix-table thead .col-plan{font-family:var(--font-display);font-size:16px;font-weight:800;color:var(--text-strong);letter-spacing:-.02em;line-height:1.2;word-break:break-word}
-.matrix-table thead .col-promo{font-family:var(--font-mono);font-size:10px;font-weight:600;color:var(--lime);letter-spacing:.04em;text-transform:uppercase;margin-top:6px;padding:3px 7px;background:var(--lime-soft);border:1px solid var(--border-lime);border-radius:4px;display:inline-block}
+.matrix-table thead .col-promo{font-family:var(--font-mono);font-size:10px;font-weight:600;color:var(--pc-gold);letter-spacing:.04em;text-transform:uppercase;margin-top:6px;padding:3px 7px;background:var(--pc-gold-soft);border:1px solid var(--pc-gold-line);border-radius:4px;display:inline-block}
 .matrix-table thead .col-review{display:inline-block;margin-top:8px;font-size:12px;color:var(--text);border-bottom:1px solid var(--border-strong);padding-bottom:2px}
 .matrix-table tbody td{font-size:14px;color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:-.005em;line-height:1.5;word-break:break-word}
 .matrix-table tbody td.label{font-family:var(--font-mono);font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.04em;font-weight:600;background:var(--bg-band);position:sticky;left:0;z-index:2;border-right:1px solid var(--border)}
-.matrix-table tbody tr:hover td:not(.label){background:rgba(200,255,0,.02)}
+.matrix-table tbody tr:hover td:not(.label){background:rgba(124,92,255,.02)}
 .matrix-table .empty-val{color:var(--text-faint)}
 /* Winner cell: subtle green tint + left accent + small checkmark */
 .matrix-table tbody td.winner{
@@ -259,24 +259,24 @@ body.is-menu-open .mobile-menu { display: block; }
 .matrix-table.diff-only tr.tie-row{display:none}
 
 /* Our Pick recommendation card */
-.our-pick{margin-top:32px;display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;padding:28px 32px;background:linear-gradient(135deg,rgba(200,255,0,.08) 0%,rgba(200,255,0,.02) 50%,transparent 100%);border:1px solid var(--border-lime);border-radius:18px;position:relative;overflow:hidden}
-.our-pick::before{content:"";position:absolute;inset:-40px;background:radial-gradient(circle at 15% 50%,rgba(200,255,0,.15) 0%,transparent 40%);pointer-events:none}
+.our-pick{margin-top:32px;display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;padding:28px 32px;background:linear-gradient(135deg,rgba(124,92,255,.08) 0%,rgba(124,92,255,.02) 50%,transparent 100%);border:1px solid var(--border-lime);border-radius:18px;position:relative;overflow:hidden}
+.our-pick::before{content:"";position:absolute;inset:-40px;background:radial-gradient(circle at 15% 50%,rgba(124,92,255,.15) 0%,transparent 40%);pointer-events:none}
 .our-pick>*{position:relative;z-index:1}
-.our-pick-logo{width:72px;height:72px;border-radius:16px;background:var(--bg-card);border:1px solid var(--border-lime);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;box-shadow:0 12px 32px -12px rgba(200,255,0,.4)}
+.our-pick-logo{width:72px;height:72px;border-radius:16px;background:var(--bg-card);border:1px solid var(--border-lime);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;box-shadow:0 12px 32px -12px rgba(124,92,255,.4)}
 .our-pick-logo img{width:100%;height:100%;object-fit:contain;padding:10px}
 .our-pick-body{min-width:0}
-.our-pick-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lime);background:rgba(200,255,0,.12);border:1px solid var(--border-lime-strong);padding:5px 10px;border-radius:6px;margin-bottom:10px}
+.our-pick-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lime-text);background:rgba(124,92,255,.12);border:1px solid var(--border-lime-strong);padding:5px 10px;border-radius:6px;margin-bottom:10px}
 .our-pick-badge::before{content:"🏆"}
 .our-pick-firm{font-size:12.5px;color:var(--text-soft);letter-spacing:-.005em}
 .our-pick-name{font-family:var(--font-display);font-size:clamp(22px,2.4vw,30px);font-weight:800;letter-spacing:-.03em;color:var(--text-strong);line-height:1.1;margin:4px 0 8px}
 .our-pick-reason{font-size:13.5px;color:var(--text);letter-spacing:-.005em;line-height:1.5}
-.our-pick-reason strong{color:var(--lime);font-weight:600}
+.our-pick-reason strong{color:var(--lime-text);font-weight:600}
 .our-pick-actions{display:flex;flex-direction:column;gap:8px;align-items:flex-end;flex-shrink:0}
 .our-pick-actions a{white-space:nowrap}
 .our-pick-tied{font-family:var(--font-mono);font-size:10px;color:var(--text-faint);text-align:center;margin-top:10px;letter-spacing:.04em;text-transform:uppercase}
 @media(max-width:800px){.our-pick{grid-template-columns:1fr;text-align:center;padding:24px}.our-pick-logo{margin:0 auto}.our-pick-actions{align-items:center}}
 
-footer.site{background:var(--bg-band);border-top:1px solid var(--border);color:var(--text-soft);padding:80px 0 32px;position:relative;overflow:hidden;margin-top:80px}
+footer.site{background:var(--bg-band);border-top:1px solid var(--border);color:var(--text-soft);padding:80px 0 32px;position:relative;overflow:hidden;margin-top:var(--pc-header-h)}
 footer.site::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border-lime-strong),transparent)}
 footer.site .top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;padding-bottom:56px;border-bottom:1px solid var(--border);margin-bottom:32px}
 footer.site .brand .logo-mark{margin-bottom:18px}
@@ -287,7 +287,7 @@ footer.site a{font-size:14px;color:var(--text);transition:color .15s var(--ease)
 footer.site a:hover{color:var(--lime)}
 footer.site .legal{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--text-faint);flex-wrap:wrap;gap:16px}
 
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-card);color:var(--lime);border:1px solid var(--border-lime);font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.04em;padding:12px 18px;border-radius:10px;opacity:0;pointer-events:none;transition:all .22s var(--ease);z-index:100;box-shadow:0 12px 32px -12px rgba(200,255,0,.25)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-card);color:var(--lime);border:1px solid var(--border-lime);font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.04em;padding:12px 18px;border-radius:10px;opacity:0;pointer-events:none;transition:all .22s var(--ease);z-index:100;box-shadow:0 12px 32px -12px rgba(124,92,255,.25)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 @media(max-width:900px){nav.primary,.header-cta{display:none}.menu-toggle{display:inline-flex}.howto-grid{grid-template-columns:1fr;gap:8px}}
@@ -353,27 +353,40 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
 [data-reveal].in{transform:none;opacity:1}
 @media (prefers-reduced-motion: reduce){[data-reveal]{transform:none;opacity:1;transition:none}}
 </style>
-<style>header.site nav.primary a,header.site .header-cta{white-space:nowrap}@media(max-width:1100px){header.site nav.primary,header.site .header-cta{display:none}header.site .menu-toggle{display:inline-flex}}</style>
+<!-- pc:head --><link rel="stylesheet" href="/assets/pc.css?v=92cbab22"><script src="/assets/pc.js?v=92cbab22" defer></script><!-- /pc:head -->
 </head>
 <body>
 
-<div class="editorial-strip"><div class="container"><div class="lhs"><span class="dot"></span><span>Independent prop firm research · Reviewed weekly</span></div><div class="rhs">Last reviewed June 8, 2026</div></div></div>
 
-<header class="site">
-  <div class="container">
-    <a class="logo-mark" href="/" aria-label="PropChamps home"><img src="/logos/propchamps.png" alt="PropChamps"></a>
-    <nav class="primary">
-      <a href="/">Firms</a><a href="/compare" class="active">Compare</a><a href="/deals">Deals</a><a href="/payouts">Payouts</a><a href="/blog/">Blog</a>
-    </nav>
-    <a class="header-cta" href="/deals">View deals
-      <svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L11 8 L5 4"/></svg>
-    </a>
-    <button class="menu-toggle" id="menuToggle" aria-label="Open menu"><span class="bar"></span></button>
-  </div></header>
-<div class="mobile-menu" id="mobileMenu">
-  <a href="/">Firms</a><a href="/compare">Compare</a><a href="/deals">Deals</a><a href="/payouts">Payouts</a><a href="/blog/">Blog</a>
-  <a class="mobile-cta" href="/deals">View deals →</a>
+<!-- pc:chrome (generated by tools/pc-build.mjs — do not edit by hand) -->
+<div class="pc-ticker" role="region" aria-label="Active discount codes">
+  <a class="pc-ticker-label" href="/deals"><i aria-hidden="true"></i><span>Live deals</span></a>
+  <div class="pc-ticker-viewport">
+    <a class="pc-ticker-track" href="/deals" aria-label="See every active deal"><span class="pc-ticker-group"><span class="pc-tk pc-tk-code">Use code <b>CHAMP</b></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Apex</b> <em>90% OFF</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Top One</b> <em>60% OFF</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>My Funded Futures</b> <em>UP TO 50% OFF</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Take Profit</b> <em>40% OFF</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Alpha Futures</b> <em>40% OFF</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>FundedNext</b> <em>USE CHAMP</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Tradeify</b> <em>USE CHAMP</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Lucid</b> <em>USE CHAMP</em></span><span class="pc-tk-sep">✦</span></span><span class="pc-ticker-group" aria-hidden="true"><span class="pc-tk pc-tk-code">Use code <b>CHAMP</b></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Apex</b> <em>90% OFF</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Top One</b> <em>60% OFF</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>My Funded Futures</b> <em>UP TO 50% OFF</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Take Profit</b> <em>40% OFF</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Alpha Futures</b> <em>40% OFF</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>FundedNext</b> <em>USE CHAMP</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Tradeify</b> <em>USE CHAMP</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Lucid</b> <em>USE CHAMP</em></span><span class="pc-tk-sep">✦</span></span></a>
   </div>
+</div>
+<header class="pc-header" id="pcHeader">
+  <div class="pc-wrap">
+    <a class="pc-logo" href="/" aria-label="PropChamps home"><img class="pc-logo-mark" src="/logos/pc-mark.png" alt="" width="26" height="34"><img class="pc-logo-word" src="/logos/pc-wordmark.png" alt="PropChamps" width="144" height="15"></a>
+    <nav class="pc-nav" aria-label="Primary"><a href="/firms/">Firms</a><a href="/compare" class="is-active" aria-current="page">Compare</a><a href="/deals">Deals</a><a href="/start/">Start<span class="pc-nav-dot" aria-hidden="true"></span></a></nav>
+    <div class="pc-actions">
+      <button type="button" class="pc-code" data-copy="CHAMP" aria-label="Copy discount code CHAMP"><span>Code</span><b>CHAMP</b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button>
+      <a class="pc-cta" href="/start/">Get funded <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      <button type="button" class="pc-burger" id="pcBurger" aria-label="Open menu" aria-expanded="false" aria-controls="pcMenu"><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="pc-menu" id="pcMenu" aria-hidden="true" inert>
+  <nav class="pc-menu-main" aria-label="Mobile"><a href="/start/"><span><b>Start</b><small>Build your funding plan in 30 seconds</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a><a href="/firms/"><span><b>Firms</b><small>Every firm we cover, ranked</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a><a href="/compare" class="is-active" aria-current="page"><span><b>Compare</b><small>Rules, payouts &amp; prices side by side</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a><a href="/deals"><span><b>Deals</b><small>Every active CHAMP discount</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a></nav>
+  <div class="pc-menu-label">Learn</div>
+  <div class="pc-menu-sub"><a href="/blog/">Blog</a><a href="/payouts">Payouts</a><a href="/guide">Beginner's guide</a><a href="/methodology">How we audit</a></div>
+  <div class="pc-menu-cta"><a class="pc-cta" href="/start/">Build my funding plan <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a><button type="button" class="pc-code" data-copy="CHAMP" aria-label="Copy discount code CHAMP"><span>Code</span><b>CHAMP</b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button></div>
+</div>
+<!-- /pc:chrome -->
+
+
+
+
 
 <section class="hero">
   <div class="bg-stack"></div>
@@ -389,7 +402,7 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
     <div class="howto-grid">
       <div class="howto-card"><div class="howto-num">1</div><div class="howto-body"><strong>Tap plan chips to add them.</strong>Each card below is a firm; the chips inside are its plans.</div></div>
       <div class="howto-card"><div class="howto-num">2</div><div class="howto-body"><strong>Hit "Compare all" to select a whole firm.</strong>Useful for picking the right account inside one firm.</div></div>
-      <div class="howto-card"><div class="howto-num">3</div><div class="howto-body"><strong>Click <em>Compare</em> in the tray.</strong>Side-by-side matrix of all 11 rule fields, with "Differences only" filter.</div></div>
+      <div class="howto-card"><div class="howto-num">3</div><div class="howto-body"><strong>Click <em>Compare</em> in the tray.</strong>Side-by-side matrix of all 14 rule fields, with "Differences only" filter.</div></div>
     </div>
   </div>
 </section>
@@ -408,7 +421,7 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
       <span class="toolbar-tag"><strong id="selCount">0</strong> of 6 selected</span>
     </div>
 
-    <div class="firms-grouped" id="firmsGrouped"><!--g:firmsGrouped--><article class="firm-group" data-firm="tradeify"><div class="fg-head"><div class="fg-firm"><div class="fg-logo"><img src="/logos/tradify.png" alt=""></div><div><div class="fg-name">Tradeify</div><div class="fg-sub">Growth · Select · Lightning</div></div></div><div class="fg-count"><strong>4</strong> plans</div></div><div class="fg-promo-row"><div><div class="fg-promo-label">Active deal</div><div class="fg-promo-value">Use Code CHAMP</div></div><span class="fg-promo-code js-copy-champ">CHAMP · COPY</span></div><div class="fg-plans-label">Choose plan(s) to compare</div><div class="fg-plans"><button type="button" class="plan-chip featured" data-key="tradeify__0"><span class="plan-chip-name">GROWTH</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="tradeify__1"><span class="plan-chip-name">SELECT — DAILY PATH</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="tradeify__2"><span class="plan-chip-name">SELECT — FLEX PATH</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="tradeify__3"><span class="plan-chip-name">LIGHTNING</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button></div><div class="fg-actions"><button type="button" class="fg-bulk" data-firm="tradeify"><span>Compare all 4 plans</span></button><a class="fg-review" href="/firms/tradeify.html">Read review</a></div></article><article class="firm-group" data-firm="lucid-trading"><div class="fg-head"><div class="fg-firm"><div class="fg-logo"><img src="/logos/lucid.png" alt=""></div><div><div class="fg-name">Lucid Trading</div><div class="fg-sub">Pro · Flex · Daily · Direct</div></div></div><div class="fg-count"><strong>4</strong> plans</div></div><div class="fg-promo-row"><div><div class="fg-promo-label">Active deal</div><div class="fg-promo-value">Use Code CHAMP</div></div><span class="fg-promo-code js-copy-champ">CHAMP · COPY</span></div><div class="fg-plans-label">Choose plan(s) to compare</div><div class="fg-plans"><button type="button" class="plan-chip featured" data-key="lucid-trading__0"><span class="plan-chip-name">LUCID PRO</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="lucid-trading__1"><span class="plan-chip-name">LUCID FLEX</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="lucid-trading__2"><span class="plan-chip-name">LUCID DAILY</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="lucid-trading__3"><span class="plan-chip-name">LUCID DIRECT</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button></div><div class="fg-actions"><button type="button" class="fg-bulk" data-firm="lucid-trading"><span>Compare all 4 plans</span></button><a class="fg-review" href="/firms/lucid-trading.html">Read review</a></div></article><article class="firm-group" data-firm="alpha-futures"><div class="fg-head"><div class="fg-firm"><div class="fg-logo"><img src="/logos/alpha.png" alt=""></div><div><div class="fg-name">Alpha Futures</div><div class="fg-sub">Zero · Standard · Advanced · Direct</div></div></div><div class="fg-count"><strong>4</strong> plans</div></div><div class="fg-promo-row"><div><div class="fg-promo-label">Active deal</div><div class="fg-promo-value">40% OFF</div></div><span class="fg-promo-code js-copy-champ">CHAMP · COPY</span></div><div class="fg-plans-label">Choose plan(s) to compare</div><div class="fg-plans"><button type="button" class="plan-chip featured" data-key="alpha-futures__0"><span class="plan-chip-name">ALPHA ZERO</span><span class="plan-chip-meta">25K · 50K · 100K</span></button><button type="button" class="plan-chip" data-key="alpha-futures__1"><span class="plan-chip-name">ALPHA STANDARD</span><span class="plan-chip-meta">50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="alpha-futures__2"><span class="plan-chip-name">ALPHA ADVANCED</span><span class="plan-chip-meta">50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="alpha-futures__3"><span class="plan-chip-name">ALPHA DIRECT</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button></div><div class="fg-actions"><button type="button" class="fg-bulk" data-firm="alpha-futures"><span>Compare all 4 plans</span></button><a class="fg-review" href="/firms/alpha-futures.html">Read review</a></div></article><article class="firm-group" data-firm="apex-trader"><div class="fg-head"><div class="fg-firm"><div class="fg-logo"><img src="/logos/apex.png" alt=""></div><div><div class="fg-name">Apex Trader Funding</div><div class="fg-sub">Intraday Trail · EOD Trail</div></div></div><div class="fg-count"><strong>2</strong> plans</div></div><div class="fg-promo-row"><div><div class="fg-promo-label">Active deal</div><div class="fg-promo-value">90% OFF</div></div><span class="fg-promo-code js-copy-champ">CHAMP · COPY</span></div><div class="fg-plans-label">Choose plan(s) to compare</div><div class="fg-plans"><button type="button" class="plan-chip featured" data-key="apex-trader__0"><span class="plan-chip-name">INTRADAY TRAIL</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="apex-trader__1"><span class="plan-chip-name">EOD TRAIL</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button></div><div class="fg-actions"><button type="button" class="fg-bulk" data-firm="apex-trader"><span>Compare all 2 plans</span></button><a class="fg-review" href="/firms/apex-trader.html">Read review</a></div></article><article class="firm-group" data-firm="take-profit"><div class="fg-head"><div class="fg-firm"><div class="fg-logo"><img src="/logos/takeprofit.png" alt=""></div><div><div class="fg-name">Take Profit Trader</div><div class="fg-sub">Test → PRO → PRO+ · 25K-150K</div></div></div><div class="fg-count"><strong>1</strong> plans</div></div><div class="fg-promo-row"><div><div class="fg-promo-label">Active deal</div><div class="fg-promo-value">$40 OFF</div></div><span class="fg-promo-code js-copy-champ">CHAMP · COPY</span></div><div class="fg-plans-label">Choose plan(s) to compare</div><div class="fg-plans"><button type="button" class="plan-chip featured" data-key="take-profit__0"><span class="plan-chip-name">EVALUATION</span><span class="plan-chip-meta">25K · 50K · 75K · 100K · 150K</span></button></div><div class="fg-actions"><button type="button" class="fg-bulk" data-firm="take-profit"><span>Compare all 1 plans</span></button><a class="fg-review" href="/firms/take-profit-trader.html">Read review</a></div></article><article class="firm-group" data-firm="top-one-futures"><div class="fg-head"><div class="fg-firm"><div class="fg-logo"><img src="/logos/topone.png" alt=""></div><div><div class="fg-name">Top One Futures</div><div class="fg-sub">Elite Access · Elite Daily · Instant Sim · Ignite</div></div></div><div class="fg-count"><strong>4</strong> plans</div></div><div class="fg-promo-row"><div><div class="fg-promo-label">Active deal</div><div class="fg-promo-value">60% OFF</div></div><span class="fg-promo-code js-copy-champ">CHAMP · COPY</span></div><div class="fg-plans-label">Choose plan(s) to compare</div><div class="fg-plans"><button type="button" class="plan-chip featured" data-key="top-one-futures__0"><span class="plan-chip-name">ELITE ACCESS</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="top-one-futures__1"><span class="plan-chip-name">ELITE DAILY</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="top-one-futures__2"><span class="plan-chip-name">INSTANT SIM FUNDED</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="top-one-futures__3"><span class="plan-chip-name">IGNITE</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button></div><div class="fg-actions"><button type="button" class="fg-bulk" data-firm="top-one-futures"><span>Compare all 4 plans</span></button><a class="fg-review" href="/firms/top-one-futures.html">Read review</a></div></article><article class="firm-group" data-firm="my-funded-futures"><div class="fg-head"><div class="fg-firm"><div class="fg-logo"><img src="/logos/myfunded.png" alt=""></div><div><div class="fg-name">My Funded Futures</div><div class="fg-sub">Rapid · Rapid EOD · Pro · Builder</div></div></div><div class="fg-count"><strong>4</strong> plans</div></div><div class="fg-promo-row"><div><div class="fg-promo-label">Active deal</div><div class="fg-promo-value">Use Code CHAMP</div></div><span class="fg-promo-code js-copy-champ">CHAMP · COPY</span></div><div class="fg-plans-label">Choose plan(s) to compare</div><div class="fg-plans"><button type="button" class="plan-chip featured" data-key="my-funded-futures__0"><span class="plan-chip-name">FUNDED FUTURES RAPID</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="my-funded-futures__1"><span class="plan-chip-name">RAPID EOD</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="my-funded-futures__2"><span class="plan-chip-name">FUNDED FUTURES PRO</span><span class="plan-chip-meta">50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="my-funded-futures__3"><span class="plan-chip-name">BUILDER PLAN</span><span class="plan-chip-meta">25K · 50K</span></button></div><div class="fg-actions"><button type="button" class="fg-bulk" data-firm="my-funded-futures"><span>Compare all 4 plans</span></button><a class="fg-review" href="/firms/my-funded-futures.html">Read review</a></div></article><article class="firm-group" data-firm="fundednext"><div class="fg-head"><div class="fg-firm"><div class="fg-logo"><img src="/logos/fundednext.png" alt=""></div><div><div class="fg-name">FundedNext</div><div class="fg-sub">Flex · Legacy · Rapid</div></div></div><div class="fg-count"><strong>4</strong> plans</div></div><div class="fg-promo-row"><div><div class="fg-promo-label">Active deal</div><div class="fg-promo-value">Use Code CHAMP</div></div><span class="fg-promo-code js-copy-champ">CHAMP · COPY</span></div><div class="fg-plans-label">Choose plan(s) to compare</div><div class="fg-plans"><button type="button" class="plan-chip featured" data-key="fundednext__0"><span class="plan-chip-name">FLEX</span><span class="plan-chip-meta">50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="fundednext__1"><span class="plan-chip-name">LEGACY</span><span class="plan-chip-meta">25K · 50K · 100K</span></button><button type="button" class="plan-chip" data-key="fundednext__2"><span class="plan-chip-name">RAPID — PRO</span><span class="plan-chip-meta">25K · 50K · 100K</span></button><button type="button" class="plan-chip" data-key="fundednext__3"><span class="plan-chip-name">RAPID — DAILY</span><span class="plan-chip-meta">25K · 50K · 100K</span></button></div><div class="fg-actions"><button type="button" class="fg-bulk" data-firm="fundednext"><span>Compare all 4 plans</span></button><a class="fg-review" href="/firms/fundednext.html">Read review</a></div></article><!--/g:firmsGrouped--></div>
+    <div class="firms-grouped" id="firmsGrouped"><!--g:firmsGrouped--><article class="firm-group" data-firm="tradeify"><div class="fg-head"><div class="fg-firm"><div class="fg-logo"><img src="/logos/tradify.png" alt=""></div><div><div class="fg-name">Tradeify</div><div class="fg-sub">Growth · Select · Lightning</div></div></div><div class="fg-count"><strong>4</strong> plans</div></div><div class="fg-promo-row"><div><div class="fg-promo-label">Active deal</div><div class="fg-promo-value">Use Code CHAMP</div></div><span class="fg-promo-code js-copy-champ">CHAMP · COPY</span></div><div class="fg-plans-label">Choose plan(s) to compare</div><div class="fg-plans"><button type="button" class="plan-chip featured" data-key="tradeify__0"><span class="plan-chip-name">GROWTH</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="tradeify__1"><span class="plan-chip-name">SELECT — DAILY PATH</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="tradeify__2"><span class="plan-chip-name">SELECT — FLEX PATH</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="tradeify__3"><span class="plan-chip-name">LIGHTNING</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button></div><div class="fg-actions"><button type="button" class="fg-bulk" data-firm="tradeify"><span>Compare all 4 plans</span></button><a class="fg-review" href="/firms/tradeify.html">Read review</a></div></article><article class="firm-group" data-firm="lucid-trading"><div class="fg-head"><div class="fg-firm"><div class="fg-logo"><img src="/logos/lucid.png" alt=""></div><div><div class="fg-name">Lucid Trading</div><div class="fg-sub">Pro · Flex · Daily · Direct</div></div></div><div class="fg-count"><strong>4</strong> plans</div></div><div class="fg-promo-row"><div><div class="fg-promo-label">Active deal</div><div class="fg-promo-value">Use Code CHAMP</div></div><span class="fg-promo-code js-copy-champ">CHAMP · COPY</span></div><div class="fg-plans-label">Choose plan(s) to compare</div><div class="fg-plans"><button type="button" class="plan-chip featured" data-key="lucid-trading__0"><span class="plan-chip-name">LUCID PRO</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="lucid-trading__1"><span class="plan-chip-name">LUCID FLEX</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="lucid-trading__2"><span class="plan-chip-name">LUCID DAILY</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="lucid-trading__3"><span class="plan-chip-name">LUCID DIRECT</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button></div><div class="fg-actions"><button type="button" class="fg-bulk" data-firm="lucid-trading"><span>Compare all 4 plans</span></button><a class="fg-review" href="/firms/lucid-trading.html">Read review</a></div></article><article class="firm-group" data-firm="alpha-futures"><div class="fg-head"><div class="fg-firm"><div class="fg-logo"><img src="/logos/alpha.png" alt=""></div><div><div class="fg-name">Alpha Futures</div><div class="fg-sub">Zero · Standard · Advanced · Direct</div></div></div><div class="fg-count"><strong>4</strong> plans</div></div><div class="fg-promo-row"><div><div class="fg-promo-label">Active deal</div><div class="fg-promo-value">40% OFF</div></div><span class="fg-promo-code js-copy-champ">CHAMP · COPY</span></div><div class="fg-plans-label">Choose plan(s) to compare</div><div class="fg-plans"><button type="button" class="plan-chip featured" data-key="alpha-futures__0"><span class="plan-chip-name">ALPHA ZERO</span><span class="plan-chip-meta">25K · 50K · 100K</span></button><button type="button" class="plan-chip" data-key="alpha-futures__1"><span class="plan-chip-name">ALPHA STANDARD</span><span class="plan-chip-meta">50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="alpha-futures__2"><span class="plan-chip-name">ALPHA ADVANCED</span><span class="plan-chip-meta">50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="alpha-futures__3"><span class="plan-chip-name">ALPHA DIRECT</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button></div><div class="fg-actions"><button type="button" class="fg-bulk" data-firm="alpha-futures"><span>Compare all 4 plans</span></button><a class="fg-review" href="/firms/alpha-futures.html">Read review</a></div></article><article class="firm-group" data-firm="apex-trader"><div class="fg-head"><div class="fg-firm"><div class="fg-logo"><img src="/logos/apex.png" alt=""></div><div><div class="fg-name">Apex Trader Funding</div><div class="fg-sub">Intraday Trail · EOD Trail</div></div></div><div class="fg-count"><strong>2</strong> plans</div></div><div class="fg-promo-row"><div><div class="fg-promo-label">Active deal</div><div class="fg-promo-value">90% OFF</div></div><span class="fg-promo-code js-copy-champ">CHAMP · COPY</span></div><div class="fg-plans-label">Choose plan(s) to compare</div><div class="fg-plans"><button type="button" class="plan-chip featured" data-key="apex-trader__0"><span class="plan-chip-name">INTRADAY TRAIL</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="apex-trader__1"><span class="plan-chip-name">EOD TRAIL</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button></div><div class="fg-actions"><button type="button" class="fg-bulk" data-firm="apex-trader"><span>Compare all 2 plans</span></button><a class="fg-review" href="/firms/apex-trader.html">Read review</a></div></article><article class="firm-group" data-firm="take-profit"><div class="fg-head"><div class="fg-firm"><div class="fg-logo"><img src="/logos/takeprofit.png" alt=""></div><div><div class="fg-name">Take Profit Trader</div><div class="fg-sub">Test → PRO → PRO+ · 25K-150K</div></div></div><div class="fg-count"><strong>1</strong> plans</div></div><div class="fg-promo-row"><div><div class="fg-promo-label">Active deal</div><div class="fg-promo-value">40% OFF</div></div><span class="fg-promo-code js-copy-champ">CHAMP · COPY</span></div><div class="fg-plans-label">Choose plan(s) to compare</div><div class="fg-plans"><button type="button" class="plan-chip featured" data-key="take-profit__0"><span class="plan-chip-name">EVALUATION</span><span class="plan-chip-meta">25K · 50K · 75K · 100K · 150K</span></button></div><div class="fg-actions"><button type="button" class="fg-bulk" data-firm="take-profit"><span>Compare this plan</span></button><a class="fg-review" href="/firms/take-profit-trader.html">Read review</a></div></article><article class="firm-group" data-firm="top-one-futures"><div class="fg-head"><div class="fg-firm"><div class="fg-logo"><img src="/logos/topone.png" alt=""></div><div><div class="fg-name">Top One Futures</div><div class="fg-sub">Elite Access · Elite Daily · Instant Sim · Ignite</div></div></div><div class="fg-count"><strong>4</strong> plans</div></div><div class="fg-promo-row"><div><div class="fg-promo-label">Active deal</div><div class="fg-promo-value">60% OFF</div></div><span class="fg-promo-code js-copy-champ">CHAMP · COPY</span></div><div class="fg-plans-label">Choose plan(s) to compare</div><div class="fg-plans"><button type="button" class="plan-chip featured" data-key="top-one-futures__0"><span class="plan-chip-name">ELITE ACCESS</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="top-one-futures__1"><span class="plan-chip-name">ELITE DAILY</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="top-one-futures__2"><span class="plan-chip-name">INSTANT SIM FUNDED</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="top-one-futures__3"><span class="plan-chip-name">IGNITE</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button></div><div class="fg-actions"><button type="button" class="fg-bulk" data-firm="top-one-futures"><span>Compare all 4 plans</span></button><a class="fg-review" href="/firms/top-one-futures.html">Read review</a></div></article><article class="firm-group" data-firm="my-funded-futures"><div class="fg-head"><div class="fg-firm"><div class="fg-logo"><img src="/logos/myfunded.png" alt=""></div><div><div class="fg-name">My Funded Futures</div><div class="fg-sub">Rapid · Rapid EOD · Pro · Builder</div></div></div><div class="fg-count"><strong>4</strong> plans</div></div><div class="fg-promo-row"><div><div class="fg-promo-label">Active deal</div><div class="fg-promo-value">Use Code CHAMP</div></div><span class="fg-promo-code js-copy-champ">CHAMP · COPY</span></div><div class="fg-plans-label">Choose plan(s) to compare</div><div class="fg-plans"><button type="button" class="plan-chip featured" data-key="my-funded-futures__0"><span class="plan-chip-name">FUNDED FUTURES RAPID</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="my-funded-futures__1"><span class="plan-chip-name">RAPID EOD</span><span class="plan-chip-meta">25K · 50K</span></button><button type="button" class="plan-chip" data-key="my-funded-futures__2"><span class="plan-chip-name">FUNDED FUTURES PRO</span><span class="plan-chip-meta">50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="my-funded-futures__3"><span class="plan-chip-name">BUILDER PLAN</span><span class="plan-chip-meta">25K · 50K · 100K · 150K</span></button></div><div class="fg-actions"><button type="button" class="fg-bulk" data-firm="my-funded-futures"><span>Compare all 4 plans</span></button><a class="fg-review" href="/firms/my-funded-futures.html">Read review</a></div></article><article class="firm-group" data-firm="fundednext"><div class="fg-head"><div class="fg-firm"><div class="fg-logo"><img src="/logos/fundednext.png" alt=""></div><div><div class="fg-name">FundedNext</div><div class="fg-sub">Flex · Legacy · Rapid</div></div></div><div class="fg-count"><strong>4</strong> plans</div></div><div class="fg-promo-row"><div><div class="fg-promo-label">Active deal</div><div class="fg-promo-value">Use Code CHAMP</div></div><span class="fg-promo-code js-copy-champ">CHAMP · COPY</span></div><div class="fg-plans-label">Choose plan(s) to compare</div><div class="fg-plans"><button type="button" class="plan-chip featured" data-key="fundednext__0"><span class="plan-chip-name">FLEX</span><span class="plan-chip-meta">50K · 100K · 150K</span></button><button type="button" class="plan-chip" data-key="fundednext__1"><span class="plan-chip-name">LEGACY</span><span class="plan-chip-meta">25K · 50K · 100K</span></button><button type="button" class="plan-chip" data-key="fundednext__2"><span class="plan-chip-name">RAPID — PRO</span><span class="plan-chip-meta">25K · 50K · 100K</span></button><button type="button" class="plan-chip" data-key="fundednext__3"><span class="plan-chip-name">RAPID — DAILY</span><span class="plan-chip-meta">25K · 50K · 100K</span></button></div><div class="fg-actions"><button type="button" class="fg-bulk" data-firm="fundednext"><span>Compare all 4 plans</span></button><a class="fg-review" href="/firms/fundednext.html">Read review</a></div></article><!--/g:firmsGrouped--></div>
 
     <div class="tray-bar" id="trayBar" style="display:none">
       <span class="tray-count" id="trayCountBig">0</span>
@@ -419,7 +432,7 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
       <div class="tray-actions">
         <button class="btn-ghost" id="btnClear">Clear all</button>
         <button class="btn-primary" id="btnCompare" disabled>Compare
-          <svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L11 8 L5 4"/></svg>
+          <svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
         </button>
       </div>
     </div>
@@ -454,27 +467,31 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
 .vs-promo-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;font-family:var(--font-display);font-weight:600;font-size:14.5px;color:var(--text);letter-spacing:-.01em;transition:all .18s}
 .vs-promo-card:hover{border-color:var(--border-lime);transform:translateY(-2px)}
 .vs-promo-card .arr{color:var(--text-faint);transition:all .15s}
-.vs-promo-card:hover .arr{color:var(--lime);transform:translateX(3px)}
+.vs-promo-card:hover .arr{color:var(--lime-text);transform:translateX(3px)}
 @media(max-width:760px){.vs-promo-grid{grid-template-columns:1fr}}
 </style>
 
-<footer class="site">
-  <div class="container">
-    <div class="top">
-      <div class="brand">
-        <a class="logo-mark" href="/"><img src="/logos/propchamps.png" alt="PropChamps"></a>
-        <p>Independent research on futures prop trading firms. We track rules, payouts, drawdown methods, and active promo codes — and publish what changes.</p>
+<!-- pc:footer (generated by tools/pc-build.mjs — do not edit by hand) -->
+<footer class="pc-footer">
+  <div class="pc-wrap">
+    <div class="pc-foot-cta">
+      <div><p class="pc-foot-h">Not sure which firm fits? <em>Get your plan in 30 seconds.</em></p><p>Three questions. The right account, the biggest discount, and the toolkit to pass it.</p></div>
+      <a class="pc-cta" href="/start/">Build my plan <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+    </div>
+    <div class="pc-foot-grid">
+      <div class="pc-foot-brand">
+        <a class="pc-logo" href="/" aria-label="PropChamps home"><img class="pc-logo-mark" src="/logos/pc-mark.png" alt="" width="26" height="34" loading="lazy"><img class="pc-logo-word" src="/logos/pc-wordmark.png" alt="PropChamps" width="144" height="15" loading="lazy"></a>
+        <p>Futures prop firms, compared straight. We track rules, payouts and prices across every firm we cover — and code CHAMP takes the biggest discount at each one.</p>
+        <div class="pc-social"><a href="https://www.youtube.com/@thetradingchamp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg> YouTube</a><a href="https://discord.gg/oasisalerts" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.6 1.3a18.3 18.3 0 0 0-5.6 0L8.6 3a19.7 19.7 0 0 0-4.9 1.5C.6 9.1-.3 13.6.1 18.1a19.9 19.9 0 0 0 6 3l1.3-2.1a12.9 12.9 0 0 1-2-1l.5-.4a14.2 14.2 0 0 0 12.2 0l.5.4c-.6.4-1.3.7-2 1l1.3 2.1a19.8 19.8 0 0 0 6-3c.5-5.2-.8-9.7-3.6-13.7zM8 15.3c-1.2 0-2.2-1.1-2.2-2.4S6.8 10.5 8 10.5s2.2 1.1 2.2 2.4-1 2.4-2.2 2.4zm8 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4z"/></svg> Discord</a></div>
       </div>
-      <div><h4>Research</h4><ul><li><a href="/">All firms</a></li><li><a href="/compare">Compare</a></li><li><a href="/deals">Active deals</a></li><li><a href="/payouts">Payouts</a></li><li><a href="/audit-log">Audit log</a></li><li><a href="/favorites">Favorites</a></li><li><a href="/methodology">Methodology</a></li></ul></div>
-      <div><h4>Editorial</h4><ul><li><a href="/guide">Beginner's guide</a></li><li><a href="/methodology">How we audit</a></li><li><a href="/methodology#about">About</a></li><li><a href="mailto:hello@propchamps.net">Contact</a></li></ul></div>
-      <div><h4>Legal</h4><ul><li><a href="/privacy">Privacy</a></li><li><a href="/methodology#disclosure">Affiliate disclosure</a></li></ul></div>
+      <div class="pc-foot-col"><h3>Explore</h3><ul><li><a href="/firms/">Firms</a></li><li><a href="/compare">Compare</a></li><li><a href="/deals">Deals</a></li><li><a href="/start/">Build your plan</a></li><li><a href="/favorites">Saved firms</a></li></ul></div>
+      <div class="pc-foot-col"><h3>Learn</h3><ul><li><a href="/blog/">Blog</a></li><li><a href="/payouts">Payouts</a></li><li><a href="/guide">Beginner's guide</a></li><li><a href="/best/cheapest-prop-firm-challenges">Cheapest challenges</a></li><li><a href="/best/best-prop-firm-for-beginners">Best for beginners</a></li></ul></div>
+      <div class="pc-foot-col"><h3>PropChamps</h3><ul><li><a href="/methodology">How we audit</a></li><li><a href="/audit-log">Audit log</a></li><li><a href="/join">Join the list</a></li><li><a href="mailto:hello@propchamps.net">Contact</a></li></ul></div>
     </div>
-    <div class="legal">
-      <div>© 2026 PropChamps. Independent prop firm research. Not financial advice.</div>
-      <div>Trading involves substantial risk.</div>
-    </div>
+    <div class="pc-foot-legal"><div>© 2026 PropChamps. Independent prop firm research — not financial advice. Futures trading involves substantial risk of loss.</div><div><a href="/privacy">Privacy</a> · <a href="/methodology#disclosure">Affiliate disclosure</a></div></div>
   </div>
 </footer>
+<!-- /pc:footer -->
 
 <div class="toast" id="toast">✓ CHAMP COPIED</div>
 
@@ -486,7 +503,7 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
   if(toggle){toggle.addEventListener('click',function(){var __o=header.classList.toggle('is-open');document.body.classList.toggle('is-menu-open',__o);});
     document.querySelectorAll('.mobile-menu a').forEach(function(a){a.addEventListener('click',function(){header.classList.remove('is-open');document.body.classList.remove('is-menu-open');});});}
 
-  var firmPageMap={'lucid-trading':'lucid-trading.html','tradeify':'tradeify.html','alpha-futures':'alpha-futures.html','apex-trader':'apex-trader.html','my-funded-futures':'my-funded-futures.html','top-one-futures':'top-one-futures.html','take-profit':'take-profit-trader.html'};
+  var firmPageMap={'lucid-trading':'lucid-trading.html','tradeify':'tradeify.html','alpha-futures':'alpha-futures.html','apex-trader':'apex-trader.html','my-funded-futures':'my-funded-futures.html','top-one-futures':'top-one-futures.html','take-profit':'take-profit-trader.html','fundednext':'fundednext.html'};
   var firmList=Object.values(window.FIRMS||{}).filter(function(f){return f&&f.live!==false;});
 
   var allPlans=[];
@@ -518,7 +535,7 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
       var selectedHere=allFirmKeys.filter(function(k){return selected.indexOf(k)!==-1;}).length;
       var hasSel=selectedHere>0?' has-selected':'';
       var allSelected=selectedHere===allFirmKeys.length&&allFirmKeys.length>0;
-      var bulkText=allSelected?'Remove all from tray':'Compare all '+allFirmKeys.length+' plans';
+      var bulkText=allSelected?'Remove all from tray':(allFirmKeys.length===1?'Compare this plan':'Compare all '+allFirmKeys.length+' plans');
       var firmPage=firmPageMap[f.slug]||'#';
 
       var promoLine='';
@@ -603,7 +620,7 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
       var allFirmKeys=(window.FIRMS[slug].plansSummary||[]).map(function(_,i){return slug+'__'+i;});
       var allSelected=selHere===allFirmKeys.length&&allFirmKeys.length>0;
       var bulkSpan=group.querySelector('.fg-bulk span');
-      if(bulkSpan){bulkSpan.textContent=allSelected?'Remove all from tray':'Compare all '+allFirmKeys.length+' plans';bulkSpan.className=allSelected?'fg-bulk-x':'';}
+      if(bulkSpan){bulkSpan.textContent=allSelected?'Remove all from tray':(allFirmKeys.length===1?'Compare this plan':'Compare all '+allFirmKeys.length+' plans');bulkSpan.className=allSelected?'fg-bulk-x':'';}
     });
   }
 
@@ -824,7 +841,7 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
           '</div>'+
           '<div class="our-pick-actions">'+
             '<a class="btn-primary" href="'+(winner.firm.affiliateUrl||'/deals.html')+'" target="_blank" rel="noopener">Get this deal'+
-              '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L11 8 L5 4"/></svg>'+
+              '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>'+
             '</a>'+
             '<a class="btn-ghost" href="/firms/'+page+'">Read review</a>'+
           '</div>'+
@@ -865,6 +882,7 @@ footer.site .legal{display:flex;justify-content:space-between;align-items:center
 
   /* copy */
   function copyChamp(){
+    if(window.PC&&window.PC.copy){window.PC.copy('CHAMP');return;}
     var done=function(){var t=document.getElementById('toast');t.classList.add('show');setTimeout(function(){t.classList.remove('show');},1800);};
     if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText('CHAMP').then(done).catch(done);}
     else{var ta=document.createElement('textarea');ta.value='CHAMP';ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);done();}

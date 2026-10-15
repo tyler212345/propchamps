@@ -22,7 +22,7 @@
 window.CHANGELOG = [
   {
     date: '2026-08-17', firm: 'take-profit', firmName: 'Take Profit Trader', logo: '/logos/takeprofit.png',
-    category: 'rules',
+    category: 'rule',
     headline: 'Take Profit Trader — full TEST → PRO → PRO+ ladder documented',
     was: 'Single "Evaluation" entry · PRO+ split typo · placeholder platforms',
     is: 'TEST (eval) → PRO (sim 80/20) → PRO+ (live 90/10) ladder',
@@ -32,7 +32,7 @@ window.CHANGELOG = [
   },
   {
     date: '2026-08-17', firm: 'top-one-futures', firmName: 'Top One Futures', logo: '/logos/topone.png',
-    category: 'rules',
+    category: 'rule',
     headline: 'Top One refresh — S2F dropped, four paths rebuilt from the site',
     was: 'Elite · Instant Sim · S2F · Ignite (mismatched plan data)',
     is: 'Elite Access · Elite Daily · Instant Sim · Ignite (all 90% split)',
@@ -42,7 +42,7 @@ window.CHANGELOG = [
   },
   {
     date: '2026-08-17', firm: 'my-funded-futures', firmName: 'My Funded Futures', logo: '/logos/myfunded.png',
-    category: 'rules',
+    category: 'rule',
     headline: 'MFF lineup refresh — Flex retired, Rapid EOD added, Builder reworked',
     was: 'Rapid · Pro · Flex · Builder (50K-150K)',
     is: 'Rapid · Rapid EOD · Pro · Builder (25K/50K)',
@@ -52,7 +52,7 @@ window.CHANGELOG = [
   },
   {
     date: '2026-08-17', firm: 'alpha-futures', firmName: 'Alpha Futures', logo: '/logos/alpha.png',
-    category: 'rules',
+    category: 'rule',
     headline: 'Alpha overhauled — Standard returns, new Direct plan, CHAMP now 40% off',
     was: 'Zero + Advanced live · Standard legacy-only · CHAMP 10% off',
     is: 'Zero · Standard · Advanced · Direct all live · CHAMP 40% off',
@@ -61,8 +61,8 @@ window.CHANGELOG = [
     firmPage: 'alpha-futures.html'
   },
   {
-    date: '2026-08-17', firm: 'tradeify', firmName: 'Tradeify', logo: '/logos/tradeify.png',
-    category: 'rules',
+    date: '2026-08-17', firm: 'tradeify', firmName: 'Tradeify', logo: '/logos/tradify.png',
+    category: 'rule',
     headline: 'Tradeify audit — Growth max accounts and Select target corrected',
     was: 'Growth listed 10 funded accounts · Select 50K target $2,500',
     is: 'Growth 5 funded accounts · Select 50K target $3,000',
@@ -72,7 +72,7 @@ window.CHANGELOG = [
   },
   {
     date: '2026-08-17', firm: 'apex-trader', firmName: 'Apex Trader Funding', logo: '/logos/apex.png',
-    category: 'rules',
+    category: 'rule',
     headline: 'Apex refreshed — Intraday vs EOD split out, EOD DLL corrected',
     was: 'Combined Intraday/EOD entries · EOD DLL listed $500/$1,000/$2,000/$3,000',
     is: 'Intraday Trail (no DLL) and EOD Trail (DLL $500/$1,000/$1,500/$2,000) as separate plans',
@@ -82,7 +82,7 @@ window.CHANGELOG = [
   },
   {
     date: '2026-08-17', firm: 'lucid-trading', firmName: 'Lucid Trading', logo: '/logos/lucid.png',
-    category: 'rules',
+    category: 'rule',
     headline: 'Lucid lineup refreshed — Daily added, LucidScale DLL, Black retired',
     was: 'Pro · Black · Flex · Direct',
     is: 'Pro · Flex · Daily · Direct (Black discontinued)',
@@ -92,7 +92,7 @@ window.CHANGELOG = [
   },
   {
     date: '2026-08-17', firm: 'fundednext', firmName: 'FundedNext', logo: '/logos/fundednext.png',
-    category: 'listing',
+    category: 'feature',
     headline: 'FundedNext Futures added to PropChamps',
     was: 'Not listed',
     is: 'Full listing — Flex, Legacy and Rapid (Pro / Daily)',
@@ -141,7 +141,7 @@ window.CHANGELOG = [
     firmPage: 'apex-trader.html'
   },
   {
-    date: '2026-05-04', firm: 'my-funded-futures', firmName: 'MyFundedFutures', logo: '/logos/myfunded.png',
+    date: '2026-05-04', firm: 'my-funded-futures', firmName: 'My Funded Futures', logo: '/logos/myfunded.png',
     category: 'feature',
     headline: 'Rapid Live $10K session launched',
     was: '',
@@ -161,7 +161,7 @@ window.CHANGELOG = [
     firmPage: 'lucid-trading.html'
   },
   {
-    date: '2026-04-20', firm: 'top-one-futures', firmName: 'TopOne Futures', logo: '/logos/topone.png',
+    date: '2026-04-20', firm: 'top-one-futures', firmName: 'Top One Futures', logo: '/logos/topone.png',
     category: 'payout',
     headline: 'Payout cadence tightened to 7 days',
     was: 'Bi-weekly payouts (every 14 days)',
@@ -211,7 +211,7 @@ window.CHANGELOG = [
     firmPage: 'take-profit-trader.html'
   },
   {
-    date: '2026-03-22', firm: 'my-funded-futures', firmName: 'MyFundedFutures', logo: '/logos/myfunded.png',
+    date: '2026-03-22', firm: 'my-funded-futures', firmName: 'My Funded Futures', logo: '/logos/myfunded.png',
     category: 'rule',
     headline: 'News restriction window widened',
     was: '2 minutes before / 2 minutes after high-impact news',
@@ -241,7 +241,7 @@ window.CHANGELOG = [
     firmPage: 'apex-trader.html'
   },
   {
-    date: '2026-03-05', firm: 'top-one-futures', firmName: 'TopOne Futures', logo: '/logos/topone.png',
+    date: '2026-03-05', firm: 'top-one-futures', firmName: 'Top One Futures', logo: '/logos/topone.png',
     category: 'platform',
     headline: 'NinjaTrader added as a supported feed',
     was: 'Rithmic + Tradovate only',

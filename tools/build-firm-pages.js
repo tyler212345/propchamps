@@ -66,7 +66,7 @@ function render(slug, f) {
   out.firmCode    = esc((f.promo && f.promo.code) || 'CHAMP');
   out.firmOffer   = esc(f.offerLine || 'See firm');
   out.firmSummary = esc(f.summary || '');
-  out.ctaTitle    = esc('Ready to fund a ' + f.name + ' account?');
+  out.ctaTitle    = esc('Ready to get funded with ' + f.name + '?');
   out.logo        = f.logo || '';
   out.logoAlt     = esc(f.name + ' logo');
   out.affiliate   = f.affiliateUrl || '#';
