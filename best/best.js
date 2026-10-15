@@ -19,7 +19,7 @@
     var logo = card.querySelector('.rank-logo');
     if (logo){ logo.src = f.logo; logo.alt = f.name + ' logo'; }
     var rating = card.querySelector('.rank-rating');
-    if (rating){ rating.innerHTML = '<strong>' + (f.rating || '—') + '</strong><span>/ 5' + (f.reviewCount ? ' · ' + f.reviewCount + ' reviews' : '') + '</span>'; }
+    if (rating){ rating.innerHTML = '<strong>' + (f.rating || '—') + '</strong><span>/ 5' + (f.reviewCount ? ' · ' + f.reviewCount + ' reviews' : ' · New listing') + '</span>'; }
     var cta = card.querySelector('.rank-cta');
     if (cta){
       if (f.affiliateUrl){ cta.href = f.affiliateUrl; cta.target = '_blank'; cta.rel = 'noopener'; }
