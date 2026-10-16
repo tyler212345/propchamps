@@ -1157,6 +1157,38 @@ async function apiChampLiveTikTok(req, env, ctx) {
   });
 }
 
+// TEMPORARY (remove after testing): which YouTube endpoints answer Worker egress?
+async function apiYtDiag(req, env) {
+  const chan = CHAMP_YT_CHANNEL_ID;
+  const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
+  const H = { 'user-agent': UA, 'accept-language': 'en-US,en;q=0.9', cookie: 'SOCS=CAI; CONSENT=YES+cb' };
+  const rss = await fetch('https://www.youtube.com/feeds/videos.xml?channel_id=' + chan, { headers: H }).then((r) => r.text()).catch(() => '');
+  const vid = (rss.match(/<yt:videoId>([^<]+)</) || [])[1] || 'cz1AznRpaLE';
+  const probes = {
+    channel_live: ['https://www.youtube.com/channel/' + chan + '/live'],
+    handle_live: ['https://www.youtube.com/@thetradingchamp/live'],
+    m_channel_live: ['https://m.youtube.com/channel/' + chan + '/live'],
+    embed_live_stream: ['https://www.youtube.com/embed/live_stream?channel=' + chan],
+    embed_video: ['https://www.youtube.com/embed/' + vid],
+    watch: ['https://www.youtube.com/watch?v=' + vid],
+    oembed: ['https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent('https://www.youtube.com/watch?v=' + vid)],
+    innertube_player: ['https://www.youtube.com/youtubei/v1/player?prettyPrint=false', { method: 'POST', headers: { ...H, 'content-type': 'application/json' }, body: JSON.stringify({ context: { client: { clientName: 'WEB', clientVersion: '2.20241010.00.00', hl: 'en', gl: 'US' } }, videoId: vid }) }],
+    innertube_player_ios: ['https://www.youtube.com/youtubei/v1/player?prettyPrint=false', { method: 'POST', headers: { 'content-type': 'application/json', 'user-agent': 'com.google.ios.youtube/19.29.1 (iPhone16,2; U; CPU iOS 17_5_1 like Mac OS X;)' }, body: JSON.stringify({ context: { client: { clientName: 'IOS', clientVersion: '19.29.1', deviceModel: 'iPhone16,2', hl: 'en', gl: 'US' } }, videoId: vid }) }],
+    thumb_live: ['https://i.ytimg.com/vi/' + vid + '/hqdefault_live.jpg', { method: 'HEAD' }],
+  };
+  const out = { vid, rssOk: rss.length > 1000, colo: (req.cf && req.cf.colo) || null };
+  await Promise.all(Object.entries(probes).map(async ([k, [u, opt]]) => {
+    try {
+      const r = await fetch(u, { headers: H, ...(opt || {}), signal: AbortSignal.timeout(8000) });
+      const t = (opt && opt.method === 'HEAD') ? '' : await r.text();
+      out[k] = { status: r.status, finalUrl: r.url.slice(0, 80), len: t.length, hasPlayer: t.includes('ytInitialPlayerResponse') || t.includes('"videoDetails"'), isLiveTrue: /"isLive"\s*:\s*true/.test(t), liveFlag: (t.match(/"isLiveContent"\s*:\s*(true|false)/) || [])[1] || null };
+    } catch (e) {
+      out[k] = { error: String((e && e.message) || e).slice(0, 80) };
+    }
+  }));
+  return json(out, 200, { 'cache-control': 'no-store' });
+}
+
 // ---------- host portal ----------
 async function hostGiveaway(req, env) {
   const u = await currentUser(req, env);
@@ -1557,6 +1589,7 @@ export default {
       if (p === '/api/champ-videos') return await apiChampVideos(request, env);
       if (p === '/api/champ-live') return await apiChampLive(request, env, ctx);
       if (p === '/api/champ-live-tiktok') return await apiChampLiveTikTok(request, env, ctx);
+      if (p === '/api/_yt-diag') return await apiYtDiag(request, env); // TEMPORARY
       if (p === '/api/host/giveaway') return await hostGiveaway(request, env);
       if (p === '/api/host/giveaway/action' && m === 'POST') return await hostGiveawayAction(request, env);
       if (p === '/api/host/fulfillment') return await hostFulfillment(request, env);
