@@ -1011,7 +1011,8 @@ async function liveEdgeCached(key, ttl, ctx, compute) {
 // URL form — the old string test could never fire — and a whole-page
 // /"isLive":true/ regex false-positives on upcoming pages via
 // videoViewCountRenderer. Verified 2026-10-16 on 8 live channels + Champ offline.)
-const YT_LIVE_PROBES = { lofi: 'UCSJ4gkVC6NrvII8umztf0Ow' }; // Lofi Girl, live 24/7
+const CHAMP_YT_HANDLE = '@thetradingchamp';
+const YT_LIVE_PROBES = { lofi: { chan: 'UCSJ4gkVC6NrvII8umztf0Ow', handle: '@LofiGirl' } }; // Lofi Girl, live 24/7
 const YT_PR_MARK = 'var ytInitialPlayerResponse = ';
 function ytPlayerResponse(html) {
   const i = html.indexOf(YT_PR_MARK);
@@ -1040,34 +1041,63 @@ function ytLiveState(html, chan) {
   }
   return { state: upcoming ? 'upcoming' : 'offline' };
 }
+// YouTube rate-limits Cloudflare egress on some page forms (2026-10-16 from DFW:
+// /channel/<id>/live, m.youtube.com and /watch → 429 google.com/sorry, while
+// /@handle/live answered normally), so the @handle form is tried first and the
+// channel form is the fallback. Either way the parsed video must belong to Champ's
+// channel id, so a renamed/hijacked handle can't point it at someone else.
+// If a YouTube Data API key is ever added as the YT_API_KEY secret, that is used
+// first (RSS candidates → videos.list, 1 quota unit per check; googleapis.com is not
+// throttled like the HTML pages) and scraping becomes the fallback.
+const YT_UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
+async function ytLiveViaApi(chan, key) {
+  const rss = await fetch('https://www.youtube.com/feeds/videos.xml?channel_id=' + encodeURIComponent(chan), { headers: { 'user-agent': YT_UA }, signal: AbortSignal.timeout(6000) });
+  if (!rss.ok) return { state: 'rss_http_' + rss.status };
+  const ids = [...(await rss.text()).matchAll(/<yt:videoId>([\w-]{11})<\/yt:videoId>/g)].slice(0, 5).map((m) => m[1]);
+  if (!ids.length) return { state: 'rss_empty' };
+  const r = await fetch('https://www.googleapis.com/youtube/v3/videos?part=snippet&id=' + ids.join(',') + '&key=' + encodeURIComponent(key), { signal: AbortSignal.timeout(6000) });
+  if (!r.ok) return { state: 'api_http_' + r.status };
+  const items = ((await r.json()) || {}).items || [];
+  const v = items.find((it) => it && it.snippet && it.snippet.liveBroadcastContent === 'live' && it.snippet.channelId === chan);
+  return v ? { state: 'live', id: v.id, title: String(v.snippet.title || '').slice(0, 200), embeddable: null } : { state: 'offline' };
+}
 async function apiChampLive(req, env, ctx) {
   const probeName = new URL(req.url).searchParams.get('probe');
   const probe = probeName && Object.prototype.hasOwnProperty.call(YT_LIVE_PROBES, probeName) ? YT_LIVE_PROBES[probeName] : null;
-  const chan = probe || (env && env.CHAMP_YT_CHANNEL_ID) || CHAMP_YT_CHANNEL_ID;
+  const chan = probe ? probe.chan : (env && env.CHAMP_YT_CHANNEL_ID) || CHAMP_YT_CHANNEL_ID;
+  const handle = probe ? probe.handle : (env && env.CHAMP_YT_HANDLE) || CHAMP_YT_HANDLE;
   return liveEdgeCached('champ-live/' + chan, 120, ctx, async () => {
     let out = { live: false, id: null, title: null };
-    let reason = 'unknown';
-    try {
-      const r = await fetch('https://www.youtube.com/channel/' + encodeURIComponent(chan) + '/live', {
-        headers: {
-          'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
-          'accept-language': 'en-US,en;q=0.9',
-          cookie: 'SOCS=CAI; CONSENT=YES+cb',
-        },
-        signal: AbortSignal.timeout(8000),
-      });
-      if (!r.ok) reason = 'http_' + r.status;
-      else if (/consent\.youtube\.com|google\.com\/sorry/.test(r.url)) reason = 'consent_or_block';
-      else {
-        const st = ytLiveState(await r.text(), chan);
-        reason = st.state;
+    const tried = [];
+    if (env && env.YT_API_KEY) {
+      try {
+        const st = await ytLiveViaApi(chan, env.YT_API_KEY);
+        tried.push('api:' + st.state);
         if (st.state === 'live') out = { live: true, id: st.id, title: st.title, embeddable: st.embeddable };
+        if (st.state === 'live' || st.state === 'offline') return { ...out, _debug: { reason: st.state, via: 'api', tried, checkedAt: new Date().toISOString() } };
+      } catch (e) {
+        tried.push('api:failed');
       }
-    } catch (e) {
-      reason = 'fetch_failed';
     }
-    out._debug = { reason, checkedAt: new Date().toISOString(), probe: probeName && probe ? probeName : undefined };
-    return out;
+    for (const [via, u] of [['handle', 'https://www.youtube.com/' + handle + '/live'], ['channel', 'https://www.youtube.com/channel/' + encodeURIComponent(chan) + '/live']]) {
+      try {
+        const r = await fetch(u, {
+          headers: { 'user-agent': YT_UA, 'accept-language': 'en-US,en;q=0.9', cookie: 'SOCS=CAI; CONSENT=YES+cb' },
+          signal: AbortSignal.timeout(8000),
+        });
+        if (!r.ok) { tried.push(via + ':http_' + r.status); continue; }
+        if (/consent\.youtube\.com|google\.com\/sorry/.test(r.url)) { tried.push(via + ':blocked'); continue; }
+        const st = ytLiveState(await r.text(), chan);
+        tried.push(via + ':' + st.state);
+        if (st.state === 'live') out = { live: true, id: st.id, title: st.title, embeddable: st.embeddable };
+        if (st.state === 'live' || st.state === 'offline' || st.state === 'upcoming' || st.state === 'no_player_response') {
+          return { ...out, _debug: { reason: st.state, via, tried, checkedAt: new Date().toISOString(), probe: probe ? probeName : undefined } };
+        }
+      } catch (e) {
+        tried.push(via + ':fetch_failed');
+      }
+    }
+    return { ...out, _debug: { reason: 'all_sources_failed', tried, checkedAt: new Date().toISOString(), probe: probe ? probeName : undefined } };
   });
 }
 
@@ -1155,38 +1185,6 @@ async function apiChampLiveTikTok(req, env, ctx) {
       _debug: { checkedAt: new Date().toISOString(), accounts: results.map((r) => ({ handle: r.handle, reason: r.reason })) },
     };
   });
-}
-
-// TEMPORARY (remove after testing): which YouTube endpoints answer Worker egress?
-async function apiYtDiag(req, env) {
-  const chan = CHAMP_YT_CHANNEL_ID;
-  const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
-  const H = { 'user-agent': UA, 'accept-language': 'en-US,en;q=0.9', cookie: 'SOCS=CAI; CONSENT=YES+cb' };
-  const rss = await fetch('https://www.youtube.com/feeds/videos.xml?channel_id=' + chan, { headers: H }).then((r) => r.text()).catch(() => '');
-  const vid = (rss.match(/<yt:videoId>([^<]+)</) || [])[1] || 'cz1AznRpaLE';
-  const probes = {
-    channel_live: ['https://www.youtube.com/channel/' + chan + '/live'],
-    handle_live: ['https://www.youtube.com/@thetradingchamp/live'],
-    m_channel_live: ['https://m.youtube.com/channel/' + chan + '/live'],
-    embed_live_stream: ['https://www.youtube.com/embed/live_stream?channel=' + chan],
-    embed_video: ['https://www.youtube.com/embed/' + vid],
-    watch: ['https://www.youtube.com/watch?v=' + vid],
-    oembed: ['https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent('https://www.youtube.com/watch?v=' + vid)],
-    innertube_player: ['https://www.youtube.com/youtubei/v1/player?prettyPrint=false', { method: 'POST', headers: { ...H, 'content-type': 'application/json' }, body: JSON.stringify({ context: { client: { clientName: 'WEB', clientVersion: '2.20241010.00.00', hl: 'en', gl: 'US' } }, videoId: vid }) }],
-    innertube_player_ios: ['https://www.youtube.com/youtubei/v1/player?prettyPrint=false', { method: 'POST', headers: { 'content-type': 'application/json', 'user-agent': 'com.google.ios.youtube/19.29.1 (iPhone16,2; U; CPU iOS 17_5_1 like Mac OS X;)' }, body: JSON.stringify({ context: { client: { clientName: 'IOS', clientVersion: '19.29.1', deviceModel: 'iPhone16,2', hl: 'en', gl: 'US' } }, videoId: vid }) }],
-    thumb_live: ['https://i.ytimg.com/vi/' + vid + '/hqdefault_live.jpg', { method: 'HEAD' }],
-  };
-  const out = { vid, rssOk: rss.length > 1000, colo: (req.cf && req.cf.colo) || null };
-  await Promise.all(Object.entries(probes).map(async ([k, [u, opt]]) => {
-    try {
-      const r = await fetch(u, { headers: H, ...(opt || {}), signal: AbortSignal.timeout(8000) });
-      const t = (opt && opt.method === 'HEAD') ? '' : await r.text();
-      out[k] = { status: r.status, finalUrl: r.url.slice(0, 80), len: t.length, hasPlayer: t.includes('ytInitialPlayerResponse') || t.includes('"videoDetails"'), isLiveTrue: /"isLive"\s*:\s*true/.test(t), liveFlag: (t.match(/"isLiveContent"\s*:\s*(true|false)/) || [])[1] || null };
-    } catch (e) {
-      out[k] = { error: String((e && e.message) || e).slice(0, 80) };
-    }
-  }));
-  return json(out, 200, { 'cache-control': 'no-store' });
 }
 
 // ---------- host portal ----------
@@ -1589,7 +1587,6 @@ export default {
       if (p === '/api/champ-videos') return await apiChampVideos(request, env);
       if (p === '/api/champ-live') return await apiChampLive(request, env, ctx);
       if (p === '/api/champ-live-tiktok') return await apiChampLiveTikTok(request, env, ctx);
-      if (p === '/api/_yt-diag') return await apiYtDiag(request, env); // TEMPORARY
       if (p === '/api/host/giveaway') return await hostGiveaway(request, env);
       if (p === '/api/host/giveaway/action' && m === 'POST') return await hostGiveawayAction(request, env);
       if (p === '/api/host/fulfillment') return await hostFulfillment(request, env);
