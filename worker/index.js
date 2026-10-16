@@ -1018,6 +1018,109 @@ async function apiChampLive(req, env, ctx) {
   return res;
 }
 
+// Is Champ live on TikTok? Homepage "Watch Champ live" section shows a box under
+// the YouTube player only while he is. TikTok has no live API, so this reads the
+// public /@handle/live page: it embeds JSON with a `liveRoom` object whose
+// `status` is 2 while live (4 = ended; absent/null = no room). Champ streams from
+// two accounts (main @tradewchamp, backup @thetradingchamp — both verified via his
+// YouTube About links + bios, 2026-10-16), so both are checked.
+// FAILS CLOSED: any timeout / block / captcha / parse problem => not live.
+// Edge-cached 60s so TikTok sees ~1 request per minute per colo, not per visitor.
+// Parser adapted from "Prop Champs Live/tiktok-live-worker.js" (see its notes on
+// the three traps: user.status vs room status, "liveRoom":null, braces in titles).
+const CHAMP_TIKTOK_HANDLES = ['tradewchamp', 'thetradingchamp'];
+const TIKTOK_STATUS_LIVE = 2;
+const TIKTOK_UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
+function extractLiveRoom(text) {
+  const key = '"liveRoom"';
+  let from = 0;
+  for (;;) {
+    const at = text.indexOf(key, from);
+    if (at === -1) return null;
+    let i = at + key.length;
+    while (i < text.length && /\s/.test(text[i])) i++;
+    if (text[i] !== ':') { from = at + key.length; continue; }
+    i++;
+    while (i < text.length && /\s/.test(text[i])) i++;
+    if (text[i] !== '{') { from = at + key.length; continue; } // "liveRoom":null → not a room
+    const open = i;
+    let depth = 0, inStr = false, esc = false;
+    for (; i < text.length; i++) {
+      const c = text[i];
+      if (esc) { esc = false; continue; }
+      if (c === '\\') { esc = true; continue; }
+      if (c === '"') { inStr = !inStr; continue; }
+      if (inStr) continue;
+      if (c === '{') depth++;
+      else if (c === '}') {
+        depth--;
+        if (depth === 0) {
+          try {
+            const obj = JSON.parse(text.slice(open, i + 1));
+            if (obj && typeof obj === 'object') return obj;
+          } catch (e) {
+            /* malformed — try the next occurrence */
+          }
+          break;
+        }
+      }
+    }
+    from = at + key.length;
+  }
+}
+async function checkTikTokLive(handle) {
+  try {
+    const res = await fetch('https://www.tiktok.com/@' + handle + '/live', {
+      headers: { 'user-agent': TIKTOK_UA, 'accept-language': 'en-US,en;q=0.9' },
+      redirect: 'follow',
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!res.ok) return { handle, live: false, title: null, reason: 'http_' + res.status };
+    const text = await res.text();
+    if (text.length < 1000) return { handle, live: false, title: null, reason: 'tiny_response' };
+    if (/<title>[^<]*(Verify|Security Check|Access Denied)/i.test(text)) return { handle, live: false, title: null, reason: 'blocked' };
+    const room = extractLiveRoom(text);
+    if (!room) return { handle, live: false, title: null, reason: 'no_room' };
+    const status = typeof room.status === 'number' ? room.status : null;
+    const live = status === TIKTOK_STATUS_LIVE;
+    const title = live && typeof room.title === 'string' && room.title.trim() ? room.title.trim().slice(0, 140) : null;
+    return { handle, live, title, reason: live ? 'live' : 'status_' + status };
+  } catch (e) {
+    return { handle, live: false, title: null, reason: 'fetch_failed' };
+  }
+}
+async function apiChampLiveTikTok(req, env, ctx) {
+  const handles = ((env && env.CHAMP_TIKTOK_HANDLES) ? String(env.CHAMP_TIKTOK_HANDLES).split(',') : CHAMP_TIKTOK_HANDLES)
+    .map((h) => h.trim().replace(/^@/, '')).filter((h) => /^[\w.]{2,24}$/.test(h));
+  const cache = caches.default;
+  const key = new Request('https://propchamps.net/__edge-cache/champ-live-tiktok/' + handles.join(','));
+  try {
+    const hit = await cache.match(key);
+    if (hit) return hit;
+  } catch (e) {
+    /* cache miss is fine */
+  }
+  const results = await Promise.all(handles.map(checkTikTokLive));
+  // Main account first (handle order), so if both are live the main one leads.
+  const rooms = results.filter((r) => r.live).map((r) => ({ handle: r.handle, url: 'https://www.tiktok.com/@' + r.handle + '/live', title: r.title }));
+  const out = {
+    live: rooms.length > 0,
+    url: rooms.length ? rooms[0].url : null,
+    title: rooms.length ? rooms[0].title : null,
+    rooms,
+    // Tells "not streaming" apart from "TikTok blocked us" (status codes from public pages only).
+    _debug: { checkedAt: new Date().toISOString(), accounts: results.map((r) => ({ handle: r.handle, reason: r.reason })) },
+  };
+  const res = json(out, 200, { 'Cache-Control': 'public, max-age=60' });
+  try {
+    const put = cache.put(key, res.clone());
+    if (ctx && ctx.waitUntil) ctx.waitUntil(put); else await put;
+  } catch (e) {
+    /* best-effort cache */
+  }
+  return res;
+}
+
 // ---------- host portal ----------
 async function hostGiveaway(req, env) {
   const u = await currentUser(req, env);
@@ -1417,6 +1520,7 @@ export default {
       if (p === '/api/plan' && m === 'POST') return await apiPlan(request, env);
       if (p === '/api/champ-videos') return await apiChampVideos(request, env);
       if (p === '/api/champ-live') return await apiChampLive(request, env, ctx);
+      if (p === '/api/champ-live-tiktok') return await apiChampLiveTikTok(request, env, ctx);
       if (p === '/api/host/giveaway') return await hostGiveaway(request, env);
       if (p === '/api/host/giveaway/action' && m === 'POST') return await hostGiveawayAction(request, env);
       if (p === '/api/host/fulfillment') return await hostFulfillment(request, env);
