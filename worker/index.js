@@ -1030,7 +1030,10 @@ function ytPlayerResponse(html) {
 function ytLiveState(html, chan) {
   const pr = ytPlayerResponse(html);
   const vd = pr && pr.videoDetails;
-  if (!vd) return { state: 'no_player_response' };
+  // No player data: if it's the channel's own home page (what /live serves when nothing is
+  // live or scheduled) that's a real "offline"; otherwise it's a stripped/bot variant
+  // YouTube sometimes serves datacenter IPs — unknown, not offline.
+  if (!vd) return { state: html.includes('"externalId":"' + chan + '"') ? 'offline' : 'no_player_response' };
   if (!/^[\w-]{11}$/.test(vd.videoId || '') || vd.channelId !== chan) return { state: 'other_channel_or_bad_id' };
   const ps = pr.playabilityStatus || {};
   const pmr = pr.microformat && pr.microformat.playerMicroformatRenderer;
@@ -1074,7 +1077,10 @@ async function apiChampLive(req, env, ctx) {
         const st = await ytLiveViaApi(chan, env.YT_API_KEY);
         tried.push('api:' + st.state);
         if (st.state === 'live') out = { live: true, id: st.id, title: st.title, embeddable: st.embeddable };
-        if (st.state === 'live' || st.state === 'offline') return { ...out, _debug: { reason: st.state, via: 'api', tried, checkedAt: new Date().toISOString() } };
+        if (st.state === 'live' || st.state === 'offline') {
+          await ytStickyLive(chan, st.state === 'live' ? out : null, ctx);
+          return { ...out, _debug: { reason: st.state, via: 'api', tried, checkedAt: new Date().toISOString() } };
+        }
       } catch (e) {
         tried.push('api:failed');
       }
@@ -1090,15 +1096,37 @@ async function apiChampLive(req, env, ctx) {
         const st = ytLiveState(await r.text(), chan);
         tried.push(via + ':' + st.state);
         if (st.state === 'live') out = { live: true, id: st.id, title: st.title, embeddable: st.embeddable };
-        if (st.state === 'live' || st.state === 'offline' || st.state === 'upcoming' || st.state === 'no_player_response') {
+        if (st.state === 'live' || st.state === 'offline' || st.state === 'upcoming') {
+          await ytStickyLive(chan, st.state === 'live' ? out : null, ctx);
           return { ...out, _debug: { reason: st.state, via, tried, checkedAt: new Date().toISOString(), probe: probe ? probeName : undefined } };
         }
       } catch (e) {
         tried.push(via + ':fetch_failed');
       }
     }
-    return { ...out, _debug: { reason: 'all_sources_failed', tried, checkedAt: new Date().toISOString(), probe: probe ? probeName : undefined } };
+    // Nothing conclusive this round: if he was seen live in the last 5 minutes, stay live
+    // rather than flicker off on one bad fetch. Only a conclusive "offline" clears it.
+    const last = await ytStickyLive(chan, undefined, ctx);
+    if (last) return { ...last, _debug: { reason: 'sticky_live', tried, checkedAt: new Date().toISOString(), probe: probe ? probeName : undefined } };
+    return { ...out, _debug: { reason: 'unknown', tried, checkedAt: new Date().toISOString(), probe: probe ? probeName : undefined } };
   });
+}
+// Last confirmed live result, kept 5 min in the edge cache. set(obj) stores, set(null) clears,
+// set(undefined) reads.
+async function ytStickyLive(chan, value, ctx) {
+  const cache = caches.default;
+  const req = new Request('https://propchamps.net/__edge-cache/champ-live-last/' + chan);
+  try {
+    if (value === undefined) {
+      const hit = await cache.match(req);
+      return hit ? JSON.parse(await hit.text()) : null;
+    }
+    const op = value === null ? cache.delete(req) : cache.put(req, new Response(JSON.stringify(value), { headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=300' } }));
+    if (ctx && ctx.waitUntil) ctx.waitUntil(op); else await op;
+  } catch (e) {
+    /* best-effort */
+  }
+  return null;
 }
 
 // TikTok: no live API, so read the public /@handle/live page. The room is at
