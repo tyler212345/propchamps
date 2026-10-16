@@ -796,7 +796,7 @@ a.hp-tr:hover .hp-arr{color:var(--pc-violet-lt);transform:translateX(3px)}
     if(m.indexOf('off')>-1){o.yt={live:false};o.tt={live:false};}
     return o;
   })();
-  function getJSON(u){return fetch(u).then(function(r){if(!r.ok) throw new Error(r.status); return r.json();});}
+  function getJSON(u,fresh){return fetch(u,fresh?{cache:'no-store'}:undefined).then(function(r){if(!r.ok) throw new Error(r.status); return r.json();});}
   function playId(id,title){
     player.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(id)+'?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="'+esc(title||'Champ on YouTube')+'" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
   }
@@ -853,8 +853,8 @@ a.hp-tr:hover .hp-arr{color:var(--pc-violet-lt);transform:translateX(3px)}
   }
   function checkLive(){
     return Promise.all([
-      MOCK.yt?Promise.resolve(MOCK.yt):getJSON('/api/champ-live').catch(function(){return null;}),
-      MOCK.tt?Promise.resolve(MOCK.tt):getJSON('/api/champ-live-tiktok').catch(function(){return null;})
+      MOCK.yt?Promise.resolve(MOCK.yt):getJSON('/api/champ-live',true).catch(function(){return null;}),
+      MOCK.tt?Promise.resolve(MOCK.tt):getJSON('/api/champ-live-tiktok',true).catch(function(){return null;})
     ]).then(function(r){
       ytLive=r[0]&&r[0].live?r[0]:null;
       var t=r[1], rooms=[];

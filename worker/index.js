@@ -972,100 +972,152 @@ async function apiChampVideos(req, env) {
   return json(payload, 200, { 'Cache-Control': 'public, max-age=600' });
 }
 
-// Is Champ live right now? Homepage "Watch Champ live" block. Reads the public
-// channel /live page: while a stream is on air its canonical URL is the stream's
-// watch URL and the player data says isLiveNow. Cached 2 min in the edge Cache API
-// (not KV — this would blow through KV's daily write quota).
-async function apiChampLive(req, env, ctx) {
-  const chan = (env && env.CHAMP_YT_CHANNEL_ID) || CHAMP_YT_CHANNEL_ID;
+// ---------- "Is Champ live?" (homepage Watch-live section) ----------
+// Both endpoints FAIL CLOSED: any timeout, block, consent wall or parse problem
+// answers "not live" — a wrongly hidden badge costs nothing, a LIVE NOW over a dead
+// stream sends people to an empty page. Both are edge-cached via the Cache API on a
+// synthetic key, so YouTube/TikTok see ~1 request per TTL per colo, not per visitor
+// (not KV — that would blow KV's daily write quota). `_debug.reason` tells "not
+// streaming" apart from "we were blocked". `?probe=<name>` runs the same detector
+// against an allow-listed always-live channel/account as a health check.
+
+// Re-wraps the cached JSON so the browser gets our own header: the zone's Browser
+// Cache TTL otherwise rewrites Cache-API HITs to max-age=14400 (4 hours), which would
+// freeze a visitor's live badge for hours.
+async function liveEdgeCached(key, ttl, ctx, compute) {
   const cache = caches.default;
-  const key = new Request('https://propchamps.net/__edge-cache/champ-live/' + chan);
+  const req = new Request('https://propchamps.net/__edge-cache/' + key);
+  let body = null;
   try {
-    const hit = await cache.match(key);
-    if (hit) return hit;
+    const hit = await cache.match(req);
+    if (hit) body = await hit.text();
   } catch (e) {
     /* cache miss is fine */
   }
-  let out = { live: false, id: null, title: null };
-  try {
-    const r = await fetch('https://www.youtube.com/channel/' + encodeURIComponent(chan) + '/live', {
-      headers: {
-        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36',
-        'accept-language': 'en-US,en;q=0.9',
-        cookie: 'SOCS=CAI; CONSENT=YES+cb',
-      },
-    });
-    if (r.ok) {
-      const html = await r.text();
-      const id = (html.match(/<link rel="canonical" href="https:\/\/www\.youtube\.com\/watch\?v=([\w-]{11})"/) || [])[1];
-      const liveNow = /"isLiveNow":\s*true/.test(html);
-      if (id && liveNow) {
-        let title = (html.match(/<meta name="title" content="([^"]*)"/) || [])[1] || '';
-        title = title.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>');
-        out = { live: true, id, title };
-      }
+  if (body == null) {
+    body = JSON.stringify(await compute());
+    try {
+      const put = cache.put(req, new Response(body, { headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=' + ttl } }));
+      if (ctx && ctx.waitUntil) ctx.waitUntil(put); else await put;
+    } catch (e) {
+      /* best-effort cache */
     }
-  } catch (e) {
-    console.error('champ live check failed', String((e && e.message) || e));
   }
-  const res = json(out, 200, { 'Cache-Control': 'public, max-age=120' });
-  try {
-    const put = cache.put(key, res.clone());
-    if (ctx && ctx.waitUntil) ctx.waitUntil(put); else await put;
-  } catch (e) {
-    /* best-effort cache */
-  }
-  return res;
+  return new Response(body, { headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } });
 }
 
-// Is Champ live on TikTok? Homepage "Watch Champ live" section shows a box under
-// the YouTube player only while he is. TikTok has no live API, so this reads the
-// public /@handle/live page: it embeds JSON with a `liveRoom` object whose
-// `status` is 2 while live (4 = ended; absent/null = no room). Champ streams from
-// two accounts (main @tradewchamp, backup @thetradingchamp — both verified via his
-// YouTube About links + bios, 2026-10-16), so both are checked.
-// FAILS CLOSED: any timeout / block / captcha / parse problem => not live.
-// Edge-cached 60s so TikTok sees ~1 request per minute per colo, not per visitor.
-// Parser adapted from "Prop Champs Live/tiktok-live-worker.js" (see its notes on
-// the three traps: user.status vs room status, "liveRoom":null, braces in titles).
-const CHAMP_TIKTOK_HANDLES = ['tradewchamp', 'thetradingchamp'];
-const TIKTOK_STATUS_LIVE = 2;
-const TIKTOK_UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
-function extractLiveRoom(text) {
-  const key = '"liveRoom"';
-  let from = 0;
-  for (;;) {
-    const at = text.indexOf(key, from);
-    if (at === -1) return null;
-    let i = at + key.length;
-    while (i < text.length && /\s/.test(text[i])) i++;
-    if (text[i] !== ':') { from = at + key.length; continue; }
-    i++;
-    while (i < text.length && /\s/.test(text[i])) i++;
-    if (text[i] !== '{') { from = at + key.length; continue; } // "liveRoom":null → not a room
-    const open = i;
-    let depth = 0, inStr = false, esc = false;
-    for (; i < text.length; i++) {
-      const c = text[i];
-      if (esc) { esc = false; continue; }
-      if (c === '\\') { esc = true; continue; }
-      if (c === '"') { inStr = !inStr; continue; }
-      if (inStr) continue;
-      if (c === '{') depth++;
-      else if (c === '}') {
-        depth--;
-        if (depth === 0) {
-          try {
-            const obj = JSON.parse(text.slice(open, i + 1));
-            if (obj && typeof obj === 'object') return obj;
-          } catch (e) {
-            /* malformed — try the next occurrence */
-          }
-          break;
-        }
+// YouTube: GET the stable /channel/<UC_ID>/live page and read the PARSED
+// ytInitialPlayerResponse. (Its microformat no longer carries "isLiveNow" on this
+// URL form — the old string test could never fire — and a whole-page
+// /"isLive":true/ regex false-positives on upcoming pages via
+// videoViewCountRenderer. Verified 2026-10-16 on 8 live channels + Champ offline.)
+const YT_LIVE_PROBES = { lofi: 'UCSJ4gkVC6NrvII8umztf0Ow' }; // Lofi Girl, live 24/7
+const YT_PR_MARK = 'var ytInitialPlayerResponse = ';
+function ytPlayerResponse(html) {
+  const i = html.indexOf(YT_PR_MARK);
+  if (i < 0) return null; // channel home page => nothing live or scheduled
+  const start = i + YT_PR_MARK.length;
+  let end = html.indexOf(';var meta = ', start);
+  if (end < 0) end = html.indexOf(';</script>', start);
+  if (end <= start) return null;
+  try {
+    return JSON.parse(html.slice(start, end));
+  } catch (e) {
+    return null;
+  }
+}
+function ytLiveState(html, chan) {
+  const pr = ytPlayerResponse(html);
+  const vd = pr && pr.videoDetails;
+  if (!vd) return { state: 'no_player_response' };
+  if (!/^[\w-]{11}$/.test(vd.videoId || '') || vd.channelId !== chan) return { state: 'other_channel_or_bad_id' };
+  const ps = pr.playabilityStatus || {};
+  const pmr = pr.microformat && pr.microformat.playerMicroformatRenderer;
+  const lbd = pmr && pmr.liveBroadcastDetails; // present on /@handle/live + /watch, absent on /channel/<id>/live
+  const upcoming = vd.isUpcoming === true || ps.status === 'LIVE_STREAM_OFFLINE';
+  if (vd.isLive === true && !upcoming && vd.isPostLiveDvr !== true && !(lbd && lbd.isLiveNow === false)) {
+    return { state: 'live', id: vd.videoId, title: String(vd.title || '').slice(0, 200), embeddable: ps.status === 'OK' && ps.playableInEmbed === true };
+  }
+  return { state: upcoming ? 'upcoming' : 'offline' };
+}
+async function apiChampLive(req, env, ctx) {
+  const probeName = new URL(req.url).searchParams.get('probe');
+  const probe = probeName && Object.prototype.hasOwnProperty.call(YT_LIVE_PROBES, probeName) ? YT_LIVE_PROBES[probeName] : null;
+  const chan = probe || (env && env.CHAMP_YT_CHANNEL_ID) || CHAMP_YT_CHANNEL_ID;
+  return liveEdgeCached('champ-live/' + chan, 120, ctx, async () => {
+    let out = { live: false, id: null, title: null };
+    let reason = 'unknown';
+    try {
+      const r = await fetch('https://www.youtube.com/channel/' + encodeURIComponent(chan) + '/live', {
+        headers: {
+          'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
+          'accept-language': 'en-US,en;q=0.9',
+          cookie: 'SOCS=CAI; CONSENT=YES+cb',
+        },
+        signal: AbortSignal.timeout(8000),
+      });
+      if (!r.ok) reason = 'http_' + r.status;
+      else if (/consent\.youtube\.com|google\.com\/sorry/.test(r.url)) reason = 'consent_or_block';
+      else {
+        const st = ytLiveState(await r.text(), chan);
+        reason = st.state;
+        if (st.state === 'live') out = { live: true, id: st.id, title: st.title, embeddable: st.embeddable };
       }
+    } catch (e) {
+      reason = 'fetch_failed';
     }
-    from = at + key.length;
+    out._debug = { reason, checkedAt: new Date().toISOString(), probe: probeName && probe ? probeName : undefined };
+    return out;
+  });
+}
+
+// TikTok: no live API, so read the public /@handle/live page. The room is at
+// SIGI_STATE.LiveRoom.liveRoomUserInfo.liveRoom — read by PATH, not by searching
+// for the first "liveRoom" (SIGI_STATE.LiveRoom.recommendLiveRooms — other
+// creators' rooms — comes first; it's empty today, but if TikTok ever fills it
+// server-side a first-match parser would report Champ live because a stranger is).
+// Live only when room.status === 2 AND user.status === 2 AND user.roomId is set AND
+// the page is for the handle asked about; then TikTok's own check_alive endpoint is
+// asked to confirm (an explicit "not alive" wins; if that endpoint is unreachable
+// the three agreeing page signals stand). Status 2 = live verified 2026-10-16 on
+// @pbsnews/@qvc/@hsn (stream bytes flowing) vs status 4 on ended rooms.
+// Champ streams from two accounts — main @tradewchamp, backup @thetradingchamp
+// (both verified via his YouTube About links + bios) — so both are checked.
+const CHAMP_TIKTOK_HANDLES = ['tradewchamp', 'thetradingchamp'];
+const TIKTOK_LIVE_PROBES = ['pbsnews', 'qvc', 'hsn']; // usually live — health checks only
+const TIKTOK_UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
+function parseTikTokLive(html, handle) {
+  const m = html.match(/<script[^>]*\bid="SIGI_STATE"[^>]*>([\s\S]*?)<\/script>/);
+  if (!m) return { live: false, reason: 'no_sigi_state' }; // bot page or layout change
+  let state;
+  try {
+    state = JSON.parse(m[1]);
+  } catch (e) {
+    return { live: false, reason: 'sigi_parse_error' };
+  }
+  const info = state && state.LiveRoom && state.LiveRoom.liveRoomUserInfo;
+  if (!info) return { live: false, reason: 'no_room' };
+  const user = info.user || {};
+  const room = info.liveRoom;
+  if (String(user.uniqueId || '').toLowerCase() !== handle.toLowerCase()) return { live: false, reason: 'handle_mismatch' };
+  if (!room || typeof room !== 'object') return { live: false, reason: 'room_null' };
+  const roomId = typeof user.roomId === 'string' && /^\d{5,}$/.test(user.roomId) ? user.roomId : null;
+  const live = room.status === 2 && user.status === 2 && !!roomId;
+  const title = live && typeof room.title === 'string' && room.title.trim() ? room.title.trim().slice(0, 140) : null;
+  return { live, roomId, title, reason: live ? 'live' : 'status_' + room.status };
+}
+async function tiktokRoomAlive(roomId) {
+  try {
+    const r = await fetch('https://webcast.tiktok.com/webcast/room/check_alive/?aid=1988&room_ids=' + roomId, {
+      headers: { 'user-agent': TIKTOK_UA },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!r.ok) return null;
+    const j = await r.json();
+    const row = ((j && j.data) || []).find((d) => d && d.room_id_str === roomId); // room_id_str: numeric id loses precision
+    return row ? row.alive === true : null;
+  } catch (e) {
+    return null;
   }
 }
 async function checkTikTokLive(handle) {
@@ -1076,49 +1128,33 @@ async function checkTikTokLive(handle) {
       signal: AbortSignal.timeout(8000),
     });
     if (!res.ok) return { handle, live: false, title: null, reason: 'http_' + res.status };
-    const text = await res.text();
-    if (text.length < 1000) return { handle, live: false, title: null, reason: 'tiny_response' };
-    if (/<title>[^<]*(Verify|Security Check|Access Denied)/i.test(text)) return { handle, live: false, title: null, reason: 'blocked' };
-    const room = extractLiveRoom(text);
-    if (!room) return { handle, live: false, title: null, reason: 'no_room' };
-    const status = typeof room.status === 'number' ? room.status : null;
-    const live = status === TIKTOK_STATUS_LIVE;
-    const title = live && typeof room.title === 'string' && room.title.trim() ? room.title.trim().slice(0, 140) : null;
-    return { handle, live, title, reason: live ? 'live' : 'status_' + status };
+    const r = parseTikTokLive(await res.text(), handle);
+    if (!r.live) return { handle, live: false, title: null, reason: r.reason };
+    const alive = await tiktokRoomAlive(r.roomId);
+    if (alive === false) return { handle, live: false, title: null, reason: 'room_not_alive' };
+    return { handle, live: true, title: r.title, reason: alive ? 'live' : 'live_unconfirmed' };
   } catch (e) {
     return { handle, live: false, title: null, reason: 'fetch_failed' };
   }
 }
 async function apiChampLiveTikTok(req, env, ctx) {
-  const handles = ((env && env.CHAMP_TIKTOK_HANDLES) ? String(env.CHAMP_TIKTOK_HANDLES).split(',') : CHAMP_TIKTOK_HANDLES)
-    .map((h) => h.trim().replace(/^@/, '')).filter((h) => /^[\w.]{2,24}$/.test(h));
-  const cache = caches.default;
-  const key = new Request('https://propchamps.net/__edge-cache/champ-live-tiktok/' + handles.join(','));
-  try {
-    const hit = await cache.match(key);
-    if (hit) return hit;
-  } catch (e) {
-    /* cache miss is fine */
-  }
-  const results = await Promise.all(handles.map(checkTikTokLive));
-  // Main account first (handle order), so if both are live the main one leads.
-  const rooms = results.filter((r) => r.live).map((r) => ({ handle: r.handle, url: 'https://www.tiktok.com/@' + r.handle + '/live', title: r.title }));
-  const out = {
-    live: rooms.length > 0,
-    url: rooms.length ? rooms[0].url : null,
-    title: rooms.length ? rooms[0].title : null,
-    rooms,
-    // Tells "not streaming" apart from "TikTok blocked us" (status codes from public pages only).
-    _debug: { checkedAt: new Date().toISOString(), accounts: results.map((r) => ({ handle: r.handle, reason: r.reason })) },
-  };
-  const res = json(out, 200, { 'Cache-Control': 'public, max-age=60' });
-  try {
-    const put = cache.put(key, res.clone());
-    if (ctx && ctx.waitUntil) ctx.waitUntil(put); else await put;
-  } catch (e) {
-    /* best-effort cache */
-  }
-  return res;
+  const probe = new URL(req.url).searchParams.get('probe');
+  const handles = probe && TIKTOK_LIVE_PROBES.includes(probe)
+    ? [probe]
+    : ((env && env.CHAMP_TIKTOK_HANDLES) ? String(env.CHAMP_TIKTOK_HANDLES).split(',') : CHAMP_TIKTOK_HANDLES)
+        .map((h) => h.trim().replace(/^@/, '')).filter((h) => /^[\w.]{2,24}$/.test(h));
+  return liveEdgeCached('champ-live-tiktok/' + handles.join(','), 60, ctx, async () => {
+    const results = await Promise.all(handles.map(checkTikTokLive));
+    // Handle order = priority: if both accounts are live, the main account leads.
+    const rooms = results.filter((r) => r.live).map((r) => ({ handle: r.handle, url: 'https://www.tiktok.com/@' + r.handle + '/live', title: r.title }));
+    return {
+      live: rooms.length > 0,
+      url: rooms.length ? rooms[0].url : null,
+      title: rooms.length ? rooms[0].title : null,
+      rooms,
+      _debug: { checkedAt: new Date().toISOString(), accounts: results.map((r) => ({ handle: r.handle, reason: r.reason })) },
+    };
+  });
 }
 
 // ---------- host portal ----------
