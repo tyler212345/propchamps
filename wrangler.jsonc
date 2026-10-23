@@ -7,7 +7,11 @@
     "directory": "./",
     "binding": "ASSETS",
     "not_found_handling": "404-page",
-    "html_handling": "auto-trailing-slash"
+    "html_handling": "auto-trailing-slash",
+    // Every request goes through worker/index.js first (it falls back to ASSETS.fetch),
+    // so the canonical-origin 301s (www/http → https://propchamps.net) and the 307→301
+    // conversion apply to pages too — by default matching static files skip the worker.
+    "run_worker_first": true
   },
   "observability": { "enabled": true },
   "vars": {
