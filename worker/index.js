@@ -1578,6 +1578,15 @@ export default {
     const url = new URL(request.url);
     const p = url.pathname;
     const m = request.method;
+    // One canonical origin. www.propchamps.net and plain http:// used to serve the whole
+    // site with 200s — duplicate copies of every page in Google's eyes. Redirect them
+    // permanently to https://propchamps.net (308 for non-GET so a POST keeps its method).
+    if (url.hostname === 'www.propchamps.net' || (url.protocol === 'http:' && url.hostname === 'propchamps.net')) {
+      return new Response(null, {
+        status: m === 'GET' || m === 'HEAD' ? 301 : 308,
+        headers: { location: 'https://propchamps.net' + url.pathname + url.search },
+      });
+    }
     try {
       // Rewards program is HIDDEN (2026-09-01) — the prop firms said it breaks their
       // terms, so every rewards/giveaway page redirects home. The code + data are kept
@@ -1625,7 +1634,17 @@ export default {
       if (p === '/api/host/emails.csv') return await hostEmailsCsv(request, env);
 
       // Not an API/auth route → serve the static site (assets binding).
-      if (env.ASSETS) return env.ASSETS.fetch(request);
+      if (env.ASSETS) {
+        const res = await env.ASSETS.fetch(request);
+        // The static-asset layer canonicalises URLs (/page.html → /page, /dir → /dir/,
+        // /index.html → /) with 307s, which Google treats as temporary and keeps both
+        // URLs around ("Page with redirect" / .html variants in Search Console). These
+        // moves are permanent, so say so.
+        if (res.status === 307 && res.headers.get('location')) {
+          return new Response(null, { status: 301, headers: { location: res.headers.get('location'), 'cache-control': 'public, max-age=3600' } });
+        }
+        return res;
+      }
       return new Response('Not found', { status: 404 });
     } catch (err) {
       // Log the detail (Workers observability), but never leak internals to the client.
