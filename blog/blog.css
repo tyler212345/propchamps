@@ -80,10 +80,35 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%;height:aut
 .callout .callout-label{display:block;font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;color:var(--lime-text)}
 .callout.warn .callout-label{color:var(--warning)}
 
+/* Answer-first box: the direct answer to the query the section is named after */
+.answer-box{border:1px solid var(--border-lime-strong);border-left:3px solid var(--lime);border-radius:14px;padding:18px 22px;background:linear-gradient(180deg,rgba(124,92,255,.08),rgba(124,92,255,.02))}
+.answer-box .callout-label{display:block;font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;color:var(--lime-text)}
+.article-body .answer-box p{font-size:17px;line-height:1.65;color:var(--text-strong);margin:0}
+
+/* Small inline calculator (e.g. the tax set-aside estimate) */
+.mini-calc{border:1px solid var(--border-strong);border-radius:14px;padding:20px 22px;background:var(--bg-card)}
+.mini-calc .callout-label{display:block;font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;color:var(--lime-text)}
+.mini-calc .mc-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.mini-calc label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:var(--text-soft)}
+.mini-calc input{width:100%;min-width:0;font:inherit;font-size:16px;color:var(--text-strong);background:var(--bg-elev);border:1px solid var(--border-strong);border-radius:10px;padding:10px 12px}
+.mini-calc input:focus{outline:none;border-color:var(--lime);box-shadow:0 0 0 3px rgba(124,92,255,.18)}
+.mini-calc output{display:block;margin-top:14px;font-size:16px;line-height:1.55;color:var(--text)}
+.mini-calc output strong{color:var(--text-strong);font-family:var(--font-mono)}
+.mini-calc .mc-note{margin-top:10px;font-size:12.5px;line-height:1.5;color:var(--text-faint)}
+
+/* Links to pages that have not shipped yet (tools/build-blog-post.js --relink): plain text until they exist */
+pc-pending{color:inherit}
+pc-pending.more-card,pc-pending.post-card{display:none}
+[hidden]{display:none!important}
+
 /* Data tables */
 .table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:14px;-webkit-overflow-scrolling:touch}
 table.data{width:100%;border-collapse:collapse;font-size:14.5px;min-width:560px}
 table.data th,table.data td{text-align:left;padding:13px 16px;border-bottom:1px solid var(--border);vertical-align:top}
+/* 6+ column tables (build-blog-post.js adds .wide) get extra width beside the reading column on desktop */
+.table-wrap.wide table.data th,.table-wrap.wide table.data td{padding:12px 13px}
+@media(min-width:1100px){.article-body>.table-wrap.wide{margin-left:-110px;margin-right:-110px}}
+@media(min-width:1360px){.article-body>.table-wrap.wide{margin-left:-160px;margin-right:-160px}}
 table.data thead th{background:var(--bg-band);font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--text-faint);white-space:nowrap;position:sticky;top:0}
 table.data tbody tr:last-child td{border-bottom:0}
 table.data tbody tr:hover{background:rgba(255,255,255,.02)}
@@ -125,6 +150,7 @@ section.block[id]{scroll-margin-top:calc(var(--pc-header-h,68px) + 80px)}
 .more-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;transition:all .18s}
 .more-card:hover{border-color:var(--border-lime);transform:translateY(-2px)}
 .more-card span{font-family:var(--font-display);font-weight:600;font-size:14.5px;color:var(--text);letter-spacing:-.01em}
+.more-card .mc-t small{display:block;font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--lime-text);margin-bottom:4px}
 .more-card .arr{color:var(--text-faint);transition:all .15s}
 .more-card:hover .arr{color:var(--lime);transform:translateX(3px)}
 
@@ -167,4 +193,7 @@ section.block[id]{scroll-margin-top:calc(var(--pc-header-h,68px) + 80px)}
   .section-nav{padding:14px 0}.section-nav-label{display:none}
   .btn-primary,.btn-ghost{width:100%;justify-content:center}
   .article-body h2{margin-top:40px}
+  .mini-calc .mc-row{grid-template-columns:1fr}
+  /* long first-column labels may wrap on phones so the value columns stay in view */
+  table.data .firm-c{white-space:normal;min-width:112px;max-width:150px}
 }

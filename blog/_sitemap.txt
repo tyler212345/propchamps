@@ -1,18 +1,18 @@
   <url>
-    <loc>https://propchamps.net/blog/prop-firm-taxes-explained</loc>
-    <lastmod>2026-09-18</lastmod>
+    <loc>https://propchamps.net/blog/prop-firm-payout-caps</loc>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://propchamps.net/blog/best-platforms-tradovate-vs-ninjatrader-vs-tradingview</loc>
-    <lastmod>2026-09-18</lastmod>
+    <loc>https://propchamps.net/blog/how-many-prop-firm-accounts-can-you-have</loc>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://propchamps.net/blog/apex-drawdown-explained</loc>
-    <lastmod>2026-09-18</lastmod>
+    <loc>https://propchamps.net/blog/how-do-prop-firms-make-money</loc>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

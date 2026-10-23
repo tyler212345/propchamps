@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=82fc7d2b">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=82fc7d2b">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png?v=82fc7d2b">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=82fc7d2b">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0b0b12">
+<title>Prop Firm Consistency Rule Calculator (Every Futures Firm)</title>
+<meta name="description" content="Free consistency rule calculator: pick your firm and plan, enter your best day and total profit, and see if you pass and how much more profit you need.">
+<meta name="robots" content="index, follow">
+<meta name="pc:label" content="Consistency rule calculator">
+<link rel="canonical" href="https://propchamps.net/tools/prop-firm-consistency-calculator">
+<meta property="og:site_name" content="PropChamps">
+<meta property="og:title" content="Prop Firm Consistency Rule Calculator (Every Futures Firm)">
+<meta property="og:description" content="Free consistency rule calculator: pick your firm and plan, enter your best day and total profit, and see if you pass and how much more profit you need.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://propchamps.net/tools/prop-firm-consistency-calculator">
+<meta property="og:image" content="https://propchamps.net/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="PropChamps — Prop firm consistency rule calculator">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://propchamps.net/og-image.jpg">
+<meta name="twitter:title" content="Prop Firm Consistency Rule Calculator (Every Futures Firm)">
+<meta name="twitter:description" content="Free consistency rule calculator: pick your firm and plan, enter your best day and total profit, and see if you pass and how much more profit you need.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"WebApplication","@id":"https://propchamps.net/tools/prop-firm-consistency-calculator#app","name":"Prop Firm Consistency Rule Calculator","url":"https://propchamps.net/tools/prop-firm-consistency-calculator","description":"A free calculator that checks whether your best trading day fits a futures prop firm's consistency rule and how much more profit you need, with presets for every plan at Apex, Tradeify, Lucid, Alpha Futures, Top One, My Funded Futures, FundedNext and Take Profit Trader.","applicationCategory":"FinanceApplication","operatingSystem":"Web browser","inLanguage":"en","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"PropChamps","url":"https://propchamps.net","logo":{"@type":"ImageObject","url":"https://propchamps.net/logos/pc-logo.png"}}},
+{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://propchamps.net/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://propchamps.net/tools/"},{"@type":"ListItem","position":3,"name":"Consistency rule calculator"}]},
+{"@type":"FAQPage","@id":"https://propchamps.net/tools/prop-firm-consistency-calculator#faq","mainEntity":[
+{"@type":"Question","name":"How do you calculate a prop firm consistency rule?","acceptedAnswer":{"@type":"Answer","text":"Divide your best single day's profit by your total net profit for the period the firm measures, then compare the result with the limit. A $1,200 best day on $3,000 of profit is 40%, which is right at a 40% limit. If the share is over the limit, you keep trading until your total is large enough."}},
+{"@type":"Question","name":"How much more profit do I need to pass a consistency rule?","acceptedAnswer":{"@type":"Answer","text":"Divide your best day by the limit to get the total you need. With a $1,500 best day and a 40% rule you need just over $3,750 in total, so on $3,000 of profit you need about $750 more. Any new day also has to fit under the limit, so a very large day can raise the bar instead of clearing it."}},
+{"@type":"Question","name":"Does the consistency rule apply in the evaluation or the funded account?","acceptedAnswer":{"@type":"Answer","text":"It depends on the plan. Apex, Tradeify Growth, Lucid Pro, Alpha Zero and Top One Elite Access apply it only when you request payouts. Take Profit Trader, Tradeify Select, Lucid Flex, My Funded Futures Rapid and Pro, and FundedNext Flex apply it only in the evaluation. Alpha Standard applies it in both, and instant-funding accounts apply it to every payout."}},
+{"@type":"Question","name":"Do losing days count toward the consistency rule?","acceptedAnswer":{"@type":"Answer","text":"Yes, at the firms that publish the formula. Lucid divides by account profit, Alpha Futures by net profit since your last request and Take Profit Trader by net profit, so a losing day lowers your total and makes your best day a bigger share. The day-by-day mode in this calculator uses net profit for that reason."}},
+{"@type":"Question","name":"What happens if I go over the consistency limit?","acceptedAnswer":{"@type":"Answer","text":"Alpha Futures says going over pauses payouts but does not breach the account, and Apex's help center says its 50% rule is not a breach either. In an evaluation, going over simply means you haven't passed yet. Check your own firm's wording, because the rules differ."}},
+{"@type":"Question","name":"Is this consistency calculator free?","acceptedAnswer":{"@type":"Answer","text":"Yes. It's free, needs no signup and runs entirely in your browser. The presets use the limits we checked against each firm's help center or site on Oct 23, 2026, and you can type in any other limit."}}
+]}]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tools/tools.css">
+<!-- pc:head --><link rel="stylesheet" href="/assets/pc.css?v=63a19390"><script src="/assets/pc.js?v=63a19390" defer></script><!-- /pc:head -->
+</head>
+<body>
+<!-- pc:chrome (generated by tools/pc-build.mjs — do not edit by hand) -->
+<div class="pc-ticker" role="region" aria-label="Active discount codes">
+  <a class="pc-ticker-label" href="/deals"><i aria-hidden="true"></i><span>Live deals</span></a>
+  <div class="pc-ticker-viewport">
+    <a class="pc-ticker-track" href="/deals" aria-label="See every active deal"><span class="pc-ticker-group"><span class="pc-tk pc-tk-code">Use code <b>CHAMP</b></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Apex</b> <em>90% OFF</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Top One</b> <em>60% OFF</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>My Funded Futures</b> <em>UP TO 50% OFF</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Take Profit</b> <em>40% OFF</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Alpha Futures</b> <em>40% OFF</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>FundedNext</b> <em>USE CHAMP</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Tradeify</b> <em>USE CHAMP</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Lucid</b> <em>USE CHAMP</em></span><span class="pc-tk-sep">✦</span></span><span class="pc-ticker-group" aria-hidden="true"><span class="pc-tk pc-tk-code">Use code <b>CHAMP</b></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Apex</b> <em>90% OFF</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Top One</b> <em>60% OFF</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>My Funded Futures</b> <em>UP TO 50% OFF</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Take Profit</b> <em>40% OFF</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Alpha Futures</b> <em>40% OFF</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>FundedNext</b> <em>USE CHAMP</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Tradeify</b> <em>USE CHAMP</em></span><span class="pc-tk-sep">✦</span><span class="pc-tk"><b>Lucid</b> <em>USE CHAMP</em></span><span class="pc-tk-sep">✦</span></span></a>
+  </div>
+</div>
+<header class="pc-header" id="pcHeader">
+  <div class="pc-wrap">
+    <a class="pc-logo" href="/" aria-label="PropChamps home"><img class="pc-logo-mark" src="/logos/pc-mark.png" alt="" width="26" height="34"><img class="pc-logo-word" src="/logos/pc-wordmark.png" alt="PropChamps" width="144" height="15"></a>
+    <nav class="pc-nav" aria-label="Primary"><a href="/firms/">Firms</a><a href="/compare">Compare</a><a href="/deals">Deals</a><a href="/start/">Start<span class="pc-nav-dot" aria-hidden="true"></span></a></nav>
+    <div class="pc-actions">
+      <button type="button" class="pc-code" data-copy="CHAMP" aria-label="Copy discount code CHAMP"><span>Code</span><b>CHAMP</b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button>
+      <a class="pc-cta" href="/start/">Get funded <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+      <button type="button" class="pc-burger" id="pcBurger" aria-label="Open menu" aria-expanded="false" aria-controls="pcMenu"><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="pc-menu" id="pcMenu" aria-hidden="true" inert>
+  <nav class="pc-menu-main" aria-label="Mobile"><a href="/start/"><span><b>Start</b><small>Build your funding plan in 30 seconds</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a><a href="/firms/"><span><b>Firms</b><small>Every firm we cover, ranked</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a><a href="/compare"><span><b>Compare</b><small>Rules, payouts &amp; prices side by side</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a><a href="/deals"><span><b>Deals</b><small>Every active CHAMP discount</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a></nav>
+  <div class="pc-menu-label">Learn</div>
+  <div class="pc-menu-sub"><a href="/blog/">Blog</a><a href="/best/">Best-of guides</a><a href="/vs/">Head-to-heads</a><a href="/tools/">Free tools</a><a href="/payouts">Payouts</a><a href="/guide">Beginner's guide</a><a href="/methodology">How we audit</a></div>
+  <div class="pc-menu-cta"><a class="pc-cta" href="/start/">Build my funding plan <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a><button type="button" class="pc-code" data-copy="CHAMP" aria-label="Copy discount code CHAMP"><span>Code</span><b>CHAMP</b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button></div>
+</div>
+<!-- /pc:chrome -->
+
+<section class="tool-hero">
+  <div class="bg-stack"></div>
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a><span>/</span><a href="/tools/" data-g-href="/tools/">Tools</a><span>/</span>Consistency calculator</div>
+    <div class="tool-eyebrow">Free tool · No signup</div>
+    <h1>Prop firm consistency rule <span class="accent">calculator</span></h1>
+    <p class="tool-dek">Pick your firm, plan and stage, then enter your best day and total profit (or every day's P&amp;L). You'll see whether your best day fits the rule, the largest day you can have right now, and how much more profit you need before you can pass or get paid.</p>
+  </div>
+</section>
+
+<section class="calc" id="calc">
+  <div class="container">
+    <div class="calc-grid">
+
+      <div class="panel" data-reveal>
+        <div class="panel-title">1 · Your rule</div>
+        <div class="field">
+          <label for="presetSel">Firm, plan &amp; stage</label>
+          <select id="presetSel"><option value="custom">Custom limit</option></select>
+        </div>
+        <div class="field">
+          <label for="pctInp">Consistency limit</label>
+          <div class="field-inline"><input type="number" id="pctInp" value="40" min="1" max="100" step="1" inputmode="decimal"><span class="unit">% of profit</span></div>
+        </div>
+        <div class="field" id="sizeField">
+          <label for="sizeSel">Account size</label>
+          <select id="sizeSel"></select>
+        </div>
+        <div class="field">
+          <label for="goalInp" id="goalLbl">Profit target or payout goal ($, optional)</label>
+          <input type="number" id="goalInp" min="0" step="50" inputmode="decimal" placeholder="Leave blank to check the rule only">
+          <span class="sub" id="goalSub">The calculator uses whichever is larger: this amount, or the total the rule needs.</span>
+        </div>
+        <div class="preset-info" id="presetInfo" aria-live="polite"></div>
+      </div>
+
+      <div class="panel hi" data-reveal>
+        <div class="panel-title">2 · Your profit</div>
+        <div class="seg" role="group" aria-label="Input mode">
+          <button type="button" id="modeQuick" aria-pressed="true">Best day + total</button>
+          <button type="button" id="modeDays" aria-pressed="false">Day by day</button>
+        </div>
+        <div id="quickWrap">
+          <div class="field-row">
+            <div class="field"><label for="bestInp">Best single day ($)</label><input type="number" id="bestInp" value="1500" step="50" inputmode="decimal"></div>
+            <div class="field"><label for="totalInp">Total net profit ($)</label><input type="number" id="totalInp" value="3000" step="50" inputmode="decimal"></div>
+          </div>
+        </div>
+        <div id="daysWrap" hidden>
+          <div class="pl-head"><span>Day</span><span>Day's P&amp;L (+/− $)</span><span></span></div>
+          <div class="pl-rows" id="plRows"></div>
+          <div class="pl-actions"><button class="btn-add" id="addDay" type="button">+ Add a day</button><button class="btn-add" id="clearDays" type="button">Clear</button></div>
+          <div class="pl-sum" id="plSum"></div>
+        </div>
+
+        <div style="margin-top:22px">
+          <div class="panel-title">3 · Result</div>
+          <div id="verdict" class="verdict" role="status"></div>
+          <div class="kpis" id="kpis"></div>
+          <div class="meter" id="meter" aria-hidden="true">
+            <div class="meter-top"><span>Best day as a share of profit</span><b id="meterVal">—</b></div>
+            <div class="meter-track"><div class="meter-fill" id="meterFill" style="width:0"></div><div class="meter-cap" id="meterCap" style="left:40%"><span id="meterCapLbl">40% limit</span></div></div>
+            <div class="meter-scale"><span>0%</span><span>50%</span><span>100%</span></div>
+          </div>
+          <div class="bars" id="bars" hidden></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="block" id="how">
+  <div class="container">
+    <div class="section-eyebrow">How it works</div>
+    <h2 class="section-h2">The math behind the result</h2>
+    <div class="prose">
+      <p>A consistency rule caps how much of your profit can come from your single best day. The check is one division: <strong>best day ÷ total net profit</strong>, compared with the limit. Lucid publishes it exactly that way (largest day ÷ account profit), and Alpha Futures and Take Profit Trader measure against net profit too.</p>
+      <h3>What the calculator works out</h3>
+      <ul>
+        <li><strong>Your share:</strong> best day ÷ total profit. Under the limit, you're fine; over it, you can't pass or get paid yet.</li>
+        <li><strong>Largest best day allowed now:</strong> the limit × your current total.</li>
+        <li><strong>Total you need:</strong> your best day ÷ the limit, or your profit target if that's bigger. A $1,500 best day under a 40% rule needs just over $3,750.</li>
+        <li><strong>Fewest extra days:</strong> the smallest number of new winning days that gets you there, and how big each one can be without becoming a new best day that breaks the rule.</li>
+      </ul>
+      <h3>Two details that trip traders up</h3>
+      <p><strong>"Below" vs "at" the limit.</strong> Alpha Futures and Take Profit Trader require the best day to be <em>below</em> the limit, and at Apex a day of 50% <em>or more</em> is over it. FundedNext Direct allows up to and including 20%. Where a firm doesn't say, the calculator treats the limit as "below" to be safe.</p>
+      <p><strong>The window.</strong> Some firms reset the count after each payout (Lucid Pro, Alpha, Apex); FundedNext Direct compares your <em>all-time</em> best day with the current cycle. Enter the profit for the window your firm uses, shown under the preset.</p>
+      <p>For the full explanation of the rule and how to trade around it, read <a href="/blog/prop-firm-consistency-rules">prop firm consistency rules explained</a>. If you'd rather avoid the rule entirely, see the <a href="/best/best-prop-firms-no-consistency-rule" data-g-href="/best/best-prop-firms-no-consistency-rule">futures prop firms with no consistency rule</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="presets">
+  <div class="container">
+    <div class="section-eyebrow">Reference</div>
+    <h2 class="section-h2">Consistency limits in this calculator</h2>
+    <div class="prose"><p>Every preset, checked against each firm's help center or site on Oct 23, 2026; the calculator shows each preset's source. Stages without a rule aren't listed because there's nothing to calculate. Select <strong>Load</strong> to open a preset in the calculator.</p></div>
+    <div class="table-wrap" data-reveal>
+      <table class="data" id="presetTable">
+        <thead><tr><th>Firm</th><th>Plan · stage</th><th>Limit</th><th>Measured against</th><th></th></tr></thead>
+        <tbody>
+          <tr data-preset="apex-pa" data-firm="apex-trader" data-firmname="Apex Trader Funding" data-planname="INTRADAY TRAIL" data-pct="50" data-cmp="lt" data-stage="Funded (PA)" data-sizes="25000,50000,100000,150000" data-src="Apex help center via search index (Apex blocked our reader)"><td class="firm-c">Apex Trader Funding</td><td class="plan">Intraday &amp; EOD Trail · PA (funded)</td><td class="pct">50%</td><td class="basis">Profit since your last payout<small class="note">No rule in the eval. Going over is not a breach. Confirm in your dashboard.</small></td><td><a class="load" href="#apex-pa">Load</a></td></tr>
+          <tr data-preset="tradeify-growth" data-firm="tradeify" data-firmname="Tradeify" data-planname="GROWTH" data-pct="35" data-cmp="lt" data-stage="Funded" data-sizes="25000,50000,100000,150000" data-src="tradeify.co plan data"><td class="firm-c">Tradeify</td><td class="plan">Growth · funded</td><td class="pct">35%</td><td class="basis">Funded profit (window not stated)<small class="note">No rule in the Growth eval.</small></td><td><a class="load" href="#tradeify-growth">Load</a></td></tr>
+          <tr data-preset="tradeify-select" data-firm="tradeify" data-firmname="Tradeify" data-planname="SELECT — DAILY PATH" data-pct="40" data-cmp="lt" data-stage="Evaluation" data-sizes="25000,50000,100000,150000" data-goal-type="target" data-goal="1500,3000,6000,9000" data-src="tradeify.co plan data"><td class="firm-c">Tradeify</td><td class="plan">Select · evaluation</td><td class="pct">40%</td><td class="basis">Evaluation profit<small class="note">No rule once funded, on the Daily or Flex path.</small></td><td><a class="load" href="#tradeify-select">Load</a></td></tr>
+          <tr data-preset="tradeify-select-50" data-firm="tradeify" data-firmname="Tradeify" data-planname="SELECT — DAILY PATH" data-pct="50" data-cmp="lt" data-stage="Evaluation" data-sizes="25000,50000,100000,150000" data-goal-type="target" data-goal="1500,3000,6000,9000" data-src="tradeify.co plan data"><td class="firm-c">Tradeify</td><td class="plan">Select · evaluation with 50% add-on</td><td class="pct">50%</td><td class="basis">Evaluation profit<small class="note">The add-on costs $135 / $205 / $329 / $459 instead of $109 / $165 / $265 / $369.</small></td><td><a class="load" href="#tradeify-select-50">Load</a></td></tr>
+          <tr data-preset="tradeify-lightning-1" data-firm="tradeify" data-firmname="Tradeify" data-pct="20" data-cmp="lt" data-stage="Instant · payout 1" data-sizes="25000,50000,100000,150000" data-goal-type="list" data-goal="1500,3000,6000,9000" data-goal-label="Payout 1 profit goal ($)" data-src="tradeify.co plan data; goals from Tradeify's help center via search index"><td class="firm-c">Tradeify</td><td class="plan">Lightning · payout 1</td><td class="pct">20%</td><td class="basis">Funded profit (window not stated)<small class="note">Payout 2 is 25% and payout 3+ is 30% (accounts bought after Sep 12, 2025; older accounts stay at 20%).</small></td><td><a class="load" href="#tradeify-lightning-1">Load</a></td></tr>
+          <tr data-preset="tradeify-lightning-2" data-firm="tradeify" data-firmname="Tradeify" data-pct="25" data-cmp="lt" data-stage="Instant · payout 2" data-sizes="25000,50000,100000,150000" data-goal-type="list" data-goal="1000,2000,3500,4500" data-goal-label="Payout 2+ profit goal ($)" data-src="tradeify.co plan data; goals from Tradeify's help center via search index"><td class="firm-c">Tradeify</td><td class="plan">Lightning · payout 2</td><td class="pct">25%</td><td class="basis">Funded profit (window not stated)<small class="note">$1,000 minimum request on every Lightning payout.</small></td><td><a class="load" href="#tradeify-lightning-2">Load</a></td></tr>
+          <tr data-preset="tradeify-lightning-3" data-firm="tradeify" data-firmname="Tradeify" data-pct="30" data-cmp="lt" data-stage="Instant · payout 3+" data-sizes="25000,50000,100000,150000" data-goal-type="list" data-goal="1000,2000,3500,4500" data-goal-label="Payout 2+ profit goal ($)" data-src="tradeify.co plan data; goals from Tradeify's help center via search index"><td class="firm-c">Tradeify</td><td class="plan">Lightning · payout 3 and later</td><td class="pct">30%</td><td class="basis">Funded profit (window not stated)<small class="note">Older Lightning accounts (bought before Sep 12, 2025) stay at 20%.</small></td><td><a class="load" href="#tradeify-lightning-3">Load</a></td></tr>
+          <tr data-preset="lucid-pro" data-firm="lucid-trading" data-firmname="Lucid Trading" data-planname="LUCID PRO" data-pct="40" data-cmp="lt" data-stage="Funded" data-sizes="25000,50000,100000,150000" data-src="Lucid help center"><td class="firm-c">Lucid Trading</td><td class="plan">Pro · funded</td><td class="pct">40%</td><td class="basis">Account profit, checked when you request; resets after each payout<small class="note">No rule in the eval (1-day pass).</small></td><td><a class="load" href="#lucid-pro">Load</a></td></tr>
+          <tr data-preset="lucid-pro-legacy" data-firm="lucid-trading" data-firmname="Lucid Trading" data-planname="LUCID PRO" data-pct="35" data-cmp="lt" data-stage="Funded (legacy)" data-sizes="25000,50000,100000,150000" data-src="Lucid help center"><td class="firm-c">Lucid Trading</td><td class="plan">Pro · funded, bought before 11/28/2025</td><td class="pct">35%</td><td class="basis">Account profit, checked when you request; resets after each payout<small class="note">Legacy accounts are also paid 100% of the first $10K.</small></td><td><a class="load" href="#lucid-pro-legacy">Load</a></td></tr>
+          <tr data-preset="lucid-flex" data-firm="lucid-trading" data-firmname="Lucid Trading" data-planname="LUCID FLEX" data-pct="40" data-cmp="lt" data-stage="Evaluation" data-sizes="25000,50000,100000,150000" data-goal-type="target" data-goal="1250,3000,6000,9000" data-src="Lucid help center"><td class="firm-c">Lucid Trading</td><td class="plan">Flex · evaluation</td><td class="pct">40%</td><td class="basis">Account profit<small class="note">50% with the paid add-on. No rule once funded.</small></td><td><a class="load" href="#lucid-flex">Load</a></td></tr>
+          <tr data-preset="lucid-flex-50" data-firm="lucid-trading" data-firmname="Lucid Trading" data-planname="LUCID FLEX" data-pct="50" data-cmp="lt" data-stage="Evaluation" data-sizes="25000,50000,100000,150000" data-goal-type="target" data-goal="1250,3000,6000,9000" data-src="Lucid help center"><td class="firm-c">Lucid Trading</td><td class="plan">Flex · evaluation with 50% add-on</td><td class="pct">50%</td><td class="basis">Account profit<small class="note">The add-on lets you pass in as few as 2 days.</small></td><td><a class="load" href="#lucid-flex-50">Load</a></td></tr>
+          <tr data-preset="lucid-daily" data-firm="lucid-trading" data-firmname="Lucid Trading" data-planname="LUCID DAILY" data-pct="40" data-cmp="lt" data-stage="Evaluation" data-sizes="25000,50000,100000,150000" data-goal-type="target" data-goal="1250,3000,6000,9000" data-src="Lucid help center (articles disagree)"><td class="firm-c">Lucid Trading</td><td class="plan">Daily · evaluation</td><td class="pct">40%</td><td class="basis">Account profit<small class="note">Lucid's Oct 20 article says 40% (50% add-on); older Lucid articles say 50%. No rule once funded.</small></td><td><a class="load" href="#lucid-daily">Load</a></td></tr>
+          <tr data-preset="lucid-daily-50" data-firm="lucid-trading" data-firmname="Lucid Trading" data-planname="LUCID DAILY" data-pct="50" data-cmp="lt" data-stage="Evaluation" data-sizes="25000,50000,100000,150000" data-goal-type="target" data-goal="1250,3000,6000,9000" data-src="Lucid help center"><td class="firm-c">Lucid Trading</td><td class="plan">Daily · evaluation with 50% add-on</td><td class="pct">50%</td><td class="basis">Account profit<small class="note">No rule once funded.</small></td><td><a class="load" href="#lucid-daily-50">Load</a></td></tr>
+          <tr data-preset="lucid-direct" data-firm="lucid-trading" data-firmname="Lucid Trading" data-pct="20" data-cmp="lt" data-stage="Instant · every payout" data-sizes="25000,50000,100000,150000" data-goal-type="list" data-goal="1500,3000,6000,9000" data-goal-label="Payout 1 profit goal ($)" data-src="Lucid help center"><td class="firm-c">Lucid Trading</td><td class="plan">Direct (instant)</td><td class="pct">20%</td><td class="basis">Account profit<small class="note">Later payouts need $1,250 / $2,500 / $3,500 / $4,500 of profit.</small></td><td><a class="load" href="#lucid-direct">Load</a></td></tr>
+          <tr data-preset="alpha-zero" data-firm="alpha-futures" data-firmname="Alpha Futures" data-planname="ALPHA ZERO" data-pct="40" data-cmp="lt" data-stage="Qualified" data-sizes="25000,50000,100000" data-src="Alpha Futures help center"><td class="firm-c">Alpha Futures</td><td class="plan">Zero · qualified</td><td class="pct">40%</td><td class="basis">Net profit since your last withdrawal request<small class="note">Going over pauses payouts; it doesn't breach the account. No rule in the Zero eval.</small></td><td><a class="load" href="#alpha-zero">Load</a></td></tr>
+          <tr data-preset="alpha-standard-eval" data-firm="alpha-futures" data-firmname="Alpha Futures" data-planname="ALPHA STANDARD" data-pct="50" data-cmp="lt" data-stage="Evaluation" data-sizes="50000,100000,150000" data-goal-type="target" data-goal="3000,6000,9000" data-src="Alpha Futures help center"><td class="firm-c">Alpha Futures</td><td class="plan">Standard · evaluation</td><td class="pct">50%</td><td class="basis">Evaluation profit<small class="note">Qualified Standard accounts then use 40%.</small></td><td><a class="load" href="#alpha-standard-eval">Load</a></td></tr>
+          <tr data-preset="alpha-standard" data-firm="alpha-futures" data-firmname="Alpha Futures" data-planname="ALPHA STANDARD" data-pct="40" data-cmp="lt" data-stage="Qualified" data-sizes="50000,100000,150000" data-src="Alpha Futures help center"><td class="firm-c">Alpha Futures</td><td class="plan">Standard · qualified</td><td class="pct">40%</td><td class="basis">Net profit since your last withdrawal request<small class="note">Going over pauses payouts; it doesn't breach the account.</small></td><td><a class="load" href="#alpha-standard">Load</a></td></tr>
+          <tr data-preset="alpha-advanced" data-firm="alpha-futures" data-firmname="Alpha Futures" data-planname="ALPHA ADVANCED" data-pct="40" data-cmp="lt" data-stage="Evaluation" data-sizes="50000,100000,150000" data-goal-type="target" data-goal="4000,8000,12000" data-src="Alpha Futures help center"><td class="firm-c">Alpha Futures</td><td class="plan">Advanced · evaluation</td><td class="pct">40%</td><td class="basis">Evaluation profit<small class="note">No rule once qualified.</small></td><td><a class="load" href="#alpha-advanced">Load</a></td></tr>
+          <tr data-preset="alpha-direct" data-firm="alpha-futures" data-firmname="Alpha Futures" data-pct="20" data-cmp="lt" data-stage="Instant · every withdrawal" data-sizes="25000,50000,100000,150000" data-goal-type="list" data-goal="1500,3000,6000,9000" data-goal-label="First withdrawal profit target ($)" data-src="Alpha Futures help center"><td class="firm-c">Alpha Futures</td><td class="plan">Direct (instant)</td><td class="pct">20%</td><td class="basis">Net profit since your last withdrawal request<small class="note">Later withdrawals need $1,000 / $2,000 / $4,000 / $6,000 of profit.</small></td><td><a class="load" href="#alpha-direct">Load</a></td></tr>
+          <tr data-preset="topone-elite-access" data-firm="top-one-futures" data-firmname="Top One Futures" data-planname="ELITE ACCESS" data-pct="40" data-cmp="lt" data-stage="Funded" data-sizes="25000,50000,100000,150000" data-goal-type="list" data-goal="2000,2500,3500,5000" data-goal-label="Profit needed to request (buffer + $500)" data-src="Top One help center"><td class="firm-c">Top One Futures</td><td class="plan">Elite Access · funded</td><td class="pct">40%</td><td class="basis">Funded profit (window not stated)<small class="note">Also applies to Elite Access Intraday. No rule in the $39 eval.</small></td><td><a class="load" href="#topone-elite-access">Load</a></td></tr>
+          <tr data-preset="topone-elite-daily" data-firm="top-one-futures" data-firmname="Top One Futures" data-planname="ELITE DAILY" data-pct="40" data-cmp="lt" data-stage="Evaluation" data-sizes="25000,50000,100000,150000" data-goal-type="target" data-goal="1500,3000,6000,9000" data-src="Top One help center"><td class="firm-c">Top One Futures</td><td class="plan">Elite Daily · evaluation</td><td class="pct">40%</td><td class="basis">Evaluation profit<small class="note">No rule once funded.</small></td><td><a class="load" href="#topone-elite-daily">Load</a></td></tr>
+          <tr data-preset="topone-instant" data-firm="top-one-futures" data-firmname="Top One Futures" data-planname="INSTANT SIM FUNDED" data-pct="20" data-cmp="lt" data-stage="Instant · every payout" data-sizes="25000,50000,100000,150000" data-goal-type="pct" data-goal="6" data-goal-label="Payout 1 target, 6% of balance ($)" data-src="Top One help center"><td class="firm-c">Top One Futures</td><td class="plan">Instant Sim Funded</td><td class="pct">20%</td><td class="basis">Profit; the trading day ends at 5 PM EST<small class="note">Targets then drop to 5% and 4% of the balance left after each payout.</small></td><td><a class="load" href="#topone-instant">Load</a></td></tr>
+          <tr data-preset="topone-ignite" data-firm="top-one-futures" data-firmname="Top One Futures" data-planname="IGNITE" data-pct="15" data-cmp="lt" data-stage="Instant · every payout" data-sizes="25000,50000,100000,150000" data-goal-type="pct" data-goal="5" data-goal-label="Payout target, 5% of balance ($)" data-src="Top One help center"><td class="firm-c">Top One Futures</td><td class="plan">Ignite (instant)</td><td class="pct">15%</td><td class="basis">Profit toward each 5% target<small class="note">The target is recalculated on the balance after each payout. $250 minimum request.</small></td><td><a class="load" href="#topone-ignite">Load</a></td></tr>
+          <tr data-preset="mff-rapid" data-firm="my-funded-futures" data-firmname="My Funded Futures" data-planname="FUNDED FUTURES RAPID" data-pct="50" data-cmp="lt" data-stage="Evaluation" data-sizes="25000,50000,100000,150000" data-goal-type="target" data-goal="1500,3000,6000,9000" data-src="MFF help center"><td class="firm-c">My Funded Futures</td><td class="plan">Rapid · evaluation</td><td class="pct">50%</td><td class="basis">Evaluation profit<small class="note">2-day minimum. No rule once funded.</small></td><td><a class="load" href="#mff-rapid">Load</a></td></tr>
+          <tr data-preset="mff-rapid-eod" data-firm="my-funded-futures" data-firmname="My Funded Futures" data-planname="RAPID EOD" data-pct="30" data-cmp="lt" data-stage="Evaluation" data-sizes="25000,50000" data-goal-type="target" data-goal="1500,3000" data-src="MFF help center"><td class="firm-c">My Funded Futures</td><td class="plan">Rapid EOD · evaluation</td><td class="pct">30%</td><td class="basis">Evaluation profit<small class="note">4-day minimum, 25K and 50K only. No rule once funded.</small></td><td><a class="load" href="#mff-rapid-eod">Load</a></td></tr>
+          <tr data-preset="mff-pro" data-firm="my-funded-futures" data-firmname="My Funded Futures" data-planname="FUNDED FUTURES PRO" data-pct="50" data-cmp="lt" data-stage="Evaluation" data-sizes="50000,100000,150000" data-goal-type="target" data-goal="3000,6000,9000" data-src="MFF help center"><td class="firm-c">My Funded Futures</td><td class="plan">Pro · evaluation</td><td class="pct">50%</td><td class="basis">Evaluation profit<small class="note">2-day minimum. No rule once funded.</small></td><td><a class="load" href="#mff-pro">Load</a></td></tr>
+          <tr data-preset="mff-builder" data-firm="my-funded-futures" data-firmname="My Funded Futures" data-planname="BUILDER PLAN" data-pct="50" data-cmp="lt" data-stage="Each payout cycle" data-sizes="25000,50000,100000,150000" data-goal-type="list" data-goal="250,500,1000,1500" data-goal-label="Net profit needed per payout ($)" data-src="MFF help center"><td class="firm-c">My Funded Futures</td><td class="plan">Builder · each payout cycle</td><td class="pct">50%</td><td class="basis">Profit in the payout cycle<small class="note">Each cycle needs 2 trading days. No rule in the eval.</small></td><td><a class="load" href="#mff-builder">Load</a></td></tr>
+          <tr data-preset="fundednext-flex" data-firm="fundednext" data-firmname="FundedNext" data-planname="FLEX" data-pct="40" data-cmp="lt" data-stage="Challenge" data-sizes="50000,100000,150000" data-goal-type="target" data-goal="2500,5000,8000" data-src="FundedNext help center"><td class="firm-c">FundedNext</td><td class="plan">Flex · challenge</td><td class="pct">40%</td><td class="basis">Challenge profit<small class="note">No rule once funded.</small></td><td><a class="load" href="#fundednext-flex">Load</a></td></tr>
+          <tr data-preset="fundednext-legacy" data-firm="fundednext" data-firmname="FundedNext" data-planname="LEGACY" data-pct="40" data-cmp="lt" data-stage="Challenge" data-sizes="25000,50000,100000" data-goal-type="target" data-goal="1250,3000,6000" data-src="FundedNext help center"><td class="firm-c">FundedNext</td><td class="plan">Legacy · challenge</td><td class="pct">40%</td><td class="basis">Challenge profit<small class="note">No rule once funded.</small></td><td><a class="load" href="#fundednext-legacy">Load</a></td></tr>
+          <tr data-preset="fundednext-rapid-pro" data-firm="fundednext" data-firmname="FundedNext" data-planname="RAPID — PRO" data-pct="40" data-cmp="lt" data-stage="Funded" data-sizes="25000,50000,100000" data-goal-type="list" data-goal="500,500,500" data-goal-label="Cycle profit needed ($)" data-src="FundedNext help center"><td class="firm-c">FundedNext</td><td class="plan">Rapid Pro · funded</td><td class="pct">40%</td><td class="basis">Profit in the reward cycle<small class="note">Rewards every 3 days, so at least 3 trading days. No rule in the challenge.</small></td><td><a class="load" href="#fundednext-rapid-pro">Load</a></td></tr>
+          <tr data-preset="fundednext-direct" data-firm="fundednext" data-firmname="FundedNext" data-pct="20" data-cmp="lte" data-stage="Instant · every withdrawal" data-sizes="50000" data-goal-type="list" data-goal="2100" data-goal-label="Buffer to clear first ($)" data-src="FundedNext help center"><td class="firm-c">FundedNext</td><td class="plan">Direct (instant, 50K)</td><td class="pct">20%</td><td class="basis">Your all-time best day vs the current cycle's profit<small class="note">"Perpetual": one big day counts against every later cycle. $800 minimum and $1,200 maximum per withdrawal.</small></td><td><a class="load" href="#fundednext-direct">Load</a></td></tr>
+          <tr data-preset="tpt-test" data-firm="take-profit" data-firmname="Take Profit Trader" data-planname="EVALUATION" data-pct="50" data-cmp="lt" data-stage="Test (evaluation)" data-sizes="25000,50000,75000,100000,150000" data-goal-type="target" data-goal="1500,3000,4500,6000,9000" data-src="Take Profit Trader knowledge base"><td class="firm-c">Take Profit Trader</td><td class="plan">Test (evaluation)</td><td class="pct">50%</td><td class="basis">Net profit<small class="note">3-day minimum for tests bought from Aug 17, 2026. No rule in PRO or PRO+.</small></td><td><a class="load" href="#tpt-test">Load</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">Stages with no consistency rule: Apex, Tradeify Growth, Lucid Pro, Alpha Zero, Top One Elite Access, FundedNext Rapid Pro and MFF Builder evaluations; Tradeify Select, Lucid Flex and Daily, Alpha Advanced, Top One Elite Daily, MFF Rapid, Rapid EOD and Pro, FundedNext Flex and Legacy, and Take Profit Trader once funded; FundedNext Rapid Daily at every stage.</p>
+  </div>
+</section>
+
+<section class="block" id="faq">
+  <div class="container">
+    <div class="section-eyebrow">Common questions</div>
+    <h2 class="section-h2">Consistency calculator FAQ</h2>
+    <div class="faq-list">
+      <details class="faq-item"><summary class="faq-q">How do you calculate a prop firm consistency rule?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>Divide your best single day's profit by your total net profit for the period the firm measures, then compare the result with the limit. A $1,200 best day on $3,000 of profit is 40%, which is right at a 40% limit. If the share is over the limit, you keep trading until your total is large enough.</p></div></details>
+      <details class="faq-item"><summary class="faq-q">How much more profit do I need to pass a consistency rule?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>Divide your best day by the limit to get the total you need. With a $1,500 best day and a 40% rule you need just over $3,750 in total, so on $3,000 of profit you need about $750 more. Any new day also has to fit under the limit, so a very large day can raise the bar instead of clearing it.</p></div></details>
+      <details class="faq-item"><summary class="faq-q">Does the consistency rule apply in the evaluation or the funded account?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>It depends on the plan. Apex, Tradeify Growth, Lucid Pro, Alpha Zero and Top One Elite Access apply it only when you request payouts. Take Profit Trader, Tradeify Select, Lucid Flex, My Funded Futures Rapid and Pro, and FundedNext Flex apply it only in the evaluation. Alpha Standard applies it in both, and instant-funding accounts apply it to every payout.</p></div></details>
+      <details class="faq-item"><summary class="faq-q">Do losing days count toward the consistency rule?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>Yes, at the firms that publish the formula. Lucid divides by account profit, Alpha Futures by net profit since your last request and Take Profit Trader by net profit, so a losing day lowers your total and makes your best day a bigger share. The day-by-day mode in this calculator uses net profit for that reason.</p></div></details>
+      <details class="faq-item"><summary class="faq-q">What happens if I go over the consistency limit?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>Alpha Futures says going over pauses payouts but does not breach the account, and Apex's help center says its 50% rule is not a breach either. In an evaluation, going over simply means you haven't passed yet. Check your own firm's wording, because the rules differ.</p></div></details>
+      <details class="faq-item"><summary class="faq-q">Is this consistency calculator free?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>Yes. It's free, needs no signup and runs entirely in your browser. The presets use the limits we checked against each firm's help center or site on Oct 23, 2026, and you can type in any other limit.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="related">
+  <div class="container">
+    <div class="section-eyebrow">Keep going</div>
+    <h2 class="section-h2">Related</h2>
+    <!-- g:tools-more --><p class="more-sub">Related reading</p><div class="more-grid"><a class="more-card" href="/best/best-prop-firms-no-consistency-rule"><span>No consistency rule</span><span class="arr">→</span></a><a class="more-card" href="/blog/prop-firm-consistency-rules"><span>Prop Firm Consistency Rule Explained</span><span class="arr">→</span></a><a class="more-card" href="/best/best-prop-firms-fast-payouts"><span>Fastest payouts</span><span class="arr">→</span></a><a class="more-card" href="/blog/how-prop-firm-payouts-work"><span>How Do Prop Firm Payouts Work?</span><span class="arr">→</span></a><a class="more-card" href="/blog/how-to-pass-a-prop-firm-evaluation"><span>How to Pass a Futures Prop Firm Evaluation</span><span class="arr">→</span></a></div><p class="more-sub">More free tools</p><div class="more-grid"><a class="more-card" href="/tools/prop-firm-drawdown-calculator"><span>Drawdown calculator</span><span class="arr">→</span></a><a class="more-card" href="/tools/"><span>All free tools</span><span class="arr">→</span></a></div><!-- /g:tools-more -->
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <div class="cta-card" data-reveal>
+      <h2>Rather skip the rule?</h2>
+      <p>Twenty of the 27 plans we track drop the consistency rule in either the evaluation or the funded account, and one drops it at every stage.</p>
+      <div class="cta-row">
+        <a href="/best/best-prop-firms-no-consistency-rule" data-g-href="/best/best-prop-firms-no-consistency-rule" class="btn-primary">See plans with no consistency rule</a>
+        <a class="btn-ghost" href="/compare">Compare every plan</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- pc:footer (generated by tools/pc-build.mjs — do not edit by hand) -->
+<footer class="pc-footer">
+  <div class="pc-wrap">
+    <div class="pc-foot-cta">
+      <div><p class="pc-foot-h">Not sure which firm fits? <em>Get your plan in 30 seconds.</em></p><p>Three questions. The right account, the right discount, and the toolkit to pass it.</p></div>
+      <a class="pc-cta" href="/start/">Build my plan <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+    </div>
+    <div class="pc-foot-grid">
+      <div class="pc-foot-brand">
+        <a class="pc-logo" href="/" aria-label="PropChamps home"><img class="pc-logo-mark" src="/logos/pc-mark.png" alt="" width="26" height="34" loading="lazy"><img class="pc-logo-word" src="/logos/pc-wordmark.png" alt="PropChamps" width="144" height="15" loading="lazy"></a>
+        <p>Futures prop firms, compared straight. We track rules, payouts and prices across every firm we cover — and code CHAMP is set up at every one.</p>
+        <div class="pc-social"><a href="https://www.youtube.com/@thetradingchamp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg> YouTube</a><a href="https://discord.gg/oasisalerts" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.6 1.3a18.3 18.3 0 0 0-5.6 0L8.6 3a19.7 19.7 0 0 0-4.9 1.5C.6 9.1-.3 13.6.1 18.1a19.9 19.9 0 0 0 6 3l1.3-2.1a12.9 12.9 0 0 1-2-1l.5-.4a14.2 14.2 0 0 0 12.2 0l.5.4c-.6.4-1.3.7-2 1l1.3 2.1a19.8 19.8 0 0 0 6-3c.5-5.2-.8-9.7-3.6-13.7zM8 15.3c-1.2 0-2.2-1.1-2.2-2.4S6.8 10.5 8 10.5s2.2 1.1 2.2 2.4-1 2.4-2.2 2.4zm8 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4z"/></svg> Discord</a></div>
+      </div>
+      <div class="pc-foot-col"><h3>Explore</h3><ul><li><a href="/firms/">Firms</a></li><li><a href="/compare">Compare</a></li><li><a href="/vs/">Head-to-heads</a></li><li><a href="/deals">Deals</a></li><li><a href="/payouts">Payouts</a></li><li><a href="/start/">Build your plan</a></li></ul></div>
+      <div class="pc-foot-col"><h3>Best of</h3><ul><li><a href="/best/">All buying guides</a></li><li><a href="/best/best-prop-firms-fast-payouts">Fastest payouts</a></li><li><a href="/best/best-prop-firms-no-daily-loss-limit">No daily loss limit</a></li><li><a href="/best/best-prop-firms-no-consistency-rule">No consistency rule</a></li><li><a href="/best/cheapest-prop-firm-challenges">Cheapest challenges</a></li><li><a href="/best/best-prop-firm-for-beginners">Best for beginners</a></li></ul></div>
+      <div class="pc-foot-col"><h3>Learn</h3><ul><li><a href="/blog/">Blog</a></li><li><a href="/guide">Beginner's guide</a></li><li><a href="/tools/">Free tools</a></li><li><a href="/tools/prop-firm-drawdown-calculator">Drawdown calculator</a></li><li><a href="/tools/prop-firm-consistency-calculator">Consistency calculator</a></li></ul></div>
+      <div class="pc-foot-col"><h3>PropChamps</h3><ul><li><a href="/methodology">How we audit</a></li><li><a href="/audit-log">Audit log</a></li><li><a href="/join">Join the list</a></li><li><a href="mailto:hello@propchamps.net">Contact</a></li></ul></div>
+    </div>
+    <div class="pc-foot-legal"><div>© 2026 PropChamps. Independent prop firm research — not financial advice. Futures trading involves substantial risk of loss.</div><div><a href="/privacy">Privacy</a> · <a href="/methodology#disclosure">Affiliate disclosure</a></div></div>
+  </div>
+</footer>
+<!-- /pc:footer -->
+
+<script src="/data/firms.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $ = function(id){ return document.getElementById(id); };
+  function money(n){ var neg = n < 0; n = Math.abs(n); var s = '$' + Math.round(n).toLocaleString('en-US'); return neg ? '−' + s : s; }
+  function pctFmt(x){ var v = x * 100; return (Math.abs(v - Math.round(v)) < 0.05 ? Math.round(v) : v.toFixed(1)) + '%'; }
+  function num(id){ var v = parseFloat($(id).value); return isNaN(v) ? 0 : v; }
+  function list(s){ return String(s || '').split(',').map(function(x){ return parseFloat(x); }).filter(function(x){ return !isNaN(x); }); }
+  function sizeLbl(s){ return (s >= 1000 ? (s / 1000) + 'K' : '$' + s); }
+
+  /* ---------- presets come from the reference table (single source) ---------- */
+  var PRESETS = {}, ORDER = [];
+  var F = window.FIRMS || {};
+  function fromFirms(slug, planName, field){
+    try {
+      var f = F[slug]; if (!f || !planName) return null;
+      var p = (f.plansSummary || []).filter(function(x){ return x.name === planName; })[0];
+      if (!p || !p.rules) return null;
+      return String(p.rules[field] || '');
+    } catch (e) { return null; }
+  }
+  function parseSizes(s){
+    return String(s || '').split('·').map(function(x){ var m = x.match(/([\d.]+)\s*K/i); return m ? Math.round(parseFloat(m[1]) * 1000) : null; }).filter(function(v){ return v; });
+  }
+  function parseMoney(s){
+    return String(s || '').split('·').map(function(x){ var m = x.match(/\$\s*([\d,]+)/); return m ? parseFloat(m[1].replace(/,/g, '')) : null; }).filter(function(v){ return v; });
+  }
+  [].forEach.call(document.querySelectorAll('#presetTable tbody tr[data-preset]'), function(tr){
+    var d = tr.dataset;
+    var basisCell = tr.querySelector('.basis');
+    var noteEl = basisCell ? basisCell.querySelector('.note') : null;
+    var basis = basisCell ? basisCell.childNodes[0].textContent.trim() : '';
+    var p = {
+      id: d.preset, firm: d.firm, firmName: d.firmname, plan: tr.querySelector('.plan').textContent.trim(),
+      pct: parseFloat(d.pct), cmp: d.cmp || 'lt', stage: d.stage, src: d.src || '',
+      sizes: list(d.sizes), goalType: d.goalType || '', goal: list(d.goal), goalLabel: d.goalLabel || '',
+      basis: basis, note: noteEl ? noteEl.textContent.trim() : ''
+    };
+    // keep sizes and evaluation targets in sync with data/firms.js when it parses cleanly
+    var fs = parseSizes(fromFirms(d.firm, d.planname, 'Account Sizes'));
+    if (p.goalType === 'target'){
+      var ft = parseMoney(fromFirms(d.firm, d.planname, 'Profit Target'));
+      if (fs.length && fs.length === ft.length){ p.sizes = fs; p.goal = ft; }
+      if (!p.goalLabel) p.goalLabel = 'Evaluation profit target ($)';
+    } else if (!p.goalType && fs.length){ p.sizes = fs; }
+    PRESETS[p.id] = p; ORDER.push(p.id);
+  });
+
+  /* ---------- build the preset dropdown (grouped by firm) ---------- */
+  var sel = $('presetSel'), groups = {};
+  ORDER.forEach(function(id){
+    var p = PRESETS[id];
+    if (!groups[p.firmName]){ groups[p.firmName] = document.createElement('optgroup'); groups[p.firmName].label = p.firmName; sel.appendChild(groups[p.firmName]); }
+    var o = document.createElement('option'); o.value = id; o.textContent = p.firmName + ' — ' + p.plan + ' (' + p.pct + '%)'; groups[p.firmName].appendChild(o);
+  });
+
+  var sizeSel = $('sizeSel');
+  function current(){ return PRESETS[sel.value] || null; }
+  function goalFor(p, i){
+    if (!p || !p.goalType) return null;
+    if (p.goalType === 'pct') return Math.round((p.sizes[i] || 0) * p.goal[0] / 100);
+    var v = p.goal[i]; return v == null ? null : v;
+  }
+  function fillSizes(){
+    var p = current();
+    sizeSel.innerHTML = '';
+    if (!p || !p.sizes.length || !p.goalType){ $('sizeField').hidden = true; return; }
+    $('sizeField').hidden = false;
+    var pick = Math.max(0, p.sizes.indexOf(50000));
+    p.sizes.forEach(function(s, i){
+      var o = document.createElement('option'); o.value = String(i);
+      var g = goalFor(p, i);
+      o.textContent = sizeLbl(s) + (g ? '  ·  ' + (p.goalType === 'target' ? 'target ' : 'goal ') + money(g) : '');
+      sizeSel.appendChild(o);
+    });
+    sizeSel.value = String(pick);
+  }
+  function applyGoal(){
+    var p = current();
+    var g = p ? goalFor(p, +(sizeSel.value || 0)) : null;
+    $('goalInp').value = g ? String(g) : '';
+    $('goalLbl').textContent = (p && p.goalLabel) ? p.goalLabel : 'Profit target or payout goal ($, optional)';
+  }
+  function renderInfo(){
+    var p = current(), el = $('presetInfo');
+    if (!p){
+      el.innerHTML = '<div class="pi-top"><span class="stage">Custom</span></div>Type any limit. The calculator treats it as "best day must be <strong>below</strong>" the limit, the stricter reading. Not sure of yours? See the <a href="#presets">reference table</a>.';
+      return;
+    }
+    el.innerHTML = '<div class="pi-top"><span class="stage">' + esc(p.stage) + '</span><span class="src">Source: ' + esc(p.src) + ' · checked Oct 23, 2026</span></div>' +
+      '<strong>Measured against:</strong> ' + esc(p.basis) + '.<br>' +
+      '<strong>Rule:</strong> best day ' + (p.cmp === 'lte' ? 'at or under ' : 'below ') + p.pct + '% of profit.' + (p.note ? '<br>' + esc(p.note) : '');
+  }
+  function esc(s){ return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+  function selectPreset(id, opts){
+    opts = opts || {};
+    if (id !== 'custom' && !PRESETS[id]) return false;
+    sel.value = id;
+    var p = current();
+    if (p) $('pctInp').value = String(p.pct);
+    fillSizes(); applyGoal(); renderInfo(); run();
+    if (opts.hash !== false){ try { history.replaceState(null, '', id === 'custom' ? location.pathname : '#' + id); } catch (e) {} }
+    return true;
+  }
+  sel.addEventListener('change', function(){ selectPreset(sel.value); });
+  sizeSel.addEventListener('change', function(){ applyGoal(); run(); });
+  $('pctInp').addEventListener('input', function(){
+    var p = current();
+    if (p && parseFloat($('pctInp').value) !== p.pct){ sel.value = 'custom'; renderInfo(); try { history.replaceState(null, '', location.pathname); } catch (e) {} }
+    run();
+  });
+  ['goalInp', 'bestInp', 'totalInp'].forEach(function(id){ $(id).addEventListener('input', run); });
+
+  /* ---------- input modes ---------- */
+  var mode = 'quick';
+  function setMode(m){
+    mode = m;
+    $('modeQuick').setAttribute('aria-pressed', m === 'quick' ? 'true' : 'false');
+    $('modeDays').setAttribute('aria-pressed', m === 'days' ? 'true' : 'false');
+    $('quickWrap').hidden = m !== 'quick';
+    $('daysWrap').hidden = m !== 'days';
+    if (m === 'days' && !$('plRows').children.length){ [600, -250, 1500, 400, 750].forEach(addDay); }
+    run();
+  }
+  $('modeQuick').addEventListener('click', function(){ setMode('quick'); });
+  $('modeDays').addEventListener('click', function(){ setMode('days'); });
+
+  function addDay(v){
+    var wrap = $('plRows'), row = document.createElement('div');
+    row.className = 'pl-row';
+    row.innerHTML = '<span class="n"></span><input type="number" step="50" inputmode="decimal" aria-label="Day P&amp;L" value="' + (v == null ? '' : v) + '"><button class="rm" type="button" aria-label="Remove day">×</button>';
+    wrap.appendChild(row);
+    row.querySelector('input').addEventListener('input', run);
+    row.querySelector('.rm').addEventListener('click', function(){ row.remove(); renumber(); run(); });
+    renumber();
+  }
+  function renumber(){ [].forEach.call($('plRows').children, function(r, i){ r.querySelector('.n').textContent = 'D' + (i + 1); }); }
+  $('addDay').addEventListener('click', function(){ addDay(null); var ins = $('plRows').querySelectorAll('input'); if (ins.length) ins[ins.length - 1].focus(); run(); });
+  $('clearDays').addEventListener('click', function(){ $('plRows').innerHTML = ''; addDay(null); run(); });
+
+  function days(){ return [].map.call($('plRows').querySelectorAll('input'), function(i){ var v = parseFloat(i.value); return isNaN(v) ? 0 : v; }); }
+
+  /* ---------- the math ---------- */
+  // Smallest number of new winning days (equal size) that lifts total to >= need while every
+  // new day stays under the limit:  d < cap * (total + k*d).
+  // d*(1 - cap*k) < cap*total  →  an upper bound when 1 - cap*k > 0, a lower bound when it's < 0.
+  function minDays(total, cap, need){
+    for (var k = 1; k <= 200; k++){
+      var a = 1 - cap * k, lo = (need - total) / k, hi = Infinity;
+      if (a > 1e-12){ if (total <= 0) continue; hi = cap * total / a; }
+      else if (a > -1e-12){ if (total <= 0) continue; }
+      else { lo = Math.max(lo, cap * total / a); }
+      if (lo < hi) return { k: k, lo: Math.max(0, lo), hi: hi };
+    }
+    return null;
+  }
+  function dayRange(md){
+    if (md.lo < 1) return md.hi === Infinity ? 'of any size' : 'of any size up to ' + money(md.hi);
+    return md.hi === Infinity ? 'of more than ' + money(md.lo) + ' each' : 'each between ' + money(md.lo) + ' and ' + money(md.hi);
+  }
+
+  function run(){
+    var cap = Math.min(100, Math.max(0.1, num('pctInp'))) / 100;
+    var p = current(), cmp = p ? p.cmp : 'lt';
+    var best, total, ds = null;
+    if (mode === 'days'){
+      ds = days();
+      total = ds.reduce(function(a, b){ return a + b; }, 0);
+      best = ds.length ? Math.max.apply(null, ds) : 0;
+      var wins = ds.filter(function(x){ return x > 0; }).length, losses = ds.filter(function(x){ return x < 0; }).length;
+      $('plSum').innerHTML = '<span>Net profit <b>' + money(total) + '</b></span><span>Best day <b>' + money(Math.max(0, best)) + '</b></span><span>' + wins + ' winning · ' + losses + ' losing</span>';
+    } else { best = num('bestInp'); total = num('totalInp'); }
+    var goal = Math.max(0, num('goalInp'));
+
+    var v = $('verdict'), k = $('kpis');
+    var limitTxt = (cmp === 'lte' ? 'at or under ' : 'below ') + pctFmt(cap);
+    if (best <= 0){
+      v.className = 'verdict';
+      v.innerHTML = '<span class="v-label">Waiting for a winning day</span>Enter a best day above $0. The rule compares your biggest winning day with your net profit.';
+      k.innerHTML = ''; meter(null, cap); bars(ds, cap, total, best); return;
+    }
+    var share = total > 0 ? best / total : Infinity;
+    var exact = best / cap;                 // total at which the best day is exactly at the limit
+    var ruleOk = total > 0 && (cmp === 'lte' ? share <= cap + 1e-9 : share < cap - 1e-9);
+    var atEdge = total > 0 && Math.abs(share - cap) <= 1e-9;
+    var need = Math.max(exact, goal);       // total profit required
+    var remaining = Math.max(0, need - total);
+    var bindsRule = exact >= goal;
+    var md = (!ruleOk || remaining > 0) ? minDays(total, cap, need + (bindsRule && cmp === 'lt' ? 0.5 : 0)) : null;
+    var maxNow = total > 0 ? cap * total : 0;
+    var just = (bindsRule && cmp === 'lt') ? 'just over ' : '';
+
+    // verdict
+    var cls, label, msg;
+    if (total <= 0){
+      cls = 'bad'; label = '✕ Not yet';
+      msg = 'Your net profit is ' + money(total) + ', so your best day can\'t fit any limit yet. You need total profit of <strong>' + just + money(need) + '</strong> for a ' + money(best) + ' best day to be ' + limitTxt + '.';
+    } else if (atEdge && cmp === 'lt'){
+      cls = 'warn'; label = '! Right at the limit';
+      msg = 'Your best day is exactly ' + pctFmt(cap) + ' of your profit. This rule requires it to be <strong>below</strong> ' + pctFmt(cap) + ', so add a little more profit on a smaller day.';
+    } else if (!ruleOk){
+      cls = 'bad'; label = '✕ Over the limit';
+      msg = 'Your best day is <strong>' + pctFmt(share) + '</strong> of your profit; the rule needs ' + limitTxt + '. To fit a ' + money(best) + ' best day you need ' + just + money(exact) + ' in total' + (goal > exact ? ', and your target is ' + money(goal) : '') + ', so <strong>' + just + money(remaining) + ' more</strong>.';
+    } else if (remaining > 0){
+      cls = 'warn'; label = '✓ Rule OK · target not reached';
+      msg = 'Your best day is ' + pctFmt(share) + ' of your profit, within the ' + pctFmt(cap) + ' limit. You still need <strong>' + money(remaining) + '</strong> to reach ' + money(goal) + '.';
+    } else {
+      cls = 'good'; label = '✓ Within the limit';
+      msg = 'Your best day is <strong>' + pctFmt(share) + '</strong> of your profit, ' + limitTxt.replace('below', 'under') + '. At this total your best day could be as large as <strong>' + money(maxNow) + '</strong>.' + (goal ? ' You have also reached the ' + money(goal) + ' goal.' : '');
+    }
+    if (md){
+      msg += ' Fewest extra winning days: <strong>' + md.k + '</strong>, ' + dayRange(md) + '.';
+    }
+    v.className = 'verdict ' + cls;
+    v.innerHTML = '<span class="v-label">' + label + '</span>' + msg;
+
+    // KPIs
+    var tiles = [
+      ['Best day share', total > 0 ? pctFmt(share) : '—', money(best) + ' of ' + money(total), !ruleOk],
+      ['Limit', pctFmt(cap), 'best day ' + limitTxt, false],
+      ['Largest best day now', total > 0 ? money(maxNow) : '—', 'at ' + money(total) + ' total', false],
+      ['Total profit needed', just + money(need), bindsRule ? 'best day ÷ ' + pctFmt(cap) : 'your target', false],
+      ['Profit still needed', remaining > 0 ? just + money(remaining) : '$0', remaining > 0 ? 'on top of ' + money(total) : 'nothing more', remaining > 0],
+      ['Extra winning days', md ? String(md.k) : '0', md ? (md.lo < 1 ? (md.hi === Infinity ? 'any size' : 'up to ' + money(md.hi)) : md.hi === Infinity ? 'over ' + money(md.lo) + ' each' : money(md.lo) + '–' + money(md.hi) + ' each') : 'none needed', false]
+    ];
+    k.innerHTML = tiles.map(function(t){ return '<div class="kpi' + (t[3] ? ' hi' : '') + '"><span>' + t[0] + '</span><strong>' + t[1] + '</strong><em>' + t[2] + '</em></div>'; }).join('');
+    meter(total > 0 ? share : null, cap, ruleOk, atEdge && cmp === 'lt');
+    bars(ds, cap, total, best);
+  }
+
+  function meter(share, cap, ok, edge){
+    var fill = $('meterFill');
+    $('meterCap').style.left = (cap * 100) + '%';
+    $('meterCapLbl').textContent = pctFmt(cap) + ' limit';
+    if (share == null){ fill.style.width = '0'; $('meterVal').textContent = '—'; return; }
+    fill.style.width = Math.min(100, share * 100) + '%';
+    fill.className = 'meter-fill ' + (edge ? 'edge' : ok ? 'ok' : 'over');
+    $('meterVal').textContent = share > 1 ? 'over 100%' : pctFmt(share);
+  }
+
+  function bars(ds, cap, total, best){
+    var el = $('bars');
+    if (!ds || !ds.length){ el.hidden = true; el.innerHTML = ''; return; }
+    el.hidden = false;
+    var maxDay = total > 0 ? cap * total : 0;
+    var posMax = Math.max(maxDay, Math.max.apply(null, ds.concat([0])));
+    var negMax = Math.max(0, -Math.min.apply(null, ds.concat([0])));
+    var span = (posMax + negMax) || 1;
+    var z = negMax / span * 100, capX = z + maxDay / span * 100;
+    var bestIdx = ds.indexOf(best);
+    var over = total <= 0 || best >= maxDay;
+    var rows = ds.map(function(x, i){
+      var w = Math.abs(x) / span * 100, left = x >= 0 ? z : z - w;
+      var isBest = i === bestIdx && x > 0;
+      var tip = 'Day ' + (i + 1) + ': ' + (x >= 0 ? '+' : '') + money(x) + (isBest ? ' (best day' + (total > 0 ? ', ' + pctFmt(best / total) + ' of profit' : '') + ')' : '');
+      return '<div class="bar-row' + (isBest ? ' best' : '') + '" title="' + tip + '"><span class="bl">D' + (i + 1) + '</span><div class="bar-area"><div class="bar-zero" style="left:' + z + '%"></div>' +
+        (maxDay > 0 ? '<div class="bar-capline" style="left:' + capX + '%"></div>' : '') +
+        '<div class="bar' + (x < 0 ? ' neg' : '') + (isBest ? ' best' + (over ? ' over' : '') : '') + '" style="left:' + left + '%;width:' + w + '%"></div></div><span class="bv">' + (x >= 0 ? '+' : '') + money(x) + '</span></div>';
+    }).join('');
+    el.innerHTML = '<div class="bars-title"><span><b>Your days</b> · best day highlighted</span><span>' + (maxDay > 0 ? 'Largest day allowed now: <b>' + money(maxDay) + '</b>' : 'No net profit yet') + '</span></div>' + rows +
+      '<div class="bars-legend"><span><i></i>Limit × net profit (' + pctFmt(cap) + ' of ' + money(total) + ')</span></div>';
+  }
+
+  /* ---------- deep links: #lucid-flex, #alpha-zero … ---------- */
+  function fromHash(scroll){
+    var id = decodeURIComponent((location.hash || '').slice(1));
+    if (!PRESETS[id]) return false;
+    selectPreset(id, { hash: false });
+    if (scroll){
+      var calc = $('calc'), hdr = document.getElementById('pcHeader');
+      var top = calc.getBoundingClientRect().top + window.pageYOffset - (hdr ? hdr.offsetHeight : 0) - 12;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+    return true;
+  }
+  window.addEventListener('hashchange', function(){ fromHash(true); });
+
+  /* ---------- init ---------- */
+  if (!fromHash(true)) selectPreset('lucid-flex', { hash: false });
+
+  /* reveal */
+  var els = document.querySelectorAll('[data-reveal]');
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(en){ en.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold: .06, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function(el){ io.observe(el); });
+    setTimeout(function(){ els.forEach(function(el){ el.classList.add('in'); }); }, 2500);
+  } else { els.forEach(function(el){ el.classList.add('in'); }); }
+})();
+</script>
+</body>
+</html>

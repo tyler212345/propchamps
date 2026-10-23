@@ -8,10 +8,25 @@
     "binding": "ASSETS",
     "not_found_handling": "404-page",
     "html_handling": "auto-trailing-slash",
-    // Every request goes through worker/index.js first (it falls back to ASSETS.fetch),
-    // so the canonical-origin 301s (www/http → https://propchamps.net) and the 307→301
-    // conversion apply to pages too — by default matching static files skip the worker.
-    "run_worker_first": true
+    // Pages go through worker/index.js first (it falls back to ASSETS.fetch), so the
+    // canonical-origin 301s (www/http → https://propchamps.net) and the 307→301
+    // conversion apply to them — by default matching static files skip the worker.
+    // Static media/CSS/JS folders and root icons are served straight from assets.
+    "run_worker_first": [
+      "/*",
+      "!/assets/*",
+      "!/logos/*",
+      "!/data/*",
+      "!/favicon.ico",
+      "!/favicon-16x16.png",
+      "!/favicon-32x32.png",
+      "!/favicon-48x48.png",
+      "!/apple-touch-icon.png",
+      "!/icon-192.png",
+      "!/icon-512.png",
+      "!/og-image.jpg",
+      "!/site.webmanifest"
+    ]
   },
   "observability": { "enabled": true },
   "vars": {

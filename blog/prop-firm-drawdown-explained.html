@@ -9,13 +9,13 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=82fc7d2b">
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#0b0b12">
-<title>Prop Firm Drawdown Explained: Trailing vs EOD vs Intraday (2026) | PropChamps</title>
-<meta name="description" content="The clearest explanation of prop firm drawdown for futures traders: static vs trailing, intraday vs end-of-day, a worked $50K example, and which futures prop firm uses which method. Updated 2026.">
+<title>Trailing Drawdown Explained: EOD vs Intraday vs Static</title>
+<meta name="description" content="What trailing drawdown means at a prop firm, EOD vs intraday vs static, a worked $50K example, when the floor locks, and which futures firms use which.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://propchamps.net/blog/prop-firm-drawdown-explained">
 <meta property="og:site_name" content="PropChamps">
-<meta property="og:title" content="Prop Firm Drawdown Explained: Trailing vs EOD vs Intraday (2026)">
-<meta property="og:description" content="Static vs trailing, intraday vs end-of-day drawdown — explained with a worked $50K example and the exact method every major futures prop firm uses.">
+<meta property="og:title" content="Trailing Drawdown Explained: EOD vs Intraday vs Static">
+<meta property="og:description" content="What trailing drawdown means at a prop firm, EOD vs intraday vs static, a worked $50K example, when the floor locks, and which futures firms use which.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://propchamps.net/blog/prop-firm-drawdown-explained">
 <meta property="og:image" content="https://propchamps.net/og-image.jpg">
@@ -24,25 +24,16 @@
 <meta property="og:image:alt" content="PropChamps — Independent prop firm research">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://propchamps.net/og-image.jpg">
-<meta name="twitter:title" content="Prop Firm Drawdown Explained: Trailing vs EOD vs Intraday (2026)">
-<meta name="twitter:description" content="The drawdown rule ends more funded accounts than bad trades do. Here's every type, explained clearly — with the method each futures prop firm actually uses.">
+<meta name="twitter:title" content="Trailing Drawdown Explained: EOD vs Intraday vs Static">
+<meta name="twitter:description" content="What trailing drawdown means at a prop firm, EOD vs intraday vs static, a worked $50K example, when the floor locks, and which futures firms use which.">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[
-{"@type":"Article","@id":"https://propchamps.net/blog/prop-firm-drawdown-explained#article","headline":"Prop Firm Drawdown Explained: Trailing vs EOD vs Intraday (2026)","description":"The clearest explanation of prop firm drawdown for futures traders: static vs trailing, intraday vs end-of-day, a worked $50K example, and which futures prop firm uses which method.","image":"https://propchamps.net/og-image.jpg","datePublished":"2026-07-13","dateModified":"2026-10-14","inLanguage":"en","articleSection":"Prop firm rules","author":{"@type":"Organization","name":"PropChamps","url":"https://propchamps.net"},"publisher":{"@type":"Organization","name":"PropChamps","url":"https://propchamps.net","logo":{"@type":"ImageObject","url":"https://propchamps.net/logos/pc-logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://propchamps.net/blog/prop-firm-drawdown-explained"}},
-{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://propchamps.net/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://propchamps.net/blog"},{"@type":"ListItem","position":3,"name":"Prop Firm Drawdown Explained"}]},
-{"@type":"FAQPage","@id":"https://propchamps.net/blog/prop-firm-drawdown-explained#faq","mainEntity":[
-{"@type":"Question","name":"What is the difference between trailing and end-of-day drawdown?","acceptedAnswer":{"@type":"Answer","text":"A trailing drawdown threshold follows your account's peak balance upward, so your minimum allowed balance rises as you make profit. The difference is when it updates: an intraday trailing drawdown updates in real time and counts your unrealized (open) profit, while an end-of-day (EOD) trailing drawdown recalculates only once, at the session close, using your realized closing balance. EOD is more forgiving because open trade profit does not raise the floor."}},
-{"@type":"Question","name":"Does the trailing drawdown include unrealized profit?","acceptedAnswer":{"@type":"Answer","text":"Only an intraday trailing drawdown includes unrealized (open) profit — if a trade goes +$1,500 before settling back, an intraday trail moves your floor up by that peak even though you never banked it. An end-of-day trailing drawdown ignores open profit and only trails your realized balance at the close."}},
-{"@type":"Question","name":"Does the trailing drawdown ever stop moving?","acceptedAnswer":{"@type":"Answer","text":"On most futures prop firms, yes. The trailing threshold usually stops rising once your balance reaches your starting balance plus the drawdown amount — at that point the floor locks, often at or just above breakeven, and no longer trails. After that your account can only be lost by dropping to the locked level, not to a moving one."}},
-{"@type":"Question","name":"Which drawdown type is best for beginners?","acceptedAnswer":{"@type":"Answer","text":"End-of-day (EOD) trailing drawdown is the most forgiving for newer traders because it ignores open-trade spikes — you are only measured on where you close. Firms with EOD drawdown let you scale into a winner or hold through volatility without your floor chasing your peak tick by tick."}},
-{"@type":"Question","name":"What happens if I hit the max drawdown on a prop firm account?","acceptedAnswer":{"@type":"Answer","text":"Hitting the maximum drawdown (also called the maximum loss limit) breaches the account and it is closed. On an evaluation that usually means you failed and must reset or re-purchase; on a funded/simulated-funded account it means the account is terminated. Some firms let you reset for a fee. Your trailing floor is the true kill line — not the daily loss limit."}}
-]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://propchamps.net/blog/prop-firm-drawdown-explained#article","headline":"Trailing Drawdown Explained: EOD vs Intraday vs Static","description":"What trailing drawdown means at a prop firm, EOD vs intraday vs static, a worked $50K example, when the floor locks, and which futures firms use which.","image":"https://propchamps.net/og-image.jpg","datePublished":"2026-07-13","dateModified":"2026-10-23","inLanguage":"en","articleSection":"Prop firm rules","author":{"@type":"Organization","name":"PropChamps","url":"https://propchamps.net"},"publisher":{"@type":"Organization","name":"PropChamps","url":"https://propchamps.net","logo":{"@type":"ImageObject","url":"https://propchamps.net/logos/pc-logo.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://propchamps.net/blog/prop-firm-drawdown-explained"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://propchamps.net/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://propchamps.net/blog/"},{"@type":"ListItem","position":3,"name":"Trailing Drawdown Explained: EOD vs Intraday vs Static"}]},{"@type":"FAQPage","@id":"https://propchamps.net/blog/prop-firm-drawdown-explained#faq","mainEntity":[{"@type":"Question","name":"What's the difference between trailing and end-of-day drawdown?","acceptedAnswer":{"@type":"Answer","text":"A trailing drawdown threshold follows your account's peak upward, so your minimum allowed balance rises as you profit. The difference is when it updates: an intraday trail updates in real time and counts unrealized (open) profit, while an end-of-day (EOD) trail recalculates only once, at the close, on your realized balance. EOD is more forgiving because open-trade profit doesn't raise your floor."}},{"@type":"Question","name":"Does the trailing drawdown include unrealized profit?","acceptedAnswer":{"@type":"Answer","text":"Only an intraday trailing drawdown does. If a trade runs to +$1,500 before settling back, an intraday trail moves your floor up by that peak even though you never banked it. An EOD trailing drawdown ignores open profit and trails only your realized closing balance."}},{"@type":"Question","name":"Does the trailing drawdown ever stop moving?","acceptedAnswer":{"@type":"Answer","text":"On most futures firms, yes. The threshold usually stops rising once your balance reaches your starting balance plus the drawdown amount — at that point the floor locks, often at or just above breakeven, and no longer trails. Clearing that milestone is a real turning point in the account."}},{"@type":"Question","name":"Which drawdown type is best for beginners?","acceptedAnswer":{"@type":"Answer","text":"End-of-day (EOD) trailing is the most forgiving because it ignores open-trade spikes: you're only measured on where you close. See which firms use it in the table above or on our comparison page."}},{"@type":"Question","name":"Is EOD or intraday drawdown better?","acceptedAnswer":{"@type":"Answer","text":"For most traders, EOD: it ignores open-trade spikes, so you're judged on where you close. Intraday can suit fast scalpers who rarely hold open profit, and at Apex it's the cheaper account. The trade-off is that EOD plans often pair it with a daily loss limit (Apex EOD Trail: $500 to $2,000 by size)."}},{"@type":"Question","name":"Is there a futures prop firm without trailing drawdown?","acceptedAnswer":{"@type":"Answer","text":"Not on any of the 27 main plans we track: every one uses a trailing drawdown, end-of-day or intraday. The closest thing to static is the lock, when the floor stops at your starting balance (often + $100). The one static exception we've found is My Funded Futures' small Studio accounts ($5K to $20K), which use a static max loss; they're a limited-run product sold separately and aren't in our main comparison."}},{"@type":"Question","name":"What happens if I hit the max drawdown?","acceptedAnswer":{"@type":"Answer","text":"Touching the maximum drawdown breaches the account and it's closed. On an evaluation that means you failed and must reset or re-purchase; on a funded/simulated-funded account it's terminated. Some firms allow a paid reset. Your trailing floor — not the daily loss limit — is the true kill line."}}]}]}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/blog/blog.css">
-<!-- pc:head --><link rel="stylesheet" href="/assets/pc.css?v=92cbab22"><script src="/assets/pc.js?v=92cbab22" defer></script><!-- /pc:head -->
+<!-- pc:head --><link rel="stylesheet" href="/assets/pc.css?v=63a19390"><script src="/assets/pc.js?v=63a19390" defer></script><!-- /pc:head -->
 </head>
 <body>
 
@@ -68,7 +59,7 @@
 <div class="pc-menu" id="pcMenu" aria-hidden="true" inert>
   <nav class="pc-menu-main" aria-label="Mobile"><a href="/start/"><span><b>Start</b><small>Build your funding plan in 30 seconds</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a><a href="/firms/"><span><b>Firms</b><small>Every firm we cover, ranked</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a><a href="/compare"><span><b>Compare</b><small>Rules, payouts &amp; prices side by side</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a><a href="/deals"><span><b>Deals</b><small>Every active CHAMP discount</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a></nav>
   <div class="pc-menu-label">Learn</div>
-  <div class="pc-menu-sub"><a href="/blog/">Blog</a><a href="/payouts">Payouts</a><a href="/guide">Beginner's guide</a><a href="/methodology">How we audit</a></div>
+  <div class="pc-menu-sub"><a href="/blog/">Blog</a><a href="/best/">Best-of guides</a><a href="/vs/">Head-to-heads</a><a href="/tools/">Free tools</a><a href="/payouts">Payouts</a><a href="/guide">Beginner's guide</a><a href="/methodology">How we audit</a></div>
   <div class="pc-menu-cta"><a class="pc-cta" href="/start/">Build my funding plan <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a><button type="button" class="pc-code" data-copy="CHAMP" aria-label="Copy discount code CHAMP"><span>Code</span><b>CHAMP</b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button></div>
 </div>
 <!-- /pc:chrome -->
@@ -80,24 +71,18 @@
 <section class="article-hero">
   <div class="bg-stack"></div>
   <div class="container">
-    <div class="breadcrumbs"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span>Drawdown explained</div>
+    <div class="breadcrumbs"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span>Trailing drawdown explained</div>
     <div class="article-eyebrow">Prop firm rules · Explained</div>
-    <h1>Prop firm drawdown, explained: <span class="accent">trailing vs EOD vs intraday</span></h1>
-    <p class="article-dek">The drawdown rule ends more funded accounts than bad trades do — and it's the single most misunderstood rule in futures prop trading. Here's every type, in plain English, with a worked example and the exact method each major firm uses.</p>
-    <div class="article-byline"><span><span class="live-dot"></span> <strong>PropChamps Research</strong></span><span class="sep"></span><span>Last reviewed October 14, 2026</span><span class="sep"></span><span>~9 min read</span></div>
+    <h1>Trailing Drawdown Explained: <span class="accent">EOD vs Intraday vs Static</span></h1>
+    <p class="article-dek">A trailing drawdown is a loss limit that rises with your account's peak balance, so your floor follows your profit up. Intraday trails count open profit; end-of-day trails count only your close. Here's every type, a worked $50K example and each firm's method.</p>
+    <div class="article-byline"><span><span class="live-dot"></span> <strong>PropChamps Research</strong></span><span class="sep"></span><span>Last reviewed October 23, 2026</span><span class="sep"></span><span>~9 min read</span></div>
   </div>
 </section>
 
 <nav class="section-nav" id="sectionNav">
   <div class="container">
     <span class="section-nav-label">Jump to</span>
-    <a class="section-nav-link" href="#what">What it is</a>
-    <a class="section-nav-link" href="#static-trailing">Static vs trailing</a>
-    <a class="section-nav-link" href="#intraday-eod">Intraday vs EOD</a>
-    <a class="section-nav-link" href="#example">Worked example</a>
-    <a class="section-nav-link" href="#by-firm">Which firm uses which</a>
-    <a class="section-nav-link" href="#survive">How to survive it</a>
-    <a class="section-nav-link" href="#faq">FAQ</a>
+    <a class="section-nav-link" href="#what-is-a-trailing-drawdown">Trailing drawdown</a><a class="section-nav-link" href="#what">What it is</a><a class="section-nav-link" href="#static-trailing">Static vs trailing</a><a class="section-nav-link" href="#intraday-eod">Intraday vs EOD</a><a class="section-nav-link" href="#example">Worked example</a><a class="section-nav-link" href="#by-firm">Which firm uses which</a><a class="section-nav-link" href="#survive">How to survive it</a><a class="section-nav-link" href="#faq">FAQ</a>
   </div>
 </nav>
 
@@ -112,17 +97,19 @@
           <li><strong>Static</strong> floors never move. <strong>Trailing</strong> floors rise as your balance hits new peaks.</li>
           <li><strong>Intraday</strong> trailing counts your <em>open</em> profit (harshest). <strong>End-of-day (EOD)</strong> trailing only counts your <em>closing</em> balance (kinder).</li>
           <li>Most futures firms use a trailing floor that <strong>locks</strong> once you're at breakeven + the drawdown amount.</li>
-          <li>Among firms we track, <strong>Apex</strong> offers intraday and EOD; <strong>most others use EOD</strong>. <a href="#by-firm">See the full table →</a></li>
+          <li>Among firms we track, <strong>Apex</strong> offers intraday and EOD; <strong>most others use EOD</strong>, but watch the stage switches (MFF Rapid, Take Profit Trader PRO and funded LucidDaily trail intraday). <a href="#by-firm">See the full table →</a></li>
         </ul>
       </div>
 
-      <p class="lead" id="what">You can pass an evaluation, trade well for weeks, and still lose a funded account in a single afternoon — not because you blew up, but because your balance clipped an invisible line that had been quietly climbing behind you. That line is the <span class="term">drawdown</span>, and understanding exactly how yours moves is the difference between keeping a funded account and donating your evaluation fee.</p>
+      <p class="lead">You can pass an evaluation, trade well for weeks, and still lose a funded account in a single afternoon — not because you blew up, but because your balance clipped an invisible line that had been quietly climbing behind you. That line is the <span class="term">drawdown</span>, and understanding exactly how yours moves is the difference between keeping a funded account and donating your evaluation fee.</p>
 
-      <h2>What is a prop firm drawdown?</h2>
+      <h2 id="what-is-a-trailing-drawdown">What is a trailing drawdown?</h2><div class="answer-box"><span class="callout-label">Short answer</span><p>A trailing drawdown is a maximum loss limit that moves up as your account makes new highs, so your floor always sits a fixed distance below your peak balance instead of your starting balance. On most futures prop firms it stops trailing once the floor reaches your starting balance (often plus $100), and from then on it stays fixed.</p></div>
+
+      <h2 id="what">What is a prop firm drawdown?</h2>
       <p>A <strong>drawdown</strong> — also called the <strong>maximum loss limit (MLL)</strong> or trailing threshold — is the lowest your account balance is allowed to reach before the firm closes it. If your account starts at $50,000 with a $2,500 drawdown, your account is breached the moment your balance touches <strong>$47,500</strong>. Hit it and the account is done, whether you're in evaluation or already funded.</p>
-      <p>Two things make this rule dangerous. First, it's often larger and more permanent than the <a href="/guide">daily loss limit</a> people obsess over — the drawdown is the line that actually ends most accounts. Second, on most firms the line <em>moves</em>, and traders rarely know exactly when or by how much. Everything below is about answering those two questions for your specific account.</p>
+      <p>Two things make this rule dangerous. First, it's often larger and more permanent than the <a href="/blog/what-is-a-daily-loss-limit">daily loss limit</a> people obsess over — the drawdown is the line that actually ends most accounts. Second, on most firms the line <em>moves</em>, and traders rarely know exactly when or by how much. Everything below is about answering those two questions for your specific account.</p>
 
-      <div class="callout tip" data-reveal><span class="callout-label">Key distinction</span>The <strong>daily loss limit</strong> caps how much you can lose in one day and resets overnight. The <strong>drawdown</strong> is the all-time floor for the life of the account. You can respect your daily limit perfectly and still breach the drawdown.</div>
+      <div class="callout tip" data-reveal><span class="callout-label">Key distinction</span>The <strong>daily loss limit</strong> caps how much you can lose in one day and resets overnight. The <strong>drawdown</strong> is the all-time floor for the life of the account. You can respect your daily limit perfectly and still breach the drawdown. Every firm's DLL, size by size, is in <a href="/blog/what-is-a-daily-loss-limit">what is a daily loss limit</a>.</div>
 
       <h2 id="static-trailing">The first question: static or trailing?</h2>
       <p>Every drawdown rule answers one question first — <strong>does the floor move?</strong></p>
@@ -160,22 +147,9 @@
 
       <h2 id="by-firm">Which futures prop firms use which drawdown</h2>
       <p>Drawdown method is one of the fields we track and re-verify for every firm on PropChamps. Here's where the firms we cover stand as of our latest audit — always confirm the current rule on the firm's own page or our review before you buy, since these do change.</p>
-      <div class="table-wrap" data-reveal>
-        <table class="data">
-          <thead><tr><th>Firm</th><th>Drawdown method</th><th>What it means for you</th></tr></thead>
-          <tbody>
-            <tr><td class="firm-c"><a href="/firms/apex-trader">Apex Trader Funding</a></td><td>Intraday trailing <em>or</em> EOD Trail (you choose the account)</td><td>The most flexible — pick EOD Trail if you dislike intraday spikes.</td></tr>
-            <tr><td class="firm-c"><a href="/firms/my-funded-futures">My Funded Futures</a></td><td>EOD in evaluation → intraday once funded (Rapid)</td><td>Forgiving to pass, stricter once live — plan for the switch.</td></tr>
-            <tr><td class="firm-c"><a href="/firms/tradeify">Tradeify</a></td><td>End-of-day trailing</td><td>Open-trade spikes don't raise your floor.</td></tr>
-            <tr><td class="firm-c"><a href="/firms/take-profit-trader">Take Profit Trader</a></td><td>EOD in Test → intraday in PRO (sim funded) → EOD in PRO+</td><td>Measured on your close to pass — plan for the intraday switch in PRO.</td></tr>
-            <tr><td class="firm-c"><a href="/firms/alpha-futures">Alpha Futures</a></td><td>End-of-day trailing</td><td>Kinder to traders who let winners run.</td></tr>
-            <tr><td class="firm-c"><a href="/firms/lucid-trading">Lucid Trading</a></td><td>End-of-day trailing (LucidDaily: intraday optional in eval, intraday once funded)</td><td>Floor moves once per day on realized balance.</td></tr>
-            <tr><td class="firm-c"><a href="/firms/top-one-futures">Top One Futures</a></td><td>End-of-day trailing</td><td>No intraday chasing of your peak.</td></tr>
-            <tr><td class="firm-c"><a href="/firms/fundednext">FundedNext</a></td><td>End-of-day (EOD) on all account types</td><td>Same EOD rule on Flex, Legacy and Rapid.</td></tr>
-          </tbody>
-        </table>
+      <div class="table-wrap" data-reveal><table class="data"><thead><tr><th>Firm</th><th>Drawdown method, by stage</th><th>What it means for you</th></tr></thead><tbody><tr><td class="firm-c"><a href="/firms/apex-trader">Apex Trader Funding</a></td><td>Intraday Trail <em>or</em> EOD Trail (you choose the account), same in the eval and the PA</td><td>The most flexible; the full mechanics are in our <a href="/blog/apex-drawdown-explained">Apex trailing drawdown guide</a>.</td></tr><tr><td class="firm-c"><a href="/firms/my-funded-futures">My Funded Futures</a></td><td>Rapid: EOD in the eval, intraday once funded (locks at +$100) · Rapid EOD: EOD in both · Pro and Builder: EOD trailing</td><td>Plan for the Rapid switch, or pick Rapid EOD to stay end-of-day.</td></tr><tr><td class="firm-c"><a href="/firms/tradeify">Tradeify</a></td><td>End-of-day trailing on Growth, Select and Lightning</td><td>Open-trade spikes don't raise your floor.</td></tr><tr><td class="firm-c"><a href="/firms/take-profit-trader">Take Profit Trader</a></td><td>EOD in the TEST → intraday in PRO (stops at the starting balance) → EOD in PRO+</td><td>The switch to intraday in PRO is the biggest rule change between stages.</td></tr><tr><td class="firm-c"><a href="/firms/alpha-futures">Alpha Futures</a></td><td>End-of-day trailing on every plan</td><td>Kinder to traders who let winners run.</td></tr><tr><td class="firm-c"><a href="/firms/lucid-trading">Lucid Trading</a></td><td>EOD on Pro, Flex and Direct · LucidDaily: choose EOD or intraday in the eval, always intraday once funded</td><td>Pick Pro, Flex or Direct if you want EOD all the way.</td></tr><tr><td class="firm-c"><a href="/firms/top-one-futures">Top One Futures</a></td><td>End-of-day trailing · the Elite Access Intraday variant trails intraday once funded</td><td>No intraday chasing unless you pick the Intraday variant.</td></tr><tr><td class="firm-c"><a href="/firms/fundednext">FundedNext</a></td><td>End-of-day on all account types</td><td>Same EOD rule on Flex, Legacy and Rapid.</td></tr></tbody></table>
       </div>
-      <p class="table-note">Source: PropChamps firm audit, re-verified against each firm's rules. Compare every plan side by side on the <a href="/compare">comparison tool</a>.</p>
+      <p class="table-note">Source: each firm's help center and plan data, checked Oct 2026 (Apex from our Oct 5 audit). Compare every plan side by side on the <a href="/compare">comparison tool</a>.</p>
 
       <h2 id="survive">How to survive a trailing drawdown</h2>
       <ul>
@@ -198,10 +172,19 @@
     <h2 class="section-h2">Drawdown FAQ</h2>
     <div class="faq-list">
       <details class="faq-item"><summary class="faq-q">What's the difference between trailing and end-of-day drawdown?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>A <strong>trailing</strong> drawdown threshold follows your account's peak upward, so your minimum allowed balance rises as you profit. The difference is <em>when</em> it updates: an <strong>intraday</strong> trail updates in real time and counts unrealized (open) profit, while an <strong>end-of-day (EOD)</strong> trail recalculates only once, at the close, on your realized balance. EOD is more forgiving because open-trade profit doesn't raise your floor.</p></div></details>
+
       <details class="faq-item"><summary class="faq-q">Does the trailing drawdown include unrealized profit?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>Only an <strong>intraday</strong> trailing drawdown does. If a trade runs to +$1,500 before settling back, an intraday trail moves your floor up by that peak even though you never banked it. An <strong>EOD</strong> trailing drawdown ignores open profit and trails only your realized closing balance.</p></div></details>
+
       <details class="faq-item"><summary class="faq-q">Does the trailing drawdown ever stop moving?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>On most futures firms, yes. The threshold usually stops rising once your balance reaches your starting balance plus the drawdown amount — at that point the floor <strong>locks</strong>, often at or just above breakeven, and no longer trails. Clearing that milestone is a real turning point in the account.</p></div></details>
-      <details class="faq-item"><summary class="faq-q">Which drawdown type is best for beginners?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p><strong>End-of-day (EOD)</strong> trailing is the most forgiving because it ignores open-trade spikes — you're only measured on where you close. See which firms use it on our <a href="/compare">comparison tool</a> or the <a href="/blog/prop-firm-drawdown-explained#by-firm">table above</a>.</p></div></details>
+
+      <details class="faq-item"><summary class="faq-q">Which drawdown type is best for beginners?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p><strong>End-of-day (EOD)</strong> trailing is the most forgiving because it ignores open-trade spikes: you're only measured on where you close. See which firms use it in the <a href="#by-firm">table above</a> or on our <a href="/compare">comparison page</a>.</p></div></details>
+
+      <details class="faq-item"><summary class="faq-q">Is EOD or intraday drawdown better?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>For most traders, EOD: it ignores open-trade spikes, so you're judged on where you close. Intraday can suit fast scalpers who rarely hold open profit, and at Apex it's the cheaper account. The trade-off is that EOD plans often pair it with a daily loss limit (Apex EOD Trail: $500 to $2,000 by size).</p></div></details>
+
+      <details class="faq-item"><summary class="faq-q">Is there a futures prop firm without trailing drawdown?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>Not on any of the 27 main plans we track: every one uses a trailing drawdown, end-of-day or intraday. The closest thing to static is the lock, when the floor stops at your starting balance (often + $100). The one static exception we've found is My Funded Futures' small Studio accounts ($5K to $20K), which use a static max loss; they're a limited-run product sold separately and aren't in our main comparison.</p></div></details>
+
       <details class="faq-item"><summary class="faq-q">What happens if I hit the max drawdown?<span class="faq-toggle-icon">+</span></summary><div class="faq-a"><p>Touching the maximum drawdown breaches the account and it's closed. On an evaluation that means you failed and must reset or re-purchase; on a funded/simulated-funded account it's terminated. Some firms allow a paid reset. Your trailing floor — not the daily loss limit — is the true kill line.</p></div></details>
+
     </div>
   </div>
 </section>
@@ -234,9 +217,9 @@
     <div class="section-eyebrow">Keep reading</div>
     <h2 class="section-h2">Related guides</h2>
     <div class="more-grid">
-      <a class="more-card" href="/guide"><span>Beginner's guide to prop firms</span><span class="arr">→</span></a>
-      <a class="more-card" href="/best/best-prop-firms-no-daily-loss-limit"><span>Firms with no daily loss limit</span><span class="arr">→</span></a>
-      <a class="more-card" href="/tools/prop-firm-drawdown-calculator"><span>Drawdown calculator</span><span class="arr">→</span></a>
+      <!-- g:related (generated by tools/build-blog-post.js from the files on disk; do not edit by hand) -->
+      <a class="more-card" href="/blog/what-is-a-daily-loss-limit"><span class="mc-t"><small>Explainer</small>What is a daily loss limit?</span><span class="arr">→</span></a><a class="more-card" href="/blog/how-to-pass-a-prop-firm-evaluation"><span class="mc-t"><small>Guide</small>How to pass a prop firm evaluation</span><span class="arr">→</span></a><a class="more-card" href="/blog/what-happens-when-you-break-a-prop-firm-rule"><span class="mc-t"><small>Explainer</small>What happens when you break a rule</span><span class="arr">→</span></a><a class="more-card" href="/blog/apex-drawdown-explained"><span class="mc-t"><small>Explainer</small>Apex trailing drawdown explained</span><span class="arr">→</span></a><a class="more-card" href="/tools/prop-firm-drawdown-calculator"><span class="mc-t"><small>Tool</small>Drawdown calculator</span><span class="arr">→</span></a><a class="more-card" href="/best/best-prop-firms-no-daily-loss-limit"><span class="mc-t"><small>List</small>Firms with no daily loss limit</span><span class="arr">→</span></a>
+      <!-- /g:related -->
     </div>
   </div>
 </section>
@@ -245,17 +228,18 @@
 <footer class="pc-footer">
   <div class="pc-wrap">
     <div class="pc-foot-cta">
-      <div><p class="pc-foot-h">Not sure which firm fits? <em>Get your plan in 30 seconds.</em></p><p>Three questions. The right account, the biggest discount, and the toolkit to pass it.</p></div>
+      <div><p class="pc-foot-h">Not sure which firm fits? <em>Get your plan in 30 seconds.</em></p><p>Three questions. The right account, the right discount, and the toolkit to pass it.</p></div>
       <a class="pc-cta" href="/start/">Build my plan <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
     </div>
     <div class="pc-foot-grid">
       <div class="pc-foot-brand">
         <a class="pc-logo" href="/" aria-label="PropChamps home"><img class="pc-logo-mark" src="/logos/pc-mark.png" alt="" width="26" height="34" loading="lazy"><img class="pc-logo-word" src="/logos/pc-wordmark.png" alt="PropChamps" width="144" height="15" loading="lazy"></a>
-        <p>Futures prop firms, compared straight. We track rules, payouts and prices across every firm we cover — and code CHAMP takes the biggest discount at each one.</p>
+        <p>Futures prop firms, compared straight. We track rules, payouts and prices across every firm we cover — and code CHAMP is set up at every one.</p>
         <div class="pc-social"><a href="https://www.youtube.com/@thetradingchamp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg> YouTube</a><a href="https://discord.gg/oasisalerts" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.6 1.3a18.3 18.3 0 0 0-5.6 0L8.6 3a19.7 19.7 0 0 0-4.9 1.5C.6 9.1-.3 13.6.1 18.1a19.9 19.9 0 0 0 6 3l1.3-2.1a12.9 12.9 0 0 1-2-1l.5-.4a14.2 14.2 0 0 0 12.2 0l.5.4c-.6.4-1.3.7-2 1l1.3 2.1a19.8 19.8 0 0 0 6-3c.5-5.2-.8-9.7-3.6-13.7zM8 15.3c-1.2 0-2.2-1.1-2.2-2.4S6.8 10.5 8 10.5s2.2 1.1 2.2 2.4-1 2.4-2.2 2.4zm8 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4z"/></svg> Discord</a></div>
       </div>
-      <div class="pc-foot-col"><h3>Explore</h3><ul><li><a href="/firms/">Firms</a></li><li><a href="/compare">Compare</a></li><li><a href="/deals">Deals</a></li><li><a href="/start/">Build your plan</a></li><li><a href="/favorites">Saved firms</a></li></ul></div>
-      <div class="pc-foot-col"><h3>Learn</h3><ul><li><a href="/blog/">Blog</a></li><li><a href="/payouts">Payouts</a></li><li><a href="/guide">Beginner's guide</a></li><li><a href="/best/cheapest-prop-firm-challenges">Cheapest challenges</a></li><li><a href="/best/best-prop-firm-for-beginners">Best for beginners</a></li></ul></div>
+      <div class="pc-foot-col"><h3>Explore</h3><ul><li><a href="/firms/">Firms</a></li><li><a href="/compare">Compare</a></li><li><a href="/vs/">Head-to-heads</a></li><li><a href="/deals">Deals</a></li><li><a href="/payouts">Payouts</a></li><li><a href="/start/">Build your plan</a></li></ul></div>
+      <div class="pc-foot-col"><h3>Best of</h3><ul><li><a href="/best/">All buying guides</a></li><li><a href="/best/best-prop-firms-fast-payouts">Fastest payouts</a></li><li><a href="/best/best-prop-firms-no-daily-loss-limit">No daily loss limit</a></li><li><a href="/best/best-prop-firms-no-consistency-rule">No consistency rule</a></li><li><a href="/best/cheapest-prop-firm-challenges">Cheapest challenges</a></li><li><a href="/best/best-prop-firm-for-beginners">Best for beginners</a></li></ul></div>
+      <div class="pc-foot-col"><h3>Learn</h3><ul><li><a href="/blog/">Blog</a></li><li><a href="/guide">Beginner's guide</a></li><li><a href="/tools/">Free tools</a></li><li><a href="/tools/prop-firm-drawdown-calculator">Drawdown calculator</a></li><li><a href="/tools/prop-firm-consistency-calculator">Consistency calculator</a></li></ul></div>
       <div class="pc-foot-col"><h3>PropChamps</h3><ul><li><a href="/methodology">How we audit</a></li><li><a href="/audit-log">Audit log</a></li><li><a href="/join">Join the list</a></li><li><a href="mailto:hello@propchamps.net">Contact</a></li></ul></div>
     </div>
     <div class="pc-foot-legal"><div>© 2026 PropChamps. Independent prop firm research — not financial advice. Futures trading involves substantial risk of loss.</div><div><a href="/privacy">Privacy</a> · <a href="/methodology#disclosure">Affiliate disclosure</a></div></div>

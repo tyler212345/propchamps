@@ -1,7 +1,30 @@
-# Cloudflare Pages redirects
-# https://developers.cloudflare.com/pages/configuration/redirects/
+# Static redirects (Workers static assets honor this file; the worker falls back to
+# ASSETS.fetch, so these apply after the worker's own routes).
+# https://developers.cloudflare.com/workers/static-assets/redirects/
 
 # Legacy filename from cPanel htaccess
 /privacypolicy.html  /privacy  301
 /privacypolicy       /privacy  301
 
+# Retired / merged pages
+/blog/fastest-payout-prop-firms       /best/best-prop-firms-fast-payouts  301
+/blog/fastest-payout-prop-firms.html  /best/best-prop-firms-fast-payouts  301
+/disclosure                           /methodology#disclosure  301
+/changelog                            /audit-log  301
+/arena                                /  301
+/preview/v2-home.html                 /  301
+/firms/take-profit                    /firms/take-profit-trader  301
+/tools/consistency-calculator         /tools/prop-firm-consistency-calculator  301
+
+# One URL per head-to-head: reverse-order slugs 301 to the canonical pair.
+# (tools/build-vs-page.js writes the current set to vs/_redirects.txt on every run.)
+/vs/alpha-futures-vs-apex-trader-funding     /vs/apex-trader-funding-vs-alpha-futures  301
+/vs/lucid-trading-vs-apex-trader-funding     /vs/apex-trader-funding-vs-lucid-trading  301
+/vs/my-funded-futures-vs-apex-trader-funding /vs/apex-trader-funding-vs-my-funded-futures  301
+/vs/take-profit-trader-vs-apex-trader-funding /vs/apex-trader-funding-vs-take-profit-trader  301
+/vs/tradeify-vs-apex-trader-funding          /vs/apex-trader-funding-vs-tradeify  301
+/vs/my-funded-futures-vs-fundednext          /vs/fundednext-vs-my-funded-futures  301
+/vs/my-funded-futures-vs-take-profit-trader  /vs/take-profit-trader-vs-my-funded-futures  301
+/vs/my-funded-futures-vs-tradeify            /vs/tradeify-vs-my-funded-futures  301
+/vs/take-profit-trader-vs-tradeify           /vs/tradeify-vs-take-profit-trader  301
+/vs/tradeify-vs-lucid-trading                /vs/lucid-trading-vs-tradeify  301

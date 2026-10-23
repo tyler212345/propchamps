@@ -172,6 +172,10 @@ function json(data, status = 200, headers = {}) {
 function redirect(location, headers = {}) {
   return new Response(null, { status: 302, headers: { Location: location, ...headers } });
 }
+// Permanent move for retired URLs, so search engines drop them instead of re-crawling.
+function movedPermanently(location) {
+  return new Response(null, { status: 301, headers: { Location: location, 'cache-control': 'public, max-age=3600' } });
+}
 function parseCookies(req) {
   const out = {};
   const h = req.headers.get('Cookie') || '';
@@ -1594,12 +1598,12 @@ export default {
       // rewards/win entries in .assetsignore. (The /api/* + /auth/* routes below still
       // work so nothing breaks / data is reachable, but no page loads them.)
       if (p === '/rewards' || p.startsWith('/rewards/') || p === '/win' || p === '/win.html' || p === '/win/') {
-        return redirect('/');
+        return movedPermanently('/');
       }
 
       // The checklist funnel briefly shipped its delivery page at /checklist/access;
       // it now lives at /checklist. Redirect any stale links.
-      if (p === '/checklist/access' || p === '/checklist/access/') return redirect('/checklist');
+      if (p === '/checklist/access' || p === '/checklist/access/' || p === '/checklist/access.html') return movedPermanently('/checklist/');
 
       if (p === '/auth/discord') return await authStart(request, env);
       if (p === '/auth/discord/callback') return await authCallback(request, env);
