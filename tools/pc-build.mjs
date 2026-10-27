@@ -205,6 +205,9 @@ function reskin(src) {
 
 /* ---------- run ---------- */
 const report = [];
+// PropChamps publishes no star ratings, review counts or numeric scores: fail if one reaches any page
+const RATING_GUARD = [/aggregateRating/, /reviewRating/, /ratingValue/, /reviewCount/, /"@type":\s*"(Review|Rating|AggregateRating)"/, /PropChamps rating/i, /our rating/i, /\b\d\.\d\s*\/\s*5\b/, /[★☆]/];
+const ratingHits = [];
 for (const page of walk('')) {
   const file = path.join(ROOT, page);
   const before = fs.readFileSync(file, 'utf8');
@@ -273,6 +276,8 @@ for (const page of walk('')) {
   // 4) colours (outside the generated chrome, which is already on-palette)
   html = reskin(html);
 
+  for (const re of RATING_GUARD) if (re.test(html)) ratingHits.push(`${page}: rating markup (${re.source})`);
+
   if (html !== before) {
     if (!CHECK) fs.writeFileSync(file, html);
     report.push(`${CHECK ? 'would update' : 'updated'}  ${page}${active ? '  [' + active + ']' : ''}${notes.length ? '  — ' + notes.join('; ') : ''}`);
@@ -295,3 +300,4 @@ for (const f of CSS_FILES) {
 }
 console.log(report.join('\n'));
 console.log(`\nassets hash ${hash} · ${report.filter((r) => /updat|reskin/.test(r)).length} files touched`);
+if (ratingHits.length) { console.error('\nRATING GUARD — remove these before deploying:\n  ' + ratingHits.join('\n  ')); process.exit(1); }

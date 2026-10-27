@@ -103,7 +103,7 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%;height:aut
 .plan-chip.selected::after{content:"✓";position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:var(--lime);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;box-shadow:0 0 0 2px var(--bg-card)}
 .plan-chip-name{font-family:var(--font-display);font-size:13.5px;font-weight:700;color:var(--text-strong);letter-spacing:-.015em;line-height:1.15;white-space:nowrap}
 .plan-chip-meta{font-family:var(--font-mono);font-size:10px;color:var(--text-soft);letter-spacing:.02em}
-.plan-chip.featured .plan-chip-name::before{content:"★ ";color:var(--lime-text);font-size:11px}
+.plan-chip.featured .plan-chip-name::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--pc-gold);margin-right:6px;vertical-align:middle}
 
 .fg-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:14px;border-top:1px solid var(--border);margin-top:auto}
 .fg-bulk{font-size:13px;font-weight:600;color:var(--text);letter-spacing:-.005em;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:color .15s var(--ease);background:none;border:0}

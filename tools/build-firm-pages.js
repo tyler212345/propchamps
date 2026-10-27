@@ -15,10 +15,11 @@
  * WHAT IT GENERATES (all between <!--g:id--> … <!--/g:id--> markers)
  *   Firm pages (firms/<slug>.html):
  *     seoHead      <title>, meta description, canonical, og:*, twitter:*, JSON-LD
- *                  (FinancialService + ONE editorial Review, BreadcrumbList, FAQPage).
- *                  No aggregateRating: review counts are not shown on the page.
+ *                  (FinancialService, ONE editorial Article about it, BreadcrumbList,
+ *                  FAQPage). No Review/Rating markup: PropChamps publishes no numeric
+ *                  rating or review count, so there is nothing to mark up.
  *     fxStyle      CSS for the generated blocks (CSS variables only, no colours).
- *     firmH1       the H1 (one per page) · byline (rating, last reviewed, method link)
+ *     firmH1       the H1 (one per page) · byline (last reviewed, method link)
  *     lastReviewed hero "Last reviewed" value (f.lastAudited, else REVIEWED below)
  *     jumpNav      "On this page" links
  *     chooser      plan chooser table (generated from plansSummary/plansDetailed)
@@ -48,8 +49,9 @@
  * It is IDEMPOTENT: first run inserts the markers, later runs only refresh the
  * content between them. It never touches the <!-- pc:chrome/pc:footer/pc:head -->
  * regions (owned by tools/pc-build.mjs). The build fails (exit 1) if a title is
- * over 60 chars, a meta over 155, a JSON-LD block does not parse or a page does
- * not have exactly one <h1>.
+ * over 60 chars, a meta over 155, an Article headline over 110, a JSON-LD block
+ * does not parse, a page does not have exactly one <h1>, or a page carries any
+ * rating (rating markup, review counts, a "PropChamps rating" line, star glyphs).
  *
  * data/firms.js stays the single source of truth for plan data. Editorial prose
  * below cites the Oct 23, 2026 help-center check (see the firms.js header).
@@ -1192,6 +1194,9 @@ function faqSection(f, faq) {
 }
 // firm homepage when the affiliate link lives on another host (Alpha signs up on app.alpha-futures.com)
 const FIRM_SITE = { 'alpha-futures': 'https://alpha-futures.com/' };
+// the site-wide Organization node (its full definition lives in the homepage JSON-LD)
+const PC_ORG = { '@type': 'Organization', '@id': SITE + '/#organization', name: 'PropChamps', url: SITE,
+  logo: { '@type': 'ImageObject', url: SITE + '/logos/pc-logo.png' } };
 function seoHead(slug, f, c, faq) {
   var url = SITE + PATH_FOR[slug], iso = reviewedISO(slug, f);
   var title = c.title, meta = c.meta;
@@ -1201,15 +1206,18 @@ function seoHead(slug, f, c, faq) {
       image: SITE + f.logo,
       description: f.name + ' — ' + (f.type || '') + '. Independent review covering rules, payouts, drawdown, account limits and current promo codes.',
       areaServed: f.country || 'US', serviceType: 'Futures prop trading firm',
-      provider: { '@type': 'Organization', name: f.name, url: FIRM_SITE[slug] || (f.affiliateUrl || '').replace(/^(https?:\/\/[^\/]+).*$/, '$1/') },
-      review: {
-        '@type': 'Review', '@id': url + '#review', url: url,
-        author: { '@type': 'Organization', name: 'PropChamps', url: SITE },
-        publisher: { '@type': 'Organization', name: 'PropChamps', url: SITE },
-        datePublished: PUBLISHED[slug] || PUBLISHED['default'], dateModified: iso,
-        reviewRating: { '@type': 'Rating', ratingValue: f.rating, bestRating: 5, worstRating: 1 },
-        reviewBody: 'PropChamps editorial review of ' + f.name + ' (' + (f.type || '') + '): rules, payouts, drawdown, account limits and pricing, checked against ' + plain(c.source || 'the firm’s help center') + '.'
-      }
+      provider: { '@type': 'Organization', name: f.name, url: FIRM_SITE[slug] || (f.affiliateUrl || '').replace(/^(https?:\/\/[^\/]+).*$/, '$1/') }
+    },
+    // an editorial Article, not a schema.org Review: Google requires reviewRating on a
+    // Review and we publish no rating, so a Review node would be an invalid item
+    {
+      '@type': 'Article', '@id': url + '#article', url: url, mainEntityOfPage: url,
+      headline: plain(h1Html(slug, f, c)),
+      description: 'PropChamps editorial review of ' + f.name + ' (' + (f.type || '') + '): rules, payouts, drawdown, account limits and pricing, checked against ' + plain(c.source || 'the firm’s help center') + '.',
+      image: SITE + '/og-image.jpg',
+      author: PC_ORG, publisher: PC_ORG,
+      datePublished: PUBLISHED[slug] || PUBLISHED['default'], dateModified: iso,
+      about: { '@id': url + '#firm' }
     },
     { '@type': 'BreadcrumbList', itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: SITE + '/' },
@@ -1244,8 +1252,7 @@ function h1Html(slug, f, c) {
 }
 function bylineHtml(slug, f, c) {
   var iso = reviewedISO(slug, f);
-  return '<div class="fx-byline"><span>PropChamps rating <b>' + Number(f.rating).toFixed(1) + ' / 5</b></span>' +
-    '<span>Reviewed <b><time datetime="' + iso + '">' + shortDate(iso) + '</time></b> against ' + c.source + (c.sourceNote ? ' (' + c.sourceNote + ')' : '') + '</span>' +
+  return '<div class="fx-byline"><span>Reviewed <b><time datetime="' + iso + '">' + shortDate(iso) + '</time></b> against ' + c.source + (c.sourceNote ? ' (' + c.sourceNote + ')' : '') + '</span>' +
     (exists(U.method) ? '<a href="' + U.method + '">How we review firms</a>' : '') + '</div>';
 }
 
@@ -1562,7 +1569,6 @@ Object.keys(FILE_FOR).forEach(function (slug) {
 
   // static ranking rows (same markup as the inline JS, honest labels)
   var FLAGS = { US: '🇺🇸', GB: '🇬🇧', CA: '🇨🇦', AE: '🇦🇪' };
-  function stars(rt) { var full = Math.floor(rt), half = (rt % 1) >= 0.5, s = ''; for (var i = 0; i < 5; i++) s += i < full ? '★' : (i === full && half ? '½' : '☆'); return s; }
   function deal(f) { var line = f.offerLine || ''; var m = line.match(/(\d+%\s*OFF)/i); if (m) return m[1].toUpperCase(); var d = line.match(/(\$\d+\s*OFF)/i); return d ? d[1].toUpperCase() : 'Active at checkout'; }
   // largest account size across plansSummary (firms.js maxAllocation mixes per-account and multi-account totals)
   function largestSize(f) {
@@ -1582,7 +1588,6 @@ Object.keys(FILE_FOR).forEach(function (slug) {
     return '<tr data-href="' + page + '">' +
       '<td class="col-rank"><div class="t-rank"><span class="t-rank-num">' + (i + 1) + '</span><span class="t-rank-label">' + (labels[s] || '') + '</span></div></td>' +
       '<td class="col-firm"><div class="t-firm"><div class="t-firm-logo"><img src="' + f.logo + '" alt="' + escAttr(f.name) + '"></div><div class="t-firm-info"><div class="t-firm-name"><a href="' + page + '">' + f.name + '</a>' + (flag ? '<span class="t-firm-flag" title="' + f.country + '">' + flag + '</span>' : '') + '</div></div></div></td>' +
-      '<td class="col-rating"><div class="t-rating"><div class="t-rating-stars"><span class="num">' + Number(f.rating || 0).toFixed(1) + '</span><span class="stars">' + stars(f.rating || 0) + '</span></div><div class="t-rating-reviews">PropChamps rating</div></div></td>' +
       '<td class="col-platforms"><div class="t-platforms">' + pills + '</div></td>' +
       '<td class="col-alloc"><div class="t-value">' + largestSize(f) + '</div><div class="t-value-sub">Largest account</div></td>' +
       '<td class="col-payouts">' + payoutsCell(s, f) + '</td>' +
@@ -1638,7 +1643,7 @@ Object.keys(FILE_FOR).forEach(function (slug) {
       'Each pass reads the firm’s own help center and site. When something shifts (payout cadence, drawdown method, news restrictions) we correct our data and log the change, with its date, in the ' + L(U.audit, 'audit log') + '.',
       shortDate(lastIso).replace(/, \d{4}$/, ''), 'Latest help-center check') + '\n' +
     valueCard('02', 'Editorial independence', 'No paid placements.',
-      'Our rank is an editorial score built on rule transparency, payout reliability, discount value and program flexibility. Affiliate links pay our bills; firms cannot pay to move up.',
+      'Our ranking is editorial: we weigh rule transparency, payout reliability, discount value and program flexibility. Affiliate links pay our bills; firms cannot pay to move up.',
       '$0', 'Ranking fees accepted from firms') + '\n' +
     valueCard('03', 'Discount codes', 'One code at every firm we cover.',
       'CHAMP is our affiliate code. The discount we list is the rate on file with each firm, and the final price shows at checkout. When a firm’s own public code is bigger, we say so.',
@@ -1672,7 +1677,6 @@ Object.keys(FILE_FOR).forEach(function (slug) {
 
   // inline JS: keep the static rows; mirror the honest labels if it ever re-renders
   html = html.replace(/(?:if \(!body\.querySelector\('tr\[data-href\]'\)\) )*body\.innerHTML = html;/, "if (!body.querySelector('tr[data-href]')) body.innerHTML = html;");
-  html = html.replace("(f.reviewCount?f.reviewCount+' reviews':'New listing')", "'PropChamps rating'");
   html = html.replace("if (/90%\\s*OFF/i.test(line)) return '90% off + $0 activation';\n", '');
   html = html.replace(/'<tr data-href="\/firms\/'\+page\+'">'/, "'<tr data-href=\"/firms/'+page+'\">'");
   html = html.replace(/href="\/firms\/([a-z0-9-]+)\.html"/g, 'href="/firms/$1"');
@@ -1695,8 +1699,17 @@ REPORT.forEach(function (r) {
   var h1s = html.match(/<h1\b/g) || [];
   if (h1s.length !== 1) problems.push(r.file + ': ' + h1s.length + ' <h1>');
   var blocks = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g) || [];
-  blocks.forEach(function (bk) { try { JSON.parse(bk.replace(/^<script[^>]*>/, '').replace(/<\/script>$/, '')); } catch (e) { problems.push(r.file + ': JSON-LD does not parse (' + e.message + ')'); } });
-  if (/aggregateRating/.test(html)) problems.push(r.file + ': aggregateRating still present');
+  blocks.forEach(function (bk) {
+    var ld;
+    try { ld = JSON.parse(bk.replace(/^<script[^>]*>/, '').replace(/<\/script>$/, '')); } catch (e) { problems.push(r.file + ': JSON-LD does not parse (' + e.message + ')'); return; }
+    (ld['@graph'] || [ld]).forEach(function (nd) {
+      if (nd['@type'] === 'Article' && String(nd.headline || '').length > 110) problems.push(r.file + ': Article headline ' + nd.headline.length + ' chars');
+    });
+  });
+  // PropChamps publishes no numeric rating or review count: none may reach a page
+  [/aggregateRating/, /reviewRating/, /ratingValue/, /reviewCount/, /"@type":\s*"(Review|Rating|AggregateRating)"/, /PropChamps rating/i, /our rating/i, /\b\d\.\d\s*\/\s*5\b/, /[★☆]/].forEach(function (re) {
+    if (re.test(html)) problems.push(r.file + ': rating still present (' + re.source + ')');
+  });
   if (/href="\/firms\/[a-z0-9-]+\.html"/.test(html)) problems.push(r.file + ': .html firm link');
   r.titleLen = t.length; r.metaLen = d.length;
 });

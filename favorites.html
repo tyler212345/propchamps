@@ -65,28 +65,18 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%;height:aut
 .favorites-head-rhs{font-family:var(--font-mono);font-size:11.5px;color:var(--text-faint);letter-spacing:.04em;text-transform:uppercase}
 
 .fav-list{display:flex;flex-direction:column;gap:12px}
-.fav-card{position:relative;display:grid;grid-template-columns:48px 220px 1fr auto auto;gap:24px;align-items:center;padding:20px 24px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;transition:border-color .22s var(--ease)}
+.fav-card{position:relative;display:grid;grid-template-columns:220px 1fr auto auto;gap:24px;align-items:center;padding:20px 24px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;transition:border-color .22s var(--ease)}
 .fav-card:hover{border-color:var(--border-strong)}
 .fav-card.voted{border-color:var(--border-lime);background:linear-gradient(135deg,rgba(124,92,255,.04),transparent 50%)}
 
-.fav-rank{font-family:var(--font-display);font-size:24px;font-weight:900;color:var(--lime);letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1;width:48px;text-align:center}
-.fav-rank-sub{font-family:var(--font-mono);font-size:8.5px;color:var(--text-faint);letter-spacing:.05em;text-transform:uppercase;margin-top:3px;line-height:1}
 
 .fav-firm{display:flex;align-items:center;gap:14px;min-width:0}
 .fav-logo{width:48px;height:48px;border-radius:12px;background:var(--bg-elev);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
 .fav-logo img{width:100%;height:100%;object-fit:contain;padding:6px}
 .fav-name{font-family:var(--font-display);font-size:17px;font-weight:700;letter-spacing:-.02em;color:var(--text-strong);line-height:1.2}
-.fav-rating{font-family:var(--font-mono);font-size:11px;color:var(--text-soft);margin-top:4px;letter-spacing:.02em;display:flex;align-items:center;gap:6px}
-.fav-rating .stars{color:var(--pc-gold);letter-spacing:1px;font-size:12px}
 
 .fav-vote-section{display:flex;flex-direction:column;gap:8px;min-width:0}
 .fav-vote-label{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-soft)}
-.fav-vote-count{font-family:var(--font-display);font-size:18px;font-weight:800;color:var(--text-strong);letter-spacing:-.02em;font-variant-numeric:tabular-nums;display:inline-flex;align-items:center;gap:6px}
-.fav-vote-count::before{content:"♥";color:var(--heart);font-size:14px}
-.fav-vote-count .users{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:.04em;color:var(--text-faint);text-transform:uppercase;margin-left:4px}
-.fav-bar{position:relative;height:8px;background:var(--bg-elev);border-radius:4px;overflow:hidden;border:1px solid var(--border)}
-.fav-bar-fill{position:absolute;top:0;left:0;height:100%;background:linear-gradient(90deg,var(--lime),var(--pc-violet-lt));border-radius:4px;transition:width .8s var(--ease);box-shadow:0 0 8px rgba(124,92,255,.3)}
-.fav-card.voted .fav-bar-fill{background:linear-gradient(90deg,var(--lime),var(--lime-2));box-shadow:0 0 12px rgba(124,92,255,.5)}
 
 .fav-deal{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--pc-gold);background:var(--pc-gold-soft);border:1px solid var(--pc-gold-line);padding:6px 10px;border-radius:6px;text-transform:uppercase;white-space:nowrap}
 
@@ -103,24 +93,22 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%;height:aut
 @media(max-width:800px){
   .hero{padding:48px 0 32px}
   .hero h1{font-size:clamp(28px,7vw,40px)}
-  /* Stacked card layout: row 1 rank+firm; row 2 vote; row 3 deal; row 4 full-width button */
+  /* Stacked card layout: row 1 firm; row 2 type; row 3 deal; row 4 full-width button */
   .fav-card{
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr;
     grid-template-areas:
-      "rank firm"
-      "vote vote"
-      "deal deal"
-      "btn btn";
+      "firm"
+      "vote"
+      "deal"
+      "btn";
     gap: 14px;
     padding: 18px;
     align-items: start;
   }
-  .fav-rank-cell{grid-area:rank;align-self:center}
   .fav-firm{grid-area:firm;align-self:center;min-width:0}
   .fav-vote-section{grid-area:vote;padding-top:14px;border-top:1px solid var(--border)}
   .fav-deal{grid-area:deal;justify-self:start;align-self:center}
   .fav-btn{grid-area:btn;padding:13px 18px;font-size:13.5px;justify-content:center;width:100%;margin-top:4px}
-  .fav-rank{font-size:22px}
   .fav-name{font-size:15.5px}
 }
 </style>
@@ -227,7 +215,6 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%;height:aut
   }
   var userVotes = loadVotes();
 
-  function stars(r){var f=Math.floor(r),h=(r%1)>=0.5,s='';for(var i=0;i<5;i++){s+=i<f?'★':(i===f&&h?'½':'☆');}return s;}
   function fmtNum(n){return n.toLocaleString('en-US');}
 
   function dealText(f){
@@ -254,13 +241,11 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%;height:aut
     list.innerHTML = firms.map(function(f, i){
       var voted = f._saved;
       var page = PAGES[f.slug] || '';
-      var rating = f.rating || 0;
       return ''+
         '<article class="fav-card'+(voted?' voted':'')+'" data-slug="'+f.slug+'">'+
-          '<div class="fav-rank-cell"><div class="fav-rank" aria-hidden="true">'+(voted?'♥':'')+'</div></div>'+
           '<a class="fav-firm" href="/firms/'+page+'">'+
             '<div class="fav-logo"><img src="'+f.logo+'" alt="'+f.name+'"></div>'+
-            '<div><div class="fav-name">'+f.name+'</div><div class="fav-rating"><span class="stars">'+stars(rating)+'</span>'+rating.toFixed(1)+' · PropChamps rating</div></div>'+
+            '<div class="fav-name">'+f.name+'</div>'+
           '</a>'+
           '<div class="fav-vote-section">'+
             '<div class="fav-vote-label">'+(f.type||f.tagline||'')+'</div>'+

@@ -55,6 +55,8 @@
  *   • To hide a firm without removing it: set live: false.
  *   • To remove a firm entirely: delete its entry AND remove from FIRM_ORDER.
  *
+ * OCT 27, 2026 — no "rating" / "reviewCount" fields: PropChamps publishes no star ratings or review counts. Do not re-add.
+ *
  * OCT 23, 2026 VERIFICATION (targeted payout/limits/consistency check vs official help centers; full fact
  *   sheet with per-value source URLs lives in the SEO run's verified-facts.md). Read directly:
  *   support.lucidtrading.com, help.alpha-futures.com + alpha-futures.com, help.toponefutures.com +
@@ -119,8 +121,6 @@ window.FIRMS = {
   "tradeify": {
     "slug": "tradeify",
     "lastAudited": "2026-10-23",
-    "rating": 4.7,
-    "reviewCount": 160,
     "country": "US",
     "maxAllocation": "$300K",
     "platformsList": ["Tradovate","WealthCharts","Tradesea","Rithmic"],
@@ -359,8 +359,6 @@ window.FIRMS = {
   "lucid-trading": {
     "slug": "lucid-trading",
     "lastAudited": "2026-10-23",
-    "rating": 4.7,
-    "reviewCount": 50,
     "country": "US",
     "maxAllocation": "$150K",
     "platformsList": ["Tradovate","NinjaTrader","TradingView","TradeSea","MotiveWave","Quantower","Sierra Chart","Jigsaw","Bookmap","ATAS","R|Trader Pro","MultiCharts"],
@@ -607,8 +605,6 @@ window.FIRMS = {
   "alpha-futures": {
     "slug": "alpha-futures",
     "lastAudited": "2026-10-23",
-    "rating": 4.6,
-    "reviewCount": 49,
     "country": "GB",
     "maxAllocation": "$150K",
     "platformsList": ["AlphaTrader","TradingView","WealthCharts","Quantower","DeepChart"],
@@ -865,8 +861,6 @@ window.FIRMS = {
   "apex-trader": {
     "slug": "apex-trader",
     "lastAudited": "2026-10-05",
-    "rating": 4.4,
-    "reviewCount": 1248,
     "country": "US",
     "maxAllocation": "$150K",
     "platformsList": ["Rithmic","Tradovate","WealthCharts"],
@@ -1029,8 +1023,6 @@ window.FIRMS = {
   "take-profit": {
     "slug": "take-profit",
     "lastAudited": "2026-10-23",
-    "rating": 4.5,
-    "reviewCount": 180,
     "country": "US",
     "maxAllocation": "$150K",
     "platformsList": ["NinjaTrader","TradingView","Tradovate","Quantower","R|Trader","MotiveWave","Bookmap","ATAS","MultiCharts","Trade Navigator","VolFix","Investor R/T","Finamark","Jigsaw Trader"],
@@ -1173,8 +1165,6 @@ window.FIRMS = {
   "top-one-futures": {
     "slug": "top-one-futures",
     "lastAudited": "2026-10-23",
-    "rating": 4.7,
-    "reviewCount": 75,
     "country": "US",
     "maxAllocation": "$150K",
     "platformsList": ["Tradovate","NinjaTrader","TradingView","BlackArrow","WealthCharts"],
@@ -1419,8 +1409,6 @@ window.FIRMS = {
   "my-funded-futures": {
     "slug": "my-funded-futures",
     "lastAudited": "2026-10-23",
-    "rating": 4.5,
-    "reviewCount": 234,
     "country": "US",
     "maxAllocation": "$450K",
     "platformsList": ["NinjaTrader","Tradovate","TradingView","Quantower","Hyperprop"],
@@ -1673,8 +1661,6 @@ window.FIRMS = {
   "fundednext": {
     "slug": "fundednext",
     "lastAudited": "2026-10-23",
-    "rating": 4.6,
-    "reviewCount": 0,
     "country": "AE",
     "maxAllocation": "$150K",
     "platformsList": ["NinjaTrader","Tradovate","TradingView"],

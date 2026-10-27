@@ -65,7 +65,8 @@ function fmtDate(s) { var d = new Date(s + 'T12:00:00Z'); return MON[d.getUTCMon
 // Newest dated data pass named in the firms.js header ("OCT 23, 2026 VERIFICATION",
 // "LAST DATA UPDATE — Oct 5, 2026", …). Drives every "Updated / last checked" date.
 const DATA_DATE = (function () {
-  var head = FIRMS_SRC.slice(0, FIRMS_SRC.indexOf('window.FIRMS'));
+  // the assignment, not the first mention — the usage notes up top name window.FIRMS too
+  var head = FIRMS_SRC.slice(0, FIRMS_SRC.search(/^window\.FIRMS\s*=/m));
   var best = null;
   head.split('\n').filter(function (l) { return /VERIFICATION|DATA UPDATE/i.test(l); }).forEach(function (l) {
     var m = l.match(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+(\d{1,2}),\s+(20\d\d)/i);
@@ -473,7 +474,7 @@ function buildPayouts() {
     return '<tr data-href="' + firmUrl(f.slug) + '">' +
       '<td class="col-firm"><div class="p-firm"><div class="p-firm-logo"><img src="' + f.logo + '" alt="' + escAttr(f.name) + '"></div>' +
       '<div><a class="p-firm-name" href="' + firmUrl(f.slug) + '">' + esc(f.name) + (flag ? '<span class="p-firm-flag">' + flag + '</span>' : '') + '</a>' +
-      '<div class="p-firm-rating">' + esc(f.type || '') + '</div></div></div></td>' +
+      '<div class="p-firm-type">' + esc(f.type || '') + '</div></div></div></td>' +
       '<td class="col-total">' + totalCell(f) + '</td>' +
       '<td class="col-cadence"><ul class="p-cadence">' + cad + '</ul></td>' +
       '<td class="col-split"><div class="p-value">' + firmSplitRange(f) + '</div><div class="p-value-sub">To the trader</div></td>' +

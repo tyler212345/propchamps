@@ -38,7 +38,6 @@
 
   /* Rows of the comparison matrix (featured plan of each firm). */
   var ROWS = [
-    ['Our rating', function(f){ return f.rating ? f.rating + ' / 5' : ''; }],
     ['Account sizes', function(f,fp){ return rule(fp,'Account Sizes'); }],
     ['Profit target', function(f,fp){ return rule(fp,'Profit Target'); }],
     ['Max drawdown', function(f,fp){ return rule(fp,'Max Drawdown'); }],
@@ -93,7 +92,6 @@
     return '<div class="vs-firm">'+
       '<div class="vs-firm-head"><div class="vs-firm-logo"><img src="'+attr(f.logo)+'" alt="'+attr(f.name)+' logo" width="54" height="54"></div>'+
         '<div><div class="vs-firm-name">'+esc(f.name)+'</div><div class="vs-firm-type">'+esc(f.type||'')+'</div></div></div>'+
-      '<div class="vs-firm-rating"><strong>'+esc(f.rating||'—')+'</strong><span>/ 5 · our rating</span></div>'+
       '<div class="vs-firm-chips">'+chips+'</div>'+
       '<a class="vs-cta" href="'+attr(f.affiliateUrl||'#')+'" target="_blank" rel="sponsored noopener">Get '+esc(f.name)+' deal</a>'+
     '</div>';

@@ -228,7 +228,7 @@ html.hp-loading{overflow:hidden}
 
 /* ---------- Compare ---------- */
 .hp-table{border:1px solid var(--pc-line);border-radius:20px;overflow:hidden;background:var(--pc-bg-2)}
-.hp-tr{display:grid;grid-template-columns:minmax(0,2.1fr) 1fr 1fr 1fr 1fr 1.15fr 28px;align-items:center;gap:14px;padding:14px 20px;border-top:1px solid var(--pc-line);transition:background .15s}
+.hp-tr{display:grid;grid-template-columns:minmax(0,2.1fr) 1fr 1fr 1fr 1.15fr 28px;align-items:center;gap:14px;padding:14px 20px;border-top:1px solid var(--pc-line);transition:background .15s}
 .hp-tr:first-child{border-top:0}
 .hp-th{background:var(--pc-band);font-family:var(--pc-mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--pc-faint);padding-top:13px;padding-bottom:13px}
 a.hp-tr:hover{background:rgba(124,92,255,.06)}
@@ -237,7 +237,6 @@ a.hp-tr:hover .hp-arr{color:var(--pc-violet-lt);transform:translateX(3px)}
 .hp-tf img{width:34px;height:34px;border-radius:9px;object-fit:contain;background:#0d0c14;border:1px solid var(--pc-line);flex-shrink:0}
 .hp-tf b{font-size:15px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hp-td{font-family:var(--pc-mono);font-size:13.5px;color:var(--pc-text);font-variant-numeric:tabular-nums}
-.hp-td.star::before{content:"★ ";color:var(--pc-gold)}
 .hp-td.deal{color:var(--pc-gold);font-weight:700;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase}
 .hp-arr{color:var(--pc-faint);transition:transform .2s,color .15s}
 .hp-vs{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;align-items:center}
@@ -309,7 +308,7 @@ a.hp-tr:hover .hp-arr{color:var(--pc-violet-lt);transform:translateX(3px)}
   .hp-live-grid{grid-template-columns:1fr}
   .hp-deal{grid-template-columns:96px minmax(0,1fr) auto;gap:16px}
   .hp-deal .hp-codebtn{display:none}
-  .hp-tr{grid-template-columns:minmax(0,2fr) 1fr 1fr 1.1fr 28px}
+  .hp-tr{grid-template-columns:minmax(0,2fr) 1fr 1.1fr 28px}
   .hp-tr .c-pay,.hp-tr .c-speed{display:none}
   .hp-news{grid-template-columns:1fr;padding:40px}
   .hp-steps{grid-template-columns:1fr}
@@ -348,7 +347,6 @@ a.hp-tr:hover .hp-arr{color:var(--pc-violet-lt);transform:translateX(3px)}
   .hp-go{grid-column:1/-1;justify-content:center;height:46px}
   .hp-steps,.hp-tools,.hp-posts{grid-template-columns:1fr}
   .hp-tr{grid-template-columns:minmax(0,1.6fr) .9fr 1fr 22px;gap:10px;padding:13px 14px}
-  .hp-tr .c-rate{display:none}
   .hp-tf img{width:28px;height:28px}
   .hp-tf b{font-size:14px;white-space:normal;line-height:1.25}
   .hp-td{font-size:12.5px}
@@ -577,7 +575,7 @@ a.hp-tr:hover .hp-arr{color:var(--pc-violet-lt);transform:translateX(3px)}
       <a class="pc-link" href="/compare">Open the full compare →</a>
     </div>
     <div class="hp-table" id="hpTable" data-pc-reveal role="table" aria-label="Futures prop firms compared">
-      <div class="hp-tr hp-th" role="row"><span role="columnheader">Firm</span><span role="columnheader" class="c-rate">Rating</span><span role="columnheader" class="c-max">Max account</span><span role="columnheader" class="c-pay">Paid out*</span><span role="columnheader" class="c-speed">Median payout (est.)</span><span role="columnheader">CHAMP deal</span><span></span></div>
+      <div class="hp-tr hp-th" role="row"><span role="columnheader">Firm</span><span role="columnheader" class="c-max">Max account</span><span role="columnheader" class="c-pay">Paid out*</span><span role="columnheader" class="c-speed">Median payout (est.)</span><span role="columnheader">CHAMP deal</span><span></span></div>
     </div>
     <p class="hp-table-note">*Paid out is each firm’s own published total (FundedNext’s covers all of its programs; Take Profit Trader’s hasn’t been re-checked on its site; Lucid’s is under review). Median payout time is a PropChamps estimate. <a href="/methodology#estimates">How we label data →</a></p>
     <div class="hp-vs" data-pc-reveal>
@@ -778,7 +776,6 @@ a.hp-tr:hover .hp-arr{color:var(--pc-violet-lt);transform:translateX(3px)}
     var f=F[s], o=off(f);
     return '<a class="hp-tr" role="row" href="/firms/'+PAGE[s]+'">'+
       '<span class="hp-tf" role="cell"><img src="/logos/sm/'+LOGO[s]+'.png" alt="" width="34" height="34" loading="lazy"><b>'+esc(f.name)+'</b></span>'+
-      '<span class="hp-td star c-rate" role="cell">'+(f.rating?f.rating.toFixed(1):'—')+'</span>'+
       '<span class="hp-td c-max" role="cell">'+esc(f.maxAllocation||'—')+'</span>'+
       '<span class="hp-td c-pay" role="cell">'+(s==='lucid-trading'?'Under review':esc(f.payoutTotal||'—'))+'</span>'+
       '<span class="hp-td c-speed" role="cell">'+esc(f.payoutMedianTime||'—')+'</span>'+

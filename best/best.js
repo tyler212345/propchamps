@@ -1,7 +1,7 @@
 /* ============================================================
    PROPCHAMPS — "BEST FOR X" LISTICLE LOGIC
    Each .rank-card carries data-firm="slug". This fills the live
-   parts (logo, rating, affiliate CTA, review link) from
+   parts (logo, affiliate CTA, review link) from
    window.FIRMS (data/firms.js). Rank, award, the editorial "why"
    and every table are static in the HTML so the page is
    crawler-robust; JS only refreshes and filters them.
@@ -22,8 +22,6 @@
     if (!f) return;
     var logo = card.querySelector('.rank-logo');
     if (logo){ logo.src = f.logo; logo.alt = f.name + ' logo'; }
-    var rating = card.querySelector('.rank-rating');
-    if (rating){ rating.innerHTML = '<strong>' + (f.rating || '—') + '</strong><span>/ 5' + (f.reviewCount ? ' · ' + f.reviewCount + ' reviews' : ' · New listing') + '</span>'; }
     var cta = card.querySelector('.rank-cta');
     if (cta){
       // affiliate links: always rel="sponsored noopener"

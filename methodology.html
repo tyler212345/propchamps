@@ -27,7 +27,7 @@
 <meta name="twitter:title" content="How We Rank Futures Prop Firms: Methodology | PropChamps">
 <meta name="twitter:description" content="How we audit 8 futures prop firms against their own help centers, what we re-verify, which numbers are firm-published vs our estimates, and why.">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://propchamps.net/methodology#webpage","name":"How We Rank Futures Prop Firms: Methodology | PropChamps","url":"https://propchamps.net/methodology","description":"How we audit 8 futures prop firms against their own help centers, what we re-verify, which numbers are firm-published vs our estimates, and why.","isPartOf":{"@type":"WebSite","name":"PropChamps","url":"https://propchamps.net/"},"dateModified":"2026-10-23"},{"@type":"FAQPage","@id":"https://propchamps.net/methodology#faq","mainEntity":[{"@type":"Question","name":"How does PropChamps rank prop firms?","acceptedAnswer":{"@type":"Answer","text":"Our composite score is calculated from four weighted criteria: Rule transparency (30%), Payout reliability (30%), Active discount value (20%), and Program flexibility (20%). Affiliate revenue is not a factor — firms cannot pay to be ranked higher."}},{"@type":"Question","name":"How often is PropChamps updated?","acceptedAnswer":{"@type":"Answer","text":"We re-audit every firm in dated passes against its own help center and site; the most recent was Oct 23, 2026. Rule changes and corrections to our own data are logged in the audit log with the date we found them."}},{"@type":"Question","name":"Does PropChamps accept payment from prop firms?","acceptedAnswer":{"@type":"Answer","text":"No. Firms cannot pay to be ranked higher. We earn commission from affiliate links when readers sign up, but commission rates have zero effect on the composite score used to rank firms."}},{"@type":"Question","name":"Where does the CHAMP discount code come from?","acceptedAnswer":{"@type":"Answer","text":"CHAMP is an affiliate code set up with each firm we cover. The discount shown for each firm is the rate on file, and the final price shows at checkout. If a firm's own public promo is bigger, the deals page says so."}},{"@type":"Question","name":"Which numbers on PropChamps are estimates?","acceptedAnswer":{"@type":"Answer","text":"Payout counts, average payouts, largest single payouts and median payout times are PropChamps estimates, because firms don't publish them. Payout totals marked firm-published are each firm's own figure (the one we haven't re-checked is marked, and one is withheld while under review), and rules, caps and prices are read on the firm's help center or site. The five labels are explained above."}},{"@type":"Question","name":"What kind of prop firms does PropChamps cover?","acceptedAnswer":{"@type":"Answer","text":"PropChamps focuses on futures prop trading firms based in the US, UK, and UAE — firms that publish their drawdown methods, offer transparent rules, and have a verifiable payout history."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://propchamps.net/"},{"@type":"ListItem","position":2,"name":"Methodology","item":"https://propchamps.net/methodology"}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://propchamps.net/methodology#webpage","name":"How We Rank Futures Prop Firms: Methodology | PropChamps","url":"https://propchamps.net/methodology","description":"How we audit 8 futures prop firms against their own help centers, what we re-verify, which numbers are firm-published vs our estimates, and why.","isPartOf":{"@type":"WebSite","name":"PropChamps","url":"https://propchamps.net/"},"dateModified":"2026-10-23"},{"@type":"FAQPage","@id":"https://propchamps.net/methodology#faq","mainEntity":[{"@type":"Question","name":"How does PropChamps rank prop firms?","acceptedAnswer":{"@type":"Answer","text":"Our ranking is editorial: we judge every firm against the same four criteria. Rule transparency and payout reliability count most, then active discount value and program flexibility. We don't publish a numeric score or star rating. Affiliate revenue is not a factor — firms cannot pay to be ranked higher."}},{"@type":"Question","name":"How often is PropChamps updated?","acceptedAnswer":{"@type":"Answer","text":"We re-audit every firm in dated passes against its own help center and site; the most recent was Oct 23, 2026. Rule changes and corrections to our own data are logged in the audit log with the date we found them."}},{"@type":"Question","name":"Does PropChamps accept payment from prop firms?","acceptedAnswer":{"@type":"Answer","text":"No. Firms cannot pay to be ranked higher. We earn commission from affiliate links when readers sign up, but commission rates have zero effect on the order we rank firms in."}},{"@type":"Question","name":"Where does the CHAMP discount code come from?","acceptedAnswer":{"@type":"Answer","text":"CHAMP is an affiliate code set up with each firm we cover. The discount shown for each firm is the rate on file, and the final price shows at checkout. If a firm's own public promo is bigger, the deals page says so."}},{"@type":"Question","name":"Which numbers on PropChamps are estimates?","acceptedAnswer":{"@type":"Answer","text":"Payout counts, average payouts, largest single payouts and median payout times are PropChamps estimates, because firms don't publish them. Payout totals marked firm-published are each firm's own figure (the one we haven't re-checked is marked, and one is withheld while under review), and rules, caps and prices are read on the firm's help center or site. The five labels are explained above."}},{"@type":"Question","name":"What kind of prop firms does PropChamps cover?","acceptedAnswer":{"@type":"Answer","text":"PropChamps focuses on futures prop trading firms based in the US, UK, and UAE — firms that publish their drawdown methods, offer transparent rules, and have a verifiable payout history."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://propchamps.net/"},{"@type":"ListItem","position":2,"name":"Methodology","item":"https://propchamps.net/methodology"}]}]}
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -98,7 +98,7 @@ section.block{padding:72px 0;border-top:1px solid var(--border);position:relativ
 .process-summary-text{font-size:15px;color:var(--text);line-height:1.5;flex:1;min-width:240px}
 .process-summary-text strong{color:var(--lime-text);font-weight:700}
 
-/* Criteria — visual weight bars */
+/* Criteria */
 .criteria{background:var(--bg-surface)}
 .criteria-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
 .criteria-aside .section-intro{margin-bottom:24px}
@@ -110,9 +110,7 @@ section.block{padding:72px 0;border-top:1px solid var(--border);position:relativ
 .criterion:hover{border-color:var(--border-lime)}
 .criterion-head{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-bottom:8px}
 .criterion-name{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text-strong);letter-spacing:-.02em;line-height:1.25}
-.criterion-weight{font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--lime);letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums;text-shadow:0 0 16px rgba(124,92,255,.25);flex-shrink:0}
-.criterion-bar{height:6px;background:var(--bg-elev);border:1px solid var(--border);border-radius:100px;overflow:hidden;margin:8px 0 12px}
-.criterion-bar-fill{height:100%;background:linear-gradient(90deg,var(--pc-violet-lt) 0%,var(--lime) 100%);border-radius:100px;box-shadow:0 0 12px rgba(124,92,255,.45);transition:width .6s cubic-bezier(0.16,1,0.3,1)}
+.criterion-weight{font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lime-text);line-height:1.2;white-space:nowrap;flex-shrink:0}
 .criterion-desc{font-size:14px;color:var(--text-soft);line-height:1.6;letter-spacing:-.005em}
 
 /* Prose sections (About + Disclosure) */
@@ -206,7 +204,6 @@ section.block{padding:72px 0;border-top:1px solid var(--border);position:relativ
   .process-summary-text{font-size:14px}
   .criterion{padding:18px 20px}
   .criterion-name{font-size:15px}
-  .criterion-weight{font-size:20px}
   .criterion-desc{font-size:13.5px}
   .about-numbers{grid-template-columns:1fr 1fr;gap:10px}
   .about-num{padding:14px 16px}
@@ -343,31 +340,27 @@ section.block{padding:72px 0;border-top:1px solid var(--border);position:relativ
       <div class="criteria-aside">
         <div class="section-eyebrow">Ranking criteria</div>
         <h2 class="section-h2">How we rank.</h2>
-        <p class="section-intro">Our rank is a composite score across four weighted criteria. Affiliate revenue is not one of them. Firms cannot pay to move up.</p>
+        <p class="section-intro">Our ranking is an editorial call, made against the same four criteria for every firm. Rule transparency and payout reliability count most, then discount value and program flexibility. Affiliate revenue is not one of them. Firms cannot pay to move up.</p>
         <div class="criteria-aside-callout">
-          <div class="criteria-aside-callout-label">Composite weighting</div>
-          <p>30 + 30 + 20 + 20 = <strong style="color:var(--lime-text)">100</strong>. Each firm gets a score 0–100. The rank you see is sorted on that score.</p>
+          <div class="criteria-aside-callout-label">No star ratings</div>
+          <p>We don't publish star ratings or numeric scores. They imply a precision a rules audit can't support, so the order you see is our editorial call against these four criteria.</p>
         </div>
       </div>
       <div class="criteria-list">
         <div class="criterion">
-          <div class="criterion-head"><div class="criterion-name">Rule transparency</div><div class="criterion-weight">30%</div></div>
-          <div class="criterion-bar"><div class="criterion-bar-fill" style="width:30%"></div></div>
-          <p class="criterion-desc">How clearly the firm publishes its drawdown method, payout cadence, consistency rules, and news restrictions. Hidden rules drop the score.</p>
+          <div class="criterion-head"><div class="criterion-name">Rule transparency</div><div class="criterion-weight">Counts most</div></div>
+          <p class="criterion-desc">How clearly the firm publishes its drawdown method, payout cadence, consistency rules, and news restrictions. Hidden rules push a firm down.</p>
         </div>
         <div class="criterion">
-          <div class="criterion-head"><div class="criterion-name">Payout reliability</div><div class="criterion-weight">30%</div></div>
-          <div class="criterion-bar"><div class="criterion-bar-fill" style="width:30%"></div></div>
-          <p class="criterion-desc">Trader-reported payout speed against the firm's published cadence. Delays without communication drop the score.</p>
+          <div class="criterion-head"><div class="criterion-name">Payout reliability</div><div class="criterion-weight">Counts most</div></div>
+          <p class="criterion-desc">Trader-reported payout speed against the firm's published cadence. Delays without communication push a firm down.</p>
         </div>
         <div class="criterion">
-          <div class="criterion-head"><div class="criterion-name">Active discount value</div><div class="criterion-weight">20%</div></div>
-          <div class="criterion-bar"><div class="criterion-bar-fill" style="width:20%"></div></div>
+          <div class="criterion-head"><div class="criterion-name">Active discount value</div><div class="criterion-weight">Also weighed</div></div>
           <p class="criterion-desc">How much the CHAMP discount on file saves a trader on the most-purchased account sizes, measured on list prices.</p>
         </div>
         <div class="criterion">
-          <div class="criterion-head"><div class="criterion-name">Program flexibility</div><div class="criterion-weight">20%</div></div>
-          <div class="criterion-bar"><div class="criterion-bar-fill" style="width:20%"></div></div>
+          <div class="criterion-head"><div class="criterion-name">Program flexibility</div><div class="criterion-weight">Also weighed</div></div>
           <p class="criterion-desc">Number of paths to live capital (one-day pass, evaluation, instant funding) and how clearly each path is differentiated.</p>
         </div>
       </div>
@@ -425,7 +418,7 @@ section.block{padding:72px 0;border-top:1px solid var(--border);position:relativ
     <div class="faq-list">
       <details class="faq-item">
         <summary class="faq-q">How does PropChamps rank prop firms? <span class="faq-toggle-icon">+</span></summary>
-        <div class="faq-a">Our composite score is calculated from <strong>four weighted criteria</strong>: Rule transparency (30%), Payout reliability (30%), Active discount value (20%), and Program flexibility (20%). Affiliate revenue is not a factor — firms cannot pay to be ranked higher.</div>
+        <div class="faq-a">Our ranking is <strong>editorial</strong>: we judge every firm against the same four criteria. Rule transparency and payout reliability count most, then active discount value and program flexibility. We don't publish a numeric score or star rating. Affiliate revenue is not a factor — firms cannot pay to be ranked higher.</div>
       </details>
       <details class="faq-item">
         <summary class="faq-q">How often is PropChamps updated? <span class="faq-toggle-icon">+</span></summary>
@@ -433,7 +426,7 @@ section.block{padding:72px 0;border-top:1px solid var(--border);position:relativ
       </details>
       <details class="faq-item">
         <summary class="faq-q">Does PropChamps accept payment from prop firms? <span class="faq-toggle-icon">+</span></summary>
-        <div class="faq-a"><strong>No.</strong> Firms cannot pay to be ranked higher. We earn commission from affiliate links when readers sign up, but commission rates have zero effect on the composite score used to rank firms.</div>
+        <div class="faq-a"><strong>No.</strong> Firms cannot pay to be ranked higher. We earn commission from affiliate links when readers sign up, but commission rates have zero effect on the order we rank firms in.</div>
       </details>
       <details class="faq-item">
         <summary class="faq-q">Where does the CHAMP discount code come from? <span class="faq-toggle-icon">+</span></summary>
@@ -460,7 +453,7 @@ section.block{padding:72px 0;border-top:1px solid var(--border);position:relativ
       <p>PropChamps earns commission when readers click an affiliate link on this site and sign up with a firm. The CHAMP discount code is itself an affiliate code — using it gets you a discount, and the firm credits us a percentage of your purchase. Standard arrangement for comparison sites.</p>
       <p>What affiliate revenue <strong>does not</strong> do:</p>
       <ul>
-        <li><strong>Affect rankings.</strong> Firms pay zero to be ranked higher. Our composite score is calculated from the four criteria above — never from commission rates.</li>
+        <li><strong>Affect rankings.</strong> Firms pay zero to be ranked higher. The order comes from the four criteria above — never from commission rates.</li>
         <li><strong>Hide negative information.</strong> If a firm tightens rules or delays payouts, it goes on the page next to the affiliate link.</li>
         <li><strong>Block coverage.</strong> We list firms whose affiliate programs we are not part of when they're relevant.</li>
       </ul>
