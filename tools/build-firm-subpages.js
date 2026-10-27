@@ -916,10 +916,10 @@ const CONFIGS = [
   dek: 'Tradeify has four funded paths, and each one pays out on a different trigger: profitable days, a daily buffer, winning days, or a profit goal. Here are the caps, minimums and rules for each path at every size, plus which one fits how you trade.',
   answer: () => [
     'Every Tradeify funded account pays <strong>90/10</strong>. All plans are one-time payments with no activation fee.',
-    '<strong>Growth:</strong> payouts after 5 profitable days, 35% funded consistency, caps rising from ' + range(VF.tradeify.growth.caps[0]) + ' on payout 1 to ' + range(VF.tradeify.growth.caps[3]) + ' from payout 4.',
-    '<strong>Select Daily:</strong> request daily from profit above a buffer (' + range(VF.tradeify.selectDaily.buffer) + '), capped at ' + range(tr.daily.cap) + ' per payout, with no funded consistency rule.',
-    '<strong>Select Flex:</strong> every 5 winning days, up to 50% of profit capped at ' + range(tr.flexp.cap) + ', with no daily loss limit and no funded consistency rule.',
-    '<strong>Lightning</strong> (instant funding): a payout profit goal plus 20% / 25% / 30% consistency, a ' + tr.lt.min + ' minimum, and caps of ' + range(tr.lt.cap1) + ' (payouts 1–3).',
+    '<strong>Growth:</strong> payouts after 5 profitable days, 35% funded consistency, caps rising from ' + range(VF.tradeify.growth.caps[0]) + ' on payout 1 to ' + range(VF.tradeify.growth.caps[3]) + ' from payout 4' + MARK + '.',
+    '<strong>Select Daily:</strong> request daily from profit above a buffer (' + range(VF.tradeify.selectDaily.buffer) + '), capped at ' + range(tr.daily.cap) + ' per payout' + MARK + ', with no funded consistency rule.',
+    '<strong>Select Flex:</strong> every 5 winning days, up to 50% of profit capped at ' + range(tr.flexp.cap) + MARK + ', with no daily loss limit and no funded consistency rule.',
+    '<strong>Lightning</strong> (instant funding): a payout profit goal plus 20% / 25% / 30% consistency, a ' + tr.lt.min + ' minimum' + MARK + ', and caps of ' + range(tr.lt.cap1) + MARK + ' (payouts 1–3).',
   ],
   intro: () => callout('warn', 'Source note', '<p>Tradeify’s help center blocked our automated check on ' + VERIFIED + ' (we don’t bypass that). Payout frequency, DLL, drawdown, consistency and prices come from tradeify.co, which we read that day. Caps, minimums, buffers and profit goals come from search-engine excerpts of Tradeify’s own help-center articles (Oct 2026) and are marked ' + MARK + '. Confirm them in your dashboard.</p>'),
   sections: () => [
@@ -1026,7 +1026,7 @@ const CONFIGS = [
         '<strong>Hold time:</strong> at least 50% of your profit must come from trades held longer than 10 seconds (Funded Trader Agreement). The help center adds that more than 50% of your trades must also be held over 10 seconds' + MARK + '.',
         '<strong>Activity:</strong> you must trade at least once per calendar week.',
         '<strong>Accounts:</strong> up to 5 sim-funded accounts in any mix of Growth, Select and Lightning, per individual and per household. Holding an Elite Live account means no other accounts, for you or anyone in your household.' + more('/blog/how-many-prop-firm-accounts-can-you-have', 'Other firms: ' + L('/blog/how-many-prop-firm-accounts-can-you-have', 'how many prop firm accounts you can have') + '.'),
-        '<strong>Copy trading:</strong> allowed between your own accounts with no opposing positions; copying between people is prohibited.',
+        '<strong>Copy trading:</strong> allowed between your own accounts where Tradeify’s help center permits it' + MARK + ', with no opposing positions; copying between people is prohibited (Funded Trader Agreement 6.7(b)).',
       ]) },
 
     { id: 'how-to-request', label: 'How to request', html:
@@ -1057,9 +1057,9 @@ const CONFIGS = [
     { q: 'What are the Tradeify Growth payout rules?', a: 'You need 5 profitable days (over ' + VF.tradeify.growth.dayMin.join(' / ') + ') and a minimum balance, with a 35% funded consistency rule. Payout 1 is capped at ' + VF.tradeify.growth.caps[0].join(' / ') + ' and payout 4 onward at ' + VF.tradeify.growth.caps[3].join(' / ') + ' for 25K / 50K / 100K / 150K, per Tradeify’s help center (Oct 2026). Confirm them in your dashboard.' },
     { q: 'Tradeify Select vs Growth: which is better?', a: 'Growth has no evaluation consistency rule but a DLL, and 35% consistency once funded. Select has a 40% evaluation rule and no evaluation DLL, and no consistency rule once funded, where you choose Daily or Flex payouts.' },
     { q: 'Tradeify Select Daily vs Flex: what is the difference?', a: 'Select Daily lets you request every day from profit above a buffer, with a funded DLL and caps of ' + range(tr.daily.cap) + '. Select Flex has no DLL and caps of ' + range(tr.flexp.cap) + ', but needs 5 winning days per payout and pays at most 50% of profit.' },
-    { q: 'What are the Tradeify Lightning funded payout rules?', a: 'Lightning has no evaluation. Each payout needs a profit goal (' + tr.lt.goal1.join(' / ') + ' for payout 1) and 20% / 25% / 30% consistency, with a ' + tr.lt.min + ' minimum and caps of ' + tr.lt.cap1.join(' / ') + ' for payouts 1–3, per Tradeify’s help center (Oct 2026). There is no fixed minimum number of days.' },
+    { q: 'What are the Tradeify Lightning funded payout rules?', a: 'Lightning has no evaluation. Each payout needs a profit goal (' + tr.lt.goal1.join(' / ') + ' for payout 1) and 20% / 25% / 30% consistency, with a ' + tr.lt.min + ' minimum and caps of ' + tr.lt.cap1.join(' / ') + ' for payouts 1–3, per Tradeify’s help center (Oct 2026), which also says there is no fixed minimum number of days. Confirm them in your dashboard.' },
     { q: 'Which Tradeify account has daily payouts?', a: 'Select Daily. You pass the Select evaluation, choose the Daily path, and can then request every day from profit above the buffer.' },
-    { q: 'What is the Tradeify max payout on a 50K account?', a: 'Per request on 50K: Growth ' + VF.tradeify.growth.caps[0][1] + ' rising to ' + VF.tradeify.growth.caps[3][1] + ', Select Daily ' + tr.daily.cap[1] + ', Select Flex ' + tr.flexp.cap[1] + ' (50% of profit), and Lightning ' + tr.lt.cap1[1] + ' rising to ' + tr.lt.cap2[1] + '. The Growth and Lightning caps are per Tradeify’s help center (Oct 2026).' },
+    { q: 'What is the Tradeify max payout on a 50K account?', a: 'Per request on 50K: Growth ' + VF.tradeify.growth.caps[0][1] + ' rising to ' + VF.tradeify.growth.caps[3][1] + ', Select Daily ' + tr.daily.cap[1] + ', Select Flex ' + tr.flexp.cap[1] + ' (50% of profit), and Lightning ' + tr.lt.cap1[1] + ' rising to ' + tr.lt.cap2[1] + '. The Growth and Lightning caps are per Tradeify’s help center (Oct 2026); confirm them in your dashboard.' },
     { q: 'What is the Tradeify minimum payout?', a: 'Growth ' + VF.tradeify.growth.minReq.join(' / ') + ' by size, Select Daily and Select Flex ' + VF.tradeify.selectDaily.minReq + ', and Lightning ' + tr.lt.min + ', per Tradeify’s help center. Confirm in your dashboard.' },
     { q: 'Does Tradeify pay out in crypto?', a: 'Crypto payouts are available on Growth accounts.' },
     { q: 'How many Tradeify funded accounts can you have?', a: 'Up to 5 sim-funded accounts in any mix of Growth, Select and Lightning, per individual and per household.' },
@@ -1076,7 +1076,7 @@ const CONFIGS = [
   eyebrow: 'Top One Futures · Payout rules',
   dek: 'Top One’s four paths all pay a flat 90%, and every sim-funded withdrawal is capped until you go live. What differs is the trigger: profitable days, a daily buffer, or a profit target. Here are the numbers for each path at every size.',
   answer: () => [
-    'Every path pays <strong>90/10</strong>, and every sim-funded withdrawal is capped until you go live.',
+    'All four main paths pay <strong>90/10</strong> (the limited LaunchPad X-Daily Spark release pays 80/20), and every sim-funded withdrawal is capped until you go live.',
     '<strong>Elite Access:</strong> request after 5 profitable days (' + range(to.ea.days) + '+) with profit above the buffer + $500 (' + range(to.ea.profitNeeded) + '). ' + to.ea.min + ' minimum, ' + range(to.ea.cap) + ' cap.',
     '<strong>Elite Daily:</strong> request every 24 hours from day 1, keeping a ' + range(to.ed.buffer) + ' buffer. ' + to.ed.min + ' minimum, ' + range(to.ed.cap) + ' cap, no funded consistency rule.',
     '<strong>Instant Sim Funded:</strong> no evaluation. Profit target of 6% for payout 1, then 5%, then 4%, with 20% consistency and a ' + range(to.ins.cap) + ' cap.',
@@ -1090,7 +1090,7 @@ const CONFIGS = [
         ['<a href="#elite-daily">Elite Daily</a>', 'Monthly evaluation', 'Every 24 hours from day 1, above the buffer', to.ed.min, range(to.ed.cap), 'None'],
         ['<a href="#instant-sim-funded">Instant Sim Funded</a>', 'One-time, no eval', 'At the 6% → 5% → 4% profit target', 'Not stated', range(to.ins.cap), '20%'],
         ['<a href="#ignite">Ignite</a>', 'One-time, no eval', 'At the 5% profit target (no minimum days)', to.ig.min, range(to.ig.cap), '15%'],
-      ], 'All paths: 90/10 split. Ranges run 25K → 150K. Source: help.toponefutures.com and toponefutures.com, read ' + VERIFIED + '.', 'fs-glance') +
+      ], 'All four paths above: 90/10 split. Ranges run 25K → 150K. Source: help.toponefutures.com and toponefutures.com, read ' + VERIFIED + '.', 'fs-glance') +
       P('From the 2nd payout on the Elite plans, at least 50% of each payout must be new profit made since the previous payout (Top One’s “daily progression rule”). Top One says it has paid ' + to.total + ' to traders (firm-published). For prices, platforms and our take, see our ' + L('/firms/top-one-futures', 'Top One Futures review') + '.') },
 
     { id: 'elite-access', label: 'Elite Access', html:
@@ -1216,13 +1216,13 @@ const CONFIGS = [
       cta('top-one-futures', 'Code CHAMP applies the current discount at checkout. Confirm the total before you pay.') },
   ],
   faq: () => [
-    { q: 'What are Top One Futures’ payout rules?', a: 'All paths pay 90/10 and cap each sim-funded withdrawal. Elite Access pays after 5 profitable days above a buffer; Elite Daily pays every 24 hours above a buffer; Instant Sim Funded pays at a 6% → 5% → 4% profit target with 20% consistency; Ignite pays at a 5% target with 15% consistency.' },
+    { q: 'What are Top One Futures’ payout rules?', a: 'All four main paths pay 90/10 (LaunchPad X-Daily Spark: 80/20) and cap each sim-funded withdrawal. Elite Access pays after 5 profitable days above a buffer; Elite Daily pays every 24 hours above a buffer; Instant Sim Funded pays at a 6% → 5% → 4% profit target with 20% consistency; Ignite pays at a 5% target with 15% consistency.' },
     { q: 'What are the Top One Elite Access payout rules?', a: 'You need 5 profitable days of ' + to.ea.days.join(' / ') + '+ and profit of ' + to.ea.profitNeeded.join(' / ') + ' (the buffer + $500) for 25K / 50K / 100K / 150K, plus 40% funded consistency. The minimum is ' + to.ea.min + ' and the cap is ' + to.ea.cap.join(' / ') + ' per request.' },
     { q: 'What are the Top One Elite Daily payout rules?', a: 'Once funded you can request every 24 hours from day 1, keeping a buffer of ' + to.ed.buffer.join(' / ') + ' in the account. The minimum is ' + to.ed.min + ', the cap is ' + to.ed.cap.join(' / ') + ' per request, and there is no funded consistency rule.' },
     { q: 'What are the Top One Ignite instant funding payout rules?', a: 'Each payout needs a 5% profit target (recalculated after every payout) and 15% consistency, with no minimum days. The minimum request is ' + to.ig.min + ' and the cap is ' + to.ig.cap.join(' / ') + '. No overnight holds or bots, and close by 4 PM ET.' },
     { q: 'Instant Sim Funded vs Ignite: what is the difference?', a: 'Both skip the evaluation and pay 90/10. Instant Sim Funded costs more (' + range(to.ins.price) + ' list), has 20% consistency and caps of ' + range(to.ins.cap) + '. Ignite is cheaper (' + range(to.ig.price) + ' list) but has 15% consistency, caps of ' + range(to.ig.cap) + ', and intraday-only trading rules.' },
     { q: 'Does Top One Futures have a payout cap?', a: 'Yes. Every sim-funded withdrawal is capped until you go live: Elite Access ' + range(to.ea.cap) + ', Elite Daily ' + range(to.ed.cap) + ', Instant Sim Funded ' + range(to.ins.cap) + ' and Ignite ' + range(to.ig.cap) + ' per request.' },
-    { q: 'What is the Top One Futures activation fee?', a: 'Only Elite Access has one: ' + to.ea.activation.join(' / ') + ' after you pass the ' + to.ea.fee + ' evaluation (' + to.ea.intradayActivation.join(' / ') + ' on Elite Access Intraday). Elite Daily has no activation fee, and Instant Sim Funded and Ignite are one-time purchases.' },
+    { q: 'What is the Top One Futures activation fee?', a: 'Elite Access has one: ' + to.ea.activation.join(' / ') + ' after you pass the ' + to.ea.fee + ' evaluation (' + to.ea.intradayActivation.join(' / ') + ' on Elite Access Intraday). Elite Daily has no activation fee, and Instant Sim Funded and Ignite are one-time purchases. The limited LaunchPad X-Daily Spark release also charges a $189 activation fee.' },
     { q: 'What is the Top One daily progression rule?', a: 'On the Elite plans, from the 2nd payout on, at least 50% of each payout must be new profit made since your previous payout.' },
     { q: 'How do you get a live account at Top One Futures?', a: 'Elite Access accounts are reviewed for live after 3 payouts, and only one account moves live. Elite Daily usually moves live after 5 payouts, and Ignite is reviewed after 3 payouts.' },
   ],
@@ -1232,14 +1232,14 @@ const CONFIGS = [
 /* ---------------------------------------------------------------- Alpha promo code (P1) */
 {
   url: '/firms/alpha-futures/promo-code', firm: 'alpha-futures', wave: 2, crumb: 'Promo code',
-  title: 'Alpha Futures Promo Code (' + MONTH_SHORT + ' ' + YEAR + '): CHAMP for ' + AL.champ + '% Off',
-  metaDesc: 'Alpha Futures promo code CHAMP takes ' + AL.champ + '% off at checkout. List and discounted prices for Zero, Standard, Advanced and Direct, plus the public codes.',
-  h1: 'Alpha Futures Promo Code (' + MONTH_LONG + ' ' + YEAR + '): CHAMP for ' + AL.champ + '% Off',
+  title: 'Alpha Futures Promo Code (' + MONTH_SHORT + ' ' + YEAR + '): CHAMP vs MYALPHA50',
+  metaDesc: 'Alpha Futures promo codes: CHAMP (' + AL.champ + '% off, confirmed at checkout) vs Alpha’s MYALPHA40 and MYALPHA50. Prices for Zero, Standard, Advanced and Direct.',
+  h1: 'Alpha Futures Promo Codes (' + MONTH_LONG + ' ' + YEAR + '): CHAMP, MYALPHA40 &amp; MYALPHA50',
   eyebrow: 'Alpha Futures · Promo code',
-  dek: 'Code CHAMP takes ' + AL.champ + '% off Alpha Futures at checkout. Below are the list and discounted prices for every plan and size, how Alpha’s own public codes compare, and what to do if a code won’t apply.',
+  dek: 'Code CHAMP takes ' + AL.champ + '% off at Alpha Futures (confirmed by our team at checkout on Oct 27, 2026). Below are the list and discounted prices for every plan and size, how Alpha’s own public codes compare (MYALPHA50 is bigger on Standard, Direct and Advanced), and what to do if a code won’t apply.',
   answer: () => [
-    '<strong>Code: CHAMP</strong>, ' + al.champ + '% off at checkout on every Alpha plan: Zero, Standard, Advanced and the one-time Direct. ' + al.champ + '% is the rate on file for our code; the checkout total is the final word.',
-    '<strong>Alpha’s own banner</strong> (our ' + VERIFIED + ' check) shows <strong>MYALPHA40</strong> (' + al.pub40 + '% off Zero) and <strong>MYALPHA50</strong> (' + al.pub50 + '% off Standard, Direct and Advanced). On those three plans the public code is the bigger stated discount, so try both and keep the lower total.',
+    '<strong>Code: CHAMP</strong>, ' + al.champ + '% off at checkout on every Alpha plan: Zero, Standard, Advanced and the one-time Direct. ' + al.champ + '% was confirmed by our team at checkout on Oct 27, 2026; the checkout total is the final word.',
+    '<strong>Alpha’s own banner</strong> (our ' + VERIFIED + ' check) shows <strong>MYALPHA40</strong> (' + al.pub40 + '% off Zero) and <strong>MYALPHA50</strong> (' + al.pub50 + '% off Standard, Direct and Advanced), which Alpha lists as running Oct 19–31, 2026. On those three plans the public code is the bigger stated discount, so try both and keep the lower total.',
     '<strong>Activation is $0</strong> on every plan and the monthly subscription stops when you pass, so the evaluation price is the main cost a code reduces.',
     'The cheapest way in is a Zero 25K: ' + al.zero.price[0] + ' list, ' + off(al.zero.price[0], al.champ) + ' with ' + al.champ + '% off.',
   ],
@@ -1253,8 +1253,8 @@ const CONFIGS = [
     return [
       { id: 'the-code', label: 'The code', html:
         '<h2 id="the-code">The Alpha Futures promo code: CHAMP</h2>' +
-        P('CHAMP is PropChamps’ affiliate code with Alpha Futures. Enter it at checkout and Alpha takes ' + al.champ + '% off the plan price. Our link to Alpha’s sign-up page carries the code in its address (<span class="term">/signup/CHAMP/</span>); check that the discount shows before you pay.') +
-        cta('alpha-futures', 'CHAMP: ' + al.champ + '% off at checkout. Compare it with Alpha’s public code on your plan.') },
+        P('CHAMP is PropChamps’ affiliate code with Alpha Futures. Enter it at checkout and it takes ' + al.champ + '% off the plan price (confirmed by our team at checkout on Oct 27, 2026). Our link to Alpha’s sign-up page carries the code in its address (<span class="term">/signup/CHAMP/</span>); check that the discount shows before you pay.') +
+        cta('alpha-futures', 'CHAMP: ' + al.champ + '% off, confirmed at checkout. Compare it with Alpha’s public code on your plan.') },
       { id: 'prices', label: 'Prices', html:
         '<h2 id="prices">Alpha Futures prices with CHAMP and with Alpha’s public codes</h2>' +
         P('List prices from Alpha, with the stated discounts applied. Zero, Standard and Advanced bill monthly until you pass; Direct is a single payment.') +
@@ -1270,8 +1270,8 @@ const CONFIGS = [
       { id: 'what-it-covers', label: 'What it covers', html:
         '<h2 id="what-it-covers">What the code covers (and what we haven’t verified)</h2>' +
         table(['Item', 'Discount?', 'Notes'], [
-          ['Zero, Standard, Advanced evaluation', 'Yes, at checkout', 'Monthly billing stops when you pass.'],
-          ['Direct (one-time)', 'Yes, at checkout', 'Straight to funded; no evaluation.'],
+          ['Zero, Standard, Advanced evaluation', 'Yes, ' + al.champ + '% off', 'Monthly billing stops when you pass.'],
+          ['Direct (one-time)', 'Yes, ' + al.champ + '% off', 'Straight to funded; no evaluation.'],
           ['Activation fee', 'Nothing to discount', '$0 on every plan (Advanced since Jul 8, 2026).'],
           ['Evaluation resets', 'Not verified', 'Zero ' + range(al.zero.evalReset) + ' · Standard ' + range(al.std.evalReset) + ' · Advanced ' + range(al.adv.evalReset) + '.'],
           ['Qualified resets', 'Not verified', 'Zero ' + range(al.zero.qualReset) + ' · Standard ' + range(al.std.qualReset) + '; usable twice, before your first payout request.'],
@@ -1298,15 +1298,15 @@ const CONFIGS = [
     ];
   },
   faq: () => [
-    { q: 'What is the Alpha Futures promo code?', a: 'CHAMP. It takes ' + al.champ + '% off at checkout on Zero, Standard, Advanced and Direct. Alpha also runs public codes; at our ' + VERIFIED + ' check they were MYALPHA40 (' + al.pub40 + '% off Zero) and MYALPHA50 (' + al.pub50 + '% off Standard, Direct and Advanced).' },
-    { q: 'Is there an Alpha Futures 50% off code?', a: 'At our ' + VERIFIED + ' check, Alpha’s own banner showed MYALPHA50 for ' + al.pub50 + '% off Standard, Direct and Advanced. On those plans it beats CHAMP’s ' + al.champ + '%, so enter both at checkout and keep the lower total.' },
-    { q: 'How much is Alpha Futures with the code?', a: 'With CHAMP’s ' + al.champ + '% off: Zero ' + al.zero.price.map((p) => off(p, al.champ)).join(' / ') + ' a month (' + al.zero.sizes.join(' / ') + '), Standard ' + al.std.price.map((p) => off(p, al.champ)).join(' / ') + ', Advanced ' + al.adv.price.map((p) => off(p, al.champ)).join(' / ') + ', and Direct ' + al.dir.price.map((p) => off(p, al.champ)).join(' / ') + ' one-time.' },
+    { q: 'What is the Alpha Futures promo code?', a: 'CHAMP, our affiliate code, takes ' + al.champ + '% off Zero, Standard, Advanced and Direct (confirmed by our team at checkout on Oct 27, 2026) (confirm the total). Alpha also runs public codes; at our ' + VERIFIED + ' check they were MYALPHA40 (' + al.pub40 + '% off Zero) and MYALPHA50 (' + al.pub50 + '% off Standard, Direct and Advanced), which beats CHAMP on those three plans.' },
+    { q: 'Is there an Alpha Futures 50% off code?', a: 'At our ' + VERIFIED + ' check, Alpha’s own banner showed MYALPHA50 for ' + al.pub50 + '% off Standard, Direct and Advanced, listed as running Oct 19–31, 2026. On those plans it beats CHAMP’s ' + al.champ + '%, so enter both at checkout and keep the lower total.' },
+    { q: 'How much is Alpha Futures with the code?', a: 'At CHAMP’s ' + al.champ + '% (our arithmetic on list prices; the checkout total is the final word): Zero ' + al.zero.price.map((p) => off(p, al.champ)).join(' / ') + ' a month (' + al.zero.sizes.join(' / ') + '), Standard ' + al.std.price.map((p) => off(p, al.champ)).join(' / ') + ', Advanced ' + al.adv.price.map((p) => off(p, al.champ)).join(' / ') + ', and Direct ' + al.dir.price.map((p) => off(p, al.champ)).join(' / ') + ' one-time. On Standard, Advanced and Direct, MYALPHA50 (' + al.pub50 + '% off at our ' + VERIFIED + ' check) is cheaper, for example ' + off(al.adv.price[0], al.pub50) + ' vs ' + off(al.adv.price[0], al.champ) + ' for the first month of a ' + al.adv.sizes[0] + ' Advanced.' },
     { q: 'Does the Alpha Futures discount code work on the first order only?', a: 'We haven’t verified whether CHAMP is limited to first orders. Enter it on any new purchase and check that the total reflects the discount before you pay.' },
     { q: 'Does the code work on Alpha Futures resets?', a: 'We haven’t verified that any code applies to resets. Evaluation resets are ' + range(al.zero.evalReset) + ' on Zero, ' + range(al.std.evalReset) + ' on Standard and ' + range(al.adv.evalReset) + ' on Advanced.' },
     { q: 'Does Alpha Futures have an activation fee?', a: 'No. Activation is $0 on every plan, including Advanced accounts bought after Jul 8, 2026. The monthly subscription stops when you pass.' },
     { q: 'Is there an Alpha Futures Black Friday code?', a: 'We haven’t seen a Black Friday offer from Alpha as of ' + VERIFIED + '. We will update this page and the deals page if Alpha announces one.' },
     { q: 'Why is my Alpha Futures promo code not working?', a: 'The usual causes are a typo or extra space, another code already in the field, or a code from a coupon site that isn’t one of Alpha’s current promos. Codes may not apply to resets or renewals. Remove other codes, type CHAMP, and check the total.' },
-    { q: 'Are the Alpha Futures codes on Reddit and coupon sites real?', a: 'Many auto-generated coupon pages list codes that don’t match Alpha’s current promos. At our check, the only public codes on Alpha’s own site were MYALPHA40 and MYALPHA50; CHAMP is our affiliate code.' },
+    { q: 'Are the Alpha Futures codes on Reddit and coupon sites real?', a: 'Many auto-generated coupon pages list codes that don’t match Alpha’s current promos. At our ' + VERIFIED + ' check, the public codes on Alpha’s own banner were MYALPHA40 and MYALPHA50; CHAMP is our affiliate code.' },
   ],
   related: () => [['/firms/alpha-futures', 'Alpha Futures review'], ['/firms/alpha-futures/payout-rules', 'Alpha Futures payout rules'], ['/deals', 'Every CHAMP deal'], ['/best/cheapest-prop-firm-challenges', 'Cheapest prop firm challenges'], ['/blog/how-much-do-prop-firm-challenges-cost', 'How much a challenge costs'], ['/compare', 'Compare every firm']],
 },
@@ -1315,26 +1315,25 @@ const CONFIGS = [
 {
   url: '/firms/apex-trader/promo-code', firm: 'apex-trader', wave: 2, crumb: 'Coupon code', blocked: 'website and help center',
   title: 'Apex Trader Funding Coupon Code (' + MONTH_SHORT + ' ' + YEAR + '): ' + AP.champ + '% Off',
-  metaDesc: 'Apex Trader Funding coupon code CHAMP takes ' + AP.champ + '% off the evaluation. Prices by size for Intraday and EOD, Standard vs No-Activation-Fee, and fixes.',
+  metaDesc: 'Apex coupon code CHAMP takes ' + AP.champ + '% off the evaluation (confirmed at checkout Oct 27, 2026). Intraday and EOD prices by size, and what it won’t cover.',
   h1: 'Apex Trader Funding Coupon Code (' + MONTH_LONG + ' ' + YEAR + '): CHAMP for ' + AP.champ + '% Off',
   eyebrow: 'Apex Trader Funding · Coupon code',
   dek: 'Code CHAMP takes ' + AP.champ + '% off an Apex evaluation in our data. Here is what that does to every Intraday and EOD price, when the No-Activation-Fee build is worth it, and what the code does not cover.',
   answer: () => [
-    '<strong>Code: CHAMP</strong>, ' + ap.champ + '% off the evaluation on Intraday Trail or EOD Trail, at every size. That is the rate on file for our code; the checkout total is the final word.',
+    '<strong>Code: CHAMP</strong>, ' + ap.champ + '% off the evaluation on Intraday Trail or EOD Trail, at every size. That rate was confirmed by our team at checkout on Oct 27, 2026; Apex runs timed sales, so the checkout total is the final word.',
     '<strong>Example:</strong> a 50K Intraday Standard evaluation goes from ' + ap.price.intradayStd[1] + ' list to ' + off(ap.price.intradayStd[1], ap.champ) + '. Every size and build is in the table below.',
-    '<strong>Not covered:</strong> per Apex’s coupon page, codes don’t apply to resets or PA activation fees.',
-    '<strong>Standard vs No-Activation:</strong> the No-Activation build usually costs more up front but skips the PA activation fee. It is cheaper overall when that fee is bigger than the gap shown below.',
+    '<strong>Not covered:</strong> per a search-index excerpt of Apex’s coupon page (Oct 2026), codes don’t apply to resets or PA activation fees. Confirm at checkout.',
+    '<strong>Standard vs No-Activation:</strong> the No-Activation build usually costs more up front but skips the PA activation fee. It is cheaper overall only when that fee is bigger than the extra up-front cost, so compare both totals at checkout.',
     'Apex evaluations are a <strong>one-time fee</strong>, with no rebill, active for 30 days.',
   ],
-  intro: () => callout('warn', 'Source note', '<p>Apex’s website blocked our automated check on ' + VERIFIED + '. List prices come from our Oct 5, 2026 audit; the ' + ap.champ + '% is the rate on file for our code, not re-checked at checkout. We don’t publish PA activation-fee amounts because we couldn’t verify current ones. Read the price at checkout before you buy.</p>'),
+  intro: () => callout('warn', 'Source note', '<p>Apex’s website blocked our automated check on ' + VERIFIED + '. List prices come from our Oct 5, 2026 audit; the ' + ap.champ + '% CHAMP rate was confirmed by our team at checkout on Oct 27, 2026. We don’t publish PA activation-fee amounts because we couldn’t verify current ones. Coupon exclusions (resets, PA activation fees), the ' + VF.apex.publicCode + ' code and the No-Activation size list come from search-engine excerpts of Apex’s coupon and help-center pages (Oct 2026). Evaluation rules and the one-time, 30-day terms are from our Oct 5 audit. Read the price at checkout before you buy.</p>'),
   sections: () => {
     const sz = ap.sizes;
     const pr = ap.price;
-    const gap = (std, noact) => sz.map((z, i) => { const d = num(off(noact[i], ap.champ)) - num(off(std[i], ap.champ)); return d <= 0 ? '−' + fmt(-d) : fmt(d); });
     return [
       { id: 'the-code', label: 'The code', html:
         '<h2 id="the-code">The Apex Trader Funding coupon code: CHAMP</h2>' +
-        P('CHAMP is PropChamps’ affiliate code with Apex. It takes ' + ap.champ + '% off the evaluation price on both account types (Intraday Trail and EOD Trail) and both builds (Standard and No-Activation-Fee). Apex also shows a public code, ' + VF.apex.publicCode + ' (“up to 90% off all evaluations”, new sign-ups only, per a search-index excerpt of its coupon page). If both are available to you, try each and keep the lower total.') +
+        P('CHAMP is PropChamps’ affiliate code with Apex. In our data it takes ' + ap.champ + '% off the evaluation price on both account types (Intraday Trail and EOD Trail) and both builds (Standard and No-Activation-Fee); that rate was confirmed by our team at checkout on Oct 27, 2026. At our Oct 2026 check, a search-index excerpt of Apex’s coupon page showed a public code, ' + VF.apex.publicCode + ' (“up to 90% off all evaluations”, new sign-ups only); sale codes rotate. If both are available to you, try each and keep the lower total.') +
         cta('apex-trader', 'CHAMP: ' + ap.champ + '% off the evaluation in our data. Confirm the checkout total.') },
       { id: 'prices', label: 'Prices', html:
         '<h2 id="prices">Apex prices with CHAMP, by size</h2>' +
@@ -1351,18 +1350,14 @@ const CONFIGS = [
         P('Both types share the same targets (' + ap.target.join(' / ') + ') and drawdown (' + ap.dd.join(' / ') + '). EOD Trail adds a daily loss limit of ' + ap.eodDll.join(' / ') + '. If you are unsure which type to buy, read ' + L('/blog/apex-drawdown-explained', 'Apex drawdown explained') + '.') },
       { id: 'which-is-cheaper', label: 'Standard vs No-Activation', html:
         '<h2 id="which-is-cheaper">Standard vs No-Activation-Fee: which is cheaper?</h2>' +
-        P('A Standard evaluation is usually cheaper up front, but after you pass you pay a PA activation fee, and coupon codes don’t discount it. The No-Activation build usually costs more up front and has a $0 PA fee. So the question is whether the activation fee you would pay is bigger than the extra up-front cost.') +
-        sizeTable('gap', sz, 'With CHAMP', [
-          ['Intraday: extra up front for No-Activation', gap(pr.intradayStd, pr.intradayNoAct)],
-          ['EOD: extra up front for No-Activation', gap(pr.eodStd, pr.eodNoAct)],
-        ], 'Our arithmetic from the CHAMP prices above. A minus sign means the No-Activation build is already cheaper up front in our price data. Otherwise, read the Standard PA activation fee for your size at checkout: if it is bigger than the number in this table, the No-Activation build is cheaper overall (if you pass). If you don’t pass, the Standard build was cheaper.') +
-        P('Per Apex’s help-center excerpt, No-Activation evaluations are offered on Intraday 25K–150K and EOD 25K/50K, while our price data also lists EOD 100K/150K No-Activation prices. Check what checkout offers at your size.') },
+        P('A Standard evaluation is usually cheaper up front, but after you pass you pay a PA activation fee, and coupon codes don’t discount it. The No-Activation build usually costs more up front and has a $0 PA fee. We don’t publish a break-even table: we couldn’t verify current PA activation fees, and our Intraday No-Activation list prices look out of line. At checkout, compare the No-Activation price with the Standard price plus the PA activation fee shown for your size.') +
+        P('Per a search-index excerpt of Apex’s help center (Oct 2026), No-Activation evaluations are offered on Intraday 25K–150K and EOD 25K/50K, while our price data also lists EOD 100K/150K No-Activation prices. Check what checkout offers at your size.') },
       { id: 'what-it-covers', label: 'What it covers', html:
         '<h2 id="what-it-covers">What the Apex coupon covers</h2>' +
         table(['Item', 'Discounted?', 'Notes'], [
           ['Evaluation (Intraday or EOD, Standard or No-Activation)', 'Yes', ap.champ + '% with CHAMP in our data.'],
-          ['PA activation fee (Standard build)', 'No', 'Per Apex’s coupon page. Amount shown at checkout.'],
-          ['Resets', 'No', 'Per Apex’s coupon page. Our data lists the evaluation as one-time with no rebill.'],
+          ['PA activation fee (Standard build)', 'No', 'Per a search-index excerpt of Apex’s coupon page (Oct 2026). Amount shown at checkout.'],
+          ['Resets', 'No', 'Per a search-index excerpt of Apex’s coupon page (Oct 2026). Our data lists the evaluation as one-time with no rebill.'],
           ['Legacy accounts (sale periods)', 'Not verified', 'Apex’s public sale text mentions legacy evaluations; check at checkout.'],
         ]) +
         P('The code doesn’t change payout rules. Those are in ' + L('/firms/apex-trader/payout-rules', 'Apex Trader Funding payout rules') + '.') },
@@ -1377,7 +1372,7 @@ const CONFIGS = [
       { id: 'not-working', label: 'Not working?', html:
         '<h2 id="not-working">Apex coupon not working? Try these</h2>' +
         UL([
-          '<strong>It’s a reset or a PA activation fee:</strong> per Apex, codes don’t apply to either.',
+          '<strong>It’s a reset or a PA activation fee:</strong> per a search-index excerpt of Apex’s coupon page (Oct 2026), codes don’t apply to either.',
           '<strong>Another code in the field:</strong> remove it and try CHAMP, then compare totals.',
           '<strong>Typo:</strong> type CHAMP yourself, with no spaces.',
           '<strong>Coupon-site codes:</strong> many auto-generated pages list codes that aren’t Apex’s current promos.',
@@ -1387,26 +1382,18 @@ const CONFIGS = [
   },
   faq: () => [
     { q: 'What is the Apex Trader Funding coupon code?', a: 'CHAMP. In our data it takes ' + ap.champ + '% off any Apex evaluation, Intraday or EOD Trail, Standard or No-Activation. Confirm the total at checkout.' },
-    { q: 'Is the Apex 90% off code real?', a: 'Our October 2026 data has CHAMP at ' + ap.champ + '% off the evaluation, and Apex’s own coupon page advertised “up to 90% off all evaluations” with ' + VF.apex.publicCode + '. Discounts change with Apex’s sales, so the checkout total is the final word.' },
-    { q: 'How much is an Apex 50K account with the code?', a: 'With ' + ap.champ + '% off: Intraday Standard ' + off(ap.price.intradayStd[1], ap.champ) + ', Intraday No-Activation ' + off(ap.price.intradayNoAct[1], ap.champ) + ', EOD Standard ' + off(ap.price.eodStd[1], ap.champ) + ' and EOD No-Activation ' + off(ap.price.eodNoAct[1], ap.champ) + '. Standard builds add a PA activation fee after you pass.' },
-    { q: 'Does Apex have an activation fee?', a: 'Standard builds charge a PA activation fee after you pass; the amount is shown at checkout. No-Activation-Fee builds usually cost more up front and have a $0 PA fee. Coupon codes don’t discount the activation fee.' },
-    { q: 'Which is cheaper: Apex Standard or No Activation Fee?', a: 'It depends on the PA activation fee. With CHAMP, the No-Activation build usually costs between ' + gapNums().slice(0, 2).join(' and ') + ' more up front, depending on type and size' + (gapNums()[2].length ? ' (in our price data it is already cheaper on ' + gapNums()[2].join(' and ') + ')' : '') + '. If the Standard activation fee at checkout is bigger than that gap, No-Activation is cheaper overall, as long as you pass.' },
-    { q: 'Does the Apex coupon work on the activation fee or resets?', a: 'No. Per Apex’s coupon-code help page, codes don’t apply to resets or PA activation fees.' },
-    { q: 'Does the Apex coupon work on the first order only?', a: 'Apex’s public code ' + VF.apex.publicCode + ' is for new sign-ups only, per its coupon page. We haven’t verified repeat-order rules for CHAMP; enter it and check the total.' },
-    { q: 'Why is my Apex coupon not working?', a: 'Common causes: the item is a reset or a PA activation fee (not discountable), another code is in the field, a typo, or a coupon-site code that isn’t current. Remove other codes, type CHAMP and compare the totals.' },
+    { q: 'Is the Apex 90% off code real?', a: 'Yes. CHAMP’s ' + ap.champ + '% off the evaluation was confirmed by our team at checkout on Oct 27, 2026. A search-index excerpt of Apex’s coupon page (Oct 2026) also showed a public code, ' + VF.apex.publicCode + ', at “up to 90% off all evaluations”. Discounts change with Apex’s sales, so the checkout total is the final word.' },
+    { q: 'How much is an Apex 50K account with the code?', a: 'At CHAMP’s ' + ap.champ + '% (confirmed at checkout Oct 27, 2026) and our Oct 5, 2026 list prices (confirm prices at checkout): Intraday Standard ' + off(ap.price.intradayStd[1], ap.champ) + ', EOD Standard ' + off(ap.price.eodStd[1], ap.champ) + ' and EOD No-Activation ' + off(ap.price.eodNoAct[1], ap.champ) + '. Our Intraday No-Activation list price looks out of line, so check that build at checkout. Standard builds add a PA activation fee after you pass.' },
+    { q: 'Does Apex have an activation fee?', a: 'Standard builds charge a PA activation fee after you pass; the amount is shown at checkout. No-Activation-Fee builds usually cost more up front and have a $0 PA fee. Per a search-index excerpt of Apex’s coupon page (Oct 2026), coupon codes don’t discount the activation fee.' },
+    { q: 'Which is cheaper: Apex Standard or No Activation Fee?', a: 'It depends on the PA activation fee, which we couldn’t verify. Standard is usually cheaper up front but charges a PA activation fee after you pass (per a search-index excerpt of Apex’s coupon page, codes don’t discount it); No-Activation usually costs more up front with a $0 PA fee. At checkout, compare the No-Activation price with the Standard price plus its activation fee.' },
+    { q: 'Does the Apex coupon work on the activation fee or resets?', a: 'Per a search-index excerpt of Apex’s coupon-code help page (Oct 2026; Apex blocked our direct check), codes don’t apply to resets or PA activation fees. Confirm at checkout.' },
+    { q: 'Does the Apex coupon work on the first order only?', a: 'A search-index excerpt of Apex’s coupon page (Oct 2026) listed its public code ' + VF.apex.publicCode + ' as new sign-ups only. We haven’t verified repeat-order rules for CHAMP; enter it and check the total.' },
+    { q: 'Why is my Apex coupon not working?', a: 'Common causes: the item is a reset or a PA activation fee (excluded, per a search-index excerpt of Apex’s coupon page), another code is in the field, a typo, or a coupon-site code that isn’t current. Remove other codes, type CHAMP and compare the totals.' },
     { q: 'Is Apex Trader Funding a monthly subscription?', a: 'No. In our data Apex evaluations are a one-time fee, with no rebill, active for 30 days.' },
   ],
   related: () => [['/firms/apex-trader', 'Apex Trader Funding review'], ['/firms/apex-trader/payout-rules', 'Apex payout rules'], ['/blog/apex-drawdown-explained', 'Apex drawdown explained'], ['/deals', 'Every CHAMP deal'], ['/best/cheapest-prop-firm-challenges', 'Cheapest prop firm challenges'], ['/blog/how-much-do-prop-firm-challenges-cost', 'How much a challenge costs']],
 },
 ];
-
-/** Smallest and largest positive No-Activation premium (with CHAMP) across Apex types/sizes, for the FAQ. */
-function gapNums() {
-  const g = [], cheaper = [];
-  [['intradayStd', 'intradayNoAct', 'Intraday'], ['eodStd', 'eodNoAct', 'EOD']].forEach(([a, b, label]) => AP.sizes.forEach((z, i) => { const d = num(off(AP.price[b][i], AP.champ)) - num(off(AP.price[a][i], AP.champ)); if (d > 0) g.push(d); else cheaper.push(label + ' ' + z); }));
-  g.sort((x, y) => x - y);
-  return [fmt(g[0]), fmt(g[g.length - 1]), cheaper];
-}
 
 /* ================================================================
    TEMPLATE

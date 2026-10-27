@@ -460,7 +460,7 @@ window.FIRMS = {
           ["Price (w/ CHAMP)", "$50.30 / $90.20 / $170.60 / $250.40"],
           ["Profit Target", "$1,250 / $3,000 / $6,000 / $9,000"],
           ["Max Loss Limit (EOD)", "$1,000 / $2,000 / $3,000 / $4,500"],
-          ["Daily Loss Limit", "$600 / $1,200 / $1,800 / $2,700 (can toggle off)"],
+          ["Daily Loss Limit", "Optional (amount set at purchase)"],
           ["Consistency (Eval)", "40% (50% with paid add-on)"],
           ["Consistency (Funded)", "None"],
           ["Max Size", "2 / 4 / 6 / 10 minis (20 / 40 / 60 / 100 micros)"],
@@ -646,7 +646,7 @@ window.FIRMS = {
       "payouts": "90% split on Zero/Advanced · withdraw 50% of profits up to 4x/month · Advanced allows $15,000 per request"
     },
     "boxMore": {
-      "deal": "Code CHAMP takes 40% off at checkout (public promos at the Oct 23, 2026 check: MYALPHA40 = 40% off Zero, MYALPHA50 = 50% off Standard, Direct & Advanced). List monthly pricing:\\n\\nZERO: $89 / $139 / $279 (25K-100K)\\nSTANDARD: $129 / $239 / $349 (50K-150K)\\nADVANCED: $209 / $349 / $489 (50K-150K)\\nDIRECT (one-time): $349 / $519 / $689 / $859 (25K-150K)\\n\\nZero and Standard carry no activation fee. Always verify current checkout pricing.",
+      "deal": "Code CHAMP takes 40% off at checkout (public promos at our Oct 27, 2026 check, which Alpha lists as running Oct 19–31, 2026: MYALPHA40 = 40% off Zero, MYALPHA50 = 50% off Standard, Direct & Advanced). List monthly pricing:\\n\\nZERO: $89 / $139 / $279 (25K-100K)\\nSTANDARD: $129 / $239 / $349 (50K-150K)\\nADVANCED: $209 / $349 / $489 (50K-150K)\\nDIRECT (one-time): $349 / $519 / $689 / $859 (25K-150K)\\n\\nZero and Standard carry no activation fee. Always verify current checkout pricing.",
       "programs": "ALPHA ZERO — 25K/50K/100K · one-day eval pass · flat 90% split · $0 activation · monthly $89 / $139 / $279\\nALPHA STANDARD — 50K/100K/150K · back on the site · monthly $129 / $239 / $349 · $0 activation\\nALPHA ADVANCED — 50K/100K/150K · 90% from day 1 · no DLL ever · no news restrictions · monthly $209 / $349 / $489\\nALPHA DIRECT — 25K/50K/100K/150K · one-time $349 / $519 / $689 / $859 · straight to funded · 20% consistency",
       "rules": "ZERO: no eval min days (one-day pass) · 5 qualified days to first payout · no eval consistency · 40% qualified consistency · eval reset $79 / $119 / $249 · qualified reset $399 / $499 / $799\\nSTANDARD: 2 eval days · 5 qualified days · 50% eval / 40% qualified consistency · DLL none eval, $1,000 / $2,000 / $3,000 qualified · eval reset $109 / $199 / $289 · qualified reset $599 / $799 / $999\\nADVANCED: 3 eval days · 5 qualified days · 40% eval consistency · none qualified · no DLL either stage · no news restrictions · no scaling (full contracts day 1)\\nDIRECT: straight to funded (no eval) · 20% consistency · DLL $500 / $1,000 / $2,000 / $3,000 · no scaling",
       "payouts": "ZERO: 90% flat · withdraw up to 50% of profits, up to 4x/month · payout cap $1,000 / $1,500 / $2,500 (25K-100K) · $200 min · 5 winning days of $200+ before each request\\nSTANDARD: payout cap $3,000 / $4,000 / $5,000 (50K-150K) · $500 min · up to 4x/month\\nADVANCED: 90% from day 1 · request every 5 winning trading days of $200+ · withdraw up to $15,000 per request ($1,000 min), up to 4x/month\\nDIRECT: payout cap $1,000 / $2,000 / $2,500 / $3,000 (25K-150K) · $500 min · no winning-day rule — withdrawal profit target + 20% consistency\\nMax qualified accounts: Zero 5 · Standard 5 (3 if bought before Jul 27, 2026) · Direct 5 · Advanced 3 (holding any active Advanced caps you at 3) · one individual per household"
@@ -856,7 +856,7 @@ window.FIRMS = {
         }
       }
     ],
-    "note": "Alpha Futures overhauled its lineup in 2026. Four plans now: Zero (one-day eval pass, flat 90% split, $0 activation, monthly $89-$279 list), Standard (back on the site, 50K-150K, monthly $129-$349), Advanced (premium eval — 90% from day 1, no DLL ever, no news restrictions, $15,000 per-request withdrawals, monthly $209-$489), and Direct (new one-time straight-to-funded, 25K-150K, $349-$859, 20% consistency). Code CHAMP takes 40% off at checkout (public promos at the Oct 23, 2026 check: MYALPHA40 on Zero, MYALPHA50 on Standard, Direct & Advanced). Max qualified accounts: Zero 5, Standard 5 (3 if bought before Jul 27, 2026), Direct 5, Advanced 3 (an active Advanced account caps you at 3); one individual per household; copying your own trades across your own accounts is allowed, group/reverse/automated trading is not. Zero, Standard and Advanced withdraw up to 50% of profits, up to 4x per month, after every 5 winning days of $200+; Direct uses withdrawal profit targets plus a 20% consistency rule. Pricing shown is list monthly — always verify the current checkout price."
+    "note": "Alpha Futures overhauled its lineup in 2026. Four plans now: Zero (one-day eval pass, flat 90% split, $0 activation, monthly $89-$279 list), Standard (back on the site, 50K-150K, monthly $129-$349), Advanced (premium eval — 90% from day 1, no DLL ever, no news restrictions, $15,000 per-request withdrawals, monthly $209-$489), and Direct (new one-time straight-to-funded, 25K-150K, $349-$859, 20% consistency). Code CHAMP takes 40% off at checkout (public promos at our Oct 27, 2026 check, listed as running Oct 19–31, 2026: MYALPHA40 on Zero, MYALPHA50 on Standard, Direct & Advanced). Max qualified accounts: Zero 5, Standard 5 (3 if bought before Jul 27, 2026), Direct 5, Advanced 3 (an active Advanced account caps you at 3); one individual per household; copying your own trades across your own accounts is allowed, group/reverse/automated trading is not. Zero, Standard and Advanced withdraw up to 50% of profits, up to 4x per month, after every 5 winning days of $200+; Direct uses withdrawal profit targets plus a 20% consistency rule. Pricing shown is list monthly — always verify the current checkout price."
   },
   "apex-trader": {
     "slug": "apex-trader",
@@ -1045,28 +1045,28 @@ window.FIRMS = {
     "filters": ["evaluation", "nodll"],
     "promo": {
       "code": "CHAMP",
-      "discount": "40% off"
+      "discount": "See pricing"
     },
-    "offerLine": "40% OFF",
+    "offerLine": "Use Code CHAMP",
     "offerSub": "DLL removed across all sizes · Clean account ladder",
-    "summary": "Take Profit Trader runs a three-stage ladder with no daily loss limit at any stage. You buy the TEST evaluation (EOD trailing drawdown, 50% consistency), pass into a PRO simulated-funded account (80/20 split, day-one payouts, switches to intraday trailing drawdown), then graduate to PRO+, a real live-market account paying 90/10 with EOD drawdown. Five account sizes (25K-150K), monthly subscription, code CHAMP for 40% off.",
-    "highlights": ["DLL Removed (All Sizes)", "Simple Ladder", "40% Off"],
+    "summary": "Take Profit Trader runs a three-stage ladder with no daily loss limit at any stage. You buy the TEST evaluation (EOD trailing drawdown, 50% consistency), pass into a PRO simulated-funded account (80/20 split, day-one payouts, switches to intraday trailing drawdown), then graduate to PRO+, a real live-market account paying 90/10 with EOD drawdown. Five account sizes (25K-150K), monthly subscription; code CHAMP applies at checkout.",
+    "highlights": ["No DLL (All Sizes)", "Simple Ladder", "Day-One PRO+ Payouts"],
     "bestFor": ["No DLL", "Straightforward Rules", "Simple Ladder"],
     "stats": [
-      ["Discount", "40% Off"],
+      ["Discount", "At checkout"],
       ["Code", "CHAMP"],
-      ["DLL", "Removed across all"]
+      ["DLL", "None at any size"]
     ],
     "boxPreviews": {
-      "deal": "40% off · Code CHAMP at checkout",
+      "deal": "Code CHAMP at checkout",
       "programs": "Single evaluation product · 25K, 50K, 75K, 100K, 150K",
-      "rules": "DLL REMOVED on all 5 sizes",
+      "rules": "No DLL on any of the 5 sizes",
       "payouts": "PRO (sim) 80/20 · PRO+ (live) 90/10 · day-one payouts"
     },
     "boxMore": {
-      "deal": "Apply code CHAMP at checkout for 40% off Take Profit Trader.",
+      "deal": "Apply code CHAMP at checkout. Take Profit Trader's own public code at our Oct 27, 2026 check was NOFEE40 (40% off the test for life + the $130 activation waived), so compare both totals.",
       "programs": "Five account sizes: 25K, 50K, 75K, 100K, 150K\nSingle evaluation path — no separate plan tiers",
-      "rules": "All sizes have DLL REMOVED\nProfit Target: $1,500 / $3,000 / $4,500 / $6,000 / $9,000 (25K-150K)\nDrawdown: $1,500 / $2,000 / $2,500 / $3,000 / $4,500\nMax Size: 3 / 6 / 9 / 12 / 15 minis (30 / 60 / 90 / 120 / 150 micros)",
+      "rules": "No DLL at any size\nProfit Target: $1,500 / $3,000 / $4,500 / $6,000 / $9,000 (25K-150K)\nDrawdown: $1,500 / $2,000 / $2,500 / $3,000 / $4,500\nMax Size: 3 / 6 / 9 / 12 / 15 minis (30 / 60 / 90 / 120 / 150 micros)",
       "payouts": "TEST: simulated, no withdrawals\nPRO (sim funded): day-one payouts, 80/20 split, intraday trailing drawdown\nPRO+ (live market): day-one payouts, 90/10 split, EOD drawdown\nPayouts land within one business day via Plaid / PayPal / Wise"
     },
     "programs": [
@@ -1077,7 +1077,7 @@ window.FIRMS = {
       "150K — single evaluation product"
     ],
     "rules": [
-      "DLL has been REMOVED across all account sizes",
+      "No daily loss limit at any account size",
       "Drawdown ladder: $1,500 / $2,000 / $2,500 / $3,000 / $4,500 (25K-150K)",
       "Max position size: 3 / 6 / 9 / 12 / 15 minis by size"
     ],
@@ -1095,7 +1095,7 @@ window.FIRMS = {
         "rules": [
           ["Profit Target", "$1,500"],
           ["Max Size", "3 minis / 30 micros"],
-          ["Daily Loss Limit", "REMOVED"],
+          ["Daily Loss Limit", "None"],
           ["Drawdown", "$1,500"]
         ]
       },
@@ -1105,7 +1105,7 @@ window.FIRMS = {
         "rules": [
           ["Profit Target", "$3,000"],
           ["Max Size", "6 minis / 60 micros"],
-          ["Daily Loss Limit", "REMOVED"],
+          ["Daily Loss Limit", "None"],
           ["Drawdown", "$2,000"]
         ]
       },
@@ -1114,7 +1114,7 @@ window.FIRMS = {
         "rules": [
           ["Profit Target", "$4,500"],
           ["Max Size", "9 minis / 90 micros"],
-          ["Daily Loss Limit", "REMOVED"],
+          ["Daily Loss Limit", "None"],
           ["Drawdown", "$2,500"]
         ]
       },
@@ -1123,7 +1123,7 @@ window.FIRMS = {
         "rules": [
           ["Profit Target", "$6,000"],
           ["Max Size", "12 minis / 120 micros"],
-          ["Daily Loss Limit", "REMOVED"],
+          ["Daily Loss Limit", "None"],
           ["Drawdown", "$3,000"]
         ]
       },
@@ -1132,7 +1132,7 @@ window.FIRMS = {
         "rules": [
           ["Profit Target", "$9,000"],
           ["Max Size", "15 minis / 150 micros"],
-          ["Daily Loss Limit", "REMOVED"],
+          ["Daily Loss Limit", "None"],
           ["Drawdown", "$4,500"]
         ]
       }
@@ -1146,7 +1146,7 @@ window.FIRMS = {
           "Profit Target": "$1,500 · $3,000 · $4,500 · $6,000 · $9,000",
           "Max Drawdown": "$1,500 · $2,000 · $2,500 · $3,000 · $4,500",
           "Drawdown Type": "EOD",
-          "Daily Loss Limit": "REMOVED across all sizes",
+          "Daily Loss Limit": "None at any size",
           "Min. Trading Days": "3 Trading Days",
           "Consistency Rule": "50% (Test only)",
           "News Rule": "Test: none · PRO & PRO+: flat around high-impact news",
@@ -1160,7 +1160,7 @@ window.FIRMS = {
         }
       }
     ],
-    "note": "Take Profit Trader runs a three-stage ladder — TEST (evaluation) → PRO (simulated funded) → PRO+ (live market) — with NO daily loss limit at any stage across all five account sizes (25K-150K). TEST uses EOD trailing drawdown with a 50% consistency rule; targets are $1,500 / $3,000 / $4,500 / $6,000 / $9,000 and drawdowns $1,500 / $2,000 / $2,500 / $3,000 / $4,500. On passing, PRO pays 80/20 with day-one payouts and switches to intraday trailing drawdown (the single biggest rule change between stages); PRO+ is a real live-market account paying 90/10 with EOD drawdown and no buffer. Max contracts 3 / 6 / 9 / 12 / 15 minis by size. Monthly subscription $150 / $170 / $245 / $330 / $360 plus a one-time $130 activation (often waived by promo). Use CHAMP for 40% off (public promo at the Oct 23, 2026 check: NOFEE40 = 40% off the test for life + $130 activation waived). Minimum 3 trading days to get funded (tests bought before Aug 17, 2026: 5). PRO withdrawals start once the balance clears the buffer (= the max drawdown), with no minimum profit days, no funded consistency and no maximum; withdrawals of $250 or less from the wallet carry a $50 fee. On moving to PRO+, $5,000 of PRO profit stays frozen while PRO+ is active. News: Test is unrestricted; PRO & PRO+ must be flat 1 minute before to 1 minute after FOMC, NFP and CPI. Up to 5 active funded accounts per person (PRO + PRO+ combined; tests unlimited; max 10 passed-test activations per 30 days); approved trade copiers may be used across your own accounts only."
+    "note": "Take Profit Trader runs a three-stage ladder — TEST (evaluation) → PRO (simulated funded) → PRO+ (live market) — with NO daily loss limit at any stage across all five account sizes (25K-150K). TEST uses EOD trailing drawdown with a 50% consistency rule; targets are $1,500 / $3,000 / $4,500 / $6,000 / $9,000 and drawdowns $1,500 / $2,000 / $2,500 / $3,000 / $4,500. On passing, PRO pays 80/20 with day-one payouts and switches to intraday trailing drawdown (the single biggest rule change between stages); PRO+ is a real live-market account paying 90/10 with EOD drawdown and no buffer. Max contracts 3 / 6 / 9 / 12 / 15 minis by size. Monthly subscription $150 / $170 / $245 / $330 / $360 plus a one-time $130 activation (often waived by promo). Use code CHAMP at checkout (TPT's public promo at the Oct 27, 2026 check: NOFEE40 = 40% off the test for life + $130 activation waived). Minimum 3 trading days to get funded (tests bought before Aug 17, 2026: 5). PRO withdrawals start once the balance clears the buffer (= the max drawdown), with no minimum profit days, no funded consistency and no maximum; withdrawals of $250 or less from the wallet carry a $50 fee. On moving to PRO+, $5,000 of PRO profit stays frozen while PRO+ is active. News: Test is unrestricted; PRO & PRO+ must be flat 1 minute before to 1 minute after FOMC, NFP and CPI. Up to 5 active funded accounts per person (PRO + PRO+ combined; tests unlimited; max 10 passed-test activations per 30 days); approved trade copiers may be used across your own accounts only."
   },
   "top-one-futures": {
     "slug": "top-one-futures",
@@ -1437,7 +1437,7 @@ window.FIRMS = {
     "offerSub": "Rapid · Rapid EOD · Pro · Builder — no DLL on Rapid & Pro, no activation fee",
     "summary": "My Funded Futures runs four products as of August 2026: Rapid (daily payouts, 90/10, intraday-trailing once funded), Rapid EOD (25K/50K, daily payouts but end-of-day drawdown in funded), Pro (bi-weekly payouts, 80/20, up to $100K in sim payouts per user), and Builder (25K-150K eval, 48-hour payouts, and a five-payout ladder to a real Live account at Blue Row Capital). All plans are one-time purchases (no monthly renewals, effective Aug 2026). Rapid, Rapid EOD and Pro have no daily loss limit (Builder has a soft daily pause), and no plan has an activation fee. Code CHAMP takes up to 50% off. Flex has been retired.",
     "highlights": ["No DLL on Rapid & Pro", "No Activation Fee", "Daily Payouts (Rapid)"],
-    "bestFor": ["No DLL", "No Activation Fee", "Frequent Payouts"],
+    "bestFor": ["No DLL on Rapid & Pro", "No Activation Fee", "Frequent Payouts"],
     "stats": [
       ["Discount", "Up to 50%"],
       ["Plans", "Rapid · Rapid EOD · Pro · Builder"],
@@ -1446,11 +1446,11 @@ window.FIRMS = {
     "boxPreviews": {
       "deal": "Use code CHAMP at checkout · up to 50% off",
       "programs": "Rapid (daily) · Rapid EOD (daily, EOD drawdown) · Pro (bi-weekly) · Builder (path to live)",
-      "rules": "No DLL · no activation fee · 50% eval consistency (30% on Rapid EOD, none on Builder eval)",
+      "rules": "No DLL on Rapid, Rapid EOD & Pro · no activation fee · 50% eval consistency (30% on Rapid EOD, none on Builder eval)",
       "payouts": "Daily (Rapid / Rapid EOD) · bi-weekly (Pro) · every 48h (Builder sim)"
     },
     "boxMore": {
-      "deal": "Use code CHAMP at checkout (up to 50% off). MFF also rotates public per-plan promos (RAPID, EOD, UNCAPPED, builder) — CHAMP is Champ's affiliate code. All plans are one-time purchases (no monthly renewals since Aug 2026). List one-time pricing: Rapid $145 / $209 / $356 / $463 (25K-150K) · Rapid EOD $145 / $225 (25K/50K) · Pro $265 / $401 / $557 (50K-150K) · Builder $105 / $153 / $282 / $398 (25K-150K). Always verify current checkout pricing.",
+      "deal": "Use code CHAMP at checkout (up to 50% off). MFF also runs its own public promos (at our Oct 27, 2026 check: code CLUB = 40% off any plan, plus 50% off a first evaluation for new customers) — CHAMP is Champ's affiliate code, so compare both totals. All plans are one-time purchases (no monthly renewals since Aug 2026). List one-time pricing: Rapid $145 / $209 / $356 / $463 (25K-150K) · Rapid EOD $145 / $225 (25K/50K) · Pro $265 / $401 / $557 (50K-150K) · Builder $105 / $153 / $282 / $398 (25K-150K). Always verify current checkout pricing.",
       "programs": "RAPID — daily payouts · 25K-150K · 90/10 · EOD in eval, intraday trailing once funded (locks after a $100 buffer) · 2-day pass · 50% eval consistency\\nRAPID EOD — 25K/50K · daily payouts but EOD drawdown in funded (no intraday trail) · 90/10 · 4-day pass · 30% eval consistency\\nPRO — bi-weekly payouts · 50K-150K · 80/20 · up to $100K in sim payouts per user · no Tier-1 news · 2-day pass\\nBUILDER — 25K-150K eval · EOD trailing · 48-hour payouts · 80/20 · five-payout ladder to a real Live account at Blue Row Capital",
       "rules": "Rapid / Rapid EOD / Pro: NO DLL (Builder carries a per-size soft pause: $600 / $1,000 / $1,750 / $2,500), NO activation fee\\nRAPID: 2 min days · 50% eval consistency · min payout $500\\nRAPID EOD: 4 min days · 30% eval consistency · min payout $500\\nPRO: 2 min days · 50% eval consistency · max contracts 3 / 6 / 9 mini · no Tier-1 news when funded · must trade every 7 days · min payout $1,000\\nBUILDER: 1-day pass · no eval consistency · 50% consistency at payout stage · min 2 qualifying days per cycle · news unrestricted\\nACCOUNTS: up to 10 evals · 5 sim-funded if all 25K/50K, 3 if any 100K/150K · Builder 1 sim-funded (2 on 25K) · Rapid EOD 3 · copy trading allowed across your own accounts",
       "payouts": "RAPID / RAPID EOD: daily · first payout 24h after first trade once the buffer ($1,100 / $2,100 / $3,100 / $4,600) is cleared · min payout $500 · no per-payout cap stated (Rapid EOD: explicitly none) · $10K net profit in one day on Rapid auto-moves you Live (excess that day forfeited)\\nPRO: every 14 calendar days from first trade · buffer $2,100 / $3,100 / $4,600 (up to 60% of profit withdrawable before clearing it) · min payout $1,000 · $100K sim payout cap per user · 3 consecutive payouts or $20K profit triggers a Live review\\nBUILDER (sim): first request 48h after first trade · buffer $1,100 / $2,100 / $3,100 / $4,600 · min payout $250 / $500 / $1,000 / $1,500 · max $1,000 / $2,000 / $3,000 / $4,500 per cycle · 5 approved payouts unlocks a real Live account at Blue Row Capital (daily payouts, 80/20, EOD trailing, live DLL applies, no consistency)"
@@ -1517,7 +1517,7 @@ window.FIRMS = {
           ["Minimum Payout", "$500"],
           ["Activation Fee", "$0"],
           ["Platforms", "NinjaTrader · Tradovate · TradingView · Quantower · Hyperprop"],
-          ["Promo Code", "CHAMP (public promo: EOD)"]
+          ["Promo Code", "CHAMP"]
         ]
       },
       {
@@ -1566,7 +1566,7 @@ window.FIRMS = {
           ["Activation Fee", "$0 (one-time, no renewal)"],
           ["Path to Live", "5 approved sim payouts → real Live account at Blue Row Capital (daily payouts, 80/20, EOD trailing, live DLL applies, no consistency)"],
           ["Platforms", "NinjaTrader · Tradovate · TradingView · Quantower · Hyperprop"],
-          ["Promo Code", "CHAMP (public promo: builder)"]
+          ["Promo Code", "CHAMP"]
         ]
       }
     ],
@@ -1656,7 +1656,7 @@ window.FIRMS = {
         }
       }
     ],
-    "note": "My Funded Futures runs four products as of August 2026: Rapid (daily payouts, 90/10, EOD drawdown in eval then intraday trailing once funded — locks after a $100 buffer), Rapid EOD (25K/50K — daily payouts but end-of-day drawdown in the funded stage too, 4-day pass, 30% eval consistency), Pro (bi-weekly payouts, 80/20, up to $100K in sim payouts per user, no Tier-1 news trading), and Builder (25K-150K eval, 48-hour sim payouts, and a five-payout ladder to a real Live account at Blue Row Capital). All plans are one-time purchases (no monthly renewals, since Aug 2026). No plan carries a daily loss limit (Builder carries a per-size soft pause, $600–$2,500) or an activation fee. Code CHAMP takes up to 50% off; MFF also rotates public per-plan promos. Flex has been retired. Account limits: up to 10 evaluations; 5 sim-funded accounts if all are 25K/50K, 3 if any is 100K/150K; Builder allows 1 sim-funded account per user (2 on 25K) and Rapid EOD 3; copy trading is allowed across your own accounts (Tradesyncer, Tradovate group trading). MFF also sells limited 'Studio' plans (#001 $10K, #002 $20K, #003 $5K) on myfundedfutures.com/studio: static max loss, no DLL, no consistency rule, payouts anytime, 1 Studio account at a time."
+    "note": "My Funded Futures runs four products as of August 2026: Rapid (daily payouts, 90/10, EOD drawdown in eval then intraday trailing once funded — locks after a $100 buffer), Rapid EOD (25K/50K — daily payouts but end-of-day drawdown in the funded stage too, 4-day pass, 30% eval consistency), Pro (bi-weekly payouts, 80/20, up to $100K in sim payouts per user, no Tier-1 news trading), and Builder (25K-150K eval, 48-hour sim payouts, and a five-payout ladder to a real Live account at Blue Row Capital). All plans are one-time purchases (no monthly renewals, since Aug 2026). Rapid, Rapid EOD and Pro carry no daily loss limit (Builder has a per-size soft pause, $600–$2,500), and no plan has an activation fee. Code CHAMP is on file at up to 50% off; MFF also runs its own public promos (code CLUB = 40% off any plan at our Oct 27, 2026 check). Flex has been retired. Account limits: up to 10 evaluations; 5 sim-funded accounts if all are 25K/50K, 3 if any is 100K/150K; Builder allows 1 sim-funded account per user (2 on 25K) and Rapid EOD 3; copy trading is allowed across your own accounts (Tradesyncer, Tradovate group trading). MFF also sells limited 'Studio' plans (#001 $10K, #002 $20K, #003 $5K) on myfundedfutures.com/studio: static max loss, no DLL, no consistency rule, payouts anytime, 1 Studio account at a time."
   },
   "fundednext": {
     "slug": "fundednext",

@@ -485,7 +485,7 @@ ${faqSection}
   <div class="container">
     <div class="cta-card" data-reveal>
       <h2>Compare every futures prop firm</h2>
-      <p>Rules, drawdown method, payout split, and price — side by side, in one table, re-verified weekly.</p>
+      <p>Rules, drawdown method, payout split, and price — side by side, in one table, checked against each firm’s own help center.</p>
       <div class="cta-row">
         <a class="btn-primary" href="/compare">Compare firms
           <svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>

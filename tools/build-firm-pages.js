@@ -748,7 +748,7 @@ CONTENT['take-profit'] = function (f) {
   [targets, dds, monthly, resets, buffers, contracts].forEach(function (arr, k) { if (arr.length !== sizes.length) WARN.push('take-profit: size table column ' + k + ' has ' + arr.length + ' values for ' + sizes.length + ' sizes'); });
   var rows = sizes.map(function (s, i) { return [s, targets[i] || '—', dds[i] || '—', contracts[i] || '—', (monthly[i] || '—') + '/mo', resets[i] || '—', buffers[i] || '—']; });
   return {
-    title: 'Take Profit Trader Review ' + YEAR + ': PRO Rules, No DLL, 40% Off',
+    title: 'Take Profit Trader Review ' + YEAR + ': PRO Rules, No DLL, Payouts',
     meta: 'Take Profit Trader TEST → PRO → PRO+: no daily loss limit, daily payouts from day one (80/20 PRO, 90/10 PRO+), EOD vs intraday drawdown. CHAMP 40% off.',
     h1: ['Take Profit Trader', 'Review (' + YEAR + ')', ': TEST, PRO &amp; PRO+'],
     source: 'Take Profit Trader’s knowledge base',

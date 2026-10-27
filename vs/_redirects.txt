@@ -1,10 +1,15 @@
 # Reverse-order head-to-head URLs → the one canonical page per pair (paste into /_redirects)
+/vs/lucid-trading-vs-alpha-futures  /vs/alpha-futures-vs-lucid-trading  301
+/vs/tradeify-vs-alpha-futures  /vs/alpha-futures-vs-tradeify  301
 /vs/alpha-futures-vs-apex-trader-funding  /vs/apex-trader-funding-vs-alpha-futures  301
 /vs/lucid-trading-vs-apex-trader-funding  /vs/apex-trader-funding-vs-lucid-trading  301
 /vs/my-funded-futures-vs-apex-trader-funding  /vs/apex-trader-funding-vs-my-funded-futures  301
 /vs/take-profit-trader-vs-apex-trader-funding  /vs/apex-trader-funding-vs-take-profit-trader  301
 /vs/tradeify-vs-apex-trader-funding  /vs/apex-trader-funding-vs-tradeify  301
+/vs/lucid-trading-vs-fundednext  /vs/fundednext-vs-lucid-trading  301
 /vs/my-funded-futures-vs-fundednext  /vs/fundednext-vs-my-funded-futures  301
+/vs/my-funded-futures-vs-lucid-trading  /vs/lucid-trading-vs-my-funded-futures  301
+/vs/take-profit-trader-vs-lucid-trading  /vs/lucid-trading-vs-take-profit-trader  301
 /vs/tradeify-vs-lucid-trading  /vs/lucid-trading-vs-tradeify  301
 /vs/my-funded-futures-vs-take-profit-trader  /vs/take-profit-trader-vs-my-funded-futures  301
 /vs/my-funded-futures-vs-tradeify  /vs/tradeify-vs-my-funded-futures  301
