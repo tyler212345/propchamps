@@ -56,7 +56,7 @@
       </form>
       <div class="reassure">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        No spam, ever. Unsubscribe anytime.
+        No spam, ever. Unsubscribe anytime. <a href="/privacy" style="color:inherit;text-decoration:underline">Privacy</a>
       </div>
     </div>
 
@@ -79,7 +79,6 @@
       .then(function(r){return r.json().catch(function(){return {};});})
       .then(function(d){
         if(d&&d.ok){
-          try{localStorage.setItem('pc_checklist','1');}catch(_){}
           window.location.href='/checklist?welcome=1';
         }else{
           fail((d&&d.error==='bad_email')?'That email doesn’t look right — try again.':'Something went wrong. Please try again.');

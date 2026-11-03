@@ -1595,9 +1595,12 @@ export default {
       // Rewards program is HIDDEN (2026-09-01) — the prop firms said it breaks their
       // terms, so every rewards/giveaway page redirects home. The code + data are kept
       // intact for a possible future revival; to un-hide, remove this block and the
-      // rewards/win entries in .assetsignore. (The /api/* + /auth/* routes below still
-      // work so nothing breaks / data is reachable, but no page loads them.)
-      if (p === '/rewards' || p.startsWith('/rewards/') || p === '/win' || p === '/win.html' || p === '/win/') {
+      // rewards/win entries in .assetsignore. (The /api/* routes below still work so
+      // data is reachable, but no page loads them.)
+      // PropChamps sets NO cookies (2026-11-03): the Discord login under /auth/* is the
+      // only code that sets one (pc_session), so it stays switched off with Rewards.
+      // To revive Rewards, also delete the /auth/ check on the next line.
+      if (p === '/rewards' || p.startsWith('/rewards/') || p === '/win' || p === '/win.html' || p === '/win/' || p.startsWith('/auth/')) {
         return movedPermanently('/');
       }
 

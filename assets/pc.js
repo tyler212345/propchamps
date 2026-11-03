@@ -10,6 +10,10 @@
   var burger = doc.getElementById('pcBurger');
   var menu = doc.getElementById('pcMenu');
 
+  /* The old subscribe.js kept a copy of each newsletter signup (the email) in
+     localStorage. Clear it so no personal data stays in the visitor's browser. */
+  try { localStorage.removeItem('pc_newsletter_queue'); } catch (e) {}
+
   /* ---- Mobile menu ---- */
   function placeMenu() {
     if (!menu || !header) return;

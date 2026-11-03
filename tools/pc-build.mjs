@@ -143,7 +143,7 @@ function footer(page) {
       <div class="pc-foot-col"><h3>Learn</h3><ul><li><a href="/blog/">Blog</a></li><li><a href="/guide">Beginner's guide</a></li><li><a href="/tools/">Free tools</a></li><li><a href="/tools/prop-firm-drawdown-calculator">Drawdown calculator</a></li><li><a href="/tools/prop-firm-consistency-calculator">Consistency calculator</a></li></ul></div>
       <div class="pc-foot-col"><h3>PropChamps</h3><ul><li><a href="/methodology">How we audit</a></li><li><a href="/audit-log">Audit log</a></li><li><a href="/join">Join the list</a></li><li><a href="mailto:hello@propchamps.net">Contact</a></li></ul></div>
     </div>
-    <div class="pc-foot-legal"><div>© 2026 PropChamps. Independent prop firm research — not financial advice. Futures trading involves substantial risk of loss.</div><div><a href="/privacy">Privacy</a> · <a href="/methodology#disclosure">Affiliate disclosure</a></div></div>
+    <div class="pc-foot-legal"><div>© 2026 PropChamps. Independent prop firm research — not financial advice. Futures trading involves substantial risk of loss.</div><div><a href="/privacy#cookies">No cookies</a> · <a href="/privacy">Privacy</a> · <a href="/methodology#disclosure">Affiliate disclosure</a></div></div>
   </div>
 </footer>
 <!-- /pc:footer -->`;
@@ -301,3 +301,26 @@ for (const f of CSS_FILES) {
 console.log(report.join('\n'));
 console.log(`\nassets hash ${hash} · ${report.filter((r) => /updat|reskin/.test(r)).length} files touched`);
 if (ratingHits.length) { console.error('\nRATING GUARD — remove these before deploying:\n  ' + ratingHits.join('\n  ')); process.exit(1); }
+
+// PropChamps sets no cookies and runs no trackers (privacy.html#cookies says so): fail the build
+// if any served page or script starts using cookies, analytics/ad pixels, or the cookie-setting
+// youtube.com embed (use youtube-nocookie.com).
+const TRACKER_GUARD = [/document\.cookie/, /googletagmanager\.com|google-analytics\.com|\bgtag\(/, /connect\.facebook\.net|\bfbq\(/,
+  /clarity\.ms|hotjar|analytics\.tiktok\.com|static\.cloudflareinsights\.com|plausible\.io|posthog|mixpanel|cdn\.segment/, /www\.youtube\.com\/embed/];
+const trackerHits = [];
+const served = walk('').concat(['checklist/index.html', 'checklist/signup.html'].filter((f) => fs.existsSync(path.join(ROOT, f))));
+const scripts = ['subscribe.js', 'vs/vs.js', 'best/best.js'].concat(fs.readdirSync(path.join(ROOT, 'assets')).filter((n) => n.endsWith('.js')).map((n) => 'assets/' + n));
+for (const f of served.concat(scripts)) {
+  const txt = fs.readFileSync(path.join(ROOT, f), 'utf8');
+  for (const re of TRACKER_GUARD) if (re.test(txt)) trackerHits.push(`${f}: ${re.source}`);
+}
+if (trackerHits.length) { console.error('\nNO-COOKIE GUARD — remove these before deploying:\n  ' + trackerHits.join('\n  ')); process.exit(1); }
+
+// Desktop sync can drop "name 2.html" copies next to real pages; a generator that scans the
+// folder would then link to them. No real page URL contains whitespace, so fail on any such link.
+const spaceLinks = [];
+for (const f of walk('')) {
+  const m = fs.readFileSync(path.join(ROOT, f), 'utf8').match(/href="\/[^"'+]*\s[^"'+]*"/g);
+  if (m) spaceLinks.push(`${f}: ${[...new Set(m)].join(', ')}`);
+}
+if (spaceLinks.length) { console.error('\nLINK GUARD — links to files with spaces (sync duplicates?):\n  ' + spaceLinks.join('\n  ')); process.exit(1); }
