@@ -18,9 +18,19 @@
 
   /* Payout totals: only firm-published figures are shown. Lucid's stored figure is
      under review (it doesn't match what Lucid advertises), so it is never displayed;
-     FundedNext's published total covers all of its programs, not futures alone. */
-  var TOTAL_OVERRIDE = { 'lucid-trading': '<span class="faint">Not verified yet</span>' };
+     FundedNext's published total covers all of its programs, not futures alone;
+     Vest Capital publishes no total at all. */
+  var TOTAL_OVERRIDE = { 'lucid-trading': '<span class="faint">Not verified yet</span>', 'vest-capital': '<span class="faint">Not published</span>' };
   var TOTAL_NOTE = { 'fundednext': ' <span class="faint">(all FundedNext programs)</span>' };
+  /* Payout times that are the firm's own stated figure, not a PropChamps estimate. */
+  var TIME_NOTE = { 'vest-capital': ' <span class="faint">(Vest-stated claim processing)</span>' };
+  /* Firms that aren't CME futures firms, or whose figures come from a later check than CHECKED
+     (appended to the matrix note whenever the firm is on the page). */
+  var FIRM_NOTE = { 'vest-capital': "Vest Capital is multi-asset: its accounts trade USDC perpetual contracts on Vest's own venue, not CME futures, and its figures are from Vest's site, Nov 5, 2026. Its payout time is Vest's stated claim processing time." };
+  /* Affiliate CTA label: "Get X deal" only once the firm's PropChamps link is confirmed
+     (firms.js affiliatePending: true means affiliateUrl is still the plain landing page). */
+  function ctaLabel(f){ return f.affiliatePending ? 'Visit ' + esc(f.name) : 'Get ' + esc(f.name) + ' deal'; }
+  function ctaRel(f){ return f.affiliatePending ? 'noopener' : 'sponsored noopener'; }
 
   function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   function attr(s){ return esc(s).replace(/"/g,'&quot;'); }
@@ -48,11 +58,11 @@
     ['Payout split', function(f,fp){ return rule(fp,'Payout Split'); }],
     ['Payout frequency', function(f,fp){ return rule(fp,'Payout Frequency'); }],
     ['Max payout', function(f,fp){ return rule(fp,'Max Payout'); }],
-    ['Median payout time (PropChamps est.)', function(f){ return f.payoutMedianTime || ''; }],
+    ['Median payout time (PropChamps est.)', function(f){ return f.payoutMedianTime ? esc(f.payoutMedianTime) + (TIME_NOTE[f.slug] || '') : ''; }, true],
     ['Total paid out (firm-published)', function(f){ return TOTAL_OVERRIDE[f.slug] || (f.payoutTotal ? esc(f.payoutTotal) + (TOTAL_NOTE[f.slug] || '') : ''); }, true],
     ['Activation fee', function(f,fp){ return rule(fp,'Activation Fee'); }],
     ['Platforms', function(f,fp){ return rule(fp,'Platforms') || (f.platformsList||[]).join(' · '); }],
-    ['Promo code', function(f){ return f.promo ? (f.promo.code + (f.promo.discount && f.promo.discount!=='See pricing' ? ' — '+f.promo.discount : ' — applied at checkout')) : ''; }]
+    ['Promo code', function(f){ if (f.affiliatePending) return 'No PropChamps code yet'; return f.promo ? (f.promo.code + (f.promo.discount && f.promo.discount!=='See pricing' ? ' — '+f.promo.discount : ' — applied at checkout')) : ''; }]
   ];
 
   PCVS.featured = featured;
@@ -83,8 +93,9 @@
 
   PCVS.noteText = function(a, b){
     var fa = featured(a), fb = featured(b);
+    var extra = [a, b].filter(function(f){ return FIRM_NOTE[f.slug]; }).map(function(f){ return ' ' + FIRM_NOTE[f.slug]; }).join('');
     return 'Featured plans compared: ' + a.name + ' ' + planLabel(fa.name) + ' vs ' + b.name + ' ' + planLabel(fb.name) +
-      '. Figures from our ' + CHECKED + ' rules check; median payout times are PropChamps estimates, not firm data. Always confirm at checkout.';
+      '. Figures from our ' + CHECKED + ' rules check; median payout times are PropChamps estimates, not firm data.' + extra + ' Always confirm at checkout.';
   };
 
   PCVS.firmCardHTML = function(f){
@@ -93,7 +104,7 @@
       '<div class="vs-firm-head"><div class="vs-firm-logo"><img src="'+attr(f.logo)+'" alt="'+attr(f.name)+' logo" width="54" height="54"></div>'+
         '<div><div class="vs-firm-name">'+esc(f.name)+'</div><div class="vs-firm-type">'+esc(f.type||'')+'</div></div></div>'+
       '<div class="vs-firm-chips">'+chips+'</div>'+
-      '<a class="vs-cta" href="'+attr(f.affiliateUrl||'#')+'" target="_blank" rel="sponsored noopener">Get '+esc(f.name)+' deal</a>'+
+      '<a class="vs-cta" href="'+attr(f.affiliateUrl||'#')+'" target="_blank" rel="'+ctaRel(f)+'">'+ctaLabel(f)+'</a>'+
     '</div>';
   };
 
@@ -101,7 +112,7 @@
 
   /* Pick-card CTA (same markup the builder writes statically). */
   PCVS.ctaHTML = function(side, f){
-    return '<a class="vs-cta" data-vs-cta="'+side+'" href="'+attr(f.affiliateUrl||'#')+'" target="_blank" rel="sponsored noopener">Get '+esc(f.name)+' deal'+ARROW+'</a>';
+    return '<a class="vs-cta" data-vs-cta="'+side+'" href="'+attr(f.affiliateUrl||'#')+'" target="_blank" rel="'+ctaRel(f)+'">'+ctaLabel(f)+ARROW+'</a>';
   };
 
   root.PCVS = PCVS;
@@ -121,8 +132,8 @@
     document.querySelectorAll('[data-vs-name="'+side+'"]').forEach(function(el){ el.textContent = f.name; });
     document.querySelectorAll('[data-vs-logo="'+side+'"]').forEach(function(el){ el.src = f.logo; el.alt = f.name + ' logo'; });
     document.querySelectorAll('[data-vs-cta="'+side+'"]').forEach(function(el){
-      if (f.affiliateUrl){ el.href = f.affiliateUrl; el.target = '_blank'; el.rel = 'sponsored noopener'; }
-      if (!el.dataset.keepText){ el.innerHTML = 'Get ' + esc(f.name) + ' deal' + ARROW; }
+      if (f.affiliateUrl){ el.href = f.affiliateUrl; el.target = '_blank'; el.rel = ctaRel(f); }
+      if (!el.dataset.keepText){ el.innerHTML = ctaLabel(f) + ARROW; }
     });
   }
   fill('a', a); fill('b', b);

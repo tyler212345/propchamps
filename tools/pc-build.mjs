@@ -72,16 +72,25 @@ const DISCORD_URL = 'https://discord.gg/oasisalerts';
 const TICKER = [
   ['apex-trader', 'Apex'], ['top-one-futures', 'Top One'], ['my-funded-futures', 'My Funded Futures'],
   ['take-profit', 'Take Profit'], ['alpha-futures', 'Alpha Futures'], ['fundednext', 'FundedNext'],
-  ['tradeify', 'Tradeify'], ['lucid-trading', 'Lucid'],
+  ['tradeify', 'Tradeify'], ['lucid-trading', 'Lucid'], ['vest-capital', 'Vest'],
 ];
 function dealLabel(f) {
   const d = String((f.promo && f.promo.discount) || '');
   return /\d+\s*%/.test(d) ? d.toUpperCase() : 'USE CHAMP';
 }
+// affiliatePending (data/firms.js) = no PropChamps code at the firm yet, so it has no deal to show: it gets a
+// neutral, code-free label (never dealLabel / CHAMP). It switches to its deal label once the owner swaps in
+// its code and deletes the flag.
+function pendingLabel(f) { return f.assetClass && f.assetClass !== 'futures' ? 'NEW · MULTI-ASSET' : 'NEW'; }
 const tickerItems = TICKER.filter(([s]) => FIRMS[s] && FIRMS[s].live !== false)
-  .map(([s, short]) => `<span class="pc-tk"><b>${short}</b> <em>${dealLabel(FIRMS[s])}</em></span><span class="pc-tk-sep">✦</span>`)
+  .map(([s, short]) => `<span class="pc-tk"><b>${short}</b> <em>${FIRMS[s].affiliatePending ? pendingLabel(FIRMS[s]) : dealLabel(FIRMS[s])}</em></span><span class="pc-tk-sep">✦</span>`)
   .join('');
 const tickerGroup = `<span class="pc-tk pc-tk-code">Use code <b>CHAMP</b></span><span class="pc-tk-sep">✦</span>${tickerItems}`;
+// Footer claim about where CHAMP works: "every one" only while no live firm is affiliatePending.
+// Vest (multi-asset) has no code yet, so it reads "every futures firm" until the flag is deleted.
+const codePending = Object.values(FIRMS).filter((f) => f.live !== false && f.affiliatePending);
+const CODE_REACH = !codePending.length ? 'every one'
+  : codePending.every((f) => f.assetClass && f.assetClass !== 'futures') ? 'every futures firm' : 'most of them';
 
 const NAV = [
   ['firms', '/firms/', 'Firms', 'Every firm we cover, ranked'],
@@ -135,7 +144,7 @@ function footer(page) {
     <div class="pc-foot-grid">
       <div class="pc-foot-brand">
         <a class="pc-logo" href="/" aria-label="PropChamps home"><img class="pc-logo-mark" src="/logos/pc-mark.png" alt="" width="26" height="34" loading="lazy"><img class="pc-logo-word" src="/logos/pc-wordmark.png" alt="PropChamps" width="144" height="15" loading="lazy"></a>
-        <p>Futures prop firms, compared straight. We track rules, payouts and prices across every firm we cover — and code CHAMP is set up at every one.</p>
+        <p>Futures prop firms, compared straight. We track rules, payouts and prices across every firm we cover — and code CHAMP is set up at ${CODE_REACH}.</p>
         <div class="pc-social"><a href="${YT_URL}" target="_blank" rel="noopener">${YT} YouTube</a><a href="${DISCORD_URL}" target="_blank" rel="noopener">${DC} Discord</a></div>
       </div>
       <div class="pc-foot-col"><h3>Explore</h3><ul><li><a href="/firms/">Firms</a></li><li><a href="/compare">Compare</a></li><li><a href="/vs/">Head-to-heads</a></li><li><a href="/deals">Deals</a></li><li><a href="/payouts">Payouts</a></li><li><a href="/start/">Build your plan</a></li></ul></div>

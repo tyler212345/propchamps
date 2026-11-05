@@ -27,6 +27,16 @@
 */
 window.CHANGELOG = [
   {
+    date: '2026-11-05', firm: 'vest-capital', firmName: 'Vest Capital', logo: '/logos/vest.png',
+    category: 'feature',
+    headline: 'Vest Capital added as our first multi-asset firm',
+    was: '',
+    is: 'Vest Capital is now covered: Instant, 1-Step and a builder-only 2-Step on USDC perpetual contracts on Vest\'s own venue, not CME futures. Instant runs $10 to $2,000 for $500 to $50K accounts, 1-Step $75 to $745 and 2-Step $15 to $175 (Vest\'s site, Nov 5, 2026)',
+    note: 'Crypto trades 24/7 and stocks, ETFs, indices (including ES and NQ perps), FX and commodities 24/5, with hourly funding, so Vest is labelled multi-asset everywhere and kept out of futures-only claims. Vest\'s Prop Trading Terms say every account, Instant included, is simulated, and payouts are compensation from Vest\'s own funds; profit claims are processed in 24 hours and withdrawn as USDC to a crypto wallet. US eligibility is unconfirmed (the Prop Terms allow US residents, the Exchange Terms bar US persons), the operator is Vest Exchange Inc., a Panama company, and Vest publishes no payout total. We had no PropChamps code at Vest when we added it.',
+    source: 'https://next.vestmarkets.com/vest-capital',
+    firmPage: 'vest-capital'
+  },
+  {
     date: '2026-10-23', firm: 'tradeify', firmName: 'Tradeify', logo: '/logos/tradify.png',
     category: 'payout', correction: true,
     headline: 'Tradeify Lightning pays every 5 days, not on demand',

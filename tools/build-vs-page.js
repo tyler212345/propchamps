@@ -134,6 +134,13 @@ const PRICE_SRC = {
     'EOD': { plan: 'EOD Trail', field: 'Eval Price (list)', billing: 'One-time', basis: 'list', label: 'EOD Trail · Standard', sub: '+ funded activation fee' },
     'EOD NA': { plan: 'EOD Trail', field: 'No-Activation Price (list)', billing: 'One-time', basis: 'list', label: 'EOD Trail · No activation fee' },
   },
+  /* Multi-asset (USDC perpetuals, not CME futures); sizes run $500-$50K, so its columns are 0.5K-50K. */
+  'vest-capital': {
+    'Instant': { plan: 'Instant', field: 'Price (one-time)', billing: 'One-time', basis: 'list', sub: 'no evaluation' },
+    '1-Step': { plan: '1-Step Evaluation', field: 'Price, no daily loss limit (default)', billing: 'One-time', basis: 'list', label: '1-Step · no daily loss limit' },
+    '1-Step DLL': { plan: '1-Step Evaluation', field: 'Price with the 3% daily loss limit', billing: 'One-time', basis: 'list', label: '1-Step · 3% daily loss limit' },
+    '2-Step': { plan: '2-Step Evaluation (builder only)', field: 'Price (one-time)', billing: 'One-time', basis: 'list', label: '2-Step', sub: "only in Vest's custom builder" },
+  },
 };
 
 const LUCID4 = ['LUCID PRO', 'LUCID FLEX', 'LUCID DAILY', 'LUCID DIRECT'];
@@ -143,6 +150,7 @@ const MFF4 = ['FUNDED FUTURES RAPID', 'RAPID EOD', 'FUNDED FUTURES PRO', 'BUILDE
 const FN4 = ['FLEX', 'LEGACY', 'RAPID — PRO', 'RAPID — DAILY'];
 const APEX2 = ['INTRADAY TRAIL', 'EOD TRAIL'];
 const TPT1 = ['EVALUATION'];
+const VEST3 = ['Instant', '1-Step Evaluation', '2-Step Evaluation']; // for a future Vest Capital pair (no page yet)
 
 const TABLES = {
   'lucid-trading-vs-tradeify': { plans: { a: LUCID4, b: TRADEIFY4 }, prices: ['a:Pro', 'a:Flex', 'a:Direct', 'b:Growth', 'b:Select', 'b:Lightning'] },
@@ -168,10 +176,16 @@ const TABLES = {
 const SOURCE_NOTE = {
   'tradeify': "Tradeify's help center blocked our October check, so its per-payout caps, minimums and buffers come from search-engine excerpts of that help center; its prices, splits, frequency and drawdowns were read on tradeify.co. Confirm in your dashboard.",
   'apex-trader': "Apex's site blocked our October check, so its payout rules come from our September audit and search-engine excerpts of its help center. The caps for payouts 2-5 are the least certain figure. Confirm in your dashboard.",
+  'vest-capital': "Vest Capital: claim profit any time, processed in 24 hours, into your Vest Primary Account; you then withdraw USDC to a crypto wallet (no fiat payout is documented). Vest's Prop Trading Terms say every account, Instant included, is simulated and payouts are compensation from Vest's own funds. US eligibility is unconfirmed (its Exchange Terms bar US persons), so US traders should confirm with Vest before buying. Vest's site, Nov 5, 2026.",
 };
 /* Price-table caveats (shown under g:prices whenever the firm is on the page). */
 const PRICE_NOTE = {
   'apex-trader': "Apex's site blocked our October re-check, so these are its list prices from our earlier audits. Two Intraday Trail No-Activation prices don't follow the pattern: 25K ($690) is above 50K ($490), and 100K ($590) is below the 100K Standard build ($790). We couldn't confirm them, so check the price at checkout.",
+  'vest-capital': "Vest Capital's prices are one-time fees read on Vest's site on Nov 5, 2026, for accounts from $500 to $50K. Its custom 1-Step builder prices every other mix of target, drawdown, daily limit and split separately, from $20 to $2,170.",
+};
+/* Rules-table caveats for firms that aren't CME futures firms (shown under g:rules whenever the firm is on the page). */
+const MARKET_NOTE = {
+  'vest-capital': "Vest Capital is multi-asset, not a futures firm: every market is a USDC-settled perpetual contract on Vest's own venue (including ES and NQ perps that track the index futures), crypto trades 24/7 and other markets 24/5, with hourly funding. Its drawdown is a static floor that counts open PnL. Operator: Vest Exchange Inc., Panama. Rules from Vest's site, Nov 5, 2026.",
 };
 
 /* Known-stale plansSummary values, corrected to the Oct 23, 2026 help-center reading
@@ -212,7 +226,9 @@ function champPct(k) {
   const m = d.match(/(\d+)\s*%/);
   return /up to/i.test(d) || !m ? null : Number(m[1]);
 }
-const SIZE_ORDER = ['25K', '50K', '75K', '100K', '150K', '300K'];
+const SIZE_ORDER = ['0.5K', '5K', '10K', '25K', '50K', '75K', '100K', '150K', '300K'];
+/* "$5K" → "5K", "$500" → "0.5K", "25K" unchanged (Vest Capital writes its sizes with a $). */
+const sizeKey = (s) => String(s).replace(/^\$/, '').replace(/^(\d+)$/, (m, n) => Number(n) / 1000 + 'K');
 
 /* ---------- table renderers ---------- */
 function planCell(k, name, sizes) {
@@ -228,8 +244,9 @@ function rulesTable(spec, ak, bk) {
     const brk = i > 0 && rows[i - 1][0] !== k ? ' class="firm-break"' : '';
     body += `<tr${brk}>${planCell(k, n, p.rules['Account Sizes'])}<td>${val(k, p, 'Profit Target')}</td><td>${val(k, p, 'Max Drawdown')}<span class="sub">${val(k, p, 'Drawdown Type')}</span></td><td>${val(k, p, 'Daily Loss Limit')}</td><td>${val(k, p, 'Consistency Rule')}</td><td>${val(k, p, 'Min. Trading Days')}</td></tr>`;
   });
+  const notes = [ak, bk].filter((k) => MARKET_NOTE[k]).map((k) => `<p class="table-note">${esc(MARKET_NOTE[k])}</p>`).join('');
   return `<div class="table-wrap"><table class="data"><thead><tr><th scope="col">Plan · sizes</th><th scope="col">Profit target</th><th scope="col">Max drawdown</th><th scope="col">Daily loss limit</th><th scope="col">Consistency</th><th scope="col">Min. days</th></tr></thead><tbody>${body}</tbody></table></div>` +
-    `<p class="table-note">Values by account size, smallest to largest, from each firm's plan rules in our ${fmtDate(MODIFIED).replace(/ \d+,/, '')} data. "Funded" (or "qualified") means the sim-funded stage after you pass.</p>`;
+    `<p class="table-note">Values by account size, smallest to largest, from each firm's plan rules in our ${fmtDate(MODIFIED).replace(/ \d+,/, '')} data. "Funded" (or "qualified") means the sim-funded stage after you pass.</p>` + notes;
 }
 
 function payoutsTable(spec, ak, bk) {
@@ -261,6 +278,7 @@ function priceRows(keys, ak, bk) {
       sizes = splitList(detailedField(p, 'Account Sizes'));
       prices = dollars(detailedField(p, src.field), src.after);
     }
+    sizes = sizes.map(sizeKey);
     prices = prices.slice(0, sizes.length);
     if (prices.length !== sizes.length) throw new Error(`price/size mismatch for ${k} ${pk}: ${sizes} vs ${prices}`);
     const bySize = {}; sizes.forEach((s, i) => { bySize[s] = prices[i]; });
@@ -279,7 +297,7 @@ function pricesTable(keys, ak, bk, opts) {
     const bill = esc(r.src.billing) + `<span class="sub">${esc(BASIS[r.src.basis])}${r.src.sub ? ' · ' + esc(r.src.sub) : ''}</span>`;
     body += `<tr${brk}><td class="firm-c"><span class="pl-firm">${esc(FIRMS[r.k].name)}</span><b>${esc(r.label)}</b></td><td>${bill}</td>` +
       sizes.map((s) => `<td class="num">${r.bySize[s] ? esc(r.bySize[s]) : '<span class="faint">—</span>'}</td>`).join('') + '</tr>';
-    const pct = r.src.basis === 'champ' || unconfirmed.has(r.k) ? null : champPct(r.k);
+    const pct = r.src.basis === 'champ' || unconfirmed.has(r.k) || FIRMS[r.k].affiliatePending ? null : champPct(r.k);
     if (pct) {
       body += `<tr class="champ"><td class="firm-c">With CHAMP (−${pct}%)</td><td>Our math</td>` +
         sizes.map((s) => `<td class="num">${r.bySize[s] ? esc(money(Math.round(num(r.bySize[s]) * (100 - pct)) / 100)) : '<span class="faint">—</span>'}</td>`).join('') + '</tr>';
@@ -287,6 +305,7 @@ function pricesTable(keys, ak, bk, opts) {
   });
   const discounts = [ak, bk].map((k) => {
     const d = String((FIRMS[k].promo && FIRMS[k].promo.discount) || '');
+    if (FIRMS[k].affiliatePending) return `${FIRMS[k].name}: we don't have a PropChamps code for it yet, so these are its list prices`;
     if (k === 'lucid-trading') return `${FIRMS[k].name}: the prices shown already include CHAMP, as seen at checkout on Oct 5, 2026 (Lucid's site blocked our Oct 23 re-check), and we haven't confirmed whether its evaluations renew monthly`;
     if (unconfirmed.has(k)) return `${FIRMS[k].name}: CHAMP is applied at checkout, but we couldn't confirm its rate`;
     if (/\d+\s*%/.test(d) && !/up to/i.test(d)) return `${FIRMS[k].name}: CHAMP is ${d.toLowerCase()} in our deal data`;
@@ -645,6 +664,18 @@ function hubPage(disk) {
   const built = disk.filter((p) => ORDER.includes(p.pair[0]) && ORDER.includes(p.pair[1])).length;
   const title = 'Prop Firm Comparisons: Every Head-to-Head';
   const desc = 'Every futures prop firm head-to-head we publish, pair by pair: Apex, Tradeify, Lucid, Alpha, MFF, Take Profit Trader, FundedNext and Top One.';
+  /* Multi-asset firms (firms.js assetClass) sit in the matrix too, but are labelled as not CME futures. */
+  const multi = ORDER.filter((k) => FIRMS[k].assetClass === 'multi-asset');
+  const futuresN = ORDER.length - multi.length;
+  const multiNames = multi.map((k) => FIRMS[k].name).join(' and ');
+  const auditSet = multi.length
+    ? `the ${ORDER.length} prop firms we audit: ${futuresN} futures firms and ${multiNames}, ${multi.length === 1 ? 'a multi-asset firm whose accounts trade' : 'multi-asset firms whose accounts trade'} perpetual contracts, not CME futures`
+    : `the ${ORDER.length} futures prop firms we audit`;
+  const multiIntro = multi.length ? ` ${multiNames} ${multi.length === 1 ? 'is' : 'are'} multi-asset (perpetual contracts, not CME futures), so a pair with ${multi.length === 1 ? 'it' : 'one'} compares different markets.` : '';
+  const multiChip = (k) => (FIRMS[k].assetClass === 'multi-asset' ? '<span class="vs-chip">Multi-asset · not CME futures</span>' : '');
+  const noPairText = (k) => (FIRMS[k].assetClass === 'multi-asset'
+    ? `${FIRMS[k].name} trades perpetual contracts, not CME futures, so we haven't paired it with a futures firm yet. Read the full review, or line it up against every firm on the comparison chart.`
+    : `Read the full ${FIRMS[k].name} review, or line it up against every firm on the comparison chart.`);
   const head = ORDER.map((k) => `<th scope="col">${esc(shortName(k))}</th>`).join('');
   const rows = ORDER.map((r) => `<tr><th scope="row">${esc(shortName(r))}</th>` + ORDER.map((c) => {
     if (r === c) return '<td class="self" aria-label="same firm"></td>';
@@ -655,9 +686,9 @@ function hubPage(disk) {
     const mine = disk.filter((p) => p.pair.includes(k)).sort((x, y) => ORDER.indexOf(x.pair[0] === k ? x.pair[1] : x.pair[0]) - ORDER.indexOf(y.pair[0] === k ? y.pair[1] : y.pair[0]));
     const blurb = (m) => m.replace(/\s+(?:Rules and our pick|Our pick|Side by side|Compared)\.$/, '');
     const cards = mine.map((p) => `        <a class="hub-card" href="/vs/${p.vsSlug}"><b>${esc(p.h1)}</b><span>${esc(blurb(p.meta))}</span></a>`);
-    if (!mine.length) cards.push(`        <a class="hub-card muted" href="${reviewPath(k)}"><b>No head-to-head yet</b><span>Read the full ${esc(FIRMS[k].name)} review, or line it up against every firm on the comparison chart.</span></a>`);
+    if (!mine.length) cards.push(`        <a class="hub-card muted" href="${reviewPath(k)}"><b>No head-to-head yet</b><span>${esc(noPairText(k))}</span></a>`);
     return `    <div class="hub-group" id="${vsSlugOf(k)}">
-      <h3><img src="${attr(FIRMS[k].logo)}" alt="" width="32" height="32">${esc(FIRMS[k].name)} <small>${mine.length} comparison${mine.length === 1 ? '' : 's'}</small></h3>
+      <h3><img src="${attr(FIRMS[k].logo)}" alt="" width="32" height="32">${esc(FIRMS[k].name)} ${multiChip(k)}<small>${mine.length} comparison${mine.length === 1 ? '' : 's'}</small></h3>
       <div class="hub-cards">
 ${cards.join('\n')}
       </div>
@@ -691,7 +722,7 @@ ${FONTS}
     <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>Comparisons</span></nav>
     <div class="hero-eyebrow">Head-to-heads · ${YEAR}</div>
     <h1>Prop firm comparisons</h1>
-    <p class="hero-sub">Every head-to-head we publish between the ${ORDER.length} futures prop firms we audit. Each one compares the plans, prices, payout rules and caps side by side, with the numbers taken from our firm database.</p>
+    <p class="hero-sub">Every head-to-head we publish between ${esc(auditSet)}. Each one compares the plans, prices, payout rules and caps side by side, with the numbers taken from our firm database.</p>
     <div class="hub-stats"><span class="hub-stat"><b>${built}</b> of ${total} pairs covered</span><span class="hub-stat"><b>${ORDER.length}</b> firms audited</span><span class="hub-stat">Updated <b>${fmtDate(MODIFIED)}</b></span></div>
   </div>
 </section>
@@ -700,7 +731,7 @@ ${FONTS}
   <div class="container">
     <div class="section-eyebrow">Find a matchup</div>
     <h2 class="section-h2">Every pair, at a glance.</h2>
-    <p class="section-intro">Pick a firm on the left and a rival along the top. Pairs we haven't written up yet are marked with a dot; you can still line any firms up on the <a href="/compare" style="color:var(--lime-text);border-bottom:1px solid var(--border-lime)">comparison chart</a>.</p>
+    <p class="section-intro">Pick a firm on the left and a rival along the top. Pairs we haven't written up yet are marked with a dot; you can still line any firms up on the <a href="/compare" style="color:var(--lime-text);border-bottom:1px solid var(--border-lime)">comparison chart</a>.${esc(multiIntro)}</p>
     <div class="table-wrap"><table class="pairs"><thead><tr><th scope="col"><span class="faint">Firm</span></th>${head}</tr></thead><tbody>
 ${rows}
 </tbody></table></div>

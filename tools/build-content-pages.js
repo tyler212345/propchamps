@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /**
  * build-content-pages.js — Pre-render the data-driven utility pages
- * (/deals, /payouts, /audit-log, /compare) plus the generated link blocks on
- * /, /guide and /methodology, from data/firms.js + data/changelog.js.
+ * (/deals, /payouts, /audit-log, /compare) plus the generated link blocks and
+ * firm counts on /, /guide, /methodology and /join, from data/firms.js +
+ * data/changelog.js.
  *
  * WHY: like the firm pages, these were thin client-side-rendered shells —
  * the content only appeared after JS ran. This bakes each page's content into
@@ -44,19 +45,46 @@ if (!FIRMS) { console.error('Could not load window.FIRMS from data/firms.js'); p
 
 // slug -> firm page slug (clean URL /firms/<page>). The "take-profit" data slug
 // lives at /firms/take-profit-trader. Every firm must be here.
-var FIRM_PAGE = { 'lucid-trading': 'lucid-trading', 'tradeify': 'tradeify', 'alpha-futures': 'alpha-futures', 'apex-trader': 'apex-trader', 'my-funded-futures': 'my-funded-futures', 'top-one-futures': 'top-one-futures', 'take-profit': 'take-profit-trader', 'fundednext': 'fundednext' };
+var FIRM_PAGE = { 'lucid-trading': 'lucid-trading', 'tradeify': 'tradeify', 'alpha-futures': 'alpha-futures', 'apex-trader': 'apex-trader', 'my-funded-futures': 'my-funded-futures', 'top-one-futures': 'top-one-futures', 'take-profit': 'take-profit-trader', 'fundednext': 'fundednext', 'vest-capital': 'vest-capital' };
 Object.keys(FIRMS).forEach(function (s) { if (!FIRM_PAGE[s]) console.warn('  ! no firm page mapped for slug "' + s + '" — add it to FIRM_PAGE (links will go to /firms/)'); });
 function firmUrl(slug) { return FIRM_PAGE[slug] ? '/firms/' + FIRM_PAGE[slug] : '/firms/'; }
 
 // Short display names for link labels and chips.
-var SHORT = { 'apex-trader': 'Apex', 'tradeify': 'Tradeify', 'lucid-trading': 'Lucid Trading', 'alpha-futures': 'Alpha Futures', 'take-profit': 'Take Profit Trader', 'top-one-futures': 'Top One Futures', 'my-funded-futures': 'My Funded Futures', 'fundednext': 'FundedNext' };
+var SHORT = { 'apex-trader': 'Apex', 'tradeify': 'Tradeify', 'lucid-trading': 'Lucid Trading', 'alpha-futures': 'Alpha Futures', 'take-profit': 'Take Profit Trader', 'top-one-futures': 'Top One Futures', 'my-funded-futures': 'My Funded Futures', 'fundednext': 'FundedNext', 'vest-capital': 'Vest Capital' };
 function shortName(f) { return SHORT[f.slug] || f.name; }
+// assetClass "multi-asset" (Vest Capital: USDC perpetuals on its own venue) = not a CME-futures firm.
+// Futures-only claims ("N futures firms") count FUTURES; multi-asset firms are labelled wherever they appear.
+function isMulti(f) { return !!f && f.assetClass === 'multi-asset'; }
+// affiliatePending = no PropChamps code/link at the firm yet (firms.js placeholders). Nothing may say a
+// CHAMP code or discount works there until the owner swaps the real values in and deletes the flag.
+function isPending(f) { return !!f && !!f.affiliatePending; }
+function promoCode(f) { return (f.promo && f.promo.code) || 'CHAMP'; }
+// data-code only when a firm's code isn't CHAMP, so the copy handlers copy the right code
+function codeAttr(f) { var c = promoCode(f); return c === 'CHAMP' ? '' : ' data-code="' + escAttr(c) + '"'; }
 // vs-page slugs use the firms' search names, which differ from two data slugs
 var VS_TO_DATA = { 'apex-trader-funding': 'apex-trader', 'take-profit-trader': 'take-profit' };
 
 // Object.values insertion order, live firms only — matches every page's JS
 const LIVE = Object.values(FIRMS).filter(function (f) { return f && f.live !== false; });
 const PLAN_COUNT = LIVE.reduce(function (s, f) { return s + (f.plansSummary || []).length; }, 0);
+const FUTURES = LIVE.filter(function (f) { return !isMulti(f); });
+const MULTI = LIVE.filter(isMulti);
+const PENDING = LIVE.filter(isPending);
+// editorial rank order, read from the /firms/ hub (RANK_ORDER in its inline JS)
+var RANK_ORDER = (function () {
+  var m = fs.readFileSync(path.join(ROOT, 'firms', 'index.html'), 'utf8').match(/var RANK_ORDER = \[([^\]]*)\]/);
+  return m ? m[1].split(',').map(function (s) { return s.trim().replace(/^'|'$/g, ''); }).filter(function (s) { return FIRMS[s] && FIRMS[s].live !== false; }) : [];
+})();
+function rankNote() {
+  var topFut = RANK_ORDER.filter(function (s) { return !isMulti(FIRMS[s]); })[0];
+  if (!topFut || !RANK_ORDER.length) return '';
+  var first = FIRMS[RANK_ORDER[0]];
+  return isMulti(first)
+    ? ': ' + esc(FIRMS[topFut].name) + ' is the top-ranked futures firm, and ' + esc(first.name) + ', #1 overall, is multi-asset (USDC perpetuals, not CME futures)'
+    : ': ' + esc(FIRMS[topFut].name) + ' is #1';
+}
+// "8 futures firms and 1 multi-asset firm" (or "8 futures firms" when there's no multi-asset firm)
+function firmMix(n1, nM) { return FUTURES.length + ' futures ' + (FUTURES.length === 1 ? n1 : nM) + (MULTI.length ? ' and ' + MULTI.length + ' multi-asset ' + (MULTI.length === 1 ? n1 : nM) : ''); }
 
 // ---------- dates ----------
 var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -85,14 +113,22 @@ const DATA_MONTH = MON[+DATA_DATE.slice(5, 7) - 1] + ' ' + DATA_DATE.slice(0, 4)
 var FIRM_CHECKED = {
   'apex-trader': { date: '2026-10-05', note: 'Apex blocked our Oct 23 check, so its newest rule values come from search-index excerpts of its help center.' },
   'tradeify': { note: 'Tradeify\'s help center blocked our Oct 23 fetch; plan data came from tradeify.co.' },
-  'lucid-trading': { date: '2026-10-05', note: 'Lucid\'s marketing site blocked our Oct 23 fetch, so the prices and code details are from our Oct 5 check; the rules were re-read in its help center on Oct 23.' }
+  'lucid-trading': { date: '2026-10-05', note: 'Lucid\'s marketing site blocked our Oct 23 fetch, so the prices and code details are from our Oct 5 check; the rules were re-read in its help center on Oct 23.' },
+  'vest-capital': { date: '2026-11-05', note: 'Vest Capital was added on Nov 5, 2026. We read its live site, FAQ, docs, terms and the public price catalog its site loads that day, without buying, signing up or connecting a wallet. Vest\'s own pages disagree on a few rules (funded leverage, whether touching the drawdown floor breaches), so confirm in your dashboard.' }
 };
 function firmChecked(slug) { var c = FIRM_CHECKED[slug] || {}; return { date: c.date || DATA_DATE, note: c.note || '' }; }
+// Firms read after the newest futures pass (Vest Capital, Nov 5) — named next to "data as of" dates.
+const LATER = LIVE.filter(function (f) { return firmChecked(f.slug).date > DATA_DATE; });
+function laterNote() {
+  if (!LATER.length) return '';
+  return ' (' + LATER.map(function (f) { var d = firmChecked(f.slug).date; return esc(shortName(f)) + ': <time datetime="' + d + '">' + fmtDate(d) + '</time>'; }).join('; ') + ')';
+}
 
 // How each payoutTotal may be labelled. Only totals re-read on the firm's own site
 // are "firm-published". FundedNext's figure covers all of its programs (not
 // futures-only); TPT's total hasn't been re-read since it was added; Lucid's is
-// under review (it doesn't match what Lucid advertises) and is never displayed.
+// under review (it doesn't match what Lucid advertises) and is never displayed;
+// Vest Capital publishes no total at all ("none").
 var TOTAL_STATUS = {
   'tradeify': { kind: 'published', checked: '2026-10-23' },
   'alpha-futures': { kind: 'published', checked: '2026-10-23' },
@@ -101,9 +137,14 @@ var TOTAL_STATUS = {
   'my-funded-futures': { kind: 'published', checked: '2026-10-05' },
   'fundednext': { kind: 'published', checked: '2026-10-05', allPrograms: true },
   'take-profit': { kind: 'unconfirmed' },
-  'lucid-trading': { kind: 'review' }
+  'lucid-trading': { kind: 'review' },
+  'vest-capital': { kind: 'none' }
 };
 function totalStatus(slug) { return TOTAL_STATUS[slug] || { kind: 'unconfirmed' }; }
+// payoutMedianTime is a PropChamps estimate, except where the firm states the time itself.
+var STATED_TIME = { 'vest-capital': 'Vest-stated' };
+// Payout FAQ line for each multi-asset firm (Vest: fact sheet, Nov 5, 2026)
+var PAYOUT_NOTE = { 'vest-capital': 'Vest Capital, the one multi-asset firm we track (USDC perpetuals, not CME futures), lets you claim profit any time on every plan: claims are processed in 24 hours into your Vest Primary Account and withdrawn as USDC to a crypto wallet.' };
 
 // ---------- shared, idempotent injection ----------
 function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
@@ -249,6 +290,16 @@ function firmSplitRange(f) {
   var lo = Math.min.apply(null, all), hi = Math.max.apply(null, all);
   return lo === hi ? lo + '%' : lo + '–' + hi + '%';
 }
+// "95% Instant · 80% 1-Step, 2-Step": the trader's share per plan (used for multi-asset firms)
+function splitByPlan(f) {
+  var groups = {}, order = [];
+  (f.plansSummary || []).forEach(function (p) {
+    var n = splitPcts(rule(p, 'Payout Split'))[0]; if (!n) return;
+    if (!groups[n]) { groups[n] = []; order.push(n); }
+    groups[n].push(planLabel(f, p, 'payout').replace(/\s+Evaluation\b/i, ''));
+  });
+  return order.map(function (n) { return n + '% ' + groups[n].join(', '); }).join(' · ');
+}
 function discountPct(f) { var m = String((f.promo && f.promo.discount) || '').match(/(\d+)\s*%/); return m ? +m[1] : 0; }
 function discountLabel(f) {
   var d = String((f.promo && f.promo.discount) || '');
@@ -286,7 +337,7 @@ function parseOffer(f) {
   return { big: line || 'CHAMP', rest: '' };
 }
 // The search each firm's section answers (the phrasing autocomplete shows most).
-var DEAL_QUERY = { 'apex-trader': 'Apex Trader Funding coupon code', 'tradeify': 'Tradeify promo code', 'lucid-trading': 'Lucid Trading discount code', 'alpha-futures': 'Alpha Futures discount code', 'take-profit': 'Take Profit Trader promo code', 'top-one-futures': 'Top One Futures promo code', 'my-funded-futures': 'My Funded Futures discount code', 'fundednext': 'FundedNext Futures promo code' };
+var DEAL_QUERY = { 'apex-trader': 'Apex Trader Funding coupon code', 'tradeify': 'Tradeify promo code', 'lucid-trading': 'Lucid Trading discount code', 'alpha-futures': 'Alpha Futures discount code', 'take-profit': 'Take Profit Trader promo code', 'top-one-futures': 'Top One Futures promo code', 'my-funded-futures': 'My Funded Futures discount code', 'fundednext': 'FundedNext Futures promo code', 'vest-capital': 'Vest Capital promo code' };
 // Firm-specific copy. Every claim is from data/firms.js or the Oct 23, 2026 verified-facts sheet.
 var DEAL_COPY = {
   'apex-trader': {
@@ -320,11 +371,20 @@ var DEAL_COPY = {
   'fundednext': {
     body: 'FundedNext Futures charges a <strong>one-time challenge fee</strong> with no activation fee. The prices below are the offer prices in its help center at our Oct 23, 2026 check (Flex\'s offer covers your first two purchases). We don\'t have a confirmed CHAMP percentage on file, so the discount shows at checkout.',
     fix: 'FundedNext\'s offer price may already be applied. Enter CHAMP and compare the total with and without it.'
+  },
+  // Facts only from the Nov 5, 2026 Vest fact sheet. No code, % or "CHAMP works" claim here: dealSection
+  // adds the code wording from firms.js (promo + affiliatePending), so the referral swap is one data edit.
+  'vest-capital': {
+    body: 'Vest Capital is <strong>multi-asset, not a futures firm</strong>: every market is a USDC-settled perpetual contract on Vest\'s own venue, including ES and NQ perps that track the index futures. Crypto trades 24/7, stocks, ETFs, indices, FX and commodities 24/5, with hourly funding. Every product is a one-time fee with no activation fee, and no sale price was showing (Vest\'s site, Nov 5, 2026). Vest\'s Prop Trading Terms say every account, Instant included, is <strong>simulated</strong>, and payouts are compensation from Vest\'s own funds, although its marketing calls it real capital. Profit claims can be made any time and are processed in 24 hours into your Vest Primary Account; you then withdraw USDC to a crypto wallet, and no fiat payout is documented. <strong>US eligibility is unconfirmed</strong>: the Prop Terms allow US residents, but the Exchange Terms bar US persons, and claimed profit lands in the Primary Account, which Vest\'s site geo-blocks for US IP addresses. If you\'re in the US, confirm with Vest before you buy. The operator is Vest Exchange Inc., a Panama company, and disputes go to arbitration in Panama.',
+    fix: 'Vest\'s 2-Step is sold only inside its Create Custom Account builder, and the builder prices every 1-Step combination separately, so check the total for the exact options you picked.'
   }
 };
 function priceLabel(l) {
   if (/w\/\s*CHAMP/i.test(l)) return 'With CHAMP (Oct 5 check)';
   if (/no-activation/i.test(l)) return 'No-Activation-Fee build (list)';
+  if (/no daily loss limit/i.test(l)) return 'No daily limit (default)';
+  if (/with the \d+% daily loss limit/i.test(l)) return 'With ' + l.match(/\d+%/)[0] + ' daily limit';
+  if (/^price range$/i.test(l)) return 'Custom builder range';
   if (/monthly/i.test(l)) return 'Monthly (list)';
   if (/^eval(uation)?\s+(price|fee)/i.test(l)) return 'Evaluation (list)';
   if (/one-time fee/i.test(l)) return 'One-time (offer price)';
@@ -357,51 +417,69 @@ function dealSection(f) {
     rows.map(function (r) {
       return '<tr' + (r.plan ? '' : ' class="fd-cont"') + '><th scope="row">' + esc(r.plan) + '</th><td data-label="Sizes">' + esc(r.sizes) + '</td><td data-label="' + escAttr(r.label) + '"><span class="fd-price-label">' + esc(r.label) + '</span>' + esc(r.value) + '</td></tr>';
     }).join('') + '</tbody></table></div>' : '';
-  var off = discountPct(f);
-  return '<section class="fd" id="code-' + f.slug + '" aria-labelledby="code-' + f.slug + '-h">' +
+  var off = discountPct(f), code = promoCode(f), pending = isPending(f), name = esc(shortName(f));
+  var offBox = pending ? '<b>No code</b><span>list prices</span>'
+    : off ? '<b>' + (/up to/i.test(f.promo.discount) ? '<small>Up to</small>' : '') + off + '%</b><span>off with ' + esc(code) + '</span>' : '<b>' + esc(code) + '</b><span>at checkout</span>';
+  var codeCell = pending ? 'None yet' : '<button type="button" class="fd-code js-copy-champ"' + codeAttr(f) + ' aria-label="Copy code ' + escAttr(code) + '">' + esc(code) + '</button>';
+  var fix = pending
+    ? '<div class="fd-fix"><strong>No code yet.</strong> We don\'t have a PropChamps code at ' + name + ', and we haven\'t tested the codes other sites post for it, so pay the price shown at checkout and compare it with the table above. ' + copy.fix + ' Questions? Email <a href="mailto:hello@propchamps.net">hello@propchamps.net</a>.</div>'
+    : '<div class="fd-fix"><strong>Code not working?</strong> Type ' + esc(code) + ' in capitals with no spaces, remove any other code already in the box, and open ' + name + ' through our link so the referral is attached. ' + copy.fix + ' Still stuck? Email <a href="mailto:hello@propchamps.net">hello@propchamps.net</a> and we\'ll re-check it.</div>';
+  var go = pending
+    ? '<a class="fd-go" href="' + escAttr(f.affiliateUrl || firmUrl(f.slug)) + '" target="_blank" rel="noopener">Visit ' + name + ' <span aria-hidden="true">→</span></a>'
+    : '<a class="fd-go" href="' + escAttr(f.affiliateUrl || firmUrl(f.slug)) + '" target="_blank" rel="sponsored noopener">Open ' + name + ' with ' + esc(code) + ' <span aria-hidden="true">→</span></a>';
+  return '<section class="fd' + (isMulti(f) ? ' fd-multi' : '') + '" id="code-' + f.slug + '" aria-labelledby="code-' + f.slug + '-h">' +
     '<div class="fd-head"><div class="fd-logo"><img src="' + smLogo(f) + '" alt="" width="44" height="44" loading="lazy"></div>' +
-    '<div class="fd-titles"><h2 id="code-' + f.slug + '-h">' + esc(DEAL_QUERY[f.slug] || f.name + ' promo code') + '</h2><div class="fd-sub">' + esc(f.type || '') + '</div></div>' +
-    '<div class="fd-off' + (off ? ' gold' : '') + '">' + (off ? '<b>' + (/up to/i.test(f.promo.discount) ? '<small>Up to</small>' : '') + off + '%</b><span>off with CHAMP</span>' : '<b>CHAMP</b><span>at checkout</span>') + '</div></div>' +
+    '<div class="fd-titles"><h2 id="code-' + f.slug + '-h">' + esc(DEAL_QUERY[f.slug] || f.name + ' promo code') + '</h2><div class="fd-sub">' + (isMulti(f) ? '<span class="fd-asset">Multi-asset</span>' + esc(String(f.type || '').replace(/^multi-asset\s*·\s*/i, '')) : esc(f.type || '')) + '</div></div>' +
+    '<div class="fd-off' + (off && !pending ? ' gold' : '') + '">' + offBox + '</div></div>' +
     '<dl class="fd-facts">' +
-      '<div><dt>Code</dt><dd><button type="button" class="fd-code js-copy-champ" aria-label="Copy code CHAMP">CHAMP</button></dd></div>' +
-      '<div><dt>Discount on file</dt><dd>' + esc(discountLabel(f)) + '</dd></div>' +
+      '<div><dt>Code</dt><dd>' + codeCell + '</dd></div>' +
+      '<div><dt>Discount on file</dt><dd>' + (pending ? 'None' : esc(discountLabel(f))) + '</dd></div>' +
       '<div><dt>Last checked</dt><dd><time datetime="' + chk.date + '">' + fmtDate(chk.date) + '</time></dd></div>' +
     '</dl>' +
-    '<p class="fd-body">' + copy.body + '</p>' + table +
+    '<p class="fd-body">' + (pending ? 'We don\'t have a PropChamps code at ' + name + ' yet, so the prices below are its list prices. ' : '') + copy.body + '</p>' + table +
     (chk.note ? '<p class="fd-note">' + esc(chk.note) + '</p>' : '') +
-    '<div class="fd-fix"><strong>Code not working?</strong> Type CHAMP in capitals with no spaces, remove any other code already in the box, and open ' + esc(shortName(f)) + ' through our link so the referral is attached. ' + copy.fix + ' Still stuck? Email <a href="mailto:hello@propchamps.net">hello@propchamps.net</a> and we\'ll re-check it.</div>' +
-    '<div class="fd-links"><a class="fd-go" href="' + escAttr(f.affiliateUrl || firmUrl(f.slug)) + '" target="_blank" rel="sponsored noopener">Open ' + esc(shortName(f)) + ' with CHAMP <span aria-hidden="true">→</span></a>' +
+    fix +
+    '<div class="fd-links">' + go +
       (promo ? '<a class="fd-link" href="' + promo.url + '">' + esc(promo.label) + ' →</a>' : '') +
       '<a class="fd-link" href="' + firmUrl(f.slug) + '">' + esc(f.name) + ' review →</a></div>' +
     '</section>';
 }
+// One deal card. Byte-identical to the deals.html JS renderer (it re-renders the grid).
+function dealCard(f) {
+  var pending = isPending(f);
+  var offer = pending ? { big: 'List price', rest: '' } : parseOffer(f);
+  var tags = (f.tags || f.filters || []).slice(0, 3).map(function (t) { return '<span class="deal-card-tag">' + t.replace(/-/g, ' ') + '</span>'; }).join('');
+  var code = f.promo && f.promo.code || 'CHAMP';
+  var chip = pending ? '<span class="deal-code-chip deal-code-none">NO CODE YET</span>'
+    : '<span class="deal-code-chip js-copy-champ"' + (code !== 'CHAMP' ? ' data-code="' + code + '"' : '') + '>' + code + ' · COPY</span>';
+  return '<article class="deal-card" data-slug="' + f.slug + '">' +
+    '<div class="deal-card-head"><div class="deal-card-logo"><img src="' + f.logo + '" alt="' + f.name + '"></div>' +
+    '<div><div class="deal-card-firm">' + f.name + '</div><div class="deal-card-tagline">' + (f.tagline || f.type || '') + '</div></div></div>' +
+    // "% OFF"/"FREE OFF" offers render gold, exactly like the page JS (/OFF$/i)
+    '<div class="deal-card-offer"><span class="accent' + (/OFF$/i.test(offer.big) ? ' gold' : '') + '">' + offer.big + '</span></div>' +
+    (offer.rest || f.offerSub ? '<div class="deal-card-offersub">' + (offer.rest || f.offerSub || '') + '</div>' : '') +
+    (tags ? '<div class="deal-card-tags">' + tags + '</div>' : '') +
+    '<div class="deal-card-foot">' + chip +
+    '<span class="deal-view-hint">View accounts &amp; rules</span></div>' +
+    '</article>';
+}
 function buildDeals() {
   var file = path.join(ROOT, 'deals.html'); var before = read('deals.html'); var html = before;
-  var cards = LIVE.map(function (f) {
-    var offer = parseOffer(f);
-    var tags = (f.tags || f.filters || []).slice(0, 3).map(function (t) { return '<span class="deal-card-tag">' + t.replace(/-/g, ' ') + '</span>'; }).join('');
-    var code = f.promo && f.promo.code || 'CHAMP';
-    return '<article class="deal-card" data-slug="' + f.slug + '">' +
-      '<div class="deal-card-head"><div class="deal-card-logo"><img src="' + f.logo + '" alt="' + f.name + '"></div>' +
-      '<div><div class="deal-card-firm">' + f.name + '</div><div class="deal-card-tagline">' + (f.tagline || f.type || '') + '</div></div></div>' +
-      // "% OFF"/"FREE OFF" offers render gold, exactly like the page JS (/OFF$/i)
-      '<div class="deal-card-offer"><span class="accent' + (/OFF$/i.test(offer.big) ? ' gold' : '') + '">' + offer.big + '</span></div>' +
-      (offer.rest || f.offerSub ? '<div class="deal-card-offersub">' + (offer.rest || f.offerSub || '') + '</div>' : '') +
-      (tags ? '<div class="deal-card-tags">' + tags + '</div>' : '') +
-      '<div class="deal-card-foot"><span class="deal-code-chip js-copy-champ">' + code + ' · COPY</span>' +
-      '<span class="deal-view-hint">View accounts &amp; rules</span></div>' +
-      '</article>';
-  }).join('');
-  html = injectInner(html, 'dealsGrid', cards);
+  html = injectInner(html, 'dealsGrid', LIVE.map(dealCard).join(''));
 
-  // Per-firm sections, biggest discount on file first
-  var order = LIVE.slice().sort(function (a, b) { return discountPct(b) - discountPct(a) || shortName(a).localeCompare(shortName(b)); });
+  // Per-firm sections, biggest discount on file first; firms with no code yet go last
+  var order = LIVE.slice().sort(function (a, b) { return isPending(a) - isPending(b) || discountPct(b) - discountPct(a) || shortName(a).localeCompare(shortName(b)); });
   var jump = '<nav class="fd-jump" aria-label="Jump to a firm">' + order.map(function (f) {
     var off = discountPct(f);
-    return '<a href="#code-' + f.slug + '"><img src="' + smLogo(f) + '" alt="" width="22" height="22" loading="lazy">' + esc(shortName(f)) + '<span>' + (off ? (/up to/i.test(f.promo.discount) ? 'up to ' : '') + off + '%' : 'CHAMP') + '</span></a>';
+    return '<a href="#code-' + f.slug + '"><img src="' + smLogo(f) + '" alt="" width="22" height="22" loading="lazy">' + esc(shortName(f)) + '<span>' + (isPending(f) ? 'no code yet' : off ? (/up to/i.test(f.promo.discount) ? 'up to ' : '') + off + '%' : esc(promoCode(f))) + '</span></a>';
   }).join('') + '</nav>';
   html = injectInner(html, 'dealsByFirm', jump + order.map(dealSection).join(''));
-  html = injectInner(html, 'dealsCount', String(LIVE.length));
+  var coded = LIVE.filter(function (f) { return !isPending(f); });
+  var codes = coded.map(promoCode).filter(function (c, i, a) { return a.indexOf(c) === i; });
+  html = injectInner(html, 'dealsCodeLine', (codes.length === 1 ? 'One code, ' + esc(codes[0]) + ', is set up at ' : 'Our codes are set up at ') +
+    (PENDING.length ? coded.length + ' of the ' + LIVE.length + ' firms we cover; we don\'t have one at ' + joinList(PENDING.map(function (f) { return esc(shortName(f)); })) + ' yet.' : 'every firm we cover.'));
+  html = injectInner(html, 'dealsCount', String(coded.length));
+  html = injectInner(html, 'dealsShown', String(LIVE.length));
   html = injectInner(html, 'dealsChecked', fmtDate(DATA_DATE).replace(/, \d{4}$/, ''));
 
   // Featured Apex card points, from the Apex plan data
@@ -420,13 +498,13 @@ function buildDeals() {
     html = injectInner(html, 'dealsFeatured', pts.map(function (t) { return '<li class="featured-point">' + esc(t) + '</li>'; }).join(''));
   }
 
-  var maxOff = Math.max.apply(null, LIVE.map(discountPct));
+  var maxOff = Math.max.apply(null, LIVE.filter(function (f) { return !isPending(f); }).map(discountPct));
   html = injectInner(html, 'dealsMax', maxOff + '%');
   var title = 'Futures Prop Firm Promo Codes (' + DATA_MONTH + '): Up to ' + maxOff + '% Off';
   html = setHead(html, { title: title });
   html = setLd(html, 'ldDeals', { '@context': 'https://schema.org', '@graph': [
     { '@type': 'CollectionPage', '@id': SITE + '/deals#webpage', 'name': title, 'url': SITE + '/deals', 'description': (html.match(/<meta name="description" content="([^"]*)"/) || [])[1] ? decode(html.match(/<meta name="description" content="([^"]*)"/)[1]) : '', 'dateModified': DATA_DATE, 'isPartOf': { '@type': 'WebSite', 'name': 'PropChamps', 'url': SITE + '/' } },
-    { '@type': 'ItemList', 'name': 'Futures prop firm promo codes', 'itemListElement': order.map(function (f, i) { return { '@type': 'ListItem', 'position': i + 1, 'name': DEAL_QUERY[f.slug] || f.name, 'url': SITE + '/deals#code-' + f.slug }; }) },
+    { '@type': 'ItemList', 'name': 'Futures prop firm promo codes', 'itemListElement': order.filter(function (f) { return !isPending(f); }).map(function (f, i) { return { '@type': 'ListItem', 'position': i + 1, 'name': DEAL_QUERY[f.slug] || f.name, 'url': SITE + '/deals#code-' + f.slug }; }) },
     crumbs('Deals', '/deals')
   ] });
   return writeChanged(file, before, html, 'deals.html (' + LIVE.length + ' deal cards + firm sections)');
@@ -438,7 +516,7 @@ function buildPayouts() {
   function fmtCount(n) { if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M'; if (n >= 1e3) return Math.round(n / 1e3) + 'K'; return '' + Math.round(n); }
   var FLAGS = { US: '🇺🇸', GB: '🇬🇧', CA: '🇨🇦', AE: '🇦🇪' };
   var firms = LIVE.slice();
-  firms.forEach(function (f) { var st = totalStatus(f.slug); f._tot = st.kind === 'review' ? -1 : parseAmount(f.payoutTotal); f._t = parseTimeMinutes(f.payoutMedianTime); });
+  firms.forEach(function (f) { var st = totalStatus(f.slug); f._tot = st.kind === 'none' ? -2 : st.kind === 'review' ? -1 : parseAmount(f.payoutTotal); f._t = parseTimeMinutes(f.payoutMedianTime); });
   firms.sort(function (a, b) { return b._tot - a._tot; });
   var published = firms.filter(function (f) { return totalStatus(f.slug).kind === 'published'; });
   var top = published[0];
@@ -448,7 +526,8 @@ function buildPayouts() {
   var dailyFirms = {}; daily.forEach(function (d) { dailyFirms[d.f.slug] = 1; });
   var splitMax = 0, splitMaxFirm = null;
   LIVE.forEach(function (f) { (f.plansSummary || []).forEach(function (p) { splitPcts(rule(p, 'Payout Split')).forEach(function (n) { if (n > splitMax) { splitMax = n; splitMaxFirm = f; } }); }); });
-  var fastest = firms.reduce(function (min, f) { return f._t < min._t ? f : min; }, firms[0]);
+  var estFirms = firms.filter(function (f) { return !STATED_TIME[f.slug]; });
+  var fastest = estFirms.reduce(function (min, f) { return f._t < min._t ? f : min; }, estFirms[0]);
   var stats = [
     ['Biggest firm-published total', esc(top.payoutTotal), esc(top.name) + ' · its own figure', true],
     ['Plans with daily payouts', daily.length + '<small> of ' + PLAN_COUNT + '</small>', 'Across ' + Object.keys(dailyFirms).length + ' of ' + LIVE.length + ' firms we track', false],
@@ -464,6 +543,7 @@ function buildPayouts() {
   function totalCell(f) {
     var st = totalStatus(f.slug);
     if (st.kind === 'review') return '<div class="p-value p-muted">Under review</div><div class="p-badge p-badge-warn">Not shown</div>';
+    if (st.kind === 'none') return '<div class="p-value p-muted">Not published</div><div class="p-badge p-badge-none">No firm total</div>';
     if (st.kind === 'unconfirmed') return '<div class="p-value">' + esc(f.payoutTotal || '—') + '</div><div class="p-badge p-badge-warn">Reported · not re-checked</div>';
     return '<div class="p-value lime">' + esc(f.payoutTotal || '—') + (st.allPrograms ? '<sup class="p-fn">*</sup>' : '') + '</div><div class="p-badge">Firm-published · ' + fmtDate(st.checked).replace(/, \d{4}$/, '') + '</div>';
   }
@@ -477,7 +557,11 @@ function buildPayouts() {
       '<div class="p-firm-type">' + esc(f.type || '') + '</div></div></div></td>' +
       '<td class="col-total">' + totalCell(f) + '</td>' +
       '<td class="col-cadence"><ul class="p-cadence">' + cad + '</ul></td>' +
-      '<td class="col-split"><div class="p-value">' + firmSplitRange(f) + '</div><div class="p-value-sub">To the trader</div></td>' +
+      // multi-asset: one line per split group ("95% Instant" / "80% 1-Step, 2-Step"), kept on phones (.p-split-plans),
+      // with non-breaking hyphens so "1-Step" never splits at its hyphen
+      '<td class="col-split"><div class="p-value">' + firmSplitRange(f) + '</div>' + (isMulti(f)
+        ? '<div class="p-value-sub p-split-plans">' + splitByPlan(f).split(' · ').map(function (g) { return '<span>' + esc(g).replace(/(\d)-(Step)\b/g, '$1&#8209;$2') + '</span>'; }).join('') + '</div>'
+        : '<div class="p-value-sub">To the trader</div>') + '</td>' +
       '<td class="col-rules"><a class="p-rules-link" href="' + link.url + '">' + esc(link.label) + ' <span aria-hidden="true">→</span></a></td></tr>';
   }).join('');
   html = injectInner(html, 'payoutsTableBody', rows);
@@ -488,13 +572,17 @@ function buildPayouts() {
   function timeBarPct(t) { if (t >= 9999) return 0; if (maxTime === minTime) return 50; return Math.max(8, Math.round(100 * (1 - (t - minTime) / (maxTime - minTime)))); }
   function timeBarClass(t) { var oneDay = 60 * 24; if (t <= 6 * 60) return 'time-fill-fast'; if (t <= oneDay) return 'time-fill-medium'; if (t <= 3 * oneDay) return 'time-fill-slow'; return 'time-fill-slowest'; }
   var est = firms.map(function (f) {
-    var v = function (x) { return x && x !== '—' ? esc(x) : '<span class="p-muted">Not estimated</span>'; };
+    var has = function (x) { return x && x !== '—'; };
+    var v = function (x) { return has(x) ? esc(x) : '<span class="p-muted">Not estimated</span>'; };
+    var sub = function (x) { return has(x) ? '<div class="p-value-sub">est.</div>' : ''; };
+    var timeTag = STATED_TIME[f.slug] ? esc(STATED_TIME[f.slug]) : 'est.';
     return '<tr data-href="' + firmUrl(f.slug) + '">' +
       '<td class="col-firm"><div class="p-firm"><div class="p-firm-logo"><img src="' + f.logo + '" alt="' + escAttr(f.name) + '"></div><div><a class="p-firm-name" href="' + firmUrl(f.slug) + '">' + esc(f.name) + '</a></div></div></td>' +
-      '<td class="col-count"><div class="p-value">' + v(f.payoutCount) + '</div><div class="p-value-sub">est.</div></td>' +
-      '<td class="col-avg"><div class="p-value">' + v(f.payoutAvg) + '</div><div class="p-value-sub">est.</div></td>' +
-      '<td class="col-largest"><div class="p-value">' + v(f.payoutLargest) + '</div><div class="p-value-sub">est.</div></td>' +
-      '<td class="col-time"><div class="time-bar"><div class="time-bar-label"><span>' + v(f.payoutMedianTime) + '</span><em>est.</em></div>' +
+      '<td class="col-count"><div class="p-value">' + v(f.payoutCount) + '</div>' + sub(f.payoutCount) + '</td>' +
+      '<td class="col-avg"><div class="p-value">' + v(f.payoutAvg) + '</div>' + sub(f.payoutAvg) + '</td>' +
+      '<td class="col-largest"><div class="p-value">' + v(f.payoutLargest) + '</div>' + sub(f.payoutLargest) + '</td>' +
+      // a firm-stated time isn't our median estimate: its phone card gets its own label (payouts.html CSS)
+      '<td class="col-time"' + (STATED_TIME[f.slug] ? ' data-label="Stated processing time"' : '') + '><div class="time-bar"><div class="time-bar-label"><span>' + v(f.payoutMedianTime) + '</span><em>' + timeTag + '</em></div>' +
       '<div class="time-bar-rail"><div class="time-bar-fill ' + timeBarClass(f._t) + '" style="width:' + timeBarPct(f._t) + '%"></div></div>' +
       '<div class="time-bar-scale"><span>Fast</span><span>Slow</span></div></div></td></tr>';
   }).join('');
@@ -504,6 +592,7 @@ function buildPayouts() {
   var rest = published.slice(1).map(function (f) { return esc(f.name) + ' (' + esc(f.payoutTotal) + (totalStatus(f.slug).allPrograms ? ', across all of ' + esc(shortName(f)) + '\'s programs, not just futures' : '') + ')'; });
   var unconf = firms.filter(function (f) { return totalStatus(f.slug).kind === 'unconfirmed'; });
   var review = firms.filter(function (f) { return totalStatus(f.slug).kind === 'review'; });
+  var noTotal = firms.filter(function (f) { return totalStatus(f.slug).kind === 'none'; });
   // Group plans by the split of their first funded stage (TPT: PRO 80/20; its live PRO+ pays 90/10)
   var splitGroups = {}; LIVE.forEach(function (f) { (f.plansSummary || []).forEach(function (p) { var n = splitPcts(rule(p, 'Payout Split'))[0]; if (n) (splitGroups[n] = splitGroups[n] || []).push(shortName(f) + ' ' + planLabel(f, p, 'payout')); }); });
   var pcts = Object.keys(splitGroups).map(Number).sort(function (a, b) { return b - a; });
@@ -512,22 +601,28 @@ function buildPayouts() {
   var mostAnswer = 'By the totals the firms publish themselves, <strong>' + esc(top.name) + '</strong> has paid out the most: ' + esc(top.payoutTotal) + '. ' +
     (rest.length ? 'Next come ' + joinList(rest) + '. ' : '') +
     (unconf.length ? joinList(unconf.map(function (f) { return esc(f.name); })) + ' report' + (unconf.length === 1 ? 's ' : ' ') + joinList(unconf.map(function (f) { return esc(f.payoutTotal); })) + ', which we haven\'t re-checked yet. ' : '') +
-    (review.length ? joinList(review.map(function (f) { return esc(f.name); })) + '\'s total is under review. ' : '');
+    (review.length ? joinList(review.map(function (f) { return esc(f.name); })) + '\'s total is under review. ' : '') +
+    (noTotal.length ? joinList(noTotal.map(function (f) { return esc(f.name); })) + (noTotal.length === 1 ? ' doesn\'t' : ' don\'t') + ' publish a payout total. ' : '');
   var splitAnswer = 'Per payout, the split decides how much of each withdrawal you keep. ' + splitGroups[common].length + ' of the ' + PLAN_COUNT + ' plans we track pay the trader ' + common + '%; the exceptions are ' + joinList(splitText) + '.';
   html = injectInner(html, 'payoutsMost', '<p>' + mostAnswer + '</p><p>' + splitAnswer + '</p>');
 
   // --- FAQ + JSON-LD ---
-  var dailyNames = daily.map(function (d) { return esc(shortName(d.f) + ' ' + planLabel(d.f, d.p, 'payout')); });
+  var dailyFut = daily.filter(function (d) { return !isMulti(d.f); });
+  var dailyNames = dailyFut.map(function (d) { return esc(shortName(d.f) + ' ' + planLabel(d.f, d.p, 'payout')); });
+  var futPlans = FUTURES.reduce(function (s, f) { return s + (f.plansSummary || []).length; }, 0);
+  var stated = firms.filter(function (f) { return STATED_TIME[f.slug]; });
+  var statedNote = stated.length ? ' (' + joinList(stated.map(function (f) { return esc(f.name) + '\'s ' + esc(f.payoutMedianTime); })) + ' is the firm\'s own stated processing time, not our estimate)' : '';
   var faqs = [
     { q: 'Which prop firm pays out the most?', a: mostAnswer.trim() + ' A big total mostly reflects a firm\'s size and age, so read it next to the payout rules, not instead of them.' },
-    { q: 'Can you trust prop firm payout claims?', a: 'Treat them as the firm\'s own claim. The totals marked firm-published are each firm\'s own figure, recorded with the date we read it on its site; we can\'t audit them. Payout counts, averages, largest payouts and median times are PropChamps estimates, because firms don\'t publish those numbers. <a href="/methodology#estimates">How we label every number</a> is on our methodology page, and <a href="/blog/are-futures-prop-firms-worth-it">are futures prop firms legit</a> covers the bigger question.' },
-    { q: 'How often can you request a payout from a futures prop firm?', a: 'It depends on the plan more than the firm. ' + daily.length + ' of the ' + PLAN_COUNT + ' plans we track allow daily requests: ' + joinList(dailyNames) + '. Others run on a cycle, from every 3 days (FundedNext Rapid Pro) and every 5 trading days (Apex) to up to 4 times a month (Alpha) and every 14 calendar days (MFF Pro). The cadence column above lists every plan.' }
+    { q: 'Can you trust prop firm payout claims?', a: 'Treat them as the firm\'s own claim. The totals marked firm-published are each firm\'s own figure, recorded with the date we read it on its site; we can\'t audit them. Payout counts, averages, largest payouts and median times are PropChamps estimates, because firms don\'t publish those numbers' + statedNote + '. <a href="/methodology#estimates">How we label every number</a> is on our methodology page, and <a href="/blog/are-futures-prop-firms-worth-it">are futures prop firms legit</a> covers the bigger question.' },
+    { q: 'How often can you request a payout from a futures prop firm?', a: 'It depends on the plan more than the firm. ' + dailyFut.length + ' of the ' + futPlans + ' futures plans we track allow daily requests: ' + joinList(dailyNames) + '. Others run on a cycle, from every 3 days (FundedNext Rapid Pro) and every 5 trading days (Apex) to up to 4 times a month (Alpha) and every 14 calendar days (MFF Pro). The cadence column above lists every plan.' +
+      MULTI.map(function (f) { return PAYOUT_NOTE[f.slug] ? ' ' + PAYOUT_NOTE[f.slug] : ''; }).join('') }
   ];
   html = injectInner(html, 'payoutsFaq', faqHtml(faqs));
   var desc = (html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
   html = setLd(html, 'ldPayouts', { '@context': 'https://schema.org', '@graph': [
     { '@type': 'WebPage', '@id': SITE + '/payouts#webpage', 'name': decode((html.match(/<title>([^<]*)<\/title>/) || [])[1] || ''), 'url': SITE + '/payouts', 'description': decode(desc), 'dateModified': DATA_DATE, 'isPartOf': { '@type': 'WebSite', 'name': 'PropChamps', 'url': SITE + '/' } },
-    { '@type': 'Dataset', 'name': 'Futures prop firm payout tracker', 'description': 'Firm-published payout totals, payout cadence by plan and payout split for ' + LIVE.length + ' futures prop firms, plus PropChamps estimates (clearly labelled) of payout counts, averages, largest payouts and median time to payout.', 'url': SITE + '/payouts', 'dateModified': DATA_DATE, 'creator': { '@type': 'Organization', 'name': 'PropChamps', 'url': SITE }, 'isAccessibleForFree': true, 'measurementTechnique': 'Totals are each firm\'s own published figure, dated when re-read on its site (one total is marked not re-checked, one is withheld while under review); cadence and split come from each firm\'s help center; counts, averages, largest payouts and median times are PropChamps estimates.' },
+    { '@type': 'Dataset', 'name': 'Futures prop firm payout tracker', 'description': 'Firm-published payout totals, payout cadence by plan and payout split for ' + firmMix('prop firm', 'prop firms').replace(/ prop firm(s?)$/, ' firm$1') + ', plus PropChamps estimates (clearly labelled) of payout counts, averages, largest payouts and median time to payout.', 'url': SITE + '/payouts', 'dateModified': DATA_DATE, 'creator': { '@type': 'Organization', 'name': 'PropChamps', 'url': SITE }, 'isAccessibleForFree': true, 'measurementTechnique': 'Totals are each firm\'s own published figure, dated when re-read on its site (' + [unconf.length ? (unconf.length === 1 ? 'one total is' : unconf.length + ' totals are') + ' marked not re-checked' : '', review.length ? (review.length === 1 ? 'one is' : review.length + ' are') + ' withheld while under review' : '', noTotal.length ? (noTotal.length === 1 ? 'one firm publishes' : noTotal.length + ' firms publish') + ' none' : ''].filter(Boolean).join(', ') + '); cadence and split come from each firm\'s help center or site; counts, averages, largest payouts and median times are PropChamps estimates' + (stated.length ? ', except ' + (stated.length === 1 ? 'one median time that is' : stated.length + ' median times that are') + ' the firm\'s own stated figure' : '') + '.' },
     crumbs('Payouts', '/payouts'),
     faqLd(SITE + '/payouts#faq', faqs)
   ] });
@@ -617,10 +712,14 @@ function buildCompare() {
     totalPlans += plans.length;
     var n = plans.length;
     var firmPage = FIRM_PAGE[f.slug] || '';
+    // byte-identical to compare.html's renderFirms()
     var promoLine = '';
-    if (f.offerLine) {
+    if (f.affiliatePending) {
+      promoLine = '<div class="fg-promo-row"><div><div class="fg-promo-label">Deal</div><div class="fg-promo-value">No code yet · list prices</div></div></div>';
+    } else if (f.offerLine) {
+      var code = f.promo && f.promo.code || 'CHAMP';
       promoLine = '<div class="fg-promo-row"><div><div class="fg-promo-label">Active deal</div><div class="fg-promo-value">' + f.offerLine + '</div></div>' +
-        '<span class="fg-promo-code js-copy-champ">CHAMP · COPY</span></div>';
+        '<span class="fg-promo-code js-copy-champ"' + (code !== 'CHAMP' ? ' data-code="' + code + '"' : '') + '>' + code + ' · COPY</span></div>';
     }
     var planChips = plans.map(function (p, i) {
       var key = f.slug + '__' + i;
@@ -651,14 +750,16 @@ function buildCompare() {
       var plans = f.plansSummary || [];
       return '<tbody class="cc-group"><tr class="cc-firm"><th colspan="' + (CHART_COLS.length + 1) + '" scope="colgroup">' +
         '<a href="' + firmUrl(f.slug) + '"><img src="' + smLogo(f) + '" alt="" width="26" height="26" loading="lazy">' + esc(f.name) + '</a>' +
-        '<span class="cc-firm-meta">' + plans.length + ' plan' + (plans.length === 1 ? '' : 's') + ' · ' + esc(discountPct(f) ? discountLabel(f) + ' with CHAMP' : 'code CHAMP at checkout') + '</span></th></tr>' +
+        '<span class="cc-firm-meta">' + (isMulti(f) ? '<span class="cc-asset">Multi-asset · USDC perps, not CME futures</span>' : '') + plans.length + ' plan' + (plans.length === 1 ? '' : 's') + ' · ' + esc(isPending(f) ? 'list prices, no code yet' : discountPct(f) ? discountLabel(f) + ' with ' + promoCode(f) : 'code ' + promoCode(f) + ' at checkout') + '</span></th></tr>' +
         plans.map(function (p) {
           return '<tr><th scope="row" class="cc-plan">' + esc(planLabel(f, p)) + '<span class="cc-sizes">' + esc(rule(p, 'Account Sizes')) + '</span></th>' + CHART_COLS.map(function (c) { return chartCell(p, c, f); }).join('') + '</tr>';
         }).join('') + '</tbody>';
     }).join('') + '</table></div>';
   html = injectInner(html, 'compareChart', chart);
-  html = injectInner(html, 'compareChartMeta', totalPlans + ' plans from ' + LIVE.length + ' firms · data as of <time datetime="' + DATA_DATE + '">' + fmtDate(DATA_DATE) + '</time>');
-  html = injectInner(html, 'compareH1', 'Futures prop firm comparison: <span class="accent-word">' + LIVE.length + ' firms, ' + totalPlans + ' plans.</span>');
+  html = injectInner(html, 'compareChartMeta', totalPlans + ' plans from ' + LIVE.length + ' firms · data as of <time datetime="' + DATA_DATE + '">' + fmtDate(DATA_DATE) + '</time>' + laterNote());
+  // "8 firms + 1 multi-asset": the page is a futures comparison with any multi-asset firm counted separately
+  var firmCount = FUTURES.length + (MULTI.length ? ' firms + ' + MULTI.length + ' multi-asset' : ' firms');
+  html = injectInner(html, 'compareH1', 'Futures prop firm comparison: <span class="accent-word">' + firmCount + ', ' + totalPlans + ' plans.</span>');
 
   // Head-to-heads on disk + the hub when it exists
   var vs = vsPages();
@@ -668,13 +769,14 @@ function buildCompare() {
 
   var ex = function (u) { return exists(u); };
   var faqs = [
-    { q: 'Which futures prop firm is best overall?', a: 'No single firm is best for every trader, because the rules that matter most pull in different directions: drawdown type, daily loss limit, consistency rule and payout cadence. Our <a href="/firms/">ranked list of all ' + LIVE.length + ' futures prop firms</a> orders them by our published criteria, and the chart above shows every plan\'s rules side by side.' },
+    { q: 'Which futures prop firm is best overall?', a: 'No single firm is best for every trader, because the rules that matter most pull in different directions: drawdown type, daily loss limit, consistency rule and payout cadence. Our <a href="/firms/">ranked list of all ' + LIVE.length + ' firms we cover</a> (' + firmMix('firm', 'firms') + ') orders them by our published criteria' + rankNote() + '. The chart above shows every plan\'s rules side by side.' },
     { q: 'Which futures prop firm is cheapest?', a: 'It depends on the account size and the discount. Two examples from our data: Top One Futures\' Elite Access evaluation is $39 one-time at every size (you then pay a $139 to $359 activation fee after passing), and Apex\'s 25K Intraday Trail evaluation lists at $167 before CHAMP\'s 90%-off discount on file. ' + (ex('/best/cheapest-prop-firm-challenges') ? 'Our <a href="/best/cheapest-prop-firm-challenges">cheapest prop firm challenges</a> list works out the cost per size.' : 'The deals page lists every discount.') },
-    { q: 'Where does this comparison data come from?', a: 'From each firm\'s own help center and website, read in dated passes; the latest was ' + fmtDate(DATA_DATE) + '. Prices are list prices (Lucid\'s are with-CHAMP prices from our Oct 5 check), and code CHAMP applies its discount at checkout. Where a firm blocked our check, we say so and use search-index excerpts of its help center. <a href="/methodology">How we audit</a> explains the labels, and the <a href="/audit-log">audit log</a> shows what changed.' }
+    { q: 'Where does this comparison data come from?', a: 'From each firm\'s own help center and website, read in dated passes; the latest was ' + fmtDate(DATA_DATE) + (LATER.length ? ', and ' + joinList(LATER.map(function (f) { return esc(shortName(f)) + ' was read on ' + fmtDate(firmChecked(f.slug).date) + ' when we added it'; })) : '') + '. Prices are list prices (Lucid\'s are with-CHAMP prices from our Oct 5 check), and code CHAMP applies its discount at checkout' + (PENDING.length ? ' (we don\'t have a code at ' + joinList(PENDING.map(function (f) { return esc(shortName(f)); })) + ' yet)' : '') + '. Where a firm blocked our check, we say so and use search-index excerpts of its help center. <a href="/methodology">How we audit</a> explains the labels, and the <a href="/audit-log">audit log</a> shows what changed.' }
   ];
   html = injectInner(html, 'compareFaq', faqHtml(faqs));
 
-  var title = 'Futures Prop Firm Comparison: ' + LIVE.length + ' Firms, ' + totalPlans + ' Plans Compared';
+  var title = MULTI.length ? 'Futures Prop Firm Comparison: ' + FUTURES.length + ' Firms + ' + MULTI.length + ' Multi-Asset' : 'Futures Prop Firm Comparison: ' + LIVE.length + ' Firms, ' + totalPlans + ' Plans Compared';
+  if (title.length > 60) console.warn('  ! compare title ' + title.length + ' chars (limit 60)');
   html = setHead(html, { title: title });
   var desc = decode((html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '');
   html = setLd(html, 'ldCompare', { '@context': 'https://schema.org', '@graph': [
@@ -710,7 +812,9 @@ function deepDive(list) {
 function buildGuide() {
   var file = path.join(ROOT, 'guide.html'); var before = read('guide.html'); var html = before;
   Object.keys(DEEP_DIVES).forEach(function (id) { html = injectInner(html, id, deepDive(DEEP_DIVES[id])); });
-  return writeChanged(file, before, html, 'guide.html (deep-dive links)');
+  html = injectInner(html, 'guideFirms', String(LIVE.length));
+  html = injectInner(html, 'guidePlans', String(PLAN_COUNT));
+  return writeChanged(file, before, html, 'guide.html (deep-dive links, firm counts)');
 }
 
 // ============================ /methodology ============================
@@ -722,9 +826,11 @@ function buildMethodology() {
   html = injectInner(html, 'methodPlans2', String(PLAN_COUNT));
   html = injectInner(html, 'methodChecked', fmtDate(DATA_DATE).replace(/, \d{4}$/, ''));
   var firms = LIVE.slice().sort(function (a, b) { return parseAmount(b.payoutTotal) - parseAmount(a.payoutTotal); });
+  html = injectInner(html, 'methodFirmsLabel', MULTI.length ? 'Firms (' + FUTURES.length + ' futures, ' + MULTI.length + ' multi-asset)' : 'Futures firms');
   html = injectInner(html, 'methodTotals', firms.map(function (f) {
     var st = totalStatus(f.slug), val, lab;
     if (st.kind === 'review') { val = '<span class="mt-muted">Not shown</span>'; lab = '<span class="mt-badge warn">Under review</span> The figure on file doesn\'t match what the firm advertises, and its site blocked our latest check.'; }
+    else if (st.kind === 'none') { val = '<span class="mt-muted">None</span>'; lab = '<span class="mt-badge none">Not published</span> The firm publishes no payout total' + (firmChecked(f.slug).date > DATA_DATE ? ' (checked ' + fmtDate(firmChecked(f.slug).date) + ')' : '') + ', so we show none.'; }
     else if (st.kind === 'unconfirmed') { val = esc(f.payoutTotal); lab = '<span class="mt-badge warn">Reported</span> Not re-read on the firm\'s site since we added it.'; }
     else { val = esc(f.payoutTotal); lab = '<span class="mt-badge">Firm-published</span> Read on the firm\'s site, ' + fmtDate(st.checked) + '.' + (st.allPrograms ? ' Covers all of the firm\'s programs, not futures only.' : ''); }
     return '<tr><th scope="row"><img src="' + smLogo(f) + '" alt="" width="22" height="22" loading="lazy">' + esc(f.name) + '</th><td class="mt-val">' + val + '</td><td>' + lab + '</td></tr>';
@@ -736,6 +842,8 @@ function buildMethodology() {
 function buildHome() {
   var file = path.join(ROOT, 'index.html'); var before = read('index.html'); var html = before;
   html = injectInner(html, 'hpPlans', String(PLAN_COUNT));
+  html = injectInner(html, 'hpFirms', String(LIVE.length));
+  html = injectInner(html, 'hpFirms2', String(LIVE.length));
   var vs = vsPages();
   html = injectInner(html, 'hpVs', vs.map(function (v) { return '<a href="' + v.url + '">' + esc(v.label) + '</a>'; }).join('') + (exists('/vs/') ? '<a class="hp-vs-all" href="/vs/">All comparisons →</a>' : ''));
 
@@ -765,6 +873,15 @@ function buildHome() {
   return writeChanged(file, before, html, 'index.html (' + vs.length + ' head-to-heads, ' + cols.length + ' link columns)');
 }
 
+// ============================ /join ============================
+function buildJoin() {
+  var file = path.join(ROOT, 'join.html'); var before = read('join.html'); var html = before;
+  html = injectInner(html, 'joinFirms', String(LIVE.length));
+  html = injectInner(html, 'joinFirmsLabel', MULTI.length ? 'Prop firms tracked (' + FUTURES.length + ' futures, ' + MULTI.length + ' multi-asset)' : 'Futures prop firms tracked');
+  html = injectInner(html, 'joinPlans', String(PLAN_COUNT));
+  return writeChanged(file, before, html, 'join.html (firm counts)');
+}
+
 var n = 0;
 n += buildDeals();
 n += buildPayouts();
@@ -773,4 +890,5 @@ n += buildCompare();
 n += buildGuide();
 n += buildMethodology();
 n += buildHome();
+n += buildJoin();
 console.log('\nDone. ' + n + ' page(s) built · data as of ' + DATA_DATE + ' · ' + LIVE.length + ' firms / ' + PLAN_COUNT + ' plans.');

@@ -101,10 +101,11 @@ const RELATED = {
   'tools/prop-firm-drawdown-calculator.html': ['/blog/prop-firm-drawdown-explained', '/blog/apex-drawdown-explained', '/best/best-prop-firms-no-daily-loss-limit', '/blog/what-is-a-daily-loss-limit', '/blog/how-to-pass-a-prop-firm-evaluation'],
 };
 
-/* firms for payout-rules links (data slug → page slug, display name) */
+/* firms for payout-rules links (review-page slug, display name); Vest Capital is the one multi-asset firm */
 const FIRMS = [
   ['my-funded-futures', 'My Funded Futures'], ['lucid-trading', 'Lucid Trading'], ['tradeify', 'Tradeify'], ['top-one-futures', 'Top One Futures'],
   ['fundednext', 'FundedNext'], ['take-profit-trader', 'Take Profit Trader'], ['apex-trader', 'Apex Trader Funding'], ['alpha-futures', 'Alpha Futures'],
+  ['vest-capital', 'Vest Capital'],
 ];
 
 /* ---------- block renderers ---------- */
@@ -144,7 +145,8 @@ function payoutLinks() {
   return `<div class="more-grid">` + FIRMS.map(([slug, name]) => {
     if (exists(`firms/${slug}/payout-rules.html`)) return card(`/firms/${slug}/payout-rules`, `${name} payout rules`);
     if (urlExists(`/firms/${slug}#payout-rules`)) return card(`/firms/${slug}#payout-rules`, `${name} payout rules`);
-    return card(`/firms/${slug}`, `${name} review`);
+    if (urlExists(`/firms/${slug}`)) return card(`/firms/${slug}`, `${name} review`);
+    return ''; // review page not shipped yet: no link
   }).join('') + `</div>`;
 }
 

@@ -45,6 +45,12 @@
  *   plansSummary      — array of compact plans for compare matrix
  *                       each plan: { name, featured?, rules: { label: value, ... } }
  *   note              — footer note shown below plans
+ *   assetClass        — OPTIONAL. Absent = futures firm. "multi-asset" = not a CME-futures firm (Vest Capital:
+ *                       USDC perpetuals on its own venue). Renderers use it to label the firm and to keep it out
+ *                       of futures-only claims ("all N futures firms", futures payout totals, vs-page pairs).
+ *   affiliatePending  — OPTIONAL. true = PropChamps has no referral link/code for this firm yet: affiliateUrl is
+ *                       the firm's plain landing page and promo/offerLine are placeholders. Renderers must not
+ *                       say a CHAMP discount or code works there while this is true.
  *
  * EDIT NOTES:
  *   • Always escape apostrophes in single-quoted strings, or use double quotes.
@@ -55,6 +61,11 @@
  *   • To hide a firm without removing it: set live: false.
  *   • To remove a firm entirely: delete its entry AND remove from FIRM_ORDER.
  *
+ * NOV 5, 2026 — Vest Capital added as the 9th firm (slug "vest-capital"): multi-asset USDC perpetuals on Vest's own
+ *   venue, NOT CME futures (assetClass "multi-asset"). Built only from the Nov 5 read of Vest's live site, docs, terms
+ *   and public price catalog (vest-facts.md + the full 1-Step price grid). US eligibility unconfirmed (Prop Terms
+ *   allow US residents, Exchange Terms bar US persons). Affiliate link + code pending from the owner
+ *   (affiliatePending: true; affiliateUrl/promo/offerLine are placeholders). No published payout total.
  * OCT 27, 2026 — no "rating" / "reviewCount" fields: PropChamps publishes no star ratings or review counts. Do not re-add.
  *
  * OCT 23, 2026 VERIFICATION (targeted payout/limits/consistency check vs official help centers; full fact
@@ -1901,6 +1912,225 @@ window.FIRMS = {
       }
     ],
     "note": "FundedNext Futures offers Flex (50K-150K, 95% split), Legacy (25K-100K, 80% split) and Rapid (25K-100K, 1-day pass, Pro or Daily). All use end-of-day drawdown and allow news trading. Platforms: NinjaTrader, Tradovate, TradingView. Limits: up to 5 active FundedNext (funded) accounts per user and per household, max 10 issued per calendar month; challenges up to $750K combined allocation. Copying your own trades between your own accounts (even across firms) is allowed; signal services and group trading are not. FundedNext also sells a $50K Direct account (no challenge, 20% perpetual consistency, $2,100 buffer, $800-$1,200 per withdrawal, 90% share; offer $169.99). Prices reflect promotional pricing at last check — confirm the current one-time fee at checkout. Code CHAMP."
+  },
+  /* VEST CAPITAL — added Nov 5, 2026. NOT a futures firm: every market is a USDC-settled perpetual on Vest's own
+     venue. Every value below is from vest-facts.md (Vest's site, docs, Prop + Exchange Terms and public catalog,
+     read Nov 5, 2026); where Vest's own pages disagree we say so or leave the value out. Never call it US-friendly.
+     Do NOT add Vest's November 2026 trading competition as a deal (purchase-linked prize draws). */
+  "vest-capital": {
+    "slug": "vest-capital",
+    "lastAudited": "2026-11-05",
+    "assetClass": "multi-asset",
+    "country": "PA",
+    "maxAllocation": "$50K",
+    "platformsList": ["Vest web app"],
+    "payoutTotal": "",
+    "payoutCount": "—",
+    "payoutAvg": "—",
+    "payoutLargest": "—",
+    "payoutMedianTime": "24 hours",
+    "name": "Vest Capital",
+    "initials": "VC",
+    "logo": "/logos/vest.png",
+    "logoText": "VC",
+    // TODO(owner): replace with Champ's Vest referral link, then delete "affiliatePending" below.
+    "affiliateUrl": "https://next.vestmarkets.com/vest-capital",
+    "affiliatePending": true,
+    "type": "Multi-asset · USDC perpetuals, not CME futures",
+    "tagline": "Instant · 1-Step · 2-Step · crypto, stock, index, FX and commodity perps",
+    "badge": "new",
+    "featured": false,
+    "live": true,
+    "tags": ["multi-asset", "instant", "no-dll"],
+    "filters": ["evaluation", "instant", "nodll", "fast-payout", "multi-asset"],
+    // TODO(owner): code value pending. Set Champ's real Vest code here (and offerLine "Use Code <CODE>"), and a discount
+    // only once confirmed. Neutral until then: this file is public, so it must not say CHAMP works at Vest.
+    "promo": {
+      "code": "",
+      "discount": ""
+    },
+    "offerLine": "No PropChamps code yet",
+    "offerSub": "Instant · 1-Step · 2-Step: multi-asset USDC perps, not CME futures",
+    "summary": "Vest Capital is the funded-account program of Vest Markets, and it is not a futures firm: every market is a USDC-settled perpetual contract on Vest's own venue, including ES and NQ perps that track the index futures. Crypto trades 24/7, stocks, ETFs, indices, FX and commodities 24/5, with hourly funding. There are three ways in: Instant accounts from $10 for a $500 account (no evaluation, 95% split, a static drawdown equal to the fee), a 1-Step evaluation (10% target, 6% static drawdown, 80% split) and a 2-Step from $15 that is sold only in Vest's custom-account builder. No consistency rule and no minimum days. Profit claims can be made any time, are processed in 24 hours and are paid out as USDC to a crypto wallet. Vest's Prop Trading Terms say every account, Instant included, is simulated, and payouts are compensation from Vest's own funds. The operator is Vest Exchange Inc., a Panama company, and US eligibility is unconfirmed. Prices and rules from Vest's site, Nov 5, 2026.",
+    "highlights": ["No Consistency Rule", "On-Demand Payouts", "Instant From $10"],
+    "bestFor": ["Multi-Asset Perps Traders", "No Consistency Rule", "On-Demand USDC Payouts", "Small Starter Accounts"],
+    "stats": [
+      ["Markets", "USDC perps, not CME futures"],
+      ["Paths", "Instant · 1-Step · 2-Step"],
+      ["Payouts", "On demand, in USDC"],
+      ["US eligibility", "Unconfirmed"]
+    ],
+    "boxPreviews": {
+      "deal": "One-time fees from $10 · no subscription, no activation fee",
+      "programs": "Instant, 1-Step, 2-Step (builder only) and a custom 1-Step builder",
+      "rules": "Static drawdown incl. open PnL · daily limit optional on evaluations · no consistency rule",
+      "payouts": "Claim any time · processed in 24h · USDC to a crypto wallet"
+    },
+    "boxMore": {
+      "deal": "Every Vest Capital product is a one-time fee: no subscription and no activation fee. Vest's site showed no strike-through discount on Nov 5, 2026. Confirm the checkout total before you pay.",
+      "programs": "INSTANT — $500 / $5K / $10K / $25K / $50K · $10 / $200 / $400 / $1,000 / $2,000 · no evaluation · fee equals the max drawdown · no daily loss limit · 95% split\n1-STEP EVALUATION — $5K / $10K / $25K / $50K · $75 / $150 / $375 / $745, or $40 / $80 / $210 / $415 with the 3% daily loss limit · 10% target · 6% static drawdown · 80% split\n2-STEP EVALUATION (builder only) — $5K-$50K · $15 / $35 / $90 / $175 · 10% then 5% · 6% drawdown · 3% daily loss limit · 80% split\nCUSTOM 1-STEP (builder) — target 5-20% · drawdown 6-8% · daily loss none / 3% / 4% / 5% · split 70-95% · $20 to $2,170",
+      "rules": "Drawdown: static, fixed from starting capital, measured on account value including open PnL (2% on the $500 Instant, 4% on other Instants, 6% on the evaluation cards)\nDaily loss limit: none on Instant; optional on evaluations; resets 20:00 ET\nNo consistency rule, no minimum days, no time limit · no API trading on funded accounts · a breach closes the account with no reset",
+      "payouts": "Claim any time, as often as you like, no cap · processed in 24 hours · claims land in your Vest Primary Account, then you withdraw USDC to a crypto wallet · no fiat payout documented"
+    },
+    "programs": [
+      "Instant — no evaluation, live at purchase, $500-$50K, fee equals the max drawdown, 95% split",
+      "1-Step Evaluation — 10% target, 6% static drawdown, optional 3% daily loss limit, 80% split",
+      "2-Step Evaluation — builder only, 10% then 5% target, 6% drawdown, 3% daily loss limit, 80% split, from $15",
+      "Custom 1-Step — builder: target 5-20%, drawdown 6-8%, daily loss none / 3% / 4% / 5%, split 70-95%, $20 to $2,170"
+    ],
+    "rules": [
+      "Markets: USDC-margined perpetual contracts on Vest's own venue, not CME futures. Crypto trades 24/7; stocks, ETFs, indices (ES, NQ, RTY and YM perps), FX and commodities trade 24/5; funding is paid hourly",
+      "Pricing (one-time, Vest's site, Nov 5, 2026): Instant $10 / $200 / $400 / $1,000 / $2,000 ($500-$50K); 1-Step $75 / $150 / $375 / $745, or $40 / $80 / $210 / $415 with the 3% daily loss limit; 2-Step $15 / $35 / $90 / $175 ($5K-$50K)",
+      "Drawdown: static, fixed from starting capital and measured on account value including open PnL: 2% on the $500 Instant, 4% on the other Instants, 6% on the 1-Step cards and 2-Step, 6% / 7% / 8% in the builder",
+      "Daily loss limit: none on Instant; optional on evaluations (3% on the 1-Step cards, 3% / 4% / 5% in the builder, fixed 3% on 2-Step); resets at 20:00 ET",
+      "No consistency rule, no minimum trading days and no time limit; news trading and scalping are allowed; no API trading on any funded account",
+      "A breach closes the account immediately and permanently, with no reset; up to 10 Live funded accounts at once",
+      "Refunds only within 3 days and only if no trade was placed"
+    ],
+    "payouts": [
+      "Claim profit any time, as often as you like, with no cap on the amount; claims are processed in 24 hours and cannot be reversed",
+      "A claim moves your share to your Vest Primary Account; you then withdraw USDC to a crypto wallet (Base or Arbitrum One for email and Google sign-ups). No fiat payout is documented",
+      "Split fixed at purchase: 95% on Instant, 80% on the 1-Step cards and 2-Step, 70% to 95% in the builder",
+      "Paid as compensation from Vest's own corporate funds; Vest's Prop Trading Terms say every account is simulated",
+      "US residents: unconfirmed. Claimed profit lands in the Primary Account, which falls under Exchange Terms that bar US persons"
+    ],
+    "platforms": ["Vest web app (TradingView charts)"],
+    "warning": "Not CME futures: every Vest market is a USDC perpetual contract on Vest's own venue. Vest's Prop Trading Terms say every account, Instant included, is simulated and that payouts are compensation from Vest's own funds, although its marketing calls it real capital. US eligibility is unconfirmed: the Prop Terms allow US residents, but the Exchange Terms bar US persons, and claimed profit lands in the Primary Account, which Vest's site geo-blocks for US IP addresses. US traders should confirm with Vest before buying. The operator is Vest Exchange Inc., a Panama company, and disputes go to arbitration in Panama. Payouts are USDC to a crypto wallet only.",
+    "plansDetailed": [
+      {
+        "name": "Instant",
+        "rules": [
+          ["Account Sizes", "$500 / $5K / $10K / $25K / $50K"],
+          ["Price (one-time)", "$10 / $200 / $400 / $1,000 / $2,000"],
+          ["Structure", "No evaluation · live at purchase"],
+          ["Profit Target", "None"],
+          ["Max Drawdown (static)", "$10 / $200 / $400 / $1,000 / $2,000 (2% on $500, 4% above; equals the fee)"],
+          ["Daily Loss Limit", "None"],
+          ["Consistency", "None"],
+          ["Min. Trading Days", "None"],
+          ["Profit Split", "95%"],
+          ["Payouts", "Claim any time · processed in 24h · USDC"],
+          ["Activation Fee", "None"],
+          ["Platform", "Vest web app (TradingView charts) · no API on funded accounts"],
+          ["Source", "Vest's site, Nov 5, 2026"]
+        ]
+      },
+      {
+        "name": "1-Step Evaluation",
+        "featured": true,
+        "rules": [
+          ["Account Sizes", "$5K / $10K / $25K / $50K"],
+          ["Price, no daily loss limit (default)", "$75 / $150 / $375 / $745"],
+          ["Price with the 3% daily loss limit", "$40 / $80 / $210 / $415"],
+          ["Tiers", "Silver / Gold / Platinum / Emerald"],
+          ["Profit Target (10%)", "$500 / $1,000 / $2,500 / $5,000"],
+          ["Max Drawdown (6%, static)", "$300 / $600 / $1,500 / $3,000"],
+          ["Daily Loss Limit", "None by default · optional 3% (resets 20:00 ET)"],
+          ["Consistency", "None"],
+          ["Min. Trading Days", "None · no time limit"],
+          ["After Passing", "A Live account of the same size, created instantly, same rules"],
+          ["Profit Split", "80%"],
+          ["Payouts", "Claim any time once Live · processed in 24h · USDC"],
+          ["Activation Fee", "None"],
+          ["Source", "Vest's site, Nov 5, 2026"]
+        ]
+      },
+      {
+        "name": "2-Step Evaluation (builder only)",
+        "rules": [
+          ["Account Sizes", "$5K / $10K / $25K / $50K"],
+          ["Price (one-time)", "$15 / $35 / $90 / $175"],
+          ["Where to Buy", "Only in Vest's Create Custom Account builder"],
+          ["Profit Target", "$500 / $1,000 / $2,500 / $5,000 (10%), then $250 / $500 / $1,250 / $2,500 (5%)"],
+          ["Max Drawdown (6%, static)", "$300 / $600 / $1,500 / $3,000"],
+          ["Daily Loss Limit (3%)", "$150 / $300 / $750 / $1,500"],
+          ["Consistency", "None"],
+          ["Min. Trading Days", "None · no time limit"],
+          ["Profit Split", "80%"],
+          ["Payouts", "Claim any time once Live · processed in 24h · USDC"],
+          ["Activation Fee", "None"],
+          ["Source", "Vest's site, Nov 5, 2026"]
+        ]
+      },
+      {
+        "name": "Custom 1-Step (builder)",
+        "rules": [
+          ["Account Sizes", "$5K / $10K / $25K / $50K ($500 is Instant only)"],
+          ["Price range", "$20 to $2,170 (every combination has its own price)"],
+          ["Profit Target", "5% / 10% / 15% / 20% (default 10%)"],
+          ["Max Drawdown (static)", "6% / 7% / 8% (default 6%)"],
+          ["Daily Loss Limit", "None / 3% / 4% / 5% (default none)"],
+          ["Profit Split", "70% / 80% / 90% / 95% (default 80%)"],
+          ["Cost Drivers (our reading of the grid)", "A lower target, a larger drawdown, no daily limit and a higher split each cost more"],
+          ["Cheapest", "$20: $5K, 20% target, 6% drawdown, 3% daily limit, 70% split"],
+          ["Most Expensive", "$2,170: $50K, 5% target, 8% drawdown, no daily limit, 95% split"],
+          ["Source", "Vest's site and public price catalog, Nov 5, 2026"]
+        ]
+      }
+    ],
+    "plansSummary": [
+      {
+        "name": "Instant",
+        "featured": false,
+        "rules": {
+          "Account Sizes": "0.5K · 5K · 10K · 25K · 50K",
+          "Profit Target": "None — instant funded (no evaluation)",
+          "Max Drawdown": "$10 · $200 · $400 · $1,000 · $2,000",
+          "Drawdown Type": "Static (fixed floor, counts open PnL)",
+          "Daily Loss Limit": "None",
+          "Min. Trading Days": "None — instant funded",
+          "Consistency Rule": "None",
+          "Payout Split": "95% Trader / 5% Vest",
+          "Payout Frequency": "Daily or on demand (claim any time; processed in 24h)",
+          "Max Payout": "No cap on claim size or count",
+          "Activation Fee": "None · one-time $10 / $200 / $400 / $1,000 / $2,000",
+          "Reset Fee": "No resets (buy a new account)",
+          "Platforms": "Vest web app (TradingView charts)",
+          "Notes": "USDC perpetuals, not CME futures · fee equals the max drawdown (2% on $500, 4% above) · simulated per Vest's Prop Terms · Vest's site, Nov 5, 2026"
+        }
+      },
+      {
+        "name": "1-Step Evaluation",
+        "featured": true,
+        "rules": {
+          "Account Sizes": "5K · 10K · 25K · 50K",
+          "Profit Target": "$500 · $1,000 · $2,500 · $5,000",
+          "Max Drawdown": "$300 · $600 · $1,500 · $3,000",
+          "Drawdown Type": "Static (fixed floor, counts open PnL)",
+          "Daily Loss Limit": "None by default · optional 3% (resets 20:00 ET)",
+          "Min. Trading Days": "None (no minimum days, no time limit)",
+          "Consistency Rule": "None",
+          "Payout Split": "80% Trader / 20% Vest",
+          "Payout Frequency": "Daily or on demand (claim any time once Live; processed in 24h)",
+          "Max Payout": "No cap on claim size or count",
+          "Activation Fee": "None · one-time $75 / $150 / $375 / $745 ($40 / $80 / $210 / $415 with the 3% daily limit)",
+          "Reset Fee": "No resets (buy a new account)",
+          "Platforms": "Vest web app (TradingView charts)",
+          "Notes": "10% target · 6% static drawdown · passing creates a Live account of the same size instantly · custom builder: target 5-20%, drawdown 6-8%, split 70-95%, $20 to $2,170 · Vest's site, Nov 5, 2026"
+        }
+      },
+      {
+        "name": "2-Step Evaluation",
+        "featured": false,
+        "rules": {
+          "Account Sizes": "5K · 10K · 25K · 50K",
+          "Profit Target": "$500 · $1,000 · $2,500 · $5,000, then $250 · $500 · $1,250 · $2,500",
+          "Max Drawdown": "$300 · $600 · $1,500 · $3,000",
+          "Drawdown Type": "Static (fixed floor, counts open PnL)",
+          "Daily Loss Limit": "$150 · $300 · $750 · $1,500 (3%, resets 20:00 ET)",
+          "Min. Trading Days": "None (no minimum days, no time limit)",
+          "Consistency Rule": "None",
+          "Payout Split": "80% Trader / 20% Vest",
+          "Payout Frequency": "Daily or on demand (claim any time once Live; processed in 24h)",
+          "Max Payout": "No cap on claim size or count",
+          "Activation Fee": "None · one-time $15 / $35 / $90 / $175",
+          "Reset Fee": "No resets (buy a new account)",
+          "Platforms": "Vest web app (TradingView charts)",
+          "Notes": "Sold only in Vest's Create Custom Account builder · 10% then 5% target · cheapest evaluation · Vest's site, Nov 5, 2026"
+        }
+      }
+    ],
+    "note": "Vest Capital's three paths: Instant ($500 / $5K / $10K / $25K / $50K for $10 / $200 / $400 / $1,000 / $2,000, where the fee equals the max drawdown: 2% on $500, 4% above; no daily loss limit, no target, 95% split), 1-Step cards (10% target, 6% static drawdown, 80% split; $75 / $150 / $375 / $745, or $40 / $80 / $210 / $415 with the optional 3% daily loss limit) and 2-Step, sold only in Vest's Create Custom Account builder (10% then 5%, 6% drawdown, 3% daily loss limit, 80% split; $15 / $35 / $90 / $175). The same builder prices a custom 1-Step on $5K-$50K: target 5-20%, drawdown 6-8%, daily loss none / 3% / 4% / 5%, split 70-95%, from $20 to $2,170, each combination priced separately. Drawdown is static from starting capital and counts open PnL; the daily limit resets at 20:00 ET; a breach closes the account with no reset. No API trading on funded accounts; up to 10 Live funded accounts. Refunds only within 3 days and only if no trade was placed. Vest's own pages disagree on some rules (funded leverage cap, whether touching the drawdown floor breaches, the daily-loss base), so confirm in your dashboard. Prices and rules from Vest's site, Nov 5, 2026."
   }
 };
 
@@ -1915,7 +2145,8 @@ window.FIRM_ORDER = [
   "apex-trader",
   "take-profit",
   "top-one-futures",
-  "my-funded-futures"
+  "my-funded-futures",
+  "vest-capital"
 ];
 
 /**

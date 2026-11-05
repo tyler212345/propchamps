@@ -275,7 +275,7 @@ const more = (url, html) => (exists(url) ? ' ' + html : '');
 /** Anchor if the target page exists on disk, else the plain text. */
 function L(url, text) { return exists(url) ? '<a href="' + attr(url) + '">' + text + '</a>' : text; }
 const VS_TOKEN = { 'apex-trader': 'apex-trader-funding', 'take-profit': 'take-profit-trader' };
-const VS_NAME = { 'apex-trader-funding': 'Apex Trader Funding', 'lucid-trading': 'Lucid Trading', 'alpha-futures': 'Alpha Futures', 'tradeify': 'Tradeify', 'my-funded-futures': 'My Funded Futures', 'take-profit-trader': 'Take Profit Trader', 'fundednext': 'FundedNext', 'top-one-futures': 'Top One Futures' };
+const VS_NAME = { 'apex-trader-funding': 'Apex Trader Funding', 'lucid-trading': 'Lucid Trading', 'alpha-futures': 'Alpha Futures', 'tradeify': 'Tradeify', 'my-funded-futures': 'My Funded Futures', 'take-profit-trader': 'Take Profit Trader', 'fundednext': 'FundedNext', 'top-one-futures': 'Top One Futures', 'vest-capital': 'Vest Capital' };
 function vsPages(slug) {
   const tok = VS_TOKEN[slug] || slug;
   const dir = path.join(ROOT, 'vs');

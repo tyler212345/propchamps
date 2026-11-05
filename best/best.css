@@ -70,6 +70,7 @@ section.block[id]{scroll-margin-top:calc(var(--pc-header-h,68px) + 100px)}
 .rank-body{min-width:0}
 .rank-head{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}
 .rank-logo{width:48px;height:48px;border-radius:11px;background:var(--bg-elev);border:1px solid var(--border-strong);object-fit:contain;padding:7px;flex-shrink:0}
+.rank-logo-text{display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--text-strong);letter-spacing:.02em}
 .rank-name{font-family:var(--font-display);font-weight:800;font-size:20px;color:var(--text-strong);letter-spacing:-.02em;line-height:1.15}
 .rank-award{font-family:var(--font-mono);font-size:10.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--lime-text);margin-top:3px}
 .rank-why{font-size:15px;color:var(--text-soft);line-height:1.65;letter-spacing:-.005em;margin-bottom:18px}
@@ -81,6 +82,9 @@ section.block[id]{scroll-margin-top:calc(var(--pc-header-h,68px) + 100px)}
 .rank-review{font-size:13.5px;font-weight:600;color:var(--text-soft);transition:color .15s}
 .rank-review:hover{color:var(--lime-text)}
 .rank-review::after{content:" →"}
+/* short disclosure line on a non-futures card (e.g. multi-asset Vest Capital): facts, never a score */
+.rank-caveat{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;line-height:1.5;color:var(--text-soft);background:var(--pc-gold-soft,rgba(245,193,78,.11));border:1px solid var(--pc-gold-line,rgba(245,193,78,.32));border-radius:10px;padding:9px 12px;margin:-4px 0 18px}
+.rank-caveat b{flex-shrink:0;font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--pc-gold,#f5c14e);padding-top:1px}
 
 /* Honorable / not-listed note */
 .note-card{margin-top:20px;padding:20px 24px;background:var(--bg-card);border:1px dashed var(--border-strong);border-radius:14px;font-size:14.5px;color:var(--text-soft);line-height:1.6}
@@ -204,6 +208,7 @@ table.data.wide{min-width:1080px}
 .tag.has{background:rgba(255,107,107,.10);color:#ff9a9a;border-color:rgba(255,107,107,.26)}
 .tag.part{background:var(--pc-gold-soft,rgba(245,193,78,.11));color:var(--pc-gold,#f5c14e);border-color:var(--pc-gold-line,rgba(245,193,78,.32))}
 .tag.na{background:var(--bg-elev);color:var(--text-soft);border-color:var(--border-strong)}
+.tag.ma{background:var(--lime-soft);color:var(--lime-text);border-color:var(--border-lime);margin-left:6px;vertical-align:1px}
 
 /* filter chips */
 .chips{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:14px}

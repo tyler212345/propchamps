@@ -1,7 +1,14 @@
 #!/usr/bin/env node
 /**
- * build-firm-pages.js — Pre-render the 8 firm review pages and the /firms/ hub
+ * build-firm-pages.js — Pre-render the 9 firm review pages and the /firms/ hub
  * from data/firms.js.
+ *
+ * MULTI-ASSET + PENDING FIRMS (Nov 5, 2026: Vest Capital)
+ *   firms.js assetClass "multi-asset" = not a CME-futures firm (Vest: USDC perpetuals on its own venue). It
+ *   gets its own review page and a labelled row on /firms/, but is kept out of the "N futures firms" counts.
+ *   affiliatePending true = PropChamps has no code there yet: every CHAMP claim generated here (hero code,
+ *   CTAs, related-firm intro, hub deal cell, "firms that take CHAMP") is switched off for it, and promo copy
+ *   reads f.promo, so the owner's referral swap is one firms.js edit plus a re-run.
  *
  * WHY THIS EXISTS
  *   Firm pages used to be 100% client-side rendered: the HTML shipped with
@@ -84,7 +91,8 @@ const FILE_FOR = {
   'take-profit': 'take-profit-trader.html',
   'top-one-futures': 'top-one-futures.html',
   'my-funded-futures': 'my-funded-futures.html',
-  'fundednext': 'fundednext.html'
+  'fundednext': 'fundednext.html',
+  'vest-capital': 'vest-capital.html'
 };
 // slug -> page base name / clean URL path (no .html)
 const BASE_FOR = {};
@@ -100,20 +108,28 @@ function vsSlug(s) { return VS_SLUG[s] || s; }
 // short names for metas and tight UI
 const SHORT = {
   'lucid-trading': 'Lucid', 'fundednext': 'FundedNext', 'apex-trader': 'Apex', 'tradeify': 'Tradeify',
-  'alpha-futures': 'Alpha', 'my-funded-futures': 'MFF', 'top-one-futures': 'Top One', 'take-profit': 'Take Profit Trader'
+  'alpha-futures': 'Alpha', 'my-funded-futures': 'MFF', 'top-one-futures': 'Top One', 'take-profit': 'Take Profit Trader',
+  'vest-capital': 'Vest'
 };
 // tokens that mark a blog/best/tools slug as being about one firm
 const FIRM_KEYS = {
   'apex-trader': ['apex'], 'lucid-trading': ['lucid'], 'tradeify': ['tradeify'], 'alpha-futures': ['alpha'],
   'take-profit': ['take-profit', 'tpt'], 'top-one-futures': ['top-one'], 'my-funded-futures': ['my-funded-futures', 'mff', 'mffu'],
-  'fundednext': ['fundednext']
+  'fundednext': ['fundednext'], 'vest-capital': ['vest']
 };
+// multi-asset = not a CME-futures firm (labelled, kept out of futures-only counts); pending = no PropChamps code yet
+function isMulti(s) { return !!(FIRMS[s] && FIRMS[s].assetClass === 'multi-asset'); }
+function pending(f) { return !!(f && f.affiliatePending); }
+function promoCode(f) { return (f.promo && f.promo.code) || 'CHAMP'; }
+function liveSlugs() { return FIRM_ORDER.filter(function (s) { return FIRMS[s] && FIRMS[s].live !== false; }); }
+// hero values while a firm has no code (the inline page JS uses the same strings, see patchInlineJs)
+const PENDING_CODE = 'None yet', PENDING_OFFER = 'No discount yet';
 
 // Review dates. f.lastAudited (firms.js) wins when present. Oct 23, 2026 = the
 // help-center verification; Apex blocked that fetch, so its last full audit is Oct 5.
 const REVIEWED = { 'default': '2026-10-23', 'apex-trader': '2026-10-05' };
 // First publication (git history of firms/<page>.html)
-const PUBLISHED = { 'default': '2026-05-28', 'fundednext': '2026-08-17' };
+const PUBLISHED = { 'default': '2026-05-28', 'fundednext': '2026-08-17', 'vest-capital': '2026-11-05' };
 function reviewedISO(slug, f) { return f.lastAudited || REVIEWED[slug] || REVIEWED['default']; }
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 function longDate(iso) { var p = iso.split('-'); return MONTHS[+p[1] - 1] + ' ' + (+p[2]) + ', ' + p[0]; }
@@ -228,7 +244,10 @@ function DP(f, planRe, labelRe) {
 //   noDll / noCons    : no DLL / no consistency rule at SOME stage of some plan
 //   noDllAll / noConsAll : none at ANY stage of some plan
 // Plans that exist but are not in plansSummary yet (firms.js note only):
-const EXTRA_ATTRS = { 'fundednext': { instant: true } };   // FundedNext Direct ($50K)
+const EXTRA_ATTRS = {
+  'fundednext': { instant: true },     // FundedNext Direct ($50K)
+  'vest-capital': { instant: true }    // Vest Instant ($500-$50K); also derived from plansSummary, pinned so a reword can't drop it
+};
 function attrs(f) {
   var a = { noDll: false, noDllAll: false, daily: false, instant: false, noCons: false, noConsAll: false };
   (f.plansSummary || []).forEach(function (pl) {
@@ -323,6 +342,13 @@ function guidesFor(slug, f) {
       if (!exists(url)) return;
       var owner = firmOfSlug(name);
       if (owner && owner !== slug) return;                       // about another firm
+      // a multi-asset firm links only the /best/ lists that feature it, skips futures-only guides,
+      // and puts pages that cover it first
+      var mentions = false;
+      if (isMulti(slug) && owner !== slug) {
+        mentions = fs.readFileSync(path.join(ROOT, fileForUrl(url)), 'utf8').indexOf('href="' + PATH_FOR[slug] + '"') >= 0;
+        if (d[0] === 'best' ? !mentions : /futures|tradovate|ninjatrader/.test(name)) return;
+      }
       // /best/ lists only where the firm actually has a qualifying plan
       if (d[0] === 'best') {
         if (/no-daily-loss|no-dll/.test(name) && !a.noDll) return;
@@ -332,7 +358,7 @@ function guidesFor(slug, f) {
       }
       var t = topicOf(name);
       list.push({ url: url, kind: d[1], title: readH1(fileForUrl(url)) || titleCase(name.replace(/-/g, ' ')),
-        topic: t[0], score: owner ? 100 : t[2], own: !!owner });
+        topic: t[0], score: owner ? 100 : t[2] + (mentions ? 20 : 0), own: !!owner });
     });
   });
   // a firm-specific guide replaces the generic one on the same topic (Apex drawdown)
@@ -361,7 +387,7 @@ function relatedBlock(slug, f) {
     return linkCard(v.url, 'Head-to-head', a.name + ' vs ' + b.name, 'fx-vs', FIRMS[v.other].logo);
   });
   if (exists('/vs/')) cmp.push(linkCard('/vs/', 'Every comparison', 'All prop firm head-to-heads'));
-  cmp.push(linkCard('/compare', 'All 8 firms', 'Compare every plan side by side'));
+  cmp.push(linkCard('/compare', 'All ' + liveSlugs().length + ' firms', 'Compare every plan side by side'));
   out += '<h3 class="fx-h3" id="compare-' + slug + '">Compare ' + amp(f.name) + '</h3><div class="fx-links">' + cmp.join('') + '</div>';
   var g = subs.map(function (s) { return linkCard(s.url, s.kind, s.title); })
     .concat(guides.map(function (x) { return linkCard(x.url, x.kind, x.title); }));
@@ -381,7 +407,8 @@ const U = {
   apexDd: '/blog/apex-drawdown-explained', instantBest: '/best/best-instant-funding-futures-prop-firms',
   noConsBest: '/best/best-prop-firms-no-consistency-rule', noDllBest: '/best/best-prop-firms-no-daily-loss-limit',
   fastBest: '/best/best-prop-firms-fast-payouts', payouts: '/payouts', audit: '/audit-log',
-  method: '/methodology', deals: '/deals', compare: '/compare', worth: '/blog/are-futures-prop-firms-worth-it'
+  method: '/methodology', deals: '/deals', compare: '/compare', worth: '/blog/are-futures-prop-firms-worth-it',
+  makeMoney: '/blog/how-do-prop-firms-make-money', firms: '/firms/'
 };
 function consLinks() {
   return [L(U.cons, 'how consistency rules work'), IF(U.consCalc, ' · <a href="' + U.consCalc + '">consistency calculator</a>')].join('');
@@ -1088,6 +1115,385 @@ CONTENT['fundednext'] = function (f) {
   };
 };
 
+/* ============================== VEST CAPITAL (multi-asset) ============================== */
+// NOT a futures firm: every market is a USDC perpetual on Vest's own venue (firms.js assetClass "multi-asset").
+// Plan tables read firms.js; prose cites the Nov 5, 2026 read of Vest's site, FAQ, docs, Prop + Exchange Terms and
+// its public price catalog / market list (the verified Vest fact sheet). Where Vest's own pages disagree we say so.
+// Page rules: never call Vest US-friendly; never state its "real capital" marketing as fact (its terms say every
+// account is simulated); never promote its purchase-linked competition prize draws; promo copy reads f.promo and
+// f.affiliatePending only, so the owner's referral swap is one firms.js edit plus a re-run.
+CONTENT['vest-capital'] = function (f) {
+  var V = 'Vest’s site, Nov 5, 2026';
+  function inst(re) { return DP(f, /^Instant/, re); }
+  function one(re) { return DP(f, /^1-Step/, re); }
+  function two(re) { return DP(f, /^2-Step/, re); }
+  function cus(re) { return DP(f, /^Custom 1-Step/, re); }
+  function num(s) { var m = String(s).match(/\$([\d,.]+)(K?)/); return m ? parseFloat(m[1].replace(/,/g, '')) * (m[2] ? 1000 : 1) : 0; }
+  function usd(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+  function pct(a, b) { return num(b) ? +(num(a) / num(b) * 100).toFixed(1) + '%' : '—'; }
+  function range(arr) { return arr[0] + '-' + arr[arr.length - 1]; }
+  function split(i) { return (String(S(f, i, 'Payout Split')).match(/^\d+%/) || ['—'])[0]; }
+  function ext(u, t) { return '<a href="' + u + '" target="_blank" rel="noopener">' + t + '</a>'; }
+  function col(h, items) { return '<div class="fx-col"><h3 class="fx-h3">' + h + '</h3>' + prose([ul(items)]) + '</div>'; }
+  var D = 'https://docs.vestmarkets.com/';
+
+  // plan data (firms.js plansDetailed)
+  var instSizes = inst(/^Account Sizes/).split(' / '), instPrice = inst(/^Price/).split(' / ');
+  var instDd = money(inst(/^Max Drawdown/).replace(/\s*\(.*$/, ''));
+  var oneSizes = one(/^Account Sizes/).split(' / '), oneTiers = one(/^Tiers/).split(' / ');
+  var oneTarget = one(/^Profit Target/).split(' / '), oneDd = one(/^Max Drawdown/).split(' / ');
+  var oneNone = one(/^Price, no daily/).split(' / '), one3 = one(/^Price with the 3%/).split(' / ');
+  var twoSizes = two(/^Account Sizes/).split(' / '), twoPrice = two(/^Price/).split(' / ');
+  var twoT = two(/^Profit Target/).split(', then '), twoT1 = money(twoT[0]), twoT2 = money(twoT[1] || '');
+  var twoDd = two(/^Max Drawdown/).split(' / '), twoDll = two(/^Daily Loss Limit/).split(' / ');
+  var cusSplit = cus(/^Profit Split/).replace(/\s*\(.*$/, '').match(/\d+%/g) || [];
+  var cusLo = money(cus(/^Cheapest/))[0] || '—', cusHi = money(cus(/^Most Expensive/))[0] || '—';
+  [[instDd, instSizes], [instPrice, instSizes], [oneTiers, oneSizes], [oneTarget, oneSizes], [oneDd, oneSizes], [oneNone, oneSizes],
+    [one3, oneSizes], [twoPrice, twoSizes], [twoT1, twoSizes], [twoT2, twoSizes], [twoDd, twoSizes], [twoDll, twoSizes]].forEach(function (x, k) {
+    if (x[0].length !== x[1].length) WARN.push('vest-capital: table column ' + k + ' has ' + x[0].length + ' values for ' + x[1].length + ' sizes');
+  });
+  var last = instSizes.length - 1;
+  var instPct = pct(instDd[1], instSizes[1]) + ' (' + pct(instDd[0], instSizes[0]) + ' on ' + instSizes[0] + ')';
+  var instPctShort = pct(instDd[0], instSizes[0]) + ' on ' + instSizes[0] + ', ' + pct(instDd[1], instSizes[1]) + ' above';
+  var onePct = pct(oneDd[0], oneSizes[0]), oneTgtPct = pct(oneTarget[0], oneSizes[0]);
+  var twoPct1 = pct(twoT1[0], twoSizes[0]), twoPct2 = pct(twoT2[0], twoSizes[0]), twoDdPct = pct(twoDd[0], twoSizes[0]), twoDllPct = pct(twoDll[0], twoSizes[0]);
+  var floorLeft = usd(num(instSizes[last]) - num(instDd[last]));
+
+  // Custom 1-Step builder range per size: Vest's public price catalog (192 combinations per size), Nov 5, 2026
+  var CUSTOM_RANGE = [['$5K', '$20', '$220'], ['$10K', '$45', '$440'], ['$25K', '$120', '$1,100'], ['$50K', '$230', '$2,170']];
+  // funded max leverage (Vest's market list, Nov 5, 2026; matches its leverage docs) + Temporary Leverage Limit
+  var LEVERAGE = [
+    ['FX perps (EUR, GBP, JPY, AUD, CAD, CHF, NZD)', '75x', '5x'],
+    ['ES-PERP (S&P 500)', '75x', '5x'],
+    ['NQ, RTY and YM perps', '50x', '5x'],
+    ['GC (gold)', '25x', '3x'],
+    ['SI (silver)', '15x', '3x'],
+    ['CL (crude oil)', '10x', '—'],
+    ['BZ, HG, NG and PL', '5x', '—'],
+    ['BTC', '25x', '— (24/7)'],
+    ['ETH', '15x', '— (24/7)'],
+    ['SOL', '10x', '— (24/7)'],
+    ['HYPE', '5x (see note)', '— (24/7)'],
+    ['XRP', 'Reduce-only on funded accounts', '—'],
+    ['NVDA', '25x', '—'],
+    ['INTC, MU, SNDK, SPCX and TSLA', '10x', '—'],
+    ['All other stocks and ETFs', '5x', '—']
+  ];
+
+  // promo: firms.js only (affiliatePending = no PropChamps code yet)
+  var pend = pending(f), code = promoCode(f), disc = (f.promo && f.promo.discount) || '';
+  var hasDisc = disc && !/^see /i.test(disc);
+  var promoAnswer = pend
+    ? 'PropChamps doesn’t have a Vest Capital code yet, so we don’t list one. Vest’s site and price catalog showed no discount on Nov 5, 2026: every price was the full list price.'
+    : 'Use code ' + esc(code) + ' at checkout' + (hasDisc ? ' (' + esc(disc) + ')' : '') + '. The prices above are Vest’s list prices from Nov 5, 2026; confirm the total at checkout.';
+  var promoFaq = pend
+    ? 'Not from PropChamps yet: we don’t have a Vest Capital code, and Vest’s site showed no discount on Nov 5, 2026. Vest’s custom-account builder has an “Add Code” field; codes other sites publish for Vest are their own affiliate codes, which we haven’t verified.'
+    : 'Yes: use code ' + esc(code) + ' at checkout' + (hasDisc ? ' (' + esc(disc) + ')' : '') + ', starting from our link so the referral is attached. Compare the checkout total with Vest’s list prices.';
+
+  return {
+    title: 'Vest Capital Review ' + YEAR + ': Instant Funding, Rules & Payouts',
+    meta: 'Vest Capital review: multi-asset USDC perps, not CME futures. Instant from ' + instPrice[0] + ', 1-Step & 2-Step rules, 24h USDC claims, US eligibility unconfirmed.',
+    h1: ['Vest Capital', 'Review (' + YEAR + ')', ': Instant, <span class="fx-nw">1-Step</span> &amp; <span class="fx-nw">2-Step</span>'],
+    tagline: 'Multi-asset USDC perpetuals, not CME futures · Instant · 1-Step · 2-Step',
+    eyebrow: 'Multi-asset prop program review',
+    source: 'Vest’s site, docs and terms',
+    ctaTitle: 'Considering Vest Capital?',
+    ctaNote: 'Read the US-eligibility and simulated-account notes above first.',
+    alert: {
+      label: 'Before you buy',
+      title: 'Read this first · ' + V,
+      items: [
+        '<strong>Not CME futures.</strong> Every market is a USDC-settled perpetual contract on Vest’s own venue, including ES and NQ perps that track the index futures. Crypto trades 24/7, everything else 24/5, with funding paid hourly. <a href="#markets">Markets</a>',
+        '<strong>Simulated accounts.</strong> Vest’s Prop Trading Terms say every account, Instant included, is simulated, and payouts are compensation from Vest’s own funds, although its marketing says “real capital”. <a href="#simulated">What the terms say</a>',
+        '<strong>US eligibility unconfirmed.</strong> The Prop Terms allow US residents, but the Exchange Terms bar US persons, and claimed profit lands in the Primary Account, which Vest’s site restricts for US IP addresses. US traders: confirm with Vest before buying. <a href="#eligibility">Details</a>',
+        '<strong>Offshore operator.</strong> Vest Exchange Inc., a Panama company; disputes go to arbitration in Panama. <a href="#track-record">Operator and record</a>',
+        '<strong>Crypto payouts.</strong> Claim any time, processed in 24 hours, into your Vest Primary Account, then withdraw USDC to a crypto wallet. No fiat payout is documented. <a href="#payouts">Payout rules</a>'
+      ]
+    },
+    chooser: {
+      h2: 'Vest Capital plans compared: Instant vs 1-Step vs 2-Step',
+      intro: 'Three ways in, each a one-time fee with no subscription and no activation fee. Instant skips the evaluation; 1-Step and 2-Step are evaluations that create a Live account of the same size as soon as you pass. Every market is a USDC perpetual on Vest’s own venue, not a CME future.',
+      custom: table(['Rule', 'Instant', '1-Step', '2-Step (builder only)'], [
+        ['Sizes', inst(/^Account Sizes/), one(/^Account Sizes/), two(/^Account Sizes/)],
+        ['One-time price', inst(/^Price/), oneNone.join(' / ') + '<br>' + one3.join(' / ') + ' with the 3% daily limit', twoPrice.join(' / ')],
+        ['Profit target', 'None', oneTgtPct + ': ' + oneTarget.join(' / '), twoPct1 + ', then ' + twoPct2 + ': ' + twoT1.join(' / ') + ', then ' + twoT2.join(' / ')],
+        ['Max drawdown (static, counts open PnL)', instDd.join(' / ') + ' (' + instPctShort + ')', oneDd.join(' / ') + ' (' + onePct + ')', twoDd.join(' / ') + ' (' + twoDdPct + ')'],
+        ['Daily loss limit', amp(inst(/^Daily Loss/)), amp(one(/^Daily Loss/)), twoDll.join(' / ') + ' (' + twoDllPct + ')'],
+        ['Consistency', amp(S(f, 0, 'Consistency Rule')), amp(S(f, 1, 'Consistency Rule')), amp(S(f, 2, 'Consistency Rule'))],
+        ['Minimum days', amp(inst(/^Min/)), amp(one(/^Min/)), amp(two(/^Min/))],
+        ['Split', split(0), split(1), split(2)],
+        ['Payouts', amp(inst(/^Payouts/)), amp(one(/^Payouts/)), amp(two(/^Payouts/))]
+      ], { cls: 'fx-chooser', colIds: [null, 'instant', 'one-step', 'two-step'], caption: 'Vest Capital plans compared' }) +
+        note('From ' + V + '. On the 1-Step, the lower price is with the optional 3% daily loss limit. A custom 1-Step (target, drawdown, daily limit and split of your choice) costs ' + cusLo + ' to ' + cusHi + '; see the prices below.'),
+      picks: [
+        ['instant', 'Pick Instant if', 'you want to skip the evaluation and keep ' + split(0) + ', and can trade inside a tight static floor: ' + instPct + ' of the account, counting open losses. The fee equals that drawdown.'],
+        ['one-step', 'Pick 1-Step if', 'you want a wider ' + onePct + ' drawdown and a single ' + oneTgtPct + ' target with no time limit. Adding the 3% daily loss limit cuts the price to ' + range(one3) + '.'],
+        ['two-step', 'Pick 2-Step if', 'you want the cheapest evaluation (' + range(twoPrice) + ') and accept two targets (' + twoPct1 + ', then ' + twoPct2 + ') and a fixed ' + twoDllPct + ' daily loss limit. It is sold only in the custom-account builder.'],
+        ['prices', 'Build a custom 1-Step if', 'you want to set the target, drawdown, daily limit and split yourself; prices run from ' + cusLo + ' to ' + cusHi + '.']
+      ]
+    },
+    sections: [
+      {
+        id: 'markets', nav: 'Not futures', eyebrow: 'Markets', h2: 'What Vest Capital trades: USDC perpetuals, not CME futures',
+        answer: 'Vest Capital is the funded-account program of Vest Markets, and it is not a futures prop firm. Every market is a USDC-margined perpetual contract on Vest’s own venue: no expiry, funding paid hourly and cross margin only. That includes ES-PERP and NQ-PERP, which track the S&P 500 and Nasdaq-100 index futures but are Vest’s own contracts, not CME futures.',
+        body: table(['Market group', 'Perps listed', 'Trading hours'], [
+          ['Single stocks', '33', '24/5'],
+          ['ETFs', '8', '24/5'],
+          ['Indices (ES, NQ, RTY and YM perps)', '4', '24/5'],
+          ['Commodities (GC, SI, CL and others)', '7', '24/5'],
+          ['FX (EUR, GBP, JPY, AUD, CAD, CHF, NZD)', '7', '24/5'],
+          ['Crypto (BTC, ETH, SOL, HYPE, XRP)', '5', '24/7']
+        ], { caption: 'Vest perpetual markets by group, Nov 5, 2026' }) +
+          note('Vest’s public market list showed 64 USDC perps on Nov 5, 2026; its FAQ says “hundreds of markets” and its landing page “60+”. Vest delists markets often: its exchange notices list 20 single-stock perps that went reduce-only on Oct 26 and closed on Oct 30, 2026, and 5 more on Oct 19.') +
+          prose([
+            h3('What changes if you trade futures today'),
+            ul([
+              '<strong>No CME contracts or futures platforms.</strong> You trade in Vest’s own web app, with TradingView charts and Market, Limit and Scale orders (Reduce Only, GTC, IOC, FOK, ALO, TP and SL). Vest’s FAQ and docs list no NinjaTrader, Tradovate, Rithmic or MT4/MT5 connection, and API trading is not allowed on funded accounts.',
+              '<strong>Sizes are in units, not contracts.</strong> Per Vest’s docs, 1 MES = 5 ES units, 1 ES = 50 units, 1 MNQ = 2 NQ units and 1 NQ = 20 units.',
+              '<strong>Funding every hour.</strong> Perps have no expiry or rollover, but funding payments settle hourly on top of trading fees. PnL and balances use the mid price; liquidations use the mark price.',
+              '<strong>Weekend locks.</strong> Non-crypto markets lock from Friday 8:00 PM ET, and leverage is cut from Friday 4:00 PM ET (see <a href="#trading-rules">trading rules</a>). Crypto trades 24/7.',
+              '<strong>Sign-up</strong> is by email, Google or a crypto wallet, with no username or password.'
+            ])
+          ])
+      },
+      {
+        id: 'prices', nav: 'Prices', eyebrow: 'Prices', h2: 'Vest Capital prices for every plan and size',
+        answer: 'Every Vest Capital product is a one-time fee: no subscription, no activation fee and no resets (a breached account is replaced by buying a new one). Instant costs exactly its max drawdown, ' + range(instPrice) + '. The 1-Step cards cost ' + range(oneNone) + ', or ' + range(one3) + ' with the optional 3% daily loss limit, and the 2-Step costs ' + range(twoPrice) + ' but is sold only inside Vest’s custom-account builder.',
+        body: h3('Instant: no evaluation, ' + split(0) + ' split, no daily loss limit') +
+          table(['Account', 'Max drawdown (static)', 'Drawdown %', 'One-time price'], instSizes.map(function (s, i) {
+            return [s, instDd[i] || '—', pct(instDd[i], s), instPrice[i] || '—'];
+          }), { caption: 'Vest Capital Instant prices' }) +
+          h3('1-Step evaluation: ' + oneTgtPct + ' target, ' + onePct + ' static drawdown, ' + split(1) + ' split') +
+          table(['Tier', 'Account', 'Profit target', 'Max drawdown', 'Price, no daily limit', 'Price with 3% daily limit'], oneTiers.map(function (t, i) {
+            return [t, oneSizes[i], oneTarget[i], oneDd[i], oneNone[i], one3[i]];
+          }), { caption: 'Vest Capital 1-Step prices', stack: true }) +
+          h3('2-Step evaluation (custom builder only): ' + twoPct1 + ' then ' + twoPct2 + ', ' + twoDllPct + ' daily limit, ' + split(2) + ' split') +
+          table(['Account', 'Step 1 target', 'Step 2 target', 'Max drawdown', 'Daily loss limit', 'Price'], twoSizes.map(function (s, i) {
+            return [s, twoT1[i], twoT2[i], twoDd[i], twoDll[i], twoPrice[i]];
+          }), { caption: 'Vest Capital 2-Step prices', stack: true }) +
+          h3('Custom 1-Step builder') +
+          table(['Option', 'Choices'], [
+            ['Account', amp(cus(/^Account Sizes/))], ['Profit target', amp(cus(/^Profit Target/))], ['Max drawdown (static)', amp(cus(/^Max Drawdown/))],
+            ['Daily loss limit', amp(cus(/^Daily Loss/))], ['Profit split', amp(cus(/^Profit Split/))], ['Price', amp(cus(/^Price range/))]
+          ], { caption: 'Vest Capital custom 1-Step options' }) +
+          table(['Account', 'Cheapest combination', 'Most expensive combination'], CUSTOM_RANGE, { caption: 'Vest Capital custom 1-Step price range by size' }) +
+          note('Every combination is priced separately (192 per size). At every size the cheapest is a 20% target, 6% drawdown, 3% daily limit and 70% split; the most expensive is a 5% target, 8% drawdown, no daily limit and 95% split. Our reading of the full catalog: a lower target, a larger drawdown, no daily limit and a higher split each cost more. For example, the card setup with a 95% split instead of 80% costs $100 / $200 / $500 / $1,000. Prices from Vest’s site and public price catalog, Nov 5, 2026; no list price differed from the sale price.') +
+          prose([
+            h3('How you pay'),
+            ul([
+              'Vest’s FAQ says payment is a one-time Stripe checkout, with crypto under “More options”. Its live checkout settings named Whop as the default provider on Nov 5, 2026. We didn’t open checkout, so confirm the provider and any fees there.',
+              'You can’t pay with funds deposited to your Primary Account, but funded profits and affiliate commission (your Payout Balance) can buy new accounts.',
+              'Refunds only within 3 days and only if you haven’t traded: see <a href="#accounts">limits and refunds</a>.'
+            ])
+          ])
+      },
+      {
+        id: 'drawdown', nav: 'Drawdown', eyebrow: 'Loss limits', h2: 'Vest Capital drawdown and daily loss limit',
+        answer: 'The max drawdown is static: a fixed floor set from your starting capital that never trails, checked intraday against account value including open losses. It is ' + instPctShort + ' on Instant, ' + onePct + ' on the 1-Step cards and the 2-Step, and ' + amp(cus(/^Max Drawdown/)).replace(/\s*\(.*$/, '') + ' in the builder. A daily loss limit applies only to evaluation-path accounts that include one, and it resets at 8:00 PM ET.',
+        body: table(['Plan', 'Max drawdown (static)', 'Daily loss limit'], [
+          ['Instant', instDd.join(' / ') + ' (' + instPctShort + ')', amp(inst(/^Daily Loss/))],
+          ['1-Step cards', oneDd.join(' / ') + ' (' + onePct + ')', amp(one(/^Daily Loss/))],
+          ['2-Step', twoDd.join(' / ') + ' (' + twoDdPct + ')', twoDll.join(' / ') + ' (' + twoDllPct + ', resets 8:00 PM ET)'],
+          ['Custom 1-Step', amp(cus(/^Max Drawdown/)), amp(cus(/^Daily Loss/))]
+        ], { caption: 'Vest Capital drawdown and daily loss limit by plan' }) +
+          prose([
+            h3('What ends an account'),
+            p('A breach closes the account immediately and permanently: no warning, no grace period, no reset and no retry. You buy a new account instead. Both limits apply in the evaluation and once Live, overnight and over weekends. Trading fees are simulated in the evaluation but still count toward your drawdown and daily limit; once Live they are charged.'),
+            h3('Where Vest’s own pages disagree'),
+            ul([
+              '<strong>Touching the floor.</strong> Vest’s FAQ says touching or dropping below it breaches; its landing page says the account breaches when it “drops through it”; its docs say equality alone does not breach. Treat touching it as a breach.',
+              '<strong>The daily-loss base.</strong> Vest’s docs measure the limit from the 8:00 PM ET reset balance excluding open PnL, with equity checked against that floor continuously; its FAQ describes a check against equity at 8:00 PM ET.',
+              '<strong>Drawdown options.</strong> The FAQ says 6% on every evaluation-path account, but the builder sells 7% and 8%.'
+            ]),
+            h3('Instant: the fee is the whole loss allowance'),
+            p('On Instant the fee equals the drawdown, so ' + instPrice[last] + ' buys a ' + instSizes[last] + ' account that closes at ' + floorLeft + ' of account value, open losses included, with leverage of up to 75x on FX and ES perps. Claims don’t move the floor: only profit above starting capital can be claimed, so each claim brings your balance back toward it (our reading of Vest’s docs). On evaluation-path accounts a claim also lowers that day’s daily-loss floor by the amount claimed.'),
+            p(L(U.dd, 'Drawdown types explained') + ' · ' + L(U.dll, 'what a daily loss limit is') + '.')
+          ])
+      },
+      {
+        id: 'trading-rules', nav: 'Leverage & rules', eyebrow: 'Trading rules', h2: 'Leverage, weekend and trading rules',
+        answer: 'There is no consistency rule, no minimum number of trading days and no time limit. News trading, scalping and HFT-style trading are allowed, and you can hold overnight and over weekends. What you can’t do: trade through an API on any funded account, or keep full leverage into the weekend, when Vest cuts it from Friday 4:00 PM ET.',
+        body: table(['Market', 'Funded max leverage', 'From Friday 4:00 PM ET to reopen'], LEVERAGE, { caption: 'Vest Capital funded leverage by market, Nov 5, 2026' }) +
+          note('Max leverage from Vest’s public market list, Nov 5, 2026, which matches its leverage docs; “—” means no temporary cut. Vest’s FAQ still says up to 50x on a funded account, and every plan in its price catalog carries a 5x max-leverage field; Vest doesn’t say which governs. Recent changes in its notices: FX 5x to 75x on Oct 30, 2026 and SI 5x to 15x on Nov 4, 2026. Vest’s FAQ and docs say XRP and HYPE are unavailable on funded accounts, while the market list shows HYPE trading at 5x and XRP reduce-only.') +
+          prose([
+            h3('Weekends: market locks and Temporary Leverage Limits'),
+            ul([
+              'Non-crypto positions lock from Friday 8:00 PM ET. ES, NQ and commodity perps reopen Sunday 6:00 PM ET, single stocks Sunday 8:00 PM ET. Crypto trades 24/7.',
+              'From Friday 4:00 PM ET until the reopen, index perps (ES, NQ, RTY, YM) and all 7 FX perps drop to 5x, and GC and SI to 3x.',
+              'Positions more than 2% above the reduced cap are cut down to it. If your account value is more than 1% below starting capital, those positions are closed in full instead.',
+              'Nothing is reduced if your account is not in drawdown and covers the margin the new limits require.'
+            ]),
+            h3('Fees')
+          ]) +
+          table(['Market', 'Maker', 'Taker'], [
+            ['Index and commodity perps', '0', '0.25 bp (0.0025%)'],
+            ['FX perps', '0', '0.15 bp (0.0015%)'],
+            ['Crypto, stocks and ETFs', '0', '1 bp (0.01%)']
+          ], { caption: 'Vest trading fees, Nov 5, 2026' }) +
+          note('From Vest’s market list, Nov 5, 2026. Funding payments come on top. Vest’s FAQ still lists 1 bp for FX.') +
+          prose([
+            h3('What is banned'),
+            ul([
+              'API trading on any funded account: evaluation or Live, Instant included.',
+              'Abuse or coordination across funded accounts, such as opposite positions in the same market on different accounts, and collusion with other traders.',
+              'Under Vest’s Prop Trading Terms (§5): manipulating prices, funding rates or oracles; wash trading, spoofing and layering; front-running Vest’s hedges; multiple identities; exploiting latency, errors or payout calculations; and using a VPN to get around restrictions.',
+              'Third-party bots and trade copiers are not banned outright but are at your own risk (Prop Terms §9, from a reading we have not re-checked).'
+            ]),
+            p('There is no per-trade position-size cap beyond the loss limits and margin.')
+          ])
+      },
+      {
+        id: 'payouts', nav: 'Payouts', eyebrow: 'Payouts', h2: 'Vest Capital payout rules: claims paid in USDC',
+        answer: 'Claim profit from an Instant or Live account any time, as often as you like, with no cap on the amount. A claim moves your share into your Vest Primary Account and is processed within 24 hours; you then withdraw it as USDC to a crypto wallet. Vest documents no bank or fiat payout for traders.',
+        body: table(['Rule', 'Vest Capital'], [
+          ['Split', split(0) + ' on Instant; ' + split(1) + ' on the 1-Step cards and the 2-Step; ' + cusSplit.join(' / ') + ' in the builder. Fixed at purchase, with no further fees or deductions'],
+          ['When', 'Any time: no minimum days, no payout buffer, no consistency rule. Evaluation profits are not paid; passing creates a Live account of the same size'],
+          ['Minimum claim', 'None, per Vest’s landing page; its site code rejects claims under 1 USDC (our reading of the code)'],
+          ['Processing', 'Claims are processed within 24 hours and cannot be reversed; you may need to close open positions or orders first'],
+          ['Where it goes', 'Your Vest Primary Account, then a USDC withdrawal to your own wallet: Base or Arbitrum One for email and Google sign-ups, any supported chain for wallet sign-ups'],
+          ['Withdrawal limits', '1 USDC minimum; $50,000 per rolling 24 hours, with anything above that waiting 24 hours (the limit does not apply to claims)'],
+          ['Withdrawal timing', 'Vest’s FAQ says withdrawals are instant up to the rolling $50,000; a banner in its docs says all platform withdrawals currently take 24 hours'],
+          ['Reviews', 'Vest may temporarily withhold compensation during a good-faith review and must explain a material denial (Prop Terms §6(r))']
+        ], { caption: 'Vest Capital payout rules', stack: true }) +
+          note('From ' + V + ', its FAQ, docs and Prop Trading Terms. The 24 hours is Vest’s stated processing time, not a PropChamps measurement. Vest publishes no payout total, and the third-party payout trackers we found are run by Vest affiliates, so we don’t quote them. ' + L(U.payoutsWork, 'How prop firm payouts work') + '.')
+      },
+      {
+        id: 'eligibility', nav: 'US eligibility', eyebrow: 'Eligibility', h2: 'Can US traders use Vest Capital? Unconfirmed',
+        answer: 'Unconfirmed, and we won’t say US traders can use it until Vest confirms that in writing. Vest’s Prop Trading Terms don’t list the US as a prohibited jurisdiction, but its Exchange Terms bar US persons, and your claimed profit lands in the Primary Account, which sits on the exchange side. If you are in the US, ask Vest support to confirm in writing that you can complete verification, receive a claim and withdraw it before you buy.',
+        body: table(['Source', 'What it says'], [
+          ['Prop Trading Terms §1 (updated Oct 28, 2026)', 'Prohibited jurisdictions: Cuba, North Korea, Iran, Russia, Syria and the Philippines, plus the Government of Venezuela and sanctioned persons. The US is not listed.'],
+          ['Exchange Terms §1 (updated Oct 6, 2026)', 'Prohibited jurisdictions add the United Kingdom and the United States, including Puerto Rico, American Samoa, Guam, the Northern Mariana Islands and the US Virgin Islands. These terms govern the exchange site and the Primary Account.'],
+          ['Privacy policy §11', 'Defers to any US restrictions under the Exchange Terms.'],
+          ['Vest’s site code (our reading)', 'Blocks Primary Account deposits from US IP addresses (and from Cuba, Iran, North Korea, Russia, Venezuela, Myanmar and four Ukrainian regions), pointing blocked users to a funded account instead.'],
+          ['Vest Capital page from a US IP address', 'Showed every plan with live Buy Now buttons and no regional notice. We didn’t open checkout.']
+        ], { caption: 'What Vest’s documents say about US residents', stack: true }) +
+          prose([
+            p('The same Exchange Terms bar the United Kingdom, so UK traders face the same open question.'),
+            h3('Other requirements'),
+            ul([
+              'You must be 18 or older and of legal age where you live.',
+              'Vest can ask for identity, residence, beneficial-ownership and payment details, and further verification, at purchase, before access or payment, and on an ongoing basis (Prop Terms §2). That can include government ID, proof of address, a taxpayer ID and tax forms. Vest names no verification provider and doesn’t say when checks are triggered.',
+              'One registration profile per person; using several identities, or a VPN to get around restrictions, is banned.'
+            ])
+          ])
+      },
+      {
+        id: 'simulated', nav: 'Simulated?', eyebrow: 'Account type', h2: 'Is Vest Capital real capital? What the terms say',
+        answer: 'No, by Vest’s own binding terms. The Prop Trading Terms say every account, Instant included, is simulated: no real trading capital, margin or collateral is credited to you, and your fee buys access to a service. Payouts are compensation from Vest’s general corporate funds, which fees help pay, and Vest does not claim they come from profitable live trading. Its marketing says otherwise (“Our Capital. Your Profit.”, and “real capital” in its FAQ and docs), so we go by the terms.',
+        body: prose([
+          p('The program’s legal footer says the same in other words: it uses virtual accounts to collect non-binding trade ideas, traders don’t trade live capital, and Vest may record a hypothetical result, or trade and hedge for its own account, on Vest Exchange, an affiliated venue or third-party venues.'),
+          p('That model is common: most futures prop firms’ funded accounts are simulated too, and payouts come from the firm. ' + L(U.makeMoney, 'How prop firms make money') + '. What sets Vest apart is that its marketing contradicts its own terms.'),
+          h3('Conflicts of interest the terms disclose'),
+          ul([
+            'Vest runs the simulator, so it controls fills, slippage, latency and the price impact of your own trades.',
+            'It may trade or hedge your ideas on its own affiliated exchange, and it keeps third-party rebates.',
+            'It promises not to worsen a trader’s fills selectively just because the trader is profitable (Prop Terms §6(e), §6A and §8).',
+            'The terms say they can change at any time without prior notice, while §6(r) promises reasonable advance notice of material changes and no retroactive denial of compensation already earned.'
+          ])
+        ])
+      },
+      {
+        id: 'track-record', nav: 'Track record', eyebrow: 'Operator & record', h2: 'Who runs Vest Capital, and its 2026 record',
+        answer: 'Your contract is with Vest Exchange Inc., a Panama company, under Panama law, and disputes go to arbitration in Panama; the site footer names Vest Labs Inc., and Vest doesn’t explain how the two relate. Vest claims no regulator or license. Independent press (The Block) confirms Jane Street’s seed investment, alongside QCP, Big Brain Holdings and Infinity Ventures Crypto; Coinbase, which Vest headlines, is not independently confirmed.',
+        body: table(['Backer or claim', 'What we could confirm'], [
+          ['Jane Street', 'Confirmed: an undisclosed seed round on Jan 29, 2023, with QCP, Big Brain Holdings, Infinity Ventures Crypto, Pear VC and others (The Block). Coinbase was not named.'],
+          ['$13M round', 'Led by Portal Ventures and closed in July, with angels from Citadel Securities, BlackRock and KKR (Fortune, Oct 7, 2026). Coinbase was not named.'],
+          ['Selini Capital', 'Named in a $5M seed announcement in March 2025, which was a paid press release.'],
+          ['Coinbase / Coinbase Ventures', 'Claimed only by Vest (its site, docs and its own paid release). Not independently confirmed.']
+        ], { caption: 'Vest backers: claimed vs confirmed', stack: true }) +
+          prose([
+            p('Fortune describes a New York-based team of 22 led by co-founders Justin Ma (CEO), Rikuya Takatsu and Maximilian Tsiang. Vest told Fortune it has about 27,000 traders; that figure is company-reported and unaudited.'),
+            h3('2026 incidents (from Vest’s own incident reports)'),
+            ul([
+              '<strong>Apr 15, 2026:</strong> a pricing bug hit about 10% of active accounts; about 90 orders were wrongly liquidated, and the platform was rolled back in full to a snapshot.',
+              '<strong>Jun 8, 2026:</strong> an ES pricing anomaly triggered liquidations, which Vest compensated.',
+              '<strong>Jun 30, 2026:</strong> EWY was mispriced, and PnL on about 20 accounts was adjusted.'
+            ]),
+            h3('Regulatory flags and legal terms'),
+            ul([
+              'The Philippine SEC advisory list, as compiled by OpenSanctions, names “VEST TRADING PLATFORM; VEST EXCHANGE; VEST MARKET; VEST” (first seen Apr 20, 2026). The Philippines is now on the Prop Terms’ prohibited list.',
+              'No license is claimed; the Prop Terms say the services are not intended to be swaps or similar regulated instruments.',
+              'Disputes go to arbitration at the Panama Conciliation and Arbitration Centre, with class-action and jury waivers, and Vest’s liability is capped at the greater of the fees you paid or 100 PAB (Panamanian balboa).'
+            ]),
+            h3('Independent reviews'),
+            p('Most third-party coverage we found comes from Vest affiliates. We found no meaningful independent review base on Trustpilot or Reddit and no pattern of denied payouts, so we can’t vouch for its payout record either way.')
+          ])
+      },
+      {
+        id: 'accounts', nav: 'Limits & refunds', eyebrow: 'Limits', h2: 'How many Vest Capital accounts can you have?',
+        answer: 'Up to 10 Live funded accounts at once, Instant accounts included, and up to 100 evaluation accounts. Refunds are possible only within 3 days of purchase and only if you haven’t placed a trade; a failed evaluation is not refundable.',
+        body: prose([ul([
+          'Vest’s account-limit settings return 100 evaluation and 10 funded accounts. Its Prop Terms (§2) word it as up to 10 Instant accounts and 100 evaluation accounts per registration profile, while its FAQ and docs count every Live account toward the 10 and the FAQ says evaluation accounts aren’t capped.',
+          'At the largest size that is ten ' + instSizes[last] + ' accounts, about ' + usd(10 * num(instSizes[last])).replace(/,000$/, 'K') + ' in all (our arithmetic). There are no $100K or $150K accounts and no scaling plan, and we found no inactivity rule.',
+          'Refunds go back through Stripe in 5-10 business days.'
+        ])])
+      },
+      {
+        id: 'promo-code', nav: 'Promo code', eyebrow: 'Prices & code', h2: 'Vest Capital promo code',
+        answer: promoAnswer,
+        body: prose([p(pend
+          ? 'Vest’s custom-account builder has an “Add Code” field. Codes other sites publish for Vest are their own affiliate codes; we haven’t verified them, so compare the checkout total with the prices above. We list a code only once we have one.'
+          : 'Start from our link so the referral is attached, and compare the checkout total with the list prices above. ' + L(U.deals, 'Every active deal') + '.')])
+      },
+      {
+        id: 'verdict', nav: 'Verdict', eyebrow: 'Verdict', h2: 'Our verdict on Vest Capital',
+        answer: 'Vest Capital is a low-cost, low-friction way to trade a funded-style account across crypto, stocks, FX, indices and commodities: one-time fees from ' + instPrice[0] + ', no consistency rule, no minimum days and claims whenever you want, paid in USDC. Weigh that against what it is not: a futures firm, a real-capital account under its own terms, or a confirmed option for US traders. It is also a young offshore operator with three pricing incidents in 2026.',
+        body: '<div class="fx-cols">' +
+          col('It suits you if', [
+            'you trade crypto, single stocks, FX or commodities as well as index perps and want one rule set for all of them',
+            'you want very small, cheap accounts: a ' + instSizes[0] + ' Instant for ' + instPrice[0] + ', or a 2-Step from ' + twoPrice[0],
+            'you dislike consistency rules, minimum days and payout buffers, and want to claim profit whenever you choose',
+            'you already use a self-custody crypto wallet and are happy to be paid in USDC',
+            'you live outside the US and the UK (or Vest has confirmed your eligibility in writing) and accept an offshore operator with arbitration in Panama'
+          ]) +
+          col('Look elsewhere if', [
+            'you want CME futures on NinjaTrader, Tradovate or Rithmic: ' + L(U.firms, 'see the futures firms we rank'),
+            'you are in the US or the UK and Vest hasn’t confirmed in writing that you can claim and withdraw',
+            'you need bank or fiat payouts, or accounts above ' + instSizes[last],
+            'you hold through big intraday swings: the floor counts open losses and sits only ' + instPct + ' away on Instant',
+            'you run API or automated strategies on funded accounts',
+            'you want a long, independently verified payout record'
+          ]) + '</div>' +
+          note('Editorial judgement from the facts on this page; PropChamps gives firms no scores.')
+      },
+      {
+        id: 'sources', nav: 'Sources', eyebrow: 'Sources', h2: 'Sources and date checked',
+        answer: 'Checked Nov 5, 2026. We read Vest’s live site, FAQ, docs, Prop Trading Terms and Exchange Terms, plus its public price catalog, market list and account-limit settings (the same read-only requests its site makes). We didn’t buy an account, sign in, connect a wallet or open checkout.',
+        body: prose([ul([
+          ext('https://next.vestmarkets.com/vest-capital', 'Vest Capital landing page, plan cards and custom-account builder'),
+          ext('https://next.vestmarkets.com/faq', 'Vest FAQ'),
+          ext('https://next.vestmarkets.com/prop-terms-of-service', 'Prop Trading Terms') + ', last updated Oct 28, 2026',
+          ext('https://next.vestmarkets.com/terms-of-service', 'Exchange Terms') + ', last updated Oct 6, 2026',
+          ext('https://next.vestmarkets.com/privacy-policy', 'Privacy policy') + ', Oct 14, 2026',
+          'Vest docs: ' + [
+            ext(D + 'vest-capital/overview', 'Vest Capital overview'), ext(D + 'vest-capital/account-tiers', 'account tiers'),
+            ext(D + 'vest-capital/loss-limits', 'loss limits'), ext(D + 'trading/cross-margin-and-leverage', 'cross margin and leverage'),
+            ext(D + 'trading/temporary-leverage-limits-tll', 'temporary leverage limits'), ext(D + 'platform/withdrawals', 'withdrawals'),
+            ext(D + 'platform/exchange-notices', 'exchange notices'), ext(D + 'resources/resources/incident-reports', 'incident reports'),
+            ext(D + 'welcome/about-vest-markets', 'about Vest Markets')
+          ].join(', '),
+          'Press: The Block (Jan 29, 2023) on the seed round; Fortune (Oct 7, 2026) on the $13M round',
+          'OpenSanctions’ dataset of Philippine SEC advisories'
+        ])]) +
+          note('Vest’s own pages often disagree with each other, and its docs lag the live product. We say where they conflict and date every number; re-check before you buy. ' + L(U.method, 'How we review firms') + '.')
+      }
+    ],
+    faq: [
+      { q: 'Is Vest Capital a futures prop firm?', a: 'No. Every Vest Capital market is a USDC-settled perpetual contract on Vest’s own venue: crypto trades 24/7, and stocks, ETFs, indices, FX and commodities 24/5, with funding paid hourly. Its ES and NQ markets are perps that track the index futures, not CME contracts, and it runs only on Vest’s web app (no NinjaTrader, Tradovate or Rithmic).' },
+      { q: 'Can US residents use Vest Capital?', a: 'Unconfirmed. Vest’s Prop Trading Terms don’t list the US as prohibited, but its Exchange Terms bar US persons, and claimed profit lands in the Primary Account, an exchange account that Vest’s site restricts for US IP addresses. If you are in the US, get written confirmation from Vest that you can verify, claim and withdraw before you buy.' },
+      { q: 'Is Vest Capital real capital or simulated?', a: 'Simulated, according to Vest’s own Prop Trading Terms: every account, Instant included, is simulated, and payouts are compensation from Vest’s corporate funds. Vest’s marketing calls it real capital; we go by the binding terms.' },
+      { q: 'How do Vest Capital payouts work?', a: 'Claim any time, as often as you like, with no cap. Your share (' + split(0) + ' on Instant, ' + split(1) + ' on the 1-Step cards and 2-Step, ' + range(cusSplit) + ' in the builder) moves to your Vest Primary Account within 24 hours, and you withdraw it as USDC to a crypto wallet. Withdrawals have a 1 USDC minimum and a $50,000 rolling 24-hour limit. No bank or fiat payout is documented.' },
+      { q: 'How much does Vest Capital cost?', a: 'One-time fees with no subscription or activation fee (' + V + '): Instant ' + instPrice.join(' / ') + ' for ' + instSizes.join(' / ') + '; 1-Step ' + oneNone.join(' / ') + ', or ' + one3.join(' / ') + ' with the 3% daily loss limit; 2-Step ' + twoPrice.join(' / ') + ' (builder only); and a custom 1-Step from ' + cusLo + ' to ' + cusHi + '.' },
+      { q: 'Does Vest Capital have a daily loss limit?', a: 'Not on Instant accounts. On the 1-Step it is optional: none by default, or 3% on the landing-page cards for a lower price (3%, 4% or 5% in the builder). The 2-Step has a fixed 3% limit. It resets at 8:00 PM ET.' },
+      { q: 'Does Vest Capital have a consistency rule?', a: 'No. There is no consistency rule, no minimum number of trading days and no time limit on any Vest Capital plan.' },
+      { q: 'How many Vest Capital accounts can I have?', a: 'Up to 10 Live funded accounts at once (Instant accounts count) and up to 100 evaluation accounts, per Vest’s account-limit settings. Its terms word the 10-account cap as Instant accounts only, so check with Vest before you scale up.' },
+      { q: 'Who runs Vest Capital, and is it legit?', a: 'Vest Capital is the prop program of Vest Markets; the contracting party is Vest Exchange Inc., a Panama company, and disputes go to arbitration in Panama. Jane Street’s seed investment is confirmed by independent press, and Vest claims no license. In 2026 it reported three pricing incidents, including a full platform rollback on Apr 15, and a Philippine SEC advisory names Vest. We have not verified its payout record independently.' },
+      { q: 'Is there a Vest Capital promo code?', a: promoFaq },
+      { q: 'Can I get a refund from Vest Capital?', a: 'Only within 3 days of purchase and only if you haven’t placed a trade. A failed evaluation is not refundable.' }
+    ]
+  };
+};
+
 // ---------------------------------------------------------------------------
 // Renderers for the generated firm-page regions
 // ---------------------------------------------------------------------------
@@ -1098,6 +1504,7 @@ const FX_STYLE = [
   '.fx-byline{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:16px;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--text-faint)}',
   '.fx-byline b{color:var(--text);font-weight:600}',
   '.fx-byline a{color:var(--lime-text);border-bottom:1px solid var(--border-lime)}',
+  '.fx-nw{white-space:nowrap}',
   '.fx-vh{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}',
   '.fx-jump{padding-bottom:40px;position:relative;z-index:1}',
   '.fx-jump-inner{display:flex;flex-wrap:wrap;gap:8px;align-items:center}',
@@ -1144,8 +1551,18 @@ const FX_STYLE = [
   '.fx-link img{width:38px;height:38px;flex-shrink:0;border-radius:9px;background:var(--bg-elev);border:1px solid var(--border);object-fit:contain;padding:5px}',
   '.fx-link-kind{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--lime-text)}',
   '.fx-link-title{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--text-strong);line-height:1.35;letter-spacing:-.01em}',
+  '.fx-alert{padding-bottom:28px;position:relative;z-index:1}',
+  '.fx-alert-box{max-width:980px;background:var(--bg-card);border:1px solid var(--border-strong);border-left:3px solid var(--warning);border-radius:0 14px 14px 0;padding:18px 22px}',
+  '.fx-alert-title{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--warning);margin-bottom:12px}',
+  '.fx-alert ul{list-style:none;display:grid;gap:10px}',
+  '.fx-alert li{font-size:15px;line-height:1.55;color:var(--text-soft)}',
+  '.fx-alert li strong{color:var(--text-strong)}',
+  '.fx-alert li a{color:var(--lime-text);border-bottom:1px solid var(--border-lime);white-space:nowrap}',
+  '.fx-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;max-width:980px;margin-bottom:4px}',
+  '.fx-col{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:4px 20px 6px}',
+  '.fx-col .fx-h3{margin:16px 0 8px;font-size:17px}',
   '@media(max-width:640px){.fx-stack-wrap{overflow:visible}table.data.fx-stack{min-width:0}table.data.fx-stack thead{display:none}table.data.fx-stack tr{display:block;padding:14px 16px;border-bottom:1px solid var(--border)}table.data.fx-stack tbody tr:last-child{border-bottom:0}table.data.fx-stack th,table.data.fx-stack td{display:block;border:0;padding:3px 0}table.data.fx-stack tbody th{color:var(--text-strong);font-size:12px;margin-bottom:4px}table.data.fx-stack td::before{content:attr(data-label);display:block;font-family:var(--font-mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--text-faint);margin-top:6px}}',
-  '@media(max-width:600px){.fx-answer{font-size:16px;padding:14px 16px}.fx-jump{padding-bottom:28px}.fx-jump a{font-size:12.5px;padding:6px 10px}.faq-q{padding:16px 18px;font-size:15.5px}.faq-a{padding:0 18px 18px}}',
+  '@media(max-width:600px){.fx-answer{font-size:16px;padding:14px 16px}.fx-jump{padding-bottom:28px}.fx-jump a{font-size:12.5px;padding:6px 10px}.faq-q{padding:16px 18px;font-size:15.5px}.faq-a{padding:0 18px 18px}.fx-alert-box{padding:16px}.fx-alert li{font-size:14.5px}}',
   '</style>'
 ].join('\n');
 
@@ -1192,22 +1609,51 @@ function faqSection(f, faq) {
   }).join('');
   return sectionHtml({ id: 'faq', eyebrow: 'FAQ', h2: amp(f.name) + ' FAQ', body: '<div class="faq-list">' + items + '</div>' });
 }
-// firm homepage when the affiliate link lives on another host (Alpha signs up on app.alpha-futures.com)
-const FIRM_SITE = { 'alpha-futures': 'https://alpha-futures.com/' };
+// firm homepage when the affiliate link lives on another host (Alpha signs up on app.alpha-futures.com).
+// Vest: pinned so the provider URL doesn't change when the owner's referral link replaces the landing page.
+const FIRM_SITE = { 'alpha-futures': 'https://alpha-futures.com/', 'vest-capital': 'https://next.vestmarkets.com/' };
+// "Read this first" disclosure box under the hero (CONTENT[slug].alert; only firms that need one)
+function alertHtml(a) {
+  return '\n  <aside class="container fx-alert" aria-label="' + escAttr(a.label) + '"><div class="fx-alert-box"><div class="fx-alert-title">' + a.title + '</div><ul>' +
+    a.items.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div></aside>\n';
+}
+const ARROW = '<svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>';
+// closing-CTA sentence: the firm's code from firms.js, or no code claim at all while affiliatePending
+function ctaText(f, c) {
+  var t = pending(f)
+    ? 'We don’t have a PropChamps code for ' + esc(f.name) + ' yet, so you pay the list price. Confirm the total on its checkout page before you pay.'
+    : 'Use code <strong style="color:var(--pc-gold)">' + esc(promoCode(f)) + '</strong> at checkout, and confirm the final price on the firm’s checkout page before you pay.';
+  return t + (c.ctaNote ? ' ' + c.ctaNote : '');
+}
+// "Other firms we cover" intro: label multi-asset firms and never say CHAMP works where we have no code
+function relatedIntro(slug) {
+  var others = liveSlugs().filter(function (s) { return s !== slug; });
+  var multi = others.filter(isMulti), pend = others.filter(function (s) { return pending(FIRMS[s]); });
+  function names(list) { return list.map(function (s) { return amp(FIRMS[s].name); }).join(', ').replace(/, ([^,]*)$/, ' and $1'); }
+  var lead = multi.length
+    ? 'The other firms we track: ' + (others.length - multi.length) + ' futures firms and ' + names(multi) + ' (multi-asset perpetuals, not CME futures).'
+    : 'The other futures firms we track.';
+  return lead + ' Code CHAMP works at each one' + (pend.length ? ' except ' + names(pend) + ', where we have no code yet' : '') + '.';
+}
 // the site-wide Organization node (its full definition lives in the homepage JSON-LD)
 const PC_ORG = { '@type': 'Organization', '@id': SITE + '/#organization', name: 'PropChamps', url: SITE,
   logo: { '@type': 'ImageObject', url: SITE + '/logos/pc-logo.png' } };
 function seoHead(slug, f, c, faq) {
   var url = SITE + PATH_FOR[slug], iso = reviewedISO(slug, f);
   var title = c.title, meta = c.meta;
+  var firmNode = {
+    '@type': ['FinancialService', 'Service'], '@id': url + '#firm', name: f.name, url: url,
+    image: SITE + f.logo,
+    description: f.name + ' — ' + (f.type || '') + '. Independent review covering rules, payouts, drawdown, account limits and ' + (pending(f) ? 'pricing.' : 'current promo codes.'),
+    areaServed: f.country || 'US',
+    serviceType: isMulti(slug) ? 'Multi-asset prop trading program (simulated accounts, USDC perpetual contracts)' : 'Futures prop trading firm',
+    provider: { '@type': 'Organization', name: f.name, url: FIRM_SITE[slug] || (f.affiliateUrl || '').replace(/^(https?:\/\/[^\/]+).*$/, '$1/') }
+  };
+  // f.country is where a firm is based, not where it serves: never guess an areaServed for an offshore
+  // multi-asset firm whose eligibility is unconfirmed (Vest: Panama operator, US eligibility unclear)
+  if (isMulti(slug)) delete firmNode.areaServed;
   var graph = [
-    {
-      '@type': ['FinancialService', 'Service'], '@id': url + '#firm', name: f.name, url: url,
-      image: SITE + f.logo,
-      description: f.name + ' — ' + (f.type || '') + '. Independent review covering rules, payouts, drawdown, account limits and current promo codes.',
-      areaServed: f.country || 'US', serviceType: 'Futures prop trading firm',
-      provider: { '@type': 'Organization', name: f.name, url: FIRM_SITE[slug] || (f.affiliateUrl || '').replace(/^(https?:\/\/[^\/]+).*$/, '$1/') }
-    },
+    firmNode,
     // an editorial Article, not a schema.org Review: Google requires reviewRating on a
     // Review and we publish no rating, so a Review node would be an invalid item
     {
@@ -1260,21 +1706,30 @@ function bylineHtml(slug, f, c) {
 // The original block renderers (static mirror of the inline page JS)
 // ---------------------------------------------------------------------------
 function render(slug, f) {
-  var out = {};
+  var out = {}, pend = pending(f), code = promoCode(f);
   out.bcCurrent = esc(f.name);
-  out.firmCode = esc((f.promo && f.promo.code) || 'CHAMP');
-  out.firmOffer = esc(f.offerLine || 'See firm');
+  out.firmCode = esc(pend ? PENDING_CODE : code);
+  out.firmOffer = esc(pend ? PENDING_OFFER : (f.offerLine || 'See firm'));
   out.firmSummary = esc(f.summary || '');
   out.ctaTitle = esc('Ready to get funded with ' + f.name + '?');
   out.logo = f.logo || '';
   out.logoAlt = esc(f.name + ' logo');
   out.affiliate = f.affiliateUrl || '#';
+  // no referral yet = a plain link to the firm, not a sponsored one
+  out.affiliateRel = pend ? 'nofollow noopener' : 'sponsored noopener';
+  out.heroCta = '\n          <a class="btn-primary" id="firmAffiliate" href="' + escAttr(out.affiliate) + '" target="_blank" rel="' + out.affiliateRel + '">' +
+    (pend ? 'Visit ' + esc(f.name) : 'Get this deal') + '\n            ' + ARROW + '\n          </a>\n          ' +
+    (pend ? '<a class="btn-text" href="#plans">Compare plans</a>'
+      : code === 'CHAMP' ? '<a class="btn-text js-copy-champ" href="#">Copy code</a>'
+      : '<a class="btn-text" href="#" data-copy="' + escAttr(code) + '">Copy code</a>') + '\n        ';
+  out.ctaBtn = pend ? 'Visit ' + esc(f.name) : 'Get this deal at the firm';
   var stats = (f.stats || []).slice();
   if (stats.length === 0 && f.boxPreviews) {
     Object.keys(f.boxPreviews).forEach(function (k) { stats.push([k.charAt(0).toUpperCase() + k.slice(1), f.boxPreviews[k]]); });
   }
   out.summaryGrid = stats.slice(0, 6).map(function (s) {
-    return '<div class="summary-card"><div class="summary-card-label">' + s[0] + '</div><div class="summary-card-value">' + s[1] + '</div></div>';
+    // non-breaking hyphen keeps "1-Step" / "2-Step" (Vest's plan names) from splitting at the hyphen
+    return '<div class="summary-card"><div class="summary-card-label">' + s[0] + '</div><div class="summary-card-value">' + String(s[1]).replace(/\b(\d)-(Step)\b/g, '$1&#8209;$2') + '</div></div>';
   }).join('');
   var plans = f.plansSummary || f.plansDetailed || [];
   out.plansGrid = plans.slice(0, 4).map(function (pl) {
@@ -1352,11 +1807,12 @@ function setImg(html, logo, alt) {
     return tag.replace(/\ssrc="[^"]*"/, ' src="' + dollar(logo) + '"').replace(/\salt="[^"]*"/, ' alt="' + dollar(alt) + '"');
   });
 }
-function setAffiliate(html, id, url) {
+function setAffiliate(html, id, url, rel) {
+  rel = rel || 'sponsored noopener';
   return html.replace(new RegExp('<a\\b[^>]*\\bid="' + id + '"[^>]*>'), function (tag) {
     tag = tag.replace(/\shref="[^"]*"/, ' href="' + dollar(escAttr(url)) + '"');
-    if (/\srel="[^"]*"/.test(tag)) tag = tag.replace(/\srel="[^"]*"/, ' rel="sponsored noopener"');
-    else tag = tag.replace(/>$/, ' rel="sponsored noopener">');
+    if (/\srel="[^"]*"/.test(tag)) tag = tag.replace(/\srel="[^"]*"/, ' rel="' + rel + '"');
+    else tag = tag.replace(/>$/, ' rel="' + rel + '">');
     return tag;
   });
 }
@@ -1368,6 +1824,13 @@ function patchInlineJs(html) {
   html = html.replace(/\n\s*document\.title=f\.name\+[^;]*;/, '');
   html = html.replace(/\n\s*document\.getElementById\('firmTitle'\)\.innerHTML=[^;]*;/, '');
   html = html.replace(/\n\s*document\.getElementById\('firmTagline'\)\.textContent=[^;]*;/, '');
+  // ...and the closing-CTA title (pre-rendered, can differ per firm)
+  html = html.replace(/\n\s*document\.getElementById\('ctaTitle'\)\.textContent=[^;]*;/, '');
+  // Promo hero values follow affiliatePending, with the same strings as the static pre-render.
+  html = html.split("document.getElementById('firmCode').textContent=(f.promo&&f.promo.code)||'CHAMP';")
+    .join("document.getElementById('firmCode').textContent=f.affiliatePending?'" + PENDING_CODE + "':((f.promo&&f.promo.code)||'CHAMP');");
+  html = html.split("document.getElementById('firmOffer').textContent=f.offerLine||'See firm';")
+    .join("document.getElementById('firmOffer').textContent=f.affiliatePending?'" + PENDING_OFFER + "':(f.offerLine||'See firm');");
   // Related-firm links: clean URLs, generated from FILE_FOR so every firm is mapped.
   var map = 'var pageMap={' + Object.keys(FILE_FOR).map(function (s) { return "'" + s + "':'" + BASE_FOR[s] + "'"; }).join(',') + '};';
   html = html.replace(/var pageMap=\{[^}]*\};/, function () { return map; });
@@ -1383,13 +1846,19 @@ function patchTemplateCopy(html, f) {
     'Use code <strong style="color:var(--pc-gold)">CHAMP</strong> at checkout, and confirm the final price on the firm’s checkout page before you pay.');
   html = html.replace('Seven other firms tracked, audited weekly, and discounted with the same CHAMP code.',
     'The other futures firms we track. Code CHAMP works at each one.');
+  // ...now generated: it labels multi-asset firms and drops the CHAMP claim where we have no code
+  if (!hasRegion(html, 'relatedIntro')) {
+    html = html.replace(/(<h2 class="section-h2">Other firms we cover<\/h2>\s*<p class="section-intro">)([^<]*)(<\/p>)/,
+      function (m, a, b, z) { return a + '<!--g:relatedIntro--><!--/g:relatedIntro-->' + z; });
+  }
+  html = setRegion(html, 'relatedIntro', relatedIntro(f.slug));
   html = html.replace('<h2 class="section-h2">Available programs</h2>', '<h2 class="section-h2"><!--g:rulesH2--><!--/g:rulesH2--></h2>');
   html = setRegion(html, 'rulesH2', amp(f.name) + ' rules by plan');
   return html;
 }
 
 // ---------------------------------------------------------------------------
-// Build the 8 firm pages
+// Build the firm pages (every slug in FILE_FOR with editorial CONTENT)
 // ---------------------------------------------------------------------------
 var built = 0, skipped = 0, REPORT = [];
 Object.keys(FILE_FOR).forEach(function (slug) {
@@ -1419,6 +1888,7 @@ Object.keys(FILE_FOR).forEach(function (slug) {
     html = html.replace(/<h1 id="firmTitle">[\s\S]*?<\/h1>/, '<!--g:firmH1--><!--/g:firmH1-->');
   }
   html = setRegion(html, 'firmH1', h1Html(slug, f, c));
+  html = html.replace(/(<div class="hero-eyebrow" id="firmEyebrow">)[^<]*(<\/div>)/, function (m, a, z) { return a + esc(c.eyebrow || 'Futures prop firm review') + z; });
   html = injectInner(html, 'firmTagline', esc(c.tagline || f.tagline || f.type || ''));
   html = ensureRegion(html, 'byline', /(<p class="hero-tagline"[^>]*>[\s\S]*?<\/p>)/, 'after', bylineHtml(slug, f, c), label);
   if (!hasRegion(html, 'lastReviewed')) {
@@ -1431,6 +1901,9 @@ Object.keys(FILE_FOR).forEach(function (slug) {
   // jump nav + chooser + deep sections + faq/related
   var nav = [[c.chooser.id || 'plans', c.chooser.nav || 'Plans']].concat(c.sections.map(function (s) { return [s.id, s.nav]; }), [['faq', 'FAQ'], ['compare', 'Compare']]);
   html = ensureRegion(html, 'jumpNav', /\n\s*<section class="block">\s*<div class="container">\s*<div class="section-eyebrow">At a glance<\/div>/, 'before', jumpNav(nav), label);
+  // "Read this first" disclosures directly under the hero (Vest: not futures, simulated, US unconfirmed, offshore, USDC)
+  if (c.alert) html = ensureRegion(html, 'alert', /<!--g:jumpNav-->/, 'before', alertHtml(c.alert), label);
+  else if (hasRegion(html, 'alert')) html = setRegion(html, 'alert', '');
   html = ensureRegion(html, 'chooser', /\n\s*<section class="block">\s*<div class="container">\s*<div class="section-eyebrow">Plans<\/div>/, 'before', chooserHtml(f, c.chooser), label);
   html = ensureRegion(html, 'deep', /\n\s*<section class="block">\s*<div class="container">\s*<div class="section-eyebrow">Trader profile<\/div>/, 'before', c.sections.map(sectionHtml).join(''), label);
   var rel = sectionHtml({ id: 'compare', eyebrow: 'Compare & learn', h2: 'Compare ' + amp(f.name) + ' and keep reading', body: relatedBlock(slug, f) });
@@ -1441,15 +1914,23 @@ Object.keys(FILE_FOR).forEach(function (slug) {
   html = injectInner(html, 'firmCode', r.firmCode);
   html = injectInner(html, 'firmOffer', r.firmOffer);
   html = injectInner(html, 'firmSummary', r.firmSummary);
-  html = injectInner(html, 'ctaTitle', r.ctaTitle);
+  html = injectInner(html, 'ctaTitle', c.ctaTitle ? esc(c.ctaTitle) : r.ctaTitle);
   html = injectInner(html, 'summaryGrid', r.summaryGrid);
   html = injectInner(html, 'plansGrid', r.plansGrid);
   html = injectInner(html, 'bestForList', r.bestForList);
   html = injectInner(html, 'watchList', r.watchList);
   html = injectInner(html, 'relatedGrid', r.relatedGrid);
   html = setImg(html, r.logo, r.logoAlt);
-  html = setAffiliate(html, 'firmAffiliate', r.affiliate);
-  html = setAffiliate(html, 'ctaAffiliate', r.affiliate);
+  // hero + closing CTAs: label, rel and copy button follow f.promo / f.affiliatePending
+  if (!hasRegion(html, 'heroCta')) html = html.replace(/(<div class="hero-cta-group">)([\s\S]*?)(<\/div>)/, function (m, a, b, z) { return a + '<!--g:heroCta--><!--/g:heroCta-->' + z; });
+  html = setRegion(html, 'heroCta', r.heroCta);
+  if (!hasRegion(html, 'ctaText')) html = html.replace(/(<div class="cta-final">[\s\S]*?<p>)([\s\S]*?)(<\/p>)/, function (m, a, b, z) { return a + '<!--g:ctaText--><!--/g:ctaText-->' + z; });
+  html = setRegion(html, 'ctaText', ctaText(f, c));
+  if (!hasRegion(html, 'ctaBtn')) html = html.replace(/(<a class="btn-primary" id="ctaAffiliate"[^>]*>)([^<]*?)(\s*<svg)/, function (m, a, b, z) { return a + '<!--g:ctaBtn--><!--/g:ctaBtn-->' + z; });
+  html = setRegion(html, 'ctaBtn', r.ctaBtn);
+  html = setAffiliate(html, 'firmAffiliate', r.affiliate, r.affiliateRel);
+  html = setAffiliate(html, 'ctaAffiliate', r.affiliate, r.affiliateRel);
+  ['heroCta', 'ctaText', 'ctaBtn'].forEach(function (id) { if (!hasRegion(html, id)) throw new Error('region "' + id + '" could not be placed in ' + label); });
   html = patchTemplateCopy(html, f);
   html = patchInlineJs(html);
   // any leftover internal /firms/<page>.html link -> clean URL
@@ -1473,17 +1954,36 @@ Object.keys(FILE_FOR).forEach(function (slug) {
   if (ml) ml[1].replace(/'([a-z-]+)'\s*:\s*(?:"([^"]*)"|'([^']*)')/g, function (m, k, v1, v2) { labels[k] = v1 || v2; return m; });
   var live = RANK.filter(function (s) { return FIRMS[s].live !== false; });
   var n = live.length;
+  // multi-asset firms (Vest Capital) share the ranking table, labelled, but stay out of the "futures" counts
+  var fut = live.filter(function (s) { return !isMulti(s); }), multi = live.filter(isMulti), nFut = fut.length;
+  var multiNames = multi.map(function (s) { return FIRMS[s].name; }).join(' & ');
   var plansCount = live.reduce(function (t, s) { return t + (FIRMS[s].plansSummary || []).length; }, 0);
-  var lastIso = live.map(function (s) { return reviewedISO(s, FIRMS[s]); }).sort().pop();
-  var title = 'Best Futures Prop Firms (' + YEAR + '): All ' + n + ' Ranked & Compared';
-  var names = live.map(function (s) { return SHORT[s] || FIRMS[s].name; });
-  var meta = 'Every futures prop firm we audit, ranked: ' + names.slice(0, -1).join(', ') + ' & ' + names[names.length - 1] + ', with best-for picks and CHAMP codes.';
+  // date of the main futures audit: a newer one-firm check (Vest, Nov 5) must not imply every firm was re-read that day
+  var lastIso = (fut.length ? fut : live).map(function (s) { return reviewedISO(s, FIRMS[s]); }).sort().pop();
+  // with a multi-asset firm in the ranking the page covers both, so the title counts all n
+  var title = multi.length
+    ? 'Best Futures & Multi-Asset Prop Firms (' + YEAR + '): All ' + n + ' Ranked'
+    : 'Best Futures Prop Firms (' + YEAR + '): All ' + nFut + ' Ranked & Compared';
+  var names = fut.map(function (s) { return SHORT[s] || FIRMS[s].name; });
+  var ranked = live.map(function (s) { return isMulti(s) ? FIRMS[s].name + ' (multi-asset)' : (SHORT[s] || FIRMS[s].name); });
+  // why a multi-asset firm sits at #1 (editorial call, Nov 5, 2026); every claim here is on its review page.
+  // Not "price" in general: like for like at 50K, futures firms with code CHAMP cost less (see /best/cheapest-...).
+  var TOP_WHY = {
+    'vest-capital': 'leads on flexibility and entry price: no consistency rule, accounts from $10 and profit claims any time, processed within 24 hours (Vest&#8209;stated). It trades USDC perpetuals, not CME futures, and US and UK eligibility is unconfirmed, so read its review first.'
+  };
+  var topMulti = multi.length && isMulti(live[0]) && TOP_WHY[live[0]] ? live[0] : null;
+  var meta = multi.length
+    ? n + ' prop firms ranked: ' + ranked.slice(0, -1).join(', ') + ' & ' + ranked[ranked.length - 1] + '. Rules and payouts compared.'
+    : 'Every futures prop firm we audit, ranked: ' + names.slice(0, -1).join(', ') + ' & ' + names[names.length - 1] + ', with best-for picks and CHAMP codes.';
   var url = SITE + '/firms/';
 
   // head
   var graph = [
-    { '@type': 'ItemList', '@id': url + '#firmlist', name: 'Best futures prop firms ranked — ' + YEAR,
-      description: 'PropChamps editorial ranking of the ' + n + ' futures prop trading firms we audit.', numberOfItems: n,
+    { '@type': 'ItemList', '@id': url + '#firmlist', name: (multi.length ? 'PropChamps prop firm ranking — ' : 'Best futures prop firms ranked — ') + YEAR,
+      description: topMulti
+        ? 'PropChamps editorial ranking of ' + n + ' prop trading firms: ' + FIRMS[topMulti].name + ' at #1, a multi-asset program that trades USDC perpetuals, not CME futures, then the ' + nFut + ' futures prop firms we audit.'
+        : 'PropChamps editorial ranking of the ' + nFut + ' futures prop trading firms we audit' +
+          (multi.length ? ', plus ' + multiNames + ', a multi-asset program that trades USDC perpetuals, not CME futures.' : '.'), numberOfItems: n,
       itemListOrder: 'https://schema.org/ItemListOrderAscending',
       itemListElement: live.map(function (s, i) { return { '@type': 'ListItem', position: i + 1, url: SITE + PATH_FOR[s], name: FIRMS[s].name }; }) },
     { '@type': 'BreadcrumbList', itemListElement: [
@@ -1508,7 +2008,8 @@ Object.keys(FILE_FOR).forEach(function (slug) {
   html = ensureRegion(html, 'idxStyle', /<!-- pc:head -->/, 'before', [
     '<style>',
     '/* generated by tools/build-firm-pages.js */',
-    '.hero h1{font-size:clamp(36px,4.3vw,58px);line-height:1.0}',
+    '.hero h1{font-size:clamp(36px,4.3vw,56px);line-height:1.0}',
+    '.hero h1 .nowrap{white-space:nowrap}',
     '@media(max-width:800px){.hero h1{font-size:clamp(31px,8.2vw,42px)}}',
     '.idx-method{font-size:14.5px;color:var(--text-soft);line-height:1.6;max-width:640px;margin:-6px 0 26px}',
     '.idx-method a{color:var(--lime-text);border-bottom:1px solid var(--border-lime)}',
@@ -1524,13 +2025,18 @@ Object.keys(FILE_FOR).forEach(function (slug) {
     '.bf-firms a,table.bf-table td .bf-firms a{color:var(--text);font-weight:500;border-bottom:1px solid var(--border);white-space:normal}',
     '.idx-note{font-family:var(--font-mono);font-size:12px;line-height:1.6;color:var(--text-faint);margin-top:12px}',
     '@media(max-width:640px){table.bf-table{min-width:0}table.bf-table thead{display:none}table.bf-table tr{display:block;padding:16px 18px;border-bottom:1px solid var(--border)}table.bf-table tbody tr:last-child{border-bottom:0}table.bf-table th,table.bf-table td{display:block;border:0;padding:2px 0}table.bf-table td a{display:inline-block;margin-top:6px}}',
+    '.t-firm-type{font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--warning);margin-top:4px;line-height:1.3;text-wrap:balance}',
     '</style>'].join('\n') + '\n', label);
 
   // hero
   var heroHtml = '<!-- Hero -->\n<section class="hero">\n  <div class="bg-stack"></div>\n  <div class="container hero-grid">\n   <div class="hero-main">\n\n' +
     '    <div class="pc-eyebrow">Firm rankings · ' + YEAR + '</div>\n' +
-    '    <h1>Best Futures Prop Firms (' + YEAR + '): <span class="accent-word">All ' + n + ' Ranked &amp; Compared</span></h1>\n\n' +
-    '    <p class="hero-sub">' + n + ' futures prop firms, ranked on rule transparency, payout record and the real price after code CHAMP. Click any firm for the full review: rules, plans, payout rules and what changed.</p>\n' +
+    '    <h1>' + (multi.length ? 'Best Futures &amp; <span class="nowrap">Multi-Asset</span> Prop Firms (' + YEAR + '): <span class="accent-word">All ' + n : 'Best Futures Prop Firms (' + YEAR + '): <span class="accent-word">All ' + nFut) + ' Ranked &amp; Compared</span></h1>\n\n' +
+    '    <p class="hero-sub">' + (topMulti
+      ? n + ' prop firms, ranked: ' + nFut + ' futures firms and ' + (multi.length === 1 ? 'one multi-asset firm' : multi.length + ' multi-asset firms') + '. Our #1, ' + FIRMS[topMulti].name + ', ' + TOP_WHY[topMulti]
+      : nFut + ' futures prop firms, ranked on rule transparency, payout record and the real price after code CHAMP.' +
+        (multi.length ? ' ' + multiNames + ' sits at #' + (live.indexOf(multi[0]) + 1) + ', labelled multi-asset: it trades USDC perpetuals, not CME futures.' : '')) +
+    ' Click any firm for the full review: rules, plans, payout rules and what changed.</p>\n' +
     '    <p class="idx-method">How we rank: we check each firm’s plans against its own help center and rulebook, label which numbers are firm-published and which are our estimates, and never take payment for placement. ' + L(U.method, 'Read our methodology') + '.</p>\n\n' +
     '    <div class="hero-cta-row">\n      <a class="btn-primary" href="/compare">\n        Compare all ' + n + ' firms\n        <svg width="16" height="16" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">\n          <path d="M3 8h10M9 4l4 4-4 4"/>\n        </svg>\n      </a>\n      <a class="btn-text" href="#best-for">Best firm for…</a>\n    </div>\n   </div>\n\n' +
     '    <div class="hero-trust">\n' +
@@ -1556,7 +2062,7 @@ Object.keys(FILE_FOR).forEach(function (slug) {
     var hit = BEST_LABELS.filter(function (x) { return x[0].test(nm); })[0];
     var lab = hit ? hit[1] : (readH1(fileForUrl(u2)) || titleCase(nm.replace(/-/g, ' ')));
     var what = hit ? hit[2] : '';
-    var firms = hit && hit[3] ? live.filter(function (s) { return attrs(FIRMS[s])[hit[3]]; }).map(function (s) { return '<a href="' + PATH_FOR[s] + '">' + (SHORT[s] || FIRMS[s].name) + '</a>'; }).join(', ') : '';
+    var firms = hit && hit[3] ? live.filter(function (s) { return attrs(FIRMS[s])[hit[3]]; }).map(function (s) { return '<a href="' + PATH_FOR[s] + '">' + (SHORT[s] || FIRMS[s].name) + '</a>' + (isMulti(s) ? ' (multi-asset)' : ''); }).join(', ') : '';
     return { order: hit ? BEST_LABELS.indexOf(hit) : 99, row: [lab, what + (firms ? '<div class="bf-firms">' + hit[4] + ': ' + firms + '</div>' : ''), '<a href="' + u2 + '">See the list →</a>'] };
   }).sort(function (x, y) { return x.order - y.order; });
   var bestHtml = '\n<section class="block" id="best-for">\n  <div class="container">\n    <div class="section-head">\n      <div class="lhs">\n' +
@@ -1568,7 +2074,7 @@ Object.keys(FILE_FOR).forEach(function (slug) {
   html = ensureRegion(html, 'idxBestFor', /<!-- Featured firms grid -->/, 'before', bestHtml, label);
 
   // static ranking rows (same markup as the inline JS, honest labels)
-  var FLAGS = { US: '🇺🇸', GB: '🇬🇧', CA: '🇨🇦', AE: '🇦🇪' };
+  var FLAGS = { US: '🇺🇸', GB: '🇬🇧', CA: '🇨🇦', AE: '🇦🇪', PA: '🇵🇦' };   // PA = Panama (Vest Exchange Inc., the contracting party)
   function deal(f) { var line = f.offerLine || ''; var m = line.match(/(\d+%\s*OFF)/i); if (m) return m[1].toUpperCase(); var d = line.match(/(\$\d+\s*OFF)/i); return d ? d[1].toUpperCase() : 'Active at checkout'; }
   // largest account size across plansSummary (firms.js maxAllocation mixes per-account and multi-account totals)
   function largestSize(f) {
@@ -1580,29 +2086,43 @@ Object.keys(FILE_FOR).forEach(function (slug) {
   }
   function payoutsCell(s, f) {
     if (s === 'lucid-trading') return '<div class="t-value">Under review</div><div class="t-value-sub">Not yet verified</div>';
+    // no firm-published total (Vest): say so, never show a placeholder or an estimate
+    if (!f.payoutTotal) return '<div class="t-value">Not published</div><div class="t-value-sub">No firm total</div>';
     return '<div class="t-value">' + (f.payoutTotal || '—') + '</div><div class="t-value-sub">Firm-published' + (s === 'fundednext' ? ', all programs' : '') + '</div>';
+  }
+  function dealCell(f) {
+    if (pending(f)) return '<div class="t-deal"><div class="t-deal-headline">No code yet</div><div class="t-value-sub">List price at checkout</div></div>';
+    var code = promoCode(f);
+    return '<div class="t-deal"><div class="t-deal-headline">' + deal(f) + '</div><button type="button" class="t-deal-chip js-copy-champ" data-copy="' + escAttr(code) + '" aria-label="Copy discount code ' + escAttr(code) + '">' + esc(code) + '<span class="copy-hint">· COPY</span></button></div>';
   }
   var rows = live.map(function (s, i) {
     var f = FIRMS[s], page = PATH_FOR[s], flag = FLAGS[f.country] || '', pl = (f.platformsList || []).slice();
     var pills = pl.slice(0, 3).map(function (x) { return '<span class="t-platform">' + x + '</span>'; }).join('') + (pl.length > 3 ? '<span class="t-platform more">+' + (pl.length - 3) + '</span>' : '');
     return '<tr data-href="' + page + '">' +
       '<td class="col-rank"><div class="t-rank"><span class="t-rank-num">' + (i + 1) + '</span><span class="t-rank-label">' + (labels[s] || '') + '</span></div></td>' +
-      '<td class="col-firm"><div class="t-firm"><div class="t-firm-logo"><img src="' + f.logo + '" alt="' + escAttr(f.name) + '"></div><div class="t-firm-info"><div class="t-firm-name"><a href="' + page + '">' + f.name + '</a>' + (flag ? '<span class="t-firm-flag" title="' + f.country + '">' + flag + '</span>' : '') + '</div></div></div></td>' +
+      '<td class="col-firm"><div class="t-firm"><div class="t-firm-logo"><img src="' + f.logo + '" alt="' + escAttr(f.name) + '"></div><div class="t-firm-info"><div class="t-firm-name"><a href="' + page + '">' + f.name + '</a>' + (flag ? '<span class="t-firm-flag" title="' + f.country + '">' + flag + '</span>' : '') + '</div>' +
+      (isMulti(s) ? '<div class="t-firm-type">USDC perps · not CME futures</div>' : '') + '</div></div></td>' +
       '<td class="col-platforms"><div class="t-platforms">' + pills + '</div></td>' +
       '<td class="col-alloc"><div class="t-value">' + largestSize(f) + '</div><div class="t-value-sub">Largest account</div></td>' +
       '<td class="col-payouts">' + payoutsCell(s, f) + '</td>' +
-      '<td class="col-deal"><div class="t-deal"><div class="t-deal-headline">' + deal(f) + '</div><button type="button" class="t-deal-chip js-copy-champ" data-copy="CHAMP" aria-label="Copy discount code CHAMP">CHAMP<span class="copy-hint">· COPY</span></button></div></td>' +
+      '<td class="col-deal">' + dealCell(f) + '</td>' +
       '<td class="col-action"><a class="t-action" href="' + page + '" aria-label="Read the ' + escAttr(f.name) + ' review">→</a></td></tr>';
   }).join('');
   if (!hasRegion(html, 'firmsRows')) html = html.replace('<tbody id="firmsTableBody"></tbody>', '<tbody id="firmsTableBody"><!--g:firmsRows--><!--/g:firmsRows--></tbody>');
   html = setRegion(html, 'firmsRows', rows);
   html = html.replace('<th class="col-payouts">Payouts tracked</th>', '<th class="col-payouts">Total payouts</th>');
-  html = html.replace('<h2>This week&rsquo;s ranking.</h2>', '<h2>All ' + n + ' firms, ranked.</h2>');
-  html = html.replace('<p>Ranked by current rule transparency, payout consistency, and active discount value. Updated weekly.</p>',
-    '<p>Our editorial ranking: rule transparency, payout record and the value of the active discount. Payout totals are the firms’ own published figures.</p>');
+  html = html.replace(/<h2>(?:This week&rsquo;s ranking\.|All \d+ firms, ranked\.)<\/h2>/, function () { return '<h2>All ' + n + ' firms, ranked.</h2>'; });
+  html = html.replace(/<div class="rhs">\d+ of \d+ shown<\/div>/, function () { return '<div class="rhs">' + n + ' of ' + n + ' shown</div>'; });
+  var rankIntro = topMulti
+    ? 'Our editorial ranking weighs rule transparency, payout reliability, discount value and program flexibility. Payout totals are the firms’ own published figures. ' + FIRMS[topMulti].name +
+      ' is our #1 pick for program flexibility and entry price. It trades USDC perpetuals, not CME futures. Its payout record isn’t independently verified yet' +
+      (FIRMS[topMulti].payoutTotal ? '' : ', it publishes no payout total') + (pending(FIRMS[topMulti]) ? ' and we have no code for it yet.' : '.')
+    : 'Our editorial ranking: rule transparency, payout record and the value of the active discount. Payout totals are the firms’ own published figures.' +
+      (multi.length ? ' ' + multiNames + ' trades USDC perpetuals, not CME futures; it sits at #' + (live.indexOf(multi[0]) + 1) + ' with a Multi-asset label.' : '');
+  html = html.replace(/<p>(?:Ranked by current rule transparency, payout consistency, and active discount value\. Updated weekly\.|Our editorial ranking[^<]*)<\/p>/, function () { return '<p>' + rankIntro + '</p>'; });
 
-  // top pick (generated from firms.js: Apex = biggest CHAMP discount)
-  var top = live.slice().sort(function (x, y) { return (parseInt(FIRMS[y].offerLine, 10) || 0) - (parseInt(FIRMS[x].offerLine, 10) || 0); })[0];
+  // top pick (generated from firms.js: Apex = biggest CHAMP discount; firms with no code yet can't win it)
+  var top = live.filter(function (s) { return !pending(FIRMS[s]); }).sort(function (x, y) { return (parseInt(FIRMS[y].offerLine, 10) || 0) - (parseInt(FIRMS[x].offerLine, 10) || 0); })[0];
   var tf = FIRMS[top];
   var topPoints = top === 'apex-trader' ? [
     '50K list evaluation: ' + money(DP(tf, /^Intraday/, /^Eval Price/))[1] + ' Intraday Standard, ' + money(DP(tf, /^EOD/, /^Eval Price/))[1] + ' EOD Standard (before CHAMP, Oct 5, 2026 audit)',
@@ -1631,7 +2151,9 @@ Object.keys(FILE_FOR).forEach(function (slug) {
   // template promised weekly audits, a 72h/38h publish time and "100% codes verified every
   // Monday", none of which our data supports (CHAMP rates are the rate on file, confirmed
   // at checkout).
-  var champFirms = live.filter(function (s) { return ((FIRMS[s].promo || {}).code || '').toUpperCase() === 'CHAMP'; }).length;
+  // a pending firm's placeholder code (firms.js) is not a code that works: don't count it
+  var champFirms = live.filter(function (s) { return !pending(FIRMS[s]) && ((FIRMS[s].promo || {}).code || '').toUpperCase() === 'CHAMP'; }).length;
+  var pendNames = live.filter(function (s) { return pending(FIRMS[s]); }).map(function (s) { return FIRMS[s].name; }).join(' and ');
   function valueCard(num, eyebrow, h, body, stat, statLabel) {
     return '      <div class="value-card">\n        <div class="value-head">\n          <div class="value-numeral">' + num + '</div>\n          <div class="value-eyebrow">' + eyebrow + '</div>\n        </div>\n' +
       '        <h3>' + h + '</h3>\n        <p>' + body + '</p>\n        <div class="value-stat">\n          <strong>' + stat + '</strong>\n          <span>' + statLabel + '</span>\n        </div>\n      </div>\n';
@@ -1645,8 +2167,9 @@ Object.keys(FILE_FOR).forEach(function (slug) {
     valueCard('02', 'Editorial independence', 'No paid placements.',
       'Our ranking is editorial: we weigh rule transparency, payout reliability, discount value and program flexibility. Affiliate links pay our bills; firms cannot pay to move up.',
       '$0', 'Ranking fees accepted from firms') + '\n' +
-    valueCard('03', 'Discount codes', 'One code at every firm we cover.',
-      'CHAMP is our affiliate code. The discount we list is the rate on file with each firm, and the final price shows at checkout. When a firm’s own public code is bigger, we say so.',
+    valueCard('03', 'Discount codes', champFirms === n ? 'One code at every firm we cover.' : 'One code at ' + champFirms + ' of our ' + n + ' firms.',
+      'CHAMP is our affiliate code. The discount we list is the rate on file with each firm, and the final price shows at checkout. When a firm’s own public code is bigger, we say so.' +
+      (pendNames ? ' We have no code for ' + pendNames + ' yet.' : ''),
       champFirms + ' / ' + n, 'Firms that take code CHAMP') +
     '\n    </div>\n  </div>\n</section>\n\n\n\n';
   html = ensureSpanRegion(html, 'idxValues', /<!-- Value props -->/, /<!-- Newsletter band -->/, valuesHtml, label);

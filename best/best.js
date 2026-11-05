@@ -9,9 +9,12 @@
 (function(){
   var F = window.FIRMS || {};
   // data slug -> clean firm review URL (slugs don't all match the page names)
-  var PAGE = {'lucid-trading':'/firms/lucid-trading','tradeify':'/firms/tradeify','alpha-futures':'/firms/alpha-futures','apex-trader':'/firms/apex-trader','my-funded-futures':'/firms/my-funded-futures','top-one-futures':'/firms/top-one-futures','take-profit':'/firms/take-profit-trader','fundednext':'/firms/fundednext'};
+  var PAGE = {'lucid-trading':'/firms/lucid-trading','tradeify':'/firms/tradeify','alpha-futures':'/firms/alpha-futures','apex-trader':'/firms/apex-trader','my-funded-futures':'/firms/my-funded-futures','top-one-futures':'/firms/top-one-futures','take-profit':'/firms/take-profit-trader','fundednext':'/firms/fundednext','vest-capital':'/firms/vest-capital'};
   // firms.js fields that are PropChamps estimates, never firm-published
   var ESTIMATE = {payoutMedianTime:1, payoutCount:1, payoutAvg:1, payoutLargest:1};
+  // ...except where the firm itself states the figure: label it as the firm's, never "est."
+  // (Vest's '24 hours' is its own stated claim-processing time, not our estimate)
+  var STATED = {'vest-capital': {payoutMedianTime:'Vest-stated'}};
 
   /* (header, mobile menu and ticker are handled site-wide by /assets/pc.js) */
 
@@ -21,12 +24,17 @@
     var f = F[slug];
     if (!f) return;
     var logo = card.querySelector('.rank-logo');
-    if (logo){ logo.src = f.logo; logo.alt = f.name + ' logo'; }
+    if (logo && f.logo){ logo.src = f.logo; logo.alt = f.name + ' logo'; }
+    else if (logo){ // no logo on file (e.g. awaiting a firm's permission to use its marks): show its initials
+      var txt = document.createElement('span'); txt.className = 'rank-logo rank-logo-text'; txt.setAttribute('aria-hidden', 'true');
+      txt.textContent = f.logoText || f.initials || ''; logo.parentNode.replaceChild(txt, logo);
+    }
     var cta = card.querySelector('.rank-cta');
     if (cta){
-      // affiliate links: always rel="sponsored noopener"
-      if (f.affiliateUrl){ cta.href = f.affiliateUrl; cta.target = '_blank'; cta.rel = 'sponsored noopener'; }
-      cta.innerHTML = 'Get ' + f.name + ' deal <svg width="13" height="13" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>';
+      // affiliate links: always rel="sponsored noopener". While f.affiliatePending is set, affiliateUrl is
+      // the firm's plain landing page and no code is confirmed, so the button says "Visit", not "deal".
+      if (f.affiliateUrl){ cta.href = f.affiliateUrl; cta.target = '_blank'; cta.rel = f.affiliatePending ? 'noopener' : 'sponsored noopener'; }
+      cta.innerHTML = (f.affiliatePending ? 'Visit ' + f.name : 'Get ' + f.name + ' deal') + ' <svg width="13" height="13" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>';
     }
     var review = card.querySelector('.rank-review');
     if (review && PAGE[slug]){ review.href = PAGE[slug]; }
@@ -35,9 +43,18 @@
   /* live-bound cells: <td data-firm="slug" data-field="payoutMedianTime">static fallback</td>.
      Estimates always carry an "est." label so they never read as firm-published. */
   document.querySelectorAll('[data-firm][data-field]').forEach(function(el){
-    var f = F[el.getAttribute('data-firm')], k = el.getAttribute('data-field');
+    var slug = el.getAttribute('data-firm'), f = F[slug], k = el.getAttribute('data-field');
     if (!f || f[k] == null || f[k] === '' || f[k] === '—') return;
-    el.textContent = String(f[k]) + (ESTIMATE[k] ? ' (est.)' : '');
+    var stated = STATED[slug] && STATED[slug][k];
+    el.textContent = String(f[k]) + (stated ? ' (' + stated + ')' : ESTIMATE[k] ? ' (est.)' : '');
+  });
+
+  /* promo cells: <td data-firm="slug" data-promo>—</td>. Shows firms.js promo.discount only once the
+     firm's code is confirmed (no affiliatePending), so a code is never claimed before it's live. */
+  document.querySelectorAll('[data-firm][data-promo]').forEach(function(el){
+    var f = F[el.getAttribute('data-firm')];
+    if (!f || f.affiliatePending || !f.promo || !f.promo.discount) return;
+    el.textContent = f.promo.discount;
   });
 
   /* filter chips: <div class="chips" data-filter-for="tableId"> <button class="chip" data-tag="x"> …
