@@ -102,14 +102,14 @@ const DEFAULT_CFG = { eyebrow: 'Prop firm guide', tag: 'Guide', topics: ['rules'
 // Lists, tools and data pages a post's Related block can point at, by topic: [url, kind, label].
 // A hub is used only when its file exists on disk, so wave-released pages appear once they ship.
 const HUBS = {
-  payouts: [['/best/best-prop-firms-fast-payouts', 'List', 'Fastest-payout futures prop firms'], ['/payouts', 'Data', 'Payout tracker']],
-  caps: [['/best/best-prop-firms-fast-payouts', 'List', 'Fastest-payout futures prop firms'], ['/payouts', 'Data', 'Payout tracker']],
+  payouts: [['/best/best-prop-firms-fast-payouts', 'List', 'Fastest payout prop firms'], ['/payouts', 'Data', 'Payout tracker']],
+  caps: [['/best/best-prop-firms-fast-payouts', 'List', 'Fastest payout prop firms'], ['/payouts', 'Data', 'Payout tracker']],
   consistency: [['/tools/prop-firm-consistency-calculator', 'Tool', 'Consistency rule calculator'], ['/best/best-prop-firms-no-consistency-rule', 'List', 'Firms with no consistency rule']],
   drawdown: [['/tools/prop-firm-drawdown-calculator', 'Tool', 'Drawdown calculator']],
   apex: [['/firms/apex-trader/payout-rules', 'Rules', 'Apex payout rules'], ['/tools/prop-firm-drawdown-calculator', 'Tool', 'Drawdown calculator']],
   dll: [['/best/best-prop-firms-no-daily-loss-limit', 'List', 'Firms with no daily loss limit']],
   cost: [['/best/cheapest-prop-firm-challenges', 'List', 'Cheapest prop firm challenges'], ['/deals', 'Deals', 'Every active CHAMP discount']],
-  instant: [['/best/best-instant-funding-futures-prop-firms', 'List', 'Best instant-funding futures firms']],
+  instant: [['/best/best-instant-funding-futures-prop-firms', 'List', 'Best instant funding prop firms']],
   beginner: [['/best/best-prop-firm-for-beginners', 'List', 'Best prop firms for beginners']],
   trust: [['/payouts', 'Data', 'Payout tracker'], ['/audit-log', 'Data', 'Rule-change audit log']],
   model: [['/payouts', 'Data', 'Payout tracker'], ['/audit-log', 'Data', 'Rule-change audit log']],

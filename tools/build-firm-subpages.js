@@ -500,7 +500,7 @@ const CONFIGS = [
     { q: 'What is the Lucid Trading payout split?', a: '90/10 on every path: you keep 90%. LucidPro accounts bought or reset before Nov 28, 2025 are paid 100% of the first $10K and keep a 35% consistency rule.' },
     { q: 'When does Lucid Trading move you to a live account?', a: 'Pro and Direct join the live review pool after payout 5, Flex moves live after 5 payouts, and Daily moves live when you reach the max daily sim profit. Live accounts start at $0 with daily payouts, end-of-day drawdown, no DLL and no consistency rule.' },
   ],
-  related: () => [['/firms/lucid-trading', 'Lucid Trading review'], ['/firms/lucid-trading/which-account-is-best', 'Which Lucid account is best?'], ['/blog/how-prop-firm-payouts-work', 'How prop firm payouts work'], ['/blog/prop-firm-consistency-rules', 'Consistency rules by firm'], ['/tools/prop-firm-consistency-calculator', 'Consistency calculator'], ['/blog/prop-firm-payout-caps', 'Payout caps at every firm'], ['/best/best-prop-firms-fast-payouts', 'Fastest-paying futures firms'], ['/blog/prop-firm-drawdown-explained', 'Trailing drawdown explained']],
+  related: () => [['/firms/lucid-trading', 'Lucid Trading review'], ['/firms/lucid-trading/which-account-is-best', 'Which Lucid account is best?'], ['/blog/how-prop-firm-payouts-work', 'How prop firm payouts work'], ['/blog/prop-firm-consistency-rules', 'Consistency rules by firm'], ['/tools/prop-firm-consistency-calculator', 'Consistency calculator'], ['/blog/prop-firm-payout-caps', 'Payout caps at every firm'], ['/best/best-prop-firms-fast-payouts', 'Fastest payout prop firms'], ['/blog/prop-firm-drawdown-explained', 'Trailing drawdown explained']],
 },
 
 /* ---------------------------------------------------------------- Lucid account chooser (P0) */
@@ -1064,7 +1064,7 @@ const CONFIGS = [
     { q: 'Does Tradeify pay out in crypto?', a: 'Crypto payouts are available on Growth accounts.' },
     { q: 'How many Tradeify funded accounts can you have?', a: 'Up to 5 sim-funded accounts in any mix of Growth, Select and Lightning, per individual and per household.' },
   ],
-  related: () => [['/firms/tradeify', 'Tradeify review'], ['/blog/how-prop-firm-payouts-work', 'How prop firm payouts work'], ['/blog/prop-firm-consistency-rules', 'Consistency rules by firm'], ['/tools/prop-firm-consistency-calculator', 'Consistency calculator'], ['/blog/prop-firm-payout-caps', 'Payout caps at every firm'], ['/best/best-prop-firms-fast-payouts', 'Fastest-paying futures firms'], ['/best/best-instant-funding-futures-prop-firms', 'Best instant-funding firms'], ['/best/best-prop-firms-no-daily-loss-limit', 'Firms with no daily loss limit']],
+  related: () => [['/firms/tradeify', 'Tradeify review'], ['/blog/how-prop-firm-payouts-work', 'How prop firm payouts work'], ['/blog/prop-firm-consistency-rules', 'Consistency rules by firm'], ['/tools/prop-firm-consistency-calculator', 'Consistency calculator'], ['/blog/prop-firm-payout-caps', 'Payout caps at every firm'], ['/best/best-prop-firms-fast-payouts', 'Fastest payout prop firms'], ['/best/best-instant-funding-futures-prop-firms', 'Best instant-funding firms'], ['/best/best-prop-firms-no-daily-loss-limit', 'Firms with no daily loss limit']],
 },
 
 /* ---------------------------------------------------------------- Top One payout rules (P1) */

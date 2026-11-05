@@ -144,7 +144,7 @@ function totalStatus(slug) { return TOTAL_STATUS[slug] || { kind: 'unconfirmed' 
 // payoutMedianTime is a PropChamps estimate, except where the firm states the time itself.
 var STATED_TIME = { 'vest-capital': 'Vest-stated' };
 // Payout FAQ line for each multi-asset firm (Vest: fact sheet, Nov 5, 2026)
-var PAYOUT_NOTE = { 'vest-capital': 'Vest Capital, the one multi-asset firm we track (USDC perpetuals, not CME futures), lets you claim profit any time on every plan: claims are processed in 24 hours into your Vest Primary Account and withdrawn as USDC to a crypto wallet.' };
+var PAYOUT_NOTE = { 'vest-capital': 'Vest Capital, the one multi-asset firm we track (USDC perpetuals, not CME futures), lets you claim profit any time on every plan. Vest says claims are processed in 24 hours into your Vest Primary Account; you then withdraw USDC to a crypto wallet.' };
 
 // ---------- shared, idempotent injection ----------
 function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
@@ -375,7 +375,7 @@ var DEAL_COPY = {
   // Facts only from the Nov 5, 2026 Vest fact sheet. No code, % or "CHAMP works" claim here: dealSection
   // adds the code wording from firms.js (promo + affiliatePending), so the referral swap is one data edit.
   'vest-capital': {
-    body: 'Vest Capital is <strong>multi-asset, not a futures firm</strong>: every market is a USDC-settled perpetual contract on Vest\'s own venue, including ES and NQ perps that track the index futures. Crypto trades 24/7, stocks, ETFs, indices, FX and commodities 24/5, with hourly funding. Every product is a one-time fee with no activation fee, and no sale price was showing (Vest\'s site, Nov 5, 2026). Vest\'s Prop Trading Terms say every account, Instant included, is <strong>simulated</strong>, and payouts are compensation from Vest\'s own funds, although its marketing calls it real capital. Profit claims can be made any time and are processed in 24 hours into your Vest Primary Account; you then withdraw USDC to a crypto wallet, and no fiat payout is documented. <strong>US eligibility is unconfirmed</strong>: the Prop Terms allow US residents, but the Exchange Terms bar US persons, and claimed profit lands in the Primary Account, which Vest\'s site geo-blocks for US IP addresses. If you\'re in the US, confirm with Vest before you buy. The operator is Vest Exchange Inc., a Panama company, and disputes go to arbitration in Panama.',
+    body: 'Vest Capital is <strong>multi-asset, not a futures firm</strong>: every market is a USDC-settled perpetual contract on Vest\'s own venue, including ES and NQ perps that track the index futures. Crypto trades 24/7, stocks, ETFs, indices, FX and commodities 24/5, with hourly funding. Every product is a one-time fee with no activation fee, and no sale price was showing (Vest\'s site, Nov 5, 2026). Vest\'s Prop Trading Terms say every account, Instant included, is <strong>simulated</strong>, and payouts are compensation from Vest\'s own funds, although its marketing calls it real capital. Profit claims can be made any time, and Vest says they are processed in 24 hours into your Vest Primary Account; you then withdraw USDC to a crypto wallet, and no fiat payout is documented. <strong>US eligibility is unconfirmed</strong>: the Prop Terms allow US residents, but the Exchange Terms bar US persons, and claimed profit lands in the Primary Account, which Vest\'s site geo-blocks for US IP addresses. If you\'re in the US, confirm with Vest before you buy. The operator is Vest Exchange Inc., a Panama company, and disputes go to arbitration in Panama.',
     fix: 'Vest\'s 2-Step is sold only inside its Create Custom Account builder, and the builder prices every 1-Step combination separately, so check the total for the exact options you picked.'
   }
 };
@@ -629,7 +629,7 @@ function buildPayouts() {
 
   var links = onDisk([
     ['/blog/how-prop-firm-payouts-work', 'How prop firm payouts work', 'Splits, minimum days, caps and the request process, firm by firm.'],
-    ['/best/best-prop-firms-fast-payouts', 'Fastest-payout futures prop firms', 'Daily-payout plans ranked by first payout, caps and minimums.'],
+    ['/best/best-prop-firms-fast-payouts', 'Fastest payout prop firms', 'Ranked on payout access and speed: multi-asset Vest Capital first, Apex the top futures pick.'],
     ['/blog/do-prop-firms-actually-pay', 'Do prop firms actually pay?', 'Why payouts get denied, and how to avoid it.'],
     ['/blog/prop-firm-payout-caps', 'Payout caps at every firm', 'The most you can withdraw per request, plan by plan.']
   ]).concat(firms.map(function (f) { var l = payoutRulesLink(f); return /payout-rules/.test(l.url) ? [l.url, l.label, 'Caps, minimums and timing for every ' + shortName(f) + ' plan.'] : null; }).filter(Boolean));
@@ -792,12 +792,12 @@ function buildCompare() {
 var DEEP_DIVES = {
   'dd-basics': [['/blog/are-futures-prop-firms-worth-it', 'Are futures prop firms legit and worth it?'], ['/blog/how-do-prop-firms-make-money', 'How do prop firms make money?']],
   'dd-how': [['/blog/how-to-pass-a-prop-firm-evaluation', 'How to pass a futures prop firm evaluation']],
-  'dd-paths': [['/best/best-instant-funding-futures-prop-firms', 'Best instant funding futures prop firms'], ['/blog/instant-funding-vs-evaluation-prop-firms', 'Instant funding vs evaluation, explained']],
+  'dd-paths': [['/best/best-instant-funding-futures-prop-firms', 'Best instant funding prop firms'], ['/blog/instant-funding-vs-evaluation-prop-firms', 'Instant funding vs evaluation, explained']],
   'dd-rule-drawdown': [['/blog/prop-firm-drawdown-explained', 'Trailing drawdown explained'], ['/tools/prop-firm-drawdown-calculator', 'Drawdown calculator']],
   'dd-rule-dll': [['/blog/what-is-a-daily-loss-limit', 'What is a daily loss limit?'], ['/best/best-prop-firms-no-daily-loss-limit', 'Firms with no daily loss limit']],
   'dd-rule-target': [['/blog/how-to-pass-a-prop-firm-evaluation', 'How to hit the profit target']],
   'dd-rule-consistency': [['/blog/prop-firm-consistency-rules', 'Consistency rules at every firm'], ['/tools/prop-firm-consistency-calculator', 'Consistency calculator'], ['/best/best-prop-firms-no-consistency-rule', 'Firms with no consistency rule']],
-  'dd-rule-days': [['/best/best-prop-firms-fast-payouts', 'Fastest-payout futures prop firms']],
+  'dd-rule-days': [['/best/best-prop-firms-fast-payouts', 'Fastest payout prop firms']],
   'dd-rule-news': [['/blog/prop-firm-news-trading-rules', 'News trading rules by firm']],
   'dd-payouts': [['/blog/how-prop-firm-payouts-work', 'How prop firm payouts work'], ['/blog/prop-firm-payout-caps', 'Payout caps at every firm']],
   'dd-costs': [['/blog/how-much-do-prop-firm-challenges-cost', 'How much a prop firm challenge costs'], ['/best/cheapest-prop-firm-challenges', 'Cheapest prop firm challenges']],

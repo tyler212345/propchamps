@@ -334,6 +334,10 @@ const TOPICS = [
   ['rules', /rule/, 40]
 ];
 function topicOf(name) { for (var i = 0; i < TOPICS.length; i++) if (TOPICS[i][1].test(name)) return TOPICS[i]; return ['other', /x/, 30]; }
+// true when the /best/ page carries a ranked card for this firm (e.g. Apex on the fast-payouts list)
+function rankedOn(url, slug) {
+  try { return new RegExp('class="rank-card[^"]*" data-firm="' + slug + '"').test(fs.readFileSync(path.join(ROOT, fileForUrl(url)), 'utf8')); } catch (e) { return false; }
+}
 function guidesFor(slug, f) {
   var a = attrs(f), list = [];
   [['blog', 'Guide'], ['best', 'Ranked list'], ['tools', 'Free tool']].forEach(function (d) {
@@ -349,8 +353,8 @@ function guidesFor(slug, f) {
         mentions = fs.readFileSync(path.join(ROOT, fileForUrl(url)), 'utf8').indexOf('href="' + PATH_FOR[slug] + '"') >= 0;
         if (d[0] === 'best' ? !mentions : /futures|tradovate|ninjatrader/.test(name)) return;
       }
-      // /best/ lists only where the firm actually has a qualifying plan
-      if (d[0] === 'best') {
+      // /best/ lists only where the firm actually has a qualifying plan, or is one of the list's ranked picks
+      if (d[0] === 'best' && !rankedOn(url, slug)) {
         if (/no-daily-loss|no-dll/.test(name) && !a.noDll) return;
         if (/fast-payout|daily-payout/.test(name) && !a.daily) return;
         if (/instant/.test(name) && !a.instant) return;
@@ -2051,7 +2055,7 @@ Object.keys(FILE_FOR).forEach(function (slug) {
   // [slug pattern, label, what it means, plan attribute, lead-in for the matching firms]
   var BEST_LABELS = [
     [/beginner/, 'Beginners', 'Simple rules and a forgiving first account.', null, ''],
-    [/fast-payout|daily-payout/, 'Fast payouts', 'Plans that let you request a payout every day.', 'daily', 'Daily-payout plans at'],
+    [/fast-payout|daily-payout/, 'Fast payouts', 'How soon and how often you can get paid.', 'daily', 'Daily-payout plans at'],
     [/no-daily-loss|no-dll/, 'No daily loss limit', 'Only the max drawdown can end your day.', 'noDllAll', 'No DLL at any stage on a plan at'],
     [/no-consistency/, 'No consistency rule', 'No cap on how much of your profit one day can be.', 'noConsAll', 'No rule at any stage on a plan at'],
     [/instant/, 'Instant funding', 'Skip the evaluation and start on a funded account.', 'instant', 'Straight-to-funded plans at'],
@@ -2066,7 +2070,7 @@ Object.keys(FILE_FOR).forEach(function (slug) {
     return { order: hit ? BEST_LABELS.indexOf(hit) : 99, row: [lab, what + (firms ? '<div class="bf-firms">' + hit[4] + ': ' + firms + '</div>' : ''), '<a href="' + u2 + '">See the list →</a>'] };
   }).sort(function (x, y) { return x.order - y.order; });
   var bestHtml = '\n<section class="block" id="best-for">\n  <div class="container">\n    <div class="section-head">\n      <div class="lhs">\n' +
-    '        <div class="section-eyebrow">Best for …</div>\n        <h2>The best futures prop firm for you.</h2>\n' +
+    '        <div class="section-eyebrow">Best for …</div>\n        <h2>The best prop firm for you.</h2>\n' +
     '        <p>Jump straight to the ranked list for what matters most to you. Matching firms are worked out from each firm’s current plan rules.</p>\n      </div>\n    </div>\n' +
     '    <div class="bf-wrap"><table class="bf-table"><thead><tr><th scope="col">Best for</th><th scope="col">What it means</th><th scope="col">Ranked list</th></tr></thead><tbody>' +
     bestRows.map(function (x) { return '<tr><th scope="row">' + x.row[0] + '</th><td>' + x.row[1] + '</td><td>' + x.row[2] + '</td></tr>'; }).join('') +
