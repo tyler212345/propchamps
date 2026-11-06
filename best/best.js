@@ -15,6 +15,9 @@
   // ...except where the firm itself states the figure: label it as the firm's, never "est."
   // (Vest's '24 hours' is its own stated claim-processing time, not our estimate)
   var STATED = {'vest-capital': {payoutMedianTime:'Vest-stated'}};
+  // promo.referralOnly (firms.js): CHAMP is our referral code at the firm and no discount from it is confirmed,
+  // so its CTA and promo cells never say "deal" or "discount" (Vest Prop Terms §6B)
+  function refOnly(f){ return !!(f && f.promo && f.promo.referralOnly); }
 
   /* (header, mobile menu and ticker are handled site-wide by /assets/pc.js) */
 
@@ -32,9 +35,10 @@
     var cta = card.querySelector('.rank-cta');
     if (cta){
       // affiliate links: always rel="sponsored noopener". While f.affiliatePending is set, affiliateUrl is
-      // the firm's plain landing page and no code is confirmed, so the button says "Visit", not "deal".
+      // the firm's plain landing page and no code is confirmed, so the button says "Visit", not "deal"; a
+      // referralOnly firm has our link but no confirmed discount, so it says "Visit" too (rel stays sponsored).
       if (f.affiliateUrl){ cta.href = f.affiliateUrl; cta.target = '_blank'; cta.rel = f.affiliatePending ? 'noopener' : 'sponsored noopener'; }
-      cta.innerHTML = (f.affiliatePending ? 'Visit ' + f.name : 'Get ' + f.name + ' deal') + ' <svg width="13" height="13" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>';
+      cta.innerHTML = (f.affiliatePending || refOnly(f) ? 'Visit ' + f.name : 'Get ' + f.name + ' deal') + ' <svg width="13" height="13" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>';
     }
     var review = card.querySelector('.rank-review');
     if (review && PAGE[slug]){ review.href = PAGE[slug]; }
@@ -50,11 +54,12 @@
   });
 
   /* promo cells: <td data-firm="slug" data-promo>—</td>. Shows firms.js promo.discount only once the
-     firm's code is confirmed (no affiliatePending), so a code is never claimed before it's live. */
+     firm's code is confirmed (no affiliatePending), so a code is never claimed before it's live. A referralOnly
+     firm's discount field isn't a discount ("None confirmed"), so the cell says what the code is instead. */
   document.querySelectorAll('[data-firm][data-promo]').forEach(function(el){
     var f = F[el.getAttribute('data-firm')];
     if (!f || f.affiliatePending || !f.promo || !f.promo.discount) return;
-    el.textContent = f.promo.discount;
+    el.textContent = refOnly(f) ? 'Referral code; no discount confirmed' : f.promo.discount;
   });
 
   /* filter chips: <div class="chips" data-filter-for="tableId"> <button class="chip" data-tag="x"> …

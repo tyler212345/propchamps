@@ -64,8 +64,10 @@
  * NOV 5, 2026 — Vest Capital added as the 9th firm (slug "vest-capital"): multi-asset USDC perpetuals on Vest's own
  *   venue, NOT CME futures (assetClass "multi-asset"). Built only from the Nov 5 read of Vest's live site, docs, terms
  *   and public price catalog (vest-facts.md + the full 1-Step price grid). US eligibility unconfirmed (Prop Terms
- *   allow US residents, Exchange Terms bar US persons). Affiliate link + code pending from the owner
- *   (affiliatePending: true; affiliateUrl/promo/offerLine are placeholders). No published payout total.
+ *   allow US residents, Exchange Terms bar US persons). No published payout total. Later that day the owner
+ *   supplied Champ's referral link (/r/champ) and code CHAMP: affiliatePending removed, promo.referralOnly set
+ *   because no discount from the code is confirmed (Vest Prop Terms §6B: advertise only authorized discounts and
+ *   disclose the commission).
  * OCT 27, 2026 — no "rating" / "reviewCount" fields: PropChamps publishes no star ratings or review counts. Do not re-add.
  *
  * OCT 23, 2026 VERIFICATION (targeted payout/limits/consistency check vs official help centers; full fact
@@ -1933,9 +1935,9 @@ window.FIRMS = {
     "initials": "VC",
     "logo": "/logos/vest.png",
     "logoText": "VC",
-    // TODO(owner): replace with Champ's Vest referral link, then delete "affiliatePending" below.
-    "affiliateUrl": "https://next.vestmarkets.com/vest-capital",
-    "affiliatePending": true,
+    // Champ's Vest referral link + code CHAMP (owner, Nov 5, 2026). Vest's Prop Terms §6B: advertise only
+    // discounts Vest has authorized in writing, and disclose that we earn a commission.
+    "affiliateUrl": "https://next.vestmarkets.com/r/champ",
     "type": "Multi-asset · USDC perpetuals, not CME futures",
     "tagline": "Instant · 1-Step · 2-Step · crypto, stock, index, FX and commodity perps",
     "badge": "new",
@@ -1943,13 +1945,18 @@ window.FIRMS = {
     "live": true,
     "tags": ["multi-asset", "instant", "no-dll"],
     "filters": ["evaluation", "instant", "nodll", "fast-payout", "multi-asset"],
-    // TODO(owner): code value pending. Set Champ's real Vest code here (and offerLine "Use Code <CODE>"), and a discount
-    // only once confirmed. Neutral until then: this file is public, so it must not say CHAMP works at Vest.
+    // referralOnly: CHAMP is our referral code at Vest and NO discount is confirmed. Renderers then use neutral
+    // wording (code, visit, no discount confirmed) and never "deal"/"discount". Vest Prop Terms §6B(d): advertise
+    // only discounts Vest authorized in writing. If the owner confirms one, the flip is this entry only: set
+    // "discount" (e.g. "10% off"), set offerLine to match ("10% OFF", like Apex and Alpha), delete referralOnly,
+    // then re-run the builders. The plan "Promo Code" rows stay plain "CHAMP" (renderers add the referral-code
+    // note), and the referral-only sentences on hand-written pages sit in builder regions keyed on this flag.
     "promo": {
-      "code": "",
-      "discount": ""
+      "code": "CHAMP",
+      "discount": "None confirmed",
+      "referralOnly": true
     },
-    "offerLine": "No PropChamps code yet",
+    "offerLine": "Use Code CHAMP",
     "offerSub": "Instant · 1-Step · 2-Step: multi-asset USDC perps, not CME futures",
     "summary": "Vest Capital is the funded-account program of Vest Markets, and it is not a futures firm: every market is a USDC-settled perpetual contract on Vest's own venue, including ES and NQ perps that track the index futures. Crypto trades 24/7, stocks, ETFs, indices, FX and commodities 24/5, with hourly funding. There are three ways in: Instant accounts from $10 for a $500 account (no evaluation, 95% split, a static drawdown equal to the fee), a 1-Step evaluation (10% target, 6% static drawdown, 80% split) and a 2-Step from $15 that is sold only in Vest's custom-account builder. No consistency rule and no minimum days. Profit claims can be made any time, are processed in 24 hours and are paid out as USDC to a crypto wallet. Vest's Prop Trading Terms say every account, Instant included, is simulated, and payouts are compensation from Vest's own funds. The operator is Vest Exchange Inc., a Panama company, and US eligibility is unconfirmed. Prices and rules from Vest's site, Nov 5, 2026.",
     "highlights": ["No Consistency Rule", "On-Demand Payouts", "Instant From $10"],
@@ -2012,6 +2019,7 @@ window.FIRMS = {
           ["Payouts", "Claim any time · processed in 24h · USDC"],
           ["Activation Fee", "None"],
           ["Platform", "Vest web app (TradingView charts) · no API on funded accounts"],
+          ["Promo Code", "CHAMP"],
           ["Source", "Vest's site, Nov 5, 2026"]
         ]
       },
@@ -2032,6 +2040,7 @@ window.FIRMS = {
           ["Profit Split", "80%"],
           ["Payouts", "Claim any time once Live · processed in 24h · USDC"],
           ["Activation Fee", "None"],
+          ["Promo Code", "CHAMP"],
           ["Source", "Vest's site, Nov 5, 2026"]
         ]
       },
@@ -2049,6 +2058,7 @@ window.FIRMS = {
           ["Profit Split", "80%"],
           ["Payouts", "Claim any time once Live · processed in 24h · USDC"],
           ["Activation Fee", "None"],
+          ["Promo Code", "CHAMP"],
           ["Source", "Vest's site, Nov 5, 2026"]
         ]
       },
@@ -2064,6 +2074,7 @@ window.FIRMS = {
           ["Cost Drivers (our reading of the grid)", "A lower target, a larger drawdown, no daily limit and a higher split each cost more"],
           ["Cheapest", "$20: $5K, 20% target, 6% drawdown, 3% daily limit, 70% split"],
           ["Most Expensive", "$2,170: $50K, 5% target, 8% drawdown, no daily limit, 95% split"],
+          ["Promo Code", "CHAMP"],
           ["Source", "Vest's site and public price catalog, Nov 5, 2026"]
         ]
       }
@@ -2086,6 +2097,7 @@ window.FIRMS = {
           "Activation Fee": "None · one-time $10 / $200 / $400 / $1,000 / $2,000",
           "Reset Fee": "No resets (buy a new account)",
           "Platforms": "Vest web app (TradingView charts)",
+          "Promo Code": "CHAMP",
           "Notes": "USDC perpetuals, not CME futures · fee equals the max drawdown (2% on $500, 4% above) · simulated per Vest's Prop Terms · Vest's site, Nov 5, 2026"
         }
       },
@@ -2106,6 +2118,7 @@ window.FIRMS = {
           "Activation Fee": "None · one-time $75 / $150 / $375 / $745 ($40 / $80 / $210 / $415 with the 3% daily limit)",
           "Reset Fee": "No resets (buy a new account)",
           "Platforms": "Vest web app (TradingView charts)",
+          "Promo Code": "CHAMP",
           "Notes": "10% target · 6% static drawdown · passing creates a Live account of the same size instantly · custom builder: target 5-20%, drawdown 6-8%, split 70-95%, $20 to $2,170 · Vest's site, Nov 5, 2026"
         }
       },
@@ -2126,6 +2139,7 @@ window.FIRMS = {
           "Activation Fee": "None · one-time $15 / $35 / $90 / $175",
           "Reset Fee": "No resets (buy a new account)",
           "Platforms": "Vest web app (TradingView charts)",
+          "Promo Code": "CHAMP",
           "Notes": "Sold only in Vest's Create Custom Account builder · 10% then 5% target · cheapest evaluation · Vest's site, Nov 5, 2026"
         }
       }

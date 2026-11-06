@@ -219,6 +219,9 @@ function dollars(s, after) {
   t = t.replace(/\([^)]*\)/g, '');
   return (t.match(/\$[\d,]+(?:\.\d{2})?/g) || []);
 }
+/* firms.js promo.referralOnly: CHAMP is our referral code at the firm and no discount from it is confirmed
+   (Vest Prop Terms §6B), so its prices get no "with CHAMP" row and its note says so, with the commission. */
+const refOnly = (f) => !!(f && f.promo && f.promo.referralOnly);
 const money = (n) => '$' + (Number.isInteger(n) ? n.toLocaleString('en-US') : n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
 const num = (s) => Number(String(s).replace(/[$,]/g, ''));
 function champPct(k) {
@@ -297,7 +300,7 @@ function pricesTable(keys, ak, bk, opts) {
     const bill = esc(r.src.billing) + `<span class="sub">${esc(BASIS[r.src.basis])}${r.src.sub ? ' · ' + esc(r.src.sub) : ''}</span>`;
     body += `<tr${brk}><td class="firm-c"><span class="pl-firm">${esc(FIRMS[r.k].name)}</span><b>${esc(r.label)}</b></td><td>${bill}</td>` +
       sizes.map((s) => `<td class="num">${r.bySize[s] ? esc(r.bySize[s]) : '<span class="faint">—</span>'}</td>`).join('') + '</tr>';
-    const pct = r.src.basis === 'champ' || unconfirmed.has(r.k) || FIRMS[r.k].affiliatePending ? null : champPct(r.k);
+    const pct = r.src.basis === 'champ' || unconfirmed.has(r.k) || FIRMS[r.k].affiliatePending || refOnly(FIRMS[r.k]) ? null : champPct(r.k);
     if (pct) {
       body += `<tr class="champ"><td class="firm-c">With CHAMP (−${pct}%)</td><td>Our math</td>` +
         sizes.map((s) => `<td class="num">${r.bySize[s] ? esc(money(Math.round(num(r.bySize[s]) * (100 - pct)) / 100)) : '<span class="faint">—</span>'}</td>`).join('') + '</tr>';
@@ -306,6 +309,7 @@ function pricesTable(keys, ak, bk, opts) {
   const discounts = [ak, bk].map((k) => {
     const d = String((FIRMS[k].promo && FIRMS[k].promo.discount) || '');
     if (FIRMS[k].affiliatePending) return `${FIRMS[k].name}: we don't have a PropChamps code for it yet, so these are its list prices`;
+    if (refOnly(FIRMS[k])) return `${FIRMS[k].name}: ${FIRMS[k].promo.code} is our referral code there and no discount from it is confirmed, so these are its list prices (PropChamps earns a commission on purchases made through our link or with code ${FIRMS[k].promo.code})`;
     if (k === 'lucid-trading') return `${FIRMS[k].name}: the prices shown already include CHAMP, as seen at checkout on Oct 5, 2026 (Lucid's site blocked our Oct 23 re-check), and we haven't confirmed whether its evaluations renew monthly`;
     if (unconfirmed.has(k)) return `${FIRMS[k].name}: CHAMP is applied at checkout, but we couldn't confirm its rate`;
     if (/\d+\s*%/.test(d) && !/up to/i.test(d)) return `${FIRMS[k].name}: CHAMP is ${d.toLowerCase()} in our deal data`;

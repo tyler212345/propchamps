@@ -28,6 +28,16 @@
 window.CHANGELOG = [
   {
     date: '2026-11-05', firm: 'vest-capital', firmName: 'Vest Capital', logo: '/logos/vest.png',
+    category: 'promo',
+    headline: 'Code CHAMP and our referral link added for Vest Capital',
+    was: 'No PropChamps code at Vest',
+    is: 'Code CHAMP, PropChamps\' referral code at Vest; no discount confirmed, so Vest\'s list prices apply',
+    note: 'PropChamps earns a commission on Vest purchases made with the code or our link. Vest\'s Prop Terms let referral partners advertise only discounts Vest has authorized in writing, so we show none until Vest confirms one.',
+    source: 'https://next.vestmarkets.com/vest-capital',
+    firmPage: 'vest-capital'
+  },
+  {
+    date: '2026-11-05', firm: 'vest-capital', firmName: 'Vest Capital', logo: '/logos/vest.png',
     category: 'feature',
     headline: 'Vest Capital added as our first multi-asset firm',
     was: '',

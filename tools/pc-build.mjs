@@ -82,12 +82,17 @@ function dealLabel(f) {
 // neutral, code-free label (never dealLabel / CHAMP). It switches to its deal label once the owner swaps in
 // its code and deletes the flag.
 function pendingLabel(f) { return f.assetClass && f.assetClass !== 'futures' ? 'NEW · MULTI-ASSET' : 'NEW'; }
-const tickerItems = TICKER.filter(([s]) => FIRMS[s] && FIRMS[s].live !== false)
+// promo.referralOnly = CHAMP is only our referral code there, with no confirmed discount (Vest: its Prop Terms
+// allow advertising authorized discounts only), so it has no place in a "Live deals" ticker that opens with
+// "Use code CHAMP": it is left out until the flag is deleted and a discount is set (as the homepage deal lists do).
+const refOnly = (f) => !!(f && f.promo && f.promo.referralOnly);
+const tickerItems = TICKER.filter(([s]) => FIRMS[s] && FIRMS[s].live !== false && !refOnly(FIRMS[s]))
   .map(([s, short]) => `<span class="pc-tk"><b>${short}</b> <em>${FIRMS[s].affiliatePending ? pendingLabel(FIRMS[s]) : dealLabel(FIRMS[s])}</em></span><span class="pc-tk-sep">✦</span>`)
   .join('');
 const tickerGroup = `<span class="pc-tk pc-tk-code">Use code <b>CHAMP</b></span><span class="pc-tk-sep">✦</span>${tickerItems}`;
-// Footer claim about where CHAMP works: "every one" only while no live firm is affiliatePending.
-// Vest (multi-asset) has no code yet, so it reads "every futures firm" until the flag is deleted.
+// Footer claim about where CHAMP works: "every one" only while no live firm is affiliatePending. While one is,
+// it narrows to "every futures firm" (every pending firm is multi-asset) or "most of them".
+// (A referral-only firm takes the code, so it counts: the claim is about the code, not a discount.)
 const codePending = Object.values(FIRMS).filter((f) => f.live !== false && f.affiliatePending);
 const CODE_REACH = !codePending.length ? 'every one'
   : codePending.every((f) => f.assetClass && f.assetClass !== 'futures') ? 'every futures firm' : 'most of them';
@@ -99,7 +104,14 @@ const NAV = [
   ['start', '/start/', 'Start', 'Build your funding plan in 30 seconds'],
 ];
 
-function chrome(active) {
+// The header and menu CHAMP pills say "Copy discount code CHAMP", except on a referral-only firm's own review page
+// (window.PROPCHAMPS_FIRM), where CHAMP has no confirmed discount: there they say "Copy code CHAMP".
+function codeAria(html) {
+  const slug = (html.match(/window\.PROPCHAMPS_FIRM = "([a-z0-9-]+)"/) || [])[1];
+  return slug && refOnly(FIRMS[slug]) ? 'Copy code CHAMP' : 'Copy discount code CHAMP';
+}
+
+function chrome(active, aria = 'Copy discount code CHAMP') {
   const cur = (k) => (k === active ? ' class="is-active" aria-current="page"' : '');
   const desk = NAV.map(([k, href, label]) =>
     `<a href="${href}"${cur(k)}>${label}${k === 'start' ? '<span class="pc-nav-dot" aria-hidden="true"></span>' : ''}</a>`).join('');
@@ -117,7 +129,7 @@ function chrome(active) {
     <a class="pc-logo" href="/" aria-label="PropChamps home"><img class="pc-logo-mark" src="/logos/pc-mark.png" alt="" width="26" height="34"><img class="pc-logo-word" src="/logos/pc-wordmark.png" alt="PropChamps" width="144" height="15"></a>
     <nav class="pc-nav" aria-label="Primary">${desk}</nav>
     <div class="pc-actions">
-      <button type="button" class="pc-code" data-copy="CHAMP" aria-label="Copy discount code CHAMP"><span>Code</span><b>CHAMP</b>${COPY}</button>
+      <button type="button" class="pc-code" data-copy="CHAMP" aria-label="${aria}"><span>Code</span><b>CHAMP</b>${COPY}</button>
       <a class="pc-cta" href="/start/">Get funded ${ARROW}</a>
       <button type="button" class="pc-burger" id="pcBurger" aria-label="Open menu" aria-expanded="false" aria-controls="pcMenu"><span></span></button>
     </div>
@@ -127,7 +139,7 @@ function chrome(active) {
   <nav class="pc-menu-main" aria-label="Mobile">${mob}</nav>
   <div class="pc-menu-label">Learn</div>
   <div class="pc-menu-sub"><a href="/blog/">Blog</a><a href="/best/">Best-of guides</a><a href="/vs/">Head-to-heads</a><a href="/tools/">Free tools</a><a href="/payouts">Payouts</a><a href="/guide">Beginner's guide</a><a href="/methodology">How we audit</a></div>
-  <div class="pc-menu-cta"><a class="pc-cta" href="/start/">Build my funding plan ${ARROW}</a><button type="button" class="pc-code" data-copy="CHAMP" aria-label="Copy discount code CHAMP"><span>Code</span><b>CHAMP</b>${COPY}</button></div>
+  <div class="pc-menu-cta"><a class="pc-cta" href="/start/">Build my funding plan ${ARROW}</a><button type="button" class="pc-code" data-copy="CHAMP" aria-label="${aria}"><span>Code</span><b>CHAMP</b>${COPY}</button></div>
 </div>
 <!-- /pc:chrome -->`;
 }
@@ -226,7 +238,7 @@ for (const page of walk('')) {
 
   // 1) chrome
   if (html.includes('<!-- pc:chrome')) {
-    html = replaceBetween(html, html.slice(html.indexOf('<!-- pc:chrome'), html.indexOf('-->', html.indexOf('<!-- pc:chrome')) + 3), '<!-- /pc:chrome -->', chrome(active));
+    html = replaceBetween(html, html.slice(html.indexOf('<!-- pc:chrome'), html.indexOf('-->', html.indexOf('<!-- pc:chrome')) + 3), '<!-- /pc:chrome -->', chrome(active, codeAria(html)));
   } else {
     let insertAt = -1;
     for (const [re, tag, label] of [
@@ -247,7 +259,7 @@ for (const page of walk('')) {
       insertAt = b + html.slice(b).indexOf('>') + 1;
       notes.push('chrome inserted after <body>');
     }
-    html = html.slice(0, insertAt) + '\n' + chrome(active) + '\n' + html.slice(insertAt);
+    html = html.slice(0, insertAt) + '\n' + chrome(active, codeAria(html)) + '\n' + html.slice(insertAt);
   }
 
   // 2) footer

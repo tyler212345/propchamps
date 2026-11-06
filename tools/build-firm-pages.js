@@ -9,6 +9,12 @@
  *   affiliatePending true = PropChamps has no code there yet: every CHAMP claim generated here (hero code,
  *   CTAs, related-firm intro, hub deal cell, "firms that take CHAMP") is switched off for it, and promo copy
  *   reads f.promo, so the owner's referral swap is one firms.js edit plus a re-run.
+ *   promo.referralOnly true = CHAMP is our referral code there but no discount from it is confirmed (Vest: its
+ *   Prop Terms §6B let us advertise only discounts Vest authorized in writing). Every surface generated here
+ *   then calls it a code, never a deal or discount: hero labels "Referral code" / "Discount: None confirmed",
+ *   "Visit <firm>" CTAs, a hub "Referral code" cell, plan-card "Promo Code" rows marked as a referral code, and
+ *   the commission line next to the closing CTA and above the hub table. Delete the flag (and set
+ *   promo.discount) to get the normal discount wording back.
  *
  * WHY THIS EXISTS
  *   Firm pages used to be 100% client-side rendered: the HTML shipped with
@@ -120,10 +126,22 @@ const FIRM_KEYS = {
 // multi-asset = not a CME-futures firm (labelled, kept out of futures-only counts); pending = no PropChamps code yet
 function isMulti(s) { return !!(FIRMS[s] && FIRMS[s].assetClass === 'multi-asset'); }
 function pending(f) { return !!(f && f.affiliatePending); }
+// referral-only = our code works there but no discount from it is confirmed: a code, never a deal or discount
+function refOnly(f) { return !!(f && f.promo && f.promo.referralOnly); }
 function promoCode(f) { return (f.promo && f.promo.code) || 'CHAMP'; }
+// the commission disclosure that sits with every referral-only placement (Vest Prop Terms §6B(e)); the
+// non-breaking space keeps the code from wrapping onto a line of its own
+function commissionLine(f) { return 'PropChamps earns a commission on purchases made through our link or with code&nbsp;' + esc(promoCode(f)) + '.'; }
 function liveSlugs() { return FIRM_ORDER.filter(function (s) { return FIRMS[s] && FIRMS[s].live !== false; }); }
 // hero values while a firm has no code (the inline page JS uses the same strings, see patchInlineJs)
 const PENDING_CODE = 'None yet', PENDING_OFFER = 'No discount yet';
+// hero labels + offer value for a referral-only code (REF_OFFER is mirrored in the inline page JS)
+const REF_CODE_LABEL = 'Referral code', REF_OFFER_LABEL = 'Discount', REF_OFFER = 'None confirmed';
+// A plan's "Promo Code" row holds just the code (firms.js); for a referral-only firm the plan cards add this note,
+// so confirming a discount needs no plan-row edit. Mirrored in the inline page JS (patchInlineJs), deals.html
+// and compare.html.
+const REF_RULE_NOTE = ' (referral code; no discount confirmed)';
+function ruleVal(f, k, v) { return k === 'Promo Code' && refOnly(f) ? v + REF_RULE_NOTE : v; }
 
 // Review dates. f.lastAudited (firms.js) wins when present. Oct 23, 2026 = the
 // help-center verification; Apex blocked that fetch, so its last full audit is Oct 5.
@@ -1124,8 +1142,8 @@ CONTENT['fundednext'] = function (f) {
 // Plan tables read firms.js; prose cites the Nov 5, 2026 read of Vest's site, FAQ, docs, Prop + Exchange Terms and
 // its public price catalog / market list (the verified Vest fact sheet). Where Vest's own pages disagree we say so.
 // Page rules: never call Vest US-friendly; never state its "real capital" marketing as fact (its terms say every
-// account is simulated); never promote its purchase-linked competition prize draws; promo copy reads f.promo and
-// f.affiliatePending only, so the owner's referral swap is one firms.js edit plus a re-run.
+// account is simulated); never promote its purchase-linked competition prize draws; promo copy reads f.promo
+// (incl. referralOnly) and f.affiliatePending only, so a confirmed discount is one firms.js edit plus a re-run.
 CONTENT['vest-capital'] = function (f) {
   var V = 'Vest’s site, Nov 5, 2026';
   function inst(re) { return DP(f, /^Instant/, re); }
@@ -1184,15 +1202,18 @@ CONTENT['vest-capital'] = function (f) {
     ['All other stocks and ETFs', '5x', '—']
   ];
 
-  // promo: firms.js only (affiliatePending = no PropChamps code yet)
+  // promo: firms.js only (affiliatePending = no PropChamps code yet; referralOnly = code, no confirmed discount,
+  // so its "None confirmed" placeholder is never printed as if it were a discount)
   var pend = pending(f), code = promoCode(f), disc = (f.promo && f.promo.discount) || '';
-  var hasDisc = disc && !/^see /i.test(disc);
+  var hasDisc = !refOnly(f) && disc && !/^(see |none)/i.test(disc);
   var promoAnswer = pend
     ? 'PropChamps doesn’t have a Vest Capital code yet, so we don’t list one. Vest’s site and price catalog showed no discount on Nov 5, 2026: every price was the full list price.'
-    : 'Use code ' + esc(code) + ' at checkout' + (hasDisc ? ' (' + esc(disc) + ')' : '') + '. The prices above are Vest’s list prices from Nov 5, 2026; confirm the total at checkout.';
+    : 'Use code ' + esc(code) + ' at checkout' + (hasDisc ? ' (' + esc(disc) + ')' : '') + ', starting from our link. It is PropChamps’ referral code at Vest, so we earn a commission when you use it' +
+      (hasDisc ? '.' : ', and we haven’t confirmed a discount from it: expect the list prices above (Nov 5, 2026) and check the total at checkout.');
   var promoFaq = pend
     ? 'Not from PropChamps yet: we don’t have a Vest Capital code, and Vest’s site showed no discount on Nov 5, 2026. Vest’s custom-account builder has an “Add Code” field; codes other sites publish for Vest are their own affiliate codes, which we haven’t verified.'
-    : 'Yes: use code ' + esc(code) + ' at checkout' + (hasDisc ? ' (' + esc(disc) + ')' : '') + ', starting from our link so the referral is attached. Compare the checkout total with Vest’s list prices.';
+    : 'Yes: code ' + esc(code) + ', PropChamps’ referral code at Vest. Use it at checkout' + (hasDisc ? ' (' + esc(disc) + ')' : '') + ', starting from our link so the referral is attached; PropChamps earns a commission when you do.' +
+      (hasDisc ? '' : ' We haven’t confirmed a discount from it, so compare the checkout total with Vest’s list prices.');
 
   return {
     title: 'Vest Capital Review ' + YEAR + ': Instant Funding, Rules & Payouts',
@@ -1202,7 +1223,7 @@ CONTENT['vest-capital'] = function (f) {
     eyebrow: 'Multi-asset prop program review',
     source: 'Vest’s site, docs and terms',
     ctaTitle: 'Considering Vest Capital?',
-    ctaNote: 'Read the US-eligibility and simulated-account notes above first.',
+    ctaNote: 'Read the US-eligibility and simulated-account notes above first.' + (pend ? '' : ' ' + commissionLine(f)),
     alert: {
       label: 'Before you buy',
       title: 'Read this first · ' + V,
@@ -1212,7 +1233,10 @@ CONTENT['vest-capital'] = function (f) {
         '<strong>US eligibility unconfirmed.</strong> The Prop Terms allow US residents, but the Exchange Terms bar US persons, and claimed profit lands in the Primary Account, which Vest’s site restricts for US IP addresses. US traders: confirm with Vest before buying. <a href="#eligibility">Details</a>',
         '<strong>Offshore operator.</strong> Vest Exchange Inc., a Panama company; disputes go to arbitration in Panama. <a href="#track-record">Operator and record</a>',
         '<strong>Crypto payouts.</strong> Claim any time, processed in 24 hours, into your Vest Primary Account, then withdraw USDC to a crypto wallet. No fiat payout is documented. <a href="#payouts">Payout rules</a>'
-      ]
+      ].concat(pend ? [] : [
+        '<strong>Our link and code.</strong> PropChamps earns a commission if you buy through our link or with code ' + esc(code) + '.' +
+          (hasDisc ? '' : ' We haven’t confirmed a discount from the code.') + ' <a href="#promo-code">Promo code</a>'
+      ])
     },
     chooser: {
       h2: 'Vest Capital plans compared: Instant vs 1-Step vs 2-Step',
@@ -1437,7 +1461,8 @@ CONTENT['vest-capital'] = function (f) {
         answer: promoAnswer,
         body: prose([p(pend
           ? 'Vest’s custom-account builder has an “Add Code” field. Codes other sites publish for Vest are their own affiliate codes; we haven’t verified them, so compare the checkout total with the prices above. We list a code only once we have one.'
-          : 'Start from our link so the referral is attached, and compare the checkout total with the list prices above. ' + L(U.deals, 'Every active deal') + '.')])
+          : hasDisc ? 'Our link and the code both credit PropChamps. ' + L(U.deals, 'Every active deal') + '.'
+          : 'Our link and the code both credit PropChamps; neither changes Vest’s rules or prices as far as we have confirmed. ' + L(U.deals, 'Every code we list') + '.')])
       },
       {
         id: 'verdict', nav: 'Verdict', eyebrow: 'Verdict', h2: 'Our verdict on Vest Capital',
@@ -1622,22 +1647,31 @@ function alertHtml(a) {
     a.items.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div></aside>\n';
 }
 const ARROW = '<svg width="14" height="14" viewbox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>';
-// closing-CTA sentence: the firm's code from firms.js, or no code claim at all while affiliatePending
+// closing-CTA sentence: the firm's code from firms.js, or no code claim at all while affiliatePending.
+// A referral-only code says so and always carries the commission line (once: ctaNote may already hold it).
 function ctaText(f, c) {
   var t = pending(f)
     ? 'We don’t have a PropChamps code for ' + esc(f.name) + ' yet, so you pay the list price. Confirm the total on its checkout page before you pay.'
-    : 'Use code <strong style="color:var(--pc-gold)">' + esc(promoCode(f)) + '</strong> at checkout, and confirm the final price on the firm’s checkout page before you pay.';
-  return t + (c.ctaNote ? ' ' + c.ctaNote : '');
+    : refOnly(f)
+      ? 'Use code <strong style="color:var(--pc-gold)">' + esc(promoCode(f)) + '</strong> at checkout: it is our referral code, and we haven’t confirmed a discount from it. Confirm the final price on the firm’s checkout page before you pay.'
+      : 'Use code <strong style="color:var(--pc-gold)">' + esc(promoCode(f)) + '</strong> at checkout, and confirm the final price on the firm’s checkout page before you pay.';
+  var n = c.ctaNote || '';
+  if (refOnly(f) && !pending(f) && n.indexOf(commissionLine(f)) < 0) n += (n ? ' ' : '') + commissionLine(f);
+  return t + (n ? ' ' + n : '');
 }
-// "Other firms we cover" intro: label multi-asset firms and never say CHAMP works where we have no code
+// "Other firms we cover" intro: label multi-asset firms, never say CHAMP works where we have no code, and say
+// where it is only a referral code (no confirmed discount)
 function relatedIntro(slug) {
   var others = liveSlugs().filter(function (s) { return s !== slug; });
   var multi = others.filter(isMulti), pend = others.filter(function (s) { return pending(FIRMS[s]); });
+  var refs = others.filter(function (s) { return !pending(FIRMS[s]) && refOnly(FIRMS[s]); });
   function names(list) { return list.map(function (s) { return amp(FIRMS[s].name); }).join(', ').replace(/, ([^,]*)$/, ' and $1'); }
+  // on a multi-asset firm's own page the others are not "other futures firms": that firm isn't one
   var lead = multi.length
     ? 'The other firms we track: ' + (others.length - multi.length) + ' futures firms and ' + names(multi) + ' (multi-asset perpetuals, not CME futures).'
-    : 'The other futures firms we track.';
-  return lead + ' Code CHAMP works at each one' + (pend.length ? ' except ' + names(pend) + ', where we have no code yet' : '') + '.';
+    : isMulti(slug) ? 'The ' + others.length + ' futures firms we track.' : 'The other futures firms we track.';
+  return lead + ' Code CHAMP works at each one' + (pend.length ? ' except ' + names(pend) + ', where we have no code yet' : '') + '.' +
+    (refs.length ? ' At ' + names(refs) + ' it is our referral code, with no confirmed discount.' : '');
 }
 // the site-wide Organization node (its full definition lives in the homepage JSON-LD)
 const PC_ORG = { '@type': 'Organization', '@id': SITE + '/#organization', name: 'PropChamps', url: SITE,
@@ -1648,7 +1682,7 @@ function seoHead(slug, f, c, faq) {
   var firmNode = {
     '@type': ['FinancialService', 'Service'], '@id': url + '#firm', name: f.name, url: url,
     image: SITE + f.logo,
-    description: f.name + ' — ' + (f.type || '') + '. Independent review covering rules, payouts, drawdown, account limits and ' + (pending(f) ? 'pricing.' : 'current promo codes.'),
+    description: f.name + ' — ' + (f.type || '') + '. Independent review covering rules, payouts, drawdown, account limits and ' + (pending(f) ? 'pricing.' : refOnly(f) ? 'pricing, plus our referral code.' : 'current promo codes.'),
     areaServed: f.country || 'US',
     serviceType: isMulti(slug) ? 'Multi-asset prop trading program (simulated accounts, USDC perpetual contracts)' : 'Futures prop trading firm',
     provider: { '@type': 'Organization', name: f.name, url: FIRM_SITE[slug] || (f.affiliateUrl || '').replace(/^(https?:\/\/[^\/]+).*$/, '$1/') }
@@ -1710,10 +1744,13 @@ function bylineHtml(slug, f, c) {
 // The original block renderers (static mirror of the inline page JS)
 // ---------------------------------------------------------------------------
 function render(slug, f) {
-  var out = {}, pend = pending(f), code = promoCode(f);
+  var out = {}, pend = pending(f), code = promoCode(f), ro = !pend && refOnly(f);
   out.bcCurrent = esc(f.name);
   out.firmCode = esc(pend ? PENDING_CODE : code);
-  out.firmOffer = esc(pend ? PENDING_OFFER : (f.offerLine || 'See firm'));
+  out.firmOffer = esc(pend ? PENDING_OFFER : ro ? REF_OFFER : (f.offerLine || 'See firm'));
+  // hero stat labels (static template text, swapped in place by the build loop)
+  out.codeLabel = ro ? REF_CODE_LABEL : 'Discount code';
+  out.offerLabel = ro ? REF_OFFER_LABEL : 'Active offer';
   out.firmSummary = esc(f.summary || '');
   out.ctaTitle = esc('Ready to get funded with ' + f.name + '?');
   out.logo = f.logo || '';
@@ -1721,12 +1758,13 @@ function render(slug, f) {
   out.affiliate = f.affiliateUrl || '#';
   // no referral yet = a plain link to the firm, not a sponsored one
   out.affiliateRel = pend ? 'nofollow noopener' : 'sponsored noopener';
+  // referral-only: a neutral "Visit <firm>" (still the sponsored link) and the copy button stays
   out.heroCta = '\n          <a class="btn-primary" id="firmAffiliate" href="' + escAttr(out.affiliate) + '" target="_blank" rel="' + out.affiliateRel + '">' +
-    (pend ? 'Visit ' + esc(f.name) : 'Get this deal') + '\n            ' + ARROW + '\n          </a>\n          ' +
+    (pend || ro ? 'Visit ' + esc(f.name) : 'Get this deal') + '\n            ' + ARROW + '\n          </a>\n          ' +
     (pend ? '<a class="btn-text" href="#plans">Compare plans</a>'
       : code === 'CHAMP' ? '<a class="btn-text js-copy-champ" href="#">Copy code</a>'
       : '<a class="btn-text" href="#" data-copy="' + escAttr(code) + '">Copy code</a>') + '\n        ';
-  out.ctaBtn = pend ? 'Visit ' + esc(f.name) : 'Get this deal at the firm';
+  out.ctaBtn = pend || ro ? 'Visit ' + esc(f.name) : 'Get this deal at the firm';
   var stats = (f.stats || []).slice();
   if (stats.length === 0 && f.boxPreviews) {
     Object.keys(f.boxPreviews).forEach(function (k) { stats.push([k.charAt(0).toUpperCase() + k.slice(1), f.boxPreviews[k]]); });
@@ -1740,9 +1778,9 @@ function render(slug, f) {
     var feat = pl.featured ? ' featured' : '';
     var rules = '';
     if (Array.isArray(pl.rules)) {
-      rules = pl.rules.slice(0, 20).map(function (r) { return '<div class="plan-rule"><span class="plan-rule-label">' + r[0] + '</span><span class="plan-rule-value">' + r[1] + '</span></div>'; }).join('');
+      rules = pl.rules.slice(0, 20).map(function (r) { return '<div class="plan-rule"><span class="plan-rule-label">' + r[0] + '</span><span class="plan-rule-value">' + ruleVal(f, r[0], r[1]) + '</span></div>'; }).join('');
     } else if (pl.rules && typeof pl.rules === 'object') {
-      rules = Object.keys(pl.rules).slice(0, 20).map(function (k) { return '<div class="plan-rule"><span class="plan-rule-label">' + k + '</span><span class="plan-rule-value">' + pl.rules[k] + '</span></div>'; }).join('');
+      rules = Object.keys(pl.rules).slice(0, 20).map(function (k) { return '<div class="plan-rule"><span class="plan-rule-label">' + k + '</span><span class="plan-rule-value">' + ruleVal(f, k, pl.rules[k]) + '</span></div>'; }).join('');
     }
     return '<div class="plan-card' + feat + '"><h3 class="plan-name">' + pl.name + '</h3><div class="plan-rules">' + rules + '</div></div>';
   }).join('');
@@ -1830,11 +1868,21 @@ function patchInlineJs(html) {
   html = html.replace(/\n\s*document\.getElementById\('firmTagline'\)\.textContent=[^;]*;/, '');
   // ...and the closing-CTA title (pre-rendered, can differ per firm)
   html = html.replace(/\n\s*document\.getElementById\('ctaTitle'\)\.textContent=[^;]*;/, '');
-  // Promo hero values follow affiliatePending, with the same strings as the static pre-render.
+  // Promo hero values follow affiliatePending and promo.referralOnly, with the same strings as the static
+  // pre-render (a referral-only firm never gets its offerLine back as an "offer" at runtime).
   html = html.split("document.getElementById('firmCode').textContent=(f.promo&&f.promo.code)||'CHAMP';")
     .join("document.getElementById('firmCode').textContent=f.affiliatePending?'" + PENDING_CODE + "':((f.promo&&f.promo.code)||'CHAMP');");
-  html = html.split("document.getElementById('firmOffer').textContent=f.offerLine||'See firm';")
-    .join("document.getElementById('firmOffer').textContent=f.affiliatePending?'" + PENDING_OFFER + "':(f.offerLine||'See firm');");
+  var offerJs = "document.getElementById('firmOffer').textContent=f.affiliatePending?'" + PENDING_OFFER + "':(f.promo&&f.promo.referralOnly)?'" + REF_OFFER + "':(f.offerLine||'See firm');";
+  ["document.getElementById('firmOffer').textContent=f.offerLine||'See firm';",
+    "document.getElementById('firmOffer').textContent=f.affiliatePending?'" + PENDING_OFFER + "':(f.offerLine||'See firm');"].forEach(function (old) {
+    html = html.split(old).join(offerJs);
+  });
+  // Plan cards: a referral-only firm's "Promo Code" row gets REF_RULE_NOTE, like ruleVal() in the static render
+  html = html.split("var plans=f.plansSummary||f.plansDetailed||[];\n  document.getElementById('plansGrid')")
+    .join("var plans=f.plansSummary||f.plansDetailed||[];\n  /* a referral-only code's plan rows say so (no confirmed discount), like the static pre-render */\n" +
+      "  function rv(k,v){return k==='Promo Code'&&f.promo&&f.promo.referralOnly?v+'" + REF_RULE_NOTE + "':v;}\n  document.getElementById('plansGrid')");
+  html = html.split("<span class=\"plan-rule-value\">'+r[1]+'</span>").join("<span class=\"plan-rule-value\">'+rv(r[0],r[1])+'</span>");
+  html = html.split("<span class=\"plan-rule-value\">'+p.rules[k]+'</span>").join("<span class=\"plan-rule-value\">'+rv(k,p.rules[k])+'</span>");
   // Related-firm links: clean URLs, generated from FILE_FOR so every firm is mapped.
   var map = 'var pageMap={' + Object.keys(FILE_FOR).map(function (s) { return "'" + s + "':'" + BASE_FOR[s] + "'"; }).join(',') + '};';
   html = html.replace(/var pageMap=\{[^}]*\};/, function () { return map; });
@@ -1901,6 +1949,12 @@ Object.keys(FILE_FOR).forEach(function (slug) {
   }
   var iso = reviewedISO(slug, f);
   html = setRegion(html, 'lastReviewed', '<time datetime="' + iso + '">' + longDate(iso) + '</time>');
+  // hero stat labels follow promo.referralOnly ("Referral code" / "Discount", else the template's own words):
+  // a targeted swap like the eyebrow above, so pages without the flag keep their bytes
+  html = html.replace(/(<div class="hero-stat-label">)(?:Discount code|Referral code)(<\/div>\s*<div class="hero-stat-value[^"]*" id="firmCode">)/,
+    function (m, a, z) { return a + r.codeLabel + z; });
+  html = html.replace(/(<div class="hero-stat-label">)(?:Active offer|Discount)(<\/div>\s*<div class="hero-stat-value[^"]*" id="firmOffer">)/,
+    function (m, a, z) { return a + r.offerLabel + z; });
 
   // jump nav + chooser + deep sections + faq/related
   var nav = [[c.chooser.id || 'plans', c.chooser.nav || 'Plans']].concat(c.sections.map(function (s) { return [s.id, s.nav]; }), [['faq', 'FAQ'], ['compare', 'Compare']]);
@@ -2030,6 +2084,8 @@ Object.keys(FILE_FOR).forEach(function (slug) {
     '.idx-note{font-family:var(--font-mono);font-size:12px;line-height:1.6;color:var(--text-faint);margin-top:12px}',
     '@media(max-width:640px){table.bf-table{min-width:0}table.bf-table thead{display:none}table.bf-table tr{display:block;padding:16px 18px;border-bottom:1px solid var(--border)}table.bf-table tbody tr:last-child{border-bottom:0}table.bf-table th,table.bf-table td{display:block;border:0;padding:2px 0}table.bf-table td a{display:inline-block;margin-top:6px}}',
     '.t-firm-type{font-family:var(--font-mono);font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--warning);margin-top:4px;line-height:1.3;text-wrap:balance}',
+    // same breakpoint as the page's card layout: a referral-only deal cell is labelled "Code", not "Active deal"
+    '@media(max-width:1100px){.firms-table .col-deal[data-label]::before{content:attr(data-label)}}',
     '</style>'].join('\n') + '\n', label);
 
   // hero
@@ -2097,6 +2153,8 @@ Object.keys(FILE_FOR).forEach(function (slug) {
   function dealCell(f) {
     if (pending(f)) return '<div class="t-deal"><div class="t-deal-headline">No code yet</div><div class="t-value-sub">List price at checkout</div></div>';
     var code = promoCode(f);
+    // referral-only: the code is copyable, but the cell claims no deal or discount
+    if (refOnly(f)) return '<div class="t-deal"><div><div class="t-deal-headline">Referral code</div><div class="t-value-sub">No discount confirmed</div></div><button type="button" class="t-deal-chip js-copy-champ" data-copy="' + escAttr(code) + '" aria-label="Copy code ' + escAttr(code) + '">' + esc(code) + '<span class="copy-hint">· COPY</span></button></div>';
     return '<div class="t-deal"><div class="t-deal-headline">' + deal(f) + '</div><button type="button" class="t-deal-chip js-copy-champ" data-copy="' + escAttr(code) + '" aria-label="Copy discount code ' + escAttr(code) + '">' + esc(code) + '<span class="copy-hint">· COPY</span></button></div>';
   }
   var rows = live.map(function (s, i) {
@@ -2109,24 +2167,34 @@ Object.keys(FILE_FOR).forEach(function (slug) {
       '<td class="col-platforms"><div class="t-platforms">' + pills + '</div></td>' +
       '<td class="col-alloc"><div class="t-value">' + largestSize(f) + '</div><div class="t-value-sub">Largest account</div></td>' +
       '<td class="col-payouts">' + payoutsCell(s, f) + '</td>' +
-      '<td class="col-deal">' + dealCell(f) + '</td>' +
+      // phone cards label this cell "Active deal" (page CSS); a referral-only cell gets its own label (idxStyle)
+      '<td class="col-deal"' + (!pending(f) && refOnly(f) ? ' data-label="Code"' : '') + '>' + dealCell(f) + '</td>' +
       '<td class="col-action"><a class="t-action" href="' + page + '" aria-label="Read the ' + escAttr(f.name) + ' review">→</a></td></tr>';
   }).join('');
   if (!hasRegion(html, 'firmsRows')) html = html.replace('<tbody id="firmsTableBody"></tbody>', '<tbody id="firmsTableBody"><!--g:firmsRows--><!--/g:firmsRows--></tbody>');
   html = setRegion(html, 'firmsRows', rows);
   html = html.replace('<th class="col-payouts">Payouts tracked</th>', '<th class="col-payouts">Total payouts</th>');
+  // desktop deal-column header: "Active deal" can't sit over a referral-only cell (no confirmed discount), so
+  // while one is live it reads "With CHAMP"; it returns to "Active deal" once the flag is deleted
+  var dealTh = live.some(function (s) { return !pending(FIRMS[s]) && refOnly(FIRMS[s]); }) ? 'With CHAMP' : 'Active deal';
+  html = html.replace(/<th class="col-deal">[^<]*<\/th>/, '<th class="col-deal">' + dealTh + '</th>');
   html = html.replace(/<h2>(?:This week&rsquo;s ranking\.|All \d+ firms, ranked\.)<\/h2>/, function () { return '<h2>All ' + n + ' firms, ranked.</h2>'; });
   html = html.replace(/<div class="rhs">\d+ of \d+ shown<\/div>/, function () { return '<div class="rhs">' + n + ' of ' + n + ' shown</div>'; });
   var rankIntro = topMulti
     ? 'Our editorial ranking weighs rule transparency, payout reliability, discount value and program flexibility. Payout totals are the firms’ own published figures. ' + FIRMS[topMulti].name +
-      ' is our #1 pick for program flexibility and entry price. It trades USDC perpetuals, not CME futures. Its payout record isn’t independently verified yet' +
-      (FIRMS[topMulti].payoutTotal ? '' : ', it publishes no payout total') + (pending(FIRMS[topMulti]) ? ' and we have no code for it yet.' : '.')
+      ' is our #1 pick for program flexibility and entry price. It trades USDC perpetuals, not CME futures. ' +
+      (function (gaps) { return gaps.length > 1 ? gaps.slice(0, -1).join(', ') + ' and ' + gaps[gaps.length - 1] + '.' : gaps[0] + '.'; })(
+        ['Its payout record isn’t independently verified yet'].concat(FIRMS[topMulti].payoutTotal ? [] : ['it publishes no payout total'], pending(FIRMS[topMulti]) ? ['we have no code for it yet'] : []))
     : 'Our editorial ranking: rule transparency, payout record and the value of the active discount. Payout totals are the firms’ own published figures.' +
       (multi.length ? ' ' + multiNames + ' trades USDC perpetuals, not CME futures; it sits at #' + (live.indexOf(multi[0]) + 1) + ' with a Multi-asset label.' : '');
+  // a referral-only code in the table is a promotional placement: the commission line sits right above it
+  var refHub = live.filter(function (s) { return !pending(FIRMS[s]) && refOnly(FIRMS[s]); });
+  if (refHub.length) rankIntro += ' ' + commissionLine(FIRMS[refHub[0]]);
   html = html.replace(/<p>(?:Ranked by current rule transparency, payout consistency, and active discount value\. Updated weekly\.|Our editorial ranking[^<]*)<\/p>/, function () { return '<p>' + rankIntro + '</p>'; });
 
-  // top pick (generated from firms.js: Apex = biggest CHAMP discount; firms with no code yet can't win it)
-  var top = live.filter(function (s) { return !pending(FIRMS[s]); }).sort(function (x, y) { return (parseInt(FIRMS[y].offerLine, 10) || 0) - (parseInt(FIRMS[x].offerLine, 10) || 0); })[0];
+  // top pick (generated from firms.js: Apex = biggest CHAMP discount; firms with no code yet, or only a
+  // referral code with no confirmed discount, can't win it)
+  var top = live.filter(function (s) { return !pending(FIRMS[s]) && !refOnly(FIRMS[s]); }).sort(function (x, y) { return (parseInt(FIRMS[y].offerLine, 10) || 0) - (parseInt(FIRMS[x].offerLine, 10) || 0); })[0];
   var tf = FIRMS[top];
   var topPoints = top === 'apex-trader' ? [
     '50K list evaluation: ' + money(DP(tf, /^Intraday/, /^Eval Price/))[1] + ' Intraday Standard, ' + money(DP(tf, /^EOD/, /^Eval Price/))[1] + ' EOD Standard (before CHAMP, Oct 5, 2026 audit)',
@@ -2158,6 +2226,8 @@ Object.keys(FILE_FOR).forEach(function (slug) {
   // a pending firm's placeholder code (firms.js) is not a code that works: don't count it
   var champFirms = live.filter(function (s) { return !pending(FIRMS[s]) && ((FIRMS[s].promo || {}).code || '').toUpperCase() === 'CHAMP'; }).length;
   var pendNames = live.filter(function (s) { return pending(FIRMS[s]); }).map(function (s) { return FIRMS[s].name; }).join(' and ');
+  // a referral-only code takes CHAMP but has no discount "on file": say so next to the discount claim
+  var refNames = live.filter(function (s) { return !pending(FIRMS[s]) && refOnly(FIRMS[s]); }).map(function (s) { return FIRMS[s].name; }).join(' and ');
   function valueCard(num, eyebrow, h, body, stat, statLabel) {
     return '      <div class="value-card">\n        <div class="value-head">\n          <div class="value-numeral">' + num + '</div>\n          <div class="value-eyebrow">' + eyebrow + '</div>\n        </div>\n' +
       '        <h3>' + h + '</h3>\n        <p>' + body + '</p>\n        <div class="value-stat">\n          <strong>' + stat + '</strong>\n          <span>' + statLabel + '</span>\n        </div>\n      </div>\n';
@@ -2171,9 +2241,11 @@ Object.keys(FILE_FOR).forEach(function (slug) {
     valueCard('02', 'Editorial independence', 'No paid placements.',
       'Our ranking is editorial: we weigh rule transparency, payout reliability, discount value and program flexibility. Affiliate links pay our bills; firms cannot pay to move up.',
       '$0', 'Ranking fees accepted from firms') + '\n' +
-    valueCard('03', 'Discount codes', champFirms === n ? 'One code at every firm we cover.' : 'One code at ' + champFirms + ' of our ' + n + ' firms.',
+    // "Discount codes" can't head a card that counts a referral-only code (no confirmed discount)
+    valueCard('03', refNames ? 'Our code' : 'Discount codes', champFirms === n ? 'One code at every firm we cover.' : 'One code at ' + champFirms + ' of our ' + n + ' firms.',
       'CHAMP is our affiliate code. The discount we list is the rate on file with each firm, and the final price shows at checkout. When a firm’s own public code is bigger, we say so.' +
-      (pendNames ? ' We have no code for ' + pendNames + ' yet.' : ''),
+      (pendNames ? ' We have no code for ' + pendNames + ' yet.' : '') +
+      (refNames ? ' At ' + refNames + ' CHAMP is our referral code, with no confirmed discount.' : ''),
       champFirms + ' / ' + n, 'Firms that take code CHAMP') +
     '\n    </div>\n  </div>\n</section>\n\n\n\n';
   html = ensureSpanRegion(html, 'idxValues', /<!-- Value props -->/, /<!-- Newsletter band -->/, valuesHtml, label);

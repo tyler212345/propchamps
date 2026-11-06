@@ -28,8 +28,11 @@
      (appended to the matrix note whenever the firm is on the page). */
   var FIRM_NOTE = { 'vest-capital': "Vest Capital is multi-asset: its accounts trade USDC perpetual contracts on Vest's own venue, not CME futures, and its figures are from Vest's site, Nov 5, 2026. Its payout time is Vest's stated claim processing time." };
   /* Affiliate CTA label: "Get X deal" only once the firm's PropChamps link is confirmed
-     (firms.js affiliatePending: true means affiliateUrl is still the plain landing page). */
-  function ctaLabel(f){ return f.affiliatePending ? 'Visit ' + esc(f.name) : 'Get ' + esc(f.name) + ' deal'; }
+     (firms.js affiliatePending: true means affiliateUrl is still the plain landing page) and CHAMP is a
+     discount there (promo.referralOnly: true means it's our referral code with no discount confirmed, so
+     the CTA says "Visit"; the link is still ours, so rel stays sponsored). */
+  function refOnly(f){ return !!(f && f.promo && f.promo.referralOnly); }
+  function ctaLabel(f){ return f.affiliatePending || refOnly(f) ? 'Visit ' + esc(f.name) : 'Get ' + esc(f.name) + ' deal'; }
   function ctaRel(f){ return f.affiliatePending ? 'noopener' : 'sponsored noopener'; }
 
   function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -62,7 +65,7 @@
     ['Total paid out (firm-published)', function(f){ return TOTAL_OVERRIDE[f.slug] || (f.payoutTotal ? esc(f.payoutTotal) + (TOTAL_NOTE[f.slug] || '') : ''); }, true],
     ['Activation fee', function(f,fp){ return rule(fp,'Activation Fee'); }],
     ['Platforms', function(f,fp){ return rule(fp,'Platforms') || (f.platformsList||[]).join(' · '); }],
-    ['Promo code', function(f){ if (f.affiliatePending) return 'No PropChamps code yet'; return f.promo ? (f.promo.code + (f.promo.discount && f.promo.discount!=='See pricing' ? ' — '+f.promo.discount : ' — applied at checkout')) : ''; }]
+    ['Promo code', function(f){ if (f.affiliatePending) return 'No PropChamps code yet'; if (refOnly(f)) return f.promo.code + ' — referral code, no discount confirmed'; return f.promo ? (f.promo.code + (f.promo.discount && f.promo.discount!=='See pricing' ? ' — '+f.promo.discount : ' — applied at checkout')) : ''; }]
   ];
 
   PCVS.featured = featured;

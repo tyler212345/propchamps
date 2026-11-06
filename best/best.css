@@ -85,6 +85,8 @@ section.block[id]{scroll-margin-top:calc(var(--pc-header-h,68px) + 100px)}
 /* short disclosure line on a non-futures card (e.g. multi-asset Vest Capital): facts, never a score */
 .rank-caveat{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;line-height:1.5;color:var(--text-soft);background:var(--pc-gold-soft,rgba(245,193,78,.11));border:1px solid var(--pc-gold-line,rgba(245,193,78,.32));border-radius:10px;padding:9px 12px;margin:-4px 0 18px}
 .rank-caveat b{flex-shrink:0;font-family:var(--font-mono);font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--pc-gold,#f5c14e);padding-top:1px}
+/* narrow screens: label above the text, so the caveat gets the card's full width */
+@media(max-width:520px){.rank-caveat{flex-direction:column;gap:4px}.rank-caveat b{padding-top:0}}
 
 /* Honorable / not-listed note */
 .note-card{margin-top:20px;padding:20px 24px;background:var(--bg-card);border:1px dashed var(--border-strong);border-radius:14px;font-size:14.5px;color:var(--text-soft);line-height:1.6}
